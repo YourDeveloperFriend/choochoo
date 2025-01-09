@@ -3,6 +3,7 @@ import { Immutable } from "../../utils/immutable";
 import { Good } from "./good";
 import { SpaceType, SpaceTypeZod } from "./location_type";
 import { OnRollData } from "./roll";
+import { Texture } from "./texture";
 import { DirectionZod, MutableTileData } from "./tile";
 
 
@@ -33,6 +34,7 @@ export const MutableLandData = z.object({
   terrainCost: z.number().optional(),
   goods: z.array(z.number()).optional(),
   unpassableEdges: z.array(DirectionZod).optional(),
+  texture: Texture.optional(),
   mapSpecific: z.any().optional(),
 });
 

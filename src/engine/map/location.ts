@@ -2,6 +2,7 @@ import { Coordinates } from "../../utils/coordinates";
 import { assertNever } from "../../utils/validate";
 import { Good } from "../state/good";
 import { LandData, LandType } from "../state/space";
+import { Texture } from "../state/texture";
 import { ComplexTileType, Direction, SimpleTileType, TileData, TileType, TownTileType } from "../state/tile";
 import { rotateDirectionClockwise } from "./direction";
 import { Exit, rotateExitClockwise, TOWN, Track, TrackInfo } from "./track";
@@ -67,6 +68,10 @@ export class Land {
 
   unpassableExits(): Direction[] {
     return this.data.unpassableEdges ?? [];
+  }
+
+  texture(): Texture | undefined {
+    return this.data.texture;
   }
 
   getMapSpecific<T>(parser: (t: unknown) => T): T | undefined {

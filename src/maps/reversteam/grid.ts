@@ -1,6 +1,8 @@
 import { Good } from '../../engine/state/good';
+import { BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT, TOP, TOP_LEFT, TOP_RIGHT } from '../../engine/state/tile';
 import { duplicate } from '../../utils/functions';
-import { black, city, MOUNTAIN, PLAIN, RIVER, startsLowerGrid, town, UNPASSABLE, white } from '../factory';
+import { black, city, MOUNTAIN, PLAIN, startsLowerGrid, town, UNPASSABLE, white } from '../factory';
+import { river } from '../texture_factory';
 
 export const map = startsLowerGrid([
   [
@@ -15,12 +17,12 @@ export const map = startsLowerGrid([
   [
     PLAIN,
     city('Toronto', Good.YELLOW, black(6)),
-    RIVER,
+    river(TOP_LEFT, BOTTOM),
     UNPASSABLE,
     PLAIN,
     PLAIN,
-    RIVER,
-    RIVER,
+    river(TOP_LEFT, BOTTOM),
+    river(TOP, BOTTOM_RIGHT),
     city('Wheeling', Good.YELLOW, black(4), 3),
     MOUNTAIN,
   ],
@@ -30,7 +32,7 @@ export const map = startsLowerGrid([
     town('Cleveland'),
     PLAIN,
     PLAIN,
-    RIVER,
+    river(TOP_LEFT, BOTTOM_RIGHT),
     PLAIN,
     MOUNTAIN,
   ],
@@ -39,7 +41,7 @@ export const map = startsLowerGrid([
     ...duplicate(3, PLAIN),
     UNPASSABLE,
     ...duplicate(3, PLAIN),
-    RIVER,
+    river(TOP_LEFT, BOTTOM_RIGHT),
     town('Lexington'),
     MOUNTAIN,
   ],
@@ -48,7 +50,7 @@ export const map = startsLowerGrid([
     city('Detroit', Good.RED, black(3)),
     UNPASSABLE,
     ...duplicate(3, PLAIN),
-    RIVER,
+    river(TOP_LEFT, BOTTOM_RIGHT),
     PLAIN,
   ],
   [
@@ -59,7 +61,7 @@ export const map = startsLowerGrid([
     PLAIN,
     PLAIN,
     city('Cincinatti', Good.BLUE, black(2)),
-    RIVER,
+    river(TOP_LEFT, BOTTOM_RIGHT),
     PLAIN,
   ],
   [
@@ -68,7 +70,7 @@ export const map = startsLowerGrid([
     town('Fort Wayne'),
     PLAIN,
     PLAIN,
-    RIVER,
+    river(TOP_LEFT, BOTTOM_RIGHT),
   ],
   [
     UNPASSABLE,
@@ -78,7 +80,7 @@ export const map = startsLowerGrid([
     ...duplicate(4, PLAIN),
     town('Indianapolis'),
     PLAIN,
-    RIVER,
+    river(TOP_LEFT, BOTTOM_RIGHT),
   ],
   [
     ...duplicate(5, UNPASSABLE),
@@ -109,21 +111,25 @@ export const map = startsLowerGrid([
   [
     ...duplicate(8, PLAIN),
     town('Springfield'),
-    RIVER,
-    RIVER,
+    river(TOP_RIGHT, BOTTOM),
+    river(TOP, BOTTOM),
   ],
   [
     ...duplicate(6, PLAIN),
     town('Rock Island'),
     PLAIN,
-    RIVER,
+    river(TOP_RIGHT, BOTTOM_LEFT),
     city('St. Louis', Good.RED, white(2)),
   ],
   [
     UNPASSABLE,
     ...duplicate(2, PLAIN),
     town('La Crosse'),
-    ...duplicate(5, RIVER),
+    river(TOP_RIGHT, BOTTOM),
+    river(TOP, BOTTOM),
+    river(TOP, BOTTOM),
+    river(TOP, BOTTOM),
+    river(TOP, BOTTOM_LEFT),
     PLAIN,
     PLAIN,
   ],
@@ -131,13 +137,13 @@ export const map = startsLowerGrid([
     UNPASSABLE,
     PLAIN,
     PLAIN,
-    RIVER,
+    river(TOP_RIGHT, BOTTOM_LEFT),
     ...duplicate(6, PLAIN),
   ],
   [
     city('Deluth', Good.PURPLE, white(6)),
     ...duplicate(2, PLAIN),
-    RIVER,
+    river(TOP_RIGHT, BOTTOM_LEFT),
     ...duplicate(3, PLAIN),
     city('Desmoines', Good.BLUE, white(4)),
     ...duplicate(3, PLAIN),

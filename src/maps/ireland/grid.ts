@@ -1,7 +1,8 @@
 import { BLACK, BLUE, Good, PURPLE, RED, YELLOW } from '../../engine/state/good';
-import { Direction } from '../../engine/state/tile';
+import { BOTTOM_LEFT, BOTTOM_RIGHT, Direction, TOP_LEFT, TOP_RIGHT } from '../../engine/state/tile';
 import { duplicate } from '../../utils/functions';
-import { black, bridge, city, grid, MOUNTAIN, plain, PLAIN, RIVER, town, UNPASSABLE, white } from '../factory';
+import { black, bridge, city, grid, MOUNTAIN, plain, PLAIN, town, UNPASSABLE, white } from '../factory';
+import { river } from '../texture_factory';
 import { startFrom } from '../tile_factory';
 
 export const map = grid([
@@ -54,7 +55,7 @@ export const map = grid([
     PLAIN,
     PLAIN,
     MOUNTAIN,
-    RIVER,
+    river(TOP_RIGHT, BOTTOM_LEFT),
     PLAIN,
     town('Ballina'),
     PLAIN,
@@ -65,7 +66,7 @@ export const map = grid([
     PLAIN,
     town('Cavan'),
     PLAIN,
-    RIVER,
+    river(TOP_RIGHT, BOTTOM_LEFT),
     town('Castlerea'),
     PLAIN,
     PLAIN,
@@ -82,7 +83,7 @@ export const map = grid([
     PLAIN,
     PLAIN,
     PLAIN,
-    RIVER,
+    river(BOTTOM_LEFT, BOTTOM_RIGHT),
     PLAIN,
     PLAIN,
     plain({ unpassableEdges: [Direction.BOTTOM, Direction.BOTTOM_RIGHT] }),
@@ -112,7 +113,7 @@ export const map = grid([
     PLAIN,
     PLAIN,
     PLAIN,
-    RIVER,
+    river(TOP_LEFT, BOTTOM_RIGHT),
     MOUNTAIN,
   ],
   [
@@ -122,7 +123,7 @@ export const map = grid([
     PLAIN,
     town('Port Laoise'),
     PLAIN,
-    RIVER,
+    river(TOP_LEFT, BOTTOM_RIGHT),
     PLAIN,
   ],
   [

@@ -51,6 +51,7 @@ export enum Direction {
   BOTTOM,
   BOTTOM_LEFT,
 }
+
 export const {
   TOP_LEFT,
   TOP,
@@ -119,5 +120,18 @@ export function getTileTypeString(tileType: TileType): string {
     case TownTileType.K: return 'K';
     default:
       assertNever(tileType);
+  }
+}
+
+export function directionToString(direction: Direction): string {
+  switch (direction) {
+    case Direction.TOP_LEFT: return 'Top Left';
+    case Direction.TOP: return 'Top';
+    case Direction.TOP_RIGHT: return 'Top Right';
+    case Direction.BOTTOM_RIGHT: return 'Bottom Right';
+    case Direction.BOTTOM: return 'Bottom';
+    case Direction.BOTTOM_LEFT: return 'Bottom Left';
+    default:
+      assertNever(direction);
   }
 }

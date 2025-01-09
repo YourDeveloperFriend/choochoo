@@ -19,6 +19,7 @@ import * as gridStyles from './hex_grid.module.css';
 import { HexName } from "./hex_name";
 import { OnRoll } from "./on_roll";
 import { coordinatesToCenter, edgeCorners, getCorners, getHalfCorners, offsetPoint, Point, polygon } from "./point";
+import { TextureRender } from "./textures";
 import { Track as TrackSvg } from "./track";
 
 function colorStyles(space: Space): string[] {
@@ -34,6 +35,9 @@ function colorStyles(space: Space): string[] {
       case SpaceType.PLAIN:
         return [styles.plain];
       case SpaceType.RIVER:
+        if (space.texture() != null) {
+          return [styles.plain];
+        }
         return [styles.river];
       case SpaceType.MOUNTAIN:
         return [styles.mountain];
@@ -59,14 +63,13 @@ interface RawHexProps {
   space: Land | City;
   size: number;
   className?: string;
-  hideGoods?: boolean;
   offset?: Point;
   highlightedTrack?: Track[];
   selectedGood?: { good: Good, coordinates: Coordinates };
   clickTargets: Set<ClickTarget>;
 }
 
-export function Hex({ space, selectedGood, highlightedTrack, size, hideGoods, offset, clickTargets }: RawHexProps) {
+export function Hex({ space, selectedGood, highlightedTrack, size, offset, clickTargets }: RawHexProps) {
   const coordinates = space.coordinates;
   const center = useMemo(() => offsetPoint(coordinatesToCenter(coordinates, size), offset), [coordinates, offset, size]);
 
@@ -116,6 +119,7 @@ export function Hex({ space, selectedGood, highlightedTrack, size, hideGoods, of
   return <>
     <polygon className={`${space instanceof City ? styles.city : styles.location} ${clickable ? gridStyles.clickable : ''} ${hexColor}`} data-coordinates={space.coordinates.toString()} points={corners} stroke="black" strokeWidth="0" />
     {alternateColor && <HalfHex center={center} size={size} alternateColor={alternateColor} />}
+    {space instanceof Land && space.texture() != null && <TextureRender texture={space.texture()!} center={center} size={size} />}
     <polygon fillOpacity="0" data-coordinates={space.coordinates.toString()} points={corners} stroke="black" strokeWidth="1" />
     {space instanceof Land && space.unpassableExits().map(direction => <EdgeBoundary key={direction} center={center} size={size} direction={direction} />)}
     {gameKey === 'cyprus' && <CyprusBorder space={space} center={center} size={size} />}
@@ -125,8 +129,12 @@ export function Hex({ space, selectedGood, highlightedTrack, size, hideGoods, of
     {space instanceof Land && space.hasTown() && <HexName name={space.name()!} center={center} size={size} />}
     {space instanceof City && space.onRoll().length > 0 && <OnRoll city={space} center={center} size={size} />}
     {space instanceof City && space.name() != '' && <HexName name={space.name()} center={center} size={size} />}
-    {space instanceof City && !hideGoods && space.getGoods().map((g, index) => <GoodBlock key={index} clickable={clickTargets.has(ClickTarget.GOOD)} highlighted={selectedGoodIndex === index} offset={index} good={g} center={center} size={size} />)}
+    {space instanceof City && space.getGoods().map((g, index) => <GoodBlock key={index} clickable={clickTargets.has(ClickTarget.GOOD)} highlighted={selectedGoodIndex === index} offset={index} good={g} center={center} size={size} />)}
   </>;
+}
+
+function Texture({ space, center, size }: { space: Land, center: Point, size: number }) {
+
 }
 
 function TerrainCost({ space, center, size }: { space: Land, center: Point, size: number }) {
