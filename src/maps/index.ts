@@ -2,6 +2,7 @@
 import { MapSettings } from '../engine/game/map_settings';
 import { assert } from '../utils/validate';
 import { CyprusMapSettings } from './cyprus/settings';
+import { DetroitBankruptcyMapSettings } from './detroit/settings';
 import { IndiaMapSettings } from './india/settings';
 import { IrelandMapSettings } from './ireland/settings';
 import { KoreaMapSettings } from './korea/settings';
@@ -24,6 +25,7 @@ export class MapRegistry {
     this.add(new MadagascarMapSettings());
     this.add(new IndiaMapSettings());
     this.add(new KoreaMapSettings());
+    this.add(new DetroitBankruptcyMapSettings());
   }
 
   values(): Iterable<MapSettings> {

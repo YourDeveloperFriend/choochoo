@@ -1,11 +1,12 @@
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
 import { interCityConnections } from "../factory";
+import { DetroitAllowedActions, DetroitSelectAction } from "./actions";
 import { DetroitMoneyManager, DetroitPlayerHelper, DetroitRoundEngine } from "./end_game";
 import { DetroitBuildAction, DetroitCostCalculator } from "./engineer";
 import { DetroitIncomeReduction, DetroitProfitHelper, DetroitShareHelper } from "./expenses";
 import { map } from "./grid";
 import { DetroitMoveAction } from "./move";
-import { DetroitAllowedActions } from "./no_production";
+import { DetroitGoodsGrowthPhase } from "./solo";
 import { DetroitStarter } from "./starter";
 
 export class DetroitBankruptcyMapSettings implements MapSettings {
@@ -32,7 +33,9 @@ export class DetroitBankruptcyMapSettings implements MapSettings {
       DetroitStarter,
       DetroitMoveAction,
       DetroitBuildAction,
+      DetroitSelectAction,
       DetroitCostCalculator,
+      DetroitGoodsGrowthPhase,
     ];
   }
 }

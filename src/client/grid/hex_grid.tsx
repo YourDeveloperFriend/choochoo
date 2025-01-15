@@ -190,7 +190,7 @@ export function HexGrid({ onClick, onClickInterCity, rotation, fullMapVersion, h
           {/* Rotating without a center moves it along the origin, but we rely on the viewBox calculation to make sure the view box fits the content. */}
           <Rotate rotation={rotation}>
             {mapSpaces}
-            {grid.connections.map((connection, index) => <InterCityConnectionRender key={index} highlighted={highlightedConnections?.some(c => interCityConnectionEquals(connection, c))} clickTargets={clickTargetsNormalized} onClick={onClickInterCity} size={size} connection={connection} />)}
+            {grid.connections.map((connection, index) => <InterCityConnectionRender key={index} rotation={rotation} highlighted={highlightedConnections?.some(c => interCityConnectionEquals(connection, c))} clickTargets={clickTargetsNormalized} onClick={onClickInterCity} size={size} connection={connection} />)}
             {fullMapVersion && <SwedenProgressionGraphic />}
           </Rotate>
         </g>

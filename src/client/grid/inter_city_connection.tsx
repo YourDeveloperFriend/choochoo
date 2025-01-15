@@ -1,7 +1,9 @@
 import { useCallback, useMemo } from "react";
+import { Rotation } from "../../engine/game/map_settings";
 import { InterCityConnection } from "../../engine/state/inter_city_connection";
 import { Coordinates } from "../../utils/coordinates";
 import { getPlayerColorCss } from "../components/player_color";
+import { Rotate } from "../components/rotation";
 import { ClickTarget } from "./click_target";
 import * as gridStyles from './hex_grid.module.css';
 import * as styles from './inter_city_connection.module.css';
@@ -12,10 +14,11 @@ interface InterCityConnectionRenderProps {
   size: number;
   clickTargets: Set<ClickTarget>;
   highlighted?: boolean;
+  rotation?: Rotation;
   onClick?: (connects: Coordinates[]) => void;
 }
 
-export function InterCityConnectionRender({ connection, size, clickTargets, highlighted, onClick }: InterCityConnectionRenderProps) {
+export function InterCityConnectionRender({ connection, size, rotation, clickTargets, highlighted, onClick }: InterCityConnectionRenderProps) {
   // For now, assume that the connection can only be rendered if it is between two cities.
   if (connection.connects.length !== 2) return <></>;
 
@@ -29,10 +32,20 @@ export function InterCityConnectionRender({ connection, size, clickTargets, high
 
   const internalOnClick = useCallback(() => onClick && onClick(connection.connects), [...connection.connects]);
 
-  return <circle onClick={internalOnClick}
-    cx={connectionCenter.x}
-    cy={connectionCenter.y}
-    r={size / 3}
-    stroke={highlighted ? 'yellow' : 'black'}
-    className={`${styles.interCityConnection} ${clickable} ${connection.owner ? getPlayerColorCss(connection.owner.color) : ''}`} />;
+  return <>
+    <circle onClick={internalOnClick}
+      cx={connectionCenter.x}
+      cy={connectionCenter.y}
+      r={size / 3}
+      stroke={highlighted ? 'yellow' : 'black'}
+      className={`${styles.interCityConnection} ${clickable} ${connection.owner ? getPlayerColorCss(connection.owner.color) : ''}`} />
+    {connection.cost !== 2 && <Rotate rotation={rotation} reverse={true} center={connectionCenter}>
+      <text x={connectionCenter.x}
+        y={connectionCenter.y}
+        dominantBaseline="middle"
+        textAnchor="middle">
+        ${connection.cost}
+      </text>;
+    </Rotate>}
+  </>;
 }

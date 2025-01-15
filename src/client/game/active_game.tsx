@@ -1,13 +1,15 @@
 import { Button } from "@mui/material";
+import { takeWhile } from "lodash";
 import { useSearchParams } from "react-router-dom";
 import { GameStatus } from "../../api/game";
 import { inject } from "../../engine/framework/execution_context";
-import { PlayerHelper } from "../../engine/game/player";
+import { isEliminated, PlayerHelper } from "../../engine/game/player";
 import { injectAllPlayersUnsafe, injectPlayersByTurnOrder } from "../../engine/game/state";
 import { ProductionAction } from "../../engine/goods_growth/production";
 import { SelectAction } from "../../engine/select_action/select";
 import { MapRegistry } from "../../maps";
-import { isNumber } from "../../utils/validate";
+import { deepEquals } from "../../utils/deep_equals";
+import { AutoActionForm } from "../auto_action/form";
 import { useAwaitingPlayer } from "../components/awaiting_player";
 import { Username, UsernameList } from "../components/username";
 import { GameMap } from "../grid/game_map";
@@ -24,7 +26,6 @@ import { MapInfo } from "./map_info";
 import { PlayerStats } from "./player_stats";
 import { SpecialActionTable } from "./special_action_table";
 import { SwitchToActive, SwitchToUndo } from "./switch";
-import { AutoActionForm } from "../auto_action/form";
 
 
 export function ActiveGame() {
@@ -93,9 +94,15 @@ export function GameOver() {
     if (game.status !== GameStatus.enum.ENDED) return;
     const helper = inject(PlayerHelper);
     const players = injectAllPlayersUnsafe();
-    const scores = players().map((player) => [player.playerId, helper.getScore(player)] as const);
-    const bestScore = Math.max(...scores.map(([_, score]) => score).filter(isNumber));
-    return scores.filter(([_, score]) => score === bestScore).map(([id]) => id);
+    const scores = players().map((player) => [player.playerId, helper.getScore(player)] as const)
+      .sort(([_, score1], [__, score2]) => {
+        if (isEliminated(score1)) return 1;
+        if (isEliminated(score2)) return -1;
+        const p1Score = score1;
+        return score2.every((score, index) => score >= p1Score[index]) ? 1 : -1;
+      });
+    if (isEliminated(scores[0][1])) return [];
+    return takeWhile(scores, ([_, score]) => deepEquals(score, scores[0][1])).map(([playerId]) => playerId);
   }, [game]);
 
   if (winnerIds == null) return <></>;
