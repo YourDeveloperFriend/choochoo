@@ -3,7 +3,7 @@ import { inject, injectState } from "../framework/execution_context";
 import { GridHelper } from "../map/grid_helper";
 import { isLand, Land } from "../map/location";
 import { SpaceType } from "../state/location_type";
-import { PlayerColor } from "../state/player";
+import { PlayerColor, PlayerData } from "../state/player";
 import { PlayerHelper } from "./player";
 import {
   CURRENT_PLAYER,
@@ -55,13 +55,17 @@ export class MoneyManager {
       });
 
       const newPlayerData = this.playerHelper.getPlayer(playerColor);
-      if (newPlayerData.outOfGame) {
-        this.removeFromTurnOrder(playerColor);
-        this.removeOwnershipMarkers(playerColor);
+      if (newPlayerData.income) {
+        this.outOfGame(newPlayerData);
       }
 
       return { lostIncome, outOfGame: newPlayerData.outOfGame ?? false };
     }
+  }
+
+  protected outOfGame(player: PlayerData) {
+    this.removeFromTurnOrder(player.color);
+    this.removeOwnershipMarkers(player.color);
   }
 
   protected removeFromTurnOrder(player: PlayerColor): void {

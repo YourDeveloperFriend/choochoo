@@ -120,8 +120,11 @@ export class EngineProcessor {
 
   readSummary(game: LimitedGame): string {
     return this.process(game, () => {
+      const maxRounds = this.roundEngine.maxRounds();
+      const turnStr =
+        `Turn ${this.round()}` + (maxRounds != Infinity ? `/${maxRounds}` : "");
       return [
-        `Turn ${this.round()}/${this.roundEngine.maxRounds()}`,
+        turnStr,
         this.phase() === Phase.MOVING
           ? `Move goods round ${this.moveState().moveRound + 1}`
           : getPhaseString(this.phase()),
