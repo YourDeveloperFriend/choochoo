@@ -38,6 +38,7 @@ function SpecialAction({ action }: { action: Action }) {
   const { emit, canEmit, isPending } = useAction(ActionSelectionSelectAction);
   const allowed = useInjected(AllowedActions);
   const player = useInject(() => injectPlayerAction(action)(), [action]);
+  const playerCount = useInject(() => injectInitialPlayerCount()(), []);
 
   const isClickable = canEmit && player == null && !isPending;
   const disabledReason =
@@ -56,14 +57,24 @@ function SpecialAction({ action }: { action: Action }) {
     isClickable ? styles.clickable : "",
   ].join(" ");
 
+  const detroitPrice =
+    gameKey === DetroitBankruptcyMapSettings.key && playerCount === 1
+      ? ` ($${useInjectedState(SOLO_ACTION_COUNT).get(action)})`
+      : undefined;
+
   const caption =
     player != null ? (
-      <Username userId={player.playerId} />
+      <>
+        <Username userId={player.playerId} />
+        {detroitPrice}
+      </>
     ) : gameKey === MadagascarMapSettings.key &&
       (allowed as MadagascarAllowedActions).getLastDisabledAction() ===
         action ? (
       "Stack"
-    ) : undefined;
+    ) : (
+      detroitPrice
+    );
 
   const render = (
     <div className={className} onClick={chooseAction}>

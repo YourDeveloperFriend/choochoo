@@ -14,11 +14,11 @@ export class DetroitAllowedActions extends AllowedActions {
   private readonly playerCount = injectInitialPlayerCount();
   private readonly soloActionCount = injectState(SOLO_ACTION_COUNT);
 
-  getAvailableActions(): Set<Action> {
+  getActions(): Set<Action> {
     if (this.playerCount() === 1) {
       return Set([Action.ENGINEER, Action.LOCOMOTIVE, Action.URBANIZATION]);
     }
-    return super.getAvailableActions().remove(Action.PRODUCTION);
+    return super.getActions().remove(Action.PRODUCTION);
   }
 
   getDisabledActionReason(action: Action): string | undefined {

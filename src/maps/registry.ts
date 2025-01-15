@@ -3,6 +3,7 @@ import { MapSettings } from '../engine/game/map_settings';
 import { assert } from '../utils/validate';
 import { CyprusMapSettings } from './cyprus/settings';
 import { DetroitBankruptcyMapSettings } from './detroit/settings';
+import { GermanyMapSettings } from "./germany/settings";
 import { IndiaMapSettings } from './india/settings';
 import { IrelandMapSettings } from './ireland/settings';
 import { KoreaMapSettings } from './korea/settings';
@@ -10,7 +11,6 @@ import { MadagascarMapSettings } from './madagascar/settings';
 import { ReversteamMapSettings } from './reversteam/settings';
 import { RustBeltMapSettings } from './rust_belt/settings';
 import { SwedenRecyclingMapSettings } from './sweden/settings';
-import {GermanyMapSettings} from "./germany/settings";
 
 
 export class MapRegistry {
