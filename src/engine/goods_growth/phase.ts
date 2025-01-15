@@ -66,10 +66,14 @@ export class GoodsGrowthPhase extends PhaseModule {
     return [productionPlayer.color];
   }
 
+  getRollCount(_: CityGroup): number {
+    return this.playerCount();
+  }
+
   onEnd(): void {
     const rolls = new Map<CityGroup, number[]>([
-      [CityGroup.WHITE, this.random.rollDice(this.playerCount()).sort()],
-      [CityGroup.BLACK, this.random.rollDice(this.playerCount()).sort()],
+      [CityGroup.WHITE, this.random.rollDice(this.getRollCount(CityGroup.WHITE)).sort()],
+      [CityGroup.BLACK, this.random.rollDice(this.getRollCount(CityGroup.BLACK)).sort()],
     ]);
     this.log.log(`White rolled ${rolls.get(CityGroup.WHITE)!.join(", ")}`);
     this.log.log(`Black rolled ${rolls.get(CityGroup.BLACK)!.join(", ")}`);
