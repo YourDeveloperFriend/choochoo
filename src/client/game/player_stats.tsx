@@ -216,7 +216,7 @@ const scoreColumn = {
 
 function ScoreCell({ player }: PlayerStatColumnProps) {
   const helper = useInjected(PlayerHelper);
-  return <>{helper.getScore(player)}</>;
+  return <>{helper.getScore(player)[0]}</>;
 }
 
 const cyprusRoleColumn = {

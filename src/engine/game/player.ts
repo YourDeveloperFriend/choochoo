@@ -4,9 +4,9 @@ import { MutablePlayerData, PlayerColor, PlayerData } from "../state/player";
 import { CURRENT_PLAYER, injectAllPlayersUnsafe, injectGrid } from "./state";
 
 export class PlayerHelper {
-  private readonly currentPlayer = injectState(CURRENT_PLAYER);
-  private readonly players = injectAllPlayersUnsafe();
-  private readonly grid = injectGrid();
+  protected readonly currentPlayer = injectState(CURRENT_PLAYER);
+  protected readonly players = injectAllPlayersUnsafe();
+  protected readonly grid = injectGrid();
 
   updateInGamePlayers(updateFn: (data: MutablePlayerData) => void): void {
     this.players.update((players) => {
@@ -48,7 +48,7 @@ export class PlayerHelper {
     if (player.outOfGame) {
       return ELIMINATED;
     }
-    return this.calculateScore(player);
+    return [this.calculateScore(player), 0];
   }
 
   protected calculateScore(player: PlayerData): number {
@@ -104,12 +104,15 @@ export class PlayerHelper {
 export const ELIMINATED = "Eliminated";
 export type Eliminated = typeof ELIMINATED;
 
-export type Score = Eliminated | number;
+// Use a number array to represent a score, for tie breaking purposes.
+// The earlier the number in the array, the more important it is for scoring purposes.
+// If two scores have the same values, then it's a tie. Ties are possible for a lot of games.
+export type Score = Eliminated | number[];
 
 export function isEliminated(score: Score): score is Eliminated {
   return score === ELIMINATED;
 }
 
-export function isNotEliminated(score: Score): score is number {
+export function isNotEliminated(score: Score): score is number[] {
   return !isEliminated(score);
 }

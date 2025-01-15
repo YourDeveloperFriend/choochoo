@@ -5,9 +5,14 @@ import { injectAllPlayersUnsafe } from "../../engine/game/state";
 import { playerColorToString } from "../../engine/state/player";
 import { SwedenPlayerHelper } from "../../maps/sweden/score";
 import { SwedenRecyclingMapSettings } from "../../maps/sweden/settings";
+import { deepEquals } from "../../utils/deep_equals";
 import { Username } from "../components/username";
 import { useGame } from "../services/game";
-import { useGameKey, useInject, useInjected } from "../utils/injection_context";
+import {
+  useGameKey,
+  useInject,
+  useInjectedMemo,
+} from "../utils/injection_context";
 import * as styles from "./final_overview.module.css";
 
 export function FinalOverview() {
@@ -20,21 +25,22 @@ export function FinalOverview() {
 export function FinalOverviewInternal() {
   const gameKey = useGameKey();
   const players = useInject(() => injectAllPlayersUnsafe()(), []);
-  const playerHelper = useInjected(PlayerHelper);
+  const playerHelper = useInjectedMemo(PlayerHelper);
   const playersOrdered = useMemo(() => {
     const playerData = players.map((player) => ({
       player,
-      score: playerHelper.getScore(player),
+      score: playerHelper.value.getScore(player),
     }));
     return playerData.sort((p1, p2) => {
       if (isEliminated(p1.score)) return 1;
       if (isEliminated(p2.score)) return -1;
-      return p2.score - p1.score;
+      const p1Score = p1.score;
+      return p2.score.every((score, index) => score >= p1Score[index]) ? 1 : -1;
     });
   }, [players, playerHelper]);
   const placement = useMemo(() => {
     return playersOrdered.map(({ score }, index) => {
-      while (index > 0 && playersOrdered[index - 1].score === score) {
+      while (index > 0 && deepEquals(playersOrdered[index - 1].score, score)) {
         index--;
       }
       return index + 1;

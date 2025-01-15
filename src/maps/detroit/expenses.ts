@@ -5,7 +5,7 @@ import { IncomeReductionPhase } from "../../engine/income_and_expenses/reduction
 import { ShareHelper } from "../../engine/shares/share_helper";
 import { PlayerData } from "../../engine/state/player";
 
-export class DetroitExpenses extends ProfitHelper {
+export class DetroitProfitHelper extends ProfitHelper {
   protected readonly round = injectState(ROUND);
   getExpenses(player: PlayerData): number {
     return super.getExpenses(player) + this.round();
