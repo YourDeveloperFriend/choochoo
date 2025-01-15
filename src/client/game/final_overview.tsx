@@ -3,11 +3,13 @@ import { GameStatus } from "../../api/game";
 import { isEliminated, PlayerHelper } from "../../engine/game/player";
 import { injectAllPlayersUnsafe } from "../../engine/game/state";
 import { playerColorToString } from "../../engine/state/player";
+import { DetroitBankruptcyMapSettings } from "../../maps/detroit/settings";
 import { SwedenPlayerHelper } from "../../maps/sweden/score";
 import { SwedenRecyclingMapSettings } from "../../maps/sweden/settings";
+import { deepEquals } from "../../utils/deep_equals";
 import { Username } from "../components/username";
 import { useGame } from "../services/game";
-import { useGameKey, useInject, useInjected } from "../utils/injection_context";
+import { useGameKey, useInject, useInjectedMemo } from "../utils/injection_context";
 import * as styles from './final_overview.module.css';
 
 export function FinalOverview() {
@@ -20,26 +22,30 @@ export function FinalOverview() {
 export function FinalOverviewInternal() {
   const gameKey = useGameKey();
   const players = useInject(() => injectAllPlayersUnsafe()(), []);
-  const playerHelper = useInjected(PlayerHelper);
+  const playerHelper = useInjectedMemo(PlayerHelper);
   const playersOrdered = useMemo(() => {
     const playerData = players.map((player) => ({
       player,
-      score: playerHelper.getScore(player),
+      score: playerHelper.value.getScore(player),
     }));
     return playerData.sort((p1, p2) => {
       if (isEliminated(p1.score)) return 1;
       if (isEliminated(p2.score)) return -1;
-      return p2.score - p1.score;
+      const p1Score = p1.score;
+      return p2.score.every((score, index) => score >= p1Score[index]) ? 1 : -1;
     });
   }, [players, playerHelper]);
   const placement = useMemo(() => {
     return playersOrdered.map((({ score }, index) => {
-      while (index > 0 && playersOrdered[index - 1].score === score) {
+      while (index > 0 && deepEquals(playersOrdered[index - 1].score, score)) {
         index--;
       }
       return index + 1;
     }));
   }, [playersOrdered]);
+
+  const isDetroit = gameKey === DetroitBankruptcyMapSettings.key;
+
   return <div className={styles.finalOverview}>
     <h2>Final Overview</h2>
     <div className={styles.tableContainer}>
@@ -63,33 +69,38 @@ export function FinalOverviewInternal() {
           </tr>
           <tr>
             <th className={styles.label}>Result</th>
-            {playersOrdered.map(({ player, score }, index) =>
+            {playersOrdered.map(({ player }, index) =>
               <td key={player.playerId}>{getPlacement(placement[index])}</td>)}
           </tr>
-          <tr>
+          {isDetroit && <tr>
+            <th className={styles.label}>Rounds lasted</th>
+            {playersOrdered.map(({ player, score }) =>
+              <td key={player.playerId}>{score[0]}</td>)}
+          </tr>}
+          {!isDetroit && <tr>
             <th className={styles.label}>Total VPs</th>
             {playersOrdered.map(({ player, score }) =>
-              <td key={player.playerId}>{score}</td>)}
-          </tr>
-          <tr>
+              <td key={player.playerId}>{score[0]}</td>)}
+          </tr>}
+          {!isDetroit && <tr>
             <th className={styles.label}>Income VPs</th>
             {playersOrdered.map(({ player }) =>
-              <td key={player.playerId}>{playerHelper.getScoreFromIncome(player)}</td>)}
-          </tr>
-          <tr>
+              <td key={player.playerId}>{playerHelper.value.getScoreFromIncome(player)}</td>)}
+          </tr>}
+          {!isDetroit && <tr>
             <th className={styles.label}>Shares VPs</th>
             {playersOrdered.map(({ player }) =>
-              <td key={player.playerId}>{playerHelper.getScoreFromShares(player)}</td>)}
-          </tr>
-          <tr>
+              <td key={player.playerId}>{playerHelper.value.getScoreFromShares(player)}</td>)}
+          </tr>}
+          {!isDetroit && <tr>
             <th className={styles.label}>Track VPs</th>
             {playersOrdered.map(({ player }) =>
-              <td key={player.playerId}>{playerHelper.getScoreFromTrack(player)}</td>)}
-          </tr>
+              <td key={player.playerId}>{playerHelper.value.getScoreFromTrack(player)}</td>)}
+          </tr>}
           {gameKey === SwedenRecyclingMapSettings.key && <tr>
             <th className={styles.label}>Garbage VPs</th>
             {playersOrdered.map(({ player }) =>
-              <td key={player.playerId}>{(playerHelper as SwedenPlayerHelper).getScoreFromGarbage(player)}</td>)}
+              <td key={player.playerId}>{(playerHelper.value as SwedenPlayerHelper).getScoreFromGarbage(player)}</td>)}
           </tr>}
           <tr>
             <th className={styles.label}>Income</th>
@@ -104,7 +115,7 @@ export function FinalOverviewInternal() {
           <tr>
             <th className={styles.label}># Track</th>
             {playersOrdered.map(({ player }) =>
-              <td key={player.playerId}>{playerHelper.countTrack(player.color)}</td>)}
+              <td key={player.playerId}>{playerHelper.value.countTrack(player.color)}</td>)}
           </tr>
           <tr>
             <th className={styles.label}>Money</th>

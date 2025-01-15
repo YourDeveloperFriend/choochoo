@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { Coordinates, CoordinatesZod } from "../../utils/coordinates";
-import { InvalidInputError } from "../../utils/error";
 import { assert } from "../../utils/validate";
 import { inject, injectState } from "../framework/execution_context";
 import { ActionProcessor } from "../game/action";
@@ -47,17 +46,11 @@ export class BuildAction implements ActionProcessor<BuildData> {
     const maxTrack = this.helper.getMaxBuilds();
     assert(this.helper.buildsRemaining() > 0, { invalidInput: `You can only build at most ${maxTrack} track` });
 
-    if (this.currentPlayer().money < this.costCalculator.costOf(coordinates, data.tileType)) {
-      throw new InvalidInputError('Cannot afford to place track');
-    }
+    assert(this.currentPlayer().money < this.costCalculator.costOf(coordinates, data.tileType), { invalidInput: 'Cannot afford to place track' });
 
-    if (this.hasBuiltHere(coordinates)) {
-      throw new InvalidInputError('cannot build in the same location twice in one turn');
-    }
+    assert(this.hasBuiltHere(coordinates), { invalidInput: 'cannot build in the same location twice in one turn' });
     const invalidBuildReason = this.validator.getInvalidBuildReason(coordinates, { ...data, playerColor: this.currentPlayer().color });
-    if (invalidBuildReason != null) {
-      throw new InvalidInputError('invalid build: ' + invalidBuildReason);
-    }
+    assert(invalidBuildReason != null, { invalidInput: 'invalid build: ' + invalidBuildReason });
   }
 
   process(data: BuildData): boolean {
