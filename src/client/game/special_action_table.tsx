@@ -1,10 +1,12 @@
 import { Tooltip } from "@mui/material";
 import { useCallback } from "react";
 import { GameStatus } from "../../api/game";
-import { injectPlayerAction } from "../../engine/game/state";
+import { injectInitialPlayerCount, injectPlayerAction } from "../../engine/game/state";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
 import { SelectAction as ActionSelectionSelectAction } from "../../engine/select_action/select";
 import { Action, getSelectedActionString } from "../../engine/state/action";
+import { SOLO_ACTION_COUNT } from "../../maps/detroit/actions";
+import { DetroitBankruptcyMapSettings } from "../../maps/detroit/settings";
 import { IndiaMapSettings } from "../../maps/india/settings";
 import { IrelandMapSettings } from "../../maps/ireland/settings";
 import { MadagascarAllowedActions } from "../../maps/madagascar/allowed_actions";
@@ -12,7 +14,7 @@ import { MadagascarMapSettings } from "../../maps/madagascar/settings";
 import { assertNever } from "../../utils/validate";
 import { Username } from "../components/username";
 import { useAction, useGame } from "../services/game";
-import { useInject, useInjected } from "../utils/injection_context";
+import { useInject, useInjected, useInjectedState } from "../utils/injection_context";
 import { PlayerCircle } from "./bidding_info";
 import * as styles from './special_action_table.module.css';
 
@@ -34,6 +36,7 @@ function SpecialAction({ action }: { action: Action }) {
   const { emit, canEmit, isPending } = useAction(ActionSelectionSelectAction);
   const allowed = useInjected(AllowedActions);
   const player = useInject(() => injectPlayerAction(action)(), [action]);
+  const playerCount = useInject(() => injectInitialPlayerCount()(), []);
 
   const isClickable = canEmit && player == null && !isPending;
   const disabledReason = game.status === GameStatus.enum.ACTIVE ? allowed.getDisabledActionReason(action) : undefined;
@@ -46,9 +49,12 @@ function SpecialAction({ action }: { action: Action }) {
     isClickable ? styles.clickable : '',
   ].join(' ');
 
-  const caption = player != null ? <Username userId={player.playerId} /> :
+  const detroitPrice =
+    gameKey === DetroitBankruptcyMapSettings.key && playerCount === 1 ? ` ($${useInjectedState(SOLO_ACTION_COUNT).get(action)})` : undefined;
+
+  const caption = player != null ? <><Username userId={player.playerId} />{detroitPrice}</> :
     gameKey === MadagascarMapSettings.key && (allowed as MadagascarAllowedActions).getLastDisabledAction() === action ? 'Stack' :
-      undefined;
+      detroitPrice;
 
   const render = <div className={className} onClick={chooseAction}>
     <div className={styles.name}>{getSelectedActionString(action)}</div>
