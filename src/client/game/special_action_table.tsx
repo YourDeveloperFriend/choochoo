@@ -15,6 +15,7 @@ import { useAction, useGame } from "../services/game";
 import { useInject, useInjected } from "../utils/injection_context";
 import { PlayerCircle } from "./bidding_info";
 import * as styles from './special_action_table.module.css';
+import {GermanyMapSettings} from "../../maps/germany/settings";
 
 
 export function SpecialActionTable() {
@@ -66,6 +67,9 @@ function SpecialAction({ action }: { action: Action }) {
 function getSelectedActionDescription(action: Action, gameKey: string): string {
   switch (action) {
     case Action.ENGINEER:
+      if (gameKey === GermanyMapSettings.key) {
+        return 'Build one tile (the most expensive one) at half price (rounded down).';
+      }
       return 'Build an additional track during the Building step.';
     case Action.FIRST_BUILD:
       return 'Go first during the Building step.';

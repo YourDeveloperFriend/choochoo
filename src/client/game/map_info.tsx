@@ -10,6 +10,8 @@ import { IrelandRules } from "./maps/ireland";
 import { KoreaRules } from "./maps/korea";
 import { MadagascarRules } from "./maps/madagascar";
 import { SwedenRecyclingRules } from "./sweden/rules";
+import {GermanyMapSettings} from "../../maps/germany/settings";
+import {GermanyRules} from "./maps/germany";
 
 export function MapInfo({ gameKey }: { gameKey: string }) {
   const selectedMap = MapRegistry.singleton.get(gameKey);
@@ -40,6 +42,8 @@ export function AlternateRules({ gameKey }: { gameKey: string }) {
       return <IndiaRules />;
     case KoreaMapSettings.key:
       return <KoreaRules />;
+    case GermanyMapSettings.key:
+      return <GermanyRules />;
     default:
       return <p>No changes from base game.</p>;
   }
