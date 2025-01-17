@@ -4,6 +4,9 @@ import { IndiaBuildAction, IndiaUrbanizeAction } from "./goods_growth";
 import { map } from "./grid";
 import { IndiaIncomePhase } from "./monsoon";
 import { IndiaPhaseDelegator, IndiaPhaseEngine } from "./production";
+import {ReactNode} from "react";
+import {RULES} from "./rules";
+import {Action} from "../../engine/state/action";
 
 export class IndiaMapSettings implements MapSettings {
   static readonly key = 'india';
@@ -23,5 +26,16 @@ export class IndiaMapSettings implements MapSettings {
       IndiaBuildAction,
       IndiaUrbanizeAction,
     ];
+  }
+
+  getMapRules(): ReactNode {
+    return RULES;
+  }
+
+  getActionDescription(action: Action): string | undefined {
+    if (action === Action.PRODUCTION) {
+      return 'During the Goods Growth step, select a city, draw 2 goods, then place one of those goods in the selected city.';
+    }
+    return undefined;
   }
 }

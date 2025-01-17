@@ -7,6 +7,8 @@ import { map } from './grid';
 import { KoreaMoveHelper } from './move';
 import { KoreaStarter } from './starter';
 import { KoreaUrbanizeAction } from './urbanize';
+import {ReactNode} from "react";
+import {RULES} from "./rules";
 
 
 export class KoreaMapSettings implements MapSettings {
@@ -26,5 +28,9 @@ export class KoreaMapSettings implements MapSettings {
       KoreaStarter,
       KoreaMoveHelper,
     ];
+  }
+
+  getMapRules(): ReactNode {
+    return RULES;
   }
 }

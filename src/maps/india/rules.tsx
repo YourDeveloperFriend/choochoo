@@ -1,6 +1,6 @@
+import {ReactNode} from "react";
 
-export function IndiaRules() {
-  return <div>
+export const RULES: ReactNode = <div>
     <p>Same as base game with the following changes:</p>
     <ul>
       <li><b>Goods growth:</b> does not happen naturally, but happens every time a new player connects a track to a city.</li>
@@ -11,4 +11,3 @@ export function IndiaRules() {
       <li><b>Deserts:</b> cost $3.</li>
     </ul>
   </div>;
-}

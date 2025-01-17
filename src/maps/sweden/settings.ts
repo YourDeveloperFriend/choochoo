@@ -4,6 +4,8 @@ import { SwedenMoveAction, SwedenMovePhase, SwedenPhaseEngine } from "./recyclin
 import { SwedenAllowedActions } from "./recycling_score";
 import { SwedenPlayerHelper } from "./score";
 import { SwedenStarter } from "./starter";
+import {ReactNode} from "react";
+import {RULES} from "./rules";
 
 export class SwedenRecyclingMapSettings implements MapSettings {
   static readonly key = 'SwedenRecycling'
@@ -23,5 +25,9 @@ export class SwedenRecyclingMapSettings implements MapSettings {
       SwedenPlayerHelper,
       SwedenPhaseEngine,
     ];
+  }
+
+  getMapRules(): ReactNode {
+    return RULES;
   }
 }

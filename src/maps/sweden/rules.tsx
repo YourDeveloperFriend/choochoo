@@ -1,6 +1,6 @@
+import {ReactNode} from "react";
 
-export function SwedenRecyclingRules() {
-  return <div>
+export const RULES: ReactNode = <div>
     <p>Same as base game with the following changes:</p>
     <ul>
       <li><b>Urbanization</b>: only 4 black cities are available.</li>
@@ -11,4 +11,3 @@ export function SwedenRecyclingRules() {
       <li><b>WTE Plant Operator action:</b> claims the black cubes in the WTE Plant. Each cube is worth 2 points.</li>
     </ul>
   </div>;
-}
