@@ -16,21 +16,26 @@ export class DetroitPlayerHelper extends PlayerHelper {
   private readonly phase = injectState(PHASE);
 
   getScore(player: PlayerData): Score {
+    return [this.getRoundsLasted(player), player.income];
+  }
+
+  protected getRoundsLasted(player: PlayerData): number {
     if (this.phase() === Phase.END_GAME) {
-      const bestScore = Math.max(...this.rounds().values());
-      if (!this.rounds().has(player.color)) {
-        // Surviving player must have played one more round than the last player to be eliminated.
-        return [bestScore + 1, player.income];
-      }
-      return [this.rounds().get(player.color)!, 0];
+      // Surviving player must have played one more round than the last player to be eliminated.
+      const bestScore = Math.max(...this.rounds().values()) + 1;
+      return this.rounds().get(player.color) ?? bestScore;
     }
-    return [this.rounds().get(player.color) ?? this.currentRound(), 0];
+    return this.rounds().get(player.color) ?? this.currentRound();
   }
 }
 
 export class DetroitMoneyManager extends MoneyManager {
+  private readonly rounds = injectState(OUT_OF_GAME_ROUND);
+  private readonly round = injectState(ROUND);
+
   protected outOfGame(player: PlayerData): void {
     super.outOfGame(player);
+    this.rounds.update((map) => map.set(player.color, this.round()));
   }
 }
 

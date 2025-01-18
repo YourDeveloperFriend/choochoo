@@ -51,6 +51,26 @@ export class PlayerHelper {
     return [this.calculateScore(player), 0];
   }
 
+  /** Returns the players ordered by their score. Tied players end up in the same placement in the array. */
+  getPlayersOrderedByScore(): PlayerData[][] {
+    const scores = this.players()
+      .map((player) => ({ player, score: this.getScore(player) }))
+      .sort(({ score: score1 }, { score: score2 }) =>
+        compareScore(score1, score2),
+      );
+    const ordered: PlayerData[][] = [[]];
+    let compareTo = scores[0].score;
+    let compareToIndex = 0;
+    for (const { score, player } of scores) {
+      if (compareScore(compareTo, score) !== 0) {
+        compareToIndex += ordered[compareToIndex].length;
+        compareTo = score;
+      }
+      ordered[compareToIndex].push(player);
+    }
+    return ordered;
+  }
+
   protected calculateScore(player: PlayerData): number {
     return (
       this.getScoreFromIncome(player) +
@@ -115,4 +135,14 @@ export function isEliminated(score: Score): score is Eliminated {
 
 export function isNotEliminated(score: Score): score is number[] {
   return !isEliminated(score);
+}
+
+export function compareScore(score1: Score, score2: Score): number {
+  if (isEliminated(score1)) return -1;
+  if (isEliminated(score2)) return 1;
+  for (const [index, s1] of score1.entries()) {
+    if (s1 > score2[index]) return -1;
+    if (s1 < score2[index]) return 1;
+  }
+  return 0;
 }
