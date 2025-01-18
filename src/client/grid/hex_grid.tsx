@@ -189,20 +189,34 @@ export function HexGrid({ onClick, onClickInterCity, rotation, fullMapVersion, h
     </div>}
     <div className={hexGridContainer}>
       <svg xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor"
-        className={`bi bi-google ${hexGrid}`}
-        viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`}
-        width={viewBox.width * zoom}
-        height={viewBox.height * zoom}
-        onClick={internalOnClick}>
-        {fullMapVersion && <DoubleHeightNumbers origin={internalViewBox} spacing={numberSpacing} rotation={rotation} grid={grid} size={size} />}
+           fill="currentColor"
+           className={`bi bi-google ${hexGrid}`}
+           viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`}
+           width={viewBox.width * zoom}
+           height={viewBox.height * zoom}
+           onClick={internalOnClick}>
+        {fullMapVersion &&
+            <DoubleHeightNumbers origin={internalViewBox} spacing={numberSpacing} rotation={rotation} grid={grid}
+                                 size={size}/>}
+        <defs>
+          <filter id="cubeShadow" width={size/4} height={size/4}>
+            <feOffset in="SourceAlpha" dx={size/20} dy={size/20}/>
+            <feGaussianBlur stdDeviation={size/40}/>
+            <feBlend in="SourceGraphic" in2="blurOut"/>
+          </filter>
+        </defs>
         <g ref={ref}>
           {/* Rotating without a center moves it along the origin, but we rely on the viewBox calculation to make sure the view box fits the content. */}
           <Rotate rotation={rotation}>
             {mapSpaces}
             {riverLayer}
-            {grid.connections.map((connection, index) => <InterCityConnectionRender key={index} highlighted={highlightedConnections?.some(c => interCityConnectionEquals(connection, c))} clickTargets={clickTargetsNormalized} onClick={onClickInterCity} size={size} connection={connection} />)}
-            {fullMapVersion && <SwedenProgressionGraphic />}
+            {grid.connections.map((connection, index) => <InterCityConnectionRender key={index}
+                                                                                    highlighted={highlightedConnections?.some(c => interCityConnectionEquals(connection, c))}
+                                                                                    clickTargets={clickTargetsNormalized}
+                                                                                    onClick={onClickInterCity}
+                                                                                    size={size}
+                                                                                    connection={connection}/>)}
+            {fullMapVersion && <SwedenProgressionGraphic/>}
           </Rotate>
         </g>
       </svg>
@@ -219,7 +233,7 @@ interface DoubleHeightNumbersProps {
 }
 
 
-function DoubleHeightNumbers({ grid, size, origin, spacing, rotation }: DoubleHeightNumbersProps) {
+function DoubleHeightNumbers({grid, size, origin, spacing, rotation}: DoubleHeightNumbersProps) {
   return useMemo(() => {
     return <>
       {...iterate(grid.bottomRight.col - grid.topLeft.col + 1, (index) =>
