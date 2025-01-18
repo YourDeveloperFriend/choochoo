@@ -8,6 +8,8 @@ import {IrelandRoundEngine} from './shortened_round';
 import {IrelandStarter} from './starter';
 import {Action} from "../../engine/state/action";
 import {IrelandRules} from "./rules";
+import {ReactNode} from "react";
+import {RIVERS} from "./rivers";
 
 
 export class IrelandMapSettings implements MapSettings {
@@ -33,5 +35,18 @@ export class IrelandMapSettings implements MapSettings {
       IrelandPhaseEngine,
       IrelandStarter,
     ];
+  }
+
+  getMapRules = IrelandRules
+
+  getActionDescription(action: Action): string | undefined {
+    if (action === Action.LOCOMOTIVE) {
+      return 'Temporarily increase your locomotive by one for the round. Does not increase your expenses.';
+    }
+    return undefined;
+  }
+
+  getRiversLayer(): ReactNode {
+    return RIVERS;
   }
 }

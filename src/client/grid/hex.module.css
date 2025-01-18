@@ -57,3 +57,9 @@
 .location.unpassable {
   fill: lightgrey;
 }
+
+.riverPath {
+  stroke: #009bb2;
+  stroke-width: 5;
+  fill: none;
+}

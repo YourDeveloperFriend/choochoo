@@ -1,5 +1,7 @@
-import { MapSettings, ReleaseStage } from '../../engine/game/map_settings';
-import { map } from './grid';
+import {MapSettings, ReleaseStage} from '../../engine/game/map_settings';
+import {map} from './grid';
+import {ReactNode} from "react";
+import {RIVERS} from "./rivers";
 
 
 export class RustBeltMapSettings implements MapSettings {
@@ -12,5 +14,13 @@ export class RustBeltMapSettings implements MapSettings {
 
   getOverrides() {
     return [];
+  }
+
+  getMapRules() {
+    return null;
+  }
+
+  getRiversLayer(): ReactNode {
+    return RIVERS;
   }
 }
