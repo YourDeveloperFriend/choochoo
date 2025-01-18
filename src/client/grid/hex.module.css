@@ -11,7 +11,7 @@
 }
 
 :global(.dark-mode) .location.plain {
-  fill: darkgreen;
+  fill: #4a6c32;
 }
 
 .location.river {
@@ -19,11 +19,15 @@
 }
 
 :global(.dark-mode) .location.river {
-  fill: darkblue;
+  fill: #466133;
 }
 
 .location.water {
   fill: #579ba8;
+}
+
+:global(.dark-mode) .location.water {
+  fill: #2b4d54;
 }
 
 .location.hill {
@@ -31,7 +35,7 @@
 }
 
 :global(.dark-mode) .location.hill {
-  fill: #82572c;
+  fill: #2a3e23;
 }
 
 .location.mountain {
@@ -39,7 +43,7 @@
 }
 
 :global(.dark-mode) .location.mountain {
-  fill: #654321;
+  fill: #433a32;
 }
 
 .location.desert {
