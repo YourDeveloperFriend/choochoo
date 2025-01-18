@@ -1,31 +1,31 @@
-import { DialogHook, useDialogs } from "@toolpad/core";
-import { useCallback, useMemo } from "react";
-import { BuildAction } from "../../engine/build/build";
-import { ClaimAction, ClaimData } from "../../engine/build/claim";
-import { ConnectCitiesAction } from "../../engine/build/connect_cities";
-import { City } from "../../engine/map/city";
-import { getOpposite } from "../../engine/map/direction";
-import { Grid, Space } from "../../engine/map/grid";
-import { Land } from "../../engine/map/location";
-import { Track } from "../../engine/map/track";
-import { MoveHelper } from "../../engine/move/helper";
-import { MoveAction, MoveData, Path } from "../../engine/move/move";
-import { Good } from "../../engine/state/good";
-import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
-import { PlayerData } from "../../engine/state/player";
-import { isDirection } from "../../engine/state/tile";
-import { SelectCityAction, SelectCityData } from "../../maps/india/production";
-import { DeurbanizeAction, DeurbanizeData } from "../../maps/ireland/deurbanization";
-import { ViewRegistry } from "../../maps/view_registry";
-import { Coordinates } from "../../utils/coordinates";
-import { peek } from "../../utils/functions";
-import { assert } from "../../utils/validate";
-import { useAction, useGameVersionState } from "../services/game";
-import { useTypedCallback, useTypedMemo } from "../utils/hooks";
-import { Memoized, useCurrentPlayer, useGameKey, useGrid, useInjectedMemo } from "../utils/injection_context";
-import { BuildingDialog } from "./building_dialog";
-import { ClickTarget } from "./click_target";
-import { HexGrid } from "./hex_grid";
+import {DialogHook, useDialogs} from "@toolpad/core";
+import {useCallback, useMemo} from "react";
+import {BuildAction} from "../../engine/build/build";
+import {ClaimAction, ClaimData} from "../../engine/build/claim";
+import {ConnectCitiesAction} from "../../engine/build/connect_cities";
+import {City} from "../../engine/map/city";
+import {getOpposite} from "../../engine/map/direction";
+import {Grid, Space} from "../../engine/map/grid";
+import {Land} from "../../engine/map/location";
+import {Track} from "../../engine/map/track";
+import {MoveHelper} from "../../engine/move/helper";
+import {MoveAction, MoveData, Path} from "../../engine/move/move";
+import {Good} from "../../engine/state/good";
+import {OwnedInterCityConnection} from "../../engine/state/inter_city_connection";
+import {PlayerData} from "../../engine/state/player";
+import {isDirection} from "../../engine/state/tile";
+import {SelectCityAction, SelectCityData} from "../../maps/india/production";
+import {DeurbanizeAction, DeurbanizeData} from "../../maps/ireland/deurbanization";
+import {ViewRegistry} from "../../maps/view_registry";
+import {Coordinates} from "../../utils/coordinates";
+import {peek} from "../../utils/functions";
+import {assert} from "../../utils/validate";
+import {useAction, useGameVersionState} from "../services/game";
+import {useTypedCallback, useTypedMemo} from "../utils/hooks";
+import {Memoized, useCurrentPlayer, useGameKey, useGrid, useInjectedMemo} from "../utils/injection_context";
+import {BuildingDialog} from "./building_dialog";
+import {ClickTarget} from "./click_target";
+import {HexGrid} from "./hex_grid";
 
 function buildPaths(grid: Grid, startingStop: Coordinates, endingStop: Coordinates): Path[] {
   return [...grid.findRoutesToLocation(startingStop, endingStop)].map((connection) => {
@@ -296,7 +296,8 @@ export function GameMap() {
       clickTargets={clickTargets}
       selectedGood={selectedGood}
       rotation={rotation}
-      grid={grid} />
+      grid={grid}
+      gameKey={gameKey} />
     <BuildingDialog coordinates={buildingSpace?.coordinates} rotation={rotation} cancelBuild={() => setBuildingSpace(undefined)} />
   </>;
 }

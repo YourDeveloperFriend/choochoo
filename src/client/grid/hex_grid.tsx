@@ -1,24 +1,25 @@
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutline from '@mui/icons-material/RemoveCircleOutline';
-import { Fab, Tooltip } from "@mui/material";
-import { MouseEvent, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { Rotation } from '../../engine/game/map_settings';
-import { Grid, Space } from "../../engine/map/grid";
-import { Track } from "../../engine/map/track";
-import { Good } from "../../engine/state/good";
-import { interCityConnectionEquals, OwnedInterCityConnection } from '../../engine/state/inter_city_connection';
-import { Coordinates } from "../../utils/coordinates";
-import { deepEquals } from '../../utils/deep_equals';
-import { DoubleHeight } from '../../utils/double_height';
-import { iterate } from '../../utils/functions';
-import { Rotate } from '../components/rotation';
-import { SwedenProgressionGraphic } from '../game/sweden/progression_graphic';
-import { useTypedCallback } from "../utils/hooks";
-import { ClickTarget } from "./click_target";
-import { Hex } from "./hex";
-import { fabs, floatingFabs, hexGrid, hexGridContainer } from './hex_grid.module.css';
-import { InterCityConnectionRender } from './inter_city_connection';
-import { distanceToSide, Point } from "./point";
+import {Fab, Tooltip} from "@mui/material";
+import {MouseEvent, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
+import {Rotation} from '../../engine/game/map_settings';
+import {Grid, Space} from "../../engine/map/grid";
+import {Track} from "../../engine/map/track";
+import {Good} from "../../engine/state/good";
+import {interCityConnectionEquals, OwnedInterCityConnection} from '../../engine/state/inter_city_connection';
+import {Coordinates} from "../../utils/coordinates";
+import {deepEquals} from '../../utils/deep_equals';
+import {DoubleHeight} from '../../utils/double_height';
+import {iterate} from '../../utils/functions';
+import {Rotate} from '../components/rotation';
+import {SwedenProgressionGraphic} from '../game/sweden/progression_graphic';
+import {useTypedCallback} from "../utils/hooks";
+import {ClickTarget} from "./click_target";
+import {Hex} from "./hex";
+import {fabs, floatingFabs, hexGrid, hexGridContainer} from './hex_grid.module.css';
+import {InterCityConnectionRender} from './inter_city_connection';
+import {distanceToSide, Point} from "./point";
+import {MapRegistry} from "../../maps";
 
 
 function cubeRound(qFrac: number, rFrac: number): Coordinates {
@@ -59,6 +60,7 @@ interface HexGridProps {
   selectedGood?: { good: Good, coordinates: Coordinates };
   clickTargets?: Set<ClickTarget>;
   fullMapVersion?: boolean;
+  gameKey?: string;
 }
 
 function onClickCb(grid: Grid, onClick?: (space: Space, good?: Good) => void) {
@@ -93,7 +95,7 @@ function useZoom(allowZoom?: boolean) {
   return [zoom, setZoom] as const;
 }
 
-export function HexGrid({ onClick, onClickInterCity, rotation, fullMapVersion, highlightedTrack, highlightedConnections, selectedGood, grid, clickTargets }: HexGridProps) {
+export function HexGrid({ onClick, onClickInterCity, rotation, fullMapVersion, highlightedTrack, highlightedConnections, selectedGood, grid, clickTargets, gameKey }: HexGridProps) {
   const allowZoom = fullMapVersion;
   const [zoom, setZoom] = useZoom(allowZoom);
   const size = 70;
@@ -128,6 +130,14 @@ export function HexGrid({ onClick, onClickInterCity, rotation, fullMapVersion, h
     mapSpaces.push(useMemo(() =>
       hexFactory(space, selectedGood, highlightedTrackInSpace, size, clickTargetsNormalized, rotation),
       [space, selectedGood, highlightedTrackSerialized, size, clickTargetsNormalized, rotation]));
+  }
+
+  let riverLayer: ReactNode = null;
+  if (gameKey) {
+    let mapSettings = MapRegistry.singleton.get(gameKey);
+    if (mapSettings.getRiversLayer) {
+      riverLayer = mapSettings.getRiversLayer();
+    }
   }
 
   const ref = useRef<SVGGElement>(null);
@@ -190,6 +200,7 @@ export function HexGrid({ onClick, onClickInterCity, rotation, fullMapVersion, h
           {/* Rotating without a center moves it along the origin, but we rely on the viewBox calculation to make sure the view box fits the content. */}
           <Rotate rotation={rotation}>
             {mapSpaces}
+            {riverLayer}
             {grid.connections.map((connection, index) => <InterCityConnectionRender key={index} highlighted={highlightedConnections?.some(c => interCityConnectionEquals(connection, c))} clickTargets={clickTargetsNormalized} onClick={onClickInterCity} size={size} connection={connection} />)}
             {fullMapVersion && <SwedenProgressionGraphic />}
           </Rotate>

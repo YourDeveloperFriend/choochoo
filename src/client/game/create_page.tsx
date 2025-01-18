@@ -1,15 +1,26 @@
-
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import { FormEvent, useCallback, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
-import { ReleaseStage, releaseStageToString } from "../../engine/game/map_settings";
-import { Grid } from "../../engine/map/grid";
-import { ViewRegistry } from "../../maps/view_registry";
-import { HexGrid } from "../grid/hex_grid";
-import { environment, Stage } from "../services/environment";
-import { useCreateGame } from "../services/game";
-import { useCheckboxState, useNumberInputState, useSelectState, useTextInputState } from "../utils/form_state";
-import { MapInfo } from "./map_info";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField
+} from "@mui/material";
+import {FormEvent, useCallback, useMemo} from "react";
+import {useSearchParams} from "react-router-dom";
+import {ReleaseStage, releaseStageToString} from "../../engine/game/map_settings";
+import {Grid} from "../../engine/map/grid";
+import {ViewRegistry} from "../../maps/view_registry";
+import {HexGrid} from "../grid/hex_grid";
+import {environment, Stage} from "../services/environment";
+import {useCreateGame} from "../services/game";
+import {useCheckboxState, useNumberInputState, useSelectState, useTextInputState} from "../utils/form_state";
+import {MapInfo} from "./map_info";
 
 
 export function CreateGamePage() {
@@ -157,6 +168,6 @@ export function CreateGamePage() {
       <Button type="submit" disabled={isPending}>Create</Button>
     </div>
     <MapInfo gameKey={gameKey} />
-    {grid && <HexGrid key={gameKey} rotation={selectedMap.rotation} grid={grid} fullMapVersion={true} />}
+    {grid && <HexGrid key={gameKey} gameKey={gameKey} rotation={selectedMap.rotation} grid={grid} fullMapVersion={true} />}
   </Box>;
 }

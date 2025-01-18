@@ -1,7 +1,9 @@
-import { assertNever } from "../../utils/validate";
-import { SimpleConstructor } from "../framework/dependency_stack";
-import { GridData } from "../state/grid";
-import { InterCityConnection } from "../state/inter_city_connection";
+import {assertNever} from "../../utils/validate";
+import {SimpleConstructor} from "../framework/dependency_stack";
+import {GridData} from "../state/grid";
+import {InterCityConnection} from "../state/inter_city_connection";
+import {ReactNode} from "react";
+import {Action} from "../state/action";
 
 export enum ReleaseStage {
   DEVELOPMENT = 1,
@@ -41,4 +43,7 @@ export interface MapSettings {
   readonly rotation?: Rotation;
 
   getOverrides(): Array<SimpleConstructor<unknown>>;
+  getMapRules(): ReactNode;
+  getActionDescription?(action: Action): string|undefined;
+  getRiversLayer?(): ReactNode
 }
