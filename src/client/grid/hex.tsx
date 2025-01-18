@@ -1,62 +1,62 @@
-import { useMemo } from "react";
-import { Rotation } from "../../engine/game/map_settings";
-import { City } from "../../engine/map/city";
-import { Space } from "../../engine/map/grid";
-import { calculateTrackInfo, Land } from "../../engine/map/location";
-import { isTownTile } from "../../engine/map/tile";
-import { Track, TrackInfo } from "../../engine/map/track";
-import { Good } from "../../engine/state/good";
-import { SpaceType } from "../../engine/state/location_type";
-import { Direction } from "../../engine/state/tile";
-import { CyprusMapData } from "../../maps/cyprus/map_data";
-import { Coordinates } from "../../utils/coordinates";
-import { assert, assertNever } from "../../utils/validate";
-import { Rotate } from "../components/rotation";
-import { useGameKey } from "../utils/injection_context";
-import { ClickTarget } from "./click_target";
-import { goodStyle } from "./good";
-import { GoodBlock } from "./good_block";
+import {useMemo} from "react";
+import {Rotation} from "../../engine/game/map_settings";
+import {City} from "../../engine/map/city";
+import {Space} from "../../engine/map/grid";
+import {calculateTrackInfo, Land} from "../../engine/map/location";
+import {isTownTile} from "../../engine/map/tile";
+import {Track, TrackInfo} from "../../engine/map/track";
+import {Good} from "../../engine/state/good";
+import {SpaceType} from "../../engine/state/location_type";
+import {Direction} from "../../engine/state/tile";
+import {CyprusMapData} from "../../maps/cyprus/map_data";
+import {Coordinates} from "../../utils/coordinates";
+import {assert, assertNever} from "../../utils/validate";
+import {Rotate} from "../components/rotation";
+import {useGameKey} from "../utils/injection_context";
+import {ClickTarget} from "./click_target";
+import {goodStyle} from "./good";
+import {GoodBlock} from "./good_block";
 import * as styles from './hex.module.css';
 import * as gridStyles from './hex_grid.module.css';
-import { HexName } from "./hex_name";
-import { OnRoll } from "./on_roll";
-import { coordinatesToCenter, edgeCorners, getCorners, getHalfCorners, Point, polygon } from "./point";
-import { Track as TrackSvg } from "./track";
+import {HexName} from "./hex_name";
+import {OnRoll} from "./on_roll";
+import {coordinatesToCenter, edgeCorners, getCorners, getHalfCorners, Point, polygon} from "./point";
+import {Track as TrackSvg} from "./track";
+import {CityGroup} from "../../engine/state/city_group";
 
-function colorStyles(space: Space): string[] {
-  if (space instanceof City) {
-    const colors = space.goodColors();
-    if (colors.length === 0) {
-      return [styles.colorless];
-    }
-    return colors.map((color) => goodStyle(color));
-  } else if (space instanceof Land) {
-    const type = space.getLandType();
-    switch (type) {
-      case SpaceType.PLAIN:
-        return [styles.plain];
-      case SpaceType.RIVER:
-        return [styles.river];
-      case SpaceType.WATER:
-        return [styles.water];
-      case SpaceType.MOUNTAIN:
-        return [styles.mountain];
-      // TODO: render street and street
-      case SpaceType.LAKE:
-      case SpaceType.STREET:
-      case SpaceType.SWAMP:
-        return [styles.swamp];
-      case SpaceType.UNPASSABLE:
-        return [styles.unpassable];
-      case SpaceType.DESERT:
-        return [styles.desert];
-      case SpaceType.HILL:
-        return [styles.hill];
-      default:
-        assertNever(type);
-    }
+function cityColorStyles(space: City): string[] {
+  const colors = space.goodColors();
+  if (colors.length === 0) {
+    return [styles.colorless];
   }
-  assertNever(space);
+  return colors.map((color) => goodStyle(color));
+}
+
+function landColorStyle(space: Land): string {
+  const type = space.getLandType();
+  switch (type) {
+    case SpaceType.PLAIN:
+      return styles.plain;
+    case SpaceType.RIVER:
+      return styles.river;
+    case SpaceType.WATER:
+      return styles.water;
+    case SpaceType.MOUNTAIN:
+      return styles.mountain;
+      // TODO: render street and street
+    case SpaceType.LAKE:
+    case SpaceType.STREET:
+    case SpaceType.SWAMP:
+      return styles.swamp;
+    case SpaceType.UNPASSABLE:
+      return styles.unpassable;
+    case SpaceType.DESERT:
+      return styles.desert;
+    case SpaceType.HILL:
+      return styles.hill;
+    default:
+      assertNever(type);
+  }
 }
 
 interface HexProps {
@@ -78,7 +78,6 @@ export function Hex({ space, selectedGood, highlightedTrack, size, hideGoods, cl
     polygon(getCorners(center, size))
     , [center, size]);
 
-  const [hexColor, alternateColor] = colorStyles(space);
 
   const trackInfo = useMemo(() => {
     const tileData = space instanceof Land ? space.getTileData() : undefined;
@@ -118,20 +117,50 @@ export function Hex({ space, selectedGood, highlightedTrack, size, hideGoods, cl
 
   const gameKey = useGameKey();
 
-  return <>
-    <polygon className={`${space instanceof City ? styles.city : styles.location} ${clickable ? gridStyles.clickable : ''} ${hexColor}`} data-coordinates={space.coordinates.serialize()} points={corners} stroke="black" strokeWidth="0" />
-    {alternateColor && <HalfHex center={center} size={size} alternateColor={alternateColor} />}
-    <polygon fillOpacity="0" data-coordinates={space.coordinates.toString()} points={corners} stroke="black" strokeWidth="1" />
-    {space instanceof Land && space.unpassableExits().map(direction => <EdgeBoundary key={direction} center={center} size={size} direction={direction} />)}
-    {gameKey === 'cyprus' && <CyprusBorder space={space} center={center} size={size} />}
-    {trackInfo.map((t, index) => <TrackSvg key={index} center={center} size={size} track={t} highlighted={highlightedTrackSet.has(t)} rotation={rotation} />)}
-    {space instanceof Land && (space.getTileType() != null ? isTownTile(space.getTileType()!) : space.hasTown()) && <circle cx={center.x} cy={center.y} fill="white" r={size / 2} />}
-    {space instanceof Land && space.getTileType() == null && space.getTerrainCost() != null && <TerrainCost space={space} center={center} size={size} rotation={rotation} />}
-    {space instanceof Land && space.hasTown() && <HexName name={space.name()!} rotation={rotation} center={center} size={size} />}
-    {space instanceof City && space.onRoll().length > 0 && <OnRoll city={space} center={center} size={size} rotation={rotation} />}
-    {space instanceof City && space.name() != '' && <HexName name={space.name()} rotation={rotation} center={center} size={size} isCity={true} />}
-    {space instanceof City && !hideGoods && space.getGoods().map((g, index) => <GoodBlock key={index} clickable={clickTargets.has(ClickTarget.GOOD)} coordinates={coordinates} highlighted={selectedGoodIndex === index} offset={index} good={g} center={center} size={size} rotation={rotation} />)}
-  </>;
+  if (space instanceof Land) {
+    const hexColor = landColorStyle(space);
+
+    return <>
+      <polygon className={`${styles.location} ${clickable ? gridStyles.clickable : ''} ${hexColor}`} data-coordinates={space.coordinates.serialize()} points={corners} stroke="black" strokeWidth="0" />
+      <polygon fillOpacity="0" data-coordinates={space.coordinates.toString()} points={corners} stroke="black" strokeWidth={size / 100} />
+      {space.unpassableExits().map(direction => <EdgeBoundary key={direction} center={center} size={size} direction={direction} />)}
+      {gameKey === 'cyprus' && <CyprusBorder space={space} center={center} size={size} />}
+      {trackInfo.map((t, index) => <TrackSvg key={index} center={center} size={size} track={t} highlighted={highlightedTrackSet.has(t)} rotation={rotation} />)}
+      {(space.getTileType() != null ? isTownTile(space.getTileType()!) : space.hasTown()) && <circle cx={center.x} cy={center.y} fill="white" r={size * 0.4} />}
+      {space.getTileType() == null && space.getTerrainCost() != null && <TerrainCost space={space} center={center} size={size} rotation={rotation} />}
+      {space.hasTown() && <HexName name={space.name()!} rotation={rotation} center={center} size={size} />}
+    </>;
+  } else {
+    const [hexColor, alternateColor] = cityColorStyles(space);
+
+    const onRoll = space.onRoll();
+    let cityGroup: CityGroup;
+    if (onRoll.length > 0) {
+      cityGroup = onRoll[0].group;
+    } else {
+      cityGroup = CityGroup.WHITE;
+    }
+
+    let outerFill = '#ffffff';
+    if (cityGroup == CityGroup.BLACK) {
+      outerFill = '#222222';
+    }
+
+    const innerCorners = polygon(getCorners(center, size*0.85));
+
+    return <>
+      <polygon className={`${clickable ? gridStyles.clickable : ''} ${hexColor}`} data-coordinates={space.coordinates.serialize()} points={corners} fill={outerFill} stroke="black" strokeWidth="0" />
+      <polygon className={`${styles.city} ${hexColor}`} data-coordinates={space.coordinates.serialize()} points={innerCorners} stroke="black" strokeWidth="0" />
+      {alternateColor && <HalfHex center={center} size={size*0.85} alternateColor={alternateColor} />}
+      <polygon fillOpacity="0" data-coordinates={space.coordinates.toString()} points={corners} stroke="black" strokeWidth={size / 100} />
+      <circle cx={center.x} cy={center.y} fill="white" r={size * 0.4} />
+
+      {gameKey === 'cyprus' && <CyprusBorder space={space} center={center} size={size} />}
+      {onRoll.length > 0 && <OnRoll city={space} center={center} size={size} rotation={rotation} />}
+      {space.name() != '' && <HexName name={space.name()} rotation={rotation} center={center} size={size} />}
+      {!hideGoods && space.getGoods().map((g, index) => <GoodBlock key={index} clickable={clickTargets.has(ClickTarget.GOOD)} coordinates={coordinates} highlighted={selectedGoodIndex === index} offset={index} good={g} center={center} size={size} rotation={rotation} />)}
+    </>;
+  }
 }
 
 interface TerrainCostProps {
@@ -142,17 +171,21 @@ interface TerrainCostProps {
 }
 
 function TerrainCost({ space, center, size, rotation }: TerrainCostProps) {
+  const corners = useMemo(() =>
+          polygon(getCorners(center, size/2))
+      , [center, size]);
+
   return <>
     <Rotate rotation={rotation} center={center} reverse={true}>
-      <circle cx={center.x} cy={center.y} fill="#E0E0E0" r={size / 2.5} />
-      <text x={center.x} y={center.y} dominantBaseline="middle" textAnchor="middle">
+      <polygon fill="#cfddbb" points={corners} stroke="black" strokeWidth="0"/>
+      <text fontSize={size/2.5} fill='#b63421' x={center.x} y={center.y+size/20} dominantBaseline="middle" textAnchor="middle">
         ${space.getTerrainCost()!}
       </text>
     </Rotate>
   </>;
 }
 
-function CyprusBorder({ space, center, size }: { space: Space, center: Point, size: number }) {
+function CyprusBorder({space, center, size}: { space: Space, center: Point, size: number }) {
   const parseResult = space.getMapSpecific(CyprusMapData.parse);
 
   if (parseResult == null || parseResult.borderDirection == null) return <></>;
