@@ -199,9 +199,9 @@ export function HexGrid({ onClick, onClickInterCity, rotation, fullMapVersion, h
             <DoubleHeightNumbers origin={internalViewBox} spacing={numberSpacing} rotation={rotation} grid={grid}
                                  size={size}/>}
         <defs>
-          <filter id="cubeShadow" width={size/4} height={size/4}>
-            <feOffset in="SourceAlpha" dx={size/20} dy={size/20}/>
-            <feGaussianBlur stdDeviation={size/40}/>
+          <filter id="cubeShadow" width={size/3} height={size/3}>
+            <feOffset in="SourceAlpha" dx={size/15} dy={size/15}/>
+            <feGaussianBlur stdDeviation={size/30}/>
             <feBlend in="SourceGraphic" in2="blurOut"/>
           </filter>
         </defs>

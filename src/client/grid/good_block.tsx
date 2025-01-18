@@ -20,8 +20,8 @@ interface GoodBlockProps {
 }
 
 export function GoodBlock({ center, size, offset, goodsCount, good, coordinates, highlighted, clickable, rotation }: GoodBlockProps) {
-  const goodSize = size / 4;
-  const maxGoodsPerRow = 3;
+  const goodSize = size / 3;
+  const maxGoodsPerRow = 6;
 
   // Render 6 goods per row
   const xOffset = offset % maxGoodsPerRow;
@@ -29,7 +29,7 @@ export function GoodBlock({ center, size, offset, goodsCount, good, coordinates,
 
   const rowSize = Math.floor(offset / maxGoodsPerRow) < Math.floor(goodsCount/maxGoodsPerRow) ? maxGoodsPerRow : goodsCount % maxGoodsPerRow;
 
-  const x = center.x - (goodSize*rowSize+0.5*goodSize*(rowSize-1))/2 + xOffset*1.5*goodSize;
+  const x = center.x - (goodSize*(rowSize+1)/2)/2 + xOffset*goodSize/2;
   const y = center.y + (yOffset * goodSize * 1.5) - size*0.75;
   const stroke = highlighted ? (good === Good.YELLOW ? 'lightgreen' : 'yellow') : (good === Good.BLACK ? 'grey' : 'black');
   const strokeWidth = highlighted ? 2 : 1;
