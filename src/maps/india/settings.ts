@@ -1,12 +1,12 @@
-import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
-import { ExpensiveMountains } from "./costs";
-import { IndiaBuildAction, IndiaUrbanizeAction } from "./goods_growth";
-import { map } from "./grid";
-import { IndiaIncomePhase } from "./monsoon";
-import { IndiaPhaseDelegator, IndiaPhaseEngine } from "./production";
-import {ReactNode} from "react";
-import {RULES} from "./rules";
+import {MapSettings, ReleaseStage} from "../../engine/game/map_settings";
+import {ExpensiveMountains} from "./costs";
+import {IndiaBuildAction, IndiaUrbanizeAction} from "./goods_growth";
+import {map} from "./grid";
+import {IndiaIncomePhase} from "./monsoon";
+import {IndiaPhaseDelegator, IndiaPhaseEngine} from "./production";
+import {createElement as reactCreateElement} from "react";
 import {Action} from "../../engine/state/action";
+import {IndiaRules} from "./rules";
 
 export class IndiaMapSettings implements MapSettings {
   static readonly key = 'india';
@@ -28,8 +28,8 @@ export class IndiaMapSettings implements MapSettings {
     ];
   }
 
-  getMapRules(): ReactNode {
-    return RULES;
+  getMapRules() {
+    return reactCreateElement(IndiaRules);
   }
 
   getActionDescription(action: Action): string | undefined {

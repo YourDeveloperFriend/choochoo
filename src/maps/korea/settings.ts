@@ -1,14 +1,12 @@
-
-
-import { MapSettings, ReleaseStage } from '../../engine/game/map_settings';
-import { interCityConnections } from '../factory';
-import { KoreaCostCalculator } from './cost';
-import { map } from './grid';
-import { KoreaMoveHelper } from './move';
-import { KoreaStarter } from './starter';
-import { KoreaUrbanizeAction } from './urbanize';
-import {ReactNode} from "react";
-import {RULES} from "./rules";
+import {MapSettings, ReleaseStage} from '../../engine/game/map_settings';
+import {interCityConnections} from '../factory';
+import {KoreaCostCalculator} from './cost';
+import {map} from './grid';
+import {KoreaMoveHelper} from './move';
+import {KoreaStarter} from './starter';
+import {KoreaUrbanizeAction} from './urbanize';
+import {createElement as reactCreateElement, ReactNode} from "react";
+import {KoreaRules} from "./rules";
 
 
 export class KoreaMapSettings implements MapSettings {
@@ -31,6 +29,6 @@ export class KoreaMapSettings implements MapSettings {
   }
 
   getMapRules(): ReactNode {
-    return RULES;
+    return reactCreateElement(KoreaRules);
   }
 }

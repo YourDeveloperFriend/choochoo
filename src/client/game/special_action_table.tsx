@@ -1,17 +1,17 @@
-import { Tooltip } from "@mui/material";
-import { useCallback } from "react";
-import { GameStatus } from "../../api/game";
-import { injectPlayerAction } from "../../engine/game/state";
-import { AllowedActions } from "../../engine/select_action/allowed_actions";
-import { SelectAction as ActionSelectionSelectAction } from "../../engine/select_action/select";
-import { Action, getSelectedActionString } from "../../engine/state/action";
-import { MadagascarAllowedActions } from "../../maps/madagascar/allowed_actions";
-import { MadagascarMapSettings } from "../../maps/madagascar/settings";
-import { assertNever } from "../../utils/validate";
-import { Username } from "../components/username";
-import { useAction, useGame } from "../services/game";
-import { useInject, useInjected } from "../utils/injection_context";
-import { PlayerCircle } from "./bidding_info";
+import {Tooltip} from "@mui/material";
+import {useCallback} from "react";
+import {GameStatus} from "../../api/game";
+import {injectPlayerAction} from "../../engine/game/state";
+import {AllowedActions} from "../../engine/select_action/allowed_actions";
+import {SelectAction as ActionSelectionSelectAction} from "../../engine/select_action/select";
+import {Action, getSelectedActionString} from "../../engine/state/action";
+import {MadagascarAllowedActions} from "../../maps/madagascar/allowed_actions";
+import {MadagascarMapSettings} from "../../maps/madagascar/settings";
+import {assertNever} from "../../utils/validate";
+import {Username} from "../components/username";
+import {useAction, useGame} from "../services/game";
+import {useInject, useInjected} from "../utils/injection_context";
+import {PlayerCircle} from "./bidding_info";
 import * as styles from './special_action_table.module.css';
 import {MapRegistry} from "../../maps";
 import {MapSettings} from "../../engine/game/map_settings";
@@ -66,7 +66,7 @@ function SpecialAction({ action }: { action: Action }) {
 
 function getSelectedActionDescription(action: Action, mapSettings: MapSettings): string {
   if (mapSettings.getActionDescription) {
-    let description = mapSettings.getActionDescription(action);
+    const description = mapSettings.getActionDescription(action);
     if (description) {
       return description;
     }

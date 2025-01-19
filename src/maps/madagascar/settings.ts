@@ -1,13 +1,23 @@
-import { SimpleConstructor } from "../../engine/framework/dependency_stack";
-import { MapSettings, ReleaseStage, Rotation } from "../../engine/game/map_settings";
-import { MadagascarAllowedActions, MadagascarGameEnder, MadagascarRoundEngine, MadagascarStarter } from "./allowed_actions";
-import { MadagascarBuildCostCalculator, MadagascarBuilderHelper, MadagascarBuildPhase, MadagascarDoneAction } from "./build";
-import { map } from "./grid";
-import { MadagascarMovePassAction, MadagascarMovePhase } from "./move";
-import { MadagascarTurnOrderPass, MadagascarTurnOrderPhase } from "./turn_order";
-import {ReactNode} from "react";
-import {RULES} from "./rules";
+import {SimpleConstructor} from "../../engine/framework/dependency_stack";
+import {MapSettings, ReleaseStage, Rotation} from "../../engine/game/map_settings";
+import {
+  MadagascarAllowedActions,
+  MadagascarGameEnder,
+  MadagascarRoundEngine,
+  MadagascarStarter
+} from "./allowed_actions";
+import {
+  MadagascarBuildCostCalculator,
+  MadagascarBuilderHelper,
+  MadagascarBuildPhase,
+  MadagascarDoneAction
+} from "./build";
+import {map} from "./grid";
+import {MadagascarMovePassAction, MadagascarMovePhase} from "./move";
+import {MadagascarTurnOrderPass, MadagascarTurnOrderPhase} from "./turn_order";
+import {createElement as reactCreateElement, ReactNode} from "react";
 import {Action} from "../../engine/state/action";
+import {MadagascarRules} from "./rules";
 
 export class MadagascarMapSettings implements MapSettings {
   static readonly key = 'madagascar'
@@ -37,7 +47,7 @@ export class MadagascarMapSettings implements MapSettings {
   }
 
   getMapRules(): ReactNode {
-    return RULES;
+    return reactCreateElement(MadagascarRules);
   }
 
   getActionDescription(action: Action): string | undefined {

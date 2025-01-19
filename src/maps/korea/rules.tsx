@@ -1,6 +1,5 @@
-import {ReactNode} from "react";
-
-export const RULES: ReactNode = <div>
+export function KoreaRules() {
+    return <div>
         <p>Same as base game with the following changes:</p>
         <ul>
             <li><b>Inter-city connections:</b> can be claimed for one of your builds, costing $2.</li>
@@ -10,3 +9,4 @@ export const RULES: ReactNode = <div>
             <li><b>Goods:</b> cannot move through a city that has a good of the same color.</li>
         </ul>
     </div>;
+}

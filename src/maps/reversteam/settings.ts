@@ -1,6 +1,5 @@
-
-import { MapSettings, ReleaseStage } from '../../engine/game/map_settings';
-import { map } from './grid';
+import {MapSettings, ReleaseStage} from '../../engine/game/map_settings';
+import {map} from './grid';
 
 
 export class ReversteamMapSettings implements MapSettings {
@@ -13,5 +12,9 @@ export class ReversteamMapSettings implements MapSettings {
 
   getOverrides() {
     return [];
+  }
+
+  getMapRules() {
+    return null;
   }
 }

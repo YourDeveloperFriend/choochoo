@@ -1,12 +1,11 @@
-
-import { MapSettings, ReleaseStage } from '../../engine/game/map_settings';
-import { map } from './grid';
-import { CyprusAllowedActions } from './limitted_selection';
-import { CyprusMoveAction } from './move_goods';
-import { ShortBuild } from './short_build';
-import { CyprusStarter } from './starter';
-import {ReactNode} from "react";
-import {RULES} from "./rules";
+import {MapSettings, ReleaseStage} from '../../engine/game/map_settings';
+import {map} from './grid';
+import {CyprusAllowedActions} from './limitted_selection';
+import {CyprusMoveAction} from './move_goods';
+import {ShortBuild} from './short_build';
+import {CyprusStarter} from './starter';
+import {createElement as reactCreateElement} from "react";
+import {CyprusRules} from "./rules";
 
 
 export class CyprusMapSettings implements MapSettings {
@@ -27,7 +26,7 @@ export class CyprusMapSettings implements MapSettings {
     ];
   }
 
-  getMapRules(): ReactNode {
-    return RULES;
+  getMapRules() {
+    return reactCreateElement(CyprusRules);
   }
 }

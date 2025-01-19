@@ -1,15 +1,14 @@
-
-import { MapSettings, ReleaseStage, Rotation } from '../../engine/game/map_settings';
-import { IrelandBuildPhase, IrelandClaimAction } from './claim_once';
-import { IrelandPhaseDelegator, IrelandPhaseEngine } from './deurbanization';
-import { map } from './grid';
-import { IrelandMoveHelper } from './locomotive_action';
-import { IrelandAllowedActions, IrelandSelectAction } from './select_action';
-import { IrelandRoundEngine } from './shortened_round';
-import { IrelandStarter } from './starter';
-import {ReactNode} from "react";
-import {RULES} from "./rules";
+import {MapSettings, ReleaseStage, Rotation} from '../../engine/game/map_settings';
+import {IrelandBuildPhase, IrelandClaimAction} from './claim_once';
+import {IrelandPhaseDelegator, IrelandPhaseEngine} from './deurbanization';
+import {map} from './grid';
+import {IrelandMoveHelper} from './locomotive_action';
+import {IrelandAllowedActions, IrelandSelectAction} from './select_action';
+import {IrelandRoundEngine} from './shortened_round';
+import {IrelandStarter} from './starter';
+import {createElement as reactCreateElement} from "react";
 import {Action} from "../../engine/state/action";
+import {IrelandRules} from "./rules";
 
 
 export class IrelandMapSettings implements MapSettings {
@@ -37,8 +36,8 @@ export class IrelandMapSettings implements MapSettings {
     ];
   }
 
-  getMapRules(): ReactNode {
-    return RULES;
+  getMapRules() {
+    return reactCreateElement(IrelandRules);
   }
 
   getActionDescription(action: Action): string | undefined {

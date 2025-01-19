@@ -1,11 +1,11 @@
-import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
-import { map } from "./grid";
-import { SwedenMoveAction, SwedenMovePhase, SwedenPhaseEngine } from "./recycling";
-import { SwedenAllowedActions } from "./recycling_score";
-import { SwedenPlayerHelper } from "./score";
-import { SwedenStarter } from "./starter";
-import {ReactNode} from "react";
-import {RULES} from "./rules";
+import {MapSettings, ReleaseStage} from "../../engine/game/map_settings";
+import {map} from "./grid";
+import {SwedenMoveAction, SwedenMovePhase, SwedenPhaseEngine} from "./recycling";
+import {SwedenAllowedActions} from "./recycling_score";
+import {SwedenPlayerHelper} from "./score";
+import {SwedenStarter} from "./starter";
+import {createElement as reactCreateElement} from "react";
+import {SwedenRules} from "./rules";
 
 export class SwedenRecyclingMapSettings implements MapSettings {
   static readonly key = 'SwedenRecycling'
@@ -27,7 +27,7 @@ export class SwedenRecyclingMapSettings implements MapSettings {
     ];
   }
 
-  getMapRules(): ReactNode {
-    return RULES;
+  getMapRules() {
+    return reactCreateElement(SwedenRules);
   }
 }
