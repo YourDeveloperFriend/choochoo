@@ -1,5 +1,21 @@
-import { black, city, grid, MOUNTAIN, plain, PLAIN, RIVER, town, WATER, UNPASSABLE, white } from "../factory";
+import {black, city, grid, MOUNTAIN, plain, PLAIN, RIVER, town, UNPASSABLE, WATER, white} from "../factory";
 import {BLACK, BLUE, PURPLE, RED, YELLOW} from "../../engine/state/good";
+import {CityData} from "../../engine/state/space";
+import z from "zod";
+
+function portCity(name: string): CityData {
+    return {
+        ...city(name, [], undefined, 0),
+        mapSpecific: {
+            portCity: true
+        },
+    };
+}
+
+export const GermanyMapData = z.object({
+    portCity: z.boolean().optional(),
+});
+export type GermanyMapData = z.infer<typeof GermanyMapData>;
 
 export const map = grid([
     [
@@ -8,16 +24,16 @@ export const map = grid([
         WATER,
         WATER,
         UNPASSABLE,
-        city('To Rotterdam', [], undefined, 0),
+        portCity('To Rotterdam'),
         UNPASSABLE,
         UNPASSABLE,
-        city('To Antwerp', [], undefined, 0),
+        portCity('To Antwerp'),
         UNPASSABLE,
         UNPASSABLE,
-        city('To Paris', [], undefined, 0),
+        portCity('To Paris'),
         UNPASSABLE,
         UNPASSABLE,
-        city('To Lyon', [], undefined, 0)
+        portCity('To Lyon')
     ],
     [
         WATER,
@@ -117,7 +133,7 @@ export const map = grid([
         MOUNTAIN
     ],
     [
-        city('To Copenhagen', [], undefined, 0),
+        portCity('To Copenhagen'),
         WATER,
         WATER,
         PLAIN,
@@ -204,7 +220,7 @@ export const map = grid([
         city('To Königsberg', [YELLOW], black(6), 3),
         plain({ terrainCost: 12 }),
         UNPASSABLE,
-        city('To Warsaw', [], undefined, 0),
+        portCity('To Warsaw'),
         UNPASSABLE,
         plain({ terrainCost: 8 }),
         city('To Breslau', [PURPLE], white(6), 2),
