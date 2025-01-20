@@ -37,6 +37,10 @@ export class GameHistoryDao extends Model<InferAttributes<GameHistoryDao>, Infer
   @NotNull
   declare reversible: boolean;
 
+  @Attribute(DataTypes.STRING)
+  @NotNull
+  declare seed: string | undefined;
+
   @Index(gameVersionIndex)
   @Attribute(DataTypes.INTEGER)
   @NotNull

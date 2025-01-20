@@ -52,10 +52,12 @@ const router = initServer().router(gameContract, {
     if (req.session.userId) {
       where = {
         [Op.and]: [
-          {[Op.or]: [
-              {playerIds: { [Op.contains]: [req.session.userId] }},
-              {unlisted: false},
-            ]},
+          {
+            [Op.or]: [
+              { playerIds: { [Op.contains]: [req.session.userId] } },
+              { unlisted: false },
+            ]
+          },
           where,
         ],
       }
@@ -231,7 +233,7 @@ const router = initServer().router(gameContract, {
     let finalHasEnded: boolean | undefined;
     const newHistory: GameHistoryDao[] = [];
     while (previousAction = previousActions.pop()) {
-      const { gameData, logs, activePlayerId, hasEnded, reversible } =
+      const { gameData, logs, activePlayerId, hasEnded, reversible, seed } =
         EngineDelegator.singleton.processAction(game.gameKey, currentGameData, previousAction.actionName, JSON.parse(previousAction.actionData));
 
       newHistory.push(GameHistoryDao.build({
@@ -241,6 +243,7 @@ const router = initServer().router(gameContract, {
         actionName: previousAction.actionName,
         actionData: previousAction.actionData,
         reversible,
+        seed,
         gameId: game.id,
         userId: previousAction.userId,
       }));

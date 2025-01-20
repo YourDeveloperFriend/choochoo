@@ -44,7 +44,7 @@ export async function performAction(gameId: number, playerId: number, actionName
     assert(game.gameData != null);
     assert(game.activePlayerId === playerId, { permissionDenied: true });
 
-    const { gameData, logs, activePlayerId, hasEnded, reversible, autoActionMutations } =
+    const { gameData, logs, activePlayerId, hasEnded, reversible, seed, autoActionMutations } =
       EngineDelegator.singleton.processAction(game.gameKey, game.gameData, actionName, actionData);
 
     const gameHistory = GameHistoryDao.build({
@@ -54,6 +54,7 @@ export async function performAction(gameId: number, playerId: number, actionName
       actionName,
       actionData: JSON.stringify(actionData),
       reversible,
+      seed,
       gameId: game.id,
       userId: playerId,
     });

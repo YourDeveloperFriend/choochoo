@@ -26,6 +26,7 @@ interface GameState {
   reversible: boolean;
   logs: string[];
   autoActionMutations: AutoActionMutationConfig[];
+  seed: string | undefined;
 }
 
 export class EngineDelegator {
@@ -120,6 +121,7 @@ export class EngineProcessor {
       reversible: this.random.isReversible(),
       logs: this.log.dump(),
       autoActionMutations: this.autoActionManager.getMutations(),
+      seed: this.random.getSeed(),
     };
   }
 }

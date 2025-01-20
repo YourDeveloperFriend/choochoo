@@ -1,3 +1,4 @@
+import seedrandom, { PRNG } from 'seedrandom';
 import { iterate } from "../../utils/functions";
 import { assert } from "../../utils/validate";
 import { inject } from "../framework/execution_context";
@@ -5,7 +6,9 @@ import { OnRoll } from "../state/roll";
 import { Memory } from "./memory";
 
 export class Random {
-  private readonly reversible = inject(Memory).remember(true);
+  private readonly memory = inject(Memory);
+  private readonly reversible = this.memory.remember(true);
+  private readonly seed = this.memory.remember<undefined | { seed: string, random: PRNG }>(undefined);
 
   shuffle<T>(array: T[]): T[] {
     const results: T[] = [];
@@ -37,10 +40,23 @@ export class Random {
 
   random(number: number): number {
     this.reversible.set(false);
-    return Math.floor(Math.random() * number);
+    return Math.floor(this.getRandomGen() * number);
+  }
+
+  private getRandomGen(): number {
+    const seed = this.seed();
+    if (seed == null) {
+      const newSeed = `${seedrandom()()}`.substring(2);
+      this.seed.set({ seed: newSeed, random: seedrandom(newSeed) });
+    }
+    return this.seed()!.random();
+  }
+
+  getSeed(): string | undefined {
+    return this.seed()?.seed;
   }
 
   isReversible(): boolean {
-    return this.reversible();
+    return this.seed() != null;
   }
 }
