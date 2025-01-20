@@ -59,13 +59,9 @@ function landColorStyle(space: Land): string {
   }
 }
 
-interface HexProps {
+interface TerrainHexProps {
   space: Land | City;
   size: number;
-  className?: string;
-  hideGoods?: boolean;
-  highlightedTrack?: Track[];
-  selectedGood?: { good: Good, coordinates: Coordinates };
   clickTargets: Set<ClickTarget>;
   rotation?: Rotation;
 }
@@ -73,33 +69,13 @@ interface HexProps {
 // The size of the inner part of city hexes, relative to the full size of the hex
 const CITY_INNER_HEX_SIZE = 0.85;
 
-export function Hex({ space, selectedGood, highlightedTrack, size, hideGoods, clickTargets, rotation }: HexProps) {
+export function LowerTerrainHex({ space, size, clickTargets, rotation }: TerrainHexProps) {
   const coordinates = space.coordinates;
   const center = useMemo(() => coordinatesToCenter(coordinates, size), [coordinates, size]);
 
   const corners = useMemo(() =>
     polygon(getCorners(center, size))
     , [center, size]);
-
-
-  const trackInfo = useMemo(() => {
-    const tileData = space instanceof Land ? space.getTileData() : undefined;
-    if (tileData == null) return [];
-    return calculateTrackInfo(tileData);
-  }, [space]);
-
-  const highlightedTrackSet = useMemo(() => {
-    if (highlightedTrack == null) return new Set<TrackInfo>();
-    const inHex = highlightedTrack.filter(t => t.coordinates.equals(coordinates));
-    return new Set(trackInfo.filter((t) => t.exits.every(e => inHex.some(t => t.getExits().includes(e)))));
-  }, [highlightedTrack, coordinates, trackInfo]);
-
-  const selectedGoodIndex = useMemo(() => {
-    if (selectedGood == null) return undefined;
-    if (!selectedGood.coordinates.equals(coordinates)) return undefined;
-    assert(space instanceof City);
-    return space.getGoods().indexOf(selectedGood.good);
-  }, [space, coordinates, selectedGood]);
 
   const isClickableCity = clickTargets.has(ClickTarget.CITY) && space instanceof City;
   const isClickableTown = clickTargets.has(ClickTarget.TOWN) &&
@@ -128,10 +104,6 @@ export function Hex({ space, selectedGood, highlightedTrack, size, hideGoods, cl
       <polygon fillOpacity="0" data-coordinates={space.coordinates.toString()} points={corners} stroke="black" strokeWidth={size / 100} />
       {space.unpassableExits().map(direction => <EdgeBoundary key={direction} center={center} size={size} direction={direction} />)}
       {gameKey === 'cyprus' && <CyprusBorder space={space} center={center} size={size} />}
-      {trackInfo.map((t, index) => <TrackSvg key={index} center={center} size={size} track={t} highlighted={highlightedTrackSet.has(t)} rotation={rotation} />)}
-      {(space.getTileType() != null ? isTownTile(space.getTileType()!) : space.hasTown()) && <circle cx={center.x} cy={center.y} fill="white" r={size * 0.4} />}
-      {space.getTileType() == null && space.getTerrainCost() != null && <TerrainCost space={space} center={center} size={size} rotation={rotation} />}
-      {space.hasTown() && <HexName name={space.name()!} rotation={rotation} center={center} size={size} />}
     </>;
   } else {
     const [hexColor, alternateColor] = cityColorStyles(space);
@@ -145,7 +117,6 @@ export function Hex({ space, selectedGood, highlightedTrack, size, hideGoods, cl
     }, [onRoll]);
 
     const innerCorners = polygon(getCorners(center, size * CITY_INNER_HEX_SIZE));
-    const goods = space.getGoods();
 
     return <>
       <polygon className={`${clickable ? gridStyles.clickable : ''} ${hexColor}`} data-coordinates={space.coordinates.serialize()} points={corners} fill={outerFill} stroke="black" strokeWidth="0" />
@@ -157,9 +128,77 @@ export function Hex({ space, selectedGood, highlightedTrack, size, hideGoods, cl
       {gameKey === 'cyprus' && <CyprusBorder space={space} center={center} size={size} />}
       {onRoll.length > 0 && <OnRoll city={space} center={center} size={size} rotation={rotation} />}
       {space.name() != '' && <HexName name={space.name()} rotation={rotation} center={center} size={size} />}
-      {!hideGoods && goods.map((g, index) => <GoodBlock key={index} clickable={clickTargets.has(ClickTarget.GOOD)} coordinates={coordinates} highlighted={selectedGoodIndex === index} offset={index} goodsCount={goods.length} good={g} center={center} size={size} rotation={rotation} />)}
     </>;
   }
+}
+
+export function UpperTerrainHex({ space, size, rotation }: TerrainHexProps) {
+  const coordinates = space.coordinates;
+  const center = useMemo(() => coordinatesToCenter(coordinates, size), [coordinates, size]);
+
+  if (space instanceof Land) {
+    return <>
+      {(space.getTileType() != null ? isTownTile(space.getTileType()!) : space.hasTown()) && <circle cx={center.x} cy={center.y} fill="white" r={size * 0.4} />}
+      {space.getTileType() == null && space.getTerrainCost() != null && <TerrainCost space={space} center={center} size={size} rotation={rotation} />}
+      {space.hasTown() && <HexName name={space.name()!} rotation={rotation} center={center} size={size} />}
+    </>;
+  } else {
+    return null;
+  }
+}
+
+interface TrackHexProps {
+  space: Land | City;
+  size: number;
+  highlightedTrack?: Track[];
+  rotation?: Rotation;
+}
+
+export function TrackHex({ space, highlightedTrack, size, rotation }: TrackHexProps) {
+  const coordinates = space.coordinates;
+  const center = useMemo(() => coordinatesToCenter(coordinates, size), [coordinates, size]);
+
+  const trackInfo = useMemo(() => {
+    const tileData = space instanceof Land ? space.getTileData() : undefined;
+    if (tileData == null) return [];
+    return calculateTrackInfo(tileData);
+  }, [space]);
+
+  const highlightedTrackSet = useMemo(() => {
+    if (highlightedTrack == null) return new Set<TrackInfo>();
+    const inHex = highlightedTrack.filter(t => t.coordinates.equals(coordinates));
+    return new Set(trackInfo.filter((t) => t.exits.every(e => inHex.some(t => t.getExits().includes(e)))));
+  }, [highlightedTrack, coordinates, trackInfo]);
+
+  return <>
+    {trackInfo.map((t, index) => <TrackSvg key={index} center={center} size={size} track={t} highlighted={highlightedTrackSet.has(t)} rotation={rotation} />)}
+  </>
+}
+
+interface GoodsOnHexProps {
+  space: Land | City;
+  size: number;
+  selectedGood?: { good: Good, coordinates: Coordinates };
+  clickTargets: Set<ClickTarget>;
+  rotation?: Rotation;
+}
+
+export function GoodsOnHex({ space, selectedGood, size, clickTargets, rotation }: GoodsOnHexProps) {
+  const coordinates = space.coordinates;
+  const center = useMemo(() => coordinatesToCenter(coordinates, size), [coordinates, size]);
+
+  const goods = space.getGoods();
+
+  const selectedGoodIndex = useMemo(() => {
+    if (selectedGood == null) return undefined;
+    if (!selectedGood.coordinates.equals(coordinates)) return undefined;
+    assert(space instanceof City);
+    return space.getGoods().indexOf(selectedGood.good);
+  }, [space, coordinates, selectedGood]);
+
+  return <>
+    {goods.map((g, index) => <GoodBlock key={index} clickable={clickTargets.has(ClickTarget.GOOD)} coordinates={coordinates} highlighted={selectedGoodIndex === index} offset={index} goodsCount={goods.length} good={g} center={center} size={size} rotation={rotation} />)}
+  </>
 }
 
 interface TerrainCostProps {

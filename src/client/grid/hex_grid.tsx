@@ -15,7 +15,7 @@ import {Rotate} from '../components/rotation';
 import {SwedenProgressionGraphic} from '../game/sweden/progression_graphic';
 import {useTypedCallback} from "../utils/hooks";
 import {ClickTarget} from "./click_target";
-import {Hex} from "./hex";
+import {GoodsOnHex, LowerTerrainHex, TrackHex, UpperTerrainHex} from "./hex";
 import {fabs, floatingFabs, hexGrid, hexGridContainer} from './hex_grid.module.css';
 import {InterCityConnectionRender} from './inter_city_connection';
 import {distanceToSide, Point} from "./point";
@@ -119,17 +119,49 @@ export function HexGrid({ onClick, onClickInterCity, rotation, fullMapVersion, h
 
   const clickTargetsNormalized = useMemo(() => clickTargets ?? new Set<ClickTarget>(), [clickTargets]);
 
-  const mapSpaces = [];
-
   // There should be the same number of spaces, so useMemo should be safe here.
+  const lowerTerrainSpaces = [];
+  const upperTerrainSpaces = [];
+  const trackSpaces = [];
+  const goodsSpaces = [];
   for (const space of spaces) {
     const highlightedTrackInSpace = useMemo(() =>
       highlightedTrack?.filter((track) => track.coordinates.equals(space.coordinates))
       , [highlightedTrack]);
     const highlightedTrackSerialized = (highlightedTrackInSpace ?? []).map((track) => `${track.coordinates.serialize()}|${track.getExits().join(':')}`).join('?');
-    mapSpaces.push(useMemo(() =>
-      hexFactory(space, selectedGood, highlightedTrackInSpace, size, clickTargetsNormalized, rotation),
-      [space, selectedGood, highlightedTrackSerialized, size, clickTargetsNormalized, rotation]));
+    lowerTerrainSpaces.push(useMemo(() =>
+        <LowerTerrainHex key={space.coordinates.serialize()}
+             space={space}
+             size={size}
+             clickTargets={clickTargetsNormalized}
+             rotation={rotation} />,
+      [space, size, clickTargetsNormalized, rotation]));
+
+    upperTerrainSpaces.push(useMemo(() =>
+            <UpperTerrainHex key={space.coordinates.serialize()}
+                             space={space}
+                             size={size}
+                             clickTargets={clickTargetsNormalized}
+                             rotation={rotation} />,
+        [space, size, clickTargetsNormalized, rotation]));
+
+
+    trackSpaces.push(useMemo(() =>
+            <TrackHex key={space.coordinates.serialize()}
+                        space={space}
+                        size={size}
+                        highlightedTrack={highlightedTrackInSpace}
+                        rotation={rotation} />,
+        [space, size, highlightedTrackSerialized, rotation]));
+
+    goodsSpaces.push(useMemo(() =>
+            <GoodsOnHex key={space.coordinates.serialize()}
+                      space={space}
+                      selectedGood={selectedGood}
+                      size={size}
+                      clickTargets={clickTargetsNormalized}
+                      rotation={rotation} />,
+        [space, selectedGood, size, clickTargetsNormalized, rotation]));
   }
 
   let texturesLayer: ReactNode = null;
@@ -208,8 +240,11 @@ export function HexGrid({ onClick, onClickInterCity, rotation, fullMapVersion, h
         <g ref={ref}>
           {/* Rotating without a center moves it along the origin, but we rely on the viewBox calculation to make sure the view box fits the content. */}
           <Rotate rotation={rotation}>
-            {mapSpaces}
+            {lowerTerrainSpaces}
             {texturesLayer}
+            {trackSpaces}
+            {upperTerrainSpaces}
+            {goodsSpaces}
             {grid.connections.map((connection, index) => <InterCityConnectionRender key={index}
                                                                                     highlighted={highlightedConnections?.some(c => interCityConnectionEquals(connection, c))}
                                                                                     clickTargets={clickTargetsNormalized}
@@ -281,20 +316,4 @@ function DoubleHeightNumber({ index, rotation, origin, spacing, size, isRow }: D
     textAnchor="middle">
     {content}
   </text>;
-}
-
-function hexFactory(
-  space: Space,
-  selectedGood: { good: Good, coordinates: Coordinates } | undefined,
-  highlightedTrack: Track[] | undefined,
-  size: number,
-  clickTargets: Set<ClickTarget>,
-  rotation?: Rotation) {
-  return <Hex key={space.coordinates.serialize()}
-    selectedGood={selectedGood}
-    highlightedTrack={highlightedTrack}
-    space={space}
-    size={size}
-    clickTargets={clickTargets}
-    rotation={rotation} />
 }
