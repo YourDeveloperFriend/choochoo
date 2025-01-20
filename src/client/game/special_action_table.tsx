@@ -74,9 +74,6 @@ function getSelectedActionDescription(action: Action, mapSettings: MapSettings):
 
   switch (action) {
     case Action.ENGINEER:
-      if (gameKey === GermanyMapSettings.key) {
-        return 'Build one tile (the most expensive one) at half price (rounded down).';
-      }
       return 'Build an additional track during the Building step.';
     case Action.FIRST_BUILD:
       return 'Go first during the Building step.';

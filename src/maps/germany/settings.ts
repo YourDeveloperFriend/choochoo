@@ -1,12 +1,12 @@
-
-
-import { MapSettings, ReleaseStage } from '../../engine/game/map_settings';
+import {MapSettings, ReleaseStage} from '../../engine/game/map_settings';
 import {GermanyCostCalculator} from './cost';
-import { map } from './grid';
+import {map} from './grid';
 import {GermanyMoveHelper} from './move';
-import { GermanyStarter } from './starter';
+import {GermanyStarter} from './starter';
 import {GermanyBuildAction, GermanyBuilderHelper, GermanyBuildPhase} from "./build";
-import { interCityConnections } from '../factory';
+import {interCityConnections} from '../factory';
+import {Action} from "../../engine/state/action";
+import {GermanyRules} from "./rules";
 
 export class GermanyMapSettings implements MapSettings {
   static readonly key = 'germany';
@@ -27,5 +27,14 @@ export class GermanyMapSettings implements MapSettings {
         GermanyBuildAction,
         GermanyBuildPhase,
     ];
+  }
+
+  getMapRules = GermanyRules;
+
+  getActionDescription(action: Action): string | undefined {
+    if (action === Action.ENGINEER) {
+        return 'Build one tile (the most expensive one) at half price (rounded down).';
+    }
+    return undefined;
   }
 }
