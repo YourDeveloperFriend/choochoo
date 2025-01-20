@@ -18,7 +18,10 @@ export async function startGame(gameId: number, enforceOwner?: number): Promise<
   assert(enforceOwner == null || game.playerIds[0] === enforceOwner, { invalidInput: 'only the owner can start the game' });
   assert(game.playerIds.length >= game.toLiteApi().config.minPlayers, 'not enough players to start the game');
 
-  const { gameData, logs, activePlayerId } = EngineDelegator.singleton.start(game.playerIds, { mapKey: game.gameKey });
+  const { gameData, logs, activePlayerId } = EngineDelegator.singleton.start({
+    playerIds: game.playerIds,
+    mapConfig: { mapKey: game.gameKey },
+  });
 
   game.gameData = gameData;
   game.status = GameStatus.enum.ACTIVE;
@@ -45,7 +48,7 @@ export async function performAction(gameId: number, playerId: number, actionName
     assert(game.activePlayerId === playerId, { permissionDenied: true });
 
     const { gameData, logs, activePlayerId, hasEnded, reversible, seed, autoActionMutations } =
-      EngineDelegator.singleton.processAction(game.gameKey, game.gameData, actionName, actionData);
+      EngineDelegator.singleton.processAction(game.gameKey, { gameData: game.gameData, actionName, actionData });
 
     const gameHistory = GameHistoryDao.build({
       previousGameVersion: game.version,

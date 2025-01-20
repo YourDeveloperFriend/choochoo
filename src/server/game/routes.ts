@@ -207,8 +207,6 @@ const router = initServer().router(gameContract, {
       assert(previousActions.length < limit, { invalidInput: 'Cannot start over if already twenty steps in' });
     }
 
-    const originalGame = game.toApi();
-
     let previousAction: GameHistoryDao | undefined;
     let currentGameData: string | undefined;
     let currentGameVersion: number | undefined;
@@ -216,7 +214,10 @@ const router = initServer().router(gameContract, {
     let finalUndoPlayerId: number | undefined;
     const allLogs: LogDao[] = [];
     if ('startOver' in body && body.startOver) {
-      const { gameData, logs, activePlayerId } = EngineDelegator.singleton.start(game.playerIds, { mapKey: game.gameKey });
+      const { gameData, logs, activePlayerId } = EngineDelegator.singleton.start({
+        playerIds: game.playerIds,
+        mapConfig: { mapKey: game.gameKey },
+      });
       currentGameData = gameData;
       currentGameVersion = 1;
       finalActivePlayerId = activePlayerId;
@@ -234,7 +235,11 @@ const router = initServer().router(gameContract, {
     const newHistory: GameHistoryDao[] = [];
     while (previousAction = previousActions.pop()) {
       const { gameData, logs, activePlayerId, hasEnded, reversible, seed } =
-        EngineDelegator.singleton.processAction(game.gameKey, currentGameData, previousAction.actionName, JSON.parse(previousAction.actionData));
+        EngineDelegator.singleton.processAction(game.gameKey, {
+          gameData: currentGameData,
+          actionName: previousAction.actionName,
+          actionData: JSON.parse(previousAction.actionData),
+        });
 
       newHistory.push(GameHistoryDao.build({
         previousGameVersion: currentGameVersion,

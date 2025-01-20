@@ -49,17 +49,29 @@ export class EngineDelegator {
     return this.engines.get(mapKey)!;
   }
 
-  start(playerIds: number[], mapConfig: MapConfig): GameState {
-    return this.getEngine(mapConfig.mapKey).start(playerIds, mapConfig);
+  start(props: StartProps): GameState {
+    return this.getEngine(props.mapConfig.mapKey).start(props);
   }
 
-  processAction(mapKey: string, gameData: string, actionName: string, data: unknown): GameState {
-    return this.getEngine(mapKey).processAction(gameData, actionName, data);
+  processAction(mapKey: string, props: ProcessActionProps): GameState {
+    return this.getEngine(mapKey).processAction(props);
   }
 
   readSummary(mapKey: string, gameData: string): string {
     return this.getEngine(mapKey).readSummary(gameData);
   }
+}
+
+
+interface StartProps {
+  playerIds: number[];
+  mapConfig: MapConfig;
+}
+
+interface ProcessActionProps {
+  gameData: string;
+  actionName: string;
+  actionData: unknown;
 }
 
 export class EngineProcessor {
@@ -75,7 +87,7 @@ export class EngineProcessor {
   private readonly moveState = injectState(MOVE_STATE);
   private readonly autoActionManager = inject(AutoActionManager);
 
-  start(playerIds: number[], mapConfig: MapConfig): GameState {
+  start({ mapConfig, playerIds }: StartProps): GameState {
     return this.process(undefined, () => {
       const mapSettings = MapRegistry.singleton.get(mapConfig.mapKey);
       assert(playerIds.length >= mapSettings.minPlayers, { invalidInput: 'not enough players to start' });
@@ -84,9 +96,9 @@ export class EngineProcessor {
     });
   }
 
-  processAction(gameData: string, actionName: string, data: unknown): GameState {
+  processAction({ gameData, actionName, actionData }: ProcessActionProps): GameState {
     return this.process(gameData, () => {
-      this.gameEngine.processAction(actionName, data);
+      this.gameEngine.processAction(actionName, actionData);
       return this.getGameState();
     });
   }
