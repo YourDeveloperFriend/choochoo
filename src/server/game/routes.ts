@@ -239,6 +239,7 @@ const router = initServer().router(gameContract, {
           gameData: currentGameData,
           actionName: previousAction.actionName,
           actionData: JSON.parse(previousAction.actionData),
+          seed: previousAction.seed,
         });
 
       newHistory.push(GameHistoryDao.build({

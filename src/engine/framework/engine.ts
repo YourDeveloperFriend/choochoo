@@ -66,12 +66,14 @@ export class EngineDelegator {
 interface StartProps {
   playerIds: number[];
   mapConfig: MapConfig;
+  seed?: string;
 }
 
 interface ProcessActionProps {
   gameData: string;
   actionName: string;
   actionData: unknown;
+  seed?: string;
 }
 
 export class EngineProcessor {
@@ -87,8 +89,9 @@ export class EngineProcessor {
   private readonly moveState = injectState(MOVE_STATE);
   private readonly autoActionManager = inject(AutoActionManager);
 
-  start({ mapConfig, playerIds }: StartProps): GameState {
+  start({ mapConfig, playerIds, seed }: StartProps): GameState {
     return this.process(undefined, () => {
+      this.random.setSeed(seed);
       const mapSettings = MapRegistry.singleton.get(mapConfig.mapKey);
       assert(playerIds.length >= mapSettings.minPlayers, { invalidInput: 'not enough players to start' });
       this.gameEngine.start(playerIds, mapSettings.startingGrid, mapSettings.interCityConnections ?? []);
@@ -96,8 +99,9 @@ export class EngineProcessor {
     });
   }
 
-  processAction({ gameData, actionName, actionData }: ProcessActionProps): GameState {
+  processAction({ gameData, actionName, actionData, seed }: ProcessActionProps): GameState {
     return this.process(gameData, () => {
+      this.random.setSeed(seed);
       this.gameEngine.processAction(actionName, actionData);
       return this.getGameState();
     });

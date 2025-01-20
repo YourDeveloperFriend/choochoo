@@ -46,14 +46,18 @@ export class Random {
   private getRandomGen(): number {
     const seed = this.seed();
     if (seed == null) {
-      const newSeed = `${seedrandom()()}`.substring(2);
-      this.seed.set({ seed: newSeed, random: seedrandom(newSeed) });
+      this.setSeed(`${seedrandom()()}`.substring(2));
     }
     return this.seed()!.random();
   }
 
   getSeed(): string | undefined {
     return this.seed()?.seed;
+  }
+
+  setSeed(seed: string | undefined) {
+    if (seed == null) return;
+    this.seed.set({ seed, random: seedrandom(seed) });
   }
 
   isReversible(): boolean {
