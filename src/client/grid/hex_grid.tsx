@@ -132,11 +132,11 @@ export function HexGrid({ onClick, onClickInterCity, rotation, fullMapVersion, h
       [space, selectedGood, highlightedTrackSerialized, size, clickTargetsNormalized, rotation]));
   }
 
-  let riverLayer: ReactNode = null;
+  let texturesLayer: ReactNode = null;
   if (gameKey) {
     let mapSettings = MapRegistry.singleton.get(gameKey);
-    if (mapSettings.getRiversLayer) {
-      riverLayer = mapSettings.getRiversLayer();
+    if (mapSettings.getTexturesLayer) {
+      texturesLayer = mapSettings.getTexturesLayer();
     }
   }
 
@@ -209,7 +209,7 @@ export function HexGrid({ onClick, onClickInterCity, rotation, fullMapVersion, h
           {/* Rotating without a center moves it along the origin, but we rely on the viewBox calculation to make sure the view box fits the content. */}
           <Rotate rotation={rotation}>
             {mapSpaces}
-            {riverLayer}
+            {texturesLayer}
             {grid.connections.map((connection, index) => <InterCityConnectionRender key={index}
                                                                                     highlighted={highlightedConnections?.some(c => interCityConnectionEquals(connection, c))}
                                                                                     clickTargets={clickTargetsNormalized}

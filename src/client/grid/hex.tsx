@@ -70,6 +70,9 @@ interface HexProps {
   rotation?: Rotation;
 }
 
+// The size of the inner part of city hexes, relative to the full size of the hex
+const CITY_INNER_HEX_SIZE = 0.85;
+
 export function Hex({ space, selectedGood, highlightedTrack, size, hideGoods, clickTargets, rotation }: HexProps) {
   const coordinates = space.coordinates;
   const center = useMemo(() => coordinatesToCenter(coordinates, size), [coordinates, size]);
@@ -134,19 +137,14 @@ export function Hex({ space, selectedGood, highlightedTrack, size, hideGoods, cl
     const [hexColor, alternateColor] = cityColorStyles(space);
 
     const onRoll = space.onRoll();
-    let cityGroup: CityGroup;
-    if (onRoll.length > 0) {
-      cityGroup = onRoll[0].group;
-    } else {
-      cityGroup = CityGroup.WHITE;
-    }
+    let cityGroup: CityGroup = space.onRoll()[0]?.group;
+    // Determine the "outer fill" color, which is the thick border around cities indicating its goods-growth group color.
+    const outerFill = useMemo(() => {
+      if (cityGroup == null || cityGroup === CityGroup.WHITE) return '#ffffff';
+      return '#222222';
+    }, [onRoll]);
 
-    let outerFill = '#ffffff';
-    if (cityGroup == CityGroup.BLACK) {
-      outerFill = '#222222';
-    }
-
-    const innerCorners = polygon(getCorners(center, size*0.85));
+    const innerCorners = polygon(getCorners(center, size * CITY_INNER_HEX_SIZE));
     const goods = space.getGoods();
 
     return <>

@@ -6,8 +6,7 @@ import {IndiaIncomePhase} from "./monsoon";
 import {IndiaPhaseDelegator, IndiaPhaseEngine} from "./production";
 import {Action} from "../../engine/state/action";
 import {IndiaRules} from "./rules";
-import {ReactNode} from "react";
-import {RIVERS} from "./rivers";
+import {IndiaRivers} from "./rivers";
 
 export class IndiaMapSettings implements MapSettings {
   static readonly key = 'india';
@@ -29,8 +28,6 @@ export class IndiaMapSettings implements MapSettings {
     ];
   }
 
-  getMapRules = IndiaRules
-
   getActionDescription(action: Action): string | undefined {
     if (action === Action.PRODUCTION) {
       return 'During the Goods Growth step, select a city, draw 2 goods, then place one of those goods in the selected city.';
@@ -38,7 +35,6 @@ export class IndiaMapSettings implements MapSettings {
     return undefined;
   }
 
-  getRiversLayer(): ReactNode {
-    return RIVERS;
-  }
+  getMapRules = IndiaRules;
+  getTexturesLayer = IndiaRivers;
 }

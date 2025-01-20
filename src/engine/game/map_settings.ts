@@ -43,7 +43,7 @@ export interface MapSettings {
   readonly rotation?: Rotation;
 
   getOverrides(): Array<SimpleConstructor<unknown>>;
-  getMapRules(): ReactNode;
   getActionDescription?(action: Action): string|undefined;
-  getRiversLayer?(): ReactNode
+  getMapRules(): ReactNode;
+  getTexturesLayer?(): ReactNode
 }

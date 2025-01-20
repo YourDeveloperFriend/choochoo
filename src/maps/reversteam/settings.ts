@@ -1,7 +1,6 @@
 import {MapSettings, ReleaseStage} from '../../engine/game/map_settings';
 import {map} from './grid';
-import {ReactNode} from "react";
-import {RIVERS} from "./rivers";
+import {ReversteamRivers} from "./rivers";
 
 
 export class ReversteamMapSettings implements MapSettings {
@@ -20,7 +19,5 @@ export class ReversteamMapSettings implements MapSettings {
     return null;
   }
 
-  getRiversLayer(): ReactNode {
-    return RIVERS;
-  }
+  getTexturesLayer = ReversteamRivers;
 }

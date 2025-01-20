@@ -1,19 +1,16 @@
-import { useMemo } from "react";
-import { Rotation } from "../../engine/game/map_settings";
-import { Rotate } from "../components/rotation";
+import {useId, useMemo} from "react";
+import {Rotation} from "../../engine/game/map_settings";
+import {Rotate} from "../components/rotation";
 import * as styles from './hex_name.module.css';
-import { Point, distanceToSide, movePointInRadDirection, pointBetween, polygon } from "./point";
+import {movePointInRadDirection, Point, pointBetween, polygon} from "./point";
 
 interface HexNameProps {
   name: string; center: Point; size: number;
   rotation?: Rotation;
 }
 
-let nextHexNamePathId = 0;
-
 export function HexName(props: HexNameProps) {
-  let pathId = nextHexNamePathId;
-  nextHexNamePathId += 1;
+  const pathId = useId();
 
   return <Rotate rotation={props.rotation} reverse={true} center={props.center}>
     <path id={"curve" + pathId} stroke="none" fill="none" d={`M ${props.center.x - props.size/1.6} ${props.center.y} a ${props.size/2} ${props.size/2.2} 0 0 0 ${2*props.size/1.6} 0`}/>

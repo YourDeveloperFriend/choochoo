@@ -1,7 +1,6 @@
 import {MapSettings, ReleaseStage} from '../../engine/game/map_settings';
 import {map} from './grid';
-import {ReactNode} from "react";
-import {RIVERS} from "./rivers";
+import {RustBeltRivers} from "./rivers";
 
 
 export class RustBeltMapSettings implements MapSettings {
@@ -20,7 +19,5 @@ export class RustBeltMapSettings implements MapSettings {
     return null;
   }
 
-  getRiversLayer(): ReactNode {
-    return RIVERS;
-  }
+  getTexturesLayer = RustBeltRivers;
 }
