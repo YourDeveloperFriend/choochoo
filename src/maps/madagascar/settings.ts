@@ -15,7 +15,6 @@ import {
 import {map} from "./grid";
 import {MadagascarMovePassAction, MadagascarMovePhase} from "./move";
 import {MadagascarTurnOrderPass, MadagascarTurnOrderPhase} from "./turn_order";
-import {createElement as reactCreateElement, ReactNode} from "react";
 import {Action} from "../../engine/state/action";
 import {MadagascarRules} from "./rules";
 
@@ -46,9 +45,7 @@ export class MadagascarMapSettings implements MapSettings {
     ];
   }
 
-  getMapRules(): ReactNode {
-    return reactCreateElement(MadagascarRules);
-  }
+  getMapRules = MadagascarRules;
 
   getActionDescription(action: Action): string | undefined {
     if (action === Action.LOCOMOTIVE) {

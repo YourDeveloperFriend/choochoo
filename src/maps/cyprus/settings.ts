@@ -4,7 +4,6 @@ import {CyprusAllowedActions} from './limitted_selection';
 import {CyprusMoveAction} from './move_goods';
 import {ShortBuild} from './short_build';
 import {CyprusStarter} from './starter';
-import {createElement as reactCreateElement} from "react";
 import {CyprusRules} from "./rules";
 
 
@@ -26,7 +25,5 @@ export class CyprusMapSettings implements MapSettings {
     ];
   }
 
-  getMapRules() {
-    return reactCreateElement(CyprusRules);
-  }
+  getMapRules = CyprusRules
 }

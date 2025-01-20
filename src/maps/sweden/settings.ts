@@ -4,7 +4,6 @@ import {SwedenMoveAction, SwedenMovePhase, SwedenPhaseEngine} from "./recycling"
 import {SwedenAllowedActions} from "./recycling_score";
 import {SwedenPlayerHelper} from "./score";
 import {SwedenStarter} from "./starter";
-import {createElement as reactCreateElement} from "react";
 import {SwedenRules} from "./rules";
 
 export class SwedenRecyclingMapSettings implements MapSettings {
@@ -27,7 +26,5 @@ export class SwedenRecyclingMapSettings implements MapSettings {
     ];
   }
 
-  getMapRules() {
-    return reactCreateElement(SwedenRules);
-  }
+  getMapRules = SwedenRules
 }

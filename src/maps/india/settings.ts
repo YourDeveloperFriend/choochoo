@@ -4,7 +4,6 @@ import {IndiaBuildAction, IndiaUrbanizeAction} from "./goods_growth";
 import {map} from "./grid";
 import {IndiaIncomePhase} from "./monsoon";
 import {IndiaPhaseDelegator, IndiaPhaseEngine} from "./production";
-import {createElement as reactCreateElement} from "react";
 import {Action} from "../../engine/state/action";
 import {IndiaRules} from "./rules";
 
@@ -28,9 +27,7 @@ export class IndiaMapSettings implements MapSettings {
     ];
   }
 
-  getMapRules() {
-    return reactCreateElement(IndiaRules);
-  }
+  getMapRules = IndiaRules
 
   getActionDescription(action: Action): string | undefined {
     if (action === Action.PRODUCTION) {

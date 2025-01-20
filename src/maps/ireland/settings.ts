@@ -6,7 +6,6 @@ import {IrelandMoveHelper} from './locomotive_action';
 import {IrelandAllowedActions, IrelandSelectAction} from './select_action';
 import {IrelandRoundEngine} from './shortened_round';
 import {IrelandStarter} from './starter';
-import {createElement as reactCreateElement} from "react";
 import {Action} from "../../engine/state/action";
 import {IrelandRules} from "./rules";
 
@@ -36,9 +35,7 @@ export class IrelandMapSettings implements MapSettings {
     ];
   }
 
-  getMapRules() {
-    return reactCreateElement(IrelandRules);
-  }
+  getMapRules = IrelandRules
 
   getActionDescription(action: Action): string | undefined {
     if (action === Action.LOCOMOTIVE) {
