@@ -5,7 +5,7 @@ import { MapRegistry } from "../../maps";
 import { assertNever } from "../../utils/validate";
 import { useAwaitingPlayer } from "../components/awaiting_player";
 import { Username, UsernameList } from "../components/username";
-import { useJoinGame, useLeaveGame, useStartGame } from "../services/game";
+import { useDeleteGame, useJoinGame, useLeaveGame, useStartGame } from "../services/game";
 import { useMe } from "../services/me";
 import * as styles from "./game_card.module.css";
 
@@ -45,6 +45,7 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
       <LeaveButton game={game} />
       <JoinButton game={game} />
       <StartButton game={game} />
+      <DeleteButton game={game} />
     </CardActions>
   </Card>;
 }
@@ -102,4 +103,13 @@ export function StartButton({ game }: GameButtonProps) {
   }
 
   return <Button disabled={isPending} onClick={perform}>Start</Button>;
+}
+
+export function DeleteButton({ game }: GameButtonProps) {
+  const { canPerform, perform, isPending } = useDeleteGame(game);
+  if (!canPerform) {
+    return <></>;
+  }
+
+  return <Button disabled={isPending} onClick={perform}>Delete</Button>;
 }

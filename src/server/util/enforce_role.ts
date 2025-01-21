@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { SessionData } from "express-session";
-import { UserRole } from "../../api/user";
+import { MyUserApi, UserRole } from "../../api/user";
 import { UnauthorizedError } from "../../utils/error";
 import { assert } from "../../utils/validate";
 import { UserDao } from "../user/dao";
@@ -17,7 +17,7 @@ const rolesInOrder = [
   UserRole.enum.ADMIN,
 ];
 
-export async function assertRole(req: BaseRequest, requiredRole: UserRole = UserRole.Values.USER): Promise<void> {
+export async function assertRole(req: BaseRequest, requiredRole: UserRole = UserRole.Values.USER): Promise<MyUserApi> {
   const userId = req.session.adminUserId ?? req.session.userId;
   if (userId == null) {
     throw new UnauthorizedError('please log in');
@@ -30,6 +30,7 @@ export async function assertRole(req: BaseRequest, requiredRole: UserRole = User
   }
 
   assert(rolesInOrder.indexOf(user.role) >= rolesInOrder.indexOf(requiredRole), { permissionDenied: true });
+  return user;
 }
 
 export function enforceRoleMiddleware() {

@@ -110,6 +110,19 @@ const router = initServer().router(gameContract, {
     return { status: 201, body: { game: game.toApi() } };
   },
 
+  async deleteGame({ params, req }) {
+    const user = await assertRole(req);
+
+    const game = await GameDao.findByPk(params.gameId);
+    assert(game != null);
+    assert(game.status === GameStatus.enum.LOBBY, { invalidInput: 'cannot delete started game' });
+    assert(game.playerIds[0] === user.id, { permissionDenied: true });
+
+    await game.destroy();
+
+    return { status: 200, body: { success: true } };
+  },
+
   async join({ params, req }) {
     const userId = req.session.userId;
     assert(userId != null, { permissionDenied: true });

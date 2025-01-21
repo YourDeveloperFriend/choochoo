@@ -125,10 +125,12 @@ export type ListGamesApi = z.infer<typeof ListGamesApi>;
 
 const c = initContract();
 
+const GameIdParams = z.object({ gameId: z.coerce.number() });
+
 export const gameContract = c.router({
   get: {
     method: 'GET',
-    pathParams: z.object({ gameId: z.coerce.number() }),
+    pathParams: GameIdParams,
     path: '/games/:gameId',
     responses: {
       200: z.object({ game: GameApi }),
@@ -153,9 +155,19 @@ export const gameContract = c.router({
     },
     summary: 'Creates a game',
   },
+  deleteGame: {
+    method: 'DELETE',
+    pathParams: GameIdParams,
+    path: '/games/:gameId',
+    body: z.object({}),
+    responses: {
+      200: z.object({ success: z.literal(true) }),
+    },
+    summary: 'Deletes a game',
+  },
   join: {
     method: 'POST',
-    pathParams: z.object({ gameId: z.coerce.number() }),
+    pathParams: GameIdParams,
     path: '/games/:gameId/join',
     body: z.object({}),
     responses: {
@@ -165,7 +177,7 @@ export const gameContract = c.router({
   },
   setGameData: {
     method: 'PUT',
-    pathParams: z.object({ gameId: z.coerce.number() }),
+    pathParams: GameIdParams,
     path: '/games/:gameId/data',
     body: z.object({ gameData: z.string() }),
     responses: {
@@ -175,7 +187,7 @@ export const gameContract = c.router({
   },
   start: {
     method: 'POST',
-    pathParams: z.object({ gameId: z.coerce.number() }),
+    pathParams: GameIdParams,
     path: '/games/:gameId/start',
     body: z.object({}),
     responses: {
@@ -185,7 +197,7 @@ export const gameContract = c.router({
   },
   leave: {
     method: 'POST',
-    pathParams: z.object({ gameId: z.coerce.number() }),
+    pathParams: GameIdParams,
     path: '/games/:gameId/leave',
     body: z.object({}),
     responses: {
@@ -195,7 +207,7 @@ export const gameContract = c.router({
   },
   performAction: {
     method: 'POST',
-    pathParams: z.object({ gameId: z.coerce.number() }),
+    pathParams: GameIdParams,
     path: '/games/:gameId/action',
     body: ActionApi,
     responses: {
@@ -205,7 +217,7 @@ export const gameContract = c.router({
   },
   undoAction: {
     method: 'POST',
-    pathParams: z.object({ gameId: z.coerce.number() }),
+    pathParams: GameIdParams,
     path: '/games/:gameId/undo',
     body: z.object({ backToVersion: z.number() }),
     responses: {
@@ -215,7 +227,7 @@ export const gameContract = c.router({
   },
   retryLast: {
     method: 'POST',
-    pathParams: z.object({ gameId: z.coerce.number() }),
+    pathParams: GameIdParams,
     path: '/games/:gameId/retry',
     body: z.object({ steps: z.number().gt(0) }),
     responses: {

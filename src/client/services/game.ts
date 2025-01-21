@@ -1,4 +1,4 @@
-import { useNotifications } from "@toolpad/core";
+import { useDialogs, useNotifications } from "@toolpad/core";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ValidationError } from "../../api/error";
@@ -90,41 +90,13 @@ export function useGameList(baseQuery: ListGamesApi) {
   }, [page, setPage, page]);
 
   useEffect(() => {
-    function setGame(game: GameLiteApi) {
+    function updateGameList(updater: (pages: GameLiteApi[][]) => GameLiteApi[][]) {
       tsrQueryClient.games.list.setQueryData(queryKey, (r) => {
         if (games == null) return r;
 
         assert(data != null);
 
-        const present = data.pages.some((page) => page.body.games.some((other) => other.id === game.id));
-
-        const matchesQuery = checkMatches(baseQuery, game);
-        let newPages: GameLiteApi[][];
-
-        const pages = data.pages.map((page) => page.body.games);
-        if (matchesQuery && present) {
-          newPages = pages.map((games) =>
-            games.map((other) => other.id === game.id ? game : other));
-        } else if (matchesQuery) {
-          newPages = pages.map((games, index) => {
-            const lastOfPrevious = index === 0 ? game : peek(pages[index - 1]);
-            return [lastOfPrevious, ...games.slice(0, games.length - 1)];
-          });
-        } else if (!matchesQuery && present) {
-          const pageIndex = pages.findIndex((games) => games.some(other => other.id === game.id));
-          newPages = pages.map((games, index) => {
-            if (index < pageIndex) return games;
-            const firstOfNext = pages[index + 1]?.[0];
-            const firstOfNextArr = firstOfNext != null ? [firstOfNext] : [];
-            if (index === pageIndex) {
-              return games.filter((other) => other.id !== game.id).concat(firstOfNextArr);
-            } else {
-              return games.slice(1).concat(firstOfNextArr);
-            }
-          });
-        } else {
-          newPages = pages;
-        }
+        const newPages = updater(data.pages.map((page) => page.body.games));
 
         const pageParams = newPages.map((_, index) => {
           return newPages.slice(index).flatMap((games) => games.map(({ id }) => id));
@@ -141,9 +113,53 @@ export function useGameList(baseQuery: ListGamesApi) {
         } as any;
       });
     }
+    function setGame(game: GameLiteApi) {
+      updateGameList((pages) => {
+        const present = pages.some((games) => games.some((other) => other.id === game.id));
+
+        const matchesQuery = checkMatches(baseQuery, game);
+
+        if (matchesQuery) {
+          if (present) {
+            return pages.map((games) =>
+              games.map((other) => other.id === game.id ? game : other));
+          } else {
+            return pages.map((games, index) => {
+              const lastOfPrevious = index === 0 ? game : peek(pages[index - 1]);
+              return [lastOfPrevious, ...games.slice(0, games.length - 1)];
+            });
+          }
+        } else if (present) {
+          return removeGame(pages, game.id);
+        } else {
+          return pages;
+        }
+      });
+    }
+
+    function removeGame(pages: GameLiteApi[][], gameId: number): GameLiteApi[][] {
+      const pageIndex = pages.findIndex((games) => games.some(other => other.id === gameId));
+      return pages.map((games, index) => {
+        if (index < pageIndex) return games;
+        const firstOfNext = pages[index + 1]?.[0];
+        const firstOfNextArr = firstOfNext != null ? [firstOfNext] : [];
+        if (index === pageIndex) {
+          return games.filter((other) => other.id !== gameId).concat(firstOfNextArr);
+        } else {
+          return games.slice(1).concat(firstOfNextArr);
+        }
+      });
+    }
+
+    function deleteGame(gameId: number) {
+      updateGameList((pages) => removeGame(pages, gameId));
+    }
+
     socket.on('gameUpdateLite', setGame);
+    socket.on('gameDestroy', deleteGame);
     return () => {
       socket.off('gameUpdateLite', setGame);
+      socket.off('gameDestroy', deleteGame);
     };
   }, [queryKey, baseQuery, data]);
 
@@ -213,6 +229,31 @@ export function useCreateGame(): { validateGame: (game: CreateGameInputApi) => C
   }, [mutate, validateGame]);
 
   return { validateGame, createGame, isPending, validationError };
+}
+
+export function useDeleteGame(game: GameLiteApi) {
+  const me = useMe();
+  const dialogs = useDialogs();
+  const notifications = useNotifications();
+  const { mutate, error, isPending } = tsr.games.deleteGame.useMutation();
+  handleError(isPending, error);
+
+  const perform = useCallback(async () => {
+    const result = await dialogs.confirm('Are you sure you want to delete this game?');
+
+    if (!result) return;
+
+    mutate({ params: { gameId: game.id } }, {
+      onSuccess: () => {
+        notifications.show('Success', { autoHideDuration: 2000, severity: 'success' });
+      }
+    });
+  }, [game.id]);
+
+  const canPerform = game.status === GameStatus.enum.LOBBY &&
+    game.playerIds[0] === me?.id;
+
+  return { canPerform, perform, isPending };
 }
 
 interface GameAction {

@@ -1,15 +1,15 @@
+import { InstanceUpdateOptions } from "@sequelize/core";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { Server, ServerOptions, Socket } from "socket.io";
 import { GameApi } from "../api/game";
 import { ClientToServerEvents, ServerToClientEvents } from "../api/socket";
 import { deepEquals } from "../utils/deep_equals";
+import { afterTransaction } from "../utils/transaction";
 import { GameDao, toApi } from "./game/dao";
 import { LogDao } from "./messages/log_dao";
 import { redisClient, subClient } from "./redis";
 import { environment } from "./util/environment";
 import { Lifecycle } from "./util/lifecycle";
-import { InstanceUpdateOptions } from "@sequelize/core";
-import { afterTransaction } from "../utils/transaction";
 
 const args: Partial<ServerOptions> = {
   adapter: createAdapter(redisClient, subClient),
@@ -35,9 +35,13 @@ export function emitGameUpdate(oldGame: GameApi | undefined, game: GameDao): voi
   const gameApi = game.toApi();
   const gameLiteApi = game.toLiteApi();
   if (oldGame == null || !deepEquals(oldGame, gameApi)) {
-    io.to(roomName(game.id)).emit('gameUpdate', game.toApi());
+    io.to(roomName(game.id)).emit('gameUpdate', gameApi);
   }
-  io.to(roomName()).emit('gameUpdateLite', game.toApi());
+  io.to(roomName()).emit('gameUpdateLite', gameLiteApi);
+}
+
+export function emitGameDestroy(gameId: number): void {
+  io.to(roomName()).emit('gameDestroy', gameId);
 }
 
 export function emitLogCreate(log: LogDao): void {
@@ -97,6 +101,12 @@ Lifecycle.singleton.onStart(() => {
   GameDao.hooks.addListener('afterSave', (game: GameDao, options: InstanceUpdateOptions) => {
     afterTransaction(options, () => {
       emitGameUpdate(previous.get(game), game);
+    });
+  });
+
+  GameDao.hooks.addListener('afterDestroy', (game: GameDao, options: InstanceUpdateOptions) => {
+    afterTransaction(options, () => {
+      emitGameDestroy(game.id);
     });
   });
 
