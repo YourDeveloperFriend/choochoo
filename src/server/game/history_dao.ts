@@ -67,7 +67,7 @@ export class GameHistoryDao extends Model<InferAttributes<GameHistoryDao>, Infer
   declare deletedAt?: Date | null;
 
   isActionHistory(): this is PerformActionGameHistoryDao {
-    return this.previousGameVersion === 0;
+    return this.previousGameVersion > 0;
   }
 }
 

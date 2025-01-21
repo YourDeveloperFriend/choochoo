@@ -197,15 +197,11 @@ const router = initServer().router(gameContract, {
 
   async retryLast({ req, body, params }) {
     await assertRole(req, UserRole.enum.ADMIN);
-    const limit = 'steps' in body ? body.steps : 20;
+    const limit = body.steps;
     const previousActions = await GameHistoryDao.findAll({ where: { gameId: params.gameId }, limit, order: [['id', 'DESC']] });
     const game = await GameDao.findByPk(params.gameId);
     assert(game != null, { notFound: true });
-    if ('steps' in body) {
-      assert(previousActions.length == body.steps, { invalidInput: 'There are not that many steps to retry' });
-    } else {
-      assert(previousActions.length < limit, { invalidInput: 'Cannot start over if already twenty steps in' });
-    }
+    assert(previousActions.length == body.steps, { invalidInput: 'There are not that many steps to retry' });
 
     let previousAction: GameHistoryDao | undefined;
     let currentGameData: string;
@@ -217,10 +213,11 @@ const router = initServer().router(gameContract, {
 
     const newHistory: GameHistoryDao[] = [];
 
-    if (('startOver' in body && body.startOver) || !firstAction.isActionHistory()) {
+    if (!firstAction.isActionHistory()) {
       const { gameData, logs, activePlayerId, seed } = EngineDelegator.singleton.start({
         playerIds: game.playerIds,
         mapConfig: { mapKey: game.gameKey },
+        seed: firstAction.seed!,
       });
       currentGameData = gameData;
       currentGameVersion = 1;
@@ -238,6 +235,8 @@ const router = initServer().router(gameContract, {
         message,
         previousGameVersion: 0,
       })));
+
+      previousActions.pop();
     } else {
       currentGameData = firstAction.previousGameData;
       currentGameVersion = firstAction.previousGameVersion;

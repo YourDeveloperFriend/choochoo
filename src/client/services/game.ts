@@ -394,14 +394,12 @@ export function useRetryAction(): RetryAction {
       return;
     }
     if (steps >= game.version) {
-      notifications.show('Warning, the active player breaks when starting over', { autoHideDuration: 2000, severity: 'error' });
+      notifications.show('Warning, the active player may break when starting over', { autoHideDuration: 2000, severity: 'error' });
     }
 
     mutate({
       params: { gameId: game.id },
-      body: steps >= game.version ?
-        { startOver: true } :
-        { steps },
+      body: { steps },
     }, {
       onSuccess(r) {
         onSuccess(r);

@@ -4,8 +4,8 @@ import { z } from 'zod';
 import { initContract } from '@ts-rest/core';
 import { AutoAction } from '../engine/state/auto_action';
 import { MapRegistry } from '../maps';
-import { assertNever } from '../utils/validate';
 import { TextInputNumber } from '../utils/types';
+import { assertNever } from '../utils/validate';
 
 export const GameStatus = z.enum([
   'LOBBY',
@@ -217,7 +217,7 @@ export const gameContract = c.router({
     method: 'POST',
     pathParams: z.object({ gameId: z.coerce.number() }),
     path: '/games/:gameId/retry',
-    body: z.union([z.object({ steps: z.number().gt(0) }), z.object({ startOver: z.literal(true) })]),
+    body: z.object({ steps: z.number().gt(0) }),
     responses: {
       200: z.object({ game: GameApi }),
     },
