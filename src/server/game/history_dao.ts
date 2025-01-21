@@ -1,5 +1,6 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from "@sequelize/core";
 import { Attribute, AutoIncrement, BelongsTo, CreatedAt, DeletedAt, Index, NotNull, PrimaryKey, Table, UpdatedAt, Version } from "@sequelize/core/decorators-legacy";
+import { SomeRequired } from "../../utils/types";
 import { UserDao } from "../user/dao";
 import { GameDao } from "./dao";
 
@@ -18,20 +19,16 @@ export class GameHistoryDao extends Model<InferAttributes<GameHistoryDao>, Infer
   declare previousGameVersion: number;
 
   @Attribute(DataTypes.TEXT)
-  @NotNull
-  declare previousGameData: string;
+  declare previousGameData: string | null;
 
   @Attribute(DataTypes.TEXT)
-  @NotNull
-  declare patch: string;
+  declare patch: string | null;
 
   @Attribute(DataTypes.STRING)
-  @NotNull
-  declare actionName: string;
+  declare actionName: string | null;
 
   @Attribute(DataTypes.TEXT)
-  @NotNull
-  declare actionData: string;
+  declare actionData: string | null;
 
   @Attribute(DataTypes.BOOLEAN)
   @NotNull
@@ -49,8 +46,7 @@ export class GameHistoryDao extends Model<InferAttributes<GameHistoryDao>, Infer
   declare game: NonAttribute<GameDao>;
 
   @Attribute(DataTypes.INTEGER)
-  @NotNull
-  declare userId: number;
+  declare userId: number | null;
 
   @BelongsTo(() => UserDao, 'userId')
   declare user: NonAttribute<UserDao>;
@@ -69,4 +65,10 @@ export class GameHistoryDao extends Model<InferAttributes<GameHistoryDao>, Infer
 
   @DeletedAt
   declare deletedAt?: Date | null;
+
+  isActionHistory(): this is PerformActionGameHistoryDao {
+    return this.previousGameVersion === 0;
+  }
 }
+
+type PerformActionGameHistoryDao = SomeRequired<GameHistoryDao, 'userId' | 'previousGameData' | 'actionName' | 'actionData'>;

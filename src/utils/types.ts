@@ -10,7 +10,12 @@ export type PromiseOr<T> = Promise<T> | T;
 export type UrlParameters = { [key: string]: Primitive };
 
 export type SomePartial<T, OptionalProps extends keyof T> =
-  Partial<Pick<T, OptionalProps>> & Required<Omit<T, OptionalProps>>;
+  Partial<Pick<T, OptionalProps>> & Omit<T, OptionalProps>;
+
+export type RequiredAndNonNull<T> = { [K in keyof T]: NonNullable<T> };
+
+export type SomeRequired<T, RequiredProps extends keyof T> =
+  RequiredAndNonNull<Pick<T, RequiredProps>> & Omit<T, RequiredProps>;
 
 export type Entry<T> = {
   [K in keyof T]: [K, T[K]];

@@ -18,7 +18,7 @@ export async function startGame(gameId: number, enforceOwner?: number): Promise<
   assert(enforceOwner == null || game.playerIds[0] === enforceOwner, { invalidInput: 'only the owner can start the game' });
   assert(game.playerIds.length >= game.toLiteApi().config.minPlayers, 'not enough players to start the game');
 
-  const { gameData, logs, activePlayerId } = EngineDelegator.singleton.start({
+  const { gameData, logs, activePlayerId, seed } = EngineDelegator.singleton.start({
     playerIds: game.playerIds,
     mapConfig: { mapKey: game.gameKey },
   });
@@ -26,8 +26,17 @@ export async function startGame(gameId: number, enforceOwner?: number): Promise<
   game.gameData = gameData;
   game.status = GameStatus.enum.ACTIVE;
   game.activePlayerId = activePlayerId ?? null;
+
+  const gameHistory = GameHistoryDao.build({
+    previousGameVersion: game.version - 1,
+    reversible: false,
+    seed,
+    gameId: game.id,
+  });
+
   const [newGame] = await sequelize.transaction({ nestMode: TransactionNestMode.separate }, (transaction) => Promise.all([
     game.save({ transaction }),
+    gameHistory.save({ transaction }),
     LogDao.createForGame(game.id, game.version - 1, logs, transaction),
   ]));
 
@@ -52,7 +61,6 @@ export async function performAction(gameId: number, playerId: number, actionName
 
     const gameHistory = GameHistoryDao.build({
       previousGameVersion: game.version,
-      patch: '',
       previousGameData: game.gameData,
       actionName,
       actionData: JSON.stringify(actionData),

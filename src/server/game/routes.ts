@@ -208,32 +208,44 @@ const router = initServer().router(gameContract, {
     }
 
     let previousAction: GameHistoryDao | undefined;
-    let currentGameData: string | undefined;
-    let currentGameVersion: number | undefined;
+    let currentGameData: string;
+    let currentGameVersion: number;
     let finalActivePlayerId: number | undefined;
     let finalUndoPlayerId: number | undefined;
     const allLogs: LogDao[] = [];
-    if ('startOver' in body && body.startOver) {
-      const { gameData, logs, activePlayerId } = EngineDelegator.singleton.start({
+    const firstAction = peek(previousActions);
+
+    const newHistory: GameHistoryDao[] = [];
+
+    if (('startOver' in body && body.startOver) || !firstAction.isActionHistory()) {
+      const { gameData, logs, activePlayerId, seed } = EngineDelegator.singleton.start({
         playerIds: game.playerIds,
         mapConfig: { mapKey: game.gameKey },
       });
       currentGameData = gameData;
       currentGameVersion = 1;
       finalActivePlayerId = activePlayerId;
+
+      newHistory.push(GameHistoryDao.build({
+        previousGameVersion: currentGameVersion - 1,
+        reversible: false,
+        seed,
+        gameId: game.id,
+      }));
+
       allLogs.push(...logs.map((message) => LogDao.build({
         gameId: game.id,
         message,
         previousGameVersion: 0,
       })));
     } else {
-      currentGameData = peek(previousActions).previousGameData;
-      currentGameVersion = peek(previousActions).previousGameVersion;
+      currentGameData = firstAction.previousGameData;
+      currentGameVersion = firstAction.previousGameVersion;
     }
     let firstGameVersion = currentGameVersion;
     let finalHasEnded: boolean | undefined;
-    const newHistory: GameHistoryDao[] = [];
     while (previousAction = previousActions.pop()) {
+      assert(previousAction.isActionHistory());
       const { gameData, logs, activePlayerId, hasEnded, reversible, seed } =
         EngineDelegator.singleton.processAction(game.gameKey, {
           gameData: currentGameData,
