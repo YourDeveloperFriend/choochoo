@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { initContract } from '@ts-rest/core';
 import { AutoAction } from '../engine/state/auto_action';
-import { MapRegistry } from '../maps';
+import { MapRegistry } from '../maps/registry';
 import { TextInputNumber } from '../utils/types';
 import { assertNever } from '../utils/validate';
 

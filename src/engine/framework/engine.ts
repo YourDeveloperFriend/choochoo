@@ -1,4 +1,4 @@
-import { MapRegistry } from "../../maps";
+import { MapRegistry } from "../../maps/registry";
 import { assert } from "../../utils/validate";
 import { AutoActionManager, AutoActionMutationConfig } from "../game/auto_action_manager";
 import { GameEngine } from "../game/game";

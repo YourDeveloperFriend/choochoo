@@ -1,4 +1,4 @@
-import { MapRegistry } from "../../maps";
+import { MapRegistry } from "../../maps/registry";
 import { assert } from "../../utils/validate";
 import { Dependency, DependencyStack, SimpleConstructor } from "./dependency_stack";
 import { Key } from "./key";

@@ -1,5 +1,5 @@
-import {MapSettings, ReleaseStage} from '../../engine/game/map_settings';
-import {map} from './grid';
+import { MapSettings, ReleaseStage } from '../../engine/game/map_settings';
+import { map } from './grid';
 
 
 export class RustBeltMapSettings implements MapSettings {
@@ -12,9 +12,5 @@ export class RustBeltMapSettings implements MapSettings {
 
   getOverrides() {
     return [];
-  }
-
-  getMapRules() {
-    return null;
   }
 }

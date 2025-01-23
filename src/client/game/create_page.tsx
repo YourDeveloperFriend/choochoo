@@ -4,7 +4,7 @@ import { FormEvent, useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ReleaseStage, releaseStageToString } from "../../engine/game/map_settings";
 import { Grid } from "../../engine/map/grid";
-import { MapRegistry } from "../../maps";
+import { ViewRegistry } from "../../maps/view_registry";
 import { HexGrid } from "../grid/hex_grid";
 import { environment, Stage } from "../services/environment";
 import { useCreateGame } from "../services/game";
@@ -15,18 +15,18 @@ import { MapInfo } from "./map_info";
 export function CreateGamePage() {
   const initialMapValue = useSearchParams()[0].get('map');
   const maps = useMemo(() =>
-    [...MapRegistry.singleton.values()]
+    [...ViewRegistry.singleton.values()]
       .filter((map) => map.stage !== ReleaseStage.DEPRECATED)
       .filter((map) => environment.stage === 'development' || map.stage !== ReleaseStage.DEVELOPMENT)
     , []);
   const [name, setName] = useTextInputState('');
   const [gameKey, _, setGameKeyState] = useSelectState(initialMapValue ?? maps[0].key);
 
-  const map = MapRegistry.singleton.get(gameKey);
+  const map = ViewRegistry.singleton.get(gameKey);
   const allowPlayerSelections = map.minPlayers !== map.maxPlayers;
 
   const selectedMap = useMemo(() => {
-    return MapRegistry.singleton.get(gameKey);
+    return ViewRegistry.singleton.get(gameKey);
   }, [gameKey]);
 
   const [artificialStart, setArtificialStart] = useCheckboxState();
@@ -41,7 +41,7 @@ export function CreateGamePage() {
   const setGameKey = useCallback((e: SelectChangeEvent<string>) => {
     const gameKey = e.target.value as string;
     setGameKeyState(gameKey);
-    const map = MapRegistry.singleton.get(gameKey);
+    const map = ViewRegistry.singleton.get(gameKey);
     if (typeof minPlayers === 'number') {
       setMinPlayersRaw(Math.max(minPlayers, map.minPlayers));
     }
@@ -61,7 +61,7 @@ export function CreateGamePage() {
 
   const grid = useMemo(() => {
     if (gameKey == null) return undefined;
-    const settings = MapRegistry.singleton.get(gameKey);
+    const settings = ViewRegistry.singleton.get(gameKey);
     return Grid.fromData(settings.startingGrid, settings.interCityConnections ?? []);
   }, [gameKey]);
 
@@ -143,13 +143,13 @@ export function CreateGamePage() {
     </FormControl>}
     <FormControl error={validationError?.unlisted != null}>
       <FormControlLabel sx={{ m: 1, minWidth: 80 }}
-                        label="Unlisted Game"
-                        control={
-                          <Checkbox
-                              value={unlisted}
-                              disabled={isPending}
-                              onChange={setUnlisted}
-                          />}
+        label="Unlisted Game"
+        control={
+          <Checkbox
+            value={unlisted}
+            disabled={isPending}
+            onChange={setUnlisted}
+          />}
       />
       <FormHelperText>{validationError?.unlisted}</FormHelperText>
     </FormControl>

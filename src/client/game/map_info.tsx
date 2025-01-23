@@ -1,8 +1,8 @@
-import { MapRegistry } from "../../maps";
-import {MapSettings} from "../../engine/game/map_settings";
+import { ViewRegistry } from "../../maps/view_registry";
+import { MapViewSettings } from "../../maps/view_settings";
 
 export function MapInfo({ gameKey }: { gameKey: string }) {
-  const selectedMap = MapRegistry.singleton.get(gameKey);
+  const selectedMap = ViewRegistry.singleton.get(gameKey);
   return <div>
     <h2>{selectedMap.name}</h2>
     <p>Details:</p>
@@ -16,7 +16,7 @@ export function MapInfo({ gameKey }: { gameKey: string }) {
   </div>
 }
 
-export function AlternateRules({ selectedMap }: { selectedMap: MapSettings }) {
+export function AlternateRules({ selectedMap }: { selectedMap: MapViewSettings }) {
   if (selectedMap.getMapRules) {
     return selectedMap.getMapRules();
   }

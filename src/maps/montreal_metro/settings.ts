@@ -1,6 +1,6 @@
-import {MapSettings, ReleaseStage} from "../../engine/game/map_settings";
-import {MontrealBidAction, MontrealSelectActionPhase, MontrealTurnOrderPhase} from "./auction_tweak";
-import {map} from "./grid";
+import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
+import { MontrealBidAction, MontrealSelectActionPhase, MontrealTurnOrderPhase } from "./auction_tweak";
+import { map } from "./grid";
 
 export class MontrealMetroMapSettings implements MapSettings {
   readonly key = 'montreal-metro';
@@ -16,10 +16,5 @@ export class MontrealMetroMapSettings implements MapSettings {
       MontrealBidAction,
       MontrealTurnOrderPhase,
     ];
-  }
-
-  getMapRules() {
-    // FIXME: Return the map rules here
-    return null;
   }
 }

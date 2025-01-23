@@ -6,8 +6,9 @@ import { PlayerHelper } from "../../engine/game/player";
 import { injectAllPlayersUnsafe, injectPlayersByTurnOrder } from "../../engine/game/state";
 import { ProductionAction } from "../../engine/goods_growth/production";
 import { SelectAction } from "../../engine/select_action/select";
-import { MapRegistry } from "../../maps";
+import { ViewRegistry } from "../../maps/view_registry";
 import { isNumber } from "../../utils/validate";
+import { AutoActionForm } from "../auto_action/form";
 import { useAwaitingPlayer } from "../components/awaiting_player";
 import { Username, UsernameList } from "../components/username";
 import { GameMap } from "../grid/game_map";
@@ -24,7 +25,6 @@ import { MapInfo } from "./map_info";
 import { PlayerStats } from "./player_stats";
 import { SpecialActionTable } from "./special_action_table";
 import { SwitchToActive, SwitchToUndo } from "./switch";
-import { AutoActionForm } from "../auto_action/form";
 
 
 export function ActiveGame() {
@@ -83,7 +83,7 @@ export function TurnOrder() {
 export function Header() {
   const game = useGame();
   return <h1 className={styles.header}>
-    [{game.name}] {MapRegistry.singleton.get(game.gameKey).name} - {game.summary}
+    [{game.name}] {ViewRegistry.singleton.get(game.gameKey).name} - {game.summary}
   </h1>;
 }
 

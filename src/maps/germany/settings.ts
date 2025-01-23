@@ -28,13 +28,4 @@ export class GermanyMapSettings implements MapSettings {
         GermanyBuildPhase,
     ];
   }
-
-  getMapRules = GermanyRules;
-
-  getActionDescription(action: Action): string | undefined {
-    if (action === Action.ENGINEER) {
-        return 'Build one tile (the most expensive one) at half price (rounded down).';
-    }
-    return undefined;
-  }
 }

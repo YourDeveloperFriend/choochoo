@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { GameLiteApi, GameStatus, gameStatusToString } from "../../api/game";
-import { MapRegistry } from "../../maps";
+import { ViewRegistry } from "../../maps/view_registry";
 import { assertNever } from "../../utils/validate";
 import { useAwaitingPlayer } from "../components/awaiting_player";
 import { Username, UsernameList } from "../components/username";
@@ -25,7 +25,7 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
       subheader={hideStatus ? '' : `${gameStatusToString(game)}`} />
     <CardContent>
       <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-        Game: {MapRegistry.singleton.get(game.gameKey)!.name}
+        Game: {ViewRegistry.singleton.get(game.gameKey)!.name}
       </Typography>
       {game.activePlayerId && <Typography variant="body2" sx={{ color: 'text.secondary' }}>
         Active Player: <Username userId={game.activePlayerId} />

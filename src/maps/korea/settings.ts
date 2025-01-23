@@ -1,11 +1,10 @@
-import {MapSettings, ReleaseStage} from '../../engine/game/map_settings';
-import {interCityConnections} from '../factory';
-import {KoreaCostCalculator} from './cost';
-import {map} from './grid';
-import {KoreaMoveHelper} from './move';
-import {KoreaStarter} from './starter';
-import {KoreaUrbanizeAction} from './urbanize';
-import {KoreaRules} from "./rules";
+import { MapSettings, ReleaseStage } from '../../engine/game/map_settings';
+import { interCityConnections } from '../factory';
+import { KoreaCostCalculator } from './cost';
+import { map } from './grid';
+import { KoreaMoveHelper } from './move';
+import { KoreaStarter } from './starter';
+import { KoreaUrbanizeAction } from './urbanize';
 
 
 export class KoreaMapSettings implements MapSettings {
@@ -26,6 +25,4 @@ export class KoreaMapSettings implements MapSettings {
       KoreaMoveHelper,
     ];
   }
-
-  getMapRules = KoreaRules
 }

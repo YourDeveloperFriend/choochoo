@@ -14,9 +14,9 @@ import { Good } from "../../engine/state/good";
 import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
 import { PlayerData } from "../../engine/state/player";
 import { isDirection } from "../../engine/state/tile";
-import { MapRegistry } from "../../maps";
 import { SelectCityAction, SelectCityData } from "../../maps/india/production";
 import { DeurbanizeAction, DeurbanizeData } from "../../maps/ireland/deurbanization";
+import { ViewRegistry } from "../../maps/view_registry";
 import { Coordinates } from "../../utils/coordinates";
 import { peek } from "../../utils/functions";
 import { assert } from "../../utils/validate";
@@ -231,7 +231,7 @@ export function GameMap() {
   const moveHelper = useInjectedMemo(MoveHelper);
   const gameKey = useGameKey();
 
-  const rotation = useMemo(() => MapRegistry.singleton.get(gameKey).rotation, [gameKey]);
+  const rotation = useMemo(() => ViewRegistry.singleton.get(gameKey).rotation, [gameKey]);
 
   const isPending = isBuildPending || isMovePending || isDeurbanizePending || isClaimPending || isSelectCityPending || isConnectCityPending;
 

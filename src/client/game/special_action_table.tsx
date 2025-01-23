@@ -1,20 +1,20 @@
-import {Tooltip} from "@mui/material";
-import {useCallback} from "react";
-import {GameStatus} from "../../api/game";
-import {injectPlayerAction} from "../../engine/game/state";
-import {AllowedActions} from "../../engine/select_action/allowed_actions";
-import {SelectAction as ActionSelectionSelectAction} from "../../engine/select_action/select";
-import {Action, getSelectedActionString} from "../../engine/state/action";
-import {MadagascarAllowedActions} from "../../maps/madagascar/allowed_actions";
-import {MadagascarMapSettings} from "../../maps/madagascar/settings";
-import {assertNever} from "../../utils/validate";
-import {Username} from "../components/username";
-import {useAction, useGame} from "../services/game";
-import {useInject, useInjected} from "../utils/injection_context";
-import {PlayerCircle} from "./bidding_info";
+import { Tooltip } from "@mui/material";
+import { useCallback } from "react";
+import { GameStatus } from "../../api/game";
+import { injectPlayerAction } from "../../engine/game/state";
+import { AllowedActions } from "../../engine/select_action/allowed_actions";
+import { SelectAction as ActionSelectionSelectAction } from "../../engine/select_action/select";
+import { Action, getSelectedActionString } from "../../engine/state/action";
+import { MadagascarAllowedActions } from "../../maps/madagascar/allowed_actions";
+import { MadagascarMapSettings } from "../../maps/madagascar/settings";
+import { ViewRegistry } from "../../maps/view_registry";
+import { MapViewSettings } from "../../maps/view_settings";
+import { assertNever } from "../../utils/validate";
+import { Username } from "../components/username";
+import { useAction, useGame } from "../services/game";
+import { useInject, useInjected } from "../utils/injection_context";
+import { PlayerCircle } from "./bidding_info";
 import * as styles from './special_action_table.module.css';
-import {MapRegistry} from "../../maps";
-import {MapSettings} from "../../engine/game/map_settings";
 
 
 export function SpecialActionTable() {
@@ -31,7 +31,7 @@ export function SpecialActionTable() {
 function SpecialAction({ action }: { action: Action }) {
   const game = useGame();
   const { gameKey } = game;
-  const mapSettings = MapRegistry.singleton.get(gameKey);
+  const mapSettings = ViewRegistry.singleton.get(gameKey);
   const { emit, canEmit, isPending } = useAction(ActionSelectionSelectAction);
   const allowed = useInjected(AllowedActions);
   const player = useInject(() => injectPlayerAction(action)(), [action]);
@@ -64,7 +64,7 @@ function SpecialAction({ action }: { action: Action }) {
   }
 }
 
-function getSelectedActionDescription(action: Action, mapSettings: MapSettings): string {
+function getSelectedActionDescription(action: Action, mapSettings: MapViewSettings): string {
   if (mapSettings.getActionDescription) {
     const description = mapSettings.getActionDescription(action);
     if (description) {

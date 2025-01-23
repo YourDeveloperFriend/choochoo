@@ -1,10 +1,9 @@
-import {MapSettings, ReleaseStage} from "../../engine/game/map_settings";
-import {map} from "./grid";
-import {SwedenMoveAction, SwedenMovePhase, SwedenPhaseEngine} from "./recycling";
-import {SwedenAllowedActions} from "./recycling_score";
-import {SwedenPlayerHelper} from "./score";
-import {SwedenStarter} from "./starter";
-import {SwedenRules} from "./rules";
+import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
+import { map } from "./grid";
+import { SwedenMoveAction, SwedenMovePhase, SwedenPhaseEngine } from "./recycling";
+import { SwedenAllowedActions } from "./recycling_score";
+import { SwedenPlayerHelper } from "./score";
+import { SwedenStarter } from "./starter";
 
 export class SwedenRecyclingMapSettings implements MapSettings {
   static readonly key = 'SwedenRecycling'
@@ -25,6 +24,4 @@ export class SwedenRecyclingMapSettings implements MapSettings {
       SwedenPhaseEngine,
     ];
   }
-
-  getMapRules = SwedenRules
 }
