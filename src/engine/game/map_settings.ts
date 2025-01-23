@@ -1,5 +1,8 @@
+import { ReactNode } from "react";
+import { RowFactory } from "../../client/game/final_overview_row";
 import { assertNever } from "../../utils/validate";
 import { SimpleConstructor } from "../framework/dependency_stack";
+import { Action } from "../state/action";
 import { GridData } from "../state/grid";
 import { InterCityConnection } from "../state/inter_city_connection";
 
@@ -46,4 +49,8 @@ export interface MapSettings {
   readonly rotation?: Rotation;
 
   getOverrides(): Array<SimpleConstructor<unknown>>;
+  getMapRules(): ReactNode;
+  getFinalOverviewRows?(): RowFactory[];
+  getActionDescription?(action: Action): string | undefined;
+  getActionCaption?(action: Action): string | undefined;
 }

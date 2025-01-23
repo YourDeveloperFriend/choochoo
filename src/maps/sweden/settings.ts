@@ -1,4 +1,11 @@
+import {
+  getRowList,
+  RowFactory,
+  TrackVps,
+} from "../../client/game/final_overview_row";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
+import { insertAfter } from "../../utils/functions";
+import { GarbageVps } from "./garbage_vps";
 import { map } from "./grid";
 import {
   SwedenMoveAction,
@@ -6,6 +13,7 @@ import {
   SwedenPhaseEngine,
 } from "./recycling";
 import { SwedenAllowedActions } from "./recycling_score";
+import { SwedenRules } from "./rules";
 import { SwedenPlayerHelper } from "./score";
 import { SwedenStarter } from "./starter";
 
@@ -27,5 +35,11 @@ export class SwedenRecyclingMapSettings implements MapSettings {
       SwedenPlayerHelper,
       SwedenPhaseEngine,
     ];
+  }
+
+  getMapRules = SwedenRules;
+
+  getFinalOverviewRows(): RowFactory[] {
+    return insertAfter(getRowList(), TrackVps, GarbageVps);
   }
 }

@@ -5,10 +5,6 @@ import { injectPlayerAction } from "../../engine/game/state";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
 import { SelectAction as ActionSelectionSelectAction } from "../../engine/select_action/select";
 import { Action, getSelectedActionString } from "../../engine/state/action";
-import { MadagascarAllowedActions } from "../../maps/madagascar/allowed_actions";
-import { MadagascarMapSettings } from "../../maps/madagascar/settings";
-import { ViewRegistry } from "../../maps/view_registry";
-import { MapViewSettings } from "../../maps/view_settings";
 import { assertNever } from "../../utils/validate";
 import { Username } from "../components/username";
 import { useAction, useGame } from "../services/game";
@@ -38,7 +34,6 @@ function SpecialAction({ action }: { action: Action }) {
   const { emit, canEmit, isPending } = useAction(ActionSelectionSelectAction);
   const allowed = useInjected(AllowedActions);
   const player = useInject(() => injectPlayerAction(action)(), [action]);
-  const playerCount = useInject(() => injectInitialPlayerCount()(), []);
 
   const isClickable = canEmit && player == null && !isPending;
   const disabledReason =
@@ -57,23 +52,16 @@ function SpecialAction({ action }: { action: Action }) {
     isClickable ? styles.clickable : "",
   ].join(" ");
 
-  const detroitPrice =
-    gameKey === DetroitBankruptcyMapSettings.key && playerCount === 1
-      ? ` ($${useInjectedState(SOLO_ACTION_COUNT).get(action)})`
-      : undefined;
-
   const caption =
+    mapSettings.getActionCaption && mapSettings.getActionCaption(action);
+
+  const captionEl =
     player != null ? (
       <>
-        <Username userId={player.playerId} />
-        {detroitPrice}
+        <Username userId={player.playerId} /> ({caption})
       </>
-    ) : gameKey === MadagascarMapSettings.key &&
-      (allowed as MadagascarAllowedActions).getLastDisabledAction() ===
-        action ? (
-      "Stack"
     ) : (
-      detroitPrice
+      <>{caption}</>
     );
 
   const render = (
@@ -86,7 +74,7 @@ function SpecialAction({ action }: { action: Action }) {
         <PlayerCircle
           disabled={disabledReason != null}
           color={player?.color}
-          caption={caption}
+          caption={captionEl}
         />
       </div>
     </div>

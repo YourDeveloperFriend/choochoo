@@ -13,6 +13,21 @@ export function reverse<T>(arr: T[]): T[] {
   return [...arr].reverse();
 }
 
+export function insertAfter<T>(arr: T[], entry: T, newEntry: T): T[] {
+  const index = arr.indexOf(entry);
+  assert(index >= 0, `cannot find ${entry} in ${arr}`);
+  return arr
+    .slice(0, index + 1)
+    .concat(newEntry)
+    .concat(arr.slice(index + 1));
+}
+
+export function insertBefore<T>(arr: T[], entry: T, newEntry: T): T[] {
+  const index = arr.indexOf(entry);
+  assert(index >= 0, `cannot find ${entry} in ${arr}`);
+  return arr.slice(0, index).concat(newEntry).concat(arr.slice(index));
+}
+
 export function lpad(
   input: number | string,
   minLength: number,
