@@ -1,15 +1,15 @@
-import {freeze, Immutable} from '../../utils/immutable';
-import {Tuple} from '../../utils/types';
-import {assert} from '../../utils/validate';
+import { freeze, Immutable } from "../../utils/immutable";
+import { Tuple } from "../../utils/types";
+import { assert } from "../../utils/validate";
 
-import {SimpleConstructor} from './dependency_stack';
-import {InjectionContext} from './inject';
-import {Key} from './key';
-import {InjectedState, KeyArray, StateStore} from './state';
+import { SimpleConstructor } from "./dependency_stack";
+import { InjectionContext } from "./inject";
+import { Key } from "./key";
+import { InjectedState, KeyArray, StateStore } from "./state";
 
-let injectionContext: InjectionContext|undefined;
+let injectionContext: InjectionContext | undefined;
 
-export function setInjectionContext(ctx?: InjectionContext) {
+export function setInjectionContext(ctxx?: InjectionContext) {
   injectionContext = ctx;
 }
 
@@ -27,24 +27,27 @@ export function injectState<T>(key: Key<T>): InjectedState<T> {
 }
 
 export function composeState<
-Args extends Tuple,
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Args extends Tuple,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends (old: ReturnType<T> | undefined, ...args: Args) => any,
 >(
   keys: NoInfer<KeyArray<Args>>,
   transformer: T,
 ): () => () => Immutable<ReturnType<T>> {
-  let memoized:|{
-    value: Immutable<ReturnType<T>>;
-    parameters: Args
-  }
-  |undefined = undefined;
+  let memoized:
+    | {
+        value: Immutable<ReturnType<T>>;
+        parameters: Args;
+      }
+    | undefined = undefined;
   return () => {
     const injectedState = keys.map(injectState);
     return () => {
       const parameters = injectedState.map((injected) => injected()) as Args;
-      if (memoized == null ||
-          memoized.parameters.some((p, index) => parameters[index] !== p)) {
+      if (
+        memoized == null ||
+        memoized.parameters.some((p, index) => parameters[index] !== p)
+      ) {
         memoized = {
           value: freeze(transformer(memoized?.value, ...parameters)),
           parameters,
@@ -56,5 +59,5 @@ Args extends Tuple,
 }
 
 export type Rest<T extends Tuple> =
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    T extends [any, ...infer B] ? [...B] : never;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  T extends [any, ...infer B] ? [...B] : never;
