@@ -1,6 +1,5 @@
 import {MapSettings, ReleaseStage} from '../../engine/game/map_settings';
 import {map} from './grid';
-import {RustBeltRivers} from "./rivers";
 
 
 export class RustBeltMapSettings implements MapSettings {
@@ -14,10 +13,4 @@ export class RustBeltMapSettings implements MapSettings {
   getOverrides() {
     return [];
   }
-
-  getMapRules() {
-    return null;
-  }
-
-  getTexturesLayer = RustBeltRivers;
 }

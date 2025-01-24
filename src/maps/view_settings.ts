@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
-import { MapSettings } from "../engine/game/map_settings";
-import { Action } from "../engine/state/action";
+import {ReactNode} from "react";
+import {MapSettings} from "../engine/game/map_settings";
+import {Action} from "../engine/state/action";
 
 
 export interface MapViewSettings extends MapSettings {
@@ -8,4 +8,5 @@ export interface MapViewSettings extends MapSettings {
 
   getMapRules(): ReactNode;
   getActionDescription?(action: Action): string | undefined;
+  getTexturesLayer?(): ReactNode
 }

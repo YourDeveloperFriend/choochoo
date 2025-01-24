@@ -5,9 +5,6 @@ import {GermanyMoveHelper} from './move';
 import {GermanyStarter} from './starter';
 import {GermanyBuildAction, GermanyBuilderHelper, GermanyBuildPhase} from "./build";
 import {interCityConnections} from '../factory';
-import {Action} from "../../engine/state/action";
-import {GermanyRules} from "./rules";
-import {GermanyRivers} from "./rivers";
 
 export class GermanyMapSettings implements MapSettings {
   static readonly key = 'germany';
@@ -29,14 +26,4 @@ export class GermanyMapSettings implements MapSettings {
         GermanyBuildPhase,
     ];
   }
-
-  getActionDescription(action: Action): string | undefined {
-    if (action === Action.ENGINEER) {
-        return 'Build one tile (the most expensive one) at half price (rounded down).';
-    }
-    return undefined;
-  }
-
-  getMapRules = GermanyRules;
-  getTexturesLayer = GermanyRivers
 }

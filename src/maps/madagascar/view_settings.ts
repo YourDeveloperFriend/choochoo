@@ -1,8 +1,9 @@
-import { Action } from "../../engine/state/action";
-import { MadagascarRules } from "./rules";
-import { MadagascarMapSettings } from "./settings";
+import {Action} from "../../engine/state/action";
+import {MadagascarRules} from "./rules";
+import {MadagascarMapSettings} from "./settings";
+import {MapViewSettings} from "../view_settings";
 
-export class MadagascarViewSettings extends MadagascarMapSettings {
+export class MadagascarViewSettings extends MadagascarMapSettings implements MapViewSettings {
   getMapRules = MadagascarRules;
 
   getActionDescription(action: Action): string | undefined {

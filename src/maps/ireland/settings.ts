@@ -6,9 +6,6 @@ import {IrelandMoveHelper} from './locomotive_action';
 import {IrelandAllowedActions, IrelandSelectAction} from './select_action';
 import {IrelandRoundEngine} from './shortened_round';
 import {IrelandStarter} from './starter';
-import {Action} from "../../engine/state/action";
-import {IrelandRules} from "./rules";
-import {IrelandRivers} from "./rivers";
 
 
 export class IrelandMapSettings implements MapSettings {
@@ -35,14 +32,4 @@ export class IrelandMapSettings implements MapSettings {
       IrelandStarter,
     ];
   }
-
-  getActionDescription(action: Action): string | undefined {
-    if (action === Action.LOCOMOTIVE) {
-      return 'Temporarily increase your locomotive by one for the round. Does not increase your expenses.';
-    }
-    return undefined;
-  }
-
-  getMapRules = IrelandRules
-  getTexturesLayer = IrelandRivers;
 }

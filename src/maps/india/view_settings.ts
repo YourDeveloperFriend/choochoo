@@ -1,9 +1,12 @@
-import { Action } from "../../engine/state/action";
-import { IndiaRules } from "./rules";
-import { IndiaMapSettings } from "./settings";
+import {Action} from "../../engine/state/action";
+import {IndiaRules} from "./rules";
+import {IndiaMapSettings} from "./settings";
+import {MapViewSettings} from "../view_settings";
+import {IndiaRivers} from "./rivers";
 
-export class IndiaViewSettings extends IndiaMapSettings {
+export class IndiaViewSettings extends IndiaMapSettings implements MapViewSettings {
   getMapRules = IndiaRules;
+  getTexturesLayer = IndiaRivers;
 
   getActionDescription(action: Action): string | undefined {
     if (action === Action.PRODUCTION) {
