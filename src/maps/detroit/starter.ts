@@ -13,11 +13,13 @@ export class DetroitStarter extends GameStarter {
   protected onStartGame(): void {
     this.rounds.initState(new Map());
     if (this.players().length === 1) {
-      this.soloActionCount.initState(new Map([
-        [Action.ENGINEER, 3],
-        [Action.LOCOMOTIVE, 3],
-        [Action.URBANIZATION, 3],
-      ]));
+      this.soloActionCount.initState(
+        new Map([
+          [Action.ENGINEER, 3],
+          [Action.LOCOMOTIVE, 3],
+          [Action.URBANIZATION, 3],
+        ]),
+      );
     }
   }
 
@@ -28,7 +30,6 @@ export class DetroitStarter extends GameStarter {
       shares: 5,
     };
   }
-
 
   protected getDrawnCubesFor(bag: Good[], _: boolean): Good[] {
     return draw(1, bag);

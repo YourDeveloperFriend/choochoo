@@ -1,4 +1,7 @@
-import { useInject, useInjectedState } from "../../client/utils/injection_context";
+import {
+  useInject,
+  useInjectedState,
+} from "../../client/utils/injection_context";
 import { injectInitialPlayerCount } from "../../engine/game/state";
 import { Action } from "../../engine/state/action";
 import { SOLO_ACTION_COUNT } from "./actions";

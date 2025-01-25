@@ -151,8 +151,7 @@ export class GameStarter {
   }
 }
 
-
 export function draw<T>(num: number, arr: T[]): T[] {
-  assert(arr.length >= num, 'drew too many!');
+  assert(arr.length >= num, "drew too many!");
   return duplicate(num, arr[0]).map((_) => arr.pop()!);
 }

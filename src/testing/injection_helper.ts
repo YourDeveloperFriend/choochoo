@@ -46,8 +46,8 @@ export class InjectionHelper {
   }
 
   spyOn<T, K extends keyof T = keyof T>(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     ctor: SimpleConstructor<T>,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     key: T[K] extends Function ? K : never,
   ): ReturnType<typeof spyOn<T, K>> {
     return spyOn(this.injector().get(ctor), key);

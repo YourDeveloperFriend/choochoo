@@ -3,14 +3,10 @@ import { useSearchParams } from "react-router-dom";
 import { GameStatus } from "../../api/game";
 import { inject } from "../../engine/framework/execution_context";
 import { PlayerHelper } from "../../engine/game/player";
-import {
-  injectAllPlayersUnsafe,
-  injectPlayersByTurnOrder,
-} from "../../engine/game/state";
+import { injectPlayersByTurnOrder } from "../../engine/game/state";
 import { ProductionAction } from "../../engine/goods_growth/production";
 import { SelectAction } from "../../engine/select_action/select";
 import { ViewRegistry } from "../../maps/view_registry";
-import { isNumber } from "../../utils/validate";
 import { AutoActionForm } from "../auto_action/form";
 import { useAwaitingPlayer } from "../components/awaiting_player";
 import { Username, UsernameList } from "../components/username";
@@ -120,14 +116,7 @@ export function GameOver() {
   const winnerIds = useInject(() => {
     if (game.status !== GameStatus.enum.ENDED) return;
     const helper = inject(PlayerHelper);
-    const players = injectAllPlayersUnsafe();
-    const scores = players().map(
-      (player) => [player.playerId, helper.getScore(player)] as const,
-    );
-    const bestScore = Math.max(
-      ...scores.map(([_, score]) => score).filter(isNumber),
-    );
-    return scores.filter(([_, score]) => score === bestScore).map(([id]) => id);
+    return helper.getPlayersOrderedByScore()[0].map(({ playerId }) => playerId);
   }, [game]);
 
   if (winnerIds == null) return <></>;

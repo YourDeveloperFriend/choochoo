@@ -8,7 +8,7 @@ import { Action } from "../../engine/state/action";
 import { TileType } from "../../engine/state/tile";
 import { Coordinates } from "../../utils/coordinates";
 
-export const ENGINEER_FREE_BUILD = new Key('engineerFreeBuild', z.number());
+export const ENGINEER_FREE_BUILD = new Key("engineerFreeBuild", z.number());
 
 /**
  * The logic will give the user the first build for free, then if the next build is cheaper, then
@@ -36,7 +36,10 @@ export class DetroitCostCalculator extends BuildCostCalculator {
     }
   }
 
-  private getBuildDetails(coordinates: Coordinates, newTileType: TileType): { newCheapestBuild?: number, currentCost: number } {
+  private getBuildDetails(
+    coordinates: Coordinates,
+    newTileType: TileType,
+  ): { newCheapestBuild?: number; currentCost: number } {
     const cost = super.costOf(coordinates, newTileType);
     if (this.currentPlayer().selectedAction === Action.ENGINEER) {
       if (this.freeBuild.isInitialized()) {
@@ -54,7 +57,10 @@ export class DetroitCostCalculator extends BuildCostCalculator {
 export class DetroitBuildAction extends BuildAction {
   process(data: BuildData): boolean {
     const result = super.process(data);
-    (this.costCalculator as DetroitCostCalculator).registerBuild(data.coordinates, data.tileType);
+    (this.costCalculator as DetroitCostCalculator).registerBuild(
+      data.coordinates,
+      data.tileType,
+    );
 
     return result;
   }

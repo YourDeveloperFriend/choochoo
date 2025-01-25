@@ -8,7 +8,11 @@ import { ROUND, RoundEngine } from "../../engine/game/round";
 import { Phase } from "../../engine/state/phase";
 import { PlayerColorZod, PlayerData } from "../../engine/state/player";
 
-export const OUT_OF_GAME_ROUND = new MapKey('outOfGameRound', PlayerColorZod.parse, z.number().parse);
+export const OUT_OF_GAME_ROUND = new MapKey(
+  "outOfGameRound",
+  PlayerColorZod.parse,
+  z.number().parse,
+);
 
 export class DetroitPlayerHelper extends PlayerHelper {
   private readonly rounds = injectState(OUT_OF_GAME_ROUND);

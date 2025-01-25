@@ -5,6 +5,8 @@ import { injectPlayerAction } from "../../engine/game/state";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
 import { SelectAction as ActionSelectionSelectAction } from "../../engine/select_action/select";
 import { Action, getSelectedActionString } from "../../engine/state/action";
+import { ViewRegistry } from "../../maps/view_registry";
+import { MapViewSettings } from "../../maps/view_settings";
 import { assertNever } from "../../utils/validate";
 import { Username } from "../components/username";
 import { useAction, useGame } from "../services/game";
@@ -52,8 +54,7 @@ function SpecialAction({ action }: { action: Action }) {
     isClickable ? styles.clickable : "",
   ].join(" ");
 
-  const caption =
-    mapSettings.getActionCaption && mapSettings.getActionCaption(action);
+  const caption = mapSettings.getActionCaption?.(action);
 
   const captionEl =
     player != null ? (
