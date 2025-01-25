@@ -1,12 +1,17 @@
 import z from "zod";
+import { MapRegistry } from "../../maps/registry";
 import { Coordinates, CoordinatesZod } from "../../utils/coordinates";
-import { composeState, injectState } from "../framework/execution_context";
+import {
+  compose,
+  composeState,
+  inject,
+  injectState,
+} from "../framework/execution_context";
 import { Key, MapKey } from "../framework/key";
 import { Grid } from "../map/grid";
 import { Action } from "../state/action";
 import { MutableAvailableCity } from "../state/available_city";
 import { GoodZod } from "../state/good";
-import { GridData } from "../state/grid";
 import { InterCityConnection } from "../state/inter_city_connection";
 import {
   MutablePlayerData,
@@ -15,6 +20,7 @@ import {
   PlayerData,
 } from "../state/player";
 import { MutableSpaceData } from "../state/space";
+import { GameMemory } from "./game_memory";
 
 export const TURN_ORDER = new Key("turnOrder", {
   parse: z.array(PlayerColorZod).parse,
@@ -61,11 +67,9 @@ export function injectInitialPlayerCount() {
   return () => players().length;
 }
 
-export const injectInGamePlayers = composeState(
-  [PLAYERS],
-  (_: PlayerData[] | undefined, players: PlayerData[]) => {
-    return players.filter((player) => !player.outOfGame);
-  },
+export const injectInGamePlayers = compose(
+  () => injectState(PLAYERS),
+  (players) => players().filter((player) => !player.outOfGame),
 );
 
 export function injectPlayerAction(action: Action) {
@@ -74,28 +78,27 @@ export function injectPlayerAction(action: Action) {
     players().find(({ selectedAction }) => selectedAction === action);
 }
 
-export const injectCurrentPlayer = composeState(
-  [CURRENT_PLAYER, PLAYERS],
-  (
-    _: PlayerData | undefined,
-    playerColor: PlayerColor,
-    players: PlayerData[],
-  ) => {
-    return players.find((player) => player.color === playerColor)!;
-  },
+export const injectCurrentPlayer = compose(
+  () => ({
+    currentPlayer: injectState(CURRENT_PLAYER),
+    players: injectState(PLAYERS),
+  }),
+  ({ currentPlayer, players }) =>
+    players().find((player) => player.color === currentPlayer())!,
 );
 
-export const injectGrid = composeState(
-  [GRID, INTER_CITY_CONNECTIONS],
-  (
-    previousGrid: Grid | undefined,
-    gridData: GridData,
-    connections?: InterCityConnection[],
-  ): Grid => {
+export const injectGrid = compose(
+  () => ({
+    game: inject(GameMemory),
+    grid: injectState(GRID),
+    connections: injectState(INTER_CITY_CONNECTIONS),
+  }),
+  ({ grid, game, connections }, previousGrid?: Grid) => {
     if (previousGrid) {
-      return previousGrid.merge(gridData, connections ?? []);
+      return previousGrid.merge(grid(), connections() ?? []);
     }
-    return Grid.fromData(gridData, connections ?? []);
+    const settings = MapRegistry.singleton.get(game.getGame().gameKey);
+    return Grid.fromData(settings, grid(), connections() ?? []);
   },
 );
 

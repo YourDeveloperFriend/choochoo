@@ -35,7 +35,7 @@ export async function startGame(
   const { gameData, logs, activePlayerId, seed } =
     EngineDelegator.singleton.start({
       playerIds: game.playerIds,
-      mapConfig: { mapKey: game.gameKey },
+      game: game.toLimitedGame(),
     });
 
   game.gameData = gameData;
@@ -94,7 +94,7 @@ export async function performAction(
         seed,
         autoActionMutations,
       } = EngineDelegator.singleton.processAction(game.gameKey, {
-        gameData: game.gameData,
+        game: game.toLimitedGame(),
         actionName,
         actionData,
       });

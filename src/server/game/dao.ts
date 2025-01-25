@@ -18,6 +18,7 @@ import {
 } from "@sequelize/core/decorators-legacy";
 import { GameApi, GameLiteApi, GameStatus, MapConfig } from "../../api/game";
 import { EngineDelegator } from "../../engine/framework/engine";
+import { LimitedGame, toLimitedGame } from "../../engine/game/game_memory";
 import { AutoAction } from "../../engine/state/auto_action";
 
 @Table({ modelName: "Game" })
@@ -92,6 +93,10 @@ export class GameDao extends Model<
     return toApi(this);
   }
 
+  toLimitedGame(): LimitedGame {
+    return toLimitedGame(this);
+  }
+
   getSummary(): string | undefined {
     return toSummary(this);
   }
@@ -107,7 +112,7 @@ export class GameDao extends Model<
   }
 }
 
-export function toApi(game: InferAttributes<GameDao>): GameApi {
+export function toApi(game: InferAttributes<GameDao> | GameApi): GameApi {
   return {
     ...toLiteApi(game),
     version: game.version,
@@ -139,5 +144,5 @@ function toSummary(
     return game.summary;
   }
   if (game.status != GameStatus.enum.ACTIVE) return undefined;
-  return EngineDelegator.singleton.readSummary(game.gameKey, game.gameData!);
+  return EngineDelegator.singleton.readSummary(toLimitedGame(game));
 }

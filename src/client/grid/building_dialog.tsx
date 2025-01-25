@@ -12,7 +12,6 @@ import { useNotifications } from "@toolpad/core";
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import { BuildAction, BuildData } from "../../engine/build/build";
 import { UrbanizeAction } from "../../engine/build/urbanize";
-import { Rotation } from "../../engine/game/map_settings";
 import { AVAILABLE_CITIES } from "../../engine/game/state";
 import { City } from "../../engine/map/city";
 import { rotateDirectionClockwise } from "../../engine/map/direction";
@@ -35,6 +34,7 @@ import {
   TileData,
   TownTileType,
 } from "../../engine/state/tile";
+import { MapViewSettings } from "../../maps/view_settings";
 import { Coordinates } from "../../utils/coordinates";
 import { useAction } from "../services/game";
 import { useTypedMemo } from "../utils/hooks";
@@ -53,13 +53,13 @@ import { HexGrid } from "./hex_grid";
 
 interface BuildingProps {
   cancelBuild(): void;
-  rotation?: Rotation;
+  settings: MapViewSettings;
   coordinates?: Coordinates;
 }
 
 export function BuildingDialog({
   coordinates,
-  rotation,
+  settings,
   cancelBuild,
 }: BuildingProps) {
   const { emit: emitBuild } = useAction(BuildAction);
@@ -162,6 +162,7 @@ export function BuildingDialog({
                 >
                   <ModifiedSpace
                     space={space!}
+                    settings={settings}
                     asCity={city}
                     onClick={() => selectAvailableCity(index)}
                   />
@@ -171,7 +172,7 @@ export function BuildingDialog({
               <div key={index} className={buildingOption}>
                 <ModifiedSpace
                   space={space!}
-                  rotation={rotation}
+                  settings={settings}
                   tile={build.tile}
                   onClick={() => build.reason == null && onSelect(build.action)}
                 />
@@ -188,7 +189,7 @@ export function BuildingDialog({
 interface ModifiedSpaceProps {
   space: Space;
   tile?: TileData;
-  rotation?: Rotation;
+  settings: MapViewSettings;
   asCity?: AvailableCity;
   onClick?: (space: Space) => void;
 }
@@ -196,7 +197,7 @@ interface ModifiedSpaceProps {
 export function ModifiedSpace({
   space,
   tile,
-  rotation,
+  settings,
   asCity,
   onClick,
 }: ModifiedSpaceProps) {
@@ -224,7 +225,10 @@ export function ModifiedSpace({
       return new Land(space.coordinates, newLocationData);
     }
   }, [space, tile, asCity]);
-  const grid = useMemo(() => Grid.fromSpaces([newSpace], []), [newSpace]);
+  const grid = useMemo(
+    () => Grid.fromSpaces(settings, [newSpace], []),
+    [newSpace],
+  );
   const clickTargets = useMemo(
     () => new Set([ClickTarget.TOWN, ClickTarget.LOCATION, ClickTarget.CITY]),
     [],
@@ -232,7 +236,7 @@ export function ModifiedSpace({
   return (
     <HexGrid
       grid={grid}
-      rotation={rotation}
+      rotation={settings.rotation}
       onClick={onClick}
       clickTargets={clickTargets}
     />

@@ -7,6 +7,7 @@ import {
   SimpleTileType,
   TownTileType,
 } from "../../engine/state/tile";
+import { ViewRegistry } from "../../maps/view_registry";
 import { Coordinates } from "../../utils/coordinates";
 import { PlayerCircle } from "../game/bidding_info";
 import { PlayerColorIndicator } from "../game/player_stats";
@@ -52,6 +53,7 @@ export function Pallet() {
                     <ModifiedSpace
                       key={index}
                       space={space}
+                      settings={ViewRegistry.singleton.get("reversteam")}
                       tile={{
                         tileType,
                         orientation: Direction.TOP,

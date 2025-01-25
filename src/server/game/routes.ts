@@ -287,7 +287,7 @@ const router = initServer().router(gameContract, {
       const { gameData, logs, activePlayerId, seed } =
         EngineDelegator.singleton.start({
           playerIds: game.playerIds,
-          mapConfig: { mapKey: game.gameKey },
+          game: game.toLimitedGame(),
           seed: firstAction.seed!,
         });
       currentGameData = gameData;
@@ -324,7 +324,7 @@ const router = initServer().router(gameContract, {
       assert(previousAction.isActionHistory());
       const { gameData, logs, activePlayerId, hasEnded, reversible, seed } =
         EngineDelegator.singleton.processAction(game.gameKey, {
-          gameData: currentGameData,
+          game: game.toLimitedGame(),
           actionName: previousAction.actionName,
           actionData: JSON.parse(previousAction.actionData),
           seed: previousAction.seed ?? undefined,

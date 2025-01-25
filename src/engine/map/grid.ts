@@ -5,6 +5,7 @@ import { deepEquals } from "../../utils/deep_equals";
 import { DoubleHeight } from "../../utils/double_height";
 import { arrayEqualsIgnoreOrder, isNotNull, peek } from "../../utils/functions";
 import { assert } from "../../utils/validate";
+import { MapSettings } from "../game/map_settings";
 import { GridData } from "../state/grid";
 import {
   InterCityConnection,
@@ -26,17 +27,18 @@ export class Grid {
   readonly bottomRight: DoubleHeight;
 
   private constructor(
+    private readonly mapSettings: MapSettings,
     private readonly grid: ImmutableMap<Coordinates, Space>,
     readonly connections: InterCityConnection[],
   ) {
     const doubleHeights = [...this.keys()].map((coord) =>
-      coord.toDoubleHeight(),
+      coord.toDoubleHeight(this.mapSettings.rotation),
     );
-    this.topLeft = new DoubleHeight(
+    this.topLeft = DoubleHeight.from(
       Math.min(...doubleHeights.map(({ col }) => col)),
       Math.min(...doubleHeights.map(({ row }) => row)),
     );
-    this.bottomRight = new DoubleHeight(
+    this.bottomRight = DoubleHeight.from(
       Math.max(...doubleHeights.map(({ col }) => col)),
       Math.max(...doubleHeights.map(({ row }) => row)),
     );
@@ -67,9 +69,11 @@ export class Grid {
   }
 
   toDoubleHeightDisplay(coordinate: Coordinates): DoubleHeight {
-    return coordinate
-      .toDoubleHeight()
-      .offset(-this.topLeft.col, -this.topLeft.row);
+    return coordinate.toDoubleHeight(
+      this.mapSettings.rotation,
+      this.topLeft,
+      this.bottomRight,
+    );
   }
 
   countTownDiscs(): number {
@@ -326,18 +330,27 @@ export class Grid {
     if (map === this.grid && deepEquals(connections, this.connections))
       return this;
 
-    return new Grid(map, connections);
+    return new Grid(this.mapSettings, map, connections);
   }
 
   static fromData(
+    mapSettings: MapSettings,
     gridData: GridData,
     connections: InterCityConnection[],
   ): Grid {
-    return new Grid(ImmutableMap(), []).merge(gridData, connections);
+    return new Grid(mapSettings, ImmutableMap(), []).merge(
+      gridData,
+      connections,
+    );
   }
 
-  static fromSpaces(spaces: Space[], connections: InterCityConnection[]): Grid {
+  static fromSpaces(
+    mapSettings: MapSettings,
+    spaces: Space[],
+    connections: InterCityConnection[],
+  ): Grid {
     return new Grid(
+      mapSettings,
       ImmutableMap(spaces.map((s) => [s.coordinates, s])),
       connections,
     );

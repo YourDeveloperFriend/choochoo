@@ -153,7 +153,14 @@ export function HexGrid({
             rotation={rotation}
           />
         ),
-        [space, size, clickTargetsNormalized, rotation],
+        [
+          grid.topLeft,
+          grid.bottomRight,
+          space,
+          size,
+          clickTargetsNormalized,
+          rotation,
+        ],
       ),
     );
 
@@ -168,7 +175,14 @@ export function HexGrid({
             rotation={rotation}
           />
         ),
-        [space, size, clickTargetsNormalized, rotation],
+        [
+          grid.topLeft,
+          grid.bottomRight,
+          space,
+          size,
+          clickTargetsNormalized,
+          rotation,
+        ],
       ),
     );
 
@@ -404,7 +418,7 @@ function DoubleHeightNumber({
   isRow,
 }: DoubleHeightNumberProps) {
   const distance = distanceToSide(size);
-  const doubleHeight = new DoubleHeight(index, index);
+  const doubleHeight = DoubleHeight.from(index, index);
 
   const xTransform = doubleHeight.toPoint(size).x + size;
   const yTransform = doubleHeight.toPoint(size).y + distance;

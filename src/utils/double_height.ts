@@ -1,8 +1,11 @@
 import { Point } from "../client/grid/point";
-import { assert } from "./validate";
+import { Rotation } from "../engine/game/map_settings";
+import { assert, assertNever } from "./validate";
 
 export class DoubleHeight {
-  constructor(
+  private static readonly staticMap = new Map<string, DoubleHeight>();
+
+  private constructor(
     readonly col: number,
     readonly row: number,
   ) {}
@@ -11,6 +14,29 @@ export class DoubleHeight {
     const x = ((size * 3) / 2) * this.col;
     const y = ((size * Math.sqrt(3)) / 2) * this.row;
     return { x, y };
+  }
+
+  rotateAndCenter(
+    rotation: Rotation | undefined,
+    topLeft: DoubleHeight,
+    bottomRight: DoubleHeight,
+  ): DoubleHeight {
+    switch (rotation) {
+      case undefined:
+        return this.offset(-topLeft.col, -topLeft.row);
+      case Rotation.CLOCKWISE:
+        return DoubleHeight.from(
+          this.col + topLeft.col,
+          -this.row + bottomRight.row,
+        );
+      case Rotation.COUNTER_CLOCKWISE:
+        return DoubleHeight.from(
+          -this.col + bottomRight.col,
+          this.row - topLeft.row,
+        );
+      default:
+        assertNever(rotation);
+    }
   }
 
   offset(byCol: number, byRow: number): DoubleHeight {
@@ -42,5 +68,13 @@ export class DoubleHeight {
 
   toString(): string {
     return `${this.toRowString()}${this.toColString()}`;
+  }
+
+  static from(col: number, row: number): DoubleHeight {
+    const key = `${col}|${row}`;
+    if (!this.staticMap.has(key)) {
+      this.staticMap.set(key, new DoubleHeight(col, row));
+    }
+    return this.staticMap.get(key)!;
   }
 }

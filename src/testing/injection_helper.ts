@@ -1,19 +1,19 @@
-import 'jasmine';
+import "jasmine";
 
-import _ from 'lodash';
+import _ from "lodash";
 
-import {SimpleConstructor} from '../engine/framework/dependency_stack';
-import {setInjectionContext} from '../engine/framework/execution_context';
-import {InjectionContext} from '../engine/framework/inject';
-import {Key} from '../engine/framework/key';
-import {InjectedState, StateStore} from '../engine/framework/state';
-import {ReversteamMapSettings} from '../maps/reversteam/settings';
+import { SimpleConstructor } from "../engine/framework/dependency_stack";
+import { setInjectionContext } from "../engine/framework/execution_context";
+import { InjectionContext } from "../engine/framework/inject";
+import { Key } from "../engine/framework/key";
+import { InjectedState, StateStore } from "../engine/framework/state";
+import { ReversteamMapSettings } from "../maps/reversteam/settings";
 
-import {resettable} from './resettable';
+import { resettable } from "./resettable";
 
 export class InjectionHelper {
   private readonly injector = resettable(
-      () => new InjectionContext(new ReversteamMapSettings().key),
+    () => new InjectionContext(new ReversteamMapSettings().key),
   );
 
   private constructor() {}
@@ -33,12 +33,11 @@ export class InjectionHelper {
   }
 
   resettableSpyOn<T, K extends keyof T = keyof T>(
-      ctor: SimpleConstructor<T>,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-      key: T[K] extends Function? K: never,
-                        handleSpy?:
-                            (spy: ReturnType<typeof spyOn<T, K>>) => void,
-      ): () => ReturnType<typeof spyOn<T, K>> {
+    ctor: SimpleConstructor<T>,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+    key: T[K] extends Function ? K : never,
+    handleSpy?: (spy: ReturnType<typeof spyOn<T, K>>) => void,
+  ): () => ReturnType<typeof spyOn<T, K>> {
     const spy = resettable(() => this.spyOn(ctor, key));
     beforeEach(() => {
       handleSpy?.(spy());
@@ -47,14 +46,15 @@ export class InjectionHelper {
   }
 
   spyOn<T, K extends keyof T = keyof T>(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-      ctor: SimpleConstructor<T>, key: T[K] extends Function? K: never,
-      ): ReturnType<typeof spyOn<T, K>> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+    ctor: SimpleConstructor<T>,
+    key: T[K] extends Function ? K : never,
+  ): ReturnType<typeof spyOn<T, K>> {
     return spyOn(this.injector().get(ctor), key);
   }
 
   initResettableState<T>(key: Key<T>, value: T): InjectedState<T> {
-    let passthrough: InjectedState<T>|undefined;
+    let passthrough: InjectedState<T> | undefined;
     const result = (() => passthrough!()) as InjectedState<T>;
 
     beforeEach(() => {

@@ -5,6 +5,7 @@ import {
   AutoActionMutationConfig,
 } from "../game/auto_action_manager";
 import { GameEngine } from "../game/game";
+import { GameMemory, LimitedGame } from "../game/game_memory";
 import { Log } from "../game/log";
 import { Memory } from "../game/memory";
 import { PHASE } from "../game/phase";
@@ -17,10 +18,6 @@ import { SimpleConstructor } from "./dependency_stack";
 import { inject, injectState, setInjectionContext } from "./execution_context";
 import { InjectionContext } from "./inject";
 import { StateStore } from "./state";
-
-interface MapConfig {
-  mapKey: string;
-}
 
 interface GameState {
   activePlayerId?: number;
@@ -53,26 +50,26 @@ export class EngineDelegator {
   }
 
   start(props: StartProps): GameState {
-    return this.getEngine(props.mapConfig.mapKey).start(props);
+    return this.getEngine(props.game.gameKey).start(props);
   }
 
   processAction(mapKey: string, props: ProcessActionProps): GameState {
     return this.getEngine(mapKey).processAction(props);
   }
 
-  readSummary(mapKey: string, gameData: string): string {
-    return this.getEngine(mapKey).readSummary(gameData);
+  readSummary(game: LimitedGame): string {
+    return this.getEngine(game.gameKey).readSummary(game);
   }
 }
 
 interface StartProps {
   playerIds: number[];
-  mapConfig: MapConfig;
+  game: LimitedGame;
   seed?: string;
 }
 
 interface ProcessActionProps {
-  gameData: string;
+  game: LimitedGame;
   actionName: string;
   actionData: unknown;
   seed?: string;
@@ -90,11 +87,12 @@ export class EngineProcessor {
   private readonly phase = injectState(PHASE);
   private readonly moveState = injectState(MOVE_STATE);
   private readonly autoActionManager = inject(AutoActionManager);
+  private readonly gameMemory = inject(GameMemory);
 
-  start({ mapConfig, playerIds, seed }: StartProps): GameState {
-    return this.process(undefined, () => {
+  start({ game, playerIds, seed }: StartProps): GameState {
+    return this.process(game, () => {
       this.random.setSeed(seed);
-      const mapSettings = MapRegistry.singleton.get(mapConfig.mapKey);
+      const mapSettings = MapRegistry.singleton.get(game.gameKey);
       assert(playerIds.length >= mapSettings.minPlayers, {
         invalidInput: "not enough players to start",
       });
@@ -108,20 +106,20 @@ export class EngineProcessor {
   }
 
   processAction({
-    gameData,
+    game,
     actionName,
     actionData,
     seed,
   }: ProcessActionProps): GameState {
-    return this.process(gameData, () => {
+    return this.process(game, () => {
       this.random.setSeed(seed);
       this.gameEngine.processAction(actionName, actionData);
       return this.getGameState();
     });
   }
 
-  readSummary(gameData: string): string {
-    return this.process(gameData, () => {
+  readSummary(game: LimitedGame): string {
+    return this.process(game, () => {
       return [
         `Turn ${this.round()}/${this.roundEngine.maxRounds()}`,
         this.phase() === Phase.MOVING
@@ -131,10 +129,11 @@ export class EngineProcessor {
     });
   }
 
-  private process<T>(gameData: string | undefined, processFn: () => T): T {
+  private process<T>(game: LimitedGame, processFn: () => T): T {
     try {
-      if (gameData != null) {
-        this.state.merge(gameData);
+      this.gameMemory.setGame(game);
+      if (game.gameData != null) {
+        this.state.merge(game.gameData);
       }
       return processFn();
     } finally {

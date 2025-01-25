@@ -128,6 +128,7 @@ export function CreateGamePage() {
     if (gameKey == null) return undefined;
     const settings = ViewRegistry.singleton.get(gameKey);
     return Grid.fromData(
+      settings,
       settings.startingGrid,
       settings.interCityConnections ?? [],
     );

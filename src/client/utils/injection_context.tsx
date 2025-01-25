@@ -17,6 +17,7 @@ import {
 import { InjectionContext } from "../../engine/framework/inject";
 import { Key } from "../../engine/framework/key";
 import { StateStore } from "../../engine/framework/state";
+import { GameMemory, toLimitedGame } from "../../engine/game/game_memory";
 import { PHASE } from "../../engine/game/phase";
 import { injectCurrentPlayer, injectGrid } from "../../engine/game/state";
 import { Grid } from "../../engine/map/grid";
@@ -89,6 +90,8 @@ export function GameContextProvider({ game, children }: InjectionContextProps) {
   const ctx = useMemo(() => {
     const ctx = new InjectionContext(game.gameKey);
     setInjectionContext(ctx);
+    const memory = ctx.get(GameMemory);
+    memory.setGame(toLimitedGame(game));
     try {
       ctx.get(StateStore).merge(game.gameData!);
       return ctx;

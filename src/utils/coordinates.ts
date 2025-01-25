@@ -1,10 +1,12 @@
 import { z } from "zod";
+import { Rotation } from "../engine/game/map_settings";
 import { Direction } from "../engine/state/tile";
 import { DoubleHeight } from "./double_height";
 import { assert, assertNever } from "./validate";
 
 export class Coordinates {
   private static readonly staticMap = new Map<string, Coordinates>();
+
   private constructor(
     readonly q: number,
     readonly r: number,
@@ -32,10 +34,25 @@ export class Coordinates {
     return fromOffset({ q: to.q - this.q, r: to.r - this.r });
   }
 
-  toDoubleHeight(): DoubleHeight {
+  toDoubleHeight(
+    rotation: Rotation | undefined,
+    topLeft: DoubleHeight,
+    bottomRight: DoubleHeight,
+  ): DoubleHeight;
+  toDoubleHeight(rotation: Rotation | undefined): DoubleHeight;
+  toDoubleHeight(
+    rotation: Rotation | undefined,
+    topLeft?: DoubleHeight,
+    bottomRight?: DoubleHeight,
+  ): DoubleHeight {
     const col = this.q;
     const row = 2 * this.r + this.q;
-    return new DoubleHeight(col, row);
+    const doubleHeight = DoubleHeight.from(col, row);
+    if (topLeft != null) {
+      assert(bottomRight != null);
+      return doubleHeight.rotateAndCenter(rotation, topLeft, bottomRight);
+    }
+    return doubleHeight;
   }
 
   static from({ q, r }: { q: number; r: number }): Coordinates {

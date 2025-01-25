@@ -330,8 +330,8 @@ export function GameMap() {
   const moveHelper = useInjectedMemo(MoveHelper);
   const gameKey = useGameKey();
 
-  const rotation = useMemo(
-    () => ViewRegistry.singleton.get(gameKey).rotation,
+  const mapSettings = useMemo(
+    () => ViewRegistry.singleton.get(gameKey),
     [gameKey],
   );
 
@@ -433,13 +433,13 @@ export function GameMap() {
         highlightedConnections={highlightedConnections}
         clickTargets={clickTargets}
         selectedGood={selectedGood}
-        rotation={rotation}
+        rotation={mapSettings.rotation}
         grid={grid}
         gameKey={gameKey}
       />
       <BuildingDialog
         coordinates={buildingSpace?.coordinates}
-        rotation={rotation}
+        settings={mapSettings}
         cancelBuild={() => setBuildingSpace(undefined)}
       />
     </>
