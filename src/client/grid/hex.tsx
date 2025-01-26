@@ -192,19 +192,13 @@ export function LowerTerrainHex({
           stroke="black"
           strokeWidth={size / 100}
         />
-        <circle
-          cx={center.x}
-          cy={center.y}
-          fill={cityGroup == CityGroup.WHITE ? "#ffffff" : "#222222"}
-          r={size * 0.4}
-        />
-
         {gameKey === "cyprus" && (
           <CyprusBorder space={space} center={center} size={size} />
         )}
         {onRoll.length > 0 && (
           <OnRoll
             city={space}
+            cityGroup={cityGroup}
             center={center}
             size={size}
             rotation={rotation}

@@ -8,12 +8,25 @@ interface OnRollProps {
   city: City;
   center: Point;
   size: number;
+  cityGroup: CityGroup;
   rotation?: Rotation;
 }
 
-export function OnRoll({ city, center, size, rotation }: OnRollProps) {
+export function OnRoll({
+  city,
+  center,
+  cityGroup,
+  size,
+  rotation,
+}: OnRollProps) {
   return (
     <>
+      <circle
+        cx={center.x}
+        cy={center.y}
+        fill={cityGroup == CityGroup.WHITE ? "#ffffff" : "#222222"}
+        r={size * 0.4}
+      />
       <Rotate rotation={rotation} reverse={true} center={center}>
         <text
           fontSize={size / 2}
