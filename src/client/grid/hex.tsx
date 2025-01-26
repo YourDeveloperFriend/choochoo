@@ -152,10 +152,10 @@ export function LowerTerrainHex({
     const onRoll = space.onRoll();
     const cityGroup: CityGroup = space.onRoll()[0]?.group ?? CityGroup.WHITE;
     // Determine the "outer fill" color, which is the thick border around cities indicating its goods-growth group color.
-    const outerFill = useMemo(() => {
+    const outerFill = (() => {
       if (cityGroup == CityGroup.WHITE) return "#ffffff";
       return "#222222";
-    }, [onRoll]);
+    })();
 
     const innerCorners = polygon(
       getCorners(center, size * CITY_INNER_HEX_SIZE),
