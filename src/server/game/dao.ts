@@ -132,6 +132,7 @@ export function toLiteApi(
   return {
     id: game.id,
     gameKey: game.gameKey,
+    variant: game.variant,
     name: game.name,
     status: game.status,
     playerIds: [...game.playerIds],

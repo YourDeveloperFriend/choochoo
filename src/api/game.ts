@@ -111,6 +111,7 @@ export const GameLiteApi = z.object({
   status: GameStatus,
   activePlayerId: z.number().optional(),
   config: MapConfig,
+  variant: VariantConfig,
   summary: z.string().optional(),
   unlisted: z.boolean(),
 });
