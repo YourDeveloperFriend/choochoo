@@ -1,5 +1,6 @@
 import { GameKey } from "../../api/game_key";
-import { VariantConfig } from "../../api/variant_config";
+import { IrelandVariantConfig, VariantConfig } from "../../api/variant_config";
+import { useGame } from "../../client/services/game";
 import { Action } from "../../engine/state/action";
 import { MapViewSettings } from "../view_settings";
 import { IrelandRivers } from "./rivers";
@@ -20,8 +21,13 @@ export class IrelandViewSettings
   getTexturesLayer = IrelandRivers;
 
   getActionDescription(action: Action): string | undefined {
+    const game = useGame();
     if (action === Action.LOCOMOTIVE) {
-      return "Temporarily increase your locomotive by one for the round. Does not increase your expenses.";
+      if (IrelandVariantConfig.parse(game.variant).locoVariant) {
+        return "Temporarily increase your locomotive by one for the round. Does not increase your expenses.";
+      } else {
+        return "Allows you to loco twice in one round.";
+      }
     }
     return undefined;
   }

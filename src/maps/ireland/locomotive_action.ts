@@ -1,4 +1,6 @@
-import { injectState } from "../../engine/framework/execution_context";
+import { IrelandVariantConfig } from "../../api/variant_config";
+import { inject, injectState } from "../../engine/framework/execution_context";
+import { GameMemory } from "../../engine/game/game_memory";
 import { PHASE } from "../../engine/game/phase";
 import { MoveHelper } from "../../engine/move/helper";
 import { Action } from "../../engine/state/action";
@@ -7,6 +9,7 @@ import { PlayerData } from "../../engine/state/player";
 
 export class IrelandMoveHelper extends MoveHelper {
   private readonly phase = injectState(PHASE);
+  private readonly gameMemory = inject(GameMemory);
 
   getLocomotiveDisplay(player: PlayerData): string {
     if (this.canUseLoco(player)) {
@@ -21,6 +24,9 @@ export class IrelandMoveHelper extends MoveHelper {
   }
 
   private canUseLoco(player: PlayerData): boolean {
+    if (!this.gameMemory.getVariant(IrelandVariantConfig.parse).locoVariant) {
+      return false;
+    }
     switch (this.phase()) {
       case Phase.MOVING:
       case Phase.ACTION_SELECTION:
