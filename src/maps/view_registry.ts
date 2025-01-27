@@ -1,3 +1,4 @@
+import { GameKey } from "../api/game_key";
 import { assert } from "../utils/validate";
 import { CyprusViewSettings } from "./cyprus/view_settings";
 import { DetroitBankruptcyViewSettings } from "./detroit/view_settings";
@@ -13,7 +14,7 @@ import { MapViewSettings } from "./view_settings";
 
 export class ViewRegistry {
   static readonly singleton = new ViewRegistry();
-  private readonly maps = new Map<string, MapViewSettings>();
+  private readonly maps = new Map<GameKey, MapViewSettings>();
 
   private constructor() {
     this.add(new RustBeltViewSettings());
@@ -37,7 +38,7 @@ export class ViewRegistry {
     this.maps.set(map.key, map);
   }
 
-  get(key: string): MapViewSettings {
+  get(key: GameKey): MapViewSettings {
     assert(this.maps.has(key), `unfound maps with key ${key}`);
     return this.maps.get(key)!;
   }

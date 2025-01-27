@@ -1,5 +1,6 @@
 import type { InferAttributes } from "@sequelize/core";
 import type { GameApi } from "../../api/game";
+import { GameKey } from "../../api/game_key";
 import { VariantConfig } from "../../api/variant_config";
 import type { GameDao } from "../../server/game/dao";
 import { assert } from "../../utils/validate";
@@ -7,7 +8,7 @@ import { inject } from "../framework/execution_context";
 import { Memory } from "./memory";
 
 export interface LimitedGame {
-  gameKey: string;
+  gameKey: GameKey;
   gameData?: string;
   variant: VariantConfig;
 }

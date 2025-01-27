@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import { GameApi, GameStatus } from "../../api/game";
+import { GameKey } from "../../api/game_key";
 import { SimpleConstructor } from "../../engine/framework/dependency_stack";
 import {
   inject,
@@ -30,7 +31,7 @@ import { useGame } from "../services/game";
 export const InjectionContextContext = createContext<
   InjectionContext | undefined
 >(undefined);
-export const MapKeyContext = createContext<string>("");
+export const MapKeyContext = createContext<GameKey | undefined>(undefined);
 
 function useInjectionContext(): InjectionContext {
   const ctx = useContext(InjectionContextContext);
@@ -113,8 +114,8 @@ export function GameContextProvider({ game, children }: InjectionContextProps) {
   );
 }
 
-export function useGameKey(): string {
-  return useContext(MapKeyContext);
+export function useGameKey(): GameKey {
+  return useContext(MapKeyContext)!;
 }
 
 export function usePhaseState<T>(

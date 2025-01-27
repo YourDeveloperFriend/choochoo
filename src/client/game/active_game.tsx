@@ -74,7 +74,7 @@ function InternalActiveGame() {
         !canEmitProduction &&
         game.status === GameStatus.enum.ACTIVE && <GoodsTable />}
       {!undoOnly && <AvailableCities />}
-      <MapInfo gameKey={game.gameKey} />
+      <MapInfo gameKey={game.gameKey} variant={game.variant} />
     </div>
   );
 }

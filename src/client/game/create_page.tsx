@@ -71,8 +71,8 @@ export function CreateGamePage() {
   );
   const { validateGame, createGame, validationError, isPending } =
     useCreateGame();
-  const [variant, setVariant] = useState<Partial<VariantConfig>>(
-    selectedMap.getInitialVariantConfig?.() ?? { gameKey },
+  const [variant, setVariant] = useState(
+    (selectedMap.getInitialVariantConfig?.() ?? { gameKey }) as VariantConfig,
   );
 
   const minPlayers = allowPlayerSelections ? minPlayersS : map.minPlayers;
@@ -89,7 +89,9 @@ export function CreateGamePage() {
       if (typeof maxPlayers === "number") {
         setMaxPlayersRaw(Math.min(maxPlayers, map.maxPlayers));
       }
-      setVariant(map.getInitialVariantConfig?.() ?? { gameKey });
+      setVariant(
+        (map.getInitialVariantConfig?.() ?? { gameKey }) as VariantConfig,
+      );
     },
     [
       setVariant,
@@ -267,7 +269,7 @@ export function CreateGamePage() {
           Create
         </Button>
       </div>
-      <MapInfo gameKey={gameKey} />
+      <MapInfo gameKey={gameKey} variant={variant} />
       {grid && (
         <HexGrid
           key={gameKey}

@@ -1,4 +1,8 @@
-export function IrelandRules() {
+import { IrelandVariantConfig } from "../../api/variant_config";
+import { RulesProps } from "../view_settings";
+
+export function IrelandRules({ variant: untyped }: RulesProps) {
+  const variant = untyped as IrelandVariantConfig;
   return (
     <div>
       <p>Same as base game with the following changes:</p>
@@ -31,10 +35,18 @@ export function IrelandRules() {
           <b>Deurbanization:</b> lets you remove any cube from the board just
           before the move goods action.
         </li>
-        <li>
-          <b>Locomotive:</b> only temporarily gives you a +1, does not increase
-          your expenses and reverts at the end of the round.
-        </li>
+        {variant.locoVariant && (
+          <li>
+            <b>Locomotive:</b> only temporarily gives you a +1, does not
+            increase your expenses and reverts at the end of the round.
+          </li>
+        )}
+        {!variant.locoVariant && (
+          <li>
+            <b>Locomotive:</b> lets you perform the loco action for both move
+            actions.
+          </li>
+        )}
       </ul>
     </div>
   );

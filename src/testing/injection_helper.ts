@@ -9,6 +9,7 @@ import { Key } from "../engine/framework/key";
 import { InjectedState, StateStore } from "../engine/framework/state";
 import { ReversteamMapSettings } from "../maps/reversteam/settings";
 
+import { GameKey } from "../api/game_key";
 import { GameMemory } from "../engine/game/game_memory";
 import { resettable } from "./resettable";
 
@@ -25,9 +26,10 @@ export class InjectionHelper {
     beforeEach(() => {
       setInjectionContext(helper.injector());
 
-      helper
-        .spyOn(GameMemory, "getGame")
-        .and.returnValue({ gameKey: "reversteam" });
+      helper.spyOn(GameMemory, "getGame").and.returnValue({
+        gameKey: GameKey.REVERSTEAM,
+        variant: { gameKey: GameKey.REVERSTEAM },
+      });
     });
 
     afterEach(() => {

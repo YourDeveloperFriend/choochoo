@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { GameKey } from "../../api/game_key";
 import { Land } from "../../engine/map/location";
 import { SpaceType } from "../../engine/state/location_type";
 import { allPlayerColors } from "../../engine/state/player";
@@ -53,7 +54,7 @@ export function Pallet() {
                     <ModifiedSpace
                       key={index}
                       space={space}
-                      settings={ViewRegistry.singleton.get("reversteam")}
+                      settings={ViewRegistry.singleton.get(GameKey.REVERSTEAM)}
                       tile={{
                         tileType,
                         orientation: Direction.TOP,

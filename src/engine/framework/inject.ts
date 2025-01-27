@@ -1,3 +1,4 @@
+import { GameKey } from "../../api/game_key";
 import { MapRegistry } from "../../maps/registry";
 import { assert } from "../../utils/validate";
 import {
@@ -20,7 +21,7 @@ export class InjectionContext {
   private readonly injected = new Map<SimpleConstructor<unknown>, unknown>();
   private readonly dependencyStack = new DependencyStack();
 
-  constructor(mapKey: string) {
+  constructor(mapKey: GameKey) {
     for (const override of MapRegistry.singleton.get(mapKey).getOverrides()) {
       const original = Object.getPrototypeOf(override);
       this.overrides.set(original, override);

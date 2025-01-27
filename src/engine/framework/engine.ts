@@ -1,3 +1,4 @@
+import { GameKey } from "../../api/game_key";
 import { MapRegistry } from "../../maps/registry";
 import { assert } from "../../utils/validate";
 import {
@@ -35,7 +36,7 @@ export class EngineDelegator {
 
   private constructor() {}
 
-  private getEngine(mapKey: string): EngineProcessor {
+  private getEngine(mapKey: GameKey): EngineProcessor {
     if (!this.engines.has(mapKey)) {
       try {
         const injectionContext = new InjectionContext(mapKey);
@@ -53,7 +54,7 @@ export class EngineDelegator {
     return this.getEngine(props.game.gameKey).start(props);
   }
 
-  processAction(mapKey: string, props: ProcessActionProps): GameState {
+  processAction(mapKey: GameKey, props: ProcessActionProps): GameState {
     return this.getEngine(mapKey).processAction(props);
   }
 
@@ -164,7 +165,7 @@ export class InjectionRunner {
 
   private constructor() {}
 
-  private static getInjectionContext(mapKey: string): InjectionContext {
+  private static getInjectionContext(mapKey: GameKey): InjectionContext {
     if (!this.ctxs.has(mapKey)) {
       this.ctxs.set(mapKey, new InjectionContext(mapKey));
     }
@@ -172,7 +173,7 @@ export class InjectionRunner {
   }
 
   static runFunction<T>(
-    mapKey: string,
+    mapKey: GameKey,
     gameData: string | undefined,
     fn: () => T,
   ): T {
@@ -190,7 +191,7 @@ export class InjectionRunner {
   }
 
   static get<T>(
-    mapKey: string,
+    mapKey: GameKey,
     gameData: string | undefined,
     ctor: SimpleConstructor<T>,
   ): T {

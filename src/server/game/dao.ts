@@ -17,6 +17,7 @@ import {
   Version,
 } from "@sequelize/core/decorators-legacy";
 import { GameApi, GameLiteApi, GameStatus, MapConfig } from "../../api/game";
+import { GameKey } from "../../api/game_key";
 import { VariantConfig } from "../../api/variant_config";
 import { EngineDelegator } from "../../engine/framework/engine";
 import { LimitedGame, toLimitedGame } from "../../engine/game/game_memory";
@@ -38,7 +39,7 @@ export class GameDao extends Model<
 
   @Attribute(DataTypes.STRING)
   @NotNull
-  declare gameKey: string;
+  declare gameKey: GameKey;
 
   @Attribute(DataTypes.STRING)
   @NotNull

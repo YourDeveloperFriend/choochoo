@@ -1,8 +1,16 @@
+import { GameKey } from "../../api/game_key";
+import { VariantConfig } from "../../api/variant_config";
 import { ViewRegistry } from "../../maps/view_registry";
-import { MapViewSettings } from "../../maps/view_settings";
 
-export function MapInfo({ gameKey }: { gameKey: string }) {
+export function MapInfo({
+  gameKey,
+  variant,
+}: {
+  gameKey: GameKey;
+  variant: VariantConfig;
+}) {
   const selectedMap = ViewRegistry.singleton.get(gameKey);
+  const Rules = selectedMap.getMapRules;
   return (
     <div>
       <h2>{selectedMap.name}</h2>
@@ -21,18 +29,7 @@ export function MapInfo({ gameKey }: { gameKey: string }) {
         </li>
       </ul>
       <h3>Rules</h3>
-      <AlternateRules selectedMap={selectedMap} />
+      <Rules variant={variant} />
     </div>
   );
-}
-
-export function AlternateRules({
-  selectedMap,
-}: {
-  selectedMap: MapViewSettings;
-}) {
-  if (selectedMap.getMapRules) {
-    return selectedMap.getMapRules();
-  }
-  return <p>No changes from base game.</p>;
 }

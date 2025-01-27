@@ -1,3 +1,4 @@
+import { GameKey } from "../api/game_key";
 import { MapSettings } from "../engine/game/map_settings";
 import { assert } from "../utils/validate";
 import { CyprusMapSettings } from "./cyprus/settings";
@@ -13,7 +14,7 @@ import { SwedenRecyclingMapSettings } from "./sweden/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();
-  private readonly maps = new Map<string, MapSettings>();
+  private readonly maps = new Map<GameKey, MapSettings>();
 
   private constructor() {
     this.add(new RustBeltMapSettings());
@@ -37,7 +38,7 @@ export class MapRegistry {
     this.maps.set(map.key, map);
   }
 
-  get(key: string): MapSettings {
+  get(key: GameKey): MapSettings {
     assert(this.maps.has(key), `unfound maps with key ${key}`);
     return this.maps.get(key)!;
   }

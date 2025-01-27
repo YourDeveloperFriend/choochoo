@@ -5,6 +5,7 @@ import { AutoAction } from "../engine/state/auto_action";
 import { MapRegistry } from "../maps/registry";
 import { TextInputNumber } from "../utils/types";
 import { assertNever } from "../utils/validate";
+import { GameKey, GameKeyZod } from "./game_key";
 import { VariantConfig } from "./variant_config";
 
 export const GameStatus = z.enum(["LOBBY", "ACTIVE", "ENDED", "ABANDONED"]);
@@ -45,7 +46,7 @@ export const ActionApi = z.object({
 
 export type ActionApi = z.infer<typeof ActionApi>;
 
-function numPlayersMessage(gameKey: string): string {
+function numPlayersMessage(gameKey: GameKey): string {
   const { name, minPlayers, maxPlayers } = MapRegistry.singleton.get(gameKey);
 
   const range =
@@ -56,7 +57,7 @@ function numPlayersMessage(gameKey: string): string {
 
 export const CreateGameApi = z
   .object({
-    gameKey: z.string(),
+    gameKey: GameKeyZod,
     name: z
       .string()
       .trim()
@@ -105,7 +106,7 @@ export const LogEntry = z.object({
 
 export const GameLiteApi = z.object({
   id: z.number(),
-  gameKey: z.string(),
+  gameKey: GameKeyZod,
   name: z.string(),
   playerIds: z.array(z.number()),
   status: GameStatus,

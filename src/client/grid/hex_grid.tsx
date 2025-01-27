@@ -11,6 +11,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { GameKey } from "../../api/game_key";
 import { Rotation } from "../../engine/game/map_settings";
 import { Grid, Space } from "../../engine/map/grid";
 import { Track } from "../../engine/map/track";
@@ -48,7 +49,7 @@ interface HexGridProps {
   selectedGood?: { good: Good; coordinates: Coordinates };
   clickTargets?: Set<ClickTarget>;
   fullMapVersion?: boolean;
-  gameKey?: string;
+  gameKey?: GameKey;
 }
 
 function onClickCb(grid: Grid, onClick?: (space: Space, good?: Good) => void) {
