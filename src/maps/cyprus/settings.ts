@@ -1,3 +1,4 @@
+import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
 import { map } from "./grid";
 import { CyprusAllowedActions } from "./limitted_selection";
@@ -6,7 +7,7 @@ import { ShortBuild } from "./short_build";
 import { CyprusStarter } from "./starter";
 
 export class CyprusMapSettings implements MapSettings {
-  static readonly key = "cyprus";
+  static readonly key = GameKey.CYPRUS;
   readonly key = CyprusMapSettings.key;
   readonly name = "Cyprus";
   readonly minPlayers = 3;

@@ -1,3 +1,4 @@
+import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
 import { interCityConnections } from "../factory";
 import { KoreaCostCalculator } from "./cost";
@@ -7,7 +8,7 @@ import { KoreaStarter } from "./starter";
 import { KoreaUrbanizeAction } from "./urbanize";
 
 export class KoreaMapSettings implements MapSettings {
-  static readonly key = "korea";
+  static readonly key = GameKey.KOREA;
   readonly key = KoreaMapSettings.key;
   readonly name = "Korea";
   readonly minPlayers = 3;

@@ -1,3 +1,4 @@
+import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
 import { interCityConnections } from "../factory";
 import {
@@ -28,7 +29,7 @@ import { DetroitGoodsGrowthPhase } from "./solo";
 import { DetroitStarter } from "./starter";
 
 export class DetroitBankruptcyMapSettings implements MapSettings {
-  static readonly key = "detroit-bankruptcy";
+  static readonly key = GameKey.DETROIT;
   readonly key = DetroitBankruptcyMapSettings.key;
   readonly name = "Detroit Bankruptcy";
   readonly minPlayers = 1;

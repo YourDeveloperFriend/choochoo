@@ -11,9 +11,11 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { FormEvent, useCallback, useMemo } from "react";
+import { FormEvent, useCallback, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { GameKey } from "../../api/game_key";
 import { UserRole } from "../../api/user";
+import { VariantConfig } from "../../api/variant_config";
 import {
   ReleaseStage,
   releaseStageToString,
@@ -34,7 +36,8 @@ import { MapInfo } from "./map_info";
 
 export function CreateGamePage() {
   const me = useMe();
-  const initialMapValue = useSearchParams()[0].get("map") ?? "reversteam";
+  const initialMapValue =
+    (useSearchParams()[0].get("map") as GameKey) ?? GameKey.REVERSTEAM;
   const maps = useMemo(
     () =>
       [...ViewRegistry.singleton.values()]
@@ -68,13 +71,16 @@ export function CreateGamePage() {
   );
   const { validateGame, createGame, validationError, isPending } =
     useCreateGame();
+  const [variant, setVariant] = useState<Partial<VariantConfig>>(
+    selectedMap.getInitialVariantConfig?.() ?? { gameKey },
+  );
 
   const minPlayers = allowPlayerSelections ? minPlayersS : map.minPlayers;
   const maxPlayers = allowPlayerSelections ? maxPlayersS : map.maxPlayers;
 
   const setGameKey = useCallback(
-    (e: SelectChangeEvent<string>) => {
-      const gameKey = e.target.value as string;
+    (e: SelectChangeEvent<GameKey>) => {
+      const gameKey = e.target.value as GameKey;
       setGameKeyState(gameKey);
       const map = ViewRegistry.singleton.get(gameKey);
       if (typeof minPlayers === "number") {
@@ -83,8 +89,10 @@ export function CreateGamePage() {
       if (typeof maxPlayers === "number") {
         setMaxPlayersRaw(Math.min(maxPlayers, map.maxPlayers));
       }
+      setVariant(map.getInitialVariantConfig?.() ?? { gameKey });
     },
     [
+      setVariant,
       minPlayers,
       maxPlayers,
       setMinPlayersRaw,
@@ -103,6 +111,7 @@ export function CreateGamePage() {
         minPlayers,
         maxPlayers,
         unlisted,
+        variant: variant as VariantConfig,
       });
     },
     [
@@ -124,8 +133,9 @@ export function CreateGamePage() {
       minPlayers,
       maxPlayers,
       unlisted,
+      variant: variant as VariantConfig,
     });
-  }, [name, gameKey, artificialStart, minPlayers, maxPlayers]);
+  }, [name, gameKey, artificialStart, minPlayers, maxPlayers, variant]);
 
   const grid = useMemo(() => {
     if (gameKey == null) return undefined;
@@ -136,6 +146,8 @@ export function CreateGamePage() {
       settings.interCityConnections ?? [],
     );
   }, [gameKey]);
+
+  const Editor = selectedMap.getVariantConfigEditor;
 
   return (
     <Box
@@ -242,6 +254,14 @@ export function CreateGamePage() {
         />
         <FormHelperText>{validationError?.unlisted}</FormHelperText>
       </FormControl>
+      {Editor && (
+        <Editor
+          config={variant}
+          setConfig={setVariant}
+          errors={validationError}
+          isPending={isPending}
+        />
+      )}
       <div>
         <Button type="submit" disabled={isPending}>
           Create

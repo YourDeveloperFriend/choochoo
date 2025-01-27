@@ -1,13 +1,21 @@
+import { GameKey } from "../../api/game_key";
+import { VariantConfig } from "../../api/variant_config";
 import { Action } from "../../engine/state/action";
-import { IrelandRules } from "./rules";
-import { IrelandMapSettings } from "./settings";
 import { MapViewSettings } from "../view_settings";
 import { IrelandRivers } from "./rivers";
+import { IrelandRules } from "./rules";
+import { IrelandMapSettings } from "./settings";
+import { IrelandVariantEditor } from "./variant_editor";
 
 export class IrelandViewSettings
   extends IrelandMapSettings
   implements MapViewSettings
 {
+  getInitialVariantConfig(): VariantConfig {
+    return { gameKey: GameKey.IRELAND, locoVariant: false };
+  }
+  getVariantConfigEditor = IrelandVariantEditor;
+
   getMapRules = IrelandRules;
   getTexturesLayer = IrelandRivers;
 

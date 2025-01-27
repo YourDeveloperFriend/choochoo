@@ -1,3 +1,4 @@
+import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
 import {
   MontrealBidAction,
@@ -7,7 +8,7 @@ import {
 import { map } from "./grid";
 
 export class MontrealMetroMapSettings implements MapSettings {
-  readonly key = "montreal-metro";
+  readonly key = GameKey.MONTREAL_METRO;
   readonly name = "Montreal Metro";
   readonly minPlayers = 3;
   readonly maxPlayers = 3;

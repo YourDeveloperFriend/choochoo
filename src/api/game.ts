@@ -5,6 +5,7 @@ import { AutoAction } from "../engine/state/auto_action";
 import { MapRegistry } from "../maps/registry";
 import { TextInputNumber } from "../utils/types";
 import { assertNever } from "../utils/validate";
+import { VariantConfig } from "./variant_config";
 
 export const GameStatus = z.enum(["LOBBY", "ACTIVE", "ENDED", "ABANDONED"]);
 
@@ -65,10 +66,14 @@ export const CreateGameApi = z
         /^[a-zA-Z0-9_\- ]*$/,
         "Can only use letters, numbers, spaces, _, and - characters",
       ),
+    variant: VariantConfig,
     artificialStart: z.boolean(),
     unlisted: z.boolean(),
   })
   .and(MapConfig)
+  .refine((data) => data.gameKey !== data.variant.gameKey, {
+    message: "Game key does not match",
+  })
   .refine((data) => data.minPlayers <= data.maxPlayers, {
     message: "Cannot be less than min players",
     path: ["maxPlayers"],

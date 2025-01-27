@@ -1,3 +1,4 @@
+import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
 import { ExpensiveMountains } from "./costs";
 import { IndiaBuildAction, IndiaUrbanizeAction } from "./goods_growth";
@@ -6,7 +7,7 @@ import { IndiaIncomePhase } from "./monsoon";
 import { IndiaPhaseDelegator, IndiaPhaseEngine } from "./production";
 
 export class IndiaMapSettings implements MapSettings {
-  static readonly key = "india";
+  static readonly key = GameKey.INDIA;
   readonly key = IndiaMapSettings.key;
   readonly name = "India";
   readonly minPlayers = 3;

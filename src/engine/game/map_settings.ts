@@ -1,3 +1,4 @@
+import { GameKey } from "../../api/game_key";
 import { assertNever } from "../../utils/validate";
 import { SimpleConstructor } from "../framework/dependency_stack";
 import { GridData } from "../state/grid";
@@ -34,7 +35,7 @@ export enum Rotation {
 }
 
 export interface MapSettings {
-  readonly key: string;
+  readonly key: GameKey;
   readonly name: string;
   readonly minPlayers: number;
   readonly maxPlayers: number;

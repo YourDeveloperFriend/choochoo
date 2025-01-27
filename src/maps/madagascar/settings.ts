@@ -1,3 +1,4 @@
+import { GameKey } from "../../api/game_key";
 import { SimpleConstructor } from "../../engine/framework/dependency_stack";
 import {
   MapSettings,
@@ -24,7 +25,7 @@ import {
 } from "./turn_order";
 
 export class MadagascarMapSettings implements MapSettings {
-  static readonly key = "madagascar";
+  static readonly key = GameKey.MADAGASCAR;
   readonly key = MadagascarMapSettings.key;
   readonly name = "Madagascar";
   readonly minPlayers = 3;

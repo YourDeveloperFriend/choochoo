@@ -1,3 +1,4 @@
+import { GameKey } from "../../api/game_key";
 import {
   MapSettings,
   ReleaseStage,
@@ -12,7 +13,7 @@ import { IrelandRoundEngine } from "./shortened_round";
 import { IrelandStarter } from "./starter";
 
 export class IrelandMapSettings implements MapSettings {
-  static readonly key = "ireland";
+  static readonly key = GameKey.IRELAND;
   readonly key = IrelandMapSettings.key;
   readonly name = "Ireland";
   readonly minPlayers = 3;

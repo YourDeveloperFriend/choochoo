@@ -1,3 +1,4 @@
+import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
 import { interCityConnections } from "../factory";
 import {
@@ -11,7 +12,7 @@ import { GermanyMoveHelper } from "./move";
 import { GermanyStarter } from "./starter";
 
 export class GermanyMapSettings implements MapSettings {
-  static readonly key = "germany";
+  static readonly key = GameKey.GERMANY;
   readonly key = GermanyMapSettings.key;
   readonly name = "Germany";
   readonly minPlayers = 3;
