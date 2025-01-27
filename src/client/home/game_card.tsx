@@ -31,6 +31,10 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
 
   useAwaitingPlayer(game.activePlayerId);
 
+  const variantString = ViewRegistry.singleton
+    .get(game.gameKey)
+    .getVariantString?.(game.variant);
+
   return (
     <Card className={styles.gameCard}>
       <CardHeader
@@ -53,6 +57,11 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
         {game.status === GameStatus.enum.LOBBY && (
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Seats: {seats(game)}
+          </Typography>
+        )}
+        {variantString != null && (
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            Variants: {variantString.join(", ")}
           </Typography>
         )}
         {game.unlisted && (

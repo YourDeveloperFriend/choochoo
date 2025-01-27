@@ -20,6 +20,12 @@ export class IrelandViewSettings
   getMapRules = IrelandRules;
   getTexturesLayer = IrelandRivers;
 
+  getVariantString(variant: VariantConfig): string[] | undefined {
+    if ((variant as IrelandVariantConfig).locoVariant) {
+      return ["Loco"];
+    }
+  }
+
   getActionDescription(action: Action): string | undefined {
     const game = useGame();
     if (action === Action.LOCOMOTIVE) {
