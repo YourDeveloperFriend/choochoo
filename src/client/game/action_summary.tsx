@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import { ReactNode, useCallback } from "react";
 import { DoneAction } from "../../engine/build/done";
 import { BuilderHelper } from "../../engine/build/helper";
@@ -6,7 +6,6 @@ import { inject } from "../../engine/framework/execution_context";
 import { PHASE } from "../../engine/game/phase";
 import { LocoAction } from "../../engine/move/loco";
 import { MovePassAction } from "../../engine/move/pass";
-import { MOVE_STATE } from "../../engine/move/state";
 import { SelectAction as ActionSelectionSelectAction } from "../../engine/select_action/select";
 import { ShareHelper } from "../../engine/shares/share_helper";
 import { TakeSharesAction } from "../../engine/shares/take_shares";
@@ -23,10 +22,8 @@ import { Username } from "../components/username";
 import { useAction, useEmptyAction } from "../services/game";
 import {
   useActiveGameState,
-  useCurrentPlayer,
   useInject,
   useInjected,
-  usePhaseState,
 } from "../utils/injection_context";
 import { ManualGoodsGrowth } from "./india/goods_growth";
 
@@ -88,10 +85,13 @@ export function EndGame() {
 }
 
 export function MoveGoods() {
-  const { emit: emitLoco, canEmit, canEmitUserId } = useEmptyAction(LocoAction);
+  const {
+    emit: emitLoco,
+    canEmit,
+    canEmitUserId,
+    getErrorMessage,
+  } = useEmptyAction(LocoAction);
   const { emit: emitPass } = useEmptyAction(MovePassAction);
-  const player = useCurrentPlayer();
-  const state = usePhaseState(Phase.MOVING, MOVE_STATE);
 
   if (canEmitUserId == null) {
     return <></>;
@@ -105,12 +105,22 @@ export function MoveGoods() {
     );
   }
 
+  const locoDisabledReason = getErrorMessage();
+  const locoButton = (
+    <Button onClick={emitLoco} disabled={locoDisabledReason != null}>
+      Locomotive
+    </Button>
+  );
+
   return (
     <div>
       <GenericMessage>You must move a good.</GenericMessage>
-      {!state!.locomotive.includes(player!.color) && (
-        <Button onClick={emitLoco}>Locomotive</Button>
+      {locoDisabledReason != null && (
+        <Tooltip title={locoDisabledReason} placement="bottom">
+          <span>{locoButton}</span>
+        </Tooltip>
       )}
+      {locoDisabledReason == null && locoButton}
       <Button onClick={emitPass}>Pass</Button>
     </div>
   );

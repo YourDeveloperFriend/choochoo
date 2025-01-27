@@ -12,12 +12,13 @@ import {
 } from "../../api/game";
 import { PhaseDelegator } from "../../engine/game/phase_delegator";
 import { ActionConstructor } from "../../engine/game/phase_module";
+import { InvalidInputError } from "../../utils/error";
 import { entries, peek } from "../../utils/functions";
 import { Entry, WithFormNumber } from "../../utils/types";
 import { assert, assertNever } from "../../utils/validate";
 import { useUpdateAutoActionCache } from "../auto_action/hooks";
 import { useMostRecentValue } from "../utils/hooks";
-import { useInjected } from "../utils/injection_context";
+import { useInjected, useInjectedMemo } from "../utils/injection_context";
 import { tsr } from "./client";
 import { useIsAdmin, useMe } from "./me";
 import { handleError, toValidationError } from "./network";
@@ -417,20 +418,30 @@ interface ActionHandler<T> {
   canEmit: boolean;
   isPending: boolean;
   canEmitUserId?: number;
+  getErrorMessage(t: T): string | undefined;
 }
 
-type EmptyActionHandler = Omit<ActionHandler<unknown>, "emit"> & {
+type EmptyActionHandler = Omit<
+  ActionHandler<unknown>,
+  "emit" | "getErrorMessage"
+> & {
   emit(): void;
+  getErrorMessage(): string | undefined;
 };
 
 export function useEmptyAction(
   action: ActionConstructor<Record<string, never>>,
 ): EmptyActionHandler {
-  const { emit: oldEmit, ...rest } = useAction(action);
+  const {
+    emit: oldEmit,
+    getErrorMessage: oldGetErrorMessage,
+    ...rest
+  } = useAction(action);
   const emit = useCallback(() => {
     oldEmit({});
   }, [oldEmit]);
-  return { emit, ...rest };
+  const getErrorMessage = useCallback(() => oldGetErrorMessage({}), []);
+  return { emit, getErrorMessage, ...rest };
 }
 
 /** Like `useState` but it resets when the game version changes. */
@@ -459,6 +470,7 @@ export function useAction<T extends object>(
   const phaseDelegator = useInjected(PhaseDelegator);
   const notifications = useNotifications();
   const { mutate, isPending, error } = tsr.games.performAction.useMutation();
+  const actionInstance = useInjectedMemo(action);
   handleError(isPending, error);
 
   const actionName = action.action;
@@ -498,8 +510,21 @@ export function useAction<T extends object>(
 
   const canEmitUserId = actionCanBeEmitted ? game.activePlayerId : undefined;
   const canEmit = me?.id === game.activePlayerId && actionCanBeEmitted;
+  const getErrorMessage = useCallback(
+    (data: T) => {
+      try {
+        actionInstance.value.validate(actionInstance.value.assertInput(data));
+      } catch (e) {
+        if (e instanceof InvalidInputError) {
+          return e.message;
+        }
+        throw e;
+      }
+    },
+    [actionInstance],
+  );
 
-  return { emit, canEmit, canEmitUserId, isPending };
+  return { emit, canEmit, canEmitUserId, getErrorMessage, isPending };
 }
 
 export interface UndoAction {

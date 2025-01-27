@@ -20,8 +20,10 @@ export class LocoAction extends EmptyActionProcessor {
 
   validate(): void {
     const player = this.currentPlayer();
-    assert(!this.hasReachedLocoLimit(), "can only loco once per round");
-    assert(player.locomotive < 6, "cannot loco more than 6");
+    assert(!this.hasReachedLocoLimit(), {
+      invalidInput: "can only loco once per round",
+    });
+    assert(player.locomotive < 6, { invalidInput: "cannot loco more than 6" });
   }
 
   process(): boolean {
