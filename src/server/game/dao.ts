@@ -17,6 +17,7 @@ import {
   Version,
 } from "@sequelize/core/decorators-legacy";
 import { GameApi, GameLiteApi, GameStatus, MapConfig } from "../../api/game";
+import { VariantConfig } from "../../api/variant_config";
 import { EngineDelegator } from "../../engine/framework/engine";
 import { LimitedGame, toLimitedGame } from "../../engine/game/game_memory";
 import { AutoAction } from "../../engine/state/auto_action";
@@ -63,6 +64,10 @@ export class GameDao extends Model<
 
   @Attribute(DataTypes.JSONB)
   declare config: MapConfig;
+
+  @Attribute(DataTypes.JSONB)
+  @NotNull
+  declare variant: VariantConfig;
 
   @Attribute({ type: DataTypes.INTEGER, allowNull: true })
   declare activePlayerId: number | null;

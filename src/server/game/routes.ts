@@ -123,6 +123,7 @@ const router = initServer().router(gameContract, {
       name: body.name,
       status: GameStatus.enum.LOBBY,
       playerIds,
+      variant: body.variant,
       config: {
         minPlayers: body.minPlayers,
         maxPlayers: body.maxPlayers,
