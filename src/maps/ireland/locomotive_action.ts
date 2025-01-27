@@ -3,9 +3,23 @@ import { inject, injectState } from "../../engine/framework/execution_context";
 import { GameMemory } from "../../engine/game/game_memory";
 import { PHASE } from "../../engine/game/phase";
 import { MoveHelper } from "../../engine/move/helper";
+import { LocoAction } from "../../engine/move/loco";
 import { Action } from "../../engine/state/action";
 import { Phase } from "../../engine/state/phase";
 import { PlayerData } from "../../engine/state/player";
+
+export class IrelandLocoAction extends LocoAction {
+  private readonly gameMemory = inject(GameMemory);
+
+  protected hasReachedLocoLimit(): boolean {
+    if (!this.gameMemory.getVariant(IrelandVariantConfig.parse).locoVariant) {
+      if (this.currentPlayer().selectedAction === Action.LOCOMOTIVE) {
+        return false;
+      }
+    }
+    return super.hasReachedLocoLimit();
+  }
+}
 
 export class IrelandMoveHelper extends MoveHelper {
   private readonly phase = injectState(PHASE);

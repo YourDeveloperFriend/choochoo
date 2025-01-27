@@ -7,7 +7,7 @@ import {
 import { IrelandBuildPhase, IrelandClaimAction } from "./claim_once";
 import { IrelandPhaseDelegator, IrelandPhaseEngine } from "./deurbanization";
 import { map } from "./grid";
-import { IrelandMoveHelper } from "./locomotive_action";
+import { IrelandLocoAction, IrelandMoveHelper } from "./locomotive_action";
 import { IrelandAllowedActions, IrelandSelectAction } from "./select_action";
 import { IrelandRoundEngine } from "./shortened_round";
 import { IrelandStarter } from "./starter";
@@ -34,6 +34,7 @@ export class IrelandMapSettings implements MapSettings {
       IrelandPhaseDelegator,
       IrelandPhaseEngine,
       IrelandStarter,
+      IrelandLocoAction,
     ];
   }
 }
