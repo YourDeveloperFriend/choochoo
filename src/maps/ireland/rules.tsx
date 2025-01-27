@@ -37,8 +37,8 @@ export function IrelandRules({ variant: untyped }: RulesProps) {
         </li>
         {variant.locoVariant && (
           <li>
-            <b>Locomotive:</b> only temporarily gives you a +1, does not
-            increase your expenses and reverts at the end of the round.
+            <b>[Variant] Locomotive:</b> only temporarily gives you a +1, does
+            not increase your expenses and reverts at the end of the round.
           </li>
         )}
         {!variant.locoVariant && (

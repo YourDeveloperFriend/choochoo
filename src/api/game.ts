@@ -72,7 +72,7 @@ export const CreateGameApi = z
     unlisted: z.boolean(),
   })
   .and(MapConfig)
-  .refine((data) => data.gameKey !== data.variant.gameKey, {
+  .refine((data) => data.gameKey === data.variant.gameKey, {
     message: "Game key does not match",
   })
   .refine((data) => data.minPlayers <= data.maxPlayers, {

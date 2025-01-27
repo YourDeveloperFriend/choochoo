@@ -124,6 +124,7 @@ export function CreateGamePage() {
       createGame,
       minPlayers,
       maxPlayers,
+      variant,
     ],
   );
 
