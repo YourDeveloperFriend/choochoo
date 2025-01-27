@@ -79,6 +79,7 @@ const router = initServer().router(gameContract, {
         "name",
         "gameData",
         "config",
+        "variant",
         "status",
         "activePlayerId",
         "playerIds",
