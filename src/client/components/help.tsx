@@ -1,14 +1,9 @@
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { Popover, Typography } from "@mui/material";
-import { ReactNode, useState } from "react";
+import { ReactNode, useId, useState } from "react";
 
-export function HelpIcon({
-  id,
-  children,
-}: {
-  id: string;
-  children: ReactNode;
-}) {
+export function HelpIcon({ children }: { children: ReactNode }) {
+  const id = useId();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {

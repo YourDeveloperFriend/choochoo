@@ -184,7 +184,7 @@ export function InternalAutoActionForm({
               label={
                 <>
                   Done taking shares.
-                  <HelpIcon id="done-taking-shares">
+                  <HelpIcon>
                     Every time it&apos;s your turn to take out shares,
                     you&apos;ll pass without taking any shares. This will
                     continue until the game ends or you untoggle this button.
@@ -211,7 +211,7 @@ export function InternalAutoActionForm({
               label={
                 <>
                   Select how many shares to take out next shares round.
-                  <HelpIcon id="select-shares">
+                  <HelpIcon>
                     The next time it&apos;s your turn to take out shares,
                     you&apos;ll take out this many shares. This field gets reset
                     after the action is performed.
@@ -312,7 +312,7 @@ export function InternalAutoActionForm({
                 label={
                   <>
                     Pass once max bid is exceeded
-                    <HelpIcon id="select-shares">
+                    <HelpIcon>
                       The next time it&apos;s your turn to bid and the bid is
                       greater than your max, you&apos;ll pass instead. Leave
                       blank if you want to bid until the max bid, then decide
@@ -343,7 +343,7 @@ export function InternalAutoActionForm({
               label={
                 <>
                   Select an action (if available).
-                  <HelpIcon id="select-shares">
+                  <HelpIcon>
                     The next time it&apos;s your turn to select an action,
                     it&apos;ll select this action if it&apos;s available.
                     Otherwise, it&apos;ll just wait for you to select an action.
