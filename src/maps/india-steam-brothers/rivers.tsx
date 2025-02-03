@@ -1,6 +1,6 @@
 import * as styles from "../../client/grid/hex.module.css";
 
-export function IndiaRivers() {
+export function IndiaSteamBrothersRivers() {
   return (
     <>
       <path

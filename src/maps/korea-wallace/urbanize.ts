@@ -6,7 +6,7 @@ import { Good } from "../../engine/state/good";
 import { SpaceType } from "../../engine/state/location_type";
 import { assert } from "../../utils/validate";
 
-export class KoreaUrbanizeAction extends UrbanizeAction {
+export class KoreaWallaceUrbanizeAction extends UrbanizeAction {
   private readonly bag = injectState(BAG);
   private readonly random = inject(Random);
 

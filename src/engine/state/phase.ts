@@ -16,7 +16,7 @@ export enum Phase {
   // Ireland
   DEURBANIZATION = 11,
 
-  // India
+  // India (Steam Brothers)
   MANUAL_GOODS_GROWTH = 12,
 }
 

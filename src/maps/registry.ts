@@ -4,9 +4,9 @@ import { assert } from "../utils/validate";
 import { CyprusMapSettings } from "./cyprus/settings";
 import { DetroitBankruptcyMapSettings } from "./detroit/settings";
 import { GermanyMapSettings } from "./germany/settings";
-import { IndiaMapSettings } from "./india/settings";
+import { IndiaSteamBrothersMapSettings } from "./india-steam-brothers/settings";
 import { IrelandMapSettings } from "./ireland/settings";
-import { KoreaMapSettings } from "./korea/settings";
+import { KoreaWallaceMapSettings } from "./korea-wallace/settings";
 import { MadagascarMapSettings } from "./madagascar/settings";
 import { ReversteamMapSettings } from "./reversteam/settings";
 import { RustBeltMapSettings } from "./rust_belt/settings";
@@ -23,8 +23,8 @@ export class MapRegistry {
     this.add(new SwedenRecyclingMapSettings());
     this.add(new CyprusMapSettings());
     this.add(new MadagascarMapSettings());
-    this.add(new IndiaMapSettings());
-    this.add(new KoreaMapSettings());
+    this.add(new IndiaSteamBrothersMapSettings());
+    this.add(new KoreaWallaceMapSettings());
     this.add(new GermanyMapSettings());
     this.add(new DetroitBankruptcyMapSettings());
   }

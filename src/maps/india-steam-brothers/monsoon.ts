@@ -5,7 +5,7 @@ import { Random } from "../../engine/game/random";
 import { injectPlayersByTurnOrder } from "../../engine/game/state";
 import { IncomePhase } from "../../engine/income_and_expenses/income";
 
-export class IndiaIncomePhase extends IncomePhase {
+export class IndiaSteamBrothersIncomePhase extends IncomePhase {
   private readonly random = inject(Random);
   private readonly log = inject(Log);
   private readonly moneyManager = inject(MoneyManager);

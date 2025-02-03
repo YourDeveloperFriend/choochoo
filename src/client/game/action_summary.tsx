@@ -26,7 +26,7 @@ import {
   useInject,
   useInjected,
 } from "../utils/injection_context";
-import { ManualGoodsGrowth } from "./india/goods_growth";
+import { ManualGoodsGrowth } from "./india-steam-brothers/goods_growth";
 
 const PASS_ACTION = "Pass" as const;
 type PassActionString = typeof PASS_ACTION;

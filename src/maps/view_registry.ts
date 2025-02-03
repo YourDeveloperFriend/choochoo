@@ -3,9 +3,9 @@ import { assert } from "../utils/validate";
 import { CyprusViewSettings } from "./cyprus/view_settings";
 import { DetroitBankruptcyViewSettings } from "./detroit/view_settings";
 import { GermanyViewSettings } from "./germany/view_settings";
-import { IndiaViewSettings } from "./india/view_settings";
+import { IndiaSteamBrothersViewSettings } from "./india-steam-brothers/view_settings";
 import { IrelandViewSettings } from "./ireland/view_settings";
-import { KoreaViewSettings } from "./korea/view_settings";
+import { KoreaWallaceViewSettings } from "./korea-wallace/view_settings";
 import { MadagascarViewSettings } from "./madagascar/view_settings";
 import { ReversteamViewSettings } from "./reversteam/view_settings";
 import { RustBeltViewSettings } from "./rust_belt/view_settings";
@@ -23,8 +23,8 @@ export class ViewRegistry {
     this.add(new SwedenRecyclingViewSettings());
     this.add(new CyprusViewSettings());
     this.add(new MadagascarViewSettings());
-    this.add(new IndiaViewSettings());
-    this.add(new KoreaViewSettings());
+    this.add(new IndiaSteamBrothersViewSettings());
+    this.add(new KoreaWallaceViewSettings());
     this.add(new GermanyViewSettings());
     this.add(new DetroitBankruptcyViewSettings());
   }

@@ -3,7 +3,7 @@ import { CityGroup } from "../../engine/state/city_group";
 import { Good } from "../../engine/state/good";
 import { OnRoll } from "../../engine/state/roll";
 
-export class KoreaStarter extends GameStarter {
+export class KoreaWallaceStarter extends GameStarter {
   getAvailableCities(): Array<[Good | Good[], CityGroup, OnRoll]> {
     return [
       [[], CityGroup.WHITE, 3],

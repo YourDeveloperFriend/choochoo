@@ -1,4 +1,4 @@
-export function KoreaRules() {
+export function KoreaWallaceRules() {
   return (
     <div>
       <p>Same as base game with the following changes:</p>

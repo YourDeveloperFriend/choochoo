@@ -14,7 +14,7 @@ import { Good } from "../../engine/state/good";
 import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
 import { PlayerData } from "../../engine/state/player";
 import { isDirection } from "../../engine/state/tile";
-import { SelectCityAction, SelectCityData } from "../../maps/india/production";
+import { SelectCityAction, SelectCityData } from "../../maps/india-steam-brothers/production";
 import {
   DeurbanizeAction,
   DeurbanizeData,

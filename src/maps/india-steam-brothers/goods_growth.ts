@@ -10,7 +10,7 @@ import { allDirections } from "../../engine/state/tile";
 import { Coordinates } from "../../utils/coordinates";
 import { assert } from "../../utils/validate";
 
-export class IndiaBuildAction extends BuildAction {
+export class IndiaSteamBrothersBuildAction extends BuildAction {
   private readonly goodsHelper = inject(GoodsHelper);
 
   process(data: BuildData): boolean {
@@ -41,7 +41,7 @@ export class IndiaBuildAction extends BuildAction {
   }
 }
 
-export class IndiaUrbanizeAction extends UrbanizeAction {
+export class IndiaSteamBrothersUrbanizeAction extends UrbanizeAction {
   private readonly goodsHelper = inject(GoodsHelper);
 
   process(data: UrbanizeData): boolean {

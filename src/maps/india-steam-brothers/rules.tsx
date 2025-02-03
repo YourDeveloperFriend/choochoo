@@ -1,4 +1,4 @@
-export function IndiaRules() {
+export function IndiaSteamBrothersRules() {
   return (
     <div>
       <p>Same as base game with the following changes:</p>

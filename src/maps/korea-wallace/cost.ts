@@ -2,7 +2,7 @@ import { BuildCostCalculator } from "../../engine/build/cost";
 import { SpaceType } from "../../engine/state/location_type";
 import { LandType } from "../../engine/state/space";
 
-export class KoreaCostCalculator extends BuildCostCalculator {
+export class KoreaWallaceCostCalculator extends BuildCostCalculator {
   protected getCostOfLandType(type: LandType): number {
     switch (type) {
       case SpaceType.MOUNTAIN:

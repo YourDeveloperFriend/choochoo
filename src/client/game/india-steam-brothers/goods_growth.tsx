@@ -5,7 +5,7 @@ import {
   PRODUCTION_STATE,
   SelectCityAction,
   SelectGoodAction,
-} from "../../../maps/india/production";
+} from "../../../maps/india-steam-brothers/production";
 import { DropdownMenu, DropdownMenuItem } from "../../components/dropdown_menu";
 import { Username } from "../../components/username";
 import { useAction } from "../../services/game";

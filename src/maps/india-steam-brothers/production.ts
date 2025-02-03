@@ -34,7 +34,7 @@ export const PRODUCTION_STATE = new Key("productionState", {
   parse: ProductionState.parse,
 });
 
-export class IndiaPhaseEngine extends PhaseEngine {
+export class IndiaSteamBrothersPhaseEngine extends PhaseEngine {
   phaseOrder(): Phase[] {
     const previous = super.phaseOrder();
     const index = previous.indexOf(Phase.GOODS_GROWTH);
@@ -43,14 +43,14 @@ export class IndiaPhaseEngine extends PhaseEngine {
   }
 }
 
-export class IndiaPhaseDelegator extends PhaseDelegator {
+export class IndiaSteamBrothersPhaseDelegator extends PhaseDelegator {
   constructor() {
     super();
-    this.install(IndiaGoodsGrowthPhase);
+    this.install(IndiaSteamBrothersGoodsGrowthPhase);
   }
 }
 
-export class IndiaGoodsGrowthPhase extends PhaseModule {
+export class IndiaSteamBrothersGoodsGrowthPhase extends PhaseModule {
   static readonly phase = Phase.MANUAL_GOODS_GROWTH;
   private readonly state = injectState(PRODUCTION_STATE);
 
