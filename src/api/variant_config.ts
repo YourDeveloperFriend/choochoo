@@ -3,7 +3,6 @@ import { GameKey } from "./game_key";
 
 export const EmptyVariantConfig = z.object({
   gameKey: z.enum([
-    GameKey.CYPRUS,
     GameKey.DETROIT,
     GameKey.GERMANY,
     GameKey.INDIA_STEAM_BROTHERS,
@@ -22,6 +21,12 @@ export const IrelandVariantConfig = z.object({
 });
 export type IrelandVariantConfig = z.infer<typeof IrelandVariantConfig>;
 
+export const CyprusVariantConfig = z.object({
+  gameKey: z.literal(GameKey.CYPRUS),
+  version: z.union([z.literal(2012), z.literal(2020)]),
+});
+export type CyprusVariantConfig = z.infer<typeof CyprusVariantConfig>;
+
 export const ReversteamVariantConfig = z.object({
   gameKey: z.literal(GameKey.REVERSTEAM),
   baseRules: z.boolean(),
@@ -32,5 +37,6 @@ export const VariantConfig = z.discriminatedUnion("gameKey", [
   EmptyVariantConfig,
   IrelandVariantConfig,
   ReversteamVariantConfig,
+  CyprusVariantConfig,
 ]);
 export type VariantConfig = z.infer<typeof VariantConfig>;

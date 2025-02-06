@@ -1,4 +1,8 @@
-export function CyprusRules() {
+import { CyprusVariantConfig } from "../../api/variant_config";
+import { RulesProps } from "../view_settings";
+
+export function CyprusRules({ variant: untyped }: RulesProps) {
+  const variant = untyped as CyprusVariantConfig;
   return (
     <div>
       <p>Same as base game with the following changes:</p>
@@ -25,6 +29,11 @@ export function CyprusRules() {
           <b>Nikosia:</b> is a neutral city and can accept goods from all
           players.
         </li>
+        {variant.version === 2020 && (
+          <li>
+            <b>Builds:</b> cost $3 each.
+          </li>
+        )}
       </ul>
     </div>
   );
