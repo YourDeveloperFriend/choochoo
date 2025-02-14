@@ -2,6 +2,7 @@ import { GameKey } from "../api/game_key";
 import { assert } from "../utils/validate";
 import { CyprusViewSettings } from "./cyprus/view_settings";
 import { DetroitBankruptcyViewSettings } from "./detroit/view_settings";
+import { DiscoInfernoViewSettings } from "./disco/view_settings";
 import { GermanyViewSettings } from "./germany/view_settings";
 import { IndiaSteamBrothersViewSettings } from "./india-steam-brothers/view_settings";
 import { IrelandViewSettings } from "./ireland/view_settings";
@@ -21,6 +22,7 @@ export class ViewRegistry {
     this.add(new ReversteamViewSettings());
     this.add(new IrelandViewSettings());
     this.add(new SwedenRecyclingViewSettings());
+    this.add(new DiscoInfernoViewSettings());
     this.add(new CyprusViewSettings());
     this.add(new MadagascarViewSettings());
     this.add(new IndiaSteamBrothersViewSettings());

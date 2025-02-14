@@ -12,6 +12,7 @@ export const EmptyVariantConfig = z.object({
     GameKey.MONTREAL_METRO,
     GameKey.RUST_BELT,
     GameKey.SWEDEN,
+    GameKey.DISCO_INFERNO,
   ]),
 });
 export type EmptyVariantConfig = z.infer<typeof EmptyVariantConfig>;

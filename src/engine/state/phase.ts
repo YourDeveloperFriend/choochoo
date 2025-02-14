@@ -18,6 +18,9 @@ export enum Phase {
 
   // India (Steam Brothers)
   MANUAL_GOODS_GROWTH = 12,
+
+  // Disco Inferno
+  DISCO_INFERNO_PRODUCTION = 13,
 }
 
 export const PhaseZod = z.nativeEnum(Phase);
@@ -47,6 +50,8 @@ export function getPhaseString(phase: Phase): string {
       return "End Game";
     case Phase.DEURBANIZATION:
       return "Deurbanization";
+    case Phase.DISCO_INFERNO_PRODUCTION:
+      return "Production";
     default:
       assertNever(phase);
   }

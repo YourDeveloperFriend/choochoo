@@ -53,6 +53,8 @@ export function ActionSummary() {
       return <Deurbanization />;
     case Phase.MANUAL_GOODS_GROWTH:
       return <ManualGoodsGrowth />;
+    case Phase.DISCO_INFERNO_PRODUCTION:
+      return <DiscoProduction />;
     case Phase.GOODS_GROWTH:
     case Phase.INCOME:
     case Phase.EXPENSES:
@@ -62,6 +64,10 @@ export function ActionSummary() {
     default:
       assertNever(currentPhase);
   }
+}
+
+export function DiscoProduction() {
+  return <div>You must disco production.</div>;
 }
 
 export function SpecialActionSelector() {

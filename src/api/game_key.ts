@@ -4,6 +4,7 @@ export enum GameKey {
   CYPRUS = "cyprus",
   DETROIT = "detroit-bankruptcy",
   GERMANY = "germany",
+  DISCO_INFERNO = "disco-inferno",
   INDIA_STEAM_BROTHERS = "india",
   IRELAND = "ireland",
   KOREA_WALLACE = "korea",

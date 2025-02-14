@@ -14,6 +14,10 @@
   fill: #4a6c32;
 }
 
+.location.fire {
+  fill: #d66f34;
+}
+
 .location.river {
   fill: #8eb572;
 }

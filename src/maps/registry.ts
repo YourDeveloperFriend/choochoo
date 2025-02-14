@@ -3,6 +3,7 @@ import { MapSettings } from "../engine/game/map_settings";
 import { assert } from "../utils/validate";
 import { CyprusMapSettings } from "./cyprus/settings";
 import { DetroitBankruptcyMapSettings } from "./detroit/settings";
+import { DiscoInfernoMapSettings } from "./disco/settings";
 import { GermanyMapSettings } from "./germany/settings";
 import { IndiaSteamBrothersMapSettings } from "./india-steam-brothers/settings";
 import { IrelandMapSettings } from "./ireland/settings";
@@ -20,6 +21,7 @@ export class MapRegistry {
     this.add(new RustBeltMapSettings());
     this.add(new ReversteamMapSettings());
     this.add(new IrelandMapSettings());
+    this.add(new DiscoInfernoMapSettings());
     this.add(new SwedenRecyclingMapSettings());
     this.add(new CyprusMapSettings());
     this.add(new MadagascarMapSettings());

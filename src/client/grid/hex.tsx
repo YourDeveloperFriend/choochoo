@@ -48,6 +48,8 @@ function landColorStyle(space: Land): string {
       return styles.river;
     case SpaceType.WATER:
       return styles.water;
+    case SpaceType.FIRE:
+      return styles.fire;
     case SpaceType.MOUNTAIN:
       return styles.mountain;
     // TODO: render street and street
