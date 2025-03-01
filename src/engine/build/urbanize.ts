@@ -62,7 +62,7 @@ export class UrbanizeAction implements ActionProcessor<UrbanizeData> {
       type: SpaceType.CITY,
       name: location.name()!,
       color: city.color,
-      goods: [],
+      goods: city.goods,
       urbanized: true,
       onRoll: city.onRoll,
       mapSpecific: location.data.mapSpecific,

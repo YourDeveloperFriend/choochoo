@@ -209,7 +209,7 @@ export function ModifiedSpace({
         type: SpaceType.CITY,
         name: space.name()!,
         color: asCity.color,
-        goods: [],
+        goods: asCity.goods,
         urbanized: true,
         onRoll: asCity.onRoll,
       });

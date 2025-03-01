@@ -37,7 +37,7 @@ export function AvailableCity({ city }: { city: MutableAvailableCity }) {
       type: SpaceType.CITY,
       name: "",
       color: city.color,
-      goods: [],
+      goods: city.goods,
       urbanized: true,
       onRoll: city.onRoll,
     });
