@@ -442,6 +442,7 @@ export function GameMap() {
     canEmitBuild,
     isPending,
     canEmitSelectCity,
+    canEmitDiscoProduction,
   ]);
 
   const onClickInterCity = useCallback((connect: Coordinates[]) => {
