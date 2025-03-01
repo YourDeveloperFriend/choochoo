@@ -33,6 +33,7 @@ import { MapInfo } from "./map_info";
 import { PlayerStats } from "./player_stats";
 import { SpecialActionTable } from "./special_action_table";
 import { SwitchToActive, SwitchToUndo } from "./switch";
+import { TrackManifest } from "./track_manifest";
 
 export function ActiveGame() {
   const game = useGame();
@@ -74,6 +75,7 @@ function InternalActiveGame() {
         game.status === GameStatus.enum.ACTIVE && <GoodsTable />}
       {!undoOnly && !canEmitSelectAction && <SpecialActionTable />}
       {!undoOnly && <AvailableCities />}
+      <TrackManifest />
       <MapInfo gameKey={game.gameKey} variant={game.variant} />
     </div>
   );
