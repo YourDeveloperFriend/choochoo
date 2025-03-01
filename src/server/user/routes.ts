@@ -195,6 +195,7 @@ const router = initServer().router(userContract, {
 
   async logout({ req }) {
     req.session.userId = undefined;
+    req.session.adminUserId = undefined;
     return { status: 200, body: { success: true } };
   },
 });
