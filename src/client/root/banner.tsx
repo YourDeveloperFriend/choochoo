@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { NotificationPreferences } from "../../api/notifications";
+import { UserRole } from "../../api/user";
 import { useMe } from "../services/me";
 import { useNotificationPreferences } from "../services/notifications/preferences";
 import { DiscordNotificationSettings } from "../user/discord";
@@ -15,6 +16,13 @@ export function Banner() {
 }
 
 export function NotificationPreferencesBanner() {
+  const me = useMe();
+  if (!me || me.role !== UserRole.enum.USER) return <></>;
+
+  return <InternalNotificationPreferencesBanner />;
+}
+
+export function InternalNotificationPreferencesBanner() {
   const preferences = useNotificationPreferences();
 
   if (preferences.turnNotifications.length === 0) {
