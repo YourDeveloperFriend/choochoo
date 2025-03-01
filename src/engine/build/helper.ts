@@ -40,13 +40,13 @@ export class BuilderHelper {
 
   tileAvailableInManifest(newTile: TileType): boolean {
     const manifest = this.calculateManifest(newTile);
-    const invariantType = [...manifest.entries()].find(([_, value]) => value < 0)?.[0];
+    const invariantType = [...manifest.entries()].find(([_, {remaining}]) => remaining < 0)?.[0];
     return invariantType == null;
   }
 
-  trackManifest(): Map<TileType, number> {
+  trackManifest(): Map<TileType, TileManifestEntry> {
     const manifest = this.calculateManifest();
-    const invariantType = [...manifest.entries()].find(([_, value]) => value < 0)?.[0];
+    const invariantType = [...manifest.entries()].find(([_, {remaining}]) => remaining < 0)?.[0];
     assert(invariantType == null, 'Oops, we have used too much of tile ' + invariantType);
     return manifest;
   }
@@ -61,8 +61,8 @@ export class BuilderHelper {
     return 2;
   }
 
-  private calculateManifest(newTile?: TileType): Map<TileType, number> {
-    const manifest = new Map<TileType, number>([
+  private calculateManifest(newTile?: TileType): Map<TileType, TileManifestEntry> {
+    const manifest = new Map<TileType, TileManifestEntry>([
       [SimpleTileType.STRAIGHT, 48],
       [SimpleTileType.CURVE, 55],
       [SimpleTileType.TIGHT, 7],
@@ -78,7 +78,7 @@ export class BuilderHelper {
       [ComplexTileType.COEXISTING_CURVES, 1],
       [ComplexTileType.CURVE_TIGHT_1, 1],
       [ComplexTileType.CURVE_TIGHT_2, 1],
-    ]);
+    ].map(([type, count]) => [type, toManifestEntry(count)]));
 
     const townTiles = new Map<TownTileType, number>();
 
@@ -96,14 +96,36 @@ export class BuilderHelper {
         townTiles.set(tile, (townTiles.get(tile) ?? 0) + 1);
         continue;
       }
-      manifest.set(tile, manifest.get(tile)! - 1);
+      const entry = manifest.get(tile)!;
+      manifest.set(tile, {
+        remaining: entry.remaining - 1,
+        remainingIgnoringTowns: entry.remainingIgnoringTowns - 1,
+      });
     }
 
     for (const [tile, count] of townTiles) {
       const options = this.getTileOptions(tile);
-      // If we can't find an available one, then oh well, just pick one and we'll mark it as negative.
-      const newType = options.find((type) => manifest.get(type)! > 0) ?? options[0];
-      manifest.set(newType, manifest.get(newType)! - count);
+      let i = count;
+      while (i > 0) {
+        const newType = options.find((type) => manifest.get(type)!.remaining > 0);
+        // If we can't find an available one, then oh well, just pick one and we'll mark it as negative.
+        if (newType == null) {
+          const newType2 = options[0];
+          const entry = manifest.get(newType2)!;
+          manifest.set(newType2, {
+            ...entry,
+            remaining: entry.remaining - count,
+          });
+          break;
+        }
+
+        const entry = manifest.get(newType)!;
+        manifest.set(newType, {
+          ...entry,
+          remaining: Math.max(entry.remaining - i, 0),
+        });
+        i = entry.remaining > i ? 0 : entry.remaining;
+      }
     }
     return manifest;
   }
@@ -153,4 +175,13 @@ export class BuilderHelper {
   protected ownershipMarkerLimit(): number {
     return 20;
   }
+}
+
+export interface TileManifestEntry {
+  remaining: number;
+  remainingIgnoringTowns: number;
+}
+
+function toManifestEntry(count: number): TileManifestEntry {
+  return {remaining: count, remainingIgnoringTowns: count};
 }

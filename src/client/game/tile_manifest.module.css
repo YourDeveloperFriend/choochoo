@@ -1,0 +1,12 @@
+.tiles {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.tileContainer {
+  border: 1px solid black;
+  padding: 8px;
+  margin: 4px;
+  text-align: center;
+}
