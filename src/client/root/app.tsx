@@ -29,18 +29,18 @@ export function App() {
   const { reset } = useQueryErrorResetBoundary();
 
   return (
-    <Suspense fallback={<Loading />}>
-      <SocketContextProvider>
-        <ThemeProvider theme={theme}>
-          <DialogsProvider>
-            <NotificationsProvider>
-              <AwaitingContextProvider>
-                <ErrorBoundary
-                  onReset={reset}
-                  fallbackRender={({ resetErrorBoundary }) => (
-                    <ResetError resetErrorBoundary={resetErrorBoundary} />
-                  )}
-                >
+    <ErrorBoundary
+      onReset={reset}
+      fallbackRender={({ resetErrorBoundary }) => (
+        <ResetError resetErrorBoundary={resetErrorBoundary} />
+      )}
+    >
+      <Suspense fallback={<Loading />}>
+        <SocketContextProvider>
+          <ThemeProvider theme={theme}>
+            <DialogsProvider>
+              <NotificationsProvider>
+                <AwaitingContextProvider>
                   <QueryClientProvider client={queryClient}>
                     <tsr.ReactQueryProvider>
                       <AdminModeProvider>
@@ -48,13 +48,13 @@ export function App() {
                       </AdminModeProvider>
                     </tsr.ReactQueryProvider>
                   </QueryClientProvider>
-                </ErrorBoundary>
-              </AwaitingContextProvider>
-            </NotificationsProvider>
-          </DialogsProvider>
-        </ThemeProvider>
-      </SocketContextProvider>
-    </Suspense>
+                </AwaitingContextProvider>
+              </NotificationsProvider>
+            </DialogsProvider>
+          </ThemeProvider>
+        </SocketContextProvider>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
