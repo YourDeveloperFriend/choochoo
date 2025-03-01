@@ -14,7 +14,14 @@ import { Good } from "../../engine/state/good";
 import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
 import { PlayerData } from "../../engine/state/player";
 import { isDirection } from "../../engine/state/tile";
-import { SelectCityAction, SelectCityData } from "../../maps/india-steam-brothers/production";
+import {
+  ProductionAction as DiscoProductionAction,
+  ProductionData,
+} from "../../maps/disco/production";
+import {
+  SelectCityAction,
+  SelectCityData,
+} from "../../maps/india-steam-brothers/production";
 import {
   DeurbanizeAction,
   DeurbanizeData,
@@ -231,11 +238,17 @@ function onClickCb(
   onSelectGood: (city: City, good: Good) => boolean,
   setBuildingSpace: (space: Land) => void,
   onMoveToSpace: (space: Space) => void,
+  canEmitDiscoProduction: boolean,
+  emitDiscoProduction: (data: ProductionData) => void,
 ) {
   return (space: Space, good?: Good) => {
     if (isPending) return;
     if (canEmitSelectCity) {
       emitSelectCity({ coordinates: space.coordinates });
+      return;
+    }
+    if (canEmitDiscoProduction) {
+      emitDiscoProduction({ coordinates: space.coordinates });
       return;
     }
     if (canEmitClaim) {
@@ -320,8 +333,14 @@ export function GameMap() {
     emit: emitSelectCity,
     isPending: isSelectCityPending,
   } = useAction(SelectCityAction);
+  const {
+    canEmit: canEmitDiscoProduction,
+    emit: emitDiscoProduction,
+    isPending: isDiscoProductionPending,
+  } = useAction(DiscoProductionAction);
   const { emit: emitConnectCity, isPending: isConnectCityPending } =
     useAction(ConnectCitiesAction);
+
   const player = useCurrentPlayer();
   const grid = useGrid();
   const [buildingSpace, setBuildingSpace] = useGameVersionState<
@@ -341,7 +360,8 @@ export function GameMap() {
     isDeurbanizePending ||
     isClaimPending ||
     isSelectCityPending ||
-    isConnectCityPending;
+    isConnectCityPending ||
+    isDiscoProductionPending;
 
   const dialogs = useDialogs();
 
@@ -394,6 +414,8 @@ export function GameMap() {
     onSelectGood,
     setBuildingSpace,
     onMoveToSpace,
+    canEmitDiscoProduction,
+    emitDiscoProduction,
   ]);
 
   const clickTargets: Set<ClickTarget> = useMemo(() => {
@@ -403,6 +425,9 @@ export function GameMap() {
     }
     if (canEmitDeurbanize) {
       return new Set([ClickTarget.GOOD]);
+    }
+    if (canEmitDiscoProduction) {
+      return new Set([ClickTarget.CITY]);
     }
     if (canEmitBuild) {
       return new Set([ClickTarget.LOCATION, ClickTarget.INTER_CITY_CONNECTION]);

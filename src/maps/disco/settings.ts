@@ -7,7 +7,11 @@ import {
   DiscoMovePhase,
 } from "./deliver";
 import { map } from "./grid";
-import { DiscoPhaseEngine, DiscoProductionPhase } from "./production";
+import {
+  DiscoPhaseDelegator,
+  DiscoPhaseEngine,
+  DiscoProductionPhase,
+} from "./production";
 import { DiscoStarter } from "./starter";
 
 export class DiscoInfernoMapSettings implements MapSettings {
@@ -23,6 +27,7 @@ export class DiscoInfernoMapSettings implements MapSettings {
     return [
       DiscoStarter,
       DiscoPhaseEngine,
+      DiscoPhaseDelegator,
       DiscoProductionPhase,
       DiscoMoveAction,
       DiscoMoveHelper,

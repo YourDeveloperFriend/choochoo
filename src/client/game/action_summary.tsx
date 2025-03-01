@@ -15,6 +15,7 @@ import { BidAction } from "../../engine/turn_order/bid";
 import { TurnOrderHelper } from "../../engine/turn_order/helper";
 import { PassAction } from "../../engine/turn_order/pass";
 import { TurnOrderPassAction } from "../../engine/turn_order/turn_order_pass";
+import { ProductionPassAction } from "../../maps/disco/production";
 import { PassAction as DeurbanizationPassAction } from "../../maps/ireland/deurbanization";
 import { iterate } from "../../utils/functions";
 import { assertNever } from "../../utils/validate";
@@ -68,7 +69,30 @@ export function ActionSummary() {
 }
 
 export function DiscoProduction() {
-  return <div>You must disco production.</div>;
+  const { canEmit, emit, isPending, canEmitUserId } =
+    useEmptyAction(ProductionPassAction);
+
+  if (canEmitUserId == null) {
+    return <></>;
+  }
+
+  if (!canEmit) {
+    return (
+      <GenericMessage>
+        <Username userId={canEmitUserId} /> must select a city to place the
+        drawn cubes.
+      </GenericMessage>
+    );
+  }
+
+  return (
+    <div>
+      You must select a city to place the drawn cubes.
+      <Button disabled={isPending} onClick={emit}>
+        Pass
+      </Button>
+    </div>
+  );
 }
 
 export function SpecialActionSelector() {

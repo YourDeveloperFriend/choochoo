@@ -6,6 +6,7 @@ import {
 } from "../../engine/game/action";
 import { Log } from "../../engine/game/log";
 import { PhaseEngine } from "../../engine/game/phase";
+import { PhaseDelegator } from "../../engine/game/phase_delegator";
 import { PhaseModule } from "../../engine/game/phase_module";
 import { Random } from "../../engine/game/random";
 import { BAG, injectPlayerAction } from "../../engine/game/state";
@@ -28,6 +29,13 @@ export class DiscoPhaseEngine extends PhaseEngine {
       Phase.GOODS_GROWTH,
       Phase.DISCO_INFERNO_PRODUCTION,
     ).filter((phase) => phase !== Phase.GOODS_GROWTH);
+  }
+}
+
+export class DiscoPhaseDelegator extends PhaseDelegator {
+  constructor() {
+    super();
+    this.install(DiscoProductionPhase);
   }
 }
 
@@ -93,7 +101,7 @@ export class ProductionAction implements ActionProcessor<ProductionData> {
 
   process(data: ProductionData): boolean {
     this.gridHelper.update(data.coordinates, (city) => {
-      city.goods = this.goodsGrowthState().goods;
+      city.goods = city.goods!.concat(this.goodsGrowthState().goods);
     });
     return true;
   }
@@ -101,7 +109,6 @@ export class ProductionAction implements ActionProcessor<ProductionData> {
 
 export class ProductionPassAction extends EmptyActionProcessor {
   static readonly action = "disco-production-pass";
-  readonly assertInput = ProductionData.parse;
 
   protected readonly goodsGrowthState = injectState(GOODS_GROWTH_STATE);
   private readonly bag = injectState(BAG);
