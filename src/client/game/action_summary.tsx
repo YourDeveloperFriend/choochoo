@@ -25,6 +25,7 @@ import {
   useActiveGameState,
   useInject,
   useInjected,
+  useViewSettings,
 } from "../utils/injection_context";
 import { ManualGoodsGrowth } from "./india-steam-brothers/goods_growth";
 
@@ -113,6 +114,9 @@ export function MoveGoods() {
     getErrorMessage,
   } = useEmptyAction(LocoAction);
   const { emit: emitPass } = useEmptyAction(MovePassAction);
+  const viewSettings = useViewSettings();
+
+  const message = viewSettings.moveGoodsMessage?.();
 
   if (canEmitUserId == null) {
     return <></>;
@@ -135,7 +139,7 @@ export function MoveGoods() {
 
   return (
     <div>
-      <GenericMessage>You must move a good.</GenericMessage>
+      <GenericMessage>{message ?? "You must move a good."}</GenericMessage>
       {locoDisabledReason != null && (
         <Tooltip title={locoDisabledReason} placement="bottom">
           <span>{locoButton}</span>

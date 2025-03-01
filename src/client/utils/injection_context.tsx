@@ -24,6 +24,8 @@ import { injectCurrentPlayer, injectGrid } from "../../engine/game/state";
 import { Grid } from "../../engine/map/grid";
 import { Phase } from "../../engine/state/phase";
 import { PlayerData } from "../../engine/state/player";
+import { ViewRegistry } from "../../maps/view_registry";
+import { MapViewSettings } from "../../maps/view_settings";
 import { Immutable } from "../../utils/immutable";
 import { assert } from "../../utils/validate";
 import { useGame } from "../services/game";
@@ -116,6 +118,11 @@ export function GameContextProvider({ game, children }: InjectionContextProps) {
 
 export function useGameKey(): GameKey {
   return useContext(MapKeyContext)!;
+}
+
+export function useViewSettings(): MapViewSettings {
+  const gameKey = useGameKey();
+  return useMemo(() => ViewRegistry.singleton.get(gameKey), [gameKey]);
 }
 
 export function usePhaseState<T>(

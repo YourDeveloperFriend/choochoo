@@ -9,7 +9,7 @@ import { MoveAction, MoveData } from "../../engine/move/move";
 import { MovePhase } from "../../engine/move/phase";
 import { SpaceType } from "../../engine/state/location_type";
 import { PlayerData } from "../../engine/state/player";
-import { CoordinatesZod } from "../../utils/coordinates";
+import { Coordinates, CoordinatesZod } from "../../utils/coordinates";
 import { peek } from "../../utils/functions";
 import { assert } from "../../utils/validate";
 
@@ -47,6 +47,14 @@ export class DiscoMoveHelper extends MoveHelper {
 
   isWithinLocomotive(_: PlayerData, moveData: MoveData): boolean {
     return moveData.path.length <= this.discoMoveState().movesRemaining;
+  }
+
+  movesRemaining(): number {
+    return this.discoMoveState().movesRemaining;
+  }
+
+  lastStop(): Coordinates | undefined {
+    return this.discoMoveState().lastStop;
   }
 }
 
