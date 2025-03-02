@@ -1,4 +1,5 @@
 import { Coordinates } from "../../utils/coordinates";
+import { deepEquals } from "../../utils/deep_equals";
 import { assert } from "../../utils/validate";
 import { injectState } from "../framework/execution_context";
 import { GRID, injectGrid, INTER_CITY_CONNECTIONS } from "../game/state";
@@ -11,6 +12,7 @@ import { PlayerColor } from "../state/player";
 import { MutableSpaceData, SpaceData } from "../state/space";
 import { City } from "./city";
 import { Space } from "./grid";
+import { calculateTile, calculateTrackInfo } from "./location";
 import { Track } from "./track";
 
 export class GridHelper {
@@ -39,6 +41,16 @@ export class GridHelper {
         hex.tile!.owners[trackInRoute.ownerIndex] = owner;
       });
     }
+  }
+
+  removeTrack(track: Track) {
+    this.update(track.coordinates, (hex) => {
+      assert(hex.type !== SpaceType.CITY);
+      const newTrackInfo = calculateTrackInfo(hex.tile!).filter(
+        (trackInfo) => !deepEquals(trackInfo.exits, track.getExits()),
+      );
+      hex.tile = calculateTile(newTrackInfo);
+    });
   }
 
   setInterCityOwner(

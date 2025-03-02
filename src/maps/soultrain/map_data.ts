@@ -23,6 +23,7 @@ export function dimensionToString(dimension: Dimension) {
 export const DimensionZod = z.nativeEnum(Dimension);
 
 export const SoulTrainMapData = z.object({
+  topLeft: z.boolean().optional(),
   dimension: DimensionZod.optional(),
 });
 export type SoulTrainMapData = z.infer<typeof SoulTrainMapData>;

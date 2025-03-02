@@ -42,6 +42,30 @@ export enum TownTileType {
   K,
 }
 
+export const allTileTypes = [
+  TownTileType.LOLLYPOP,
+  SimpleTileType.STRAIGHT,
+  TownTileType.STRAIGHT,
+  SimpleTileType.CURVE,
+  TownTileType.CURVE,
+  SimpleTileType.TIGHT,
+  TownTileType.TIGHT,
+  TownTileType.THREE_WAY,
+  TownTileType.LEFT_LEANER,
+  TownTileType.RIGHT_LEANER,
+  TownTileType.TIGHT_THREE,
+  TownTileType.X,
+  ComplexTileType.X,
+  TownTileType.CHICKEN_FOOT,
+  ComplexTileType.BOW_AND_ARROW,
+  ComplexTileType.CROSSING_CURVES,
+  TownTileType.K,
+  ComplexTileType.STRAIGHT_TIGHT,
+  ComplexTileType.COEXISTING_CURVES,
+  ComplexTileType.CURVE_TIGHT_1,
+  ComplexTileType.CURVE_TIGHT_2,
+];
+
 export enum Direction {
   TOP_LEFT = 1,
   TOP,

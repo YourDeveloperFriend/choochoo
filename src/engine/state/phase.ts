@@ -55,6 +55,8 @@ export function getPhaseString(phase: Phase): string {
       return "Deurbanization";
     case Phase.DISCO_INFERNO_PRODUCTION:
       return "Production";
+    case Phase.EARTH_TO_HEAVEN:
+      return "Earth to Heaven";
     default:
       assertNever(phase);
   }

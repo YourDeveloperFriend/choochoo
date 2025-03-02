@@ -1,8 +1,11 @@
 import { Coordinates } from "../../utils/coordinates";
+import { deepEquals } from "../../utils/deep_equals";
 import { assertNever } from "../../utils/validate";
 import { Good } from "../state/good";
 import { LandData, LandType } from "../state/space";
 import {
+  allDirections,
+  allTileTypes,
   ComplexTileType,
   Direction,
   SimpleTileType,
@@ -154,6 +157,23 @@ export function countExits(tile: TownTileType): number {
     default:
   }
   assertNever(tile);
+}
+
+export function calculateTile(trackInfo: TrackInfo[]): TileData {
+  for (const tileType of allTileTypes) {
+    for (const orientation of allDirections) {
+      const newTileData: TileData = {
+        tileType,
+        orientation,
+        owners: trackInfo.map((info) => info.owner),
+      };
+
+      if (deepEquals(calculateTrackInfo(newTileData), trackInfo)) {
+        return newTileData;
+      }
+    }
+  }
+  throw new Error("Cannot find tile for " + trackInfo);
 }
 
 export function toBaseTile(tile: TileType): TrackInfo[] {

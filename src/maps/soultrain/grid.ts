@@ -7,7 +7,7 @@ import {
   YELLOW,
 } from "../../engine/state/good";
 import { SpaceType } from "../../engine/state/location_type";
-import { LandData } from "../../engine/state/space";
+import { LandData, SpaceData } from "../../engine/state/space";
 import { duplicate } from "../../utils/functions";
 import {
   FIRE,
@@ -20,6 +20,9 @@ import {
 } from "../factory";
 import { Dimension, SoulTrainMapData } from "./map_data";
 
+const hellData: SoulTrainMapData = { dimension: Dimension.HELL };
+const heavenData: SoulTrainMapData = { dimension: Dimension.HEAVEN };
+
 function city(name: string, color: Good, dimension: Dimension) {
   const mapSpecific: SoulTrainMapData = { dimension };
   return {
@@ -30,11 +33,10 @@ function city(name: string, color: Good, dimension: Dimension) {
 }
 
 function town(townName: string): LandData {
-  const mapSpecific: SoulTrainMapData = { dimension: Dimension.HELL };
   return {
     type: SpaceType.FIRE,
     townName,
-    mapSpecific,
+    mapSpecific: hellData,
   };
 }
 
@@ -203,3 +205,70 @@ export const map = startsLowerGrid([
     ...duplicate(5, FIRE),
   ],
 ]);
+
+const SKY: LandData = {
+  type: SpaceType.SKY,
+};
+
+export const heaven: (SpaceData | undefined)[][] = [
+  [
+    { ...SKY, townName: "Cloud 9", mapSpecific: heavenData },
+    SKY,
+    UNPASSABLE,
+    UNPASSABLE,
+    { ...SKY, townName: "Arcadia", mapSpecific: heavenData },
+  ],
+  [...duplicate(6, SKY)],
+  [...duplicate(8, SKY)],
+  [
+    { ...SKY, townName: "Harmony", mapSpecific: heavenData },
+    SKY,
+    UNPASSABLE,
+    UNPASSABLE,
+    SKY,
+    SKY,
+  ],
+  [SKY, SKY, UNPASSABLE, UNPASSABLE, SKY, SKY, SKY],
+  [
+    SKY,
+    SKY,
+    UNPASSABLE,
+    UNPASSABLE,
+    { ...SKY, townName: "Nirvana", mapSpecific: heavenData },
+    SKY,
+  ],
+  [
+    { ...SKY, townName: "Shangrila", mapSpecific: heavenData },
+    SKY,
+    UNPASSABLE,
+    UNPASSABLE,
+    SKY,
+    SKY,
+    SKY,
+  ],
+  [...duplicate(6, SKY)],
+  [
+    SKY,
+    SKY,
+    { ...SKY, townName: "Pearly Gates", mapSpecific: heavenData },
+    ...duplicate(4, SKY),
+  ],
+  [
+    { ...SKY, townName: "Utopia", mapSpecific: heavenData },
+    ...duplicate(5, SKY),
+  ],
+  [SKY, SKY, UNPASSABLE, UNPASSABLE, SKY, SKY, SKY],
+  [
+    SKY,
+    UNPASSABLE,
+    UNPASSABLE,
+    UNPASSABLE,
+    { ...SKY, townName: "Zion", mapSpecific: heavenData },
+    UNPASSABLE,
+  ],
+  [
+    { ...SKY, townName: "Elysium", mapSpecific: heavenData },
+    SKY,
+    ...duplicate(5, UNPASSABLE),
+  ],
+];

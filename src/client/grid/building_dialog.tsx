@@ -28,11 +28,9 @@ import { AvailableCity } from "../../engine/state/available_city";
 import { SpaceType } from "../../engine/state/location_type";
 import {
   allDirections,
-  ComplexTileType,
+  allTileTypes,
   Direction,
-  SimpleTileType,
   TileData,
-  TownTileType,
 } from "../../engine/state/tile";
 import { MapViewSettings } from "../../maps/view_settings";
 import { Coordinates } from "../../utils/coordinates";
@@ -282,31 +280,7 @@ function* getAllEligibleBuilds(
   coordinates: Coordinates,
   directions: Direction[],
 ): Iterable<EligibleBuild> {
-  const tiles = [
-    TownTileType.LOLLYPOP,
-    SimpleTileType.STRAIGHT,
-    TownTileType.STRAIGHT,
-    SimpleTileType.CURVE,
-    TownTileType.CURVE,
-    SimpleTileType.TIGHT,
-    TownTileType.TIGHT,
-    TownTileType.THREE_WAY,
-    TownTileType.LEFT_LEANER,
-    TownTileType.RIGHT_LEANER,
-    TownTileType.TIGHT_THREE,
-    TownTileType.X,
-    ComplexTileType.X,
-    TownTileType.CHICKEN_FOOT,
-    ComplexTileType.BOW_AND_ARROW,
-    ComplexTileType.CROSSING_CURVES,
-    TownTileType.K,
-    ComplexTileType.STRAIGHT_TIGHT,
-    ComplexTileType.COEXISTING_CURVES,
-    ComplexTileType.CURVE_TIGHT_1,
-    ComplexTileType.CURVE_TIGHT_2,
-  ];
-
-  for (const tileType of tiles) {
+  for (const tileType of allTileTypes) {
     for (const orientation of directions) {
       const action = { orientation, tileType, coordinates };
       const tile = { orientation, tileType, owners: [] };
