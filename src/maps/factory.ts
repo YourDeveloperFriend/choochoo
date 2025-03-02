@@ -13,6 +13,14 @@ export const PLAIN: LandData = {
   type: SpaceType.PLAIN,
 };
 
+export const HILL: LandData = {
+  type: SpaceType.HILL,
+};
+
+export const FIRE: LandData = {
+  type: SpaceType.FIRE,
+};
+
 export function plain(data: Omit<LandData, "type">): LandData {
   return { ...data, type: SpaceType.PLAIN };
 }

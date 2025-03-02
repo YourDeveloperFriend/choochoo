@@ -11,6 +11,7 @@ import { KoreaWallaceMapSettings } from "./korea-wallace/settings";
 import { MadagascarMapSettings } from "./madagascar/settings";
 import { ReversteamMapSettings } from "./reversteam/settings";
 import { RustBeltMapSettings } from "./rust_belt/settings";
+import { SoulTrainMapSettings } from "./soultrain/settings";
 import { SwedenRecyclingMapSettings } from "./sweden/settings";
 
 export class MapRegistry {
@@ -28,6 +29,7 @@ export class MapRegistry {
     this.add(new IndiaSteamBrothersMapSettings());
     this.add(new KoreaWallaceMapSettings());
     this.add(new GermanyMapSettings());
+    this.add(new SoulTrainMapSettings());
     this.add(new DetroitBankruptcyMapSettings());
   }
 
