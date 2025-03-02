@@ -46,6 +46,7 @@ export class BuildCostCalculator {
       case SpaceType.HILL: return 3;
       case SpaceType.DESERT: return 3;
       case SpaceType.FIRE: return 3;
+      case SpaceType.SKY: return 1;
       default:
         assert(type !== SpaceType.UNPASSABLE && type !== SpaceType.WATER);
         assertNever(type);

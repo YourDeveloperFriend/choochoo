@@ -21,6 +21,9 @@ export enum Phase {
 
   // Disco Inferno
   DISCO_INFERNO_PRODUCTION = 13,
+
+  // Soul Train
+  EARTH_TO_HEAVEN,
 }
 
 export const PhaseZod = z.nativeEnum(Phase);

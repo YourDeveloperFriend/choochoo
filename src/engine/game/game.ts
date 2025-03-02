@@ -144,7 +144,7 @@ export class GameEngine {
       this.lifecycle.set(lifecycle.endRound());
     } else if (lifecycle instanceof EndRound) {
       this.roundEngine.end();
-      if (lifecycle.round >= this.roundEngine.maxRounds()) {
+      if (this.roundEngine.isLastRound(lifecycle.round)) {
         this.end(EndGameReason.ROUNDS_ENDED);
         return;
       }

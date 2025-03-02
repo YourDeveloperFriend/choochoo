@@ -18,6 +18,10 @@
   fill: #d66f34;
 }
 
+.location.sky {
+  fill: #645cd0;
+}
+
 .location.river {
   fill: #8eb572;
 }

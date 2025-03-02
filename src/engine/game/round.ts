@@ -27,6 +27,10 @@ export class RoundEngine {
     this.currentRound.delete();
   }
 
+  isLastRound(roundNumber: number): boolean {
+    return roundNumber >= this.maxRounds();
+  }
+
   maxRounds(): number {
     const numPlayers = this.playerCount();
 
