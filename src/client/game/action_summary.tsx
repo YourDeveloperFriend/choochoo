@@ -17,6 +17,7 @@ import { PassAction } from "../../engine/turn_order/pass";
 import { TurnOrderPassAction } from "../../engine/turn_order/turn_order_pass";
 import { ProductionPassAction } from "../../maps/disco/production";
 import { PassAction as DeurbanizationPassAction } from "../../maps/ireland/deurbanization";
+import { PlaceAction } from "../../maps/soultrain/earth_to_heaven";
 import { iterate } from "../../utils/functions";
 import { assertNever } from "../../utils/validate";
 import { DropdownMenu, DropdownMenuItem } from "../components/dropdown_menu";
@@ -57,6 +58,8 @@ export function ActionSummary() {
       return <ManualGoodsGrowth />;
     case Phase.DISCO_INFERNO_PRODUCTION:
       return <DiscoProduction />;
+    case Phase.EARTH_TO_HEAVEN:
+      return <EarthToHeaven />;
     case Phase.GOODS_GROWTH:
     case Phase.INCOME:
     case Phase.EXPENSES:
@@ -66,6 +69,24 @@ export function ActionSummary() {
     default:
       assertNever(currentPhase);
   }
+}
+
+export function EarthToHeaven() {
+  const { canEmit, canEmitUserId } = useAction(PlaceAction);
+
+  if (canEmitUserId == null) {
+    return <></>;
+  }
+
+  if (!canEmit) {
+    return (
+      <GenericMessage>
+        <Username userId={canEmitUserId} /> must place a new city.
+      </GenericMessage>
+    );
+  }
+
+  return <div>You must place a new city.</div>;
 }
 
 export function DiscoProduction() {

@@ -3,9 +3,11 @@ import { useCallback, useMemo } from "react";
 import { BuildAction } from "../../engine/build/build";
 import { ClaimAction, ClaimData } from "../../engine/build/claim";
 import { ConnectCitiesAction } from "../../engine/build/connect_cities";
+import { inject } from "../../engine/framework/execution_context";
 import { City } from "../../engine/map/city";
 import { getOpposite } from "../../engine/map/direction";
 import { Grid, Space } from "../../engine/map/grid";
+import { GridVersionHelper } from "../../engine/map/grid_version_helper";
 import { Land } from "../../engine/map/location";
 import { Track } from "../../engine/map/track";
 import { MoveHelper } from "../../engine/move/helper";
@@ -26,10 +28,10 @@ import {
   DeurbanizeAction,
   DeurbanizeData,
 } from "../../maps/ireland/deurbanization";
+import { PlaceAction } from "../../maps/soultrain/earth_to_heaven";
 import { ViewRegistry } from "../../maps/view_registry";
 import { Coordinates } from "../../utils/coordinates";
 import { peek } from "../../utils/functions";
-import { assert } from "../../utils/validate";
 import { useAction, useGameVersionState } from "../services/game";
 import { useTypedCallback, useTypedMemo } from "../utils/hooks";
 import {
@@ -37,9 +39,10 @@ import {
   useCurrentPlayer,
   useGameKey,
   useGrid,
+  useInject,
   useInjectedMemo,
 } from "../utils/injection_context";
-import { BuildingDialog } from "./building_dialog";
+import { BuildingDialog, PlaceDialog } from "./building_dialog";
 import { ClickTarget } from "./click_target";
 import { HexGrid } from "./hex_grid";
 
@@ -86,10 +89,10 @@ function onSelectGoodCb(
   moveActionProgress: MoveData | undefined,
   setMoveActionProgress: (data: MoveData | undefined) => void,
 ) {
-  return function (city: City, good: Good): boolean {
+  return function (space: Space, good: Good): boolean {
     if (moveActionProgress != null) {
       if (
-        moveActionProgress.startingCity.equals(city.coordinates) &&
+        moveActionProgress.startingCity.equals(space.coordinates) &&
         moveActionProgress.good === good
       ) {
         setMoveActionProgress(undefined);
@@ -99,7 +102,7 @@ function onSelectGoodCb(
         return false;
       }
     }
-    setMoveActionProgress({ path: [], startingCity: city.coordinates, good });
+    setMoveActionProgress({ path: [], startingCity: space.coordinates, good });
     return true;
   };
 }
@@ -235,11 +238,13 @@ function onClickCb(
   canEmitSelectCity: boolean,
   emitSelectCity: (data: SelectCityData) => void,
   canEmitMove: boolean,
-  onSelectGood: (city: City, good: Good) => boolean,
+  onSelectGood: (space: Space, good: Good) => boolean,
   setBuildingSpace: (space: Land) => void,
   onMoveToSpace: (space: Space) => void,
   canEmitDiscoProduction: boolean,
   emitDiscoProduction: (data: ProductionData) => void,
+  canEmitPlaceAction: boolean,
+  setPlaceSpace: (space: Land) => void,
 ) {
   return (space: Space, good?: Good) => {
     if (isPending) return;
@@ -268,7 +273,6 @@ function onClickCb(
     }
     if (canEmitMove) {
       if (good != null) {
-        assert(space instanceof City);
         if (onSelectGood(space, good)) {
           return;
         }
@@ -278,6 +282,11 @@ function onClickCb(
     }
     if (canEmitBuild && space instanceof Land) {
       setBuildingSpace(space);
+      return;
+    }
+
+    if (canEmitPlaceAction && space instanceof Land && space.hasTown()) {
+      setPlaceSpace(space);
       return;
     }
   };
@@ -340,12 +349,20 @@ export function GameMap() {
   } = useAction(DiscoProductionAction);
   const { emit: emitConnectCity, isPending: isConnectCityPending } =
     useAction(ConnectCitiesAction);
+  const { canEmit: canEmitPlaceAction } = useAction(PlaceAction);
+  const gridVersion = useInject(
+    () => inject(GridVersionHelper).getGridVersion(),
+    [],
+  );
 
   const player = useCurrentPlayer();
   const grid = useGrid();
   const [buildingSpace, setBuildingSpace] = useGameVersionState<
     Land | undefined
   >(undefined);
+  const [placeSpace, setPlaceSpace] = useGameVersionState<Land | undefined>(
+    undefined,
+  );
   const moveHelper = useInjectedMemo(MoveHelper);
   const gameKey = useGameKey();
 
@@ -416,6 +433,8 @@ export function GameMap() {
     onMoveToSpace,
     canEmitDiscoProduction,
     emitDiscoProduction,
+    canEmitPlaceAction,
+    setPlaceSpace,
   ]);
 
   const clickTargets: Set<ClickTarget> = useMemo(() => {
@@ -452,6 +471,7 @@ export function GameMap() {
   return (
     <>
       <HexGrid
+        key={gridVersion}
         onClick={onClick}
         onClickInterCity={onClickInterCity}
         fullMapVersion={true}
@@ -467,6 +487,11 @@ export function GameMap() {
         coordinates={buildingSpace?.coordinates}
         settings={mapSettings}
         cancelBuild={() => setBuildingSpace(undefined)}
+      />
+      <PlaceDialog
+        coordinates={placeSpace?.coordinates}
+        settings={mapSettings}
+        cancelPlace={() => setPlaceSpace(undefined)}
       />
     </>
   );

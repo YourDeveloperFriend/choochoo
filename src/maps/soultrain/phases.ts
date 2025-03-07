@@ -6,12 +6,16 @@ import { RoundEngine } from "../../engine/game/round";
 import { GRID, injectGrid, injectInGamePlayers } from "../../engine/game/state";
 import { isCity } from "../../engine/map/city";
 import { GridHelper } from "../../engine/map/grid_helper";
+import { GridVersionHelper } from "../../engine/map/grid_version_helper";
 import { isLand } from "../../engine/map/location";
+import { AllowedActions } from "../../engine/select_action/allowed_actions";
+import { Action } from "../../engine/state/action";
 import { SpaceType } from "../../engine/state/location_type";
 import { Phase } from "../../engine/state/phase";
 import { CityData } from "../../engine/state/space";
 import { Direction } from "../../engine/state/tile";
 import { remove } from "../../utils/functions";
+import { ImmutableSet } from "../../utils/immutable";
 import { assert } from "../../utils/validate";
 import { DELIVERY_RESTRICTION } from "./delivery";
 import { EarthToHeavenPhase, TO_URBANIZE } from "./earth_to_heaven";
@@ -34,12 +38,21 @@ export class SoulTrainPhaseDelegator extends PhaseDelegator {
   }
 }
 
+export class SoulTrainAllowedActions extends AllowedActions {
+  getActions(): ImmutableSet<Action> {
+    return super
+      .getActions()
+      .filterNot((action) => action === Action.PRODUCTION);
+  }
+}
+
 export class SoulTrainRoundEngine extends RoundEngine {
   private readonly restriction = injectState(DELIVERY_RESTRICTION);
   private readonly gridData = injectState(GRID);
   private readonly players = injectInGamePlayers();
   private readonly playerHelper = inject(PlayerHelper);
   private readonly gridHelper = inject(GridHelper);
+  private readonly gridVersionHelper = inject(GridVersionHelper);
   private readonly grid = injectGrid();
   private readonly toUrbanize = injectState(TO_URBANIZE);
 
@@ -67,12 +80,12 @@ export class SoulTrainRoundEngine extends RoundEngine {
   }
 
   private addHeaven() {
-    const terra = [...this.grid().values()].find(
-      (space) => space.getMapSpecific(SoulTrainMapData.parse)?.dimension,
+    const topLeft = [...this.grid().values()].find(
+      (space) => space.getMapSpecific(SoulTrainMapData.parse)?.topLeft,
     );
 
-    assert(terra != null);
-    let start = terra.coordinates;
+    assert(topLeft != null, "The top left of the map does not exist");
+    let start = topLeft.coordinates;
     for (const [index, column] of heaven.entries()) {
       let current = start;
       for (const land of column.reverse()) {
@@ -84,6 +97,8 @@ export class SoulTrainRoundEngine extends RoundEngine {
         index % 2 === 0 ? Direction.TOP_RIGHT : Direction.BOTTOM_RIGHT,
       );
     }
+
+    this.gridVersionHelper.updateGridVersion();
   }
 
   private cleanUpHell() {

@@ -153,6 +153,10 @@ export function CreateGamePage() {
 
   const Editor = selectedMap.getVariantConfigEditor;
 
+  if (validationError != null) {
+    console.log("validation", validationError);
+  }
+
   return (
     <Box
       component="form"

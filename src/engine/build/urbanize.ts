@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { CoordinatesZod } from "../../utils/coordinates";
-import { InvalidInputError } from "../../utils/error";
 import { assert } from "../../utils/validate";
 import { inject, injectState } from "../framework/execution_context";
 import { ActionProcessor } from "../game/action";
@@ -35,15 +34,11 @@ export class UrbanizeAction implements ActionProcessor<UrbanizeData> {
   protected readonly availableCities = injectState(AVAILABLE_CITIES);
   protected readonly log = inject(Log);
 
-  validate(data: UrbanizeData): void {
-    const player = this.currentPlayer();
-    if (player.selectedAction !== Action.URBANIZATION) {
-      throw new InvalidInputError('You are not authorized to take an urbanize action');
-    }
-    if (this.buildState().hasUrbanized) {
-      throw new InvalidInputError('Can only urbanize once');
-    }
+  canEmit(): boolean {
+    return this.currentPlayer().selectedAction === Action.URBANIZATION && !this.buildState().hasUrbanized;
+  }
 
+  validate(data: UrbanizeData): void {
     const space = this.gridHelper.lookup(data.coordinates);
     assert(space instanceof Land, 'can only urbanize in town locations');
     assert(space.hasTown(), 'can only urbanize in town locations');
@@ -62,7 +57,7 @@ export class UrbanizeAction implements ActionProcessor<UrbanizeData> {
       type: SpaceType.CITY,
       name: location.name()!,
       color: city.color,
-      goods: city.goods,
+      goods: city.goods.concat(location.getGoods()),
       urbanized: true,
       onRoll: city.onRoll,
       mapSpecific: location.data.mapSpecific,

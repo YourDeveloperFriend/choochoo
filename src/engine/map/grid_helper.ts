@@ -46,8 +46,11 @@ export class GridHelper {
   removeTrack(track: Track) {
     this.update(track.coordinates, (hex) => {
       assert(hex.type !== SpaceType.CITY);
-      const newTrackInfo = calculateTrackInfo(hex.tile!).filter(
-        (trackInfo) => !deepEquals(trackInfo.exits, track.getExits()),
+      const oldTrackInfo = calculateTrackInfo(hex.tile!);
+      const newTrackInfo = oldTrackInfo.filter(
+        (trackInfo) =>
+          !deepEquals(trackInfo.exits, track.getExits()) &&
+          !deepEquals(trackInfo.exits.reverse(), track.getExits()),
       );
       hex.tile = calculateTile(newTrackInfo);
     });

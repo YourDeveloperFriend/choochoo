@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { useCallback, useMemo } from "react";
 import { PHASE } from "../../engine/game/phase";
+import { GameStarter } from "../../engine/game/starter";
 import { AVAILABLE_CITIES } from "../../engine/game/state";
 import { PassAction } from "../../engine/goods_growth/pass";
 import { ProductionAction } from "../../engine/goods_growth/production";
@@ -23,6 +24,7 @@ import {
 } from "../services/game";
 import {
   useGrid,
+  useInjected,
   useInjectedState,
   usePhaseState,
 } from "../utils/injection_context";
@@ -41,6 +43,7 @@ export function GoodsTable() {
   >(undefined);
   const grid = useGrid();
   const phase = useInjectedState(PHASE);
+  const starter = useInjected(GameStarter);
   const availableCities = useInjectedState(AVAILABLE_CITIES);
   const cities = useMemo(() => {
     const cities = grid.cities();
@@ -110,6 +113,8 @@ export function GoodsTable() {
   if (gameKey === SwedenRecyclingMapSettings.key && phase !== Phase.MOVING) {
     // Only render the goods table during the moving phase, where it is used as
     // a display of what goods were recycled that round.
+    return <></>;
+  } else if (!starter.isProductionEnabled()) {
     return <></>;
   }
 

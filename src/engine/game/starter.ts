@@ -2,6 +2,7 @@ import { duplicate } from "../../utils/functions";
 import { assert } from "../../utils/validate";
 import { inject, injectState } from "../framework/execution_context";
 import { GridHelper } from "../map/grid_helper";
+import { GridVersionHelper } from "../map/grid_version_helper";
 import { AvailableCity } from "../state/available_city";
 import { CityGroup } from "../state/city_group";
 import { Good } from "../state/good";
@@ -22,6 +23,7 @@ import {
 } from "./state";
 
 export class GameStarter {
+  protected readonly gridVersionHelper = inject(GridVersionHelper);
   protected readonly grid = injectState(GRID);
   protected readonly interCityConnections = injectState(INTER_CITY_CONNECTIONS);
   protected readonly turnOrder = injectState(TURN_ORDER);
@@ -68,6 +70,7 @@ export class GameStarter {
       this.gridHelper.set(coordinates, this.drawCubesFor(bag, location));
     }
     this.bag.set(bag);
+    this.gridVersionHelper.updateGridVersion();
   }
 
   protected drawCubesFor(bag: Good[], location: SpaceData): SpaceData {
@@ -135,7 +138,7 @@ export class GameStarter {
     return draw(urbanized ? 2 : 3, bag);
   }
 
-  protected isProductionEnabled(): boolean {
+  isProductionEnabled(): boolean {
     return true;
   }
 

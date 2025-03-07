@@ -1,6 +1,7 @@
 import z from "zod";
 import { BuildAction, BuildData } from "../../engine/build/build";
 import { BuildCostCalculator } from "../../engine/build/cost";
+import { BuilderHelper } from "../../engine/build/helper";
 import { BuildPhase } from "../../engine/build/phase";
 import { inject, injectState } from "../../engine/framework/execution_context";
 import { Key } from "../../engine/framework/key";
@@ -22,7 +23,12 @@ export class EngineerManager {
   }
 
   registerBuild(cost: number) {
-    this.runningCost.set(this.runningCost() + cost);
+    const newCost = this.getRunningCost() + cost;
+    if (!this.runningCost.isInitialized()) {
+      this.runningCost.initState(newCost);
+    } else {
+      this.runningCost.set(newCost);
+    }
   }
 }
 
@@ -59,6 +65,12 @@ export class SoulTrainBuildAction extends BuildAction {
       this.costCalculator.costOf(data.coordinates, data.tileType),
     );
     return result;
+  }
+}
+
+export class SoulTrainBuilderHelper extends BuilderHelper {
+  getMaxBuilds(): number {
+    return 6;
   }
 }
 

@@ -27,7 +27,7 @@ export class SwedenStarter extends GameStarter {
     return super.getAvailableCities().filter(([good]) => good === Good.BLACK);
   }
 
-  protected isProductionEnabled(): boolean {
+  isProductionEnabled(): boolean {
     return false;
   }
 }

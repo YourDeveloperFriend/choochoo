@@ -28,7 +28,7 @@ function city(name: string, color: Good, dimension: Dimension) {
   return {
     ...nativeCity(name, color),
     mapSpecific,
-    startingNumCubes: dimension === Dimension.EARTH ? 0 : 3,
+    startingNumCubes: dimension === Dimension.EARTH ? 0 : 1,
   };
 }
 
@@ -40,9 +40,11 @@ function town(townName: string): LandData {
   };
 }
 
+const TOP_LEFT: SoulTrainMapData = { topLeft: true };
+
 export const map = startsLowerGrid([
   [
-    PLAIN,
+    { ...PLAIN, mapSpecific: TOP_LEFT },
     PLAIN,
     PLAIN,
     city("Terra", RED, Dimension.EARTH),
@@ -214,34 +216,36 @@ export const heaven: (SpaceData | undefined)[][] = [
   [
     { ...SKY, townName: "Cloud 9", mapSpecific: heavenData },
     SKY,
-    UNPASSABLE,
-    UNPASSABLE,
+    WATER,
+    WATER,
     { ...SKY, townName: "Arcadia", mapSpecific: heavenData },
+    SKY,
+    SKY,
   ],
   [...duplicate(6, SKY)],
-  [...duplicate(8, SKY)],
+  [...duplicate(7, SKY)],
   [
     { ...SKY, townName: "Harmony", mapSpecific: heavenData },
     SKY,
-    UNPASSABLE,
-    UNPASSABLE,
+    WATER,
+    WATER,
     SKY,
     SKY,
   ],
-  [SKY, SKY, UNPASSABLE, UNPASSABLE, SKY, SKY, SKY],
+  [SKY, SKY, WATER, WATER, SKY, SKY, SKY],
   [
     SKY,
     SKY,
-    UNPASSABLE,
-    UNPASSABLE,
+    WATER,
+    WATER,
     { ...SKY, townName: "Nirvana", mapSpecific: heavenData },
     SKY,
   ],
   [
     { ...SKY, townName: "Shangrila", mapSpecific: heavenData },
     SKY,
-    UNPASSABLE,
-    UNPASSABLE,
+    WATER,
+    WATER,
     SKY,
     SKY,
     SKY,
@@ -257,18 +261,18 @@ export const heaven: (SpaceData | undefined)[][] = [
     { ...SKY, townName: "Utopia", mapSpecific: heavenData },
     ...duplicate(5, SKY),
   ],
-  [SKY, SKY, UNPASSABLE, UNPASSABLE, SKY, SKY, SKY],
+  [SKY, SKY, WATER, WATER, SKY, SKY, SKY],
   [
     SKY,
-    UNPASSABLE,
-    UNPASSABLE,
-    UNPASSABLE,
+    WATER,
+    WATER,
+    WATER,
     { ...SKY, townName: "Zion", mapSpecific: heavenData },
-    UNPASSABLE,
+    WATER,
   ],
   [
     { ...SKY, townName: "Elysium", mapSpecific: heavenData },
     SKY,
-    ...duplicate(5, UNPASSABLE),
+    ...duplicate(5, WATER),
   ],
 ];

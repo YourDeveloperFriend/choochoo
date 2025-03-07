@@ -2,12 +2,14 @@ import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
 import {
   SoulTrainBuildAction,
+  SoulTrainBuilderHelper,
   SoulTrainBuildPhase,
   SoulTrainCalculator,
 } from "./building";
 import { SoulTrainMoveAction, SoulTrainMoveHelper } from "./delivery";
 import { map } from "./grid";
 import {
+  SoulTrainAllowedActions,
   SoulTrainPhaseDelegator,
   SoulTrainPhaseEngine,
   SoulTrainRoundEngine,
@@ -33,6 +35,8 @@ export class SoulTrainMapSettings implements MapSettings {
       SoulTrainRoundEngine,
       SoulTrainMoveHelper,
       SoulTrainMoveAction,
+      SoulTrainBuilderHelper,
+      SoulTrainAllowedActions,
     ];
   }
 }

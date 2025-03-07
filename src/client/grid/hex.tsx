@@ -19,7 +19,7 @@ import {
   Point,
   polygon,
 } from "../../utils/point";
-import { assert, assertNever } from "../../utils/validate";
+import { assertNever } from "../../utils/validate";
 import { Rotate } from "../components/rotation";
 import { useGameKey } from "../utils/injection_context";
 import { ClickTarget } from "./click_target";
@@ -338,7 +338,6 @@ export function GoodsOnHex({
   const selectedGoodIndex = useMemo(() => {
     if (selectedGood == null) return undefined;
     if (!selectedGood.coordinates.equals(coordinates)) return undefined;
-    assert(space instanceof City);
     return space.getGoods().indexOf(selectedGood.good);
   }, [space, coordinates, selectedGood]);
 

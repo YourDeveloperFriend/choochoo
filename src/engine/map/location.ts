@@ -5,7 +5,6 @@ import { Good } from "../state/good";
 import { LandData, LandType } from "../state/space";
 import {
   allDirections,
-  allTileTypes,
   ComplexTileType,
   Direction,
   SimpleTileType,
@@ -159,21 +158,43 @@ export function countExits(tile: TownTileType): number {
   assertNever(tile);
 }
 
-export function calculateTile(trackInfo: TrackInfo[]): TileData {
-  for (const tileType of allTileTypes) {
-    for (const orientation of allDirections) {
-      const newTileData: TileData = {
-        tileType,
-        orientation,
-        owners: trackInfo.map((info) => info.owner),
-      };
-
-      if (deepEquals(calculateTrackInfo(newTileData), trackInfo)) {
-        return newTileData;
-      }
+export function calculateTile(trackInfo: TrackInfo[]): TileData | undefined {
+  if (trackInfo.length === 0) return undefined;
+  const tileType = getTileType(trackInfo);
+  const incomingExits = trackInfo[0].exits;
+  for (const orientation of allDirections) {
+    const newTileData: TileData = {
+      tileType,
+      orientation,
+      owners: [trackInfo[0].owner],
+    };
+    const { exits } = calculateTrackInfo(newTileData)[0];
+    if (
+      deepEquals(exits, incomingExits) ||
+      deepEquals(exits.reverse(), incomingExits)
+    ) {
+      return newTileData;
     }
   }
-  throw new Error("Cannot find tile for " + trackInfo);
+}
+function getTileType(trackInfo: TrackInfo[]): SimpleTileType {
+  // Note: This algorithm acts under the assumption that the only type of track we're looking for is a simple track.
+  // Used for Soul Train.
+  const exits = trackInfo[0].exits;
+  switch (Math.abs(exits[0] - exits[1])) {
+    case 1:
+    case 5:
+      return SimpleTileType.TIGHT;
+    case 2:
+    case 4:
+      return SimpleTileType.CURVE;
+    case 3:
+      return SimpleTileType.STRAIGHT;
+    default:
+      throw new Error(
+        "Invalid track info for calculateTile: " + JSON.stringify(trackInfo),
+      );
+  }
 }
 
 export function toBaseTile(tile: TileType): TrackInfo[] {

@@ -33,6 +33,8 @@ export const AVAILABLE_CITIES = new Key("availableCities", {
   parse: z.array(MutableAvailableCity).parse,
 });
 
+export const GRID_VERSION = new Key("gridVersion", { parse: z.number().parse });
+
 export const GRID = new MapKey<Coordinates, MutableSpaceData>(
   "grid",
   CoordinatesZod.parse,

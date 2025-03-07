@@ -23,15 +23,17 @@ import {
   trackEquals,
 } from "../../engine/map/location";
 import { isTownTile } from "../../engine/map/tile";
-import { Action } from "../../engine/state/action";
 import { AvailableCity } from "../../engine/state/available_city";
+import { Good } from "../../engine/state/good";
 import { SpaceType } from "../../engine/state/location_type";
+import { Phase } from "../../engine/state/phase";
 import {
   allDirections,
   allTileTypes,
   Direction,
   TileData,
 } from "../../engine/state/tile";
+import { PlaceAction, TO_URBANIZE } from "../../maps/soultrain/earth_to_heaven";
 import { MapViewSettings } from "../../maps/view_settings";
 import { Coordinates } from "../../utils/coordinates";
 import { useAction } from "../services/game";
@@ -40,6 +42,7 @@ import {
   useCurrentPlayer,
   useInjected,
   useInjectedState,
+  usePhaseState,
 } from "../utils/injection_context";
 import {
   buildingDialogContainer,
@@ -61,7 +64,8 @@ export function BuildingDialog({
   cancelBuild,
 }: BuildingProps) {
   const { emit: emitBuild } = useAction(BuildAction);
-  const { emit: emitUrbanize } = useAction(UrbanizeAction);
+  const { emit: emitUrbanize, canEmit: canEmitUrbanize } =
+    useAction(UrbanizeAction);
   const action = useInjected(BuildAction);
   const curr = useCurrentPlayer();
   const availableCities = useInjectedState(AVAILABLE_CITIES);
@@ -95,7 +99,7 @@ export function BuildingDialog({
   );
 
   const canUrbanize =
-    curr?.selectedAction === Action.URBANIZATION &&
+    canEmitUrbanize &&
     space != null &&
     space.hasTown() &&
     availableCities.length > 0;
@@ -150,9 +154,7 @@ export function BuildingDialog({
           </p>
           {showReasons && <Button onClick={rotate}>Rotate</Button>}
           <div className={buildingDialogContainer}>
-            {curr?.selectedAction === Action.URBANIZATION &&
-              space != null &&
-              space.hasTown() &&
+            {canUrbanize &&
               availableCities.map((city, index) => (
                 <div
                   key={city.onRoll[0].group * 10 + city.onRoll[0].onRoll}
@@ -175,6 +177,75 @@ export function BuildingDialog({
                   onClick={() => build.reason == null && onSelect(build.action)}
                 />
                 {build.reason}
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+
+interface PlaceDialogProps {
+  cancelPlace(): void;
+  settings: MapViewSettings;
+  coordinates?: Coordinates;
+}
+
+export function PlaceDialog({
+  coordinates,
+  settings,
+  cancelPlace,
+}: PlaceDialogProps) {
+  const { emit: emitPlace } = useAction(PlaceAction);
+  const cityColors = usePhaseState(Phase.EARTH_TO_HEAVEN, TO_URBANIZE);
+  const cities = useMemo(
+    () => cityColors?.map((color) => ({ color, onRoll: [], goods: [] })),
+    [],
+  );
+  const grid = useInjected(GridHelper);
+  const space = coordinates && (grid.lookup(coordinates) as Land);
+  const onSelect = useCallback(
+    (city: Good) => {
+      emitPlace({ coordinates: coordinates!, city });
+      cancelPlace();
+    },
+    [cancelPlace, emitPlace, coordinates],
+  );
+
+  const isOpen = coordinates != null;
+
+  return (
+    <>
+      <Dialog
+        open={isOpen}
+        onClose={cancelPlace}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle>{"Select a city to place"}</DialogTitle>
+        <IconButton
+          aria-label="close"
+          onClick={cancelPlace}
+          sx={() => ({
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: "grey",
+          })}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent className={dialogContent}>
+          <div className={buildingDialogContainer}>
+            {cities?.map((city) => (
+              <div key={city.color} className={buildingOption}>
+                <ModifiedSpace
+                  space={space!}
+                  settings={settings}
+                  asCity={city}
+                  onClick={() => onSelect(city.color)}
+                />
               </div>
             ))}
           </div>

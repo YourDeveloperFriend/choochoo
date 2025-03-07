@@ -2,7 +2,7 @@ import { GameStarter } from "../../engine/game/starter";
 import { PlayerColor, PlayerData } from "../../engine/state/player";
 
 export class DiscoStarter extends GameStarter {
-  protected isProductionEnabled(): boolean {
+  isProductionEnabled(): boolean {
     return false;
   }
 

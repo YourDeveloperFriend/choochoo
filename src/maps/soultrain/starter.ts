@@ -17,6 +17,10 @@ export class SoulTrainStarter extends GameStarter {
     this.restriction.initState({ from: Dimension.HELL, to: Dimension.EARTH });
   }
 
+  isProductionEnabled(): boolean {
+    return false;
+  }
+
   initializeStartingCubes() {
     this.bag.initState(
       this.random.shuffle([
@@ -39,7 +43,7 @@ export class SoulTrainStarter extends GameStarter {
   getAvailableCities(): Array<[Good | Good[], CityGroup, OnRoll]> {
     return super
       .getAvailableCities()
-      .filter((city) => city[0] !== Good.BLACK || city[2] !== 5);
+      .filter((city) => city[0] !== Good.BLACK || city[2] === 5);
   }
 
   protected buildPlayer(playerId: number, color: PlayerColor): PlayerData {
