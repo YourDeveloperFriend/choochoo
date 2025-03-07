@@ -39,7 +39,6 @@ import { Coordinates } from "../../utils/coordinates";
 import { useAction } from "../services/game";
 import { useTypedMemo } from "../utils/hooks";
 import {
-  useCurrentPlayer,
   useInjected,
   useInjectedState,
   usePhaseState,
@@ -67,7 +66,6 @@ export function BuildingDialog({
   const { emit: emitUrbanize, canEmit: canEmitUrbanize } =
     useAction(UrbanizeAction);
   const action = useInjected(BuildAction);
-  const curr = useCurrentPlayer();
   const availableCities = useInjectedState(AVAILABLE_CITIES);
   const grid = useInjected(GridHelper);
   const [showReasons, setShowReasons] = useState(false);
@@ -201,7 +199,7 @@ export function PlaceDialog({
   const cityColors = usePhaseState(Phase.EARTH_TO_HEAVEN, TO_URBANIZE);
   const cities = useMemo(
     () => cityColors?.map((color) => ({ color, onRoll: [], goods: [] })),
-    [],
+    [cityColors],
   );
   const grid = useInjected(GridHelper);
   const space = coordinates && (grid.lookup(coordinates) as Land);
@@ -238,16 +236,19 @@ export function PlaceDialog({
         </IconButton>
         <DialogContent className={dialogContent}>
           <div className={buildingDialogContainer}>
-            {cities?.map((city) => (
-              <div key={city.color} className={buildingOption}>
-                <ModifiedSpace
-                  space={space!}
-                  settings={settings}
-                  asCity={city}
-                  onClick={() => onSelect(city.color)}
-                />
-              </div>
-            ))}
+            &quot;{space?.coordinates.toString() ?? "null"}&quot; : &quot;
+            {cities?.length ?? "null"}&quot;
+            {space &&
+              cities?.map((city) => (
+                <div key={city.color} className={buildingOption}>
+                  <ModifiedSpace
+                    space={space}
+                    settings={settings}
+                    asCity={city}
+                    onClick={() => onSelect(city.color)}
+                  />
+                </div>
+              ))}
           </div>
         </DialogContent>
       </Dialog>

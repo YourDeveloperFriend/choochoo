@@ -454,6 +454,9 @@ export function GameMap() {
     if (canEmitSelectCity) {
       return new Set([ClickTarget.CITY]);
     }
+    if (canEmitPlaceAction) {
+      return new Set([ClickTarget.TOWN]);
+    }
     return new Set();
   }, [
     canEmitMove,
@@ -462,6 +465,7 @@ export function GameMap() {
     isPending,
     canEmitSelectCity,
     canEmitDiscoProduction,
+    canEmitPlaceAction,
   ]);
 
   const onClickInterCity = useCallback((connect: Coordinates[]) => {

@@ -74,6 +74,10 @@ export class PlaceAction implements ActionProcessor<PlaceData> {
       onRoll: [],
       mapSpecific: location.data.mapSpecific,
     });
+
+    this.toUrbanize.update((cities) => {
+      cities.splice(cities.indexOf(data.city));
+    });
     return true;
   }
 }
