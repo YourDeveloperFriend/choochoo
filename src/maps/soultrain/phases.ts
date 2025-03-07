@@ -98,6 +98,7 @@ export class SoulTrainRoundEngine extends RoundEngine {
       );
     }
 
+    this.restriction.set({ from: Dimension.EARTH, to: Dimension.HEAVEN });
     this.gridVersionHelper.updateGridVersion();
   }
 
