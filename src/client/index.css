@@ -18,3 +18,22 @@ body {
 body.dark-mode {
   background-color: inherit;
 }
+
+/* Dark mode semantic-ui components, with styling copied from the default "inverted" components. */
+body.dark-mode .ui.header {
+  color: #fff;
+}
+body.dark-mode .ui.segment {
+  background: #1b1c1d;
+  color: rgba(255, 255, 255, .9);
+  border: 1px solid rgba(221, 219, 217, .85);
+}
+body.dark-mode .ui.form .field > label {
+  color: rgba(255, 255, 255, .9);
+}
+body.dark-mode .ui.toggle.checkbox input ~ label {
+  color: rgba(255, 255, 255, .9);
+}
+body.dark-mode .ui.toggle.checkbox input:checked ~ label {
+  color: rgba(255, 255, 255, .9) !important;
+}

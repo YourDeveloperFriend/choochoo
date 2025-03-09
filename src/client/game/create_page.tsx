@@ -150,20 +150,21 @@ export function CreateGamePage() {
                 onChange={setName}
                 onBlur={validateGameInternal}
             />
-            <FormSelect options={maps.map((m) => (
-                {key: m.key, value: m.key, text: m.name +
-                      (m.stage !== ReleaseStage.PRODUCTION &&
-                        ` (${releaseStageToString(m.stage)})`)
-                  }))}
-                        required
-                        label="Map"
-                        value={gameKey}
-                        disabled={isPending}
-                        onChange={setGameKey}
-                        error={validationError?.gameKey}
-                        autoWidth
-                        placeholder="Map"
-                        onBlur={validateGameInternal}
+            <FormSelect
+                options={maps.map((m) => (
+                  {key: m.key, value: m.key, text: m.name +
+                        (m.stage !== ReleaseStage.PRODUCTION &&
+                          ` (${releaseStageToString(m.stage)})`)
+                    }))}
+                required
+                label="Map"
+                value={gameKey}
+                disabled={isPending}
+                onChange={setGameKey}
+                error={validationError?.gameKey}
+                autoWidth
+                placeholder="Map"
+                onBlur={validateGameInternal}
             />
             <FormInput
                 required
