@@ -1,9 +1,8 @@
+import * as React from "react";
 import { useCallback } from "react";
 import { ReversteamVariantConfig } from "../../api/variant_config";
 import { VariantConfigProps } from "../view_settings";
-import { FormCheckbox } from "semantic-ui-react";
-import * as React from "react";
-import { CheckboxProps } from "semantic-ui-react/dist/commonjs/modules/Checkbox/Checkbox";
+import { CheckboxProps, FormCheckbox } from "semantic-ui-react";
 
 export function ReversteamVariantEditor({
   config: untypedConfig,

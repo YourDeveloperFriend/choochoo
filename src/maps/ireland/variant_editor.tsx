@@ -1,15 +1,8 @@
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-} from "@mui/material";
-import { ChangeEvent, useCallback } from "react";
+import * as React from "react";
+import { useCallback } from "react";
 import { IrelandVariantConfig } from "../../api/variant_config";
 import { VariantConfigProps } from "../view_settings";
-import { FormCheckbox } from "semantic-ui-react";
-import * as React from "react";
-import { CheckboxProps } from "semantic-ui-react/dist/commonjs/modules/Checkbox/Checkbox";
+import { CheckboxProps, FormCheckbox } from "semantic-ui-react";
 
 export function IrelandVariantEditor({
   config: untypedConfig,

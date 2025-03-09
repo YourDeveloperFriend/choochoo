@@ -24,6 +24,7 @@ import { MapInfo } from "./map_info";
 import {
   Button,
   Container,
+  DropdownProps,
   Form,
   FormCheckbox,
   FormInput,
@@ -31,7 +32,6 @@ import {
   Header,
   Segment,
 } from "semantic-ui-react";
-import { DropdownProps } from "semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown";
 
 export function CreateGamePage() {
   const me = useMe();

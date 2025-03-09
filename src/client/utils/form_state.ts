@@ -2,7 +2,7 @@ import { SelectChangeEvent } from "@mui/material";
 import * as React from "react";
 import { ChangeEvent, useCallback, useState } from "react";
 import { FormNumber } from "../../utils/types";
-import { CheckboxProps } from "semantic-ui-react/dist/commonjs/modules/Checkbox/Checkbox";
+import { CheckboxProps } from "semantic-ui-react";
 
 export function useSemanticUiCheckboxState(
   initialValue = false,
