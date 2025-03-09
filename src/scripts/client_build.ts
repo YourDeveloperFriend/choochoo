@@ -1,7 +1,7 @@
-import { exec } from "child_process";
-import type { BuildResult, Plugin } from "esbuild";
-import { writeFile } from "fs/promises";
-import { resolve } from "path";
+import {exec} from "child_process";
+import type {BuildResult, Plugin} from "esbuild";
+import {writeFile} from "fs/promises";
+import {resolve} from "path";
 
 export async function buildApp({
   watch,
@@ -23,6 +23,11 @@ export async function buildApp({
     sourcemap: true,
     loader: {
       ".svg": "text",
+      ".png": "dataurl",
+      ".woff": "dataurl",
+      ".woff2": "dataurl",
+      ".eot": "dataurl",
+      ".ttf": "dataurl",
     },
     define: Object.fromEntries(
       environmentVariables.map((v) => [

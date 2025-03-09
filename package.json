@@ -57,6 +57,8 @@
     "react-router-dom": "^6.27.0",
     "react-stay-scrolled": "^9.0.0",
     "seedrandom": "^3.0.5",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5",
     "socket.io": "^4.8.0",
     "socket.io-client": "^4.8.0",
     "umzug": "^3.8.2",
