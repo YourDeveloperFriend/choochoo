@@ -1,20 +1,37 @@
 import * as React from "react";
-import {FormEvent, useCallback, useMemo, useState} from "react";
-import {useSearchParams} from "react-router-dom";
-import {GameKey} from "../../api/game_key";
-import {UserRole} from "../../api/user";
-import {VariantConfig} from "../../api/variant_config";
-import {ReleaseStage, releaseStageToString,} from "../../engine/game/map_settings";
-import {Grid} from "../../engine/map/grid";
-import {ViewRegistry} from "../../maps/view_registry";
-import {HexGrid} from "../grid/hex_grid";
-import {environment, Stage} from "../services/environment";
-import {useCreateGame} from "../services/game";
-import {useMe} from "../services/me";
-import {useNumberInputState, useSelectState, useSemanticUiCheckboxState, useTextInputState,} from "../utils/form_state";
-import {MapInfo} from "./map_info";
-import {Button, Container, Form, FormCheckbox, FormInput, FormSelect, Header, Segment,} from "semantic-ui-react";
-import {DropdownProps} from "semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown";
+import { FormEvent, useCallback, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { GameKey } from "../../api/game_key";
+import { UserRole } from "../../api/user";
+import { VariantConfig } from "../../api/variant_config";
+import {
+  ReleaseStage,
+  releaseStageToString,
+} from "../../engine/game/map_settings";
+import { Grid } from "../../engine/map/grid";
+import { ViewRegistry } from "../../maps/view_registry";
+import { HexGrid } from "../grid/hex_grid";
+import { environment, Stage } from "../services/environment";
+import { useCreateGame } from "../services/game";
+import { useMe } from "../services/me";
+import {
+  useNumberInputState,
+  useSelectState,
+  useSemanticUiCheckboxState,
+  useTextInputState,
+} from "../utils/form_state";
+import { MapInfo } from "./map_info";
+import {
+  Button,
+  Container,
+  Form,
+  FormCheckbox,
+  FormInput,
+  FormSelect,
+  Header,
+  Segment,
+} from "semantic-ui-react";
+import { DropdownProps } from "semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown";
 
 export function CreateGamePage() {
   const me = useMe();
@@ -213,14 +230,12 @@ export function CreateGamePage() {
           />
 
           {Editor && (
-            <div>
-              <Editor
-                config={variant}
-                setConfig={setVariant}
-                errors={validationError}
-                isPending={isPending}
-              />
-            </div>
+            <Editor
+              config={variant}
+              setConfig={setVariant}
+              errors={validationError}
+              isPending={isPending}
+            />
           )}
 
           <Button

@@ -1,7 +1,7 @@
-import {exec} from "child_process";
-import type {BuildResult, Plugin} from "esbuild";
-import {writeFile} from "fs/promises";
-import {resolve} from "path";
+import { exec } from "child_process";
+import type { BuildResult, Plugin } from "esbuild";
+import { writeFile } from "fs/promises";
+import { resolve } from "path";
 
 export async function buildApp({
   watch,

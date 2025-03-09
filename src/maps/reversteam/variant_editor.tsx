@@ -1,12 +1,9 @@
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-} from "@mui/material";
-import { ChangeEvent, useCallback } from "react";
+import { useCallback } from "react";
 import { ReversteamVariantConfig } from "../../api/variant_config";
 import { VariantConfigProps } from "../view_settings";
+import { FormCheckbox } from "semantic-ui-react";
+import * as React from "react";
+import { CheckboxProps } from "semantic-ui-react/dist/commonjs/modules/Checkbox/Checkbox";
 
 export function ReversteamVariantEditor({
   config: untypedConfig,
@@ -17,27 +14,20 @@ export function ReversteamVariantEditor({
   const config = untypedConfig as ReversteamVariantConfig;
 
   const setConfigInternal = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setConfig({ ...config, baseRules: e.target.checked });
+    (event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => {
+      setConfig({ ...config, baseRules: !!data.checked });
     },
     [setConfig, config],
   );
 
   return (
-    <FormControl error={errors?.["variant.baseRules"] != null}>
-      <FormControlLabel
-        sx={{ m: 1, minWidth: 80 }}
-        label="Use base map rules (not reversed)"
-        control={
-          <Checkbox
-            checked={config.baseRules}
-            value={config.baseRules}
-            disabled={isPending}
-            onChange={setConfigInternal}
-          />
-        }
-      />
-      <FormHelperText>{errors?.["variant.baseRules"]}</FormHelperText>
-    </FormControl>
+    <FormCheckbox
+      toggle
+      label="Use base map rules (not reversed)"
+      checked={config.baseRules}
+      disabled={isPending}
+      onChange={setConfigInternal}
+      error={errors?.["variant.baseRules"]}
+    />
   );
 }

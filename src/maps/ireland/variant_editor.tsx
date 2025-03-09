@@ -7,6 +7,9 @@ import {
 import { ChangeEvent, useCallback } from "react";
 import { IrelandVariantConfig } from "../../api/variant_config";
 import { VariantConfigProps } from "../view_settings";
+import { FormCheckbox } from "semantic-ui-react";
+import * as React from "react";
+import { CheckboxProps } from "semantic-ui-react/dist/commonjs/modules/Checkbox/Checkbox";
 
 export function IrelandVariantEditor({
   config: untypedConfig,
@@ -17,27 +20,20 @@ export function IrelandVariantEditor({
   const config = untypedConfig as IrelandVariantConfig;
 
   const setConfigInternal = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setConfig({ ...config, locoVariant: e.target.checked });
+    (event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => {
+      setConfig({ ...config, locoVariant: !!data.checked });
     },
     [setConfig, config],
   );
 
   return (
-    <FormControl error={errors?.["variant.locoVariant"] != null}>
-      <FormControlLabel
-        sx={{ m: 1, minWidth: 80 }}
-        label="Loco Variant"
-        control={
-          <Checkbox
-            checked={config.locoVariant}
-            value={config.locoVariant}
-            disabled={isPending}
-            onChange={setConfigInternal}
-          />
-        }
-      />
-      <FormHelperText>{errors?.["variant.locoVariant"]}</FormHelperText>
-    </FormControl>
+    <FormCheckbox
+      toggle
+      label="Loco Variant"
+      checked={config.locoVariant}
+      disabled={isPending}
+      onChange={setConfigInternal}
+      error={errors?.["variant.locoVariant"]}
+    />
   );
 }
