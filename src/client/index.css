@@ -25,15 +25,15 @@ body.dark-mode .ui.header {
 }
 body.dark-mode .ui.segment {
   background: #1b1c1d;
-  color: rgba(255, 255, 255, .9);
-  border: 1px solid rgba(221, 219, 217, .85);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(221, 219, 217, 0.85);
 }
 body.dark-mode .ui.form .field > label {
-  color: rgba(255, 255, 255, .9);
+  color: rgba(255, 255, 255, 0.9);
 }
 body.dark-mode .ui.toggle.checkbox input ~ label {
-  color: rgba(255, 255, 255, .9);
+  color: rgba(255, 255, 255, 0.9);
 }
 body.dark-mode .ui.toggle.checkbox input:checked ~ label {
-  color: rgba(255, 255, 255, .9) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
 }

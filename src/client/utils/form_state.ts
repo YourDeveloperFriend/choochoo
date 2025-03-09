@@ -5,10 +5,16 @@ import {FormNumber} from "../../utils/types";
 import {CheckboxProps} from "semantic-ui-react/dist/commonjs/modules/Checkbox/Checkbox";
 
 export function useSemanticUiCheckboxState(
-    initialValue = false,
-): [boolean, (event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => void] {
+  initialValue = false,
+): [
+  boolean,
+  (event: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => void,
+] {
   const [state, setState] = useState(initialValue);
-  return [state, useCallback((e, data) => setState(!!data.checked), [setState])];
+  return [
+    state,
+    useCallback((e, data) => setState(!!data.checked), [setState]),
+  ];
 }
 
 export function useCheckboxState(

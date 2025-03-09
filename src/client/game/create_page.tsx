@@ -13,7 +13,7 @@ import {useCreateGame} from "../services/game";
 import {useMe} from "../services/me";
 import {useNumberInputState, useSelectState, useSemanticUiCheckboxState, useTextInputState,} from "../utils/form_state";
 import {MapInfo} from "./map_info";
-import {Button, Container, Form, FormCheckbox, FormInput, FormSelect, Header, Segment} from "semantic-ui-react";
+import {Button, Container, Form, FormCheckbox, FormInput, FormSelect, Header, Segment,} from "semantic-ui-react";
 import {DropdownProps} from "semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown";
 
 export function CreateGamePage() {
@@ -86,7 +86,7 @@ export function CreateGamePage() {
   );
 
   const onSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>|React.MouseEvent<HTMLButtonElement>) => {
+    (e: FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       createGame({
         name,
@@ -136,107 +136,116 @@ export function CreateGamePage() {
   const Editor = selectedMap.getVariantConfigEditor;
 
   return (
-      <Container>
-        <Header as="h1">Create a new Game</Header>
+    <Container>
+      <Header as="h1">Create a new Game</Header>
 
-        <Segment>
-          <Form>
+      <Segment>
+        <Form>
+          <FormInput
+            required
+            label="Name"
+            value={name}
+            disabled={isPending}
+            error={validationError?.name}
+            onChange={setName}
+            onBlur={validateGameInternal}
+          />
+          <FormSelect
+            options={maps.map((m) => ({
+              key: m.key,
+              value: m.key,
+              text:
+                m.name +
+                (m.stage !== ReleaseStage.PRODUCTION &&
+                  ` (${releaseStageToString(m.stage)})`),
+            }))}
+            required
+            label="Map"
+            value={gameKey}
+            disabled={isPending}
+            onChange={setGameKey}
+            error={validationError?.gameKey}
+            autoWidth
+            placeholder="Map"
+            onBlur={validateGameInternal}
+          />
+          <FormInput
+            required
+            label={allowPlayerSelections ? "Min Players" : "Num Players"}
+            type="number"
+            disabled={!allowPlayerSelections}
+            value={minPlayers}
+            error={validationError?.minPlayers}
+            onChange={setMinPlayers}
+            onBlur={validateGameInternal}
+          />
+
+          {allowPlayerSelections && (
             <FormInput
-                required
-                label="Name"
-                value={name}
-                disabled={isPending}
-                error={validationError?.name}
-                onChange={setName}
-                onBlur={validateGameInternal}
+              required
+              label="Max Players"
+              type="number"
+              value={maxPlayers}
+              error={validationError?.maxPlayers}
+              onChange={setMaxPlayers}
+              onBlur={validateGameInternal}
             />
-            <FormSelect
-                options={maps.map((m) => (
-                  {key: m.key, value: m.key, text: m.name +
-                        (m.stage !== ReleaseStage.PRODUCTION &&
-                          ` (${releaseStageToString(m.stage)})`)
-                    }))}
-                required
-                label="Map"
-                value={gameKey}
-                disabled={isPending}
-                onChange={setGameKey}
-                error={validationError?.gameKey}
-                autoWidth
-                placeholder="Map"
-                onBlur={validateGameInternal}
-            />
-            <FormInput
-                required
-                label={allowPlayerSelections ? "Min Players" : "Num Players"}
-                type="number"
-                disabled={!allowPlayerSelections}
-                value={minPlayers}
-                error={validationError?.minPlayers}
-                onChange={setMinPlayers}
-                onBlur={validateGameInternal}
-            />
-
-            {allowPlayerSelections && (
-                  <FormInput
-                      required
-                      label="Max Players"
-                      type="number"
-                      value={maxPlayers}
-                      error={validationError?.maxPlayers}
-                      onChange={setMaxPlayers}
-                      onBlur={validateGameInternal}
-                  />
-            )}
-
-            {environment.stage == Stage.enum.development && (
-                <FormCheckbox
-                    toggle
-                    label="Artificial Start"
-                    checked={artificialStart}
-                    disabled={isPending}
-                    onChange={setArtificialStart}
-                    error={validationError?.artificialStart}/>
-            )}
-
-            <FormCheckbox
-                  toggle
-                  label="Unlisted Game"
-                  checked={unlisted}
-                  disabled={isPending}
-                  onChange={setUnlisted}
-                  error={validationError?.unlisted}
-            />
-
-            {Editor && (
-                <div>
-                  <Editor
-                      config={variant}
-                      setConfig={setVariant}
-                      errors={validationError}
-                      isPending={isPending}
-                  />
-                </div>
-            )}
-
-            <Button primary loading={isPending} disabled={isPending} onClick={onSubmit}>
-              Create
-            </Button>
-          </Form>
-        </Segment>
-
-        <Segment>
-          <MapInfo gameKey={gameKey} variant={variant} />
-          {grid && (
-              <HexGrid
-                  key={gameKey}
-                  gameKey={gameKey}
-                  rotation={selectedMap.rotation}
-                  grid={grid}
-                  fullMapVersion={true}
-              />
           )}
-        </Segment>
-      </Container>
+
+          {environment.stage == Stage.enum.development && (
+            <FormCheckbox
+              toggle
+              label="Artificial Start"
+              checked={artificialStart}
+              disabled={isPending}
+              onChange={setArtificialStart}
+              error={validationError?.artificialStart}
+            />
+          )}
+
+          <FormCheckbox
+            toggle
+            label="Unlisted Game"
+            checked={unlisted}
+            disabled={isPending}
+            onChange={setUnlisted}
+            error={validationError?.unlisted}
+          />
+
+          {Editor && (
+            <div>
+              <Editor
+                config={variant}
+                setConfig={setVariant}
+                errors={validationError}
+                isPending={isPending}
+              />
+            </div>
+          )}
+
+          <Button
+            primary
+            loading={isPending}
+            disabled={isPending}
+            onClick={onSubmit}
+          >
+            Create
+          </Button>
+        </Form>
+      </Segment>
+
+      <Segment>
+        <MapInfo gameKey={gameKey} variant={variant} />
+        {grid && (
+          <HexGrid
+            key={gameKey}
+            gameKey={gameKey}
+            rotation={selectedMap.rotation}
+            grid={grid}
+            fullMapVersion={true}
+          />
+        )}
+      </Segment>
+    </Container>
   );
 }

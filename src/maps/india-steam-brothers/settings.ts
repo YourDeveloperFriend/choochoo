@@ -1,10 +1,10 @@
-import { GameKey } from "../../api/game_key";
-import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
-import { ExpensiveMountains } from "./costs";
-import { IndiaSteamBrothersBuildAction, IndiaSteamBrothersUrbanizeAction } from "./goods_growth";
-import { map } from "./grid";
-import { IndiaSteamBrothersIncomePhase } from "./monsoon";
-import { IndiaSteamBrothersPhaseDelegator, IndiaSteamBrothersPhaseEngine } from "./production";
+import {GameKey} from "../../api/game_key";
+import {MapSettings, ReleaseStage} from "../../engine/game/map_settings";
+import {ExpensiveMountains} from "./costs";
+import {IndiaSteamBrothersBuildAction, IndiaSteamBrothersUrbanizeAction,} from "./goods_growth";
+import {map} from "./grid";
+import {IndiaSteamBrothersIncomePhase} from "./monsoon";
+import {IndiaSteamBrothersPhaseDelegator, IndiaSteamBrothersPhaseEngine,} from "./production";
 
 export class IndiaSteamBrothersMapSettings implements MapSettings {
   static readonly key = GameKey.INDIA_STEAM_BROTHERS;
