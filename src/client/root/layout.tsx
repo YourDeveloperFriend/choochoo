@@ -37,11 +37,12 @@ import {
 import { isNetworkError } from "../services/network";
 import { Banner } from "./banner";
 import * as styles from "./layout.module.css";
+import {useTheme} from "./theme";
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 export function Layout() {
-  const { mode, setMode } = useColorScheme();
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const me = useMe();
   const { logout, isPending: isLogoutPending } = useLogout();
 
@@ -49,14 +50,9 @@ export function Layout() {
   const isAdmin = useIsAdmin(true);
   const isAwaiting = useIsAwaitingPlayer();
 
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-
-  const darkModeEnabled =
-    mode === "dark" || (prefersDarkMode && mode === "system");
-
   useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkModeEnabled);
-  }, [darkModeEnabled]);
+    document.body.classList.toggle("dark-mode", isDarkMode);
+  }, [isDarkMode]);
 
   return (
     <>
@@ -131,11 +127,11 @@ export function Layout() {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => {
-                    setMode(darkModeEnabled ? "light" : "dark");
+                    toggleDarkMode()
                   }}
                 >
                   <ListItemIcon>
-                    {darkModeEnabled ? (
+                    {isDarkMode ? (
                       <DarkMode fontSize="small" />
                     ) : (
                       <DarkModeOutlined fontSize="small" />
