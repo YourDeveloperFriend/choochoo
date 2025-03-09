@@ -23,6 +23,11 @@ export async function buildApp({
     sourcemap: true,
     loader: {
       ".svg": "text",
+      ".png": "dataurl",
+      ".woff": "dataurl",
+      ".woff2": "dataurl",
+      ".eot": "dataurl",
+      ".ttf": "dataurl",
     },
     define: Object.fromEntries(
       environmentVariables.map((v) => [
