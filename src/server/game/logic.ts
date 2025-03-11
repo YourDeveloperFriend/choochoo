@@ -99,21 +99,6 @@ export async function performAction(
         actionData,
       });
 
-      console.log(
-        Object.entries({
-          previousGameVersion: game.version,
-          previousGameData: game.gameData,
-          actionName,
-          actionData: JSON.stringify(actionData),
-          reversible,
-          seed,
-          gameId: game.id,
-          userId: playerId,
-        }).map(([key, value]) =>
-          [key, value?.toString().length, value].join(":"),
-        ),
-      );
-
       const gameHistory = GameHistoryDao.build({
         previousGameVersion: game.version,
         previousGameData: game.gameData,
