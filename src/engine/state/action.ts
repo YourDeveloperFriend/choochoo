@@ -26,6 +26,9 @@ export enum Action {
   LAST_PLAYER = 13,
   HIGH_COSTS = 14,
   ONE_MOVE = 15,
+
+  // Pittsburgh
+  COMMONWEALTH = 17,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -66,6 +69,8 @@ export function getSelectedActionString(action?: Action) {
       return "High Costs";
     case Action.ONE_MOVE:
       return "One Move";
+    case Action.COMMONWEALTH:
+      return "Commonwealth";
     default:
       assertNever(action);
   }

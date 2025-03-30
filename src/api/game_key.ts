@@ -12,6 +12,7 @@ export enum GameKey {
   MONTREAL_METRO = "montreal-metro",
   REVERSTEAM = "reversteam",
   ST_LUCIA = "st-lucia",
+  PITTSBURGH = "pittsburgh",
   RUST_BELT = "rust-belt",
   SOUL_TRAIN = "soul-train",
   SWEDEN = "SwedenRecycling",

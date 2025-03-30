@@ -9,6 +9,7 @@ import { IndiaSteamBrothersMapSettings } from "./india-steam-brothers/settings";
 import { IrelandMapSettings } from "./ireland/settings";
 import { KoreaWallaceMapSettings } from "./korea-wallace/settings";
 import { MadagascarMapSettings } from "./madagascar/settings";
+import { PittsburghMapSettings } from "./pittsburgh/settings";
 import { ReversteamMapSettings } from "./reversteam/settings";
 import { RustBeltMapSettings } from "./rust_belt/settings";
 import { SoulTrainMapSettings } from "./soultrain/settings";
@@ -33,6 +34,7 @@ export class MapRegistry {
     this.add(new SoulTrainMapSettings());
     this.add(new DetroitBankruptcyMapSettings());
     this.add(new StLuciaMapSettings());
+    this.add(new PittsburghMapSettings());
   }
 
   values(): Iterable<MapSettings> {

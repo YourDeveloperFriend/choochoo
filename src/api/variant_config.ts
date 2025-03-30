@@ -10,6 +10,7 @@ export const EmptyVariantConfig = z.object({
     GameKey.MADAGASCAR,
     GameKey.MONTREAL_METRO,
     GameKey.RUST_BELT,
+    GameKey.PITTSBURGH,
     GameKey.SWEDEN,
     GameKey.DISCO_INFERNO,
     GameKey.SOUL_TRAIN,

@@ -236,6 +236,8 @@ export function PlaceDialog({
         </IconButton>
         <DialogContent className={dialogContent}>
           <div className={buildingDialogContainer}>
+            &quot;{space?.coordinates.toString() ?? "null"}&quot; : &quot;
+            {cities?.length ?? "null"}&quot;
             {space &&
               cities?.map((city) => (
                 <div key={city.color} className={buildingOption}>

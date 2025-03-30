@@ -22,9 +22,9 @@ export class BuildCostCalculator {
       }
       return this.getTerrainCost(location) + this.getTileCost(newTileType);
     } else if (location.hasTown()) {
-      return 3;
+      return this.getTownUpgradeCost();
     } else if (isComplexTile(newTileType) && isSimpleTile(previousTileData.tileType) && crosses(newTileType)) {
-      return 3;
+      return this.getComplexUpgradeCost(previousTileData.tileType, newTileType);
     } else {
       const redirectCount = countRedirects(previousTileData, newTileType, orientation);
       if (redirectCount > 0) {
@@ -33,6 +33,14 @@ export class BuildCostCalculator {
         return 2;
       }
     }
+  }
+
+  protected getComplexUpgradeCost(_: SimpleTileType, __: ComplexTileType) {
+    return 3;
+  }
+
+  protected getTownUpgradeCost() {
+    return 3;
   }
 
   protected getRedirectCost() {

@@ -13,6 +13,7 @@ import { TOWN } from "../map/track";
 import { SpaceType } from "../state/location_type";
 import { Direction, getTileTypeString, TileData, TileType } from "../state/tile";
 import { BuildCostCalculator } from "./cost";
+import { BuildDiscountManager } from "./discount";
 import { BuilderHelper } from "./helper";
 import { BUILD_STATE } from "./state";
 import { Validator } from "./validator";
@@ -35,10 +36,16 @@ export class BuildAction implements ActionProcessor<BuildData> {
   protected readonly gridHelper = inject(GridHelper);
   protected readonly helper = inject(BuilderHelper);
   protected readonly costCalculator = inject(BuildCostCalculator);
+  protected readonly discountManager = inject(BuildDiscountManager);
   protected readonly playerHelper = inject(PlayerHelper);
   protected readonly validator = inject(Validator);
   protected readonly moneyManager = inject(MoneyManager);
   protected readonly log = inject(Log);
+
+  totalCostOf(build: BuildData): number {
+    return this.costCalculator.costOf(build.coordinates, build.tileType, build.orientation) -
+      this.discountManager.getDiscount(build);
+  }
 
   validate(data: BuildData): void {
     const coordinates: Coordinates = data.coordinates;
@@ -46,7 +53,7 @@ export class BuildAction implements ActionProcessor<BuildData> {
     const maxTrack = this.helper.getMaxBuilds();
     assert(this.helper.buildsRemaining() > 0, { invalidInput: `You can only build at most ${maxTrack} track` });
 
-    assert(this.currentPlayer().money >= this.costCalculator.costOf(coordinates, data.tileType, data.orientation), { invalidInput: 'Cannot afford to place track' });
+    assert(this.currentPlayer().money >= this.totalCostOf(data), { invalidInput: 'Cannot afford to place track' });
 
     assert(!this.hasBuiltHere(coordinates), { invalidInput: 'cannot build in the same location twice in one turn' });
     const invalidBuildReason = this.validator.getInvalidBuildReason(coordinates, { ...data, playerColor: this.currentPlayer().color });
@@ -55,7 +62,8 @@ export class BuildAction implements ActionProcessor<BuildData> {
 
   process(data: BuildData): boolean {
     const coordinates = data.coordinates;
-    this.moneyManager.addMoneyForCurrentPlayer(-this.costCalculator.costOf(coordinates, data.tileType, data.orientation));
+    this.moneyManager.addMoneyForCurrentPlayer(-this.totalCostOf(data));
+    this.discountManager.applyDiscount(data);
     const newTile = this.newTile(data);
     this.log.currentPlayer(`builds a ${getTileTypeString(data.tileType)} at ${this.grid().displayName(data.coordinates)}`);
     this.gridHelper.update(coordinates, (hex) => {

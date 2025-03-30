@@ -130,6 +130,8 @@ function getSelectedActionDescription(
       return "Each tile you build this turn costs an additional $4.";
     case Action.ONE_MOVE:
       return "Skip one of your move goods actions.";
+    case Action.COMMONWEALTH:
+      return "Reduces the cost of one $10 buid to $7.";
     default:
       assertNever(action);
   }
