@@ -8,7 +8,7 @@ export function SwedenRules() {
         </li>
         <li>
           <b>Goods growth is skipped:</b> Instead, at the end of the move phase,
-          all delivered goods are &qt;recycled&qt;.
+          all delivered goods are &quot;recycled&quot;.
         </li>
         <li>
           <b>Recycling:</b> Yellow cubes -&gt; red -&gt; blue -&gt; black. After
