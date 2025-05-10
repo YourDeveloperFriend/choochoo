@@ -57,7 +57,7 @@ class FreeBuildManager {
       return { newCost: currentCost };
     }
     return {
-      newCost: this.freeBuild() - currentCost,
+      newCost: this.freeBuild(),
       newCheapestBuild: currentCost,
     };
   }
