@@ -98,10 +98,10 @@ export class HeavyLiftingAction implements ActionProcessor<HeavyLiftingData> {
     assert(endingCity instanceof City, {
       invalidInput: "must start from a city",
     });
-    assert(startingCity.name() === "Madeira", {
+    assert(startingCity.name() !== "Madeira", {
       invalidInput: "cannot deliver from Madeira",
     });
-    assert(endingCity.name() === "Madeira", {
+    assert(endingCity.name() !== "Madeira", {
       invalidInput: "cannot deliver to Madeira",
     });
 
