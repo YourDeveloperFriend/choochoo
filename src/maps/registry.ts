@@ -1,3 +1,4 @@
+import { ScotlandMapSettings } from "./scotland/settings";
 import { AlabamaRailwaysMapSettings } from "./alabama_railways/settings";
 import { SicilyMapSettings } from "./sicily/settings";
 import { GameKey } from "../api/game_key";
@@ -27,6 +28,7 @@ export class MapRegistry {
   private readonly maps = new Map<GameKey, MapSettings>();
 
   private constructor() {
+    this.add(new ScotlandMapSettings());
     this.add(new AlabamaRailwaysMapSettings());
     this.add(new SicilyMapSettings());
     this.add(new RustBeltMapSettings());
