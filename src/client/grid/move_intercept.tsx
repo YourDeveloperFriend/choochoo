@@ -11,7 +11,10 @@ import {
 import { GameKey } from "../../api/game_key";
 import { MoveData } from "../../engine/move/move";
 import { PlayerColor, playerColorToString } from "../../engine/state/player";
-import { AlabamaMoveAction } from "../../maps/alabama_railways/move_good";
+import {
+  AlabamaMoveAction,
+  AlabamaMoveData,
+} from "../../maps/alabama_railways/move_good";
 import { MoonMoveAction } from "../../maps/moon/low_gravitation";
 import * as styles from "../components/confirm.module.css";
 import { useAction } from "../services/action";
@@ -31,7 +34,6 @@ export function useMoveInterceptionState() {
   const gameKey = useGameKey();
   const moonMoveAction = useInjectedMemo(MoonMoveAction);
   const { canEmit: canEmitMoonMove } = useAction(MoonMoveAction);
-  const { emit: emitAlabama } = useAction(AlabamaMoveAction);
   const currentPlayer = useCurrentPlayer()?.color;
   const [[cityName, moveData], setInternalState] = useState<
     [string, MoveData] | [undefined, undefined]
@@ -46,11 +48,8 @@ export function useMoveInterceptionState() {
         moveData.path.some(({ owner }) => owner !== currentPlayer);
       if (gameKey === GameKey.ALABAMA_RAILWAYS) {
         if (!hasAChoice) {
-          emitAlabama({
-            ...moveData,
-            forgo: moveData.path.map(({ owner }) => owner)[0],
-          });
-          return true;
+          (moveData as AlabamaMoveData).forgo = moveData.path[0].owner;
+          return false;
         }
         setInternalState([cityName, moveData]);
         return true;

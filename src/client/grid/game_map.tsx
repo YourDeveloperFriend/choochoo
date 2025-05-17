@@ -40,13 +40,7 @@ import {
 import { PlaceAction } from "../../maps/soultrain/earth_to_heaven";
 import { ViewRegistry } from "../../maps/view_registry";
 import { Coordinates } from "../../utils/coordinates";
-import {
-  arrayEqualsIgnoreOrder,
-  isNotNull,
-  partition,
-  peek,
-  removeKey,
-} from "../../utils/functions";
+import { arrayEqualsIgnoreOrder, peek, removeKey } from "../../utils/functions";
 import { ConfirmCallback, useConfirm } from "../components/confirm";
 import { useAction } from "../services/action";
 import { useGameVersionState } from "../services/game";
@@ -62,7 +56,7 @@ import {
 import { BuildingDialog, PlaceDialog } from "./building_dialog";
 import { ClickTarget } from "./click_target";
 import { HexGrid } from "./hex_grid";
-import { InterceptMoveModal, useMoveInterceptionState } from "./steal_income";
+import { InterceptMoveModal, useMoveInterceptionState } from "./move_intercept";
 
 interface EnhancedPath extends Path {
   startingConnection: Track | OwnedInterCityConnection;
@@ -342,6 +336,7 @@ function onClickCb(
 function maybeConfirmDeliveryCb(
   player: PlayerColor | undefined,
   moveHelper: Memoized<MoveHelper>,
+  moveInstance: Memoized<MoveAction>,
   confirm: ConfirmCallback,
   grid: Grid,
   emitMove: (moveData: MoveData) => void,
@@ -356,17 +351,15 @@ function maybeConfirmDeliveryCb(
       moveHelper.value.canDeliverTo(endingStop, moveActionProgress.good)
     ) {
       if (maybeInterceptMove(moveActionProgress, endingStop.name())) return;
-      const groups = partition(
-        moveActionProgress.path.map(({ owner }) => owner).filter(isNotNull),
-        (i) => i,
-      );
-      const counts = [...groups]
+      const income = moveInstance.value.calculateIncome(moveActionProgress);
+      const counts = [...income]
+        .filter(([a]) => a != null)
         .map(
-          ([owner, len]) =>
-            `${owner === player ? "you" : playerColorToString(owner)} ${len} income`,
-        )
-        .join(", ");
-      const message = `Deliver to ${endingStop.name}? This will give ${counts}.`;
+          ([owner, income]) =>
+            `${owner === player ? "you" : playerColorToString(owner)} ${income} income`,
+        );
+      const countsStr = counts.length > 0 ? counts.join(", ") : "zero income";
+      const message = `Deliver to ${endingStop.name()}? This will give ${countsStr}.`;
       confirm(message, {
         confirmButton: "Confirm Delivery",
         cancelButton: "Cancel",
@@ -391,6 +384,7 @@ export function GameMap() {
     emit: emitMove,
     isPending: isMovePending,
   } = useAction(MoveAction);
+  const moveInstance = useInjectedMemo(MoveAction);
   const { maybeInterceptMove, ...interceptMoveState } =
     useMoveInterceptionState();
   const {
@@ -467,6 +461,7 @@ export function GameMap() {
   const maybeConfirmDelivery = useTypedCallback(maybeConfirmDeliveryCb, [
     player?.color,
     moveHelper,
+    moveInstance,
     confirm,
     grid,
     emitMove,

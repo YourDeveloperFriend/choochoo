@@ -19,7 +19,7 @@ export class AlabamaMoveAction extends MoveAction<AlabamaMoveData> {
     });
   }
 
-  protected calculateIncome(
+  calculateIncome(
     action: AlabamaMoveData,
   ): Map<PlayerColor | undefined, number> {
     const map = super.calculateIncome(action);

@@ -147,7 +147,7 @@ export class MoveAction<T extends MoveData = MoveData>
     }
   }
 
-  protected calculateIncome(action: T): Map<PlayerColor | undefined, number> {
+  calculateIncome(action: T): Map<PlayerColor | undefined, number> {
     return new Map(
       [...partition(action.path, (step) => step.owner).entries()].map(
         ([owner, steps]) => [owner, steps.length],
