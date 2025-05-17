@@ -26,8 +26,12 @@ import {
 } from "../utils/injection_context";
 import * as styles from "./goods_table.module.css";
 
-function getMaxGoods(goodsMap: ImmutableMap<CityGroup, Good[][]>): number {
-  const goodArrays: Good[][] = [...goodsMap.values()].flatMap((i) => i);
+function getMaxGoods(
+  goodsMap: ImmutableMap<CityGroup, (Good | undefined | null)[][]>,
+): number {
+  const goodArrays: (Good | undefined | null)[][] = [
+    ...goodsMap.values(),
+  ].flatMap((i) => i);
 
   return Math.max(...goodArrays.map((goods) => goods.length));
 }
@@ -43,11 +47,11 @@ export function GoodsTable() {
   const availableCities = useInjectedState(AVAILABLE_CITIES);
   const cities = useMemo(() => {
     const cities = grid.cities();
-    const regularCities = new Map<CityGroup, Good[][]>([
+    const regularCities = new Map<CityGroup, (Good | undefined | null)[][]>([
       [CityGroup.WHITE, []],
       [CityGroup.BLACK, []],
     ]);
-    const urbanizedCities = new Map<CityGroup, Good[][]>([
+    const urbanizedCities = new Map<CityGroup, (Good | undefined | null)[][]>([
       [CityGroup.WHITE, []],
       [CityGroup.BLACK, []],
     ]);
@@ -83,10 +87,10 @@ export function GoodsTable() {
   const good = manuallySelectedGood ?? productionState?.goods[0];
 
   const onClick = useCallback(
-    (urbanized: boolean, cityGroup: CityGroup, onRoll: OnRoll) => {
+    (urbanized: boolean, cityGroup: CityGroup, onRoll: OnRoll, row: number) => {
       if (!canEmit) return;
       assert(good != null);
-      emit({ urbanized, onRoll, cityGroup, good });
+      emit({ urbanized, onRoll, cityGroup, good, row });
     },
     [canEmit, emit, good],
   );
@@ -140,9 +144,16 @@ export function GoodsTable() {
                 {iterate(maxRegularGoods, (goodIndex) => (
                   <GoodBlock
                     key={goodIndex}
-                    good={city?.[maxRegularGoods - 1 - goodIndex]}
+                    good={city?.[maxRegularGoods - 1 - goodIndex] ?? undefined}
                     canSelect={canEmit}
-                    onClick={() => onClick(false, cityGroup, onRoll)}
+                    onClick={() =>
+                      onClick(
+                        false,
+                        cityGroup,
+                        onRoll,
+                        maxRegularGoods - 1 - goodIndex,
+                      )
+                    }
                   />
                 ))}
                 {hasUrbanizedCities && <div>{urbanizedCity && letter}</div>}
@@ -150,10 +161,20 @@ export function GoodsTable() {
                   iterate(maxUrbanizedGoods, (goodIndex) => (
                     <GoodBlock
                       key={goodIndex}
-                      good={urbanizedCity?.[maxUrbanizedGoods - 1 - goodIndex]}
+                      good={
+                        urbanizedCity?.[maxUrbanizedGoods - 1 - goodIndex] ??
+                        undefined
+                      }
                       canSelect={canEmit}
                       emptySpace={urbanizedCity == null}
-                      onClick={() => onClick(true, cityGroup, onRoll)}
+                      onClick={() =>
+                        onClick(
+                          true,
+                          cityGroup,
+                          onRoll,
+                          maxUrbanizedGoods - 1 - goodIndex,
+                        )
+                      }
                     />
                   ))}
               </div>

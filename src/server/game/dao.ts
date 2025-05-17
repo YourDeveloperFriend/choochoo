@@ -19,7 +19,6 @@ import {
 import { GameApi, GameLiteApi, GameStatus, MapConfig } from "../../api/game";
 import { GameKey } from "../../api/game_key";
 import { VariantConfig } from "../../api/variant_config";
-import { EngineDelegator } from "../../engine/framework/engine";
 import { LimitedGame, toLimitedGame } from "../../engine/game/game_memory";
 import { AutoAction } from "../../engine/state/auto_action";
 import { assertNever } from "../../utils/validate";
@@ -141,9 +140,7 @@ export function toApi(game: InferAttributes<GameDao> | GameApi): GameApi {
   };
 }
 
-function toLiteApi(
-  game: GameApi | InferAttributes<GameDao>,
-): GameLiteApi {
+function toLiteApi(game: GameApi | InferAttributes<GameDao>): GameLiteApi {
   return {
     id: game.id,
     gameKey: game.gameKey,
@@ -169,7 +166,7 @@ export function toSummary(
     case GameStatus.enum.LOBBY:
       return undefined;
     case GameStatus.enum.ACTIVE:
-      return EngineDelegator.singleton.readSummary(toLimitedGame(game));
+      return "woops"; // EngineDelegator.singleton.readSummary(toLimitedGame(game));
     case GameStatus.enum.ENDED:
       return "Ended";
     case GameStatus.enum.ABANDONED:

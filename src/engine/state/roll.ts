@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { CityGroup } from "./city_group";
-import { Good } from "./good";
+import { GoodZod } from "./good";
 
 export const OnRoll = z.union([
   z.literal(1),
@@ -16,7 +16,7 @@ export type OnRoll = z.infer<typeof OnRoll>;
 export const OnRollData = z.object({
   onRoll: OnRoll,
   group: z.nativeEnum(CityGroup),
-  goods: z.array(z.nativeEnum(Good)),
+  goods: z.array(z.union([GoodZod, z.null(), z.undefined()])),
 });
 
 export type OnRollData = z.infer<typeof OnRollData>;

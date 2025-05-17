@@ -4,6 +4,7 @@ import { Random } from "../../engine/game/random";
 import { BAG } from "../../engine/game/state";
 import { Good } from "../../engine/state/good";
 import { SpaceType } from "../../engine/state/location_type";
+import { isNotNull } from "../../utils/functions";
 import { assert } from "../../utils/validate";
 
 export class KoreaWallaceUrbanizeAction extends UrbanizeAction {
@@ -21,7 +22,7 @@ export class KoreaWallaceUrbanizeAction extends UrbanizeAction {
     this.gridHelper.update(data.coordinates, (city) => {
       assert(city.type === SpaceType.CITY);
 
-      city.goods = city.onRoll[0].goods;
+      city.goods = city.onRoll[0].goods.filter(isNotNull);
       city.onRoll[0].goods = pull;
     });
 

@@ -45,7 +45,18 @@ export class GoodsHelper {
 
     this.grid.update(coordinates, (location) => {
       assert(location.type === SpaceType.CITY);
-      const newGoods = location.onRoll[onRollIndex].goods.splice(-count, count);
+      const newGoods: Good[] = [];
+      const waitingArray = location.onRoll[onRollIndex].goods;
+      for (let i = 0; i < count; i++) {
+        let newGood: Good | undefined | null;
+        do {
+          newGood = waitingArray.pop();
+        } while (newGood == undefined && waitingArray.length > 0);
+        if (newGood == null) {
+          break;
+        }
+        newGoods.push(newGood);
+      }
       location.goods.push(...newGoods);
     });
   }

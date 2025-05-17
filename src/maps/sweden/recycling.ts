@@ -43,7 +43,7 @@ export class SwedenMovePhase extends MovePhase {
             continue;
           }
 
-          city.goods.push(this.getNextGood(good));
+          city.goods.push(this.getNextGood(good!));
         }
         city.onRoll[0].goods = [];
       });

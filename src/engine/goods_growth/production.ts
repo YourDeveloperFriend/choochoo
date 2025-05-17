@@ -17,6 +17,7 @@ export const ProductionData = z.object({
   good: z.nativeEnum(Good),
   cityGroup: z.nativeEnum(CityGroup),
   onRoll: OnRoll,
+  row: z.number(),
 });
 
 export type ProductionData = z.infer<typeof ProductionData>;
@@ -56,8 +57,11 @@ export class ProductionAction implements ActionProcessor<ProductionData> {
     const onRoll = this.findOnRoll(city.onRoll(), data);
     assert(onRoll != null, { invalidInput: "must place in valid onRoll" });
     const maxGoods = city.isUrbanized() ? 2 : 3;
-    assert(onRoll.goods.length < maxGoods, {
-      invalidInput: "chosen onroll is full",
+    assert(onRoll.goods[data.row] == null, {
+      invalidInput: "chosen onroll row is full",
+    });
+    assert(data.row < maxGoods, {
+      invalidInput: "chosen onroll row is out of bounds",
     });
   }
 
@@ -66,7 +70,7 @@ export class ProductionAction implements ActionProcessor<ProductionData> {
     this.grid.update(city!.coordinates, (city) => {
       assert(city.type === SpaceType.CITY);
       const onRoll = this.findOnRoll(city.onRoll, data);
-      onRoll!.goods.push(data.good);
+      onRoll!.goods[data.row] = data.good;
       this.log.currentPlayer(`puts ${goodToString(data.good)} in ${city.name}`);
     });
 
