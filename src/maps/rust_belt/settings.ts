@@ -8,7 +8,7 @@ export class RustBeltMapSettings implements MapSettings {
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.DEPRECATED;
+  readonly stage = ReleaseStage.BETA;
 
   getOverrides() {
     return [];

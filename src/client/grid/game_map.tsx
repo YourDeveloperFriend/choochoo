@@ -12,7 +12,11 @@ import { MoveHelper } from "../../engine/move/helper";
 import { MoveAction, MoveData, Path } from "../../engine/move/move";
 import { Good } from "../../engine/state/good";
 import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
-import { PlayerData } from "../../engine/state/player";
+import {
+  PlayerColor,
+  playerColorToString,
+  PlayerData,
+} from "../../engine/state/player";
 import {
   ProductionAction as DiscoProductionAction,
   ProductionData,
@@ -36,7 +40,13 @@ import {
 import { PlaceAction } from "../../maps/soultrain/earth_to_heaven";
 import { ViewRegistry } from "../../maps/view_registry";
 import { Coordinates } from "../../utils/coordinates";
-import { arrayEqualsIgnoreOrder, peek, removeKey } from "../../utils/functions";
+import {
+  arrayEqualsIgnoreOrder,
+  isNotNull,
+  partition,
+  peek,
+  removeKey,
+} from "../../utils/functions";
 import { ConfirmCallback, useConfirm } from "../components/confirm";
 import { useAction } from "../services/action";
 import { useGameVersionState } from "../services/game";
@@ -330,6 +340,7 @@ function onClickCb(
 }
 
 function maybeConfirmDeliveryCb(
+  player: PlayerColor | undefined,
   moveHelper: Memoized<MoveHelper>,
   confirm: ConfirmCallback,
   grid: Grid,
@@ -345,7 +356,18 @@ function maybeConfirmDeliveryCb(
       moveHelper.value.canDeliverTo(endingStop, moveActionProgress.good)
     ) {
       if (maybeInterceptMove(moveActionProgress, endingStop.name())) return;
-      confirm("Deliver to " + endingStop.name(), {
+      const groups = partition(
+        moveActionProgress.path.map(({ owner }) => owner).filter(isNotNull),
+        (i) => i,
+      );
+      const counts = [...groups]
+        .map(
+          ([owner, len]) =>
+            `${owner === player ? "you" : playerColorToString(owner)} ${len} income`,
+        )
+        .join(", ");
+      const message = `Deliver to ${endingStop.name}? This will give ${counts}.`;
+      confirm(message, {
         confirmButton: "Confirm Delivery",
         cancelButton: "Cancel",
       }).then((confirmed) => {
@@ -443,6 +465,7 @@ export function GameMap() {
   ]);
 
   const maybeConfirmDelivery = useTypedCallback(maybeConfirmDeliveryCb, [
+    player?.color,
     moveHelper,
     confirm,
     grid,

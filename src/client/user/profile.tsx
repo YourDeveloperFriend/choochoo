@@ -241,9 +241,9 @@ function InternalNotificationSettings({
   const sendTestNotification = useCallback(
     (e: MouseEvent) => {
       e.preventDefault();
-      test(newNotificationSettings);
+      test({ ...newNotificationSettings, discordId: preferences.discordId });
     },
-    [test, newNotificationSettings],
+    [test, newNotificationSettings, preferences.discordId],
   );
 
   const discordWebHookUrlError = findErrorInNotifications(
