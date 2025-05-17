@@ -1,5 +1,6 @@
 import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
+import { RoundEngine } from "../../engine/game/round";
 import { map } from "./grid";
 
 export class ScotlandMapSettings implements MapSettings {
@@ -11,6 +12,13 @@ export class ScotlandMapSettings implements MapSettings {
   readonly stage = ReleaseStage.DEVELOPMENT;
 
   getOverrides() {
-    return [];
+    return [ScotlandRoundEngine];
+  }
+}
+
+export class ScotlandRoundEngine extends RoundEngine {
+
+  maxRounds(): number {
+    return 8;
   }
 }
