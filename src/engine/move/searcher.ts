@@ -1,98 +1,72 @@
-import { Coordinates } from "../../utils/coordinates";
-import { isNotNull, peek } from "../../utils/functions";
-import { assert } from "../../utils/validate";
+import { InvalidInputError } from "../../utils/error";
+import { peek } from "../../utils/functions";
+import { inject } from "../framework/execution_context";
 import { injectGrid } from "../game/state";
-import { City } from "../map/city";
-import { Land } from "../map/location";
-import { TOWN, Track } from "../map/track";
-import { OwnedInterCityConnection } from "../state/inter_city_connection";
-import { allDirections } from "../state/tile";
+import { MoveData } from "./move";
+import { MoveValidator } from "./validator";
 
 export class MoveSearcher {
   private readonly grid = injectGrid();
+  private readonly validator = inject(MoveValidator);
 
-  findRoutesToLocation(
-    fromCoordinates: Coordinates,
-    toCoordinates: Coordinates,
-  ): Array<Track | OwnedInterCityConnection> {
-    const space = this.grid().get(fromCoordinates);
-    assert(space != null, "cannot call findRoutes from null location");
-    if (space instanceof City) {
-      return this.findRoutesToLocationFromCity(space, toCoordinates);
-    }
-    return this.findRoutesToLocationFromLocation(space, toCoordinates);
-  }
-
-  private findRoutesToLocationFromLocation(
-    location: Land,
-    coordinates: Coordinates,
-  ): Track[] {
-    return location
-      .getTrack()
-      .filter((track) => this.endsWith(track, coordinates))
-      .filter((track) => this.canMoveGoodsAcrossTrack(track));
-  }
-
-  private findRoutesToLocationFromCity(
-    originCity: City,
-    coordinates: Coordinates,
-  ): Array<Track | OwnedInterCityConnection> {
-    const allCities = this.grid()
-      .cities()
-      .filter((otherCity) => originCity.isSameCity(otherCity));
-    return allCities
-      .flatMap((city) =>
-        allDirections.map((direction) =>
-          this.grid().connection(city.coordinates, direction),
-        ),
-      )
-      .filter(isNotNull)
-      .filter(
-        (connection): connection is Track | OwnedInterCityConnection =>
-          !(connection instanceof City),
-      )
-      .filter((connection) => {
-        if (connection instanceof Track) {
-          return (
-            this.endsWith(connection, coordinates) &&
-            this.canMoveGoodsAcrossTrack(connection)
-          );
-        } else {
-          return connection.connects.includes(coordinates);
-        }
-      });
-  }
-
-  private canMoveGoodsAcrossTrack(track: Track): boolean {
-    return this.grid()
-      .getRoute(track)
-      .every((track) => !track.isClaimable());
-  }
-
-  /** Returns whether the given coordinates are at the end of the given track */
-  private endsWith(track: Track, coordinates: Coordinates): boolean {
-    const route = this.grid().getRoute(track);
-    const end = this.grid().get(coordinates);
-    if (end == null) return false;
-    if (end instanceof City) {
-      return exitsToCity(route[0]) || exitsToCity(peek(route));
-
-      function exitsToCity(track: Track): boolean {
-        return track
-          .getExits()
-          .some(
-            (e) =>
-              e !== TOWN && track.coordinates.neighbor(e).equals(coordinates),
-          );
+  findAllRoutes(): MoveData[] {
+    const allRoutes: MoveData[] = [];
+    for (const [coordinates, space] of this.grid().entries()) {
+      for (const good of space.getGoods()) {
+        const partialPath: MoveData = {
+          path: [],
+          startingCity: coordinates,
+          good,
+        };
+        allRoutes.push(...this.findAllRoutesForGood(partialPath));
       }
-    } else if (end.hasTown()) {
-      return exitsToTown(route[0]) || exitsToTown(peek(route));
-
-      function exitsToTown(track: Track) {
-        return track.coordinates.equals(coordinates);
-      }
-    } else {
-      return false;
     }
+    return allRoutes;
+  }
+
+  private findAllRoutesForGood(partialPath: MoveData): MoveData[] {
+    const completeErrorMessage = this.getErrorMessage(() =>
+      this.validator.validate(partialPath),
+    );
+    if (completeErrorMessage == null) {
+      return [partialPath];
+    }
+
+    const partialErrorMessage = this.getErrorMessage(() =>
+      this.validator.validatePartial(partialPath),
+    );
+    if (partialErrorMessage == null) {
+      return [];
+    }
+
+    const fromCoordinates =
+      partialPath.path.length > 0
+        ? peek(partialPath.path).endingStop
+        : partialPath.startingCity;
+    const routes = this.validator.findRoutesFromLocation(fromCoordinates);
+    return routes.flatMap((route) => {
+      const newPath: MoveData = {
+        ...partialPath,
+        path: partialPath.path.concat([
+          {
+            endingStop: route.destination.coordinates,
+            owner: route.owner,
+          },
+        ]),
+      };
+      return this.findAllRoutesForGood(newPath);
+    });
+  }
+
+  private getErrorMessage(fn: () => void): string | undefined {
+    try {
+      fn();
+    } catch (e) {
+      if (e instanceof InvalidInputError) {
+        return e.message;
+      }
+      throw e;
+    }
+    return undefined;
   }
 }

@@ -10,7 +10,7 @@ import { Land } from "../../engine/map/location";
 import { Track } from "../../engine/map/track";
 import { MoveHelper } from "../../engine/move/helper";
 import { MoveAction, MoveData, Path } from "../../engine/move/move";
-import { MoveSearcher } from "../../engine/move/searcher";
+import { MoveValidator } from "../../engine/move/validator";
 import { Good } from "../../engine/state/good";
 import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
 import {
@@ -68,26 +68,18 @@ interface EnhancedMoveData extends MoveData {
 }
 
 function buildPaths(
-  moveSearcher: MoveSearcher,
+  moveValidator: MoveValidator,
   startingStop: Coordinates,
   endingStop: Coordinates,
 ): EnhancedPath[] {
-  return [...moveSearcher.findRoutesToLocation(startingStop, endingStop)].map(
-    (connection) => {
-      if (connection instanceof Track) {
-        return {
-          owner: connection.getOwner(),
-          endingStop,
-          startingConnection: connection,
-        };
-      } else {
-        // InterCityConnection
-        return {
-          owner: connection.owner!.color,
-          startingConnection: connection,
-          endingStop,
-        };
-      }
+  return [...moveValidator.findRoutesToLocation(startingStop, endingStop)].map(
+    (route) => {
+      return {
+        owner: route.owner,
+        endingStop: route.destination.coordinates,
+        startingConnection:
+          route.type === "connection" ? route.connection : route.startingTrack,
+      };
     },
   );
 }
@@ -132,7 +124,7 @@ function useMaybeConfirmEmitHeavyLifting() {
 }
 
 function onMoveToSpaceCb(
-  moveSearcher: Memoized<MoveSearcher>,
+  moveValidator: Memoized<MoveValidator>,
   moveHelper: Memoized<MoveHelper>,
   moveActionProgress: EnhancedMoveData | undefined,
   setMoveActionProgress: (data: EnhancedMoveData | undefined) => void,
@@ -177,7 +169,7 @@ function onMoveToSpaceCb(
       // Otherwise, just update the owner
       const fromSpace = grid.get(entirePath[entirePath.length - 2])!;
       const paths = buildPaths(
-        moveSearcher.value,
+        moveValidator.value,
         fromSpace.coordinates,
         space.coordinates,
       );
@@ -217,7 +209,7 @@ function onMoveToSpaceCb(
     )
       return;
     const paths = buildPaths(
-      moveSearcher.value,
+      moveValidator.value,
       fromSpace.coordinates,
       space.coordinates,
     );
@@ -440,7 +432,7 @@ export function GameMap() {
     undefined,
   );
   const moveHelper = useInjectedMemo(MoveHelper);
-  const moveSearcher = useInjectedMemo(MoveSearcher);
+  const moveValidator = useInjectedMemo(MoveValidator);
   const gameKey = useGameKey();
 
   const mapSettings = useMemo(
@@ -482,7 +474,7 @@ export function GameMap() {
   const maybeConfirmEmitHeavyLifting = useMaybeConfirmEmitHeavyLifting();
 
   const onMoveToSpace = useTypedCallback(onMoveToSpaceCb, [
-    moveSearcher,
+    moveValidator,
     moveHelper,
     moveActionProgress,
     setMoveActionProgress,
