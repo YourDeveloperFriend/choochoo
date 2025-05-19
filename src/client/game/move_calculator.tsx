@@ -6,11 +6,13 @@ import {
   Typography,
 } from "@mui/material";
 import { useCallback } from "react";
+import { Button } from "semantic-ui-react";
 import { MoveAction, MoveData } from "../../engine/move/move";
 import { MoveSearcher } from "../../engine/move/searcher";
 import { goodToString } from "../../engine/state/good";
 import { PlayerColor, playerColorToString } from "../../engine/state/player";
 import { peek } from "../../utils/functions";
+import { useAction } from "../services/action";
 import { useGameVersionState } from "../services/game";
 import { useIsAdmin } from "../services/me";
 import {
@@ -27,6 +29,7 @@ interface Option {
 export function MoveCalculator() {
   const grid = useGrid();
   const isAdmin = useIsAdmin();
+  const { emit, canEmit } = useAction(MoveAction);
   const searcher = useInjectedMemo(MoveSearcher);
   const moveAction = useInjectedMemo(MoveAction);
   const mePlayer = useMePlayer();
@@ -65,7 +68,7 @@ export function MoveCalculator() {
       </AccordionSummary>
       <AccordionDetails>
         <div>
-          <button onClick={handleClick}>Calculate Moves</button>
+          <Button onClick={handleClick}>Calculate Moves</Button>
           {options != null && options.length > 0 && (
             <table>
               <thead>
@@ -74,6 +77,7 @@ export function MoveCalculator() {
                   <th>Starting City</th>
                   <th>Destination City</th>
                   <th>Income</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -90,6 +94,13 @@ export function MoveCalculator() {
                           {playerColorToString(playerColor)}: {income}
                         </p>
                       ))}
+                    </td>
+                    <td>
+                      {canEmit && (
+                        <Button onClick={() => emit(option.route)}>
+                          Move good
+                        </Button>
+                      )}
                     </td>
                   </tr>
                 ))}

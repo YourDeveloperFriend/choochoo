@@ -35,7 +35,7 @@ export class MoveSearcher {
     const partialErrorMessage = this.getErrorMessage(() =>
       this.validator.validatePartial(partialPath),
     );
-    if (partialErrorMessage == null) {
+    if (partialErrorMessage != null) {
       return [];
     }
 
