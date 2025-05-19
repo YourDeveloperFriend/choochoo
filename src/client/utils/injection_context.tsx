@@ -20,7 +20,11 @@ import { Key } from "../../engine/framework/key";
 import { StateStore } from "../../engine/framework/state";
 import { GameMemory, toLimitedGame } from "../../engine/game/game_memory";
 import { PHASE } from "../../engine/game/phase";
-import { injectCurrentPlayer, injectGrid } from "../../engine/game/state";
+import {
+  injectAllPlayersUnsafe,
+  injectCurrentPlayer,
+  injectGrid,
+} from "../../engine/game/state";
 import { Grid } from "../../engine/map/grid";
 import { Phase } from "../../engine/state/phase";
 import { PlayerData } from "../../engine/state/player";
@@ -29,6 +33,7 @@ import { MapViewSettings } from "../../maps/view_settings";
 import { Immutable } from "../../utils/immutable";
 import { assert } from "../../utils/validate";
 import { useGame } from "../services/game";
+import { useMe } from "../services/me";
 
 const InjectionContextContext = createContext<InjectionContext | undefined>(
   undefined,
@@ -177,6 +182,15 @@ export function useCurrentPlayer(): PlayerData | undefined {
     if (phase === Phase.END_GAME) return undefined;
     return injectCurrentPlayer()();
   }, []);
+}
+
+export function useMePlayer(): PlayerData | undefined {
+  const me = useMe();
+  return useInject(() => {
+    const players = injectAllPlayersUnsafe()();
+    if (me == null) return undefined;
+    return players.find((player) => player.playerId === me.id);
+  }, [me?.id]);
 }
 
 export function useGrid(): Grid {
