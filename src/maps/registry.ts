@@ -1,6 +1,3 @@
-import { ScotlandMapSettings } from "./scotland/settings";
-import { AlabamaRailwaysMapSettings } from "./alabama_railways/settings";
-import { SicilyMapSettings } from "./sicily/settings";
 import { GameKey } from "../api/game_key";
 import { MapSettings } from "../engine/game/map_settings";
 import { assert } from "../utils/validate";
@@ -22,6 +19,7 @@ import { PittsburghMapSettings } from "./pittsburgh/settings";
 import { ReversteamMapSettings } from "./reversteam/settings";
 import { RustBeltMapSettings } from "./rust_belt/settings";
 import { ScandinaviaMapSettings } from "./scandinavia/settings";
+import { ScotlandMapSettings } from "./scotland/settings";
 import { SicilyMapSettings } from "./sicily/settings";
 import { SoulTrainMapSettings } from "./soultrain/settings";
 import { StLuciaMapSettings } from "./st-lucia/settings";
