@@ -1,8 +1,7 @@
 import z from "zod";
 import { BuildData } from "../../engine/build/build";
 import { BuildDiscountManager } from "../../engine/build/discount";
-import { BuildPhase } from "../../engine/build/phase";
-import { inject, injectState } from "../../engine/framework/execution_context";
+import { injectState } from "../../engine/framework/execution_context";
 import { Key } from "../../engine/framework/key";
 import { injectCurrentPlayer } from "../../engine/game/state";
 import { Action } from "../../engine/state/action";
@@ -19,7 +18,7 @@ export class DetroitDiscountManager extends BuildDiscountManager {
   private readonly freeBuild = injectState(ENGINEER_FREE_BUILD);
   private readonly currentPlayer = injectCurrentPlayer();
 
-  reset() {
+  onBuildRoundEnd() {
     if (this.freeBuild.isInitialized()) {
       this.freeBuild.delete();
     }
@@ -53,13 +52,5 @@ export class DetroitDiscountManager extends BuildDiscountManager {
     } else {
       this.freeBuild.initState(originalCost);
     }
-  }
-}
-
-export class DetroitBuildPhase extends BuildPhase {
-  private readonly manager = inject(DetroitDiscountManager);
-  onEndTurn() {
-    this.manager.reset();
-    return super.onEndTurn();
   }
 }

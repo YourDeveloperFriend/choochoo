@@ -1,8 +1,8 @@
-.log-container {
+.logContainer {
   position: relative;
 }
 
-.log-list {
+.logList {
   height: 200px;
   position: relative;
   background-color: lightgrey;
@@ -10,7 +10,7 @@
   padding: 8px;
 }
 
-:global(.dark-mode) .log-list,
+:global(.dark-mode) .logList,
 :global(.dark-mode) input {
   background-color: darkgrey;
   color: black;
@@ -20,7 +20,7 @@
   margin: 2px;
 }
 
-.scroll-to-bottom-container {
+.scrollToBottomContainer {
   position: absolute;
   width: 100%;
   bottom: 8px;
@@ -33,16 +33,9 @@
   text-align: center;
 }
 
-.scroll-to-bottom {
-}
-
-.submit-form {
+.submitForm {
   display: flex;
   flex-direction: row;
-}
-
-.submit-form input[type="text"] {
-  flex: 1;
 }
 
 .time {
@@ -53,5 +46,11 @@
   font-weight: bold;
 }
 
-.message {
+.submitInput {
+  flex: 1;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid black;
 }

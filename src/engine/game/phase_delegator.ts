@@ -13,7 +13,7 @@ import { TurnOrderPhase } from "../turn_order/phase";
 import { PHASE } from "./phase";
 import { PhaseModule } from "./phase_module";
 
-interface PhaseConstructor {
+export interface PhaseConstructor {
   new (): PhaseModule;
 
   readonly phase: Phase;

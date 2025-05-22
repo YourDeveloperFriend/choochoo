@@ -14,6 +14,7 @@ import { PlayerColor } from "../state/player";
 import { BuildAction } from "./build";
 import { ClaimAction } from "./claim";
 import { ConnectCitiesAction } from "./connect_cities";
+import { BuildDiscountManager } from "./discount";
 import { DoneAction } from "./done";
 import { BuilderHelper } from "./helper";
 import { BUILD_STATE } from "./state";
@@ -26,6 +27,7 @@ export class BaseBuildPhase extends PhaseModule {
   protected readonly currentPlayer = injectCurrentPlayer();
   protected readonly grid = injectGrid();
   protected readonly log = inject(Log);
+  protected readonly discountManager = inject(BuildDiscountManager);
   protected readonly firstBuildPlayer = injectPlayerAction(Action.FIRST_BUILD);
 
   configureActions() {
@@ -78,6 +80,7 @@ export class BaseBuildPhase extends PhaseModule {
   }
 
   onEndTurn(): void {
+    this.discountManager.onBuildRoundEnd();
     this.abandonDangling();
     super.onEndTurn();
     this.turnState.delete();

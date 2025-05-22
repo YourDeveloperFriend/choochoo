@@ -35,14 +35,18 @@ export class MovePhase extends PhaseModule {
     super.onEnd();
   }
 
+  numMoveRounds(): number {
+    return 2;
+  }
+
   findNextPlayer(currPlayer: PlayerColor): PlayerColor | undefined {
     const nextPlayer = super.findNextPlayer(currPlayer);
     if (nextPlayer != null) return nextPlayer;
-    if (this.moveState().moveRound === 0) {
+    if (this.moveState().moveRound + 1 < this.numMoveRounds()) {
       this.moveState.update((r) => r.moveRound++);
       return this.getPlayerOrder()[0];
     }
-    return;
+    return undefined;
   }
 
   getPlayerOrder(): PlayerColor[] {

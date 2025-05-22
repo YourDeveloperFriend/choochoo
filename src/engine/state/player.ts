@@ -11,6 +11,7 @@ export enum PlayerColor {
   BLACK,
   BLUE,
   BROWN,
+  WHITE,
 }
 
 export const PlayerColorZod = z.nativeEnum(PlayerColor);
@@ -35,7 +36,16 @@ export type PlayerData = Immutable<MutablePlayerData>;
 
 export function playerColorToString(
   playerColor?: PlayerColor,
-): "red" | "yellow" | "green" | "purple" | "black" | "blue" | "brown" | "grey" {
+):
+  | "red"
+  | "yellow"
+  | "green"
+  | "purple"
+  | "black"
+  | "blue"
+  | "brown"
+  | "white"
+  | "grey" {
   switch (playerColor) {
     case PlayerColor.RED:
       return "red";
@@ -51,6 +61,8 @@ export function playerColorToString(
       return "blue";
     case PlayerColor.BROWN:
       return "brown";
+    case PlayerColor.WHITE:
+      return "white";
     case undefined:
       return "grey";
     default:
@@ -58,7 +70,7 @@ export function playerColorToString(
   }
 }
 
-export const allPlayerColors = [
+export const eligiblePlayerColors = [
   PlayerColor.RED,
   PlayerColor.YELLOW,
   PlayerColor.GREEN,
@@ -67,3 +79,5 @@ export const allPlayerColors = [
   PlayerColor.BLUE,
   PlayerColor.BROWN,
 ];
+
+export const allPlayerColors = [...eligiblePlayerColors, PlayerColor.WHITE];

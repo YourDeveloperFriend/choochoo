@@ -2,7 +2,7 @@ import { injectState } from "../../engine/framework/execution_context";
 import { PhaseEngine } from "../../engine/game/phase";
 import { GameStarter } from "../../engine/game/starter";
 import { Phase } from "../../engine/state/phase";
-import { allPlayerColors, PlayerColor } from "../../engine/state/player";
+import { eligiblePlayerColors, PlayerColor } from "../../engine/state/player";
 import { remove } from "../../utils/functions";
 import {
   GOVERNMENT_COLOR,
@@ -34,8 +34,8 @@ export class MontrealMetroStarter extends GameStarter {
     return 1;
   }
 
-  allPlayerColors(): PlayerColor[] {
-    return remove(allPlayerColors, GOVERNMENT_COLOR);
+  eligiblePlayerColors(): PlayerColor[] {
+    return remove(eligiblePlayerColors, GOVERNMENT_COLOR);
   }
 
   isProductionEnabled(): boolean {

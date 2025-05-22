@@ -3,8 +3,7 @@ import { z } from "zod";
 import { Coordinates, CoordinatesZod } from "../../utils/coordinates";
 import { deepEquals } from "../../utils/deep_equals";
 import { DoubleHeight } from "../../utils/double_height";
-import { arrayEqualsIgnoreOrder, isNotNull, peek } from "../../utils/functions";
-import { assert } from "../../utils/validate";
+import { arrayEqualsIgnoreOrder, isNotNull } from "../../utils/functions";
 import { MapSettings } from "../game/map_settings";
 import { GridData } from "../state/grid";
 import {
@@ -13,7 +12,7 @@ import {
 } from "../state/inter_city_connection";
 import { SpaceType } from "../state/location_type";
 import { PlayerColor } from "../state/player";
-import { allDirections, Direction } from "../state/tile";
+import { Direction } from "../state/tile";
 import { City, isCity } from "./city";
 import { getOpposite } from "./direction";
 import { isLand, Land, usesTownDisc } from "./location";
@@ -23,6 +22,8 @@ import { Exit, TOWN, Track, tupleMap } from "./track";
 export type Space = City | Land;
 
 export class Grid {
+  private citiesCache: City[] | undefined;
+  private sameCitiesCache: Map<number, City[]> | undefined;
   readonly topLeft: DoubleHeight;
   readonly bottomRight: DoubleHeight;
 
@@ -119,8 +120,27 @@ export class Grid {
     return this.grid.values();
   }
 
+  getSameCities(city: City): City[] {
+    if (city.data.sameCity == null) return [city];
+    if (this.sameCitiesCache == null) {
+      this.sameCitiesCache = new Map<number, City[]>();
+      for (const city of this.cities()) {
+        const key = city.data.sameCity;
+        if (key == null) continue;
+        if (!this.sameCitiesCache.has(key)) {
+          this.sameCitiesCache.set(key, []);
+        }
+        this.sameCitiesCache.get(key)!.push(city);
+      }
+    }
+    return this.sameCitiesCache.get(city.data.sameCity)!;
+  }
+
   cities(): City[] {
-    return [...this.values()].filter(isCity);
+    if (this.citiesCache == null) {
+      this.citiesCache = [...this.values()].filter(isCity);
+    }
+    return this.citiesCache;
   }
 
   entries(): Iterable<[Coordinates, Space]> {
@@ -231,89 +251,6 @@ export class Grid {
     } else {
       return this.getEnd(neighbor, getOpposite(toExit));
     }
-  }
-
-  /** Returns whether the given coordinates are at the end of the given track */
-  endsWith(track: Track, coordinates: Coordinates): boolean {
-    const route = this.getRoute(track);
-    const end = this.get(coordinates);
-    if (end == null) return false;
-    if (end instanceof City) {
-      return exitsToCity(route[0]) || exitsToCity(peek(route));
-
-      function exitsToCity(track: Track): boolean {
-        return track
-          .getExits()
-          .some(
-            (e) =>
-              e !== TOWN && track.coordinates.neighbor(e).equals(coordinates),
-          );
-      }
-    } else if (end.hasTown()) {
-      return exitsToTown(route[0]) || exitsToTown(peek(route));
-
-      function exitsToTown(track: Track) {
-        return track.coordinates.equals(coordinates);
-      }
-    } else {
-      return false;
-    }
-  }
-
-  findRoutesToLocation(
-    fromCoordinates: Coordinates,
-    toCoordinates: Coordinates,
-  ): Array<Track | OwnedInterCityConnection> {
-    const space = this.grid.get(fromCoordinates);
-    assert(space != null, "cannot call findRoutes from null location");
-    if (space instanceof City) {
-      return this.findRoutesToLocationFromCity(space, toCoordinates);
-    }
-    return this.findRoutesToLocationFromLocation(space, toCoordinates);
-  }
-
-  private findRoutesToLocationFromLocation(
-    location: Land,
-    coordinates: Coordinates,
-  ): Track[] {
-    return location
-      .getTrack()
-      .filter((track) => this.endsWith(track, coordinates))
-      .filter((track) => this.canMoveGoodsAcrossTrack(track));
-  }
-
-  private findRoutesToLocationFromCity(
-    originCity: City,
-    coordinates: Coordinates,
-  ): Array<Track | OwnedInterCityConnection> {
-    const allCities = this.cities().filter((otherCity) =>
-      originCity.isSameCity(otherCity),
-    );
-    return allCities
-      .flatMap((city) =>
-        allDirections.map((direction) =>
-          this.connection(city.coordinates, direction),
-        ),
-      )
-      .filter(isNotNull)
-      .filter(
-        (connection): connection is Track | OwnedInterCityConnection =>
-          !(connection instanceof City),
-      )
-      .filter((connection) => {
-        if (connection instanceof Track) {
-          return (
-            this.endsWith(connection, coordinates) &&
-            this.canMoveGoodsAcrossTrack(connection)
-          );
-        } else {
-          return connection.connects.includes(coordinates);
-        }
-      });
-  }
-
-  canMoveGoodsAcrossTrack(track: Track): boolean {
-    return this.getRoute(track).every((track) => !track.isClaimable());
   }
 
   merge(gridData: GridData, connections: InterCityConnection[]): Grid {

@@ -13,4 +13,6 @@ export class BuildDiscountManager {
   }
 
   applyDiscount(_: BuildData | ClaimData | ConnectCitiesData, __: number): void {}
+
+  onBuildRoundEnd(): void {}
 }

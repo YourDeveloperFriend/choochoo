@@ -18,6 +18,8 @@ export function getPlayerColorCss(playerColor?: PlayerColor): string {
       return styles.blue;
     case PlayerColor.BROWN:
       return styles.brown;
+    case PlayerColor.WHITE:
+      return styles.white;
     case undefined:
       return styles.unowned;
     default:

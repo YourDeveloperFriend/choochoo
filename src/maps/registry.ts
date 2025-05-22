@@ -4,6 +4,7 @@ import { SicilyMapSettings } from "./sicily/settings";
 import { GameKey } from "../api/game_key";
 import { MapSettings } from "../engine/game/map_settings";
 import { assert } from "../utils/validate";
+import { AlabamaRailwaysMapSettings } from "./alabama_railways/settings";
 import { CyprusMapSettings } from "./cyprus/settings";
 import { DetroitBankruptcyMapSettings } from "./detroit/settings";
 import { DiscoInfernoMapSettings } from "./disco/settings";
@@ -16,9 +17,12 @@ import { KoreaWallaceMapSettings } from "./korea-wallace/settings";
 import { MadagascarMapSettings } from "./madagascar/settings";
 import { MontrealMetroMapSettings } from "./montreal_metro/settings";
 import { MoonMapSettings } from "./moon/settings";
+import { NewEnglandMapSettings } from "./new_england/settings";
 import { PittsburghMapSettings } from "./pittsburgh/settings";
 import { ReversteamMapSettings } from "./reversteam/settings";
 import { RustBeltMapSettings } from "./rust_belt/settings";
+import { ScandinaviaMapSettings } from "./scandinavia/settings";
+import { SicilyMapSettings } from "./sicily/settings";
 import { SoulTrainMapSettings } from "./soultrain/settings";
 import { StLuciaMapSettings } from "./st-lucia/settings";
 import { SwedenRecyclingMapSettings } from "./sweden/settings";
@@ -28,6 +32,8 @@ export class MapRegistry {
   private readonly maps = new Map<GameKey, MapSettings>();
 
   private constructor() {
+    this.add(new ScandinaviaMapSettings());
+    this.add(new NewEnglandMapSettings());
     this.add(new ScotlandMapSettings());
     this.add(new AlabamaRailwaysMapSettings());
     this.add(new SicilyMapSettings());

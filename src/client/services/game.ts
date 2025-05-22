@@ -16,6 +16,7 @@ import {
   formatMillisecondDuration,
   peek,
 } from "../../utils/functions";
+import { pageCursorToString } from "../../utils/page_cursor";
 import { Entry, WithFormNumber } from "../../utils/types";
 import { assert, assertNever } from "../../utils/validate";
 import { useConfirm } from "../components/confirm";
@@ -114,11 +115,13 @@ export function useGameList(baseQuery: ListGamesApi) {
 
         const newPages = updater(data.pages.map((page) => page.body.games));
 
-        const pageParams = newPages.map((_, index) => {
-          return newPages
-            .slice(index)
-            .flatMap((games) => games.map(({ id }) => id));
-        });
+        const pageParams = newPages
+          .map((_, index) => {
+            return newPages
+              .slice(index)
+              .flatMap((games) => games.map(({ id }) => id));
+          })
+          .map(pageCursorToString);
 
         // TODO: fix the typing of this particular method.
         return {

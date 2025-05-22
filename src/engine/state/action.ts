@@ -38,6 +38,9 @@ export enum Action {
 
   // Sicily
   PROTECTION = 20,
+
+  // Scandinavia
+  FERRY = 21,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -86,6 +89,8 @@ export function getSelectedActionString(action?: Action) {
       return "Heavy Lifting";
     case Action.PROTECTION:
       return "Protection";
+    case Action.FERRY:
+      return "Ferry";
     default:
       assertNever(action);
   }

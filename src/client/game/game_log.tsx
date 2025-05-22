@@ -58,8 +58,9 @@ export function ChatLog({ gameId }: ChatLogProps) {
         fetchNextPage={hasNextPage ? fetchNextPage : undefined}
         disableNextPage={isLoading}
       />
-      <form onSubmit={onSubmit} className={styles["submit-form"]}>
+      <form onSubmit={onSubmit} className={styles.submitForm}>
         <input
+          className={styles.submitInput}
           type="text"
           maxLength={255}
           placeholder="Send message"
@@ -130,8 +131,8 @@ function LogMessages({
   }, [isScrolled, setCanScrollToBottom, messages.length]);
 
   return (
-    <div className={styles["log-container"]}>
-      <div className={styles["log-list"]} ref={ref} onScroll={onScroll}>
+    <div className={styles.logContainer}>
+      <div className={styles.logList} ref={ref} onScroll={onScroll}>
         {fetchNextPage != null && (
           <button
             onClick={fetchNextPage}
@@ -150,16 +151,16 @@ function LogMessages({
             <Fragment key={log.id}>
               {isNewDay && <p>-- {dateString} --</p>}
               <p className={styles.logLine}>
-                <span className={styles["time"]}>{timeFormat(log.date)}</span>{" "}
+                <span className={styles.time}>{timeFormat(log.date)}</span>{" "}
                 {log.userId != null && (
                   <>
-                    <span className={styles["username"]}>
+                    <span className={styles.username}>
                       <Username userId={log.userId} useLink={true} />
                     </span>
                     :
                   </>
                 )}{" "}
-                <span className={styles["message"]}>
+                <span>
                   <LogMessage message={log.message} />
                 </span>
               </p>
@@ -168,14 +169,9 @@ function LogMessages({
         })}
       </div>
       {canScrollToBottom && (
-        <div className={styles["scroll-to-bottom-container"]}>
+        <div className={styles.scrollToBottomContainer}>
           <Tooltip title="Scroll to bottom">
-            <Fab
-              color="primary"
-              size="small"
-              className={styles["scroll-to-bottom"]}
-              onClick={scrollBottom}
-            >
+            <Fab color="primary" size="small" onClick={scrollBottom}>
               <ArrowDownwardIcon />
             </Fab>
           </Tooltip>

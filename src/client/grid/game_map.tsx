@@ -9,14 +9,11 @@ import { GridVersionHelper } from "../../engine/map/grid_version_helper";
 import { Land } from "../../engine/map/location";
 import { Track } from "../../engine/map/track";
 import { MoveHelper } from "../../engine/move/helper";
-import { MoveAction, MoveData, Path } from "../../engine/move/move";
+import { MoveAction, MoveData } from "../../engine/move/move";
+import { MoveValidator } from "../../engine/move/validator";
 import { Good } from "../../engine/state/good";
 import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
-import {
-  PlayerColor,
-  playerColorToString,
-  PlayerData,
-} from "../../engine/state/player";
+import { PlayerColor, playerColorToString } from "../../engine/state/player";
 import {
   ProductionAction as DiscoProductionAction,
   ProductionData,
@@ -40,7 +37,7 @@ import {
 import { PlaceAction } from "../../maps/soultrain/earth_to_heaven";
 import { ViewRegistry } from "../../maps/view_registry";
 import { Coordinates } from "../../utils/coordinates";
-import { arrayEqualsIgnoreOrder, peek, removeKey } from "../../utils/functions";
+import { peek } from "../../utils/functions";
 import { ConfirmCallback, useConfirm } from "../components/confirm";
 import { useAction } from "../services/action";
 import { useGameVersionState } from "../services/game";
@@ -56,40 +53,8 @@ import {
 import { BuildingDialog, PlaceDialog } from "./building_dialog";
 import { ClickTarget } from "./click_target";
 import { HexGrid } from "./hex_grid";
+import { EnhancedMoveData, onMoveToSpaceCb } from "./move_good";
 import { InterceptMoveModal, useMoveInterceptionState } from "./move_intercept";
-
-interface EnhancedPath extends Path {
-  startingConnection: Track | OwnedInterCityConnection;
-}
-
-interface EnhancedMoveData extends MoveData {
-  path: EnhancedPath[];
-}
-
-function buildPaths(
-  grid: Grid,
-  startingStop: Coordinates,
-  endingStop: Coordinates,
-): EnhancedPath[] {
-  return [...grid.findRoutesToLocation(startingStop, endingStop)].map(
-    (connection) => {
-      if (connection instanceof Track) {
-        return {
-          owner: connection.getOwner(),
-          endingStop,
-          startingConnection: connection,
-        };
-      } else {
-        // InterCityConnection
-        return {
-          owner: connection.owner!.color,
-          startingConnection: connection,
-          endingStop,
-        };
-      }
-    },
-  );
-}
 
 function onSelectGoodCb(
   moveActionProgress: EnhancedMoveData | undefined,
@@ -130,111 +95,16 @@ function useMaybeConfirmEmitHeavyLifting() {
   );
 }
 
-function onMoveToSpaceCb(
-  moveHelper: Memoized<MoveHelper>,
-  moveActionProgress: EnhancedMoveData | undefined,
-  setMoveActionProgress: (data: EnhancedMoveData | undefined) => void,
-  grid: Grid,
-  player: PlayerData | undefined,
-  maybeConfirmDelivery: (data: EnhancedMoveData) => void,
-  maybeConfirmEmitHeavyCardboardMove: (
-    data: HeavyLiftingData,
-  ) => Promise<boolean>,
-) {
-  return async (space?: Space) => {
-    if (space == null || moveActionProgress == null || player == null) return;
-    const entirePath = [
-      moveActionProgress.startingCity,
-      ...moveActionProgress.path.map((p) => p.endingStop),
-    ];
-    if (moveActionProgress.path.length === 0) {
-      const actionData: HeavyLiftingData = {
-        startingCity: moveActionProgress.startingCity,
-        good: moveActionProgress.good,
-        endingCity: space.coordinates,
-      };
-      if (await maybeConfirmEmitHeavyCardboardMove(actionData)) {
-        return;
-      }
-    }
-    const entirePathIndex = entirePath.findIndex((p) =>
-      p.equals(space.coordinates),
-    );
-    if (entirePathIndex >= 0) {
-      // Ignore all but the last two elements
-      if (entirePathIndex < entirePath.length - 2) return;
-      if (entirePathIndex === entirePath.length - 2) {
-        // Remove the last element of the path.
-        setMoveActionProgress({
-          ...moveActionProgress,
-          path: moveActionProgress.path.slice(0, entirePathIndex),
-        });
-        return;
-      }
-      if (entirePathIndex === 0) return;
-      // Otherwise, just update the owner
-      const fromSpace = grid.get(entirePath[entirePath.length - 2])!;
-      const paths = buildPaths(grid, fromSpace.coordinates, space.coordinates);
-      if (paths.length === 1) {
-        maybeConfirmDelivery(moveActionProgress);
-        return;
-      }
-      const previousStartingConnection = peek(
-        moveActionProgress.path,
-      ).startingConnection;
-      const previousRouteExitIndex = paths.findIndex((p) =>
-        p.startingConnection instanceof Track
-          ? previousStartingConnection instanceof Track &&
-            p.startingConnection.equals(previousStartingConnection)
-          : !(previousStartingConnection instanceof Track) &&
-            arrayEqualsIgnoreOrder(
-              p.startingConnection.connects,
-              previousStartingConnection.connects,
-            ),
-      );
-      const nextPath = paths[(previousRouteExitIndex + 1) % paths.length];
-      const newData = {
-        ...moveActionProgress,
-        path: moveActionProgress.path
-          .slice(0, entirePathIndex - 1)
-          .concat([nextPath]),
-      };
-      setMoveActionProgress(newData);
-      maybeConfirmDelivery(newData);
-      return;
-    }
-    const fromSpace = grid.get(peek(entirePath))!;
-    if (
-      entirePath.length > 1 &&
-      fromSpace instanceof City &&
-      !moveHelper.value.canMoveThrough(fromSpace, moveActionProgress.good)
-    )
-      return;
-    const paths = buildPaths(grid, fromSpace.coordinates, space.coordinates);
-    if (paths.length === 0) return;
-
-    // Prefer the path belonging to the current player.
-    const path = paths.find((p) => p.owner === player!.color) ?? paths[0];
-    const newData = {
-      ...moveActionProgress,
-      path: moveActionProgress.path.concat([path]),
-    };
-    if (!moveHelper.value.isWithinLocomotive(player, newData)) return;
-    setMoveActionProgress(newData);
-    maybeConfirmDelivery(newData);
-  };
-}
-
 function getHighlightedConnections(
   grid: Grid,
   moveActionProgress: EnhancedMoveData | undefined,
 ): OwnedInterCityConnection[] {
   if (moveActionProgress == null) return [];
-  return moveActionProgress.path.flatMap(({ startingConnection }) => {
-    if (startingConnection instanceof Track) {
+  return moveActionProgress.path.flatMap(({ routeInfo }) => {
+    if (routeInfo.type !== "connection") {
       return [];
     }
-    return [startingConnection];
+    return [routeInfo.connection];
   });
 }
 
@@ -243,9 +113,9 @@ function getHighlightedTrack(
   moveActionProgress: EnhancedMoveData | undefined,
 ): Track[] {
   if (moveActionProgress == null) return [];
-  return moveActionProgress.path.flatMap(({ startingConnection }) => {
-    if (!(startingConnection instanceof Track)) return [];
-    return grid.getRoute(startingConnection);
+  return moveActionProgress.path.flatMap(({ routeInfo }) => {
+    if (routeInfo.type !== "track") return [];
+    return grid.getRoute(routeInfo.startingTrack);
   });
 }
 
@@ -342,16 +212,16 @@ function maybeConfirmDeliveryCb(
   emitMove: (moveData: MoveData) => void,
   maybeInterceptMove: (moveData: MoveData, cityName: string) => boolean,
 ) {
-  return (moveActionProgress: EnhancedMoveData | undefined) => {
-    if (moveActionProgress == null) return;
-    if (moveActionProgress.path.length === 0) return;
-    const endingStop = grid.get(peek(moveActionProgress.path).endingStop);
+  return (moveAction: MoveData | undefined) => {
+    if (moveAction == null) return;
+    if (moveAction.path.length === 0) return;
+    const endingStop = grid.get(peek(moveAction.path).endingStop);
     if (
       endingStop instanceof City &&
-      moveHelper.value.canDeliverTo(endingStop, moveActionProgress.good)
+      moveHelper.value.canDeliverTo(endingStop, moveAction.good)
     ) {
-      if (maybeInterceptMove(moveActionProgress, endingStop.name())) return;
-      const income = moveInstance.value.calculateIncome(moveActionProgress);
+      if (maybeInterceptMove(moveAction, endingStop.name())) return;
+      const income = moveInstance.value.calculateIncome(moveAction);
       const counts = [...income]
         .filter(([a]) => a != null)
         .map(
@@ -365,12 +235,7 @@ function maybeConfirmDeliveryCb(
         cancelButton: "Cancel",
       }).then((confirmed) => {
         if (!confirmed) return;
-        emitMove({
-          ...moveActionProgress,
-          path: moveActionProgress.path.map((step) =>
-            removeKey(step, "startingConnection"),
-          ),
-        });
+        emitMove(moveAction);
       });
     }
   };
@@ -384,7 +249,8 @@ export function GameMap() {
     emit: emitMove,
     isPending: isMovePending,
   } = useAction(MoveAction);
-  const moveInstance = useInjectedMemo(MoveAction);
+  const moveInstance: Memoized<MoveAction<MoveData>> =
+    useInjectedMemo(MoveAction);
   const { maybeInterceptMove, ...interceptMoveState } =
     useMoveInterceptionState();
   const {
@@ -430,6 +296,7 @@ export function GameMap() {
     undefined,
   );
   const moveHelper = useInjectedMemo(MoveHelper);
+  const moveValidator = useInjectedMemo(MoveValidator);
   const gameKey = useGameKey();
 
   const mapSettings = useMemo(
@@ -471,7 +338,7 @@ export function GameMap() {
   const maybeConfirmEmitHeavyLifting = useMaybeConfirmEmitHeavyLifting();
 
   const onMoveToSpace = useTypedCallback(onMoveToSpaceCb, [
-    moveHelper,
+    moveValidator,
     moveActionProgress,
     setMoveActionProgress,
     grid,

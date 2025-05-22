@@ -18,8 +18,8 @@ import { isNotNull } from "../../utils/functions";
 import { assert } from "../../utils/validate";
 import { GOVERNMENT_COLOR } from "./government_engine_level";
 
-export const GovernmentTrackState = PlayerColorZod.array();
-export type GovernmentTrackState = z.infer<typeof GovernmentTrackState>;
+const GovernmentTrackState = PlayerColorZod.array();
+type GovernmentTrackState = z.infer<typeof GovernmentTrackState>;
 
 export const GOVERNMENT_TRACK = new Key("GOVERNMENT_TRACK", {
   parse: GovernmentTrackState.parse,

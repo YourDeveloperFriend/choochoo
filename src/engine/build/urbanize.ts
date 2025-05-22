@@ -67,6 +67,7 @@ export class UrbanizeAction implements ActionProcessor<UrbanizeData> {
     for (const direction of allDirections) {
       const connection = this.grid().connection(data.coordinates, direction);
       if (!(connection instanceof Track) || connection.getOwner() != null) continue;
+      if (this.grid().getRoute(connection).some((track) => track.isClaimable())) continue;
 
       this.gridHelper.setRouteOwner(connection, this.currentPlayer().color);
     }

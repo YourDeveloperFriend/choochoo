@@ -8,7 +8,7 @@ import {
   Segment,
 } from "semantic-ui-react";
 import {
-  allPlayerColors,
+  eligiblePlayerColors,
   PlayerColor,
   playerColorToString,
 } from "../../engine/state/player";
@@ -35,7 +35,7 @@ export function PreferredColors() {
   const setEnablePreferredColors = useCallback(
     (_: React.FormEvent<HTMLInputElement>, data: CheckboxProps) => {
       setPreferredColors(
-        data.checked ? (preferredColors ?? allPlayerColors) : undefined,
+        data.checked ? (preferredColors ?? eligiblePlayerColors) : undefined,
       );
     },
     [preferredColors, setPreferredColors],

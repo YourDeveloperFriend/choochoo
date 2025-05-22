@@ -2,7 +2,6 @@ import z from "zod";
 import { injectState } from "../../engine/framework/execution_context";
 import { MapKey } from "../../engine/framework/key";
 import { MoveHelper } from "../../engine/move/helper";
-import { LocoAction } from "../../engine/move/loco";
 import { MoveData } from "../../engine/move/move";
 import {
   PlayerColor,
@@ -18,17 +17,6 @@ export const GOVERNMENT_ENGINE_LEVEL = new MapKey(
   PlayerColorZod.parse,
   z.number().parse,
 );
-
-export class MontrealMetroLocoAction extends LocoAction {
-  private readonly govtEngineLevel = injectState(GOVERNMENT_ENGINE_LEVEL);
-
-  process(): boolean {
-    this.govtEngineLevel.update((engineLevel) => {
-      engineLevel.set(this.currentPlayer().color, 0);
-    });
-    return super.process();
-  }
-}
 
 export class MontrealMetroMoveHelper extends MoveHelper {
   private readonly govtEngineLevel = injectState(GOVERNMENT_ENGINE_LEVEL);

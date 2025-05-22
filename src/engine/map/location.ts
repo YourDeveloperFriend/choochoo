@@ -88,13 +88,23 @@ export class Land {
 
   connectionAllowed(exit: Direction, neighbor: Space | undefined): boolean {
     if (neighbor == null) return false;
-    if (!this.canExit(exit) || !neighbor.canExit(getOpposite(exit)))
+    if (!this.canExit(exit) || !neighbor.canExit(getOpposite(exit))) {
       return false;
+    }
     if (neighbor instanceof City) return true;
-    return (
+    if (
       neighbor.getLandType() !== SpaceType.UNPASSABLE &&
       neighbor.getLandType() !== SpaceType.WATER
-    );
+    ) {
+      return true;
+    }
+
+    // Heavy cardboard will let you connect to a track that has been claimed on water.
+    const connectingTrack = neighbor.trackExiting(getOpposite(exit));
+    if (connectingTrack != null && connectingTrack.getOwner() != null) {
+      return true;
+    }
+    return false;
   }
 
   getMapSpecific<T>(parser: (t: unknown) => T): T | undefined {

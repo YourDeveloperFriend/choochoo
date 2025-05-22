@@ -64,4 +64,10 @@ export class PittsburghBuildDiscountManager extends BuildDiscountManager {
       this.buildState.initState({ usedDiscount: true });
     }
   }
+
+  onBuildRoundEnd(): void {
+    if (this.buildState.isInitialized()) {
+      this.buildState.delete();
+    }
+  }
 }

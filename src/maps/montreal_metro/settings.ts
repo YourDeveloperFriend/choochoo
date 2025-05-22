@@ -14,10 +14,7 @@ import {
   MontrealMetroStarter,
 } from "./disable_goods_growth";
 import { MontrealMetroProfitHelper } from "./expenses";
-import {
-  MontrealMetroLocoAction,
-  MontrealMetroMoveHelper,
-} from "./government_engine_level";
+import { MontrealMetroMoveHelper } from "./government_engine_level";
 import {
   MontrealMetroBuildAction,
   MontrealMetroPhaseDelegator,
@@ -50,7 +47,6 @@ export class MontrealMetroMapSettings implements MapSettings {
       MontrealMetroTakeSharesAction,
       MontrealMetroBuildAction,
       MontrealMetroRoundEngine,
-      MontrealMetroLocoAction,
       MontrealMetroMoveHelper,
       MontrealMetroBuilderHelper,
       MontrealMetroUrbanizeAction,

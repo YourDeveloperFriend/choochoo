@@ -4,6 +4,7 @@ import { Action } from "../../engine/state/action";
 import { AvailableActionsModule } from "../../modules/available_actions";
 import { TurnLengthModule } from "../../modules/turn_length";
 import { map } from "./grid";
+import { AlabamaGoodsGrowthPhase } from "./growth";
 import { AlabamaMoveAction } from "./move_good";
 import { AlabamaRailwaysStarter } from "./starter";
 
@@ -16,7 +17,7 @@ export class AlabamaRailwaysMapSettings implements MapSettings {
   readonly stage = ReleaseStage.ALPHA;
 
   getOverrides() {
-    return [AlabamaRailwaysStarter, AlabamaMoveAction];
+    return [AlabamaRailwaysStarter, AlabamaMoveAction, AlabamaGoodsGrowthPhase];
   }
 
   getModules() {

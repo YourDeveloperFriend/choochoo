@@ -38,3 +38,11 @@ body.dark-mode .ui.toggle.checkbox input ~ label {
 body.dark-mode .ui.toggle.checkbox input:checked ~ label {
   color: rgba(255, 255, 255, 0.9) !important;
 }
+
+/**
+ * Disable double-tap to zoom on mobile devices 
+ * https://www.reddit.com/r/incremental_games/comments/1b3n60d/easy_disable_doubletap_zoom_on_mobile_browser/
+ */
+* {
+  touch-action: manipulation;
+}

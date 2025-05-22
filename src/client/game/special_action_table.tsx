@@ -139,6 +139,8 @@ function getSelectedActionDescription(
       return "Allows you to move goods across open land. See rules for more information.";
     case Action.PROTECTION:
       return "Allows you to move black cubes from towns during the Move Goods step.";
+    case Action.FERRY:
+      return "Allows you to move one good across water. See rules for more information.";
     default:
       assertNever(action);
   }

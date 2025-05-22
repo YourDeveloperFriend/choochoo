@@ -9,7 +9,7 @@ import { Good } from "../state/good";
 import { GridData } from "../state/grid";
 import { InterCityConnection } from "../state/inter_city_connection";
 import { SpaceType } from "../state/location_type";
-import { allPlayerColors, PlayerColor, PlayerData } from "../state/player";
+import { eligiblePlayerColors, PlayerColor, PlayerData } from "../state/player";
 import { OnRoll } from "../state/roll";
 import { CityData, SpaceData } from "../state/space";
 import { Random } from "./random";
@@ -112,12 +112,14 @@ export class GameStarter {
     return draw(numCubes, bag);
   }
 
-  allPlayerColors(): PlayerColor[] {
-    return allPlayerColors;
+  eligiblePlayerColors(): PlayerColor[] {
+    return eligiblePlayerColors;
   }
 
   initializePlayers(playerUsers: PlayerUser[]) {
-    const shuffledColors = new Set(this.random.shuffle(this.allPlayerColors()));
+    const shuffledColors = new Set(
+      this.random.shuffle(this.eligiblePlayerColors()),
+    );
     const map = partition(playerUsers, (u) => u.preferredColors != null);
     const playersShuffled = this.random
       .shuffle(map.get(true) ?? [])

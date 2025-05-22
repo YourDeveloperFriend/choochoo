@@ -23,6 +23,11 @@
   --player-color-text: white;
 }
 
+.white {
+  --player-color: white;
+  --player-color-text: black;
+}
+
 .blue {
   --player-color-text: white;
   --player-color: blue;
