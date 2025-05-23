@@ -4,8 +4,9 @@ import { Module } from "../../engine/module/module";
 import { RoundEngine } from "../../engine/game/round";
 import { GoodsGrowthPhase} from "../../engine/goods_growth/phase";
 import { CityGroup} from "../../engine/state/city_group";
-import { ScotlandClaimAction } from "./ferries";
+import { ScotlandClaimAction, ScotlandConnectCitiesAction } from "./ferries_connections";
 import { ClaimRequiresUrbanizeModule } from "../../modules/claim_requires_urbanize";
+import { interCityConnections } from "../factory";
 import { map } from "./grid";
 
 export class ScotlandMapSettings implements MapSettings {
@@ -15,12 +16,16 @@ export class ScotlandMapSettings implements MapSettings {
   readonly maxPlayers = 2;
   readonly startingGrid = map;
   readonly stage = ReleaseStage.DEVELOPMENT;
+  readonly interCityConnections = interCityConnections(map, [
+      ["Belfast", "Ayr"],
+    ]);
 
   getOverrides() {
     return [
       ScotlandRoundEngine,
       ScotlandClaimAction,
       ScotlandGoodsGrowthPhase,
+      ScotlandConnectCitiesAction,
     ];
   }
 
