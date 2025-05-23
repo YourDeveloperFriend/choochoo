@@ -2,6 +2,8 @@ import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
 import { Module } from "../../engine/module/module";
 import { RoundEngine } from "../../engine/game/round";
+import { GoodsGrowthPhase} from "../../engine/goods_growth/phase";
+import { CityGroup} from "../../engine/state/city_group";
 import { ScotlandClaimAction } from "./ferries";
 import { ClaimRequiresUrbanizeModule } from "../../modules/claim_requires_urbanize";
 import { map } from "./grid";
@@ -18,6 +20,7 @@ export class ScotlandMapSettings implements MapSettings {
     return [
       ScotlandRoundEngine,
       ScotlandClaimAction,
+      ScotlandGoodsGrowthPhase,
     ];
   }
 
@@ -32,5 +35,12 @@ export class ScotlandRoundEngine extends RoundEngine {
 
   maxRounds(): number {
     return 8;
+  }
+}
+
+export class ScotlandGoodsGrowthPhase extends GoodsGrowthPhase {
+
+  getRollCount(_: CityGroup): number {
+      return 4;
   }
 }
