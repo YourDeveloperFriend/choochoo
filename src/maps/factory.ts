@@ -43,6 +43,10 @@ export const MOUNTAIN: LandData = {
   type: SpaceType.MOUNTAIN,
 };
 
+export const RIVER_MOUNTAIN: LandData = {
+  type: SpaceType.RIVER_MOUNTAIN,
+};
+
 export function black(onRoll: OnRoll): OnRollData {
   return { group: BLACK, onRoll, goods: [] };
 }
