@@ -1,6 +1,9 @@
 import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
+import { Module } from "../../engine/module/module";
 import { RoundEngine } from "../../engine/game/round";
+import { ScotlandClaimAction } from "./ferries";
+import { ClaimRequiresUrbanizeModule } from "../../modules/claim_requires_urbanize";
 import { map } from "./grid";
 
 export class ScotlandMapSettings implements MapSettings {
@@ -12,7 +15,16 @@ export class ScotlandMapSettings implements MapSettings {
   readonly stage = ReleaseStage.DEVELOPMENT;
 
   getOverrides() {
-    return [ScotlandRoundEngine];
+    return [
+      ScotlandRoundEngine,
+      ScotlandClaimAction,
+    ];
+  }
+
+  getModules(): Array<Module> {
+      return [
+        new ClaimRequiresUrbanizeModule(),
+      ];
   }
 }
 

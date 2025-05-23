@@ -1,6 +1,3 @@
-import { ScotlandViewSettings } from "./scotland/view_settings";
-import { AlabamaRailwaysViewSettings } from "./alabama_railways/view_settings";
-import { SicilyViewSettings } from "./sicily/view_settings";
 import { GameKey } from "../api/game_key";
 import { assert } from "../utils/validate";
 import { AlabamaRailwaysViewSettings } from "./alabama_railways/view_settings";
@@ -21,6 +18,7 @@ import { PittsburghViewSettings } from "./pittsburgh/view_settings";
 import { ReversteamViewSettings } from "./reversteam/view_settings";
 import { RustBeltViewSettings } from "./rust_belt/view_settings";
 import { ScandinaviaViewSettings } from "./scandinavia/view_settings";
+import { ScotlandViewSettings } from "./scotland/view_settings";
 import { SicilyViewSettings } from "./sicily/view_settings";
 import { SoulTrainViewSettings } from "./soultrain/view_settings";
 import { StLuciaViewSettings } from "./st-lucia/view_settings";
