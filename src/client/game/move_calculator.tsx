@@ -18,7 +18,6 @@ import {
 import { peek } from "../../utils/functions";
 import { useAction } from "../services/action";
 import { useGameVersionState } from "../services/game";
-import { useIsAdmin } from "../services/me";
 import {
   useGrid,
   useInjectedMemo,
@@ -33,7 +32,6 @@ interface Option {
 
 export function MoveCalculator() {
   const grid = useGrid();
-  const isAdmin = useIsAdmin();
   const { emit, canEmit } = useAction(MoveAction);
   const searcher = useInjectedMemo(MoveSearcher);
   const moveAction = useInjectedMemo(MoveAction);
@@ -43,15 +41,12 @@ export function MoveCalculator() {
   );
 
   const calculateRoutes = useCallback(() => {
-    const startTimeStart = performance.now();
-
     const allRoutes: Option[] = searcher.value
       .findAllRoutes(mePlayer ?? ({ locomotive: 6 } as PlayerData))
       .map((route) => ({
         route,
         income: moveAction.value.calculateIncome(route),
       }));
-    console.log("counter", Math.floor(performance.now() - startTimeStart));
     allRoutes.sort((a, b) => {
       const totalSum =
         [...b.income.values()].reduce((a, b) => a + b, 0) -
