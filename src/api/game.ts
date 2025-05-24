@@ -159,10 +159,7 @@ export const GameApi = GameLiteApi.extend({
 });
 export type GameApi = z.infer<typeof GameApi>;
 
-const OrderByOptions = z.union([
-  z.literal("id"),
-  z.literal("updatedAt"),
-]);
+const OrderByOptions = z.union([z.literal("id"), z.literal("updatedAt")]);
 
 export const GamePageCursor = z.string();
 export type GamePageCursor = z.infer<typeof GamePageCursor>;

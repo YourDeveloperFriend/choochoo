@@ -12,11 +12,7 @@ export function HistorySelector() {
   return <InternalHistorySelector history={game} />;
 }
 
-function InternalHistorySelector({
-  history,
-}: {
-  history: GameHistoryApi;
-}) {
+function InternalHistorySelector({ history }: { history: GameHistoryApi }) {
   const navigate = useNavigate();
   const next = useCallback(() => {
     navigate(`/app/games/${history.id}/histories/${history.historyId + 1}`);
