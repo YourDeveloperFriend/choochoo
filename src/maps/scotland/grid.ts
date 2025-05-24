@@ -54,7 +54,7 @@ export const map = grid<SpaceData>([
       RIVER_MOUNTAIN,
       MOUNTAIN,
       RIVER,
-      city("Belfast", RED, [white(2)]),
+      city("Glasgow", RED, [white(2)]),
       RIVER,
       city("Stanraer", BLUE, [white(6)]),
     ],
