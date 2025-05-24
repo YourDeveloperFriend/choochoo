@@ -1,12 +1,29 @@
-import {Button, Card, CardContent, CardDescription, CardHeader, CardMeta,} from 'semantic-ui-react'
-import {Link} from "react-router-dom";
-import {GameLiteApi, GameStatus, gameStatusToString, turnDurationToString,} from "../../api/game";
-import {ViewRegistry} from "../../maps/view_registry";
-import {assertNever} from "../../utils/validate";
-import {useAwaitingPlayer} from "../components/awaiting_player";
-import {Username, UsernameList} from "../components/username";
-import {useDeleteGame, useJoinGame, useLeaveGame, useStartGame,} from "../services/game";
-import {useMe} from "../services/me";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardMeta,
+} from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import {
+  GameLiteApi,
+  GameStatus,
+  gameStatusToString,
+  turnDurationToString,
+} from "../../api/game";
+import { ViewRegistry } from "../../maps/view_registry";
+import { assertNever } from "../../utils/validate";
+import { useAwaitingPlayer } from "../components/awaiting_player";
+import { Username, UsernameList } from "../components/username";
+import {
+  useDeleteGame,
+  useJoinGame,
+  useLeaveGame,
+  useStartGame,
+} from "../services/game";
+import { useMe } from "../services/me";
 import * as styles from "./game_card.module.css";
 
 interface GameCardProps {
@@ -25,15 +42,18 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
 
   return (
     <Card className={styles.gameCard}>
-      <CardContent style={{padding: "0"}}>
+      <CardContent style={{ padding: "0" }}>
         <CardHeader
           className={`${styles.gameCardHeader} ${gameStatusToStyle(game.status)} ${game.activePlayerId === me?.id ? styles.activePlayer : ""}`}
         >
           {game.name}
-          <CardMeta className={styles.gameCardMeta} content={hideStatus ? "" : `${gameStatusToString(game)}`} />
+          <CardMeta
+            className={styles.gameCardMeta}
+            content={hideStatus ? "" : `${gameStatusToString(game)}`}
+          />
         </CardHeader>
       </CardContent>
-      <CardContent style={{borderTop: "none"}}>
+      <CardContent style={{ borderTop: "none" }}>
         <CardDescription>
           <div className={styles.gameCardText}>
             <p>Game: {ViewRegistry.singleton.get(game.gameKey)!.name}</p>
@@ -47,23 +67,13 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
               Players: <UsernameList userIds={game.playerIds} useLink={true} />
             </p>
             {game.status === GameStatus.enum.LOBBY && (
-              <p>
-                Seats: {seats(game)}
-              </p>
+              <p>Seats: {seats(game)}</p>
             )}
-            <p>
-              Turn Length: {turnDurationToString(game.turnDuration)}
-            </p>
+            <p>Turn Length: {turnDurationToString(game.turnDuration)}</p>
             {variantString != null && (
-              <p>
-                Variants: {variantString.join(", ")}
-              </p>
+              <p>Variants: {variantString.join(", ")}</p>
             )}
-            {game.unlisted && (
-              <p style={{fontStyle: "italic"}}>
-                Unlisted
-              </p>
-            )}
+            {game.unlisted && <p style={{ fontStyle: "italic" }}>Unlisted</p>}
           </div>
         </CardDescription>
       </CardContent>

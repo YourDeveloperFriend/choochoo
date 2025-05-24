@@ -35,10 +35,7 @@ function roomName(gameId?: number | null) {
   return gameId == undefined ? HOME_ROOM : "gameId-" + gameId;
 }
 
-function emitGameUpdate(
-  oldGame: GameApi | undefined,
-  game: GameDao,
-): void {
+function emitGameUpdate(oldGame: GameApi | undefined, game: GameDao): void {
   const gameApi = game.toApi();
   const gameLiteApi = game.toLiteApi();
   if (oldGame == null || !deepEquals(oldGame, gameApi)) {

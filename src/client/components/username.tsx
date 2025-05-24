@@ -38,12 +38,7 @@ interface MaybeLinkProps {
   useLink?: boolean;
 }
 
-function MaybeLink({
-  username,
-  userId,
-  useAt,
-  useLink,
-}: MaybeLinkProps) {
+function MaybeLink({ username, userId, useAt, useLink }: MaybeLinkProps) {
   const content = (useAt ? "@" : "") + username;
   if (!useLink) {
     return <>{content}</>;

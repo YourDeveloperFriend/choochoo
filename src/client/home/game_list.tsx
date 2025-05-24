@@ -1,11 +1,11 @@
-import {useMemo} from "react";
-import {GameLiteApi, GameStatus, ListGamesApi} from "../../api/game";
-import {partition} from "../../utils/functions";
-import {useGameList} from "../services/game";
-import {useMe} from "../services/me";
-import {GameCard} from "./game_card";
+import { useMemo } from "react";
+import { GameLiteApi, GameStatus, ListGamesApi } from "../../api/game";
+import { partition } from "../../utils/functions";
+import { useGameList } from "../services/game";
+import { useMe } from "../services/me";
+import { GameCard } from "./game_card";
 import * as styles from "./game_list.module.css";
-import {Button, CardGroup} from "semantic-ui-react";
+import { Button, CardGroup } from "semantic-ui-react";
 
 interface GameListProps {
   query: ListGamesApi;
@@ -53,7 +53,11 @@ export function GameList({
           <GameCard game={game} key={game.id} hideStatus={hideStatus} />
         ))}
       </CardGroup>
-      {hasPrevPage && <Button secondary onClick={prevPage}>Prev</Button>}
+      {hasPrevPage && (
+        <Button secondary onClick={prevPage}>
+          Prev
+        </Button>
+      )}
       {hasNextPage && (
         <Button secondary onClick={nextPage} disabled={games == null}>
           Next

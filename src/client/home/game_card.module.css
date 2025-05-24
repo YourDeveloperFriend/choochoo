@@ -17,7 +17,8 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-:global(.ui.card) > :global(.content) .gameCardText > p, :global(.ui.cards) > :global(.card) > :global(.content) .gameCardText > p {
+:global(.ui.card) > :global(.content) .gameCardText > p,
+:global(.ui.cards) > :global(.card) > :global(.content) .gameCardText > p {
   margin: 0;
 }
 

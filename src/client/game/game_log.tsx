@@ -1,16 +1,24 @@
-import {FormEvent, Fragment, useCallback, useLayoutEffect, useMemo, useRef, useState,} from "react";
-import {timeFormat} from "../../utils/functions";
-import {useMessages, useSendChat} from "../services/message";
-import {useTextInputState} from "../utils/form_state";
+import {
+  FormEvent,
+  Fragment,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { timeFormat } from "../../utils/functions";
+import { useMessages, useSendChat } from "../services/message";
+import { useTextInputState } from "../utils/form_state";
 import * as styles from "./game_log.module.css";
 
 // @ts-expect-error This doesn't inject properly.
 import useStayScrolled from "react-stay-scrolled";
-import {GameHistoryApi} from "../../api/history";
-import {MessageApi} from "../../api/message";
-import {Username} from "../components/username";
-import {isGameHistory, useGame} from "../services/game";
-import {Button, Container, Form, Icon, Input, Popup} from "semantic-ui-react";
+import { GameHistoryApi } from "../../api/history";
+import { MessageApi } from "../../api/message";
+import { Username } from "../components/username";
+import { isGameHistory, useGame } from "../services/game";
+import { Button, Container, Form, Icon, Input, Popup } from "semantic-ui-react";
 
 export function GameLog() {
   const game = useGame();
@@ -61,7 +69,15 @@ export function ChatLog({ gameId }: ChatLogProps) {
             onChange={setNewMessage}
             disabled={isPending}
           />
-          <Button primary style={{marginLeft: "1em"}} size="mini" type="submit" disabled={isPending}>Send</Button>
+          <Button
+            primary
+            style={{ marginLeft: "1em" }}
+            size="mini"
+            type="submit"
+            disabled={isPending}
+          >
+            Send
+          </Button>
         </Form>
       </div>
     </Container>
@@ -164,11 +180,14 @@ function LogMessages({
       </div>
       {canScrollToBottom && (
         <div className={styles.scrollToBottomContainer}>
-          <Popup content="Scroll to bottom" trigger={
-            <Button primary size="small" icon circular onClick={scrollBottom}>
-              <Icon name="arrow down" />
-            </Button>
-          } />
+          <Popup
+            content="Scroll to bottom"
+            trigger={
+              <Button primary size="small" icon circular onClick={scrollBottom}>
+                <Icon name="arrow down" />
+              </Button>
+            }
+          />
         </div>
       )}
     </div>
