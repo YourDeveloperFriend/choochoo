@@ -1,3 +1,15 @@
+.chat {
+  background-color: #f0f0f0;
+  padding: 1em;
+  border-radius: 1em;
+}
+
+:global(.dark-mode) .chat,
+:global(.dark-mode) .submitInput input {
+  background-color: darkgrey;
+  color: black;
+}
+
 .logContainer {
   position: relative;
 }
@@ -5,15 +17,7 @@
 .logList {
   height: 200px;
   position: relative;
-  background-color: lightgrey;
   overflow-y: auto;
-  padding: 8px;
-}
-
-:global(.dark-mode) .logList,
-:global(.dark-mode) input {
-  background-color: darkgrey;
-  color: black;
 }
 
 .logLine {
@@ -34,6 +38,7 @@
 }
 
 .submitForm {
+  margin-top: 0.5em;
   display: flex;
   flex-direction: row;
 }
@@ -48,9 +53,4 @@
 
 .submitInput {
   flex: 1;
-  font-size: 16px;
-  padding: 4px;
-  border-radius: 0;
-  border: none;
-  border-top: 1px solid black;
 }

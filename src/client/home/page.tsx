@@ -1,11 +1,10 @@
-import { Button } from "@mui/material";
-import { useMemo } from "react";
-import { Link } from "react-router-dom";
-import { Header } from "semantic-ui-react";
-import { GameStatus, ListGamesApi } from "../../api/game";
-import { ChatLog } from "../game/game_log";
-import { useMe } from "../services/me";
-import { GameList } from "./game_list";
+import {useMemo} from "react";
+import {Link} from "react-router-dom";
+import {Button, Header} from "semantic-ui-react";
+import {GameStatus, ListGamesApi} from "../../api/game";
+import {ChatLog} from "../game/game_log";
+import {useMe} from "../services/me";
+import {GameList} from "./game_list";
 
 export function HomePage() {
   const user = useMe();
@@ -49,9 +48,11 @@ export function HomePage() {
     <div>
       <Header as="h1">Choo Choo Games</Header>
       <ChatLog />
-      <Button component={Link} to="/app/games/create" variant="contained">
-        Create Game
-      </Button>
+      <div style={{marginTop: "1em", marginBottom: "1em"}}>
+        <Button as={Link} primary to="/app/games/create" variant="contained">
+          Create Game
+        </Button>
+      </div>
       {user && <GameList title="Your Games" query={userQuery} fixOrder />}
       <GameList title="New Games" query={lobbyQuery} />
       <GameList title="Active Games" query={activeQuery} />

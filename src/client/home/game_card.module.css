@@ -1,6 +1,26 @@
 .gameCard {
 }
 
+.gameCardHeader {
+  padding: 1em;
+  border-radius: inherit;
+}
+
+:global(.ui.card) :global(.meta).gameCardMeta {
+  font-size: 0.8em;
+}
+
+.gameCardText {
+  color: rgba(0, 0, 0, 0.6);
+}
+:global(.dark-mode) .gameCardText {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+:global(.ui.card) > :global(.content) .gameCardText > p, :global(.ui.cards) > :global(.card) > :global(.content) .gameCardText > p {
+  margin: 0;
+}
+
 .active {
   background-color: lightyellow;
 }
