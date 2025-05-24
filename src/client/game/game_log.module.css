@@ -4,10 +4,13 @@
   border-radius: 1em;
 }
 
-:global(.dark-mode) .chat,
-:global(.dark-mode) .submitInput input {
+:global(.dark-mode) .chat {
   background-color: darkgrey;
   color: black;
+}
+:global(.dark-mode .ui.form) .submitInput input[type="text"] {
+  background-color: #5f5f5f;
+  color: #e0e0e0;
 }
 
 .logContainer {
