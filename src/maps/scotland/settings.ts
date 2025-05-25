@@ -9,6 +9,7 @@ import {
 } from "./ferries_connections";
 import { 
           ScotlandRoundEngine,
+          ScotlandPhaseEngine,
 } from "./turn_order";
 import { interCityConnections } from "../factory";
 import { map } from "./grid";
@@ -31,6 +32,7 @@ export class ScotlandMapSettings implements MapSettings {
       ScotlandGoodsGrowthPhase,
       ScotlandConnectCitiesAction,
       ScotlandBuildAction,
+      ScotlandPhaseEngine,
     ];
   }
 }
