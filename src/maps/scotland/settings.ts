@@ -1,6 +1,5 @@
 import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
-import { RoundEngine } from "../../engine/game/round";
 import { GoodsGrowthPhase} from "../../engine/goods_growth/phase";
 import { CityGroup} from "../../engine/state/city_group";
 import { 
@@ -8,6 +7,9 @@ import {
           ScotlandConnectCitiesAction, 
           ScotlandBuildAction,
 } from "./ferries_connections";
+import { 
+          ScotlandRoundEngine,
+} from "./turn_order";
 import { interCityConnections } from "../factory";
 import { map } from "./grid";
 
@@ -30,13 +32,6 @@ export class ScotlandMapSettings implements MapSettings {
       ScotlandConnectCitiesAction,
       ScotlandBuildAction,
     ];
-  }
-}
-
-export class ScotlandRoundEngine extends RoundEngine {
-
-  maxRounds(): number {
-    return 8;
   }
 }
 
