@@ -10,6 +10,9 @@ export function ScotlandRules() {
           <b>Ferry links:</b> the ferry connections (Stornoway-Ullapool & Belfast-Ayr) cost $6 and can only be built once both of respective towns on each side are urbanized.
         </li>
         <li>
+          <b>Ayr-Glasgow connection:</b> can be claimed at the cost of $2 and functions as a link between the cities regardless if Ayr is urbanized or not.  
+        </li>
+        <li>
           <b>Turn Order action:</b> skips auction entirely on next turn giving priority to the player who has taken that action.
         </li>
         <li>

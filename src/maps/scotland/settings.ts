@@ -4,7 +4,11 @@ import { Module } from "../../engine/module/module";
 import { RoundEngine } from "../../engine/game/round";
 import { GoodsGrowthPhase} from "../../engine/goods_growth/phase";
 import { CityGroup} from "../../engine/state/city_group";
-import { ScotlandClaimAction, ScotlandConnectCitiesAction } from "./ferries_connections";
+import { 
+          ScotlandClaimAction, 
+          ScotlandConnectCitiesAction, 
+          ScotlandBuildAction,
+} from "./ferries_connections";
 import { ClaimRequiresUrbanizeModule } from "../../modules/claim_requires_urbanize";
 import { interCityConnections } from "../factory";
 import { map } from "./grid";
@@ -26,6 +30,7 @@ export class ScotlandMapSettings implements MapSettings {
       ScotlandClaimAction,
       ScotlandGoodsGrowthPhase,
       ScotlandConnectCitiesAction,
+      ScotlandBuildAction,
     ];
   }
 
