@@ -27,7 +27,14 @@ import { FinalOverview } from "./final_overview";
 import { LoginButton } from "./login_button";
 
 import * as styles from "./player_stats.module.css";
-import {Accordion, AccordionTitle, AccordionContent, Icon, Segment, Header, Menu, MenuItem} from "semantic-ui-react";
+import {
+  Accordion,
+  AccordionTitle,
+  AccordionContent,
+  Icon,
+  Menu,
+  MenuItem,
+} from "semantic-ui-react";
 
 export function PlayerStats() {
   const playerData = useInject(() => injectAllPlayersUnsafe()(), []);
@@ -63,7 +70,12 @@ export function PlayerStats() {
   return (
     <Accordion fluid as={Menu} vertical>
       <MenuItem>
-        <AccordionTitle active={expanded} index={0} onClick={() => setExpanded(!expanded)} content="Player overview" />
+        <AccordionTitle
+          active={expanded}
+          index={0}
+          onClick={() => setExpanded(!expanded)}
+          content="Player overview"
+        />
         <AccordionContent active={expanded}>
           <div className={styles.playerStats}>
             <table>

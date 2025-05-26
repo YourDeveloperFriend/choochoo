@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import { useMemo, useState } from "react";
 import { BuilderHelper, TileManifestEntry } from "../../engine/build/helper";
 import { inject } from "../../engine/framework/execution_context";
 import { Grid } from "../../engine/map/grid";
@@ -11,7 +11,13 @@ import { Coordinates } from "../../utils/coordinates";
 import { HexGrid } from "../grid/hex_grid";
 import { useGameKey, useInject } from "../utils/injection_context";
 import * as styles from "./tile_manifest.module.css";
-import {Accordion, AccordionContent, AccordionTitle, Menu, MenuItem} from "semantic-ui-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionTitle,
+  Menu,
+  MenuItem,
+} from "semantic-ui-react";
 
 export function TileManifest() {
   const manifest = useInject(() => inject(BuilderHelper).trackManifest(), []);
@@ -20,14 +26,20 @@ export function TileManifest() {
   return (
     <Accordion as={Menu} vertical fluid>
       <MenuItem>
-        <AccordionTitle active={expanded} index={0} onClick={() => setExpanded(!expanded)} content="Tile Manifest" />
+        <AccordionTitle
+          active={expanded}
+          index={0}
+          onClick={() => setExpanded(!expanded)}
+          content="Tile Manifest"
+        />
         <AccordionContent active={expanded}>
           {expanded && (
-          <div className={styles.tiles}>
-            {[...manifest.entries()].map(([tileType, info]) => (
-              <TileInfo key={tileType} tileType={tileType} info={info} />
-            ))}
-          </div>)}
+            <div className={styles.tiles}>
+              {[...manifest.entries()].map(([tileType, info]) => (
+                <TileInfo key={tileType} tileType={tileType} info={info} />
+              ))}
+            </div>
+          )}
         </AccordionContent>
       </MenuItem>
     </Accordion>

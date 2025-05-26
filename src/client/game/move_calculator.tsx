@@ -1,5 +1,12 @@
-import {useCallback, useEffect, useState} from "react";
-import {Accordion, AccordionContent, AccordionTitle, Button, Menu, MenuItem} from "semantic-ui-react";
+import { useCallback, useState } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionTitle,
+  Button,
+  Menu,
+  MenuItem,
+} from "semantic-ui-react";
 import { MoveAction, MoveData } from "../../engine/move/move";
 import { MoveSearcher } from "../../engine/move/searcher";
 import { goodToString } from "../../engine/state/good";
@@ -64,19 +71,33 @@ export function MoveCalculator() {
   return (
     <Accordion as={Menu} vertical fluid>
       <MenuItem>
-        <AccordionTitle active={expanded} index={0} onClick={() => setExpanded(!expanded)} content="Move Calculator" />
+        <AccordionTitle
+          active={expanded}
+          index={0}
+          onClick={() => setExpanded(!expanded)}
+          content="Move Calculator"
+        />
         <AccordionContent active={expanded}>
           <div>
-            {options == null && <>
-              <Button color="green" loading={running} disabled={running} onClick={() => {
-                setRunning(true);
-                setTimeout(calculateRoutes, 0);
-              }}>Calculate Moves</Button>
-              <p>
-                Click &quot;calculate&quot; to see available moves (this might
-                take ~30 seconds).
-              </p>
-            </>}
+            {options == null && (
+              <>
+                <Button
+                  color="green"
+                  loading={running}
+                  disabled={running}
+                  onClick={() => {
+                    setRunning(true);
+                    setTimeout(calculateRoutes, 0);
+                  }}
+                >
+                  Calculate Moves
+                </Button>
+                <p>
+                  Click &quot;calculate&quot; to see available moves (this might
+                  take ~30 seconds).
+                </p>
+              </>
+            )}
             {options != null && options.length > 0 && (
               <table className={styles.table}>
                 <thead>
@@ -115,7 +136,9 @@ export function MoveCalculator() {
                 </tbody>
               </table>
             )}
-            {options != null && options.length === 0 && <p>No moves available</p>}
+            {options != null && options.length === 0 && (
+              <p>No moves available</p>
+            )}
           </div>
         </AccordionContent>
       </MenuItem>

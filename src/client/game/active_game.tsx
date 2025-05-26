@@ -33,7 +33,7 @@ import { PlayerStats } from "./player_stats";
 import { SpecialActionTable } from "./special_action_table";
 import { SwitchToActive, SwitchToUndo } from "./switch";
 import { TileManifest } from "./tile_manifest";
-import {Button, Icon, Header, Segment} from "semantic-ui-react";
+import { Button, Icon, Segment } from "semantic-ui-react";
 
 export function ActiveGame() {
   const game = useGame();
@@ -130,7 +130,14 @@ function UndoButton() {
     return <></>;
   }
   return (
-    <Button icon labelPosition="left" basic negative onClick={undo} disabled={isPending}>
+    <Button
+      icon
+      labelPosition="left"
+      basic
+      negative
+      onClick={undo}
+      disabled={isPending}
+    >
       <Icon name="undo" />
       Undo
     </Button>

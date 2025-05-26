@@ -1,12 +1,17 @@
-
 import { times } from "lodash";
-import {useMemo, useState} from "react";
+import { useMemo, useState } from "react";
 import { injectInGamePlayers } from "../../engine/game/state";
 import { partition, peek } from "../../utils/functions";
 import { useInject } from "../utils/injection_context";
 import { PlayerCircle } from "./bidding_info";
 import * as styles from "./income_track.module.css";
-import {Accordion, AccordionContent, AccordionTitle, Menu, MenuItem} from "semantic-ui-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionTitle,
+  Menu,
+  MenuItem,
+} from "semantic-ui-react";
 
 export function IncomeTrack() {
   const playerData = useInject(() => injectInGamePlayers()(), []);
@@ -28,7 +33,12 @@ export function IncomeTrack() {
   return (
     <Accordion as={Menu} vertical fluid>
       <MenuItem>
-        <AccordionTitle active={expanded} index={0} onClick={() => setExpanded(!expanded)} content="Income Track" />
+        <AccordionTitle
+          active={expanded}
+          index={0}
+          onClick={() => setExpanded(!expanded)}
+          content="Income Track"
+        />
         <AccordionContent active={expanded}>
           <div className={styles.container}>
             {track.map((row, index) => (
