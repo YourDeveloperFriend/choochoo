@@ -22,6 +22,8 @@ export function ScotlandRules() {
           <b>Game ends:</b> after 8 turns.
         </li>
       </ul>
+      <p>This is a 2-player implementation of Scotland map on Choochoo. Please do check out <a href="https://eot.coderealms.io/">Era of Trains</a> for a higher player count variant and other maps.</p>
+      <br />
     </div>
   );
 }
