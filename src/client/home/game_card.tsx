@@ -4,7 +4,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardMeta,
+  CardMeta, Icon,
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import {
@@ -174,7 +174,8 @@ export function DeleteButton({ game }: GameButtonProps) {
   }
 
   return (
-    <Button negative disabled={isPending} onClick={perform}>
+    <Button icon labelPosition="left" negative disabled={isPending} onClick={perform}>
+      <Icon name="delete" />
       Delete
     </Button>
   );

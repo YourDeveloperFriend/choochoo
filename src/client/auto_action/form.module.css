@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+.subForm {
+  margin-left: 2em;
+}
+
 div.tab {
   margin-left: 42px;
 }

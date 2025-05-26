@@ -19,6 +19,13 @@ body.dark-mode {
   background-color: inherit;
 }
 
+.ui.accordion.menu .item .title {
+  font-size: 1.1em;
+}
+.ui.accordion.menu .item .active.title {
+  margin-bottom: 1em;
+}
+
 /* Dark mode semantic-ui components, with styling copied from the default "inverted" components. */
 body.dark-mode,
 body.dark-mode .ui.header {

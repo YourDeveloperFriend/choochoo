@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import { GameStatus } from "../../api/game";
 import { injectPlayersByTurnOrder } from "../../engine/game/state";
@@ -34,6 +33,7 @@ import { PlayerStats } from "./player_stats";
 import { SpecialActionTable } from "./special_action_table";
 import { SwitchToActive, SwitchToUndo } from "./switch";
 import { TileManifest } from "./tile_manifest";
+import {Button, Icon, Header, Segment} from "semantic-ui-react";
 
 export function ActiveGame() {
   const game = useGame();
@@ -56,17 +56,19 @@ function InternalActiveGame() {
 
   return (
     <div>
-      {!undoOnly && <Header />}
+      {!undoOnly && <GameHeader />}
       <GameLog />
       <HistorySelector />
-      <TurnOrder />
-      <Editor />
-      <UndoButton />
-      <DeleteButton game={game} />
-      <SwitchToActive />
-      <SwitchToUndo />
-      {!undoOnly && <ActionSummary />}
-      <AutoActionForm />
+      <Segment>
+        <TurnOrder />
+        <Editor />
+        <UndoButton />
+        <DeleteButton game={game} />
+        <SwitchToActive />
+        <SwitchToUndo />
+        {!undoOnly && <ActionSummary />}
+        <AutoActionForm />
+      </Segment>
       {!undoOnly && canEmitProduction && <GoodsTable />}
       {!undoOnly && <BiddingInfo />}
       {!undoOnly && canEmitSelectAction && <SpecialActionTable />}
@@ -112,7 +114,7 @@ function TurnOrder() {
   );
 }
 
-function Header() {
+function GameHeader() {
   const game = useGame();
   return (
     <h1 className={styles.header}>
@@ -128,7 +130,8 @@ function UndoButton() {
     return <></>;
   }
   return (
-    <Button onClick={undo} disabled={isPending}>
+    <Button icon labelPosition="left" basic negative onClick={undo} disabled={isPending}>
+      <Icon name="undo" />
       Undo
     </Button>
   );
@@ -140,7 +143,7 @@ function RetryButton() {
     return <></>;
   }
   return (
-    <Button onClick={retry} disabled={isPending}>
+    <Button basic color="teal" onClick={retry} disabled={isPending}>
       Retry
     </Button>
   );
