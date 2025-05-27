@@ -48,7 +48,7 @@ export function GameList({
     <div className={styles.gameListCard}>
       <h2>{title}</h2>
 
-      <CardGroup>
+      <CardGroup stackable>
         {gamesInOrder.map((game) => (
           <GameCard game={game} key={game.id} hideStatus={hideStatus} />
         ))}
