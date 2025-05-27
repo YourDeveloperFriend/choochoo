@@ -60,7 +60,7 @@ export class ScotlandBuildAction extends BuildAction {
         "Can only build track from Ayr to Glasgow via intercity connection."
       });
       assert(
-        (data.orientation !== 4 && data.tileType !== 104),{invalidInput:
+        !(data.orientation === 4 && data.tileType === 104),{invalidInput:
         "Can only build track from Ayr to Glasgow via intercity connection."
       });
     }
