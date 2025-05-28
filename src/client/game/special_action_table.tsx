@@ -19,7 +19,7 @@ export function SpecialActionTable() {
   const actions = useInjected(AllowedActions);
 
   return (
-    <div>
+    <div style={{marginTop: "1em"}}>
       <h2>Special Actions</h2>
       <div className={styles.specialActionTable}>
         {actions.getActions().map((action) => (
