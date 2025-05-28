@@ -2,8 +2,9 @@ import { injectState } from "../../engine/framework/execution_context";
 import { RoundEngine } from "../../engine/game/round";
 import { injectPlayerAction, TURN_ORDER,} from "../../engine/game/state";
 import { Action } from "../../engine/state/action";
-import { PHASE, PhaseEngine } from "../../engine/game/phase";
-import { Phase, PhaseZod } from "../../engine/state/phase";
+import { PhaseEngine } from "../../engine/game/phase";
+import { Phase } from "../../engine/state/phase";
+import { remove} from "../../utils/functions";
 
 
 export class ScotlandRoundEngine extends RoundEngine {
@@ -36,15 +37,9 @@ export class ScotlandPhaseEngine extends PhaseEngine {
 
   phaseOrder(): Phase[] {
     if (this.turnOrderPass() != null) {
-      return [
-        Phase.SHARES,
-        Phase.ACTION_SELECTION,
-        Phase.BUILDING,
-        Phase.MOVING,
-        Phase.INCOME,
-        Phase.EXPENSES,
-        Phase.INCOME_REDUCTION,
-        Phase.GOODS_GROWTH,
-      ];} else { return super.phaseOrder();}
+      return remove(super.phaseOrder(), Phase.TURN_ORDER);
+    } else {
+      return super.phaseOrder();
     }
+  }
 }
