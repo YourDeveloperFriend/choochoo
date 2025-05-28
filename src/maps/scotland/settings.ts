@@ -2,17 +2,12 @@ import { GameKey } from "../../api/game_key";
 import { MapSettings, ReleaseStage } from "../../engine/game/map_settings";
 import { GoodsGrowthPhase} from "../../engine/goods_growth/phase";
 import { CityGroup} from "../../engine/state/city_group";
-import { 
-          ScotlandClaimAction, 
-          ScotlandConnectCitiesAction, 
-          ScotlandBuildAction,
-} from "./ferries_connections";
-import { 
-          ScotlandRoundEngine,
-          ScotlandPhaseEngine,
-} from "./turn_order";
+import { ScotlandConnectCitiesAction, ScotlandBuildAction } from "./ferries_connections";
+import { ScotlandRoundEngine, ScotlandPhaseEngine } from "./turn_order";
 import { interCityConnections } from "../factory";
 import { map } from "./grid";
+import { Module } from "../../engine/module/module";
+import { ClaimRequiresUrbanizeModule } from "../../modules/claim_requires_urbanize";
 
 export class ScotlandMapSettings implements MapSettings {
   readonly key = GameKey.SCOTLAND;
@@ -28,13 +23,19 @@ export class ScotlandMapSettings implements MapSettings {
   getOverrides() {
     return [
       ScotlandRoundEngine,
-      ScotlandClaimAction,
       ScotlandGoodsGrowthPhase,
       ScotlandConnectCitiesAction,
       ScotlandBuildAction,
       ScotlandPhaseEngine,
     ];
   }
+
+  getModules(): Array<Module> {
+    return [
+      new ClaimRequiresUrbanizeModule(),
+    ];
+  }
+  
 }
 
 export class ScotlandGoodsGrowthPhase extends GoodsGrowthPhase {
