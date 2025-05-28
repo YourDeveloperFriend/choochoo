@@ -20,6 +20,7 @@ import { MoveValidator } from "./validator";
 export const Path = z.object({
   owner: z.nativeEnum(PlayerColor).optional(),
   endingStop: CoordinatesZod,
+  additionalData: z.unknown().optional(),
 });
 
 export type Path = z.infer<typeof Path>;
@@ -30,6 +31,7 @@ export const MoveData = z.object({
   path: z.array(Path),
   startingCity: CoordinatesZod,
   good: z.nativeEnum(Good),
+  additionalData: z.unknown().optional(),
 });
 
 export type MoveData = z.infer<typeof MoveData>;

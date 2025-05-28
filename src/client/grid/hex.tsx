@@ -78,6 +78,7 @@ function landColorStyle(space: Land): string {
 interface TerrainHexProps {
   space: Land | City;
   size: number;
+  isHighlighted: boolean;
   clickTargets: Set<ClickTarget>;
   rotation?: Rotation;
 }
@@ -217,11 +218,21 @@ export function LowerTerrainHex({
   }
 }
 
-export function UpperTerrainHex({ space, size, rotation }: TerrainHexProps) {
+export function UpperTerrainHex({
+  space,
+  size,
+  rotation,
+  isHighlighted,
+}: TerrainHexProps) {
   const coordinates = space.coordinates;
   const center = useMemo(
     () => coordinatesToCenter(coordinates, size),
     [coordinates, size],
+  );
+
+  const corners = useMemo(
+    () => polygon(getCorners(center, size)),
+    [center, size],
   );
 
   if (space instanceof Land) {
@@ -251,7 +262,19 @@ export function UpperTerrainHex({ space, size, rotation }: TerrainHexProps) {
       </>
     );
   } else {
-    return null;
+    return (
+      <>
+        {isHighlighted && (
+          <polygon
+            fillOpacity="0"
+            data-coordinates={space.coordinates.toString()}
+            points={corners}
+            stroke="yellow"
+            strokeWidth={size / 10}
+          />
+        )}
+      </>
+    );
   }
 }
 

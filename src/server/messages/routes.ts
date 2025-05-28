@@ -45,12 +45,12 @@ const router = initServer().router(messageContract, {
 
   async sendChat({ body: { message, gameId }, req }) {
     const game = gameId != null ? await GameDao.findByPk(gameId) : undefined;
-    const user = await assertRole(req);
+    const fromUser = await assertRole(req);
     assert(gameId == null || game != null, {
       notFound: true,
     });
 
-    const users = (
+    const toUsers = (
       await Promise.all(
         [
           ...new Set(
@@ -62,7 +62,7 @@ const router = initServer().router(messageContract, {
       )
     ).filter(isNotNull);
 
-    const refactored = users.reduce(
+    const refactored = toUsers.reduce(
       (message, user) =>
         replaceAll(message, `@${user.username}`, `<@user-${user.id}>`),
       message,
@@ -73,29 +73,45 @@ const router = initServer().router(messageContract, {
       userId: req.session.adminUserId ?? req.session.userId,
     });
 
-    notifyMentions(user, game, users);
+    notifyMentions(fromUser, game, toUsers);
 
     return { status: 200, body: { message: log.toApi() } };
   },
 });
 
-async function notifyMentions(
-  user: MyUserApi,
+function filterToUsers(
+  fromUser: MyUserApi,
   game: GameDao | null | undefined,
-  users: UserDao[],
-): Promise<void> {
-  if (game == null || users.length === 0) return;
-  if (!game.playerIds.includes(user.id) && user.role !== UserRole.enum.ADMIN) {
-    return;
-  }
+  toUsers: UserDao[],
+): UserDao[] {
+  const fromUserInGame =
+    fromUser.role !== UserRole.enum.ADMIN &&
+    game != null &&
+    game.playerIds.includes(fromUser.id);
+  return toUsers.filter((user) => {
+    // Anyone is allowed to ping anyone in any game.
+    if (user.role === UserRole.enum.ADMIN) {
+      return true;
+    }
+    // Only allow users that are in the game to ping other players.
+    if (!fromUserInGame) {
+      return false;
+    }
+    // Only ping users that are particinpating in the game.
+    return game != null && game.playerIds.includes(user.id);
+  });
+}
 
-  const filtered = users.filter(
-    (user) =>
-      game.playerIds.includes(user.id) || user.role === UserRole.enum.ADMIN,
-  );
+async function notifyMentions(
+  fromUser: MyUserApi,
+  game: GameDao | null | undefined,
+  unfilteredToUsers: UserDao[],
+): Promise<void> {
+  const toUsers = filterToUsers(fromUser, game, unfilteredToUsers);
+  if (toUsers.length === 0) return;
 
   await Promise.all(
-    filtered.map((user) => {
+    toUsers.map((user) => {
       if (user == null) return;
       const settings = user.getTurnNotificationSettings(
         NotificationFrequency.IMMEDIATELY,
@@ -107,7 +123,7 @@ async function notifyMentions(
             user: user.toMyApi(),
             notificationPreferences: user.notificationPreferences,
             turnNotificationSetting: setting,
-            game: game.toApi(),
+            game: game?.toApi(),
           }),
         ),
       );

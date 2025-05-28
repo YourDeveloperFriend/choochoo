@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { useMemo } from "react";
 import { GameLiteApi, GameStatus, ListGamesApi } from "../../api/game";
 import { partition } from "../../utils/functions";
@@ -6,6 +5,7 @@ import { useGameList } from "../services/game";
 import { useMe } from "../services/me";
 import { GameCard } from "./game_card";
 import * as styles from "./game_list.module.css";
+import { Button, CardGroup } from "semantic-ui-react";
 
 interface GameListProps {
   query: ListGamesApi;
@@ -48,14 +48,18 @@ export function GameList({
     <div className={styles.gameListCard}>
       <h2>{title}</h2>
 
-      <div className={styles.gameList}>
+      <CardGroup stackable>
         {gamesInOrder.map((game) => (
           <GameCard game={game} key={game.id} hideStatus={hideStatus} />
         ))}
-      </div>
-      {hasPrevPage && <Button onClick={prevPage}>Prev</Button>}
+      </CardGroup>
+      {hasPrevPage && (
+        <Button secondary onClick={prevPage}>
+          Prev
+        </Button>
+      )}
       {hasNextPage && (
-        <Button onClick={nextPage} disabled={games == null}>
+        <Button secondary onClick={nextPage} disabled={games == null}>
           Next
         </Button>
       )}

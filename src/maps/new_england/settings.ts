@@ -22,7 +22,7 @@ export class NewEnglandMapSettings implements MapSettings {
   readonly minPlayers = 2;
   readonly maxPlayers = 2;
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.DEVELOPMENT;
+  readonly stage = ReleaseStage.ALPHA;
   readonly rotation = Rotation.CLOCKWISE;
 
   getOverrides() {

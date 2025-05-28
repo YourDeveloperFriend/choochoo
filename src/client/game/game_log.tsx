@@ -1,5 +1,3 @@
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { Fab, Tooltip } from "@mui/material";
 import {
   FormEvent,
   Fragment,
@@ -20,6 +18,7 @@ import { GameHistoryApi } from "../../api/history";
 import { MessageApi } from "../../api/message";
 import { Username } from "../components/username";
 import { isGameHistory, useGame } from "../services/game";
+import { Button, Container, Form, Icon, Input, Popup } from "semantic-ui-react";
 
 export function GameLog() {
   const game = useGame();
@@ -52,25 +51,36 @@ export function ChatLog({ gameId }: ChatLogProps) {
   );
 
   return (
-    <div>
-      <LogMessages
-        messages={messages}
-        fetchNextPage={hasNextPage ? fetchNextPage : undefined}
-        disableNextPage={isLoading}
-      />
-      <form onSubmit={onSubmit} className={styles.submitForm}>
-        <input
-          className={styles.submitInput}
-          type="text"
-          maxLength={255}
-          placeholder="Send message"
-          value={newMessage}
-          onChange={setNewMessage}
-          disabled={isPending}
+    <Container fluid>
+      <div className={styles.chat}>
+        <LogMessages
+          messages={messages}
+          fetchNextPage={hasNextPage ? fetchNextPage : undefined}
+          disableNextPage={isLoading}
         />
-        <input type="submit" value="Send" disabled={isPending} />
-      </form>
-    </div>
+        <Form onSubmit={onSubmit} className={styles.submitForm}>
+          <Input
+            fluid
+            className={styles.submitInput}
+            type="text"
+            maxLength={255}
+            placeholder="Send message"
+            value={newMessage}
+            onChange={setNewMessage}
+            disabled={isPending}
+          />
+          <Button
+            primary
+            style={{ marginLeft: "1em" }}
+            size="mini"
+            type="submit"
+            disabled={isPending}
+          >
+            Send
+          </Button>
+        </Form>
+      </div>
+    </Container>
   );
 }
 
@@ -170,11 +180,14 @@ function LogMessages({
       </div>
       {canScrollToBottom && (
         <div className={styles.scrollToBottomContainer}>
-          <Tooltip title="Scroll to bottom">
-            <Fab color="primary" size="small" onClick={scrollBottom}>
-              <ArrowDownwardIcon />
-            </Fab>
-          </Tooltip>
+          <Popup
+            content="Scroll to bottom"
+            trigger={
+              <Button primary size="small" icon circular onClick={scrollBottom}>
+                <Icon name="arrow down" />
+              </Button>
+            }
+          />
         </div>
       )}
     </div>

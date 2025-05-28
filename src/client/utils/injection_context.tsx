@@ -130,9 +130,6 @@ export function useViewSettings(): MapViewSettings {
   return useMemo(() => ViewRegistry.singleton.get(gameKey), [gameKey]);
 }
 
-/** Alias of useViewSettings. */
-export const useMapSettings = useViewSettings;
-
 export function usePhaseState<T>(
   phase: Phase,
   key: Key<T>,
@@ -141,7 +138,7 @@ export function usePhaseState<T>(
   return useOptionalInjectedState(key, phase === currentPhase);
 }
 
-export function useOptionalInjectedState<T>(
+function useOptionalInjectedState<T>(
   key: Key<T>,
   optionalCheck: boolean,
 ): Immutable<T> | undefined {

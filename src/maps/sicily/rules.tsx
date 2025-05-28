@@ -8,6 +8,10 @@ export function SicilyRules() {
           Protection action.
         </li>
         <li>
+          <b>Urbanization:</b> when a town is urbanized, if there is still a
+          black cube on the town it gets removed.
+        </li>
+        <li>
           <b>Production action:</b> is not available.
         </li>
         <li>

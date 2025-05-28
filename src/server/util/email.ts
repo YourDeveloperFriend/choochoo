@@ -1,11 +1,13 @@
 import Mailjet from "node-mailjet";
 import z from "zod";
 import { EmailSetting } from "../../api/notifications";
+import { MyUserApi } from "../../api/user";
 import { log, logError } from "../../utils/functions";
 import { decrypt, encrypt } from "./encrypt";
 import { environment } from "./environment";
 import {
-  TestTurnNotifySetting,
+  GamelessTurnNotifySetting,
+  MaybeGameTurnNotifySetting,
   TurnNotifyService,
   TurnNotifySetting,
 } from "./notify";
@@ -45,7 +47,7 @@ abstract class EmailService implements TurnNotifyService<EmailSetting> {
 
   async sendTestNotification({
     user,
-  }: TestTurnNotifySetting<EmailSetting>): Promise<void> {
+  }: GamelessTurnNotifySetting<EmailSetting>): Promise<void> {
     await this.sendEmail({
       email: user.email,
       subject: `Test notification`,
@@ -74,7 +76,8 @@ ${this.makeUnsubscribeLink(user.email)}
   async sendChatMention({
     user,
     game,
-  }: TurnNotifySetting<EmailSetting>): Promise<void> {
+  }: MaybeGameTurnNotifySetting<EmailSetting>): Promise<void> {
+    if (game == null) return this.sendMainChatMention(user);
     const gameLink = `https://www.choochoo.games/app/games/${game.id}`;
     await this.sendEmail({
       email: user.email,
@@ -91,6 +94,32 @@ ${this.makeUnsubscribeLink(user.email)}
 <h3>Someone pinged you in the chat for the <a href="${gameLink}">"${game.name}" game</a>.</h3>
 <p>Click or copy and paste the following link to respond.</p>
 <p><a href="${gameLink}">Respond</a></p>
+<p>-Nathan</p>
+<p></p>
+<p>
+  This email was sent by Choo Choo games. You can unsubscribe here:
+  <a href="${this.makeUnsubscribeLink(user.email)}">Unsubscribe</a>
+</p>`,
+    });
+  }
+
+  async sendMainChatMention(user: MyUserApi): Promise<void> {
+    const homeLink = `https://www.choochoo.games`;
+    await this.sendEmail({
+      email: user.email,
+      subject: `Mentioned on ChooChoo.games`,
+      text: `
+Someone pinged you in the main chat of ChooChoo.games.
+Copy and paste the following link to respond: ${homeLink}.
+- Nathan
+
+This email was sent by Choo Choo games. You can unsubscribe here:
+${this.makeUnsubscribeLink(user.email)}
+`,
+      html: `
+<h3>Someone pinged you in the <a href="${homeLink}">main chat</a>.</h3>
+<p>Click or copy and paste the following link to respond.</p>
+<p><a href="${homeLink}">Respond</a></p>
 <p>-Nathan</p>
 <p></p>
 <p>

@@ -25,7 +25,7 @@ export class AlabamaRailwaysMapSettings implements MapSettings {
       new AvailableActionsModule({
         fullReplace: [Action.LOCOMOTIVE, Action.URBANIZATION],
       }),
-      new TurnLengthModule(8),
+      new TurnLengthModule({ turnLength: 8 }),
     ];
   }
 }

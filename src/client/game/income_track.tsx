@@ -1,20 +1,21 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-} from "@mui/material";
 import { times } from "lodash";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { injectInGamePlayers } from "../../engine/game/state";
 import { partition, peek } from "../../utils/functions";
 import { useInject } from "../utils/injection_context";
 import { PlayerCircle } from "./bidding_info";
 import * as styles from "./income_track.module.css";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionTitle,
+  Menu,
+  MenuItem,
+} from "semantic-ui-react";
 
 export function IncomeTrack() {
   const playerData = useInject(() => injectInGamePlayers()(), []);
+  const [expanded, setExpanded] = useState<boolean>(false);
 
   const track = useMemo(() => {
     const maxIncome = Math.max(...playerData.map((player) => player.income));
@@ -30,32 +31,37 @@ export function IncomeTrack() {
   }, [playerData]);
 
   return (
-    <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography component="h2">Income Track</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <div className={styles.container}>
-          {track.map((row, index) => (
-            <div key={index} className={styles.row}>
-              <div className={[styles.decrease, styles.cell].join(" ")}>
-                {index * -2}
-              </div>
-              {index !== 0 && <div className={styles.cell} />}
-              {row.map(({ value, players }) => (
-                <div key={value} className={styles.cell}>
-                  {players.slice(0, -1).map(({ color }) => (
-                    <PlayerCircle key={color} color={color} />
-                  ))}
-                  <PlayerCircle color={peek(players)?.color}>
-                    {value}
-                  </PlayerCircle>
+    <Accordion as={Menu} vertical fluid>
+      <MenuItem>
+        <AccordionTitle
+          active={expanded}
+          index={0}
+          onClick={() => setExpanded(!expanded)}
+          content="Income Track"
+        />
+        <AccordionContent active={expanded}>
+          <div className={styles.container}>
+            {track.map((row, index) => (
+              <div key={index} className={styles.row}>
+                <div className={[styles.decrease, styles.cell].join(" ")}>
+                  {index * -2}
                 </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </AccordionDetails>
+                {index !== 0 && <div className={styles.cell} />}
+                {row.map(({ value, players }) => (
+                  <div key={value} className={styles.cell}>
+                    {players.slice(0, -1).map(({ color }) => (
+                      <PlayerCircle key={color} color={color} />
+                    ))}
+                    <PlayerCircle color={peek(players)?.color}>
+                      {value}
+                    </PlayerCircle>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </AccordionContent>
+      </MenuItem>
     </Accordion>
   );
 }

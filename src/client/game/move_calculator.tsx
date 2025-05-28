@@ -1,12 +1,12 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useCallback, useState } from "react";
 import {
   Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-} from "@mui/material";
-import { useCallback } from "react";
-import { Button } from "semantic-ui-react";
+  AccordionContent,
+  AccordionTitle,
+  Button,
+  Menu,
+  MenuItem,
+} from "semantic-ui-react";
 import { MoveAction, MoveData } from "../../engine/move/move";
 import { MoveSearcher } from "../../engine/move/searcher";
 import { goodToString } from "../../engine/state/good";
@@ -18,7 +18,6 @@ import {
 import { peek } from "../../utils/functions";
 import { useAction } from "../services/action";
 import { useGameVersionState } from "../services/game";
-import { useIsAdmin } from "../services/me";
 import {
   useGrid,
   useInjectedMemo,
@@ -33,7 +32,6 @@ interface Option {
 
 export function MoveCalculator() {
   const grid = useGrid();
-  const isAdmin = useIsAdmin();
   const { emit, canEmit } = useAction(MoveAction);
   const searcher = useInjectedMemo(MoveSearcher);
   const moveAction = useInjectedMemo(MoveAction);
@@ -41,17 +39,16 @@ export function MoveCalculator() {
   const [options, setOptions] = useGameVersionState<Option[] | undefined>(
     undefined,
   );
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const [running, setRunning] = useState<boolean>(false);
 
   const calculateRoutes = useCallback(() => {
-    const startTimeStart = performance.now();
-
     const allRoutes: Option[] = searcher.value
       .findAllRoutes(mePlayer ?? ({ locomotive: 6 } as PlayerData))
       .map((route) => ({
         route,
         income: moveAction.value.calculateIncome(route),
       }));
-    console.log("counter", Math.floor(performance.now() - startTimeStart));
     allRoutes.sort((a, b) => {
       const totalSum =
         [...b.income.values()].reduce((a, b) => a + b, 0) -
@@ -68,65 +65,83 @@ export function MoveCalculator() {
       return -totalSum;
     });
     setOptions(allRoutes);
-  }, [searcher, moveAction, setOptions, mePlayer]);
+    setRunning(false);
+  }, [searcher, moveAction, setOptions, mePlayer, setRunning]);
 
   return (
-    <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography component="h2">Move Calculator</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <div>
-          {options == null && (
-            <Button onClick={calculateRoutes}>Calculate Moves</Button>
-          )}
-          {options != null && options.length > 0 && (
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Starting City</th>
-                  <th>Good</th>
-                  <th>Destination City</th>
-                  <th>Income</th>
-                  {canEmit && <th></th>}
-                </tr>
-              </thead>
-              <tbody>
-                {options.map((option, index) => (
-                  <tr key={index}>
-                    <td>{grid.displayName(option.route.startingCity)}</td>
-                    <td>{goodToString(option.route.good)}</td>
-                    <td>
-                      {grid.displayName(peek(option.route.path).endingStop)}
-                    </td>
-                    <td>
-                      {[...option.income].map(([playerColor, income]) => (
-                        <p key={playerColor}>
-                          {playerColorToString(playerColor)}: {income}
-                        </p>
-                      ))}
-                    </td>
-                    {canEmit && (
-                      <td>
-                        <Button onClick={() => emit(option.route)}>
-                          Move good
-                        </Button>
-                      </td>
-                    )}
+    <Accordion as={Menu} vertical fluid>
+      <MenuItem>
+        <AccordionTitle
+          active={expanded}
+          index={0}
+          onClick={() => setExpanded(!expanded)}
+          content="Move Calculator"
+        />
+        <AccordionContent active={expanded}>
+          <div>
+            {options == null && (
+              <>
+                <Button
+                  color="green"
+                  loading={running}
+                  disabled={running}
+                  onClick={() => {
+                    setRunning(true);
+                    setTimeout(calculateRoutes, 0);
+                  }}
+                >
+                  Calculate Moves
+                </Button>
+                <p>
+                  Click &quot;calculate&quot; to see available moves (this might
+                  take ~30 seconds).
+                </p>
+              </>
+            )}
+            {options != null && options.length > 0 && (
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Starting City</th>
+                    <th>Good</th>
+                    <th>Destination City</th>
+                    <th>Income</th>
+                    {canEmit && <th></th>}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-          {options != null && options.length === 0 && <p>No moves available</p>}
-          {options == null && (
-            <p>
-              Click &quot;calculate&quot; to see available moves (this might
-              take ~30 seconds).
-            </p>
-          )}
-        </div>
-      </AccordionDetails>
+                </thead>
+                <tbody>
+                  {options.map((option, index) => (
+                    <tr key={index}>
+                      <td>{grid.displayName(option.route.startingCity)}</td>
+                      <td>{goodToString(option.route.good)}</td>
+                      <td>
+                        {grid.displayName(peek(option.route.path).endingStop)}
+                      </td>
+                      <td>
+                        {[...option.income].map(([playerColor, income]) => (
+                          <p key={playerColor}>
+                            {playerColorToString(playerColor)}: {income}
+                          </p>
+                        ))}
+                      </td>
+                      {canEmit && (
+                        <td>
+                          <Button onClick={() => emit(option.route)}>
+                            Move good
+                          </Button>
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            {options != null && options.length === 0 && (
+              <p>No moves available</p>
+            )}
+          </div>
+        </AccordionContent>
+      </MenuItem>
     </Accordion>
   );
 }

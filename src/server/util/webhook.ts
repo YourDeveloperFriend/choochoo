@@ -12,7 +12,8 @@ import { log } from "../../utils/functions";
 import { assertNever } from "../../utils/validate";
 import { environment } from "./environment";
 import {
-  TestTurnNotifySetting,
+  GamelessTurnNotifySetting,
+  MaybeGameTurnNotifySetting,
   TurnNotifyService,
   TurnNotifySetting,
 } from "./notify";
@@ -39,16 +40,24 @@ abstract class BaseWebHookNotifier
   }
 
   sendChatMention(
-    setting: TurnNotifySetting<AnyWebHookSetting>,
+    setting: MaybeGameTurnNotifySetting<AnyWebHookSetting>,
   ): Promise<void> {
-    const { game } = setting;
-    const mapName = MapRegistry.singleton.get(game.gameKey).name;
-    const message = `You were pinged in [${game.name} (${mapName}): ${game.summary!}](https://www.choochoo.games/app/games/${game.id})`;
     return this.callWebhook(
-      message,
+      this.getChatMentionMessage(setting),
       setting.notificationPreferences,
       setting.turnNotificationSetting,
     );
+  }
+
+  private getChatMentionMessage(
+    setting: MaybeGameTurnNotifySetting<AnyWebHookSetting>,
+  ): string {
+    const { game } = setting;
+    if (game != null) {
+      const mapName = MapRegistry.singleton.get(game.gameKey).name;
+      return `You were pinged in [${game.name} (${mapName}): ${game.summary!}](https://www.choochoo.games/app/games/${game.id})`;
+    }
+    return `You were pinged in the main chat of [ChooChoo.games](https://www.choochoo.games/).`;
   }
 
   sendGameEndNotification(
@@ -64,7 +73,7 @@ abstract class BaseWebHookNotifier
   }
 
   sendTestNotification(
-    setting: TestTurnNotifySetting<AnyWebHookSetting>,
+    setting: GamelessTurnNotifySetting<AnyWebHookSetting>,
   ): Promise<void> {
     const message = `Test Message from Choo Choo Games.`;
     return this.callWebhook(

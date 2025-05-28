@@ -15,8 +15,8 @@ import { MoveHelper } from "./helper";
 import { MoveData } from "./move";
 
 export class MoveValidator {
-  private readonly grid = injectGrid();
-  private readonly moveHelper = inject(MoveHelper);
+  protected readonly grid = injectGrid();
+  protected readonly moveHelper = inject(MoveHelper);
 
   validate(player: PlayerData, action: MoveData): void {
     this.validatePartial(player, action);
@@ -99,7 +99,11 @@ export class MoveValidator {
     let fromCity: City | Land = startingCity;
     for (const step of action.path) {
       const routes = [
-        ...this.findRoutesToLocation(fromCity.coordinates, step.endingStop),
+        ...this.findRoutesToLocation(
+          player,
+          fromCity.coordinates,
+          step.endingStop,
+        ),
       ];
 
       assert(routes.length > 0, {
@@ -118,6 +122,7 @@ export class MoveValidator {
   }
 
   findRoutesToLocation(
+    _: PlayerData,
     fromCoordinates: Coordinates,
     toCoordinates: Coordinates,
   ): RouteInfo[] {
@@ -231,4 +236,10 @@ interface ConnectedCityRouteInfo {
   owner: PlayerColor | undefined;
 }
 
-export type RouteInfo = TrackRouteInfo | ConnectedCityRouteInfo;
+export interface Teleport {
+  type: "teleport";
+  destination: Coordinates;
+  owner: undefined;
+}
+
+export type RouteInfo = TrackRouteInfo | ConnectedCityRouteInfo | Teleport;

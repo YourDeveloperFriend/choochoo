@@ -1,13 +1,4 @@
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRightTwoTone";
-import Circle from "@mui/icons-material/Circle";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-} from "@mui/material";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { GameStatus } from "../../api/game";
 import { PlayerHelper } from "../../engine/game/player";
 import {
@@ -36,11 +27,20 @@ import { FinalOverview } from "./final_overview";
 import { LoginButton } from "./login_button";
 
 import * as styles from "./player_stats.module.css";
+import {
+  Accordion,
+  AccordionTitle,
+  AccordionContent,
+  Icon,
+  Menu,
+  MenuItem,
+} from "semantic-ui-react";
 
 export function PlayerStats() {
   const playerData = useInject(() => injectAllPlayersUnsafe()(), []);
   const playerOrder = useInjectedState(TURN_ORDER);
   const currentPlayer = useActiveGameState(CURRENT_PLAYER);
+  const [expanded, setExpanded] = useState<boolean>(true);
   const outOfGamePlayers = playerData
     .filter((p) => p.outOfGame)
     .map((p) => p.color);
@@ -68,12 +68,15 @@ export function PlayerStats() {
   ];
 
   return (
-    <div className={styles.playerStatsContainer}>
-      <Accordion defaultExpanded>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography component="h2">Player overview</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
+    <Accordion fluid as={Menu} vertical>
+      <MenuItem>
+        <AccordionTitle
+          active={expanded}
+          index={0}
+          onClick={() => setExpanded(!expanded)}
+          content="Player overview"
+        />
+        <AccordionContent active={expanded}>
           <div className={styles.playerStats}>
             <table>
               <thead>
@@ -137,9 +140,9 @@ export function PlayerStats() {
               </tbody>
             </table>
           </div>
-        </AccordionDetails>
-      </Accordion>
-    </div>
+        </AccordionContent>
+      </MenuItem>
+    </Accordion>
   );
 }
 
@@ -239,9 +242,9 @@ export function PlayerColorIndicator({
 }: PlayerColorIndicatorProps) {
   const className = `${styles.user} ${getPlayerColorCss(playerColor)}`;
   return currentTurn ? (
-    <ArrowCircleRightIcon fontSize="large" className={className} />
+    <Icon name="arrow circle right" size="large" className={className} />
   ) : (
-    <Circle fontSize="large" className={className} />
+    <Icon name="circle" size="large" className={className} />
   );
 }
 

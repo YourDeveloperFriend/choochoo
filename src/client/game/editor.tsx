@@ -1,8 +1,8 @@
-import { Button } from "@mui/material";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useConfirm } from "../components/confirm";
 import { canEditGame, useGame, useSetGameData } from "../services/game";
 import { useIsAdmin } from "../services/me";
+import { Button, Icon } from "semantic-ui-react";
 
 export function Editor() {
   const isAdmin = useIsAdmin();
@@ -47,7 +47,17 @@ export function Editor() {
 
   return (
     <>
-      <Button onClick={toggle}>{isOpen ? "Close editor" : "View Data"}</Button>
+      {isOpen ? (
+        <Button icon labelPosition="left" basic color="blue" onClick={toggle}>
+          <Icon name="close" />
+          Close editor
+        </Button>
+      ) : (
+        <Button icon labelPosition="left" basic color="blue" onClick={toggle}>
+          <Icon name="code" />
+          View Data
+        </Button>
+      )}
 
       {isOpen && (
         <textarea

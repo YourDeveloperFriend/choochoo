@@ -5,15 +5,20 @@ import {
 } from "../../api/notifications";
 import { MyUserApi } from "../../api/user";
 
-export interface TestTurnNotifySetting<T extends TurnNotificationSetting> {
+export interface GamelessTurnNotifySetting<T extends TurnNotificationSetting> {
   user: MyUserApi;
   notificationPreferences: NotificationPreferences;
   turnNotificationSetting: T;
 }
 
 export interface TurnNotifySetting<T extends TurnNotificationSetting>
-  extends TestTurnNotifySetting<T> {
+  extends GamelessTurnNotifySetting<T> {
   game: GameApi;
+}
+
+export interface MaybeGameTurnNotifySetting<T extends TurnNotificationSetting>
+  extends GamelessTurnNotifySetting<T> {
+  game?: GameApi;
 }
 
 export interface TurnNotifyService<T extends TurnNotificationSetting> {
@@ -21,7 +26,7 @@ export interface TurnNotifyService<T extends TurnNotificationSetting> {
 
   sendGameEndNotification(setting: TurnNotifySetting<T>): Promise<void>;
 
-  sendTestNotification(setting: TestTurnNotifySetting<T>): Promise<void>;
+  sendTestNotification(setting: GamelessTurnNotifySetting<T>): Promise<void>;
 
-  sendChatMention(setting: TurnNotifySetting<T>): Promise<void>;
+  sendChatMention(setting: MaybeGameTurnNotifySetting<T>): Promise<void>;
 }

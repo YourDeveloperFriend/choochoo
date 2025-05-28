@@ -7,5 +7,11 @@
   ],
   "project": ["**/*.{js,ts,tsx}"],
   "ignoreBinaries": ["tar"],
-  "ignore": ["src/scripts/*", "src/migrations/*", "src/testing/*", "*_test.ts"]
+  "ignore": [
+    "src/scripts/*",
+    "src/migrations/*",
+    "src/testing/*",
+    "*_test.ts",
+    "src/maps/template/*"
+  ]
 }

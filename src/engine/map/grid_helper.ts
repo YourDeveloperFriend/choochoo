@@ -76,6 +76,10 @@ export class GridHelper {
     return this.spaces().values();
   }
 
+  displayName(coordinates: Coordinates): string {
+    return this.spaces().displayName(coordinates);
+  }
+
   *findAllCities(): Iterable<City> {
     for (const space of this.all()) {
       if (space instanceof City) yield space;

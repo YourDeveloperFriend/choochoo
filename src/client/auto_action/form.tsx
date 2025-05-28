@@ -1,39 +1,36 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { FormEvent, useCallback, useState } from "react";
+import { MouseEvent, useCallback, useState } from "react";
 import { GameStatus } from "../../api/game";
 import { inject } from "../../engine/framework/execution_context";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
 import { Action, getSelectedActionString } from "../../engine/state/action";
 import { AutoAction } from "../../engine/state/auto_action";
-import { HelpIcon } from "../components/help";
 import { canEditGame, useGame } from "../services/game";
 import { useMe } from "../services/me";
 import {
-  useCheckboxState,
   useNumberInputState,
-  useSelectState,
+  useSemanticSelectState,
+  useSemanticUiCheckboxState,
 } from "../utils/form_state";
 import { useInject } from "../utils/injection_context";
 import * as styles from "./form.module.css";
 import { useAutoAction, useSetAutoAction } from "./hooks";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionTitle,
+  Form,
+  FormCheckbox,
+  FormField,
+  FormGroup,
+  Menu,
+  MenuItem,
+  Popup,
+  Icon,
+  Input,
+  Button,
+  Radio,
+  Dropdown,
+} from "semantic-ui-react";
 
 export function AutoActionForm() {
   const me = useMe();
@@ -78,22 +75,24 @@ function InternalAutoActionForm({
     () => inject(AllowedActions).getActions(),
     [],
   );
-  const [skipShares, setSkipShares] = useCheckboxState(autoAction.skipShares);
-  const [takeSharesNextDefined, setTakeSharesNextDefined] = useCheckboxState(
-    autoAction.takeSharesNext != null,
+  const [skipShares, setSkipShares] = useSemanticUiCheckboxState(
+    autoAction.skipShares,
   );
+  const [takeSharesNextDefined, setTakeSharesNextDefined] =
+    useSemanticUiCheckboxState(autoAction.takeSharesNext != null);
   const [takeSharesNext, setTakeSharesNext] = useNumberInputState(
     autoAction.takeSharesNext ?? "",
   );
-  const [takeActionNextDefined, setTakeActionNextDefined] = useCheckboxState(
-    autoAction.takeActionNext != null,
-  );
-  const [takeActionNext, setTakeActionNext] = useSelectState<Action>(
+  const [takeActionNextDefined, setTakeActionNextDefined] =
+    useSemanticUiCheckboxState(autoAction.takeActionNext != null);
+  const [takeActionNext, setTakeActionNext] = useSemanticSelectState<Action>(
     autoAction.takeActionNext ??
       availableActions[Symbol.iterator]().next().value,
   );
-  const [locoNext, setLocoNext] = useCheckboxState(autoAction.locoNext);
-  const [bidUntilDefined, setBidUntilDefined] = useCheckboxState(
+  const [locoNext, setLocoNext] = useSemanticUiCheckboxState(
+    autoAction.locoNext,
+  );
+  const [bidUntilDefined, setBidUntilDefined] = useSemanticUiCheckboxState(
     autoAction.bidUntil != null,
   );
   const [maxBid, setMaxBid] = useNumberInputState(
@@ -102,7 +101,7 @@ function InternalAutoActionForm({
   const [incrementally, setIncrementally] = useState(
     autoAction.bidUntil?.incrementally ?? false,
   );
-  const [thenPass, setThenPass] = useCheckboxState(
+  const [thenPass, setThenPass] = useSemanticUiCheckboxState(
     autoAction.bidUntil?.thenPass ?? false,
   );
 
@@ -110,7 +109,7 @@ function InternalAutoActionForm({
     useSetAutoAction(gameId);
 
   const onSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
+    (e: MouseEvent) => {
       e.preventDefault();
       setAutoAction({
         skipShares,
@@ -141,11 +140,6 @@ function InternalAutoActionForm({
     ],
   );
 
-  const handleAccordionChange = useCallback(
-    (_: unknown, isExpanded: boolean) => setExpanded(isExpanded),
-    [setExpanded],
-  );
-
   const count = [
     skipShares,
     takeSharesNextDefined,
@@ -155,271 +149,201 @@ function InternalAutoActionForm({
   ].filter((bool) => bool === true).length;
 
   const handleIncrementallyChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setIncrementally((event.target as HTMLInputElement).value === "true");
+    (val: boolean) => {
+      setIncrementally(val);
     },
     [setIncrementally],
   );
 
   return (
-    <Accordion expanded={expanded} onChange={handleAccordionChange}>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography component="h2">
-          Auto Actions {count > 0 && `(${count})`}
-        </Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box
-          component="form"
-          className={styles.form}
-          sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-          noValidate
-          autoComplete="off"
-          onSubmit={onSubmit}
-        >
-          <FormControl
-            component="div"
-            error={validationError?.skipShares != null}
-          >
-            <FormControlLabel
-              sx={{ m: 1, minWidth: 80 }}
+    <Accordion fluid as={Menu} vertical>
+      <MenuItem>
+        <AccordionTitle
+          active={expanded}
+          index={0}
+          onClick={() => setExpanded(!expanded)}
+          content={"Auto Actions" + (count > 0 ? ` (${count})` : "")}
+        />
+        <AccordionContent active={expanded}>
+          <Form>
+            <FormCheckbox
+              checked={skipShares}
+              disabled={isPending}
+              onChange={setSkipShares}
+              error={validationError?.skipShares}
               label={
-                <>
-                  Done taking shares.
-                  <HelpIcon>
-                    Every time it&apos;s your turn to take out shares,
-                    you&apos;ll pass without taking any shares. This will
-                    continue until the game ends or you untoggle this button.
-                  </HelpIcon>
-                </>
-              }
-              control={
-                <Checkbox
-                  checked={skipShares}
-                  value={skipShares}
-                  disabled={isPending}
-                  onChange={setSkipShares}
-                />
+                <label>
+                  Done taking shares.{" "}
+                  <Popup
+                    trigger={<Icon circular size="small" name="question" />}
+                    content="Every time it's your turn to take out shares,
+                      you'll pass without taking any shares. This will
+                      continue until the game ends or you untoggle this button."
+                  />
+                </label>
               }
             />
-            <FormHelperText>{validationError?.skipShares}</FormHelperText>
-          </FormControl>
-          <FormControl
-            component="div"
-            error={validationError?.takeSharesNextDefined != null}
-          >
-            <FormControlLabel
-              sx={{ m: 1, minWidth: 80 }}
+
+            <FormCheckbox
+              checked={takeSharesNextDefined}
+              disabled={isPending}
+              onChange={setTakeSharesNextDefined}
+              error={validationError?.takeSharesNextDefined}
               label={
-                <>
-                  Select how many shares to take out next shares round.
-                  <HelpIcon>
-                    The next time it&apos;s your turn to take out shares,
-                    you&apos;ll take out this many shares. This field gets reset
-                    after the action is performed.
-                  </HelpIcon>
-                </>
-              }
-              control={
-                <Checkbox
-                  checked={takeSharesNextDefined}
-                  value={takeSharesNextDefined}
-                  disabled={isPending}
-                  onChange={setTakeSharesNextDefined}
-                />
+                <label>
+                  Select how many shares to take out next shares round.{" "}
+                  <Popup
+                    trigger={<Icon circular size="small" name="question" />}
+                    content="The next time it's your turn to take out shares,
+                    you'll take out this many shares. This field gets reset
+                    after the action is performed."
+                  />
+                </label>
               }
             />
-            <FormHelperText>
-              {validationError?.takeSharesNextDefined}
-            </FormHelperText>
-          </FormControl>
-          {takeSharesNextDefined && (
-            <FormControl component="div" className={styles.tab}>
-              <TextField
-                label="Number of shares"
-                type="number"
-                disabled={isPending}
-                value={takeSharesNext}
-                error={validationError?.takeSharesNext != null}
-                helperText={validationError?.takeSharesNext}
-                onChange={setTakeSharesNext}
-              />
-            </FormControl>
-          )}
-          <FormControl
-            component="div"
-            error={validationError?.bidUntilDefined != null}
-          >
-            <FormControlLabel
-              sx={{ m: 1, minWidth: 80 }}
+
+            {takeSharesNextDefined && (
+              <div className={styles.subForm}>
+                <FormGroup inline>
+                  <FormField
+                    label="Number of shares"
+                    control={Input}
+                    type="number"
+                    disabled={isPending}
+                    value={takeSharesNext}
+                    error={validationError?.takeSharesNext}
+                    onChange={setTakeSharesNext}
+                  />
+                </FormGroup>
+              </div>
+            )}
+
+            <FormCheckbox
+              checked={bidUntilDefined}
+              disabled={isPending}
+              onChange={setBidUntilDefined}
+              error={validationError?.bidUntilDefined}
               label="Auto-bidding"
-              control={
-                <Checkbox
-                  checked={bidUntilDefined}
-                  value={bidUntilDefined}
-                  disabled={isPending}
-                  onChange={setBidUntilDefined}
-                />
-              }
             />
-            <FormHelperText>{validationError?.bidUntilDefined}</FormHelperText>
-          </FormControl>
-          {bidUntilDefined && (
-            <FormControl component="div" className={styles.tab}>
-              <TextField
-                label="Max bid"
-                type="number"
-                disabled={isPending}
-                value={maxBid}
-                error={validationError?.["bidUntil.maxBid"] != null}
-                helperText={validationError?.["bidUntil.maxBid"]}
-                onChange={setMaxBid}
-              />
-            </FormControl>
-          )}
-          {bidUntilDefined && (
-            <FormControl
-              component="div"
-              className={styles.tab2}
-              error={validationError?.incrementally != null}
-            >
-              <RadioGroup
-                value={incrementally}
-                name="radio-buttons-incrementally"
-                onChange={handleIncrementallyChange}
-              >
-                <FormControlLabel
-                  value={true}
-                  control={<Radio />}
-                  disabled={isPending}
-                  label="Incrementally +1 previous bid until max bid is reached"
-                />
-                <FormControlLabel
-                  value={false}
-                  control={<Radio />}
-                  disabled={isPending}
-                  label="Jump right to max bid"
-                />
-              </RadioGroup>
-            </FormControl>
-          )}
-          {bidUntilDefined && (
-            <FormControl
-              component="div"
-              className={styles.tab}
-              error={validationError?.["bidUntil.thenPass"] != null}
-            >
-              <FormControlLabel
-                sx={{ m: 1, minWidth: 80 }}
-                label={
-                  <>
-                    Pass once max bid is exceeded
-                    <HelpIcon>
-                      The next time it&apos;s your turn to bid and the bid is
-                      greater than your max, you&apos;ll pass instead. Leave
-                      blank if you want to bid until the max bid, then decide
-                      what to do.
-                    </HelpIcon>
-                  </>
-                }
-                control={
-                  <Checkbox
+
+            {bidUntilDefined && (
+              <div className={styles.subForm}>
+                <FormGroup inline>
+                  <FormField
+                    label="Max bid"
+                    control={Input}
+                    type="number"
+                    disabled={isPending}
+                    value={maxBid}
+                    error={validationError?.["bidUntil.maxBid"]}
+                    onChange={setMaxBid}
+                  />
+                </FormGroup>
+                <FormGroup grouped>
+                  <FormField>
+                    <Radio
+                      label="Incrementally +1 previous bid until max bid is reached"
+                      checked={incrementally}
+                      onChange={() => handleIncrementallyChange(true)}
+                      disabled={isPending}
+                    />
+                  </FormField>
+                  <FormField>
+                    <Radio
+                      label="Jump right to max bid"
+                      checked={!incrementally}
+                      onChange={() => handleIncrementallyChange(false)}
+                      disabled={isPending}
+                    />
+                  </FormField>
+                </FormGroup>
+                <FormGroup>
+                  <FormCheckbox
                     checked={thenPass}
-                    value={thenPass}
                     disabled={isPending}
                     onChange={setThenPass}
+                    error={validationError?.["bidUntil.thenPass"]}
+                    label={
+                      <label>
+                        Pass once max bid is exceeded{" "}
+                        <Popup
+                          trigger={
+                            <Icon circular size="small" name="question" />
+                          }
+                          content="The next time it's your turn to bid and the bid is
+                          greater than your max, you'll pass instead. Leave
+                          blank if you want to bid until the max bid, then decide
+                          what to do."
+                        />
+                      </label>
+                    }
                   />
-                }
-              />
-              <FormHelperText>
-                {validationError?.["bidUntil.thenPass"]}
-              </FormHelperText>
-            </FormControl>
-          )}
-          <FormControl
-            component="div"
-            error={validationError?.takeActionNextDefined != null}
-          >
-            <FormControlLabel
-              sx={{ m: 1, minWidth: 80 }}
+                </FormGroup>
+              </div>
+            )}
+
+            <FormCheckbox
+              checked={takeActionNextDefined}
+              disabled={isPending}
+              onChange={setTakeActionNextDefined}
+              error={validationError?.takeActionNextDefined}
               label={
-                <>
-                  Select an action (if available).
-                  <HelpIcon>
-                    The next time it&apos;s your turn to select an action,
-                    it&apos;ll select this action if it&apos;s available.
-                    Otherwise, it&apos;ll just wait for you to select an action.
-                    Resets after an action is selected.
-                  </HelpIcon>
-                </>
-              }
-              control={
-                <Checkbox
-                  checked={takeActionNextDefined}
-                  value={takeActionNextDefined}
-                  disabled={isPending}
-                  onChange={setTakeActionNextDefined}
-                />
+                <label>
+                  Select an action (if available).{" "}
+                  <Popup
+                    trigger={<Icon circular size="small" name="question" />}
+                    content=" The next time it's your turn to select an action,
+                      it'll select this action if it's available.
+                      Otherwise, it'll just wait for you to select an action.
+                      Resets after an action is selected."
+                  />
+                </label>
               }
             />
-            <FormHelperText>
-              {validationError?.takeActionNextDefined}
-            </FormHelperText>
-          </FormControl>
-          {takeActionNextDefined && (
-            <FormControl
-              component="div"
-              className={styles.tab}
-              error={validationError?.gameKey != null}
-            >
-              <InputLabel>Selected Action</InputLabel>
-              <Select
-                required
-                value={takeActionNext}
-                disabled={isPending}
-                onChange={setTakeActionNext}
-                error={validationError?.takeActionNext != null}
-                autoWidth
-                label="Selected Action"
-              >
-                {[...availableActions].map((action) => (
-                  <MenuItem key={action} value={action}>
-                    {getSelectedActionString(action)}
-                  </MenuItem>
-                ))}
-              </Select>
-              {validationError?.takeActionNext && (
-                <FormHelperText>
-                  {validationError?.takeActionNext}
-                </FormHelperText>
-              )}
-            </FormControl>
-          )}
-          <FormControl
-            component="div"
-            error={validationError?.locoNext != null}
-          >
-            <FormControlLabel
-              sx={{ m: 1, minWidth: 80 }}
+
+            {takeActionNextDefined && (
+              <div className={styles.subForm}>
+                <FormGroup widths="equal">
+                  <FormField error={validationError?.takeActionNext} required>
+                    <label>Selected Action</label>
+                    <Dropdown
+                      fluid
+                      selection
+                      value={takeActionNext}
+                      onChange={setTakeActionNext}
+                      disabled={isPending}
+                      options={[...availableActions].map((action) => {
+                        return {
+                          key: action,
+                          value: action,
+                          text: getSelectedActionString(action),
+                        };
+                      })}
+                    />
+                  </FormField>
+                </FormGroup>
+              </div>
+            )}
+
+            <FormCheckbox
+              checked={locoNext}
+              disabled={isPending}
+              onChange={setLocoNext}
+              error={validationError?.locoNext}
               label="Loco as your next Move Goods action"
-              control={
-                <Checkbox
-                  checked={locoNext}
-                  value={locoNext}
-                  disabled={isPending}
-                  onChange={setLocoNext}
-                />
-              }
             />
-            <FormHelperText>{validationError?.locoNext}</FormHelperText>
-          </FormControl>
-          <div>
-            <Button type="submit" disabled={isPending}>
+
+            <Button
+              primary
+              type="submit"
+              disabled={isPending}
+              onClick={onSubmit}
+            >
               Submit
             </Button>
-          </div>
-        </Box>
-      </AccordionDetails>
+          </Form>
+        </AccordionContent>
+      </MenuItem>
     </Accordion>
   );
 }

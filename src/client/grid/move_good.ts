@@ -3,8 +3,9 @@ import { MoveData, Path } from "../../engine/move/move";
 import { MoveValidator, RouteInfo } from "../../engine/move/validator";
 import { PlayerData } from "../../engine/state/player";
 import { HeavyLiftingData } from "../../maps/heavy_cardboard/heavy_lifting";
+import { Coordinates } from "../../utils/coordinates";
 import { InvalidInputError } from "../../utils/error";
-import { arrayEqualsIgnoreOrder, peek, removeKey } from "../../utils/functions";
+import { arrayEqualsIgnoreOrder, peek } from "../../utils/functions";
 import { Memoized } from "../utils/injection_context";
 
 export function onMoveToSpaceCb(
@@ -13,7 +14,7 @@ export function onMoveToSpaceCb(
   setMoveActionProgress: (data: EnhancedMoveData | undefined) => void,
   grid: Grid,
   player: PlayerData | undefined,
-  maybeConfirmDelivery: (data: MoveData) => void,
+  maybeConfirmDelivery: (data: EnhancedMoveData) => void,
   confirmHeavyLifting: (data: HeavyLiftingData) => Promise<boolean>,
 ) {
   return async (space?: Space) => {
@@ -54,14 +55,12 @@ export function onMoveToSpaceCb(
         space,
         grid,
         moveValidator.value,
+        player,
       );
     }
     if (newData == null) return;
     setMoveActionProgress(newData);
-    maybeConfirmDelivery({
-      ...newData,
-      path: newData.path.map((step) => removeKey(step, "routeInfo")),
-    });
+    maybeConfirmDelivery(newData);
   };
 }
 
@@ -80,6 +79,31 @@ async function handleHeavyLifting(
   });
 }
 
+function findValidRoutes(
+  moveValidator: MoveValidator,
+  player: PlayerData,
+  from: Coordinates,
+  to: Coordinates,
+  moveData: EnhancedMoveData,
+): EnhancedMoveData[] {
+  return moveValidator
+    .findRoutesToLocation(player, from, to)
+    .map((path) => ({
+      ...moveData,
+      path: moveData.path.concat([
+        {
+          owner: path.owner,
+          endingStop: path.destination,
+          routeInfo: path,
+          additionalData: {
+            teleport: path.type === "teleport",
+          },
+        },
+      ]),
+    }))
+    .filter((data) => isValidPath(moveValidator, player, data));
+}
+
 /**
  * Used to handle a "move to" request when the space is already on the movement path.
  *
@@ -91,38 +115,36 @@ function redirectPath(
   space: Space,
   grid: Grid,
   moveValidator: MoveValidator,
+  player: PlayerData,
 ): EnhancedMoveData {
   // If it's the last item, just update the owner
   const fromSpace = grid.get(
-    moveAction.path[moveAction.path.length - 2].endingStop,
+    moveAction.path.length === 1
+      ? moveAction.startingCity
+      : moveAction.path[moveAction.path.length - 2].endingStop,
   )!;
-  const paths = moveValidator.findRoutesToLocation(
+  const newDatas = findValidRoutes(
+    moveValidator,
+    player,
     fromSpace.coordinates,
     space.coordinates,
+    { ...moveAction, path: moveAction.path.slice(0, -1) },
   );
   const previousRoute = peek(moveAction.path).routeInfo;
-  const previousRouteExitIndex = paths.findIndex((p) =>
-    p.type === "track"
+  const previousRouteExitIndex = newDatas.findIndex((p) => {
+    const { routeInfo } = peek(p.path);
+    return routeInfo.type === "track"
       ? previousRoute.type === "track" &&
-        p.startingTrack.equals(previousRoute.startingTrack)
-      : previousRoute.type === "connection" &&
-        arrayEqualsIgnoreOrder(
-          p.connection.connects,
-          previousRoute.connection.connects,
-        ),
-  );
-  const nextPath = paths[(previousRouteExitIndex + 1) % paths.length];
-  const newData = {
-    ...moveAction,
-    path: moveAction.path.slice(0, moveAction.path.length - 1).concat([
-      {
-        owner: nextPath.owner,
-        endingStop: nextPath.destination,
-        routeInfo: nextPath,
-      },
-    ]),
-  };
-  return newData;
+          routeInfo.startingTrack.equals(previousRoute.startingTrack)
+      : routeInfo.type === "connection"
+        ? previousRoute.type === "connection" &&
+          arrayEqualsIgnoreOrder(
+            routeInfo.connection.connects,
+            previousRoute.connection.connects,
+          )
+        : previousRoute.type === "teleport";
+  });
+  return newDatas[(previousRouteExitIndex + 1) % newDatas.length];
 }
 
 function appendToPath(
@@ -136,6 +158,7 @@ function appendToPath(
       ? moveAction.startingCity
       : peek(moveAction.path).endingStop;
   const paths = moveValidator.findRoutesToLocation(
+    player,
     fromCoordinates,
     space.coordinates,
   );
@@ -149,6 +172,9 @@ function appendToPath(
           owner: path.owner,
           endingStop: path.destination,
           routeInfo: path,
+          additionalData: {
+            teleport: path.type === "teleport",
+          },
         },
       ]),
     }))

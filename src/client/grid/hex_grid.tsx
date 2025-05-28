@@ -44,6 +44,7 @@ interface HexGridProps {
   rotation?: Rotation;
   onClick?: (space: Space, good?: Good) => void;
   onClickInterCity?: (connects: Coordinates[]) => void;
+  highlightedSpaces?: Set<Coordinates>;
   highlightedTrack?: Track[];
   highlightedConnections?: OwnedInterCityConnection[];
   selectedGood?: { good: Good; coordinates: Coordinates };
@@ -92,6 +93,7 @@ export function HexGrid({
   onClickInterCity,
   rotation,
   fullMapVersion,
+  highlightedSpaces,
   highlightedTrack,
   highlightedConnections,
   selectedGood,
@@ -133,6 +135,10 @@ export function HexGrid({
   const trackSpaces = [];
   const goodsSpaces = [];
   for (const space of spaces) {
+    const isHighlighted = useMemo(
+      () => highlightedSpaces?.has(space.coordinates) ?? false,
+      [highlightedSpaces],
+    );
     const highlightedTrackInSpace = useMemo(
       () =>
         highlightedTrack?.filter((track) =>
@@ -151,6 +157,7 @@ export function HexGrid({
         () => (
           <LowerTerrainHex
             key={space.coordinates.serialize()}
+            isHighlighted={isHighlighted}
             space={space}
             size={size}
             clickTargets={clickTargetsNormalized}
@@ -158,6 +165,7 @@ export function HexGrid({
           />
         ),
         [
+          isHighlighted,
           grid.topLeft,
           grid.bottomRight,
           space,
@@ -173,6 +181,7 @@ export function HexGrid({
         () => (
           <UpperTerrainHex
             key={space.coordinates.serialize()}
+            isHighlighted={isHighlighted}
             space={space}
             size={size}
             clickTargets={clickTargetsNormalized}
@@ -180,6 +189,7 @@ export function HexGrid({
           />
         ),
         [
+          isHighlighted,
           grid.topLeft,
           grid.bottomRight,
           space,

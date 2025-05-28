@@ -6,13 +6,15 @@ import { Random } from "../game/random";
 import { BAG } from "../game/state";
 import { City } from "../map/city";
 import { GridHelper } from "../map/grid_helper";
-import { Good } from "../state/good";
+import { Good, goodToString } from "../state/good";
 import { SpaceType } from "../state/location_type";
+import { Log } from "../game/log";
 
 export class GoodsHelper {
   protected readonly bag = injectState(BAG);
   protected readonly random = inject(Random);
   protected readonly grid = inject(GridHelper);
+  protected readonly log = inject(Log);
 
   getTotalUpcomingGoodsSlots(urbanized: boolean) {
     return urbanized ? 2 : 3;
@@ -57,7 +59,12 @@ export class GoodsHelper {
         }
         newGoods.push(newGood);
       }
-      location.goods.push(...newGoods);
+      for (const good of newGoods) {
+        this.log.log(
+          `A ${goodToString(good)} good is added to ${this.grid.displayName(coordinates)}`,
+        );
+        location.goods.push(good);
+      }
     });
   }
 

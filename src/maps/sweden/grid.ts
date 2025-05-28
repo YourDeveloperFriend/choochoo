@@ -89,5 +89,5 @@ export const map = grid([
   ],
   [city("Västerås", Good.BLUE, [black(5)]), ...duplicate(4, PLAIN)],
   [...duplicate(4, PLAIN)],
-  [UNPASSABLE, PLAIN, PLAIN, city("Västerås", Good.BLUE, [black(6)])],
+  [UNPASSABLE, PLAIN, PLAIN, city("Stockholm", Good.BLUE, [black(6)])],
 ]);

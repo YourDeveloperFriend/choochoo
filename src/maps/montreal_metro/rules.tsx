@@ -16,10 +16,10 @@ export function MontrealMetroRules() {
         <li>
           <b>Locomotive:</b> uses the locomotive track. The Locomotive action
           moves you up the track <i>only</i>. You can only move right on the
-          track in lieu of a delivery during move goods (resetting your govt
-          level back to zero). The second number in locomotive allows you to use
-          the Goverment track (but still no income). Your total expense will be
-          the sum of both numbers (plus shares as normal).
+          track in lieu of a delivery during move goods. The second number in
+          locomotive allows you to use the Goverment track (but still no
+          income). Your total expense will be the sum of both numbers (plus
+          shares as normal).
         </li>
         <li>
           <b>New Cities:</b> start with one cube. There is no Goods Growth or

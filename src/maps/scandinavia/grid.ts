@@ -23,8 +23,9 @@ import {
   white,
 } from "../factory";
 import { startFrom } from "../tile_factory";
+import { ScandinaviaMapData } from "./map_data";
 
-function coastal<T>(data: T): T & { mapSpecific: { isCoastal: true } } {
+function coastal<T>(data: T): T & { mapSpecific: ScandinaviaMapData } {
   return {
     ...data,
     mapSpecific: {

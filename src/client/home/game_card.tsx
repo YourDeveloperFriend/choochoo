@@ -1,11 +1,12 @@
 import {
   Button,
   Card,
-  CardActions,
   CardContent,
+  CardDescription,
   CardHeader,
-  Typography,
-} from "@mui/material";
+  CardMeta,
+  Icon,
+} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import {
   GameLiteApi,
@@ -42,54 +43,48 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
 
   return (
     <Card className={styles.gameCard}>
-      <CardHeader
-        title={game.name}
-        className={`${gameStatusToStyle(game.status)} ${game.activePlayerId === me?.id ? styles.activePlayer : ""}`}
-        subheader={hideStatus ? "" : `${gameStatusToString(game)}`}
-      />
-      <CardContent>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Game: {ViewRegistry.singleton.get(game.gameKey)!.name}
-        </Typography>
-        {game.activePlayerId && (
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Active Player:{" "}
-            <Username userId={game.activePlayerId} useLink={true} />
-          </Typography>
-        )}
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Players: <UsernameList userIds={game.playerIds} useLink={true} />
-        </Typography>
-        {game.status === GameStatus.enum.LOBBY && (
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Seats: {seats(game)}
-          </Typography>
-        )}
-
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Turn Length: {turnDurationToString(game.turnDuration)}
-        </Typography>
-        {variantString != null && (
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Variants: {variantString.join(", ")}
-          </Typography>
-        )}
-        {game.unlisted && (
-          <Typography
-            variant="body2"
-            sx={{ color: "text.secondary", fontStyle: "italic" }}
-          >
-            Unlisted
-          </Typography>
-        )}
+      <CardContent style={{ padding: "0" }}>
+        <CardHeader
+          className={`${styles.gameCardHeader} ${gameStatusToStyle(game.status)} ${game.activePlayerId === me?.id ? styles.activePlayer : ""}`}
+        >
+          {game.name}
+          <CardMeta
+            className={styles.gameCardMeta}
+            content={hideStatus ? "" : `${gameStatusToString(game)}`}
+          />
+        </CardHeader>
       </CardContent>
-      <CardActions>
+      <CardContent style={{ borderTop: "none" }}>
+        <CardDescription>
+          <div className={styles.gameCardText}>
+            <p>Game: {ViewRegistry.singleton.get(game.gameKey)!.name}</p>
+            {game.activePlayerId && (
+              <p>
+                Active Player:{" "}
+                <Username userId={game.activePlayerId} useLink={true} />
+              </p>
+            )}
+            <p>
+              Players: <UsernameList userIds={game.playerIds} useLink={true} />
+            </p>
+            {game.status === GameStatus.enum.LOBBY && (
+              <p>Seats: {seats(game)}</p>
+            )}
+            <p>Turn Length: {turnDurationToString(game.turnDuration)}</p>
+            {variantString != null && (
+              <p>Variants: {variantString.join(", ")}</p>
+            )}
+            {game.unlisted && <p style={{ fontStyle: "italic" }}>Unlisted</p>}
+          </div>
+        </CardDescription>
+      </CardContent>
+      <CardContent extra>
         <ViewButton game={game} />
         <LeaveButton game={game} />
         <JoinButton game={game} />
         <StartButton game={game} />
         <DeleteButton game={game} />
-      </CardActions>
+      </CardContent>
     </Card>
   );
 }
@@ -128,7 +123,7 @@ function ViewButton({ game }: GameButtonProps) {
     return <></>;
 
   return (
-    <Button component={Link} to={`/app/games/${game.id}`}>
+    <Button color="green" as={Link} to={`/app/games/${game.id}`}>
       View
     </Button>
   );
@@ -141,7 +136,7 @@ function LeaveButton({ game }: GameButtonProps) {
   }
 
   return (
-    <Button disabled={isPending} onClick={perform}>
+    <Button negative disabled={isPending} onClick={perform}>
       Leave
     </Button>
   );
@@ -154,7 +149,7 @@ function JoinButton({ game }: GameButtonProps) {
   }
 
   return (
-    <Button disabled={isPending} onClick={perform}>
+    <Button primary disabled={isPending} onClick={perform}>
       Join
     </Button>
   );
@@ -167,7 +162,7 @@ function StartButton({ game }: GameButtonProps) {
   }
 
   return (
-    <Button disabled={isPending} onClick={perform}>
+    <Button primary disabled={isPending} onClick={perform}>
       Start
     </Button>
   );
@@ -180,7 +175,14 @@ export function DeleteButton({ game }: GameButtonProps) {
   }
 
   return (
-    <Button disabled={isPending} onClick={perform}>
+    <Button
+      icon
+      labelPosition="left"
+      negative
+      disabled={isPending}
+      onClick={perform}
+    >
+      <Icon name="delete" />
       Delete
     </Button>
   );

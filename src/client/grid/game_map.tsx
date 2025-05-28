@@ -35,9 +35,8 @@ import {
   RepopulateData,
 } from "../../maps/montreal_metro/select_action/repopulate";
 import { PlaceAction } from "../../maps/soultrain/earth_to_heaven";
-import { ViewRegistry } from "../../maps/view_registry";
 import { Coordinates } from "../../utils/coordinates";
-import { peek } from "../../utils/functions";
+import { peek, removeKeys } from "../../utils/functions";
 import { ConfirmCallback, useConfirm } from "../components/confirm";
 import { useAction } from "../services/action";
 import { useGameVersionState } from "../services/game";
@@ -49,6 +48,7 @@ import {
   useGrid,
   useInject,
   useInjectedMemo,
+  useViewSettings,
 } from "../utils/injection_context";
 import { BuildingDialog, PlaceDialog } from "./building_dialog";
 import { ClickTarget } from "./click_target";
@@ -106,6 +106,22 @@ function getHighlightedConnections(
     }
     return [routeInfo.connection];
   });
+}
+
+function getHighlightedSpaces(
+  moveActionProgress: EnhancedMoveData | undefined,
+): Set<Coordinates> {
+  if (moveActionProgress == null) return new Set();
+  return new Set(
+    moveActionProgress.path.flatMap(({ routeInfo }, index) => {
+      if (routeInfo.type !== "teleport") return [];
+      const origin =
+        index === 0
+          ? moveActionProgress.startingCity
+          : moveActionProgress.path[index - 1].endingStop;
+      return [origin, routeInfo.destination];
+    }),
+  );
 }
 
 function getHighlightedTrack(
@@ -212,7 +228,7 @@ function maybeConfirmDeliveryCb(
   emitMove: (moveData: MoveData) => void,
   maybeInterceptMove: (moveData: MoveData, cityName: string) => boolean,
 ) {
-  return (moveAction: MoveData | undefined) => {
+  return (moveAction: EnhancedMoveData | undefined) => {
     if (moveAction == null) return;
     if (moveAction.path.length === 0) return;
     const endingStop = grid.get(peek(moveAction.path).endingStop);
@@ -235,7 +251,10 @@ function maybeConfirmDeliveryCb(
         cancelButton: "Cancel",
       }).then((confirmed) => {
         if (!confirmed) return;
-        emitMove(moveAction);
+        emitMove({
+          ...moveAction,
+          path: moveAction.path.map((step) => removeKeys(step, "routeInfo")),
+        });
       });
     }
   };
@@ -299,10 +318,7 @@ export function GameMap() {
   const moveValidator = useInjectedMemo(MoveValidator);
   const gameKey = useGameKey();
 
-  const mapSettings = useMemo(
-    () => ViewRegistry.singleton.get(gameKey),
-    [gameKey],
-  );
+  const mapSettings = useViewSettings();
 
   const isPending =
     isBuildPending ||
@@ -347,6 +363,9 @@ export function GameMap() {
     maybeConfirmEmitHeavyLifting,
   ]);
 
+  const highlightedSpaces = useTypedMemo(getHighlightedSpaces, [
+    moveActionProgress,
+  ]);
   const highlightedTrack = useTypedMemo(getHighlightedTrack, [
     grid,
     moveActionProgress,
@@ -427,6 +446,7 @@ export function GameMap() {
         onClick={onClick}
         onClickInterCity={onClickInterCity}
         fullMapVersion={true}
+        highlightedSpaces={highlightedSpaces}
         highlightedTrack={highlightedTrack}
         highlightedConnections={highlightedConnections}
         clickTargets={clickTargets}

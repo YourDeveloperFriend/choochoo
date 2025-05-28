@@ -19,6 +19,13 @@ body.dark-mode {
   background-color: inherit;
 }
 
+.ui.accordion.menu .item .title {
+  font-size: 1.1em;
+}
+.ui.accordion.menu .item .active.title {
+  margin-bottom: 1em;
+}
+
 /* Dark mode semantic-ui components, with styling copied from the default "inverted" components. */
 body.dark-mode,
 body.dark-mode .ui.header {
@@ -37,6 +44,44 @@ body.dark-mode .ui.toggle.checkbox input ~ label {
 }
 body.dark-mode .ui.toggle.checkbox input:checked ~ label {
   color: rgba(255, 255, 255, 0.9) !important;
+}
+body.dark-mode .ui.card,
+body.dark-mode .ui.cards > .card {
+  background: #000000;
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 1px 3px 0 #2b2b2a,
+    0 0 0 1px #2b2b2a;
+}
+body.dark-mode .ui.card > .content > .header,
+body.dark-mode .ui.cards > .card > .content > .header {
+  color: rgba(255, 255, 255, 0.85);
+}
+body.dark-mode .ui.card .meta,
+.ui.cards > body.dark-mode .card .meta {
+  color: rgba(255, 255, 255, 0.4);
+}
+body.dark-mode .ui.accordion .title:not(.ui) {
+  color: rgba(255, 255, 255, 0.9);
+}
+body.dark-mode .ui.vertical.menu.accordion {
+  background: #000000;
+}
+body.dark-mode .ui.menu.accordion .item {
+  color: rgba(255, 255, 255, 0.9);
+}
+body.dark-mode .ui.checkbox label, body.dark-mode .ui.checkbox + label {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+body.dark-mode .ui.form .inline.field > label,
+body.dark-mode .ui.form .inline.field > p,
+body.dark-mode .ui.form .inline.fields .field > label,
+body.dark-mode .ui.form .inline.fields .field > p,
+body.dark-mode .ui.form .inline.fields > label {
+  color: rgba(255, 255, 255, 0.9);
+}
+body.dark-mode .ui.inverted.input > input {
+  border: none;
 }
 
 /**

@@ -9,9 +9,11 @@ export class StLuciaStarter extends GameStarter {
   }
 
   protected drawCubesFor(bag: Good[], location: SpaceData): SpaceData {
-    if (location.type === SpaceType.CITY || 
-        location.townName != null ||
-        location.type === SpaceType.MOUNTAIN) {
+    if (
+      location.type === SpaceType.CITY ||
+      location.townName != null ||
+      location.type === SpaceType.MOUNTAIN
+    ) {
       return location;
     }
     return {

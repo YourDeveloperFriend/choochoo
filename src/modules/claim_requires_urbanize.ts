@@ -27,9 +27,10 @@ function claimMixin(
     }
 
     private canClaim(track: Track) {
-      return track.getExits().every((exit) => {
+      return track.getExits().every((e) => {
+        const [end, exit] = this.grid().getEnd(track, e);
         if (exit === TOWN) return false;
-        const neighbor = this.grid().get(track.coordinates.neighbor(exit));
+        const neighbor = this.grid().get(end.neighbor(exit));
         if (neighbor == null) return false;
         return neighbor instanceof City;
       });
