@@ -63,12 +63,12 @@ export class ScotlandMoveValidator extends MoveValidator {
     ) {
       return super
       .findRoutesToLocation(player, fromCoordinates, toCoordinates)
-      .concat(this.GlasgowToAyrTown(connection, toCoordinates));
+      .concat(this.glasgowToAyrTown(connection, toCoordinates));
     }
     return super.findRoutesToLocation(player, fromCoordinates, toCoordinates);
   }
 
-  private GlasgowToAyrTown(
+  private glasgowToAyrTown(
       connection: OwnedInterCityConnection,
       toCoordinates: Coordinates,
     ): RouteInfo[] {
