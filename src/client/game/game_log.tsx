@@ -18,7 +18,7 @@ import { GameHistoryApi } from "../../api/history";
 import { MessageApi } from "../../api/message";
 import { Username } from "../components/username";
 import { isGameHistory, useGame } from "../services/game";
-import { Button, Container, Form, Icon, Input, Popup } from "semantic-ui-react";
+import { Button, Form, Icon, Input, Popup } from "semantic-ui-react";
 
 export function GameLog() {
   const game = useGame();
@@ -51,36 +51,34 @@ export function ChatLog({ gameId }: ChatLogProps) {
   );
 
   return (
-    <Container fluid>
-      <div className={styles.chat}>
-        <LogMessages
-          messages={messages}
-          fetchNextPage={hasNextPage ? fetchNextPage : undefined}
-          disableNextPage={isLoading}
+    <div className={styles.chat}>
+      <LogMessages
+        messages={messages}
+        fetchNextPage={hasNextPage ? fetchNextPage : undefined}
+        disableNextPage={isLoading}
+      />
+      <Form onSubmit={onSubmit} className={styles.submitForm}>
+        <Input
+          fluid
+          className={styles.submitInput}
+          type="text"
+          maxLength={255}
+          placeholder="Send message"
+          value={newMessage}
+          onChange={setNewMessage}
+          disabled={isPending}
         />
-        <Form onSubmit={onSubmit} className={styles.submitForm}>
-          <Input
-            fluid
-            className={styles.submitInput}
-            type="text"
-            maxLength={255}
-            placeholder="Send message"
-            value={newMessage}
-            onChange={setNewMessage}
-            disabled={isPending}
-          />
-          <Button
-            primary
-            style={{ marginLeft: "1em" }}
-            size="mini"
-            type="submit"
-            disabled={isPending}
-          >
-            Send
-          </Button>
-        </Form>
-      </div>
-    </Container>
+        <Button
+          primary
+          style={{ marginLeft: "1em" }}
+          size="mini"
+          type="submit"
+          disabled={isPending}
+        >
+          Send
+        </Button>
+      </Form>
+    </div>
   );
 }
 
