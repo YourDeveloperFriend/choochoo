@@ -4,6 +4,10 @@ import { CoordinatesZod } from "../../utils/coordinates";
 import { Land } from "../../engine/map/location";
 import { assert } from "../../utils/validate";
 import { BuildAction, BuildData } from "../../engine/build/build";
+import { MoveValidator, RouteInfo } from "../../engine/move/validator";
+import { PlayerData } from "../../engine/state/player";
+import { Coordinates } from "../../utils/coordinates";
+import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
 
 export const ConnectCitiesData = z.object({
   connect: CoordinatesZod.array(),
@@ -42,3 +46,40 @@ export class ScotlandBuildAction extends BuildAction {
   }
 }
 
+export class ScotlandMoveValidator extends MoveValidator {
+  findRoutesToLocation(
+    player: PlayerData,
+    fromCoordinates: Coordinates,
+    toCoordinates: Coordinates,
+  ): RouteInfo[] {
+    const toLand = this.grid().get(toCoordinates) as Land;
+    const connection = this.grid().findConnection([fromCoordinates, toCoordinates]) as OwnedInterCityConnection | undefined;
+    const glasgowToAyr = this.grid().get(fromCoordinates)?.name() === "Glasgow" &&
+        this.grid().get(toCoordinates)?.name() === "Ayr";
+    if (
+      glasgowToAyr &&
+      toLand?.hasTown() === true  &&
+      connection?.owner !== undefined
+    ) {
+      return super
+      .findRoutesToLocation(player, fromCoordinates, toCoordinates)
+      .concat(this.GlasgowToAyrTown(connection, toCoordinates));
+    }
+    return super.findRoutesToLocation(player, fromCoordinates, toCoordinates);
+  }
+
+  private GlasgowToAyrTown(
+      connection: OwnedInterCityConnection,
+      toCoordinates: Coordinates,
+    ): RouteInfo[] {
+      return [
+        {
+          type: "connection",
+          destination: toCoordinates,
+          connection: connection,
+          owner: connection.owner.color
+        },
+      ];
+    }
+
+}
