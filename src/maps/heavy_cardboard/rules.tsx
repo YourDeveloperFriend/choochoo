@@ -22,7 +22,8 @@ export function HeavyCardboardRules() {
           (not track), blocked by cities and track, to a city up to 6 spaces
           away. Mountain spaces count as 2 spaces for this movement. Moving a
           good this way is worth 2 income in turn 1, and increases by 1 for each
-          turn to a maximum of 6.
+          turn to a maximum of 6. You must have built a complete link attached to
+          the good you want to move.
         </li>
       </ul>
     </div>

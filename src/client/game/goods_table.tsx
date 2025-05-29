@@ -110,10 +110,12 @@ export function GoodsTable() {
       cities.urbanizedCities.get(CityGroup.BLACK)!.length >
     0;
 
-  if (gameKey === SwedenRecyclingMapSettings.key && phase !== Phase.MOVING) {
-    // Only render the goods table during the moving phase, where it is used as
-    // a display of what goods were recycled that round.
-    return <></>;
+  if (gameKey === SwedenRecyclingMapSettings.key) {
+    if (phase !== Phase.MOVING) {
+      // Only render the goods table during the moving phase, where it is used as
+      // a display of what goods were recycled that round.
+      return <></>;
+    }
   } else if (!starter.isProductionEnabled()) {
     return <></>;
   }

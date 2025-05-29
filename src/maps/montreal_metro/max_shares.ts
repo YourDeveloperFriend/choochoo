@@ -1,6 +1,6 @@
-import { TakeSharesAction } from "../../engine/shares/take_shares";
+import { ShareHelper } from "../../engine/shares/share_helper";
 
-export class MontrealMetroTakeSharesAction extends TakeSharesAction {
+export class MontrealMetroShareHelper extends ShareHelper {
   getMaxShares(): number {
     return 20;
   }
