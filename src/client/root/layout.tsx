@@ -16,14 +16,7 @@ import { isNetworkError } from "../services/network";
 import { Banner } from "./banner";
 import * as styles from "./layout.module.css";
 import { useTheme } from "./theme";
-import {
-  Button,
-  Container,
-  Dropdown,
-  Icon,
-  Menu,
-  MenuMenu,
-} from "semantic-ui-react";
+import { Button, Dropdown, Icon, Menu, MenuMenu } from "semantic-ui-react";
 
 function Offset() {
   return <div style={{ marginTop: "3em" }} />;

@@ -29,7 +29,7 @@ export function DiscordNotificationSettings({
       {preferences.discordId != null && (
         <Button
           negative
-          onClick={(event, data) => {
+          onClick={(event) => {
             event.preventDefault();
             unlink();
           }}

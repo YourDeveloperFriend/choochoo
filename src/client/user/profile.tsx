@@ -12,7 +12,6 @@ import {
   Container,
   Form,
   FormCheckbox,
-  FormGroup,
   FormInput,
   Header,
   Icon,

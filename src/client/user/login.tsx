@@ -2,13 +2,7 @@ import { FormEvent, useCallback, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useLogin, useMe } from "../services/me";
 import { useTextInputState } from "../utils/form_state";
-import {
-  Button,
-  Container,
-  Form,
-  FormGroup,
-  FormInput,
-} from "semantic-ui-react";
+import { Button, Form, FormGroup, FormInput } from "semantic-ui-react";
 
 export function LoginPage() {
   const [searchParams] = useSearchParams();

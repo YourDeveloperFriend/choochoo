@@ -383,11 +383,11 @@ function Bid() {
               setSelectedBid(data.value as number);
             }}
             options={iterate(maxBid - minBid + 1, (i) => {
-              let bid = i + minBid;
+              const bid = i + minBid;
               return {
                 key: bid,
                 value: bid,
-                text: bid,
+                text: dollarFormat(bid),
               };
             })}
           />
@@ -469,7 +469,7 @@ function TakeShares() {
               return {
                 key: i,
                 value: i,
-                text: i,
+                text: numberFormat(i),
               };
             })}
           />
