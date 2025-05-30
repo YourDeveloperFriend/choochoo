@@ -35,7 +35,7 @@ import {
   hexGridContainer,
 } from "./hex_grid.module.css";
 import { InterCityConnectionRender } from "./inter_city_connection";
-import {Button, Popup} from "semantic-ui-react";
+import { Button, Popup } from "semantic-ui-react";
 
 interface HexGridProps {
   id?: string;
@@ -279,25 +279,44 @@ export function HexGrid({
     <>
       {allowZoom && (
         <div className={`${fabs} ${zoom > 0.4 ? floatingFabs : ""}`}>
-          <Popup content="Zoom out" trigger={
-            <Button primary circular icon="minus"
-              size="small"
-              onClick={zoomOut}
-              disabled={zoom <= 0.2}
-            />
-          } />
-          <Popup content="Back to 0" trigger={
-            <Button primary circular icon="circle outline"
-                    size="small"
-                    onClick={normalizeZoom} />
-          } />
-          <Popup content="Zoom in" trigger={
-            <Button primary circular icon="plus"
-              size="small"
-              onClick={zoomIn}
-              disabled={zoom > 3}
-            />
-          } />
+          <Popup
+            content="Zoom out"
+            trigger={
+              <Button
+                primary
+                circular
+                icon="minus"
+                size="small"
+                onClick={zoomOut}
+                disabled={zoom <= 0.2}
+              />
+            }
+          />
+          <Popup
+            content="Back to 0"
+            trigger={
+              <Button
+                primary
+                circular
+                icon="circle outline"
+                size="small"
+                onClick={normalizeZoom}
+              />
+            }
+          />
+          <Popup
+            content="Zoom in"
+            trigger={
+              <Button
+                primary
+                circular
+                icon="plus"
+                size="small"
+                onClick={zoomIn}
+                disabled={zoom > 3}
+              />
+            }
+          />
         </div>
       )}
       <div className={hexGridContainer}>

@@ -7,7 +7,17 @@ import {
   useState,
 } from "react";
 import { useParams } from "react-router-dom";
-import {Button, Container, Form, FormCheckbox, FormGroup, FormInput, Header, Icon, Segment} from "semantic-ui-react";
+import {
+  Button,
+  Container,
+  Form,
+  FormCheckbox,
+  FormGroup,
+  FormInput,
+  Header,
+  Icon,
+  Segment,
+} from "semantic-ui-react";
 import { ValidationError } from "../../api/error";
 import { GameStatus, ListGamesApi } from "../../api/game";
 import {
@@ -30,7 +40,10 @@ import { useNotificationPreferences } from "../services/notifications/preference
 import { useSetNotificationPreferences } from "../services/notifications/set";
 import { useSendTestNotification } from "../services/notifications/test_notification";
 import { useUser } from "../services/user";
-import { useSemanticUiCheckboxState, useTextInputState} from "../utils/form_state";
+import {
+  useSemanticUiCheckboxState,
+  useTextInputState,
+} from "../utils/form_state";
 import { useTypedMemo } from "../utils/hooks";
 import { DiscordNotificationSettings } from "./discord";
 import { PreferredColors } from "./preferred_colors";
@@ -202,9 +215,8 @@ function InternalNotificationSettings({
   const customDiscordWebHook = preferences.turnNotifications.find((not) =>
     isCustomDiscordWebHookSetting(not),
   );
-  const [enableCustomDiscord, setEnableCustomDiscord] = useSemanticUiCheckboxState(
-    customDiscordWebHook != null,
-  );
+  const [enableCustomDiscord, setEnableCustomDiscord] =
+    useSemanticUiCheckboxState(customDiscordWebHook != null);
   const [discordWebHookUrl, setDiscordWebHookUrl] = useTextInputState(
     customDiscordWebHook?.webHookUrl ?? "",
   );
@@ -264,75 +276,80 @@ function InternalNotificationSettings({
     <Segment>
       <Header as="h2">Notification Preferences</Header>
       <DiscordNotificationSettings preferences={preferences} />
-      <br/>
-      <Form
-        onSubmit={onSubmit}
-      >
+      <br />
+      <Form onSubmit={onSubmit}>
         <FormCheckbox
-            label="AoS Discord"
-            checked={enableAosDiscord}
-            disabled={isPending || preferences.discordId == null}
-            onChange={setEnableAosDiscord}
-          />
+          label="AoS Discord"
+          checked={enableAosDiscord}
+          disabled={isPending || preferences.discordId == null}
+          onChange={setEnableAosDiscord}
+        />
         <FormCheckbox
-            label="EoT Discord"
-            checked={enableEotDiscord}
-            disabled={isPending || preferences.discordId == null}
-            onChange={setEnableEotDiscord}
-          />
+          label="EoT Discord"
+          checked={enableEotDiscord}
+          disabled={isPending || preferences.discordId == null}
+          onChange={setEnableEotDiscord}
+        />
         <FormCheckbox
-            label="Discord Webhook"
-            checked={enableCustomDiscord}
-            disabled={isPending || preferences.discordId == null}
-            onChange={setEnableCustomDiscord}
-          />
+          label="Discord Webhook"
+          checked={enableCustomDiscord}
+          disabled={isPending || preferences.discordId == null}
+          onChange={setEnableCustomDiscord}
+        />
         <FormInput
-            required
-            label="Discord Webhook URL"
-            value={discordWebHookUrl}
-            disabled={!enableCustomDiscord}
-            error={discordWebHookUrlError}
-            onChange={setDiscordWebHookUrl}
-          />
+          required
+          label="Discord Webhook URL"
+          value={discordWebHookUrl}
+          disabled={!enableCustomDiscord}
+          error={discordWebHookUrlError}
+          onChange={setDiscordWebHookUrl}
+        />
         <FormCheckbox
-            label="Custom Webhook"
-            checked={enableWebHook}
-            disabled={isPending}
-            onChange={setEnableWebHook}
-          />
+          label="Custom Webhook"
+          checked={enableWebHook}
+          disabled={isPending}
+          onChange={setEnableWebHook}
+        />
         <FormInput
-            required
-            label="Webhook URL"
-            value={webHookUrl}
-            disabled={!enableWebHook}
-            error={webHookUrlError}
-            onChange={setWebHookUrl}
-          />
+          required
+          label="Webhook URL"
+          value={webHookUrl}
+          disabled={!enableWebHook}
+          error={webHookUrlError}
+          onChange={setWebHookUrl}
+        />
         <FormInput
-            required
-            label="Webhook User ID"
-            disabled={!enableWebHook}
-            value={webHookUserId}
-            error={webHookUserIdError}
-            helperText={webHookUserIdError}
-            onChange={setWebHookUserId}
-          />
-      <FormCheckbox
+          required
+          label="Webhook User ID"
+          disabled={!enableWebHook}
+          value={webHookUserId}
+          error={webHookUserIdError}
+          helperText={webHookUserIdError}
+          onChange={setWebHookUserId}
+        />
+        <FormCheckbox
           label="Email notifications"
           checked={email}
           disabled={isPending}
           onChange={setEmail}
-          error={email && {
-            content: 'Email notifications are significantly more expensive than webhooks. Please consider setting up a webhook instead to support the site.',
-            pointing: 'left',
-          }}
+          error={
+            email && {
+              content:
+                "Email notifications are significantly more expensive than webhooks. Please consider setting up a webhook instead to support the site.",
+              pointing: "left",
+            }
+          }
         />
         <div>
           <Button primary type="submit" disabled={isPending}>
             <Icon name="save" />
             Save Preferences
           </Button>
-          <Button secondary onClick={sendTestNotification} disabled={isTestPending}>
+          <Button
+            secondary
+            onClick={sendTestNotification}
+            disabled={isTestPending}
+          >
             <Icon name="bullhorn" />
             Test
           </Button>

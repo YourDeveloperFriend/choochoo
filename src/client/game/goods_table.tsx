@@ -24,7 +24,7 @@ import {
   usePhaseState,
 } from "../utils/injection_context";
 import * as styles from "./goods_table.module.css";
-import {Button, Icon} from "semantic-ui-react";
+import { Button, Icon } from "semantic-ui-react";
 
 function getMaxGoods(
   goodsMap: ImmutableMap<CityGroup, (Good | undefined | null)[][]>,
@@ -212,12 +212,19 @@ function PlaceGood({
         <div>
           <p>Select where to place {goodToString(good!)}.</p>
           {state!.goods.length > 1 && (
-            <Button icon labelPosition="left" color="teal" onClick={toggleSelectedGood}>
+            <Button
+              icon
+              labelPosition="left"
+              color="teal"
+              onClick={toggleSelectedGood}
+            >
               <Icon name="arrows alternate horizontal" />
               Switch selected good
             </Button>
           )}
-          <Button negative onClick={emitPass}>Pass</Button>
+          <Button negative onClick={emitPass}>
+            Pass
+          </Button>
         </div>
       )}
     </div>

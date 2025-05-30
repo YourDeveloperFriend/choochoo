@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import {Popup} from "semantic-ui-react";
+import { Popup } from "semantic-ui-react";
 
 interface MaybeTooltipProps {
   hide?: boolean;
@@ -12,6 +12,10 @@ export function MaybeTooltip(props: MaybeTooltipProps) {
     return <>{props.children}</>;
   }
   return (
-    <Popup content={props.tooltip} position="bottom center" trigger={props.children} />
+    <Popup
+      content={props.tooltip}
+      position="bottom center"
+      trigger={props.children}
+    />
   );
 }

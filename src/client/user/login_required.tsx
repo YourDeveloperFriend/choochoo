@@ -22,7 +22,9 @@ function ActivateEmailPage() {
     useResendActivationCode();
   return (
     <div>
-        <p>You must activate your email. Please check your inbox (and spam folder).</p>
+      <p>
+        You must activate your email. Please check your inbox (and spam folder).
+      </p>
       <Button primary onClick={resendNoArgs} disabled={isPendingResend}>
         Resend Activation Code
       </Button>

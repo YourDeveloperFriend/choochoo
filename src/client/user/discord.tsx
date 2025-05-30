@@ -27,10 +27,15 @@ export function DiscordNotificationSettings({
         {preferences.discordId != null ? "Update discord id" : "Link Discord"}
       </Button>
       {preferences.discordId != null && (
-        <Button negative onClick={(event, data) => {
+        <Button
+          negative
+          onClick={(event, data) => {
             event.preventDefault();
             unlink();
-        }}>Unlink discord</Button>
+          }}
+        >
+          Unlink discord
+        </Button>
       )}
     </form>
   );

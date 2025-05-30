@@ -2,7 +2,7 @@ import { FormEvent, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useForgotPassword } from "../services/me";
 import { useTextInputState } from "../utils/form_state";
-import {Button, Form, FormField, FormInput} from "semantic-ui-react";
+import { Button, Form, FormField, FormInput } from "semantic-ui-react";
 
 export function ForgotPassword() {
   const [usernameOrEmail, setUsernameOrEmail] = useTextInputState("");
@@ -26,16 +26,15 @@ export function ForgotPassword() {
         </p>
       )}
       {!isSuccess && (
-        <Form
-          onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit}>
           <FormInput
-              inline
-              required
-              label="Username or Email"
-              value={usernameOrEmail}
-              error={validationError?.usernameOrEmail}
-              onChange={setUsernameOrEmail}
-            />
+            inline
+            required
+            label="Username or Email"
+            value={usernameOrEmail}
+            error={validationError?.usernameOrEmail}
+            onChange={setUsernameOrEmail}
+          />
           <div>
             <Button primary type="submit" disabled={isPending}>
               Request update password link

@@ -2,7 +2,7 @@ import { FormEvent, useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMe, useRegister } from "../services/me";
 import { useTextInputState } from "../utils/form_state";
-import {Button, Form, FormGroup, FormInput} from "semantic-ui-react";
+import { Button, Form, FormGroup, FormInput } from "semantic-ui-react";
 
 export function RegisterPage() {
   const [email, setEmail] = useTextInputState("");
@@ -26,33 +26,31 @@ export function RegisterPage() {
   );
 
   return (
-    <Form
-      onSubmit={onSubmit}
-    >
+    <Form onSubmit={onSubmit}>
       <h1>Register</h1>
       <FormGroup>
         <FormInput
-            required
-            label="Username"
-            value={username}
-            error={validationError?.username}
-            onChange={setUsername}
-          />
+          required
+          label="Username"
+          value={username}
+          error={validationError?.username}
+          onChange={setUsername}
+        />
         <FormInput
-            required
-            label="Email"
-            value={email}
-            error={validationError?.email}
-            onChange={setEmail}
-          />
+          required
+          label="Email"
+          value={email}
+          error={validationError?.email}
+          onChange={setEmail}
+        />
         <FormInput
-            required
-            label="Password"
-            type="password"
-            value={password}
-            error={validationError?.password}
-            onChange={setPassword}
-          />
+          required
+          label="Password"
+          type="password"
+          value={password}
+          error={validationError?.password}
+          onChange={setPassword}
+        />
       </FormGroup>
       <div>
         <Button primary type="submit" disabled={isPending}>

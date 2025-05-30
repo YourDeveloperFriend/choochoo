@@ -71,7 +71,8 @@ body.dark-mode .ui.vertical.menu.accordion {
 body.dark-mode .ui.menu.accordion .item {
   color: rgba(255, 255, 255, 0.9);
 }
-body.dark-mode .ui.checkbox label, body.dark-mode .ui.checkbox + label {
+body.dark-mode .ui.checkbox label,
+body.dark-mode .ui.checkbox + label {
   color: rgba(255, 255, 255, 0.9) !important;
 }
 body.dark-mode .ui.form .inline.field > label,
@@ -86,7 +87,7 @@ body.dark-mode .ui.inverted.input > input {
 }
 body.dark-mode .ui.menu {
   border: 0px solid transparent;
-  background: #1B1C1D;
+  background: #1b1c1d;
   box-shadow: none;
 }
 body.dark-mode .ui.menu .item,

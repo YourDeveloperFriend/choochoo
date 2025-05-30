@@ -2,7 +2,7 @@ import { UserRole } from "../../api/user";
 import { LoginButton } from "../game/login_button";
 import { useResendActivationCode } from "../services/me";
 import { useUserList } from "../services/user";
-import {Button} from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 
 export function UserList() {
   const { users, hasNextPage, nextPage, hasPrevPage, prevPage, isLoading } =

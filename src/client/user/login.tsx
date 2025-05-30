@@ -2,7 +2,13 @@ import { FormEvent, useCallback, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useLogin, useMe } from "../services/me";
 import { useTextInputState } from "../utils/form_state";
-import {Button, Container, Form, FormGroup, FormInput} from "semantic-ui-react";
+import {
+  Button,
+  Container,
+  Form,
+  FormGroup,
+  FormInput,
+} from "semantic-ui-react";
 
 export function LoginPage() {
   const [searchParams] = useSearchParams();
@@ -28,37 +34,36 @@ export function LoginPage() {
   );
 
   return (
-      <Form
-        onSubmit={onSubmit}>
-        <h1>Login</h1>
-        <FormGroup>
-          <FormInput
-              required
-              label="Username or Email"
-              value={usernameOrEmail}
-              error={validationError?.usernameOrEmail}
-              onChange={setUsernameOrEmail}
-            />
-            <FormInput
-              required
-              label="Password"
-              type="password"
-              value={password}
-              error={validationError?.password}
-              onChange={setPassword}
-            />
-        </FormGroup>
-        <div>
-          <Button primary type="submit" disabled={isPending}>
-            Login
-          </Button>
-        </div>
-        <p>
-          <Link to="/app/users/forgot-password">Forgot password?</Link>
-        </p>
-        <p>
-          <Link to="/app/users/register">Register</Link>
-        </p>
-      </Form>
+    <Form onSubmit={onSubmit}>
+      <h1>Login</h1>
+      <FormGroup>
+        <FormInput
+          required
+          label="Username or Email"
+          value={usernameOrEmail}
+          error={validationError?.usernameOrEmail}
+          onChange={setUsernameOrEmail}
+        />
+        <FormInput
+          required
+          label="Password"
+          type="password"
+          value={password}
+          error={validationError?.password}
+          onChange={setPassword}
+        />
+      </FormGroup>
+      <div>
+        <Button primary type="submit" disabled={isPending}>
+          Login
+        </Button>
+      </div>
+      <p>
+        <Link to="/app/users/forgot-password">Forgot password?</Link>
+      </p>
+      <p>
+        <Link to="/app/users/register">Register</Link>
+      </p>
+    </Form>
   );
 }

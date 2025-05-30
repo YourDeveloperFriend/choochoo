@@ -1,7 +1,7 @@
 import { FormEvent, useCallback } from "react";
 import { useTextInputState } from "../../utils/form_state";
 import { useSubmitFeedback } from "./submit";
-import {Button, Form, FormField} from "semantic-ui-react";
+import { Button, Form, FormField } from "semantic-ui-react";
 
 interface FeedbackFormProps {
   errorId?: number;
@@ -27,11 +27,7 @@ export function FeedbackForm({ onSubmit, errorId }: FeedbackFormProps) {
   );
 
   return (
-    <Form
-      noValidate
-      autoComplete="off"
-      onSubmit={onSubmitInternal}
-    >
+    <Form noValidate autoComplete="off" onSubmit={onSubmitInternal}>
       <FormField error={validationError?.message}>
         <Form.TextArea
           style={{ height: 200 }}

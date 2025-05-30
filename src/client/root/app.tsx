@@ -12,8 +12,8 @@ import { tsr } from "../services/client";
 import { AdminModeProvider } from "../services/me";
 import { SocketContextProvider } from "../services/socket";
 import { Router } from "./routes";
-import {ThemeProvider} from "./theme";
-import {Button} from "semantic-ui-react";
+import { ThemeProvider } from "./theme";
+import { Button } from "semantic-ui-react";
 
 export function App() {
   const queryClient = useMemo(() => new QueryClient(), [1]);
@@ -51,7 +51,9 @@ function ResetError({ resetErrorBoundary }: { resetErrorBoundary(): void }) {
   return (
     <div>
       There was an error!
-      <Button primary onClick={resetErrorBoundary}>Try again</Button>
+      <Button primary onClick={resetErrorBoundary}>
+        Try again
+      </Button>
     </div>
   );
 }

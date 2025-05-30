@@ -40,7 +40,13 @@ import {
 } from "./building_dialog.module.css";
 import { ClickTarget } from "./click_target";
 import { HexGrid } from "./hex_grid";
-import {Button, Checkbox, Modal, ModalContent, ModalHeader} from "semantic-ui-react";
+import {
+  Button,
+  Checkbox,
+  Modal,
+  ModalContent,
+  ModalHeader,
+} from "semantic-ui-react";
 
 interface BuildingProps {
   cancelBuild(): void;
@@ -105,20 +111,21 @@ export function BuildingDialog({
 
   return (
     <>
-      <Modal
-        closeIcon
-        open={isOpen}
-        onClose={cancelBuild}
-      >
+      <Modal closeIcon open={isOpen} onClose={cancelBuild}>
         <ModalHeader>Select a tile to place</ModalHeader>
         <ModalContent className={dialogContent}>
           <p>
-            <Checkbox label="Show failure reasons"
-                      checked={showReasons}
-                      onChange={(e, data ) => setShowReasons(!!data.checked)}
+            <Checkbox
+              label="Show failure reasons"
+              checked={showReasons}
+              onChange={(e, data) => setShowReasons(!!data.checked)}
             />
           </p>
-          {showReasons && <Button primary onClick={rotate}>Rotate</Button>}
+          {showReasons && (
+            <Button primary onClick={rotate}>
+              Rotate
+            </Button>
+          )}
           <div className={buildingDialogContainer} data-building-options>
             {canUrbanize &&
               availableCities.map((city, index) => (
@@ -188,11 +195,7 @@ export function PlaceDialog({
 
   return (
     <>
-      <Modal
-        closeIcon
-        open={isOpen}
-        onClose={cancelPlace}
-      >
+      <Modal closeIcon open={isOpen} onClose={cancelPlace}>
         <ModalHeader>{"Select a city to place"}</ModalHeader>
         <ModalContent className={dialogContent}>
           <div className={buildingDialogContainer}>

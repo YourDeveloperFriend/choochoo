@@ -5,7 +5,7 @@ import { useMe } from "../services/me";
 import { useNotificationPreferences } from "../services/notifications/preferences";
 import { DiscordNotificationSettings } from "../user/discord";
 import * as styles from "./banner.module.css";
-import {Button} from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 
 export function Banner() {
   const me = useMe();

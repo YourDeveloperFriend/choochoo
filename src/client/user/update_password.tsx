@@ -1,6 +1,13 @@
 import { FormEvent, useCallback } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import {Button, Form, FormGroup, FormInput, Header, Segment } from "semantic-ui-react";
+import {
+  Button,
+  Form,
+  FormGroup,
+  FormInput,
+  Header,
+  Segment,
+} from "semantic-ui-react";
 import { useMe, useUpdatePassword } from "../services/me";
 import { useTextInputState } from "../utils/form_state";
 
@@ -50,12 +57,10 @@ export function UpdatePassword({ updateCode, onSuccess }: UpdatePasswordProps) {
         </p>
       )}
       {!isInvalid && (
-        <Form
-          onSubmit={onSubmit}
-        >
+        <Form onSubmit={onSubmit}>
           <FormGroup>
-          {!updateCode && (
-            <FormInput
+            {!updateCode && (
+              <FormInput
                 required
                 type="password"
                 label="Old Password"
@@ -63,8 +68,8 @@ export function UpdatePassword({ updateCode, onSuccess }: UpdatePasswordProps) {
                 error={validationError?.oldPassword}
                 onChange={setOldPassword}
               />
-          )}
-          <FormInput
+            )}
+            <FormInput
               required
               type="password"
               label="New Password"

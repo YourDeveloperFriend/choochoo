@@ -1,4 +1,4 @@
-import {useCallback, useState} from "react";
+import { useCallback, useState } from "react";
 import { Good, goodToString } from "../../../engine/state/good";
 import {
   InProgressProduction,
@@ -10,7 +10,13 @@ import { Username } from "../../components/username";
 import { useAction } from "../../services/action";
 import { useInjectedState } from "../../utils/injection_context";
 import { GenericMessage } from "../action_summary";
-import {Button, DropdownProps, Form, FormGroup, FormSelect} from "semantic-ui-react";
+import {
+  Button,
+  DropdownProps,
+  Form,
+  FormGroup,
+  FormSelect,
+} from "semantic-ui-react";
 
 export function ManualGoodsGrowth() {
   const state = useInjectedState(PRODUCTION_STATE);
@@ -93,27 +99,36 @@ function GoodSelector({
   selected,
   onSelect,
 }: GoodSelectorProps) {
-  const [selectedGood, setSelectedGood] = useState<Good|undefined>(selected);
+  const [selectedGood, setSelectedGood] = useState<Good | undefined>(selected);
 
   return (
-      <Form>
-        <FormGroup>
-          <FormSelect
-              disabled={disabled}
-              value={selectedGood}
-              onChange={(event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
-                setSelectedGood(data.value as Good);
-              }}
-              options={goods.map((good) => {
-                return {
-                  key: good,
-                  value: good,
-                  text: goodToString(good)
-                }
-              })}
-          />
-          <Button primary onClick={() => onSelect(selectedGood as Good)} disabled={!selectedGood || disabled}>Select Good</Button>
-        </FormGroup>
-      </Form>
+    <Form>
+      <FormGroup>
+        <FormSelect
+          disabled={disabled}
+          value={selectedGood}
+          onChange={(
+            event: React.SyntheticEvent<HTMLElement>,
+            data: DropdownProps,
+          ) => {
+            setSelectedGood(data.value as Good);
+          }}
+          options={goods.map((good) => {
+            return {
+              key: good,
+              value: good,
+              text: goodToString(good),
+            };
+          })}
+        />
+        <Button
+          primary
+          onClick={() => onSelect(selectedGood as Good)}
+          disabled={!selectedGood || disabled}
+        >
+          Select Good
+        </Button>
+      </FormGroup>
+    </Form>
   );
 }

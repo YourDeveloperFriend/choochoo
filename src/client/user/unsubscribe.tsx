@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useUnsubscribe } from "../services/notifications";
-import {Button} from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 
 export function Unsubscribe() {
   const [searchParams] = useSearchParams();
