@@ -16,16 +16,8 @@ export const ConnectCitiesData = z.object({
 export type ConnectCitiesData = z.infer<typeof ConnectCitiesData>;
 
 export class ScotlandConnectCitiesAction extends ConnectCitiesAction {
-  validate(data: ConnectCitiesData): void {
-    const maxTrack = this.helper.getMaxBuilds();
-    assert(this.helper.buildsRemaining() > 0, { invalidInput: `You can only build at most ${maxTrack} track` });
-
-    assert(data.connect.length === 2, { invalidInput: 'Invalid connection' });
-
-    const connection = this.grid().findConnection(data.connect);
-    assert(connection != null, { invalidInput: 'Connection not found' });
-    assert(connection.owner == null, { invalidInput: 'City already connected' });
-    assert(this.currentPlayer().money >= this.totalCost(data, connection), { invalidInput: 'Cannot afford purchase' });
+  protected validateUrbanizedCities(data: ConnectCitiesData): void {
+    // Scotland allows connection between Ayr town and Glasgow city
   }
 }
 
