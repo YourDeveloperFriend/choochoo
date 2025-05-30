@@ -1,4 +1,3 @@
-import { SelectChangeEvent } from "@mui/material";
 import { ChangeEvent, SyntheticEvent, useCallback, useState } from "react";
 import { CheckboxProps, DropdownProps } from "semantic-ui-react";
 import { FormNumber } from "../../utils/types";
@@ -14,13 +13,6 @@ export function useSemanticUiCheckboxState(
     state,
     useCallback((e, data) => setState(!!data.checked), [setState]),
   ];
-}
-
-export function useCheckboxState(
-  initialValue = false,
-): [boolean, (e: ChangeEvent<HTMLInputElement>) => void] {
-  const [state, setState] = useState(initialValue);
-  return [state, useCallback((e) => setState(e.target.checked), [setState])];
 }
 
 export function useTextInputState(
@@ -53,17 +45,6 @@ export function useNumberInputState(
         setState(isNaN(e.target.valueAsNumber) ? "" : e.target.valueAsNumber),
       [setState],
     ),
-    setState,
-  ];
-}
-
-export function useSelectState<T>(
-  initialValue: T,
-): [T, (e: SelectChangeEvent<T>) => void, (value: T) => void] {
-  const [state, setState] = useState(initialValue);
-  return [
-    state,
-    useCallback((e) => setState(e.target.value as T), [setState]),
     setState,
   ];
 }

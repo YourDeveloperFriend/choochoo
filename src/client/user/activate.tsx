@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -8,6 +7,7 @@ import {
   useMe,
   useResendActivationCode,
 } from "../services/me";
+import { Button } from "semantic-ui-react";
 
 export function ActivatePage() {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ export function ActivatePage() {
   return (
     <div>
       Failed to activate your account. Please try again.
-      <Button onClick={resendNoArgs} disabled={isPendingResend}>
+      <Button primary onClick={resendNoArgs} disabled={isPendingResend}>
         Resend activation code
       </Button>
     </div>

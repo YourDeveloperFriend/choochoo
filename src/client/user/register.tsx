@@ -1,8 +1,8 @@
-import { Box, Button, FormControl, TextField } from "@mui/material";
 import { FormEvent, useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMe, useRegister } from "../services/me";
 import { useTextInputState } from "../utils/form_state";
+import { Button, Form, FormGroup, FormInput } from "semantic-ui-react";
 
 export function RegisterPage() {
   const [email, setEmail] = useTextInputState("");
@@ -26,47 +26,34 @@ export function RegisterPage() {
   );
 
   return (
-    <Box
-      component="form"
-      sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-      noValidate
-      autoComplete="off"
-      onSubmit={onSubmit}
-    >
+    <Form onSubmit={onSubmit}>
       <h1>Register</h1>
-      <FormControl>
-        <TextField
+      <FormGroup>
+        <FormInput
           required
           label="Username"
           value={username}
-          error={validationError?.username != null}
-          helperText={validationError?.username}
+          error={validationError?.username}
           onChange={setUsername}
         />
-      </FormControl>
-      <FormControl>
-        <TextField
+        <FormInput
           required
           label="Email"
           value={email}
-          error={validationError?.email != null}
-          helperText={validationError?.email}
+          error={validationError?.email}
           onChange={setEmail}
         />
-      </FormControl>
-      <FormControl>
-        <TextField
+        <FormInput
           required
           label="Password"
           type="password"
           value={password}
-          error={validationError?.password != null}
-          helperText={validationError?.password}
+          error={validationError?.password}
           onChange={setPassword}
         />
-      </FormControl>
+      </FormGroup>
       <div>
-        <Button type="submit" disabled={isPending}>
+        <Button primary type="submit" disabled={isPending}>
           Register
         </Button>
       </div>
@@ -80,6 +67,6 @@ export function RegisterPage() {
       <p>
         <Link to="/app/users/login">Login</Link>
       </p>
-    </Box>
+    </Form>
   );
 }

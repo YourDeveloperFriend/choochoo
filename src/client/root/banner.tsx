@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { NotificationPreferences } from "../../api/notifications";
 import { UserRole } from "../../api/user";
@@ -6,6 +5,7 @@ import { useMe } from "../services/me";
 import { useNotificationPreferences } from "../services/notifications/preferences";
 import { DiscordNotificationSettings } from "../user/discord";
 import * as styles from "./banner.module.css";
+import { Button } from "semantic-ui-react";
 
 export function Banner() {
   const me = useMe();
@@ -41,7 +41,7 @@ function SetNotificationPreferencesBanner() {
         Set up notification settings so you don&apos;t miss your turn.
       </div>
       <div>
-        <Button component={Link} to={`/app/users/${me.id}`}>
+        <Button primary as={Link} to={`/app/users/${me.id}`}>
           Update
         </Button>
       </div>

@@ -1,4 +1,3 @@
-import { Button, createTheme, ThemeProvider } from "@mui/material";
 import {
   QueryClient,
   QueryClientProvider,
@@ -13,16 +12,8 @@ import { tsr } from "../services/client";
 import { AdminModeProvider } from "../services/me";
 import { SocketContextProvider } from "../services/socket";
 import { Router } from "./routes";
-
-const theme = createTheme({
-  cssVariables: {
-    colorSchemeSelector: "class",
-  },
-  colorSchemes: {
-    light: true,
-    dark: true,
-  },
-});
+import { ThemeProvider } from "./theme";
+import { Button } from "semantic-ui-react";
 
 export function App() {
   const queryClient = useMemo(() => new QueryClient(), [1]);
@@ -37,7 +28,7 @@ export function App() {
     >
       <Suspense fallback={<Loading />}>
         <SocketContextProvider>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider>
             <DialogsProvider>
               <AwaitingContextProvider>
                 <QueryClientProvider client={queryClient}>
@@ -60,7 +51,9 @@ function ResetError({ resetErrorBoundary }: { resetErrorBoundary(): void }) {
   return (
     <div>
       There was an error!
-      <Button onClick={resetErrorBoundary}>Try again</Button>
+      <Button primary onClick={resetErrorBoundary}>
+        Try again
+      </Button>
     </div>
   );
 }

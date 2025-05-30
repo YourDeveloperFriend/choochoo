@@ -3,5 +3,5 @@
   flex-direction: row;
   gap: 12px;
   width: 100%;
-  overflow-x: scroll;
+  overflow-x: auto;
 }

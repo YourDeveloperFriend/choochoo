@@ -1,8 +1,8 @@
-import { Button } from "@mui/material";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { GameHistoryApi } from "../../api/history";
 import { isGameHistory, useGame } from "../services/game";
+import { Button } from "semantic-ui-react";
 
 export function HistorySelector() {
   const game = useGame();

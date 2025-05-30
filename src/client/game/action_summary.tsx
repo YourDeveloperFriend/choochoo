@@ -1,5 +1,4 @@
-import { Button } from "@mui/material";
-import { ReactNode, useCallback } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { BuildAction } from "../../engine/build/build";
 import { DoneAction } from "../../engine/build/done";
 import { BuilderHelper } from "../../engine/build/helper";
@@ -11,7 +10,7 @@ import { SelectAction as ActionSelectionSelectAction } from "../../engine/select
 import { SkipAction } from "../../engine/select_action/skip";
 import { ShareHelper } from "../../engine/shares/share_helper";
 import { TakeSharesAction } from "../../engine/shares/take_shares";
-import { Good } from "../../engine/state/good";
+import { Good, goodToString } from "../../engine/state/good";
 import { Phase } from "../../engine/state/phase";
 import { BidAction } from "../../engine/turn_order/bid";
 import { TurnOrderHelper } from "../../engine/turn_order/helper";
@@ -29,7 +28,6 @@ import {
 import { iterate } from "../../utils/functions";
 import { assertNever } from "../../utils/validate";
 import { useConfirm } from "../components/confirm";
-import { DropdownMenu, DropdownMenuItem } from "../components/dropdown_menu";
 import { MaybeTooltip } from "../components/maybe_tooltip";
 import { Username } from "../components/username";
 import { useAction, useEmptyAction } from "../services/action";
@@ -39,10 +37,15 @@ import {
   useInjected,
   useViewSettings,
 } from "../utils/injection_context";
+import { ManualGoodsGrowth } from "./india-steam-brothers/goods_growth";
 import {
-  GoodSelector,
-  ManualGoodsGrowth,
-} from "./india-steam-brothers/goods_growth";
+  Button,
+  Icon,
+  Form,
+  FormSelect,
+  DropdownProps,
+  FormGroup,
+} from "semantic-ui-react";
 
 const PASS_ACTION = "Pass" as const;
 type PassActionString = typeof PASS_ACTION;
@@ -116,12 +119,28 @@ function Repopulate() {
 
   return (
     <div>
-      You must repopulate a city.
-      <GoodSelector
-        selected={data?.good}
-        goods={repopulateData!}
-        onSelect={selectGood}
-      />
+      You must repopulate a city. Select the good you want to use and then click
+      on a city.
+      <Form>
+        <FormGroup>
+          <FormSelect
+            value={data?.good}
+            onChange={(
+              event: React.SyntheticEvent<HTMLElement>,
+              data: DropdownProps,
+            ) => {
+              selectGood(data.value as Good);
+            }}
+            options={repopulateData!.map((good) => {
+              return {
+                key: good,
+                value: good,
+                text: goodToString(good),
+              };
+            })}
+          />
+        </FormGroup>
+      </Form>
     </div>
   );
 }
@@ -152,11 +171,11 @@ function StLuciaTurnOrder() {
 
   return (
     <div>
-      You must bid.
-      <Button onClick={emitPass} disabled={isPending}>
+      <p>You must bid.</p>
+      <Button negative onClick={emitPass} disabled={isPending}>
         Pass
       </Button>
-      <Button onClick={emitBid} disabled={isPending}>
+      <Button primary onClick={emitBid} disabled={isPending}>
         Claim first for $5
       </Button>
     </div>
@@ -200,8 +219,8 @@ function DiscoProduction() {
 
   return (
     <div>
-      You must select a city to place the drawn cubes.
-      <Button disabled={isPending} onClick={emit}>
+      <p>You must select a city to place the drawn cubes.</p>
+      <Button negative disabled={isPending} onClick={emit}>
         Pass
       </Button>
     </div>
@@ -229,9 +248,9 @@ function SpecialActionSelector() {
   }
   return (
     <GenericMessage>
-      You must select a special action.
+      <p>You must select a special action.</p>
       {canEmitSkip && (
-        <Button disabled={isPending} onClick={emitSkip}>
+        <Button negative disabled={isPending} onClick={emitSkip}>
           Skip
         </Button>
       )}
@@ -273,11 +292,20 @@ function MoveGoods() {
     <div>
       <GenericMessage>{message ?? "You must move a good."}</GenericMessage>
       <MaybeTooltip tooltip={locoDisabledReason}>
-        <Button onClick={emitLoco} disabled={locoDisabledReason != null}>
+        <Button
+          icon
+          labelPosition="left"
+          color="green"
+          onClick={emitLoco}
+          disabled={locoDisabledReason != null}
+        >
+          <Icon name="train" />
           Locomotive
         </Button>
       </MaybeTooltip>
-      <Button onClick={emitPass}>Pass</Button>
+      <Button negative onClick={emitPass}>
+        Pass
+      </Button>
     </div>
   );
 }
@@ -308,9 +336,12 @@ function Bid() {
   const helper = useInjected(TurnOrderHelper);
 
   const isPending = isBidPending || isTurnOrderPending || isPassPending;
+  const [selectedBid, setSelectedBid] = useState<number>(0);
+
+  type BidValue = number | PassActionString | TurnOrderPassActionString;
 
   const placeBid = useCallback(
-    (bid: number | PassActionString | TurnOrderPassActionString) => {
+    (bid: BidValue) => {
       if (bid === PASS_ACTION) {
         emitPass();
       } else if (bid === TURN_ORDER_PASS_ACTION) {
@@ -336,26 +367,59 @@ function Bid() {
 
   const minBid = helper.getMinBid();
   const maxBid = helper.getMaxBid();
-  const bids: Array<number | PassActionString | TurnOrderPassActionString> = [
-    ...(helper.canUseTurnOrderPass() ? [TURN_ORDER_PASS_ACTION] : []),
-    PASS_ACTION,
-    ...iterate(maxBid - minBid + 1, (i) => i + minBid),
-  ];
 
   return (
     <div>
       <p>You must bid.</p>
-      <DropdownMenu id="bid" title="Place bid" disabled={isPending}>
-        {bids.map((option) => (
-          <DropdownMenuItem
-            key={option}
-            onClick={() => placeBid(option)}
+      <Form>
+        <FormGroup>
+          <FormSelect
+            disabled={isPending}
+            value={selectedBid}
+            onChange={(
+              event: React.SyntheticEvent<HTMLElement>,
+              data: DropdownProps,
+            ) => {
+              setSelectedBid(data.value as number);
+            }}
+            options={iterate(maxBid - minBid + 1, (i) => {
+              const bid = i + minBid;
+              return {
+                key: bid,
+                value: bid,
+                text: dollarFormat(bid),
+              };
+            })}
+          />
+          <Button
+            primary
+            onClick={() => placeBid(selectedBid)}
+            disabled={!selectedBid || isPending}
+          >
+            Place Bid
+          </Button>
+        </FormGroup>
+        {helper.canUseTurnOrderPass() && (
+          <FormGroup>
+            <Button
+              secondary
+              onClick={() => placeBid(TURN_ORDER_PASS_ACTION)}
+              disabled={isPending}
+            >
+              Turn Order Pass
+            </Button>
+          </FormGroup>
+        )}
+        <FormGroup>
+          <Button
+            negative
+            onClick={() => placeBid(PASS_ACTION)}
             disabled={isPending}
           >
-            {dollarFormat(option)}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenu>
+            Pass
+          </Button>
+        </FormGroup>
+      </Form>
     </div>
   );
 }
@@ -368,7 +432,7 @@ function TakeShares() {
   const { canEmit, canEmitUserId, emit, isPending } =
     useAction(TakeSharesAction);
   const numShares = useInjected(ShareHelper).getSharesTheyCanTake();
-  const options = iterate(numShares + 1, (i) => i);
+  const [selectedShares, setSelectedShares] = useState<number>(0);
 
   const chooseValue = useCallback(
     (numShares: number) => emit({ numShares }),
@@ -390,17 +454,34 @@ function TakeShares() {
   return (
     <div>
       <p>Choose how many shares you would like to take out.</p>
-      <DropdownMenu id="shares" title="Choose shares" disabled={isPending}>
-        {options.map((option) => (
-          <DropdownMenuItem
-            key={option}
-            onClick={() => chooseValue(option)}
+      <Form>
+        <FormGroup>
+          <FormSelect
+            disabled={isPending}
+            value={selectedShares}
+            onChange={(
+              event: React.SyntheticEvent<HTMLElement>,
+              data: DropdownProps,
+            ) => {
+              setSelectedShares(data.value as number);
+            }}
+            options={iterate(numShares + 1, (i) => {
+              return {
+                key: i,
+                value: i,
+                text: numberFormat(i),
+              };
+            })}
+          />
+          <Button
+            primary
+            onClick={() => chooseValue(selectedShares)}
             disabled={isPending}
           >
-            {numberFormat(option)}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenu>
+            Take Shares
+          </Button>
+        </FormGroup>
+      </Form>
     </div>
   );
 }
@@ -427,8 +508,8 @@ function Deurbanization() {
 
   return (
     <div>
-      You must select a good to deurbanize.
-      <Button onClick={emitPass} disabled={isPending}>
+      <p>You must select a good to deurbanize.</p>
+      <Button negative onClick={emitPass} disabled={isPending}>
         Skip
       </Button>
     </div>
@@ -495,8 +576,14 @@ function Build() {
 
   return (
     <div>
-      You can build {buildsRemaining} more track{canUrbanize && " and urbanize"}
-      .<Button onClick={emitPassClick}>Done Building</Button>
+      <p>
+        You can build {buildsRemaining} more track
+        {canUrbanize && " and urbanize"}.
+      </p>
+      <Button icon labelPosition="left" color="green" onClick={emitPassClick}>
+        <Icon name="check" />
+        Done Building
+      </Button>
     </div>
   );
 }

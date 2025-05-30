@@ -37,7 +37,6 @@ import { useLocalStorage } from "../services/local_storage";
 import { useIsAdmin, useMe } from "../services/me";
 import {
   useNumberInputState,
-  useSelectState,
   useSemanticSelectState,
   useSemanticUiCheckboxState,
   useTextInputState,
@@ -67,7 +66,7 @@ export function CreateGamePage() {
     [],
   );
   const [name, setName] = useTextInputState("");
-  const [gameKey, _, setGameKeyState] = useSelectState(initialMapValue);
+  const [gameKey, setGameKeyState] = useState(initialMapValue);
   const [turnDuration, setTurnDuration] = useSemanticSelectState(
     TurnDuration.ONE_DAY,
   );

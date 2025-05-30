@@ -1,7 +1,13 @@
-import { Box, Button, FormControl, TextField } from "@mui/material";
 import { FormEvent, useCallback } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Header, Segment } from "semantic-ui-react";
+import {
+  Button,
+  Form,
+  FormGroup,
+  FormInput,
+  Header,
+  Segment,
+} from "semantic-ui-react";
 import { useMe, useUpdatePassword } from "../services/me";
 import { useTextInputState } from "../utils/form_state";
 
@@ -51,39 +57,30 @@ export function UpdatePassword({ updateCode, onSuccess }: UpdatePasswordProps) {
         </p>
       )}
       {!isInvalid && (
-        <Box
-          component="form"
-          sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-          noValidate
-          autoComplete="off"
-          onSubmit={onSubmit}
-        >
-          {!updateCode && (
-            <FormControl>
-              <TextField
+        <Form onSubmit={onSubmit}>
+          <FormGroup>
+            {!updateCode && (
+              <FormInput
                 required
                 type="password"
                 label="Old Password"
                 value={oldPassword}
-                error={validationError?.oldPassword != null}
-                helperText={validationError?.oldPassword}
+                error={validationError?.oldPassword}
                 onChange={setOldPassword}
               />
-            </FormControl>
-          )}
-          <FormControl>
-            <TextField
+            )}
+            <FormInput
               required
               type="password"
               label="New Password"
               value={newPassword}
-              error={validationError?.newPassword != null}
-              helperText={validationError?.newPassword}
+              error={validationError?.newPassword}
               onChange={setNewPassword}
             />
-          </FormControl>
+          </FormGroup>
+
           <div>
-            <Button type="submit" disabled={isPending}>
+            <Button primary type="submit" disabled={isPending}>
               Update password
             </Button>
           </div>
@@ -92,7 +89,7 @@ export function UpdatePassword({ updateCode, onSuccess }: UpdatePasswordProps) {
               <Link to="/app/users/login">Login</Link>
             </p>
           )}
-        </Box>
+        </Form>
       )}
     </Segment>
   );
