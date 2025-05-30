@@ -16,7 +16,8 @@ body {
 }
 
 body.dark-mode {
-  background-color: inherit;
+  background-color: #000;
+  color: #fff;
 }
 
 .ui.accordion.menu .item .title {
@@ -82,6 +83,19 @@ body.dark-mode .ui.form .inline.fields > label {
 }
 body.dark-mode .ui.inverted.input > input {
   border: none;
+}
+body.dark-mode .ui.menu {
+  border: 0px solid transparent;
+  background: #1B1C1D;
+  box-shadow: none;
+}
+body.dark-mode .ui.menu .item,
+body.dark-mode .ui.menu .item > a:not(.ui) {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+}
+body.dark-mode .ui.menu .item.menu {
+  background: transparent;
 }
 
 /**

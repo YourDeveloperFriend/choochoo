@@ -1,6 +1,3 @@
-import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import RemoveCircleOutline from "@mui/icons-material/RemoveCircleOutline";
-import { Fab, Tooltip } from "@mui/material";
 import {
   MouseEvent,
   ReactNode,
@@ -38,6 +35,7 @@ import {
   hexGridContainer,
 } from "./hex_grid.module.css";
 import { InterCityConnectionRender } from "./inter_city_connection";
+import {Button, Popup} from "semantic-ui-react";
 
 interface HexGridProps {
   id?: string;
@@ -281,31 +279,25 @@ export function HexGrid({
     <>
       {allowZoom && (
         <div className={`${fabs} ${zoom > 0.4 ? floatingFabs : ""}`}>
-          <Tooltip title="Zoom out">
-            <Fab
-              color="primary"
+          <Popup content="Zoom out" trigger={
+            <Button primary circular icon="minus"
               size="small"
               onClick={zoomOut}
               disabled={zoom <= 0.2}
-            >
-              <RemoveCircleOutline />
-            </Fab>
-          </Tooltip>
-          <Tooltip title="Back to 0">
-            <Fab color="primary" size="small" onClick={normalizeZoom}>
-              0
-            </Fab>
-          </Tooltip>
-          <Tooltip title="Zoom in">
-            <Fab
-              color="primary"
+            />
+          } />
+          <Popup content="Back to 0" trigger={
+            <Button primary circular icon="circle outline"
+                    size="small"
+                    onClick={normalizeZoom} />
+          } />
+          <Popup content="Zoom in" trigger={
+            <Button primary circular icon="plus"
               size="small"
               onClick={zoomIn}
               disabled={zoom > 3}
-            >
-              <AddCircleOutline />
-            </Fab>
-          </Tooltip>
+            />
+          } />
         </div>
       )}
       <div className={hexGridContainer}>

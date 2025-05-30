@@ -1,9 +1,8 @@
-import { Button } from "@mui/material";
-
 import { Link } from "react-router-dom";
 import { UserRole } from "../../api/user";
 import { useLogout, useMe, useResendActivationCode } from "../services/me";
 import * as styles from "./login_required.module.css";
+import { Button } from "semantic-ui-react";
 
 interface LoginRequiredParams {
   children: React.ReactNode;
@@ -23,11 +22,11 @@ function ActivateEmailPage() {
     useResendActivationCode();
   return (
     <div>
-      You must activate your email. Please check your inbox (and spam folder).
-      <Button onClick={resendNoArgs} disabled={isPendingResend}>
+        <p>You must activate your email. Please check your inbox (and spam folder).</p>
+      <Button primary onClick={resendNoArgs} disabled={isPendingResend}>
         Resend Activation Code
       </Button>
-      <Button onClick={logout} disabled={isPending}>
+      <Button negative onClick={logout} disabled={isPending}>
         Logout
       </Button>
     </div>
@@ -53,7 +52,7 @@ function LoginRequiredPage() {
         stability, it&apos;s just not a priority right now.
       </p>
       <div className={styles.links}>
-        <Button component={Link} variant="contained" to="/app/users/register">
+        <Button primary as={Link} to="/app/users/register">
           Create account
         </Button>
       </div>

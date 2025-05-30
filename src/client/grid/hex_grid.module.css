@@ -23,6 +23,7 @@
 }
 
 .fabs {
+  z-index: 1;
   display: flex;
   gap: 4px;
 }

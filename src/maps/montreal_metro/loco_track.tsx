@@ -1,31 +1,33 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-} from "@mui/material";
 import { times } from "lodash";
 import * as styles from "./loco_track.module.css";
+import {useState} from "react";
+import {Accordion, AccordionContent, AccordionTitle, Menu, MenuItem} from "semantic-ui-react";
 
 export function LocoTrack() {
+  const [expanded, setExpanded] = useState<boolean>(false);
+
   return (
-    <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography component="h2">Locomotive Track</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <div>
-          {...times(5, (i) => (
-            <div key={i} className={styles.row}>
-              {times(6, (j) => (
-                <LocoCell key={j} loco={j + 1} gvtLoco={4 - i} />
+      <Accordion fluid as={Menu} vertical>
+        <MenuItem>
+          <AccordionTitle
+              active={expanded}
+              index={0}
+              onClick={() => setExpanded(!expanded)}
+              content="Locomotive Track"
+          />
+          <AccordionContent active={expanded}>
+            <div>
+              {...times(5, (i) => (
+                <div key={i} className={styles.row}>
+                  {times(6, (j) => (
+                    <LocoCell key={j} loco={j + 1} gvtLoco={4 - i} />
+                  ))}
+                </div>
               ))}
             </div>
-          ))}
-        </div>
-      </AccordionDetails>
-    </Accordion>
+          </AccordionContent>
+        </MenuItem>
+      </Accordion>
   );
 }
 

@@ -1,13 +1,3 @@
-import CloseIcon from "@mui/icons-material/Close";
-import {
-  Button,
-  Checkbox,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  FormControlLabel,
-  IconButton,
-} from "@mui/material";
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import { toast } from "react-toastify";
 import { BuildAction, BuildData } from "../../engine/build/build";
@@ -50,6 +40,7 @@ import {
 } from "./building_dialog.module.css";
 import { ClickTarget } from "./click_target";
 import { HexGrid } from "./hex_grid";
+import {Button, Checkbox, Modal, ModalContent, ModalHeader} from "semantic-ui-react";
 
 interface BuildingProps {
   cancelBuild(): void;
@@ -114,38 +105,20 @@ export function BuildingDialog({
 
   return (
     <>
-      <Dialog
+      <Modal
+        closeIcon
         open={isOpen}
         onClose={cancelBuild}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
       >
-        <DialogTitle>{"Select a tile to place"}</DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={cancelBuild}
-          sx={() => ({
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: "grey",
-          })}
-        >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent className={dialogContent}>
+        <ModalHeader>Select a tile to place</ModalHeader>
+        <ModalContent className={dialogContent}>
           <p>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={showReasons}
-                  onChange={(e) => setShowReasons(e.target.checked)}
-                />
-              }
-              label="Show failure reasons"
+            <Checkbox label="Show failure reasons"
+                      checked={showReasons}
+                      onChange={(e, data ) => setShowReasons(!!data.checked)}
             />
           </p>
-          {showReasons && <Button onClick={rotate}>Rotate</Button>}
+          {showReasons && <Button primary onClick={rotate}>Rotate</Button>}
           <div className={buildingDialogContainer} data-building-options>
             {canUrbanize &&
               availableCities.map((city, index) => (
@@ -178,8 +151,8 @@ export function BuildingDialog({
               </div>
             ))}
           </div>
-        </DialogContent>
-      </Dialog>
+        </ModalContent>
+      </Modal>
     </>
   );
 }
@@ -215,26 +188,13 @@ export function PlaceDialog({
 
   return (
     <>
-      <Dialog
+      <Modal
+        closeIcon
         open={isOpen}
         onClose={cancelPlace}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
       >
-        <DialogTitle>{"Select a city to place"}</DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={cancelPlace}
-          sx={() => ({
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: "grey",
-          })}
-        >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent className={dialogContent}>
+        <ModalHeader>{"Select a city to place"}</ModalHeader>
+        <ModalContent className={dialogContent}>
           <div className={buildingDialogContainer}>
             &quot;{space?.coordinates.toString() ?? "null"}&quot; : &quot;
             {cities?.length ?? "null"}&quot;
@@ -250,8 +210,8 @@ export function PlaceDialog({
                 </div>
               ))}
           </div>
-        </DialogContent>
-      </Dialog>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

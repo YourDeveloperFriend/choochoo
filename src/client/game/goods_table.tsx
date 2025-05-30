@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { useCallback, useMemo } from "react";
 import { PHASE } from "../../engine/game/phase";
 import { GameStarter } from "../../engine/game/starter";
@@ -25,6 +24,7 @@ import {
   usePhaseState,
 } from "../utils/injection_context";
 import * as styles from "./goods_table.module.css";
+import {Button, Icon} from "semantic-ui-react";
 
 function getMaxGoods(
   goodsMap: ImmutableMap<CityGroup, (Good | undefined | null)[][]>,
@@ -210,11 +210,14 @@ function PlaceGood({
       </p>
       {canEmit && (
         <div>
-          Select where to place {goodToString(good!)}.
+          <p>Select where to place {goodToString(good!)}.</p>
           {state!.goods.length > 1 && (
-            <Button onClick={toggleSelectedGood}>Switch selected good</Button>
+            <Button icon labelPosition="left" color="teal" onClick={toggleSelectedGood}>
+              <Icon name="arrows alternate horizontal" />
+              Switch selected good
+            </Button>
           )}
-          <Button onClick={emitPass}>Pass</Button>
+          <Button negative onClick={emitPass}>Pass</Button>
         </div>
       )}
     </div>

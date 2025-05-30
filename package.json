@@ -28,8 +28,6 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@mui/icons-material": "^7.0.2",
-    "@mui/material": "^7.0.2",
     "@sequelize/core": "^7.0.0-alpha.43",
     "@sequelize/postgres": "^7.0.0-alpha.43",
     "@socket.io/redis-adapter": "^8.3.0",

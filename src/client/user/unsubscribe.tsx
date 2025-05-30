@@ -1,7 +1,7 @@
-import { Button } from "@mui/material";
 import { useCallback, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useUnsubscribe } from "../services/notifications";
+import {Button} from "semantic-ui-react";
 
 export function Unsubscribe() {
   const [searchParams] = useSearchParams();
@@ -33,11 +33,11 @@ export function Unsubscribe() {
       </p>
       <p>
         {!isSuccess && (
-          <Button onClick={onClick} disabled={isPending}>
+          <Button primary onClick={onClick} disabled={isPending}>
             Unsubscribe
           </Button>
         )}
-        {isSuccess && <Button>Success!</Button>}
+        {isSuccess && <Button primary>Success!</Button>}
       </p>
     </div>
   );

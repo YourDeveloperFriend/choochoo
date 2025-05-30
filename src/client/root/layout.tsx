@@ -1,45 +1,21 @@
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import { default as DarkMode } from "@mui/icons-material/DarkMode";
-import DarkModeOutlined from "@mui/icons-material/DarkModeOutlined";
-import FeedbackOutlined from "@mui/icons-material/FeedbackOutlined";
-import Group from "@mui/icons-material/Group";
-import { default as Lock } from "@mui/icons-material/Lock";
-import LockOpen from "@mui/icons-material/LockOpen";
-import LogoutOutlined from "@mui/icons-material/LogoutOutlined";
-import ManageAccounts from "@mui/icons-material/ManageAccounts";
-import Person from "@mui/icons-material/Person";
-import {
-  AppBar,
-  Button,
-  ListItemIcon,
-  MenuList,
-  styled,
-  Toolbar,
-  Typography,
-  useColorScheme,
-  useMediaQuery,
-} from "@mui/material";
-import { Suspense, useCallback, useEffect, useState } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { Link, Outlet } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import { useIsAwaitingPlayer } from "../components/awaiting_player";
-import { DropdownMenu, DropdownMenuItem } from "../components/dropdown_menu";
-import { Loading } from "../components/loading";
-import { FeedbackForm } from "../services/feedback/form";
-import { useReportError } from "../services/feedback/report_error";
-import {
-  useEnableAdminMode,
-  useIsAdmin,
-  useLogout,
-  useMe,
-} from "../services/me";
-import { isNetworkError } from "../services/network";
-import { Banner } from "./banner";
+import {Suspense, useCallback, useEffect, useState} from "react";
+import {ErrorBoundary} from "react-error-boundary";
+import {Link, Outlet} from "react-router-dom";
+import {ToastContainer} from "react-toastify";
+import {useIsAwaitingPlayer} from "../components/awaiting_player";
+import {Loading} from "../components/loading";
+import {FeedbackForm} from "../services/feedback/form";
+import {useReportError} from "../services/feedback/report_error";
+import {useEnableAdminMode, useIsAdmin, useLogout, useMe,} from "../services/me";
+import {isNetworkError} from "../services/network";
+import {Banner} from "./banner";
 import * as styles from "./layout.module.css";
 import {useTheme} from "./theme";
+import {Button, Container, Dropdown, Icon, Menu, MenuMenu} from "semantic-ui-react";
 
-const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
+function Offset() {
+  return <div style={{marginTop: "3em"}} />
+}
 
 export function Layout() {
   const { isDarkMode, toggleDarkMode } = useTheme();
@@ -56,110 +32,44 @@ export function Layout() {
 
   return (
     <>
-      <AppBar
-        position="fixed"
-        className={`${styles.appBar} ${isAwaiting ? styles.appBarActive : ""}`}
-      >
-        <Toolbar>
-          <Typography
-            color="white"
-            style={{ textDecoration: "none" }}
-            variant="h6"
-            sx={{ flexGrow: 1 }}
-            component={Link}
-            to="/"
-          >
-            Choo Choo Games
-          </Typography>
+      <Menu fixed='top' className={`${styles.appBar} ${isAwaiting ? styles.appBarActive : ""}`}>
+        <Menu.Item as={Link} to="/" header>
+          Choo Choo Games
+        </Menu.Item>
+
+        <MenuMenu position='right'>
           {me == null && (
-            <Button color="inherit" component={Link} to="/app/users/login">
-              Login
-            </Button>
+              <Menu.Item
+                  as={Link}
+                  to='/app/users/login'
+                  name='Login'>
+                Login
+              </Menu.Item>
           )}
 
-          {isAdmin && (
-            <DropdownMenu
-              id="admin-menu"
-              icon={<ManageAccounts />}
-              ariaLabel="Admin"
-            >
-              <DropdownMenuItem
+          {isAdmin && (<Dropdown item icon="settings" simple>
+            <Dropdown.Menu>
+              <Dropdown.Item
                 onClick={() => {
                   setEnableAdminMode(!enableAdminMode);
                 }}
-              >
-                <ListItemIcon>
-                  {enableAdminMode ? (
-                    <LockOpen fontSize="small" />
-                  ) : (
-                    <Lock fontSize="small" />
-                  )}
-                </ListItemIcon>
-                Admin Mode
-              </DropdownMenuItem>
-              <DropdownMenuItem component={Link} to="/app/admin/feedback">
-                <ListItemIcon>
-                  <FeedbackOutlined fontSize="small" />
-                </ListItemIcon>
-                View Feedback
-              </DropdownMenuItem>
-              <DropdownMenuItem component={Link} to="/app/admin/users">
-                <ListItemIcon>
-                  <Group fontSize="small" />
-                </ListItemIcon>
-                View users
-              </DropdownMenuItem>
-            </DropdownMenu>
-          )}
-
-          {me != null && (
-            <DropdownMenu
-              id="user-menu"
-              icon={<AccountCircle />}
-              ariaLabel="Account of current user"
-            >
-              <MenuList>
-                <DropdownMenuItem component={Link} to={`/app/users/${me?.id}`}>
-                  <ListItemIcon>
-                    <Person fontSize="small" />
-                  </ListItemIcon>
-                  My Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => {
-                    toggleDarkMode()
-                  }}
-                >
-                  <ListItemIcon>
-                    {isDarkMode ? (
-                      <DarkMode fontSize="small" />
-                    ) : (
-                      <DarkModeOutlined fontSize="small" />
-                    )}
-                  </ListItemIcon>
-                  Dark Mode
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  component={Link}
-                  to={"https://github.com/YourDeveloperFriend/choochoo/issues"}
-                  target="_blank"
-                >
-                  <ListItemIcon>
-                    <FeedbackOutlined fontSize="small" />
-                  </ListItemIcon>
-                  Submit feedback
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={logout} disabled={isLogoutPending}>
-                  <ListItemIcon>
-                    <LogoutOutlined fontSize="small" />
-                  </ListItemIcon>
-                  Logout
-                </DropdownMenuItem>
-              </MenuList>
-            </DropdownMenu>
-          )}
-        </Toolbar>
-      </AppBar>
+              ><Icon name={enableAdminMode ? "lock open" : "lock"}/>Admin Mode</Dropdown.Item>
+              <Dropdown.Item as={Link} to="/app/admin/feedback"><Icon name="chat" />View Feedback</Dropdown.Item>
+              <Dropdown.Item as={Link} to="/app/admin/users"><Icon name="users" />View users</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>)}
+          {me != null && (<Dropdown item icon="user circle" simple>
+            <Dropdown.Menu>
+              <Dropdown.Item as={Link} to={`/app/users/${me?.id}`}><Icon name="user" />My Profile</Dropdown.Item>
+              <Dropdown.Item onClick={() => {
+                toggleDarkMode()
+              }}><Icon name={isDarkMode ? "moon outline" : "moon"} />Dark Mode</Dropdown.Item>
+              <Dropdown.Item as={Link} to="https://github.com/YourDeveloperFriend/choochoo/issues"><Icon name="chat" />Submit feedback</Dropdown.Item>
+              <Dropdown.Item onClick={logout} disabled={isLogoutPending}><Icon name="log out" />Logout</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>)}
+        </MenuMenu>
+      </Menu>
       <Offset />
       <Banner />
       <main className={`${styles.main}`}>
@@ -181,14 +91,14 @@ export function Layout() {
         position="bottom-left"
         hideProgressBar
         autoClose={2000}
-        theme={mode}
+        theme={isDarkMode ? 'dark' : 'light'}
       />
     </>
   );
 }
 
 function Footer() {
-  return (
+  return (<>
     <footer className={styles.footer}>
       <a href="/terms.html" target="_blank">
         Terms of Service
@@ -198,6 +108,7 @@ function Footer() {
         Privacy Policy
       </a>
     </footer>
+    </>
   );
 }
 
