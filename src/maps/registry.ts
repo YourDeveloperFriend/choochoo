@@ -20,6 +20,7 @@ import { PittsburghMapSettings } from "./pittsburgh/settings";
 import { ReversteamMapSettings } from "./reversteam/settings";
 import { RustBeltMapSettings } from "./rust_belt/settings";
 import { ScandinaviaMapSettings } from "./scandinavia/settings";
+import { ScotlandMapSettings } from "./scotland/settings";
 import { SicilyMapSettings } from "./sicily/settings";
 import { SoulTrainMapSettings } from "./soultrain/settings";
 import { StLuciaMapSettings } from "./st-lucia/settings";
@@ -33,6 +34,7 @@ export class MapRegistry {
     this.add(new DCMetroMapSettings());
     this.add(new ScandinaviaMapSettings());
     this.add(new NewEnglandMapSettings());
+    this.add(new ScotlandMapSettings());
     this.add(new AlabamaRailwaysMapSettings());
     this.add(new SicilyMapSettings());
     this.add(new RustBeltMapSettings());

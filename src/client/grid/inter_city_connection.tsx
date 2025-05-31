@@ -54,7 +54,7 @@ export function InterCityConnectionRender({
         stroke={highlighted ? "yellow" : "black"}
         className={`${styles.interCityConnection} ${clickable} ${connection.owner ? getPlayerColorCss(connection.owner.color) : ""}`}
       />
-      {connection.cost !== 2 && connection.owner == null && (
+      {connection.owner == null && (
         <Rotate rotation={rotation} reverse={true} center={connectionCenter}>
           <text
             fill="black"

@@ -19,6 +19,7 @@ import { PittsburghViewSettings } from "./pittsburgh/view_settings";
 import { ReversteamViewSettings } from "./reversteam/view_settings";
 import { RustBeltViewSettings } from "./rust_belt/view_settings";
 import { ScandinaviaViewSettings } from "./scandinavia/view_settings";
+import { ScotlandViewSettings } from "./scotland/view_settings";
 import { SicilyViewSettings } from "./sicily/view_settings";
 import { SoulTrainViewSettings } from "./soultrain/view_settings";
 import { StLuciaViewSettings } from "./st-lucia/view_settings";
@@ -33,6 +34,7 @@ export class ViewRegistry {
     this.add(new DCMetroViewSettings());
     this.add(new ScandinaviaViewSettings());
     this.add(new NewEnglandViewSettings());
+    this.add(new ScotlandViewSettings());
     this.add(new AlabamaRailwaysViewSettings());
     this.add(new SicilyViewSettings());
     this.add(new RustBeltViewSettings());

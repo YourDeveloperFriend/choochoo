@@ -36,6 +36,11 @@ export class ConnectCitiesAction implements ActionProcessor<ConnectCitiesData> {
     return cost - this.discountManager.getDiscount(data, cost);
   }
 
+  protected validateUrbanizedCities(data: ConnectCitiesData): void {
+    const cities = data.connect.map((coordinates) => this.grid().get(coordinates));
+    assert(cities.every(isCity), { invalidInput: 'Cannot connect cities until both have been urbanized' });
+}
+
   validate(data: ConnectCitiesData): void {
     const maxTrack = this.helper.getMaxBuilds();
     assert(this.helper.buildsRemaining() > 0, { invalidInput: `You can only build at most ${maxTrack} track` });
@@ -47,8 +52,7 @@ export class ConnectCitiesAction implements ActionProcessor<ConnectCitiesData> {
     assert(connection.owner == null, { invalidInput: 'City already connected' });
     assert(this.currentPlayer().money >= this.totalCost(data, connection), { invalidInput: 'Cannot afford purchase' });
 
-    const cities = data.connect.map((coordinates) => this.grid().get(coordinates));
-    assert(cities.every(isCity), {invalidInput: 'Cannot connect cities until both have been urbanized'});
+    this.validateUrbanizedCities(data);
   }
 
   process(data: ConnectCitiesData): boolean {
