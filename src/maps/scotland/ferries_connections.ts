@@ -44,23 +44,19 @@ export class ScotlandMoveValidator extends MoveValidator {
     fromCoordinates: Coordinates,
     toCoordinates: Coordinates,
   ): RouteInfo[] {
-    const toLand = this.grid().get(toCoordinates) as Land;
     const connection = this.grid().findConnection([fromCoordinates, toCoordinates]) as OwnedInterCityConnection | undefined;
-    const glasgowToAyr = this.grid().get(fromCoordinates)?.name() === "Glasgow" &&
-        this.grid().get(toCoordinates)?.name() === "Ayr";
     if (
-      glasgowToAyr &&
-      toLand?.hasTown() === true  &&
+      this.checkAyrGlasgow(fromCoordinates, toCoordinates) &&
       connection?.owner !== undefined
     ) {
       return super
       .findRoutesToLocation(player, fromCoordinates, toCoordinates)
-      .concat(this.glasgowToAyrTown(connection, toCoordinates));
+      .concat(this.glasgowAyrTownConnection(connection, toCoordinates));
     }
     return super.findRoutesToLocation(player, fromCoordinates, toCoordinates);
   }
 
-  private glasgowToAyrTown(
+  private glasgowAyrTownConnection(
       connection: OwnedInterCityConnection,
       toCoordinates: Coordinates,
     ): RouteInfo[] {
@@ -72,6 +68,19 @@ export class ScotlandMoveValidator extends MoveValidator {
           owner: connection.owner.color
         },
       ];
+    }
+  
+  private checkAyrGlasgow(
+    fromCoordinates: Coordinates,
+    toCoordinates: Coordinates,
+  ): boolean {
+    const fromCheck = this.grid().get(fromCoordinates)?.name() === "Ayr" ||
+      this.grid().get(fromCoordinates)?.name() === "Glasgow";
+    
+    const toCheck = this.grid().get(toCoordinates)?.name() === "Ayr" ||
+      this.grid().get(toCoordinates)?.name() === "Glasgow";
+
+    return fromCheck && toCheck;
     }
 
 }
