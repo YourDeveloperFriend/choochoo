@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { Rotation } from "../../engine/game/map_settings";
 import { City } from "../../engine/map/city";
 import { Space } from "../../engine/map/grid";
@@ -81,10 +81,32 @@ interface TerrainHexProps {
   isHighlighted: boolean;
   clickTargets: Set<ClickTarget>;
   rotation?: Rotation;
+  selectedGood?: { good: Good; coordinates: Coordinates };
+  highlightedTrack?: Track[];
 }
 
 // The size of the inner part of city hexes, relative to the full size of the hex
 const CITY_INNER_HEX_SIZE = 0.85;
+
+interface TerrainHexes {
+  beforeTextures: ReactNode[];
+  afterTextures: ReactNode[];
+}
+
+export function getTerrainHexes(props: TerrainHexProps): TerrainHexes {
+  const key = props.space.coordinates.serialize();
+  return {
+    beforeTextures: [
+      <LowerTerrainHex key={key + "LowerTerrainHex"} {...props} />,
+      <BorderBoundaries key={key + "BorderBoundaries"} {...props} />,
+    ],
+    afterTextures: [
+      <UpperTerrainHex key={key + "UpperTerrainHex"} {...props} />,
+      <TrackHex key={key + "TrackHex"} {...props} />,
+      <GoodsOnHex key={key + "GoodsOnHex"} {...props} />,
+    ],
+  };
+}
 
 export function LowerTerrainHex({
   space,
@@ -122,13 +144,12 @@ export function LowerTerrainHex({
   const clickable =
     isClickableCity || isClickableTown || isClickableBuild || isClaimableTrack;
 
-  const gameKey = useGameKey();
-
   if (space instanceof Land) {
     const hexColor = landColorStyle(space);
 
     return (
       <>
+        {/** fill */}
         <polygon
           className={`${styles.location} ${clickable ? gridStyles.clickable : ""} ${hexColor}`}
           data-coordinates={space.coordinates.serialize()}
@@ -136,6 +157,7 @@ export function LowerTerrainHex({
           stroke="black"
           strokeWidth="0"
         />
+        {/** border */}
         <polygon
           fillOpacity="0"
           data-coordinates={space.coordinates.toString()}
@@ -143,17 +165,6 @@ export function LowerTerrainHex({
           stroke="black"
           strokeWidth={size / 100}
         />
-        {space.unpassableExits().map((direction) => (
-          <EdgeBoundary
-            key={direction}
-            center={center}
-            size={size}
-            direction={direction}
-          />
-        ))}
-        {gameKey === "cyprus" && (
-          <CyprusBorder space={space} center={center} size={size} />
-        )}
       </>
     );
   } else {
@@ -201,9 +212,6 @@ export function LowerTerrainHex({
           stroke="black"
           strokeWidth={size / 100}
         />
-        {gameKey === "cyprus" && (
-          <CyprusBorder space={space} center={center} size={size} />
-        )}
         <OnRoll city={space} center={center} size={size} rotation={rotation} />
         {space.name() != "" && (
           <HexName
@@ -216,6 +224,34 @@ export function LowerTerrainHex({
       </>
     );
   }
+}
+
+export function BorderBoundaries({ space, size }: TerrainHexProps) {
+  const gameKey = useGameKey();
+  const center = useMemo(
+    () => coordinatesToCenter(space.coordinates, size),
+    [space.coordinates, size],
+  );
+
+  return (
+    <>
+      {/** unpassable borders */}
+      {space instanceof Land &&
+        space
+          .unpassableExits()
+          .map((direction) => (
+            <EdgeBoundary
+              key={direction}
+              center={center}
+              size={size}
+              direction={direction}
+            />
+          ))}
+      {gameKey === "cyprus" && (
+        <CyprusBorder space={space} center={center} size={size} />
+      )}
+    </>
+  );
 }
 
 export function UpperTerrainHex({
@@ -297,11 +333,14 @@ export function TrackHex({
     [coordinates, size],
   );
 
+  const tileData = useMemo(() => {
+    return space instanceof Land ? space.getTileData() : undefined;
+  }, [space]);
+
   const trackInfo = useMemo(() => {
-    const tileData = space instanceof Land ? space.getTileData() : undefined;
     if (tileData == null) return [];
     return calculateTrackInfo(tileData);
-  }, [space]);
+  }, [tileData]);
 
   const highlightedTrackSet = useMemo(() => {
     if (highlightedTrack == null) return new Set<TrackInfo>();
@@ -315,8 +354,13 @@ export function TrackHex({
     );
   }, [highlightedTrack, coordinates, trackInfo]);
 
+  if (tileData == null) return <></>;
+
   return (
-    <>
+    <g
+      data-tile-type={tileData?.tileType}
+      data-orientation={tileData?.orientation}
+    >
       {trackInfo.map((t, index) => (
         <TrackSvg
           key={index}
@@ -327,7 +371,7 @@ export function TrackHex({
           rotation={rotation}
         />
       ))}
-    </>
+    </g>
   );
 }
 
@@ -438,6 +482,7 @@ function CyprusBorder({
           center={center}
           size={size}
           direction={direction}
+          color="grey"
         />
       ))}
     </>
@@ -468,9 +513,10 @@ interface EdgeBoundaryProps {
   center: Point;
   size: number;
   direction: Direction;
+  color?: string;
 }
 
-function EdgeBoundary({ center, size, direction }: EdgeBoundaryProps) {
+function EdgeBoundary({ center, size, direction, color }: EdgeBoundaryProps) {
   const [corner1, corner2] = useMemo(
     () => edgeCorners(center, size, direction),
     [center.x, center.y, size, direction],
@@ -481,9 +527,9 @@ function EdgeBoundary({ center, size, direction }: EdgeBoundaryProps) {
       y1={corner1.y}
       x2={corner2.x}
       y2={corner2.y}
-      stroke="red"
+      stroke={color ?? "red"}
       strokeLinecap="round"
-      strokeWidth={12}
+      strokeWidth={size / 18}
     />
   );
 }

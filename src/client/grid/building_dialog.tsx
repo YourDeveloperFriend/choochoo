@@ -146,7 +146,7 @@ export function BuildingDialog({
             />
           </p>
           {showReasons && <Button onClick={rotate}>Rotate</Button>}
-          <div className={buildingDialogContainer}>
+          <div className={buildingDialogContainer} data-building-options>
             {canUrbanize &&
               availableCities.map((city, index) => (
                 <div
@@ -162,7 +162,12 @@ export function BuildingDialog({
                 </div>
               ))}
             {eligible.map((build, index) => (
-              <div key={index} className={buildingOption}>
+              <div
+                key={index}
+                className={buildingOption}
+                data-tile-type={build.tile.tileType}
+                data-orientation={build.tile.orientation}
+              >
                 <ModifiedSpace
                   space={space!}
                   settings={settings}

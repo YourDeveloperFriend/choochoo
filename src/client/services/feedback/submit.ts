@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { toast } from "react-toastify";
 import { SubmitFeedbackApi } from "../../../api/feedback";
+import { emitSuccess } from "../../utils/notify";
 import { tsr } from "../client";
 import { handleError } from "../network";
 
@@ -14,7 +14,7 @@ export function useSubmitFeedback() {
         { body },
         {
           onSuccess: (_) => {
-            toast.success("Feedback submitted");
+            emitSuccess("Feedback submitted");
             onSubmit?.();
           },
         },

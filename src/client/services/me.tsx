@@ -6,7 +6,6 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import {
   CreateUserApi,
   ForgotPasswordRequest,
@@ -17,6 +16,7 @@ import {
   UserRole,
 } from "../../api/user";
 import { assert } from "../../utils/validate";
+import { emitSuccess } from "../utils/notify";
 import { tsr } from "./client";
 import { handleError } from "./network";
 
@@ -127,7 +127,7 @@ export function useLogin() {
           onSuccess: (data) => {
             updateCache(data.body.user, undefined);
             if (body.activationCode) {
-              toast.success("Welcome! CCMF!");
+              emitSuccess("Welcome! CCMF!");
             }
             navigate("/");
           },
@@ -208,7 +208,7 @@ export function useUpdatePassword() {
         { body },
         {
           onSuccess: (_) => {
-            toast.success("Update succeeded!");
+            emitSuccess("Update succeeded!");
             onSuccess?.();
           },
         },
@@ -231,7 +231,7 @@ export function useLogout() {
         onSuccess({ status, body }) {
           assert(status === 200 && body.success);
           updateCache(undefined, undefined);
-          toast.success("Logout successful");
+          emitSuccess("Logout successful");
         },
       },
     );
@@ -250,7 +250,7 @@ export function useResendActivationCode() {
       {
         onSuccess({ status, body }) {
           assert(status === 200 && body.success);
-          toast.success("Activation code sent");
+          emitSuccess("Activation code sent");
         },
       },
     );
@@ -273,7 +273,7 @@ export function useActivateAccount() {
         onSuccess({ status, body }) {
           assert(status === 200);
           updateCache(body.user, undefined);
-          toast.success("Success! CCMF!");
+          emitSuccess("Success! CCMF!");
           navigate("/");
         },
       },

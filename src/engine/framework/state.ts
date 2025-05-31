@@ -19,8 +19,8 @@ const SerializedGameDataV3 = z.object({
 });
 type SerializedGameDataV3 = z.infer<typeof SerializedGameDataV3>;
 
-const SerializedGameData = SerializedGameDataV3;
-type SerializedGameData = z.infer<typeof SerializedGameData>;
+export const SerializedGameData = SerializedGameDataV3;
+export type SerializedGameData = z.infer<typeof SerializedGameData>;
 
 type TypedEntry<T> = [Key<T>, StateContainer<T>];
 

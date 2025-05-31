@@ -8,6 +8,7 @@ export enum Good {
   RED = 2,
   PURPLE = 3,
   YELLOW = 4,
+  WHITE = 5,
 }
 
 export const BLUE = Good.BLUE;
@@ -32,6 +33,8 @@ export function goodToString(good: Good): string {
       return "Purple";
     case Good.YELLOW:
       return "Yellow";
+    case Good.WHITE:
+      return "White";
     default:
       assertNever(good);
   }

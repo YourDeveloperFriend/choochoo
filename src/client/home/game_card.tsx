@@ -1,3 +1,5 @@
+import { useCallback, useRef } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   Card,
@@ -7,7 +9,6 @@ import {
   CardMeta,
   Icon,
 } from "semantic-ui-react";
-import { Link } from "react-router-dom";
 import {
   GameLiteApi,
   GameStatus,
@@ -42,7 +43,7 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
     .getVariantString?.(game.variant);
 
   return (
-    <Card className={styles.gameCard}>
+    <Card className={styles.gameCard} data-game-card>
       <CardContent style={{ padding: "0" }}>
         <CardHeader
           className={`${styles.gameCardHeader} ${gameStatusToStyle(game.status)} ${game.activePlayerId === me?.id ? styles.activePlayer : ""}`}
@@ -149,7 +150,7 @@ function JoinButton({ game }: GameButtonProps) {
   }
 
   return (
-    <Button primary disabled={isPending} onClick={perform}>
+    <Button primary disabled={isPending} onClick={perform} data-join-button>
       Join
     </Button>
   );
@@ -157,14 +158,28 @@ function JoinButton({ game }: GameButtonProps) {
 
 function StartButton({ game }: GameButtonProps) {
   const { canPerform, perform, isPending } = useStartGame(game);
+  const seedRef = useRef<HTMLInputElement | null>(null);
+
+  const startGame = useCallback(() => {
+    perform(seedRef.current?.value !== "" ? seedRef.current?.value : undefined);
+  }, [perform, seedRef]);
+
   if (!canPerform) {
     return <></>;
   }
 
   return (
-    <Button primary disabled={isPending} onClick={perform}>
-      Start
-    </Button>
+    <>
+      <input type="hidden" name="seed" ref={seedRef} />
+      <Button
+        primary
+        disabled={isPending}
+        onClick={startGame}
+        data-start-button
+      >
+        Start
+      </Button>
+    </>
   );
 }
 

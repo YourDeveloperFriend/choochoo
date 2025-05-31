@@ -13,8 +13,13 @@
     "lint": "eslint src/ && knip",
     "format": "prettier src --write",
     "migrate": "node bin/scripts/migrations up",
-    "test": "ts-node node_modules/jasmine/bin/jasmine",
-    "test-watch": "nodemon -V --ext ts,tsx --watch src/ --exec 'ts-node node_modules/jasmine/bin/jasmine'",
+    "migrate-testdb": "export $(cat .testenv.sh | xargs) && node bin/scripts/migrations up",
+    "test": "ts-node node_modules/jasmine/bin/jasmine --config=spec/support/jasmine.mjs",
+    "test-watch": "nodemon -V --ext ts,tsx --watch src/ --exec 'npm run test'",
+    "e2e": "export $(cat .testenv.sh | xargs) && ts-node node_modules/jasmine/bin/jasmine --config=spec/support/e2e.mjs",
+    "e2e-write": "export $(cat .testenv.sh | xargs) && WRITE=true ts-node node_modules/jasmine/bin/jasmine --config=spec/support/e2e.mjs",
+    "e2e-watch": "nodemon -V --ext ts,tsx --watch src/ --exec 'npm run e2e'",
+    "prober": "ts-node node_modules/jasmine/bin/jasmine --config=spec/support/prober.mjs",
     "knip": "knip"
   },
   "files": [
@@ -73,6 +78,7 @@
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
     "@types/seedrandom": "^3.0.8",
+    "@types/selenium-webdriver": "^4.1.28",
     "esbuild": "^0.25.2",
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.2",
@@ -82,6 +88,7 @@
     "knip": "^5.50.5",
     "nodemon": "^3.1.9",
     "prettier": "3.4.2",
+    "selenium-webdriver": "^4.33.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.30.1"

@@ -21,7 +21,7 @@ import { Entry, WithFormNumber } from "../../utils/types";
 import { assert, assertNever } from "../../utils/validate";
 import { useConfirm } from "../components/confirm";
 import { useMostRecentValue } from "../utils/hooks";
-import { useSuccess } from "../utils/notify";
+import { emitSuccess, useSuccess } from "../utils/notify";
 import { tsr } from "./client";
 import { useIsAdmin, useMe } from "./me";
 import { handleError, toValidationError } from "./network";
@@ -339,7 +339,7 @@ export function useDeleteGame(game: GameLiteApi) {
       { params: { gameId: game.id } },
       {
         onSuccess: () => {
-          toast.success("Success");
+          emitSuccess();
         },
       },
     );
@@ -417,14 +417,23 @@ export function useSetGameData() {
   return { setGameData, isPending };
 }
 
-export function useStartGame(game: GameLiteApi): GameAction {
+export function useStartGame(game: GameLiteApi) {
   const onSuccess = useSetGameSuccess();
   const me = useMe();
   const { mutate, error, isPending } = tsr.games.start.useMutation();
   handleError(isPending, error);
 
   const perform = useCallback(
-    () => mutate({ params: { gameId: game.id } }, { onSuccess }),
+    (seed?: string) =>
+      mutate(
+        { params: { gameId: game.id }, body: { seed } },
+        {
+          onSuccess: (body) => {
+            onSuccess(body);
+            emitSuccess();
+          },
+        },
+      ),
     [game.id],
   );
 
@@ -499,7 +508,7 @@ export function useUndoAction(): UndoAction {
         onSuccess(r) {
           onSuccess(r);
 
-          toast.success("Success");
+          emitSuccess();
         },
       },
     );
@@ -538,7 +547,7 @@ export function useRetryAction(): RetryAction {
       {
         onSuccess(r) {
           onSuccess(r);
-          toast.success("Success");
+          emitSuccess();
         },
       },
     );

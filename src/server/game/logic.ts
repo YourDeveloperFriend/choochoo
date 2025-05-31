@@ -21,6 +21,7 @@ import { GameHistoryDao } from "./history_dao";
 export async function startGame(
   gameId: number,
   enforceOwner?: number,
+  inputSeed?: string,
 ): Promise<GameApi> {
   const game = await GameDao.findByPk(gameId);
 
@@ -46,6 +47,7 @@ export async function startGame(
         playerId: user!.id,
         preferredColors: user!.preferredColors,
       })),
+      seed: inputSeed,
       game: game.toLimitedGame(),
     });
 
@@ -260,7 +262,8 @@ Lifecycle.singleton.onStart(() => {
         setTimeout(() => {
           if (
             game.status === GameStatus.enum.LOBBY &&
-            game.playerIds.length === game.config.maxPlayers
+            game.playerIds.length === game.config.maxPlayers &&
+            game.autoStart
           ) {
             startGame(game.id).catch((e) => {
               logError("error starting game", e);

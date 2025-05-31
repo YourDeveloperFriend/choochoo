@@ -18,9 +18,11 @@ redisClient.on("error", (e) => {
   process.exit();
 });
 
+const redisPrefix = environment.redisUrl.pathname.slice(1);
+
 const redisStore = new RedisStore({
   client: redisClient,
-  prefix: "choo:",
+  prefix: `${redisPrefix == "" ? "choo" : redisPrefix}:`,
 });
 
 export const redisSession = express();

@@ -9,7 +9,11 @@ interface SetTurnLength {
   turnLength: number;
 }
 
-type ModifyTurnLength = AddTurnLength | SetTurnLength;
+interface FunctionTurnLength {
+  function(playerCount: number): number;
+}
+
+type ModifyTurnLength = AddTurnLength | SetTurnLength | FunctionTurnLength;
 
 export class TurnLengthModule extends Module {
   constructor(private readonly modify: ModifyTurnLength) {
@@ -30,7 +34,10 @@ function turnLengthMixin(modify: ModifyTurnLength) {
         if ("turnLength" in modify) {
           return modify.turnLength;
         }
-        return super.maxRounds() + modify.add;
+        if ("add" in modify) {
+          return super.maxRounds() + modify.add;
+        }
+        return modify.function(this.playerCount());
       }
     };
   };

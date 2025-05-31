@@ -1,11 +1,6 @@
 export default {
   spec_dir: "",
-  spec_files: [
-    "src/**/*_test.ts",
-    "src/**/*_test.tsx",
-    "!src/e2e/*",
-    "!src/prober/*",
-  ],
+  spec_files: ["src/prober/**/*_test.ts"],
   env: {
     stopSpecOnExpectationFailure: false,
     random: true,

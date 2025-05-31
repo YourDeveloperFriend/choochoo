@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { toast } from "react-toastify";
 import { NotificationPreferences } from "../../../api/notifications";
+import { emitSuccess } from "../../utils/notify";
 import { tsr } from "../client";
 import { handleError } from "../network";
 
@@ -16,7 +16,7 @@ export function useSendTestNotification() {
         },
         {
           onSuccess: () => {
-            toast.success("Success");
+            emitSuccess();
           },
         },
       ),

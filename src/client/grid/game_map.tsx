@@ -442,6 +442,7 @@ export function GameMap() {
   return (
     <>
       <HexGrid
+        id="main-map"
         key={gridVersion}
         onClick={onClick}
         onClickInterCity={onClickInterCity}

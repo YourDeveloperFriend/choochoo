@@ -81,6 +81,7 @@ export function CreateGamePage() {
 
   const [artificialStart, setArtificialStart] = useSemanticUiCheckboxState();
   const [unlisted, setUnlisted] = useSemanticUiCheckboxState();
+  const [autoStart, setAutoStart] = useSemanticUiCheckboxState(true);
   const [minPlayersS, setMinPlayers, setMinPlayersRaw] = useNumberInputState(
     selectedMap.minPlayers,
   );
@@ -132,6 +133,7 @@ export function CreateGamePage() {
         minPlayers,
         maxPlayers,
         unlisted,
+        autoStart,
         variant: variant as VariantConfig,
       });
     },
@@ -141,6 +143,7 @@ export function CreateGamePage() {
       allowPlayerSelections,
       artificialStart,
       unlisted,
+      autoStart,
       createGame,
       minPlayers,
       maxPlayers,
@@ -158,6 +161,7 @@ export function CreateGamePage() {
       maxPlayers,
       turnDuration,
       unlisted,
+      autoStart,
       variant: variant as VariantConfig,
     });
   }, [
@@ -167,6 +171,8 @@ export function CreateGamePage() {
     minPlayers,
     maxPlayers,
     variant,
+    unlisted,
+    autoStart,
     turnDuration,
   ]);
 
@@ -199,6 +205,8 @@ export function CreateGamePage() {
           <FormInput
             required
             label="Name"
+            name="name"
+            data-name-input
             value={name}
             disabled={isPending}
             error={validationError?.name}
@@ -215,6 +223,7 @@ export function CreateGamePage() {
                   ` (${releaseStageToString(m.stage)})`),
             }))}
             required
+            name="map"
             label="Map"
             value={gameKey}
             disabled={isPending}
@@ -276,6 +285,15 @@ export function CreateGamePage() {
 
           <FormCheckbox
             toggle
+            label="Auto start"
+            checked={autoStart}
+            disabled={isPending}
+            onChange={setAutoStart}
+            error={validationError?.autoStart}
+          />
+
+          <FormCheckbox
+            toggle
             label="Unlisted Game"
             checked={unlisted}
             disabled={isPending}
@@ -294,6 +312,7 @@ export function CreateGamePage() {
 
           <Button
             primary
+            data-create-button
             loading={isPending}
             disabled={isPending}
             onClick={onSubmit}

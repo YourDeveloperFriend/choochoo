@@ -70,6 +70,7 @@ export const CreateGameApi = z
     turnDuration: z.number(),
     artificialStart: z.boolean(),
     unlisted: z.boolean(),
+    autoStart: z.boolean(),
   })
   .and(MapConfig)
   .refine((data) => data.gameKey === data.variant.gameKey, {
@@ -248,7 +249,7 @@ export const gameContract = c.router({
     method: "POST",
     pathParams: GameIdParams,
     path: "/games/:gameId/start",
-    body: z.object({}),
+    body: z.object({ seed: z.string().optional() }),
     responses: {
       200: z.object({ game: GameApi }),
     },

@@ -88,6 +88,7 @@ const router = initServer().router(gameContract, {
         "playerIds",
         "turnDuration",
         "unlisted",
+        "autoStart",
       ],
       where,
       limit: pageSize! + 1,
@@ -142,6 +143,7 @@ const router = initServer().router(gameContract, {
         maxPlayers: body.maxPlayers,
       },
       unlisted: body.unlisted,
+      autoStart: body.autoStart,
     });
     return { status: 201, body: { game: game.toApi() } };
   },
@@ -214,7 +216,10 @@ const router = initServer().router(gameContract, {
     const userId = req.session.userId;
     assert(userId != null, { permissionDenied: true });
 
-    const game = await startGame(params.gameId, userId);
+    const seed =
+      environment.stage !== Stage.enum.production ? req.body.seed : undefined;
+
+    const game = await startGame(params.gameId, userId, seed);
     return { status: 200, body: { game } };
   },
 

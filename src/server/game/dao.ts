@@ -64,6 +64,10 @@ export class GameDao extends Model<
   @NotNull
   declare unlisted: boolean;
 
+  @Attribute(DataTypes.BOOLEAN)
+  @NotNull
+  declare autoStart: boolean;
+
   @Attribute(DataTypes.INTEGER)
   @NotNull
   declare turnDuration: number;

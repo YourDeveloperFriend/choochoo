@@ -77,7 +77,6 @@ async function logErrors(result: BuildResult) {
   );
 }
 
-log();
 if (resolve(process.argv[1]) === resolve(__filename)) {
   buildApp();
 }

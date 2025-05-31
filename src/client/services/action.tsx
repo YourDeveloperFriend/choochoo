@@ -16,6 +16,7 @@ import { ImmutableMap } from "../../utils/immutable";
 import { useUpdateAutoActionCache } from "../auto_action/hooks";
 import { useConfirm } from "../components/confirm";
 import { useInjected, useInjectedMemo } from "../utils/injection_context";
+import { useSuccess } from "../utils/notify";
 import { tsr } from "./client";
 import { canEditGame, useGame, useSetGameSuccess } from "./game";
 import { useMe } from "./me";
@@ -106,6 +107,7 @@ export function useAction<T extends object>(
   const { mutate, isPending } = tsr.games.performAction.useMutation();
   const actionInstance = useInjectedMemo(action);
   const errorNotifier = useErrorNotifier();
+  const toastSuccess = useSuccess();
 
   const actionName = action.action;
 
@@ -152,7 +154,7 @@ export function useAction<T extends object>(
             onSuccess(r);
             updateAutoActionCache(r.body.auto);
 
-            toast.success("Success");
+            toastSuccess();
           },
         },
       );
