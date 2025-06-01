@@ -243,6 +243,6 @@ export const map = grid([
     PLAIN,
     MOUNTAIN,
     plain({ terrainCost: 10 }),
-    city("To Wien", [YELLOW], black(4), 2),
+    city("To Wien", [YELLOW], black(4), 4),
   ],
 ]);
