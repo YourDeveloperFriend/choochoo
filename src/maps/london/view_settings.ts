@@ -3,7 +3,7 @@ import { LondonRules } from "./rules";
 import { LondonMapSettings } from "./settings";
 import { MapViewSettings } from "../view_settings";
 import { LondonRivers } from "./rivers";
-import {LondonMoveInterceptorModal} from "./move_interceptor_modal";
+import { LondonMoveInterceptorModal } from "./move_interceptor_modal";
 
 export class LondonViewSettings
   extends LondonMapSettings

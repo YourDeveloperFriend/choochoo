@@ -8,7 +8,11 @@ export class LondonStarter extends GameStarter {
     const bag = [...this.bag()];
     for (const space of this.gridHelper.all()) {
       const name = space.name();
-      if (name && ['Fulham', "St. John's Wood", 'Brixton', 'Deptford'].indexOf(name) !== -1) {
+      if (
+        name &&
+        ["Fulham", "St. John's Wood", "Brixton", "Deptford"].indexOf(name) !==
+          -1
+      ) {
         const color = bag.pop();
         assert(color !== undefined, "Bag cannot be emptied during setup");
         this.gridHelper.update(space.coordinates, (loc) => {

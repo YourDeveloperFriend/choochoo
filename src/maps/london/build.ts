@@ -1,4 +1,4 @@
-import {BuilderHelper} from "../../engine/build/helper";
+import { BuilderHelper } from "../../engine/build/helper";
 
 export class LondonBuilderHelper extends BuilderHelper {
   getMaxBuilds(): number {

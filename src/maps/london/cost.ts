@@ -4,7 +4,7 @@ import { injectCurrentPlayer } from "../../engine/game/state";
 import { Action } from "../../engine/state/action";
 import { Direction, TileType } from "../../engine/state/tile";
 import { Coordinates } from "../../utils/coordinates";
-import {BUILD_STATE} from "../../engine/build/state";
+import { BUILD_STATE } from "../../engine/build/state";
 import { assert } from "../../utils/validate";
 
 // These are the _incremental_ costs of doing another build
@@ -38,6 +38,8 @@ export class LondonCostCalculator extends BuildCostCalculator {
 
   private buildCount(): number {
     // TODO: remove the call to previousBuilds and just rely on buildCount, once all games have migrated.
-    return this.buildState().buildCount ?? this.buildState().previousBuilds.length;
+    return (
+      this.buildState().buildCount ?? this.buildState().previousBuilds.length
+    );
   }
 }

@@ -24,7 +24,7 @@ import { SicilyMapSettings } from "./sicily/settings";
 import { SoulTrainMapSettings } from "./soultrain/settings";
 import { StLuciaMapSettings } from "./st-lucia/settings";
 import { SwedenRecyclingMapSettings } from "./sweden/settings";
-import {LondonMapSettings} from "./london/settings";
+import { LondonMapSettings } from "./london/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();

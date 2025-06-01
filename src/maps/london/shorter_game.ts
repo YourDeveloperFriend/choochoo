@@ -1,5 +1,5 @@
 import { RoundEngine } from "../../engine/game/round";
-import {assert} from "../../utils/validate";
+import { assert } from "../../utils/validate";
 
 export class LondonRoundEngine extends RoundEngine {
   maxRounds(): number {

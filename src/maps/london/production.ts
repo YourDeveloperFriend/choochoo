@@ -1,5 +1,5 @@
-import {PhaseEngine} from "../../engine/game/phase";
-import {Phase} from "../../engine/state/phase";
+import { PhaseEngine } from "../../engine/game/phase";
+import { Phase } from "../../engine/state/phase";
 
 export class LondonPhaseEngine extends PhaseEngine {
   phaseOrder(): Phase[] {

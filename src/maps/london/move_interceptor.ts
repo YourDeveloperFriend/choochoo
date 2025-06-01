@@ -13,7 +13,9 @@ export class LondonMoveInterceptor extends MoveInterceptor {
     if (start && start instanceof City) {
       cityCount += 1;
     }
-    const end = this.grid().get(moveData.path[moveData.path.length-1].endingStop);
+    const end = this.grid().get(
+      moveData.path[moveData.path.length - 1].endingStop,
+    );
     if (end && end instanceof City) {
       cityCount += 1;
     }
