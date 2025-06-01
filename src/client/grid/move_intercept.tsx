@@ -1,8 +1,7 @@
 import { useCallback, useState } from "react";
 import { MoveData } from "../../engine/move/move";
-import { useGameKey, useInjected } from "../utils/injection_context";
+import { useInjected, useViewSettings} from "../utils/injection_context";
 import { MoveInterceptor } from "../../engine/move/interceptor";
-import { ViewRegistry } from "../../maps/view_registry";
 
 interface InterceptMoveModalProps {
   cityName?: string;
@@ -38,8 +37,7 @@ export function useMoveInterceptionState() {
 }
 
 export function InterceptMoveModal(props: InterceptMoveModalProps) {
-  const gameKey = useGameKey();
-  const mapSettings = ViewRegistry.singleton.get(gameKey);
+  const mapSettings = useViewSettings();
   if (!mapSettings.moveInterceptModal) {
     return null;
   }
