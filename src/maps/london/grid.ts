@@ -9,10 +9,16 @@ import {
   white,
 } from "../factory";
 import { BLUE, PURPLE, RED, YELLOW } from "../../engine/state/good";
+import { SpaceStyle } from "../../engine/state/location_style";
 
-// FIXME: See how we can tweak this to have some custom styling
-const CENTRAL_LONDON_PLAIN = PLAIN;
-const CENTRAL_LONDON_RIVER = RIVER;
+const CENTRAL_LONDON_PLAIN = {
+  ...PLAIN,
+  style: SpaceStyle.LIGHT_PLAIN
+};
+const CENTRAL_LONDON_RIVER = {
+  ...RIVER,
+  style: SpaceStyle.LIGHT_RIVER
+};
 
 export const map = grid([
   [
@@ -148,7 +154,7 @@ export const map = grid([
     CENTRAL_LONDON_PLAIN,
     city("Waterloo", [RED], black(2), 3),
     CENTRAL_LONDON_RIVER,
-    town("Brixton"),
+    { ...PLAIN, townName: "Brixton", style: SpaceStyle.LIGHT_PLAIN },
     PLAIN,
     town("Streatham"),
     PLAIN,
@@ -172,7 +178,7 @@ export const map = grid([
     PLAIN,
     RIVER,
     CENTRAL_LONDON_RIVER,
-    town("Deptford"), // FIXME: central london styling
+    { ...PLAIN, townName: "Deptford", style: SpaceStyle.LIGHT_PLAIN },
     PLAIN,
     town("Forest Hill"),
     PLAIN,

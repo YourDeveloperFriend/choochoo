@@ -1,35 +1,29 @@
-import { ReactNode, useMemo } from "react";
-import { Rotation } from "../../engine/game/map_settings";
-import { City } from "../../engine/map/city";
-import { Space } from "../../engine/map/grid";
-import { calculateTrackInfo, Land } from "../../engine/map/location";
-import { isTownTile } from "../../engine/map/tile";
-import { Track, TrackInfo } from "../../engine/map/track";
-import { CityGroup } from "../../engine/state/city_group";
-import { Good } from "../../engine/state/good";
-import { SpaceType } from "../../engine/state/location_type";
-import { Direction } from "../../engine/state/tile";
-import { CyprusMapData } from "../../maps/cyprus/map_data";
-import { Coordinates } from "../../utils/coordinates";
-import {
-  coordinatesToCenter,
-  edgeCorners,
-  getCorners,
-  getHalfCorners,
-  Point,
-  polygon,
-} from "../../utils/point";
-import { assertNever } from "../../utils/validate";
-import { Rotate } from "../components/rotation";
-import { useGameKey } from "../utils/injection_context";
-import { ClickTarget } from "./click_target";
-import { goodStyle } from "./good";
-import { GoodBlock } from "./good_block";
+import {ReactNode, useMemo} from "react";
+import {Rotation} from "../../engine/game/map_settings";
+import {City} from "../../engine/map/city";
+import {Space} from "../../engine/map/grid";
+import {calculateTrackInfo, Land} from "../../engine/map/location";
+import {isTownTile} from "../../engine/map/tile";
+import {Track, TrackInfo} from "../../engine/map/track";
+import {CityGroup} from "../../engine/state/city_group";
+import {Good} from "../../engine/state/good";
+import {SpaceType} from "../../engine/state/location_type";
+import {Direction} from "../../engine/state/tile";
+import {CyprusMapData} from "../../maps/cyprus/map_data";
+import {Coordinates} from "../../utils/coordinates";
+import {coordinatesToCenter, edgeCorners, getCorners, getHalfCorners, Point, polygon,} from "../../utils/point";
+import {assertNever} from "../../utils/validate";
+import {Rotate} from "../components/rotation";
+import {useGameKey} from "../utils/injection_context";
+import {ClickTarget} from "./click_target";
+import {goodStyle} from "./good";
+import {GoodBlock} from "./good_block";
 import * as styles from "./hex.module.css";
 import * as gridStyles from "./hex_grid.module.css";
-import { HexName } from "./hex_name";
-import { OnRoll } from "./on_roll";
-import { Track as TrackSvg } from "./track";
+import {HexName} from "./hex_name";
+import {OnRoll} from "./on_roll";
+import {Track as TrackSvg} from "./track";
+import {SpaceStyle} from "../../engine/state/location_style";
 
 function cityColorStyles(space: City): string[] {
   const colors = space.goodColors();
@@ -40,6 +34,18 @@ function cityColorStyles(space: City): string[] {
 }
 
 function landColorStyle(space: Land): string {
+  const style = space.getSpaceStyle();
+  if (style !== undefined) {
+    switch (style) {
+      case SpaceStyle.LIGHT_PLAIN:
+        return styles.light_plain;
+      case SpaceStyle.LIGHT_RIVER:
+        return styles.light_river;
+      default:
+        assertNever(style);
+    }
+  }
+
   const type = space.getLandType();
   switch (type) {
     case SpaceType.PLAIN:

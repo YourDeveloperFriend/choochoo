@@ -2,6 +2,7 @@ import { Coordinates } from "../../utils/coordinates";
 import { deepEquals } from "../../utils/deep_equals";
 import { assertNever } from "../../utils/validate";
 import { Good } from "../state/good";
+import { SpaceStyle } from "../state/location_style";
 import { SpaceType } from "../state/location_type";
 import { LandData, LandType } from "../state/space";
 import {
@@ -72,6 +73,10 @@ export class Land {
 
   getLandType(): LandType {
     return this.data.type;
+  }
+
+  getSpaceStyle(): SpaceStyle|undefined {
+    return this.data.style;
   }
 
   trackExiting(direction: Direction): Track | undefined {

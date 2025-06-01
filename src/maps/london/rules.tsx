@@ -77,6 +77,9 @@ export function LondonRules() {
         <li>
           <b>Shares:</b> This map has a limit of 20 shares.
         </li>
+        <li>
+          <p>The lighter green hexes visually indicate Central London, but have no effect on gameplay.</p>
+        </li>
       </ul>
     </div>
   );

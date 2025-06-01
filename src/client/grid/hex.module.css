@@ -14,6 +14,14 @@
   fill: #4a6c32;
 }
 
+.location.light_plain {
+  fill: #afe18e;
+}
+
+:global(.dark-mode) .location.light_plain {
+  fill: #5f8a40;
+}
+
 .location.fire {
   fill: #d66f34;
 }
@@ -28,6 +36,14 @@
 
 :global(.dark-mode) .location.river {
   fill: #466133;
+}
+
+.location.light_river {
+  fill: #A5D486;
+}
+
+:global(.dark-mode) .location.light_river {
+  fill: #58803B;
 }
 
 .location.water {
