@@ -2,6 +2,7 @@ import { MapViewSettings } from "../view_settings";
 import { MoonRules } from "./rules";
 import { MoonMapSettings } from "./settings";
 import { MoonTextures } from "./textures";
+import { MoonMoveInterceptorModal } from "./move_interceptor_modal";
 
 export class MoonViewSettings
   extends MoonMapSettings
@@ -10,4 +11,6 @@ export class MoonViewSettings
   getMapRules = MoonRules;
 
   getTexturesLayer = MoonTextures;
+
+  moveInterceptModal = MoonMoveInterceptorModal;
 }
