@@ -12,7 +12,7 @@ export class LondonUrbanizeAction extends UrbanizeAction {
     const tileType = space.getTileType();
     assert(
       tileType !== undefined,
-      "cannot urbanize on tile without any built track",
+      {invalidInput: "cannot urbanize on tile without any built track"},
     );
   }
 }
