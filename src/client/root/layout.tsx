@@ -53,7 +53,7 @@ export function Layout() {
           )}
 
           {isAdmin && (
-            <Dropdown item icon="settings" simple>
+            <Dropdown item icon="settings" simple direction="left">
               <Dropdown.Menu>
                 <Dropdown.Item
                   onClick={() => {
@@ -75,7 +75,7 @@ export function Layout() {
             </Dropdown>
           )}
           {me != null && (
-            <Dropdown item icon="user circle" simple>
+            <Dropdown item icon="user circle" simple direction="left">
               <Dropdown.Menu>
                 <Dropdown.Item as={Link} to={`/app/users/${me?.id}`}>
                   <Icon name="user" />
