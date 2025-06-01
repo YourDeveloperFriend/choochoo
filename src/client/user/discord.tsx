@@ -1,7 +1,7 @@
-import { Button } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { NotificationPreferences } from "../../api/notifications";
 import { useUnlink } from "../services/notifications/unlink";
+import { Button } from "semantic-ui-react";
 
 export function DiscordNotificationSettings({
   preferences,
@@ -23,11 +23,19 @@ export function DiscordNotificationSettings({
       <input type="hidden" name="state" value={location.pathname} />
       <input type="hidden" name="response_type" value="token" />
       <input type="hidden" name="scope" value="identify email" />
-      <Button type="submit">
+      <Button primary type="submit">
         {preferences.discordId != null ? "Update discord id" : "Link Discord"}
       </Button>
       {preferences.discordId != null && (
-        <Button onClick={unlink}>Unlink discord</Button>
+        <Button
+          negative
+          onClick={(event) => {
+            event.preventDefault();
+            unlink();
+          }}
+        >
+          Unlink discord
+        </Button>
       )}
     </form>
   );
