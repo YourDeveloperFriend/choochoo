@@ -39,11 +39,11 @@
 }
 
 .location.light_river {
-  fill: #A5D486;
+  fill: #a5d486;
 }
 
 :global(.dark-mode) .location.light_river {
-  fill: #58803B;
+  fill: #58803b;
 }
 
 .location.water {

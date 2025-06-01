@@ -1,13 +1,12 @@
 import z from "zod";
 import { MoveAction, MoveData } from "../../engine/move/move";
-import { assert, fail } from "../../utils/validate";
+import { assert } from "../../utils/validate";
 import { inject } from "../../engine/framework/execution_context";
-import { City } from "../../engine/map/city";
 import { SpaceType } from "../../engine/state/location_type";
 import { OnRollData } from "../../engine/state/roll";
 import { Good, goodToString } from "../../engine/state/good";
 import { Random } from "../../engine/game/random";
-import {CoordinatesZod} from "../../utils/coordinates";
+import { CoordinatesZod } from "../../utils/coordinates";
 
 export const LondonMoveData = MoveData.extend({
   city: CoordinatesZod,
@@ -27,11 +26,13 @@ export class LondonMoveAction extends MoveAction<LondonMoveData> {
       invalidInput: "city must be set and non-empty",
     });
 
-    assert(city.coordinates === data.startingCity
-           || city.coordinates === data.path[data.path.length-1].endingStop,
-        {
-          invalidInput: "city must be the starting city or ending city",
-        });
+    assert(
+      city.coordinates === data.startingCity ||
+        city.coordinates === data.path[data.path.length - 1].endingStop,
+      {
+        invalidInput: "city must be the starting city or ending city",
+      },
+    );
   }
 
   process(action: LondonMoveData): boolean {
@@ -52,7 +53,9 @@ export class LondonMoveAction extends MoveAction<LondonMoveData> {
       } while (newGood == undefined && onRoll[0].goods.length > 0);
 
       if (newGood != null) {
-        this.log.log(`A ${goodToString(newGood)} good is added to ${this.gridHelper.displayName(coordinates)}`);
+        this.log.log(
+          `A ${goodToString(newGood)} good is added to ${this.gridHelper.displayName(coordinates)}`,
+        );
         loc.goods.push(newGood);
       } else {
         const pull: Good[] | undefined = [];

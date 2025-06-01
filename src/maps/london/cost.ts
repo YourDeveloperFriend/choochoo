@@ -35,6 +35,8 @@ export class LondonCostCalculator extends BuildCostCalculator {
   }
 
   private buildCount(): number {
-    return this.buildState().buildCount ?? this.buildState().previousBuilds.length;
+    return (
+      this.buildState().buildCount ?? this.buildState().previousBuilds.length
+    );
   }
 }

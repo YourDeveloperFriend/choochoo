@@ -1,4 +1,11 @@
-import { Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow } from "semantic-ui-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+} from "semantic-ui-react";
 
 export function LondonRules() {
   return (
@@ -15,10 +22,12 @@ export function LondonRules() {
           fees. See the next rule for the cost chart.
         </li>
         <li>
-          <p><b>Union Overtime Fees:</b> In addition to the usual track cost you
+          <p>
+            <b>Union Overtime Fees:</b> In addition to the usual track cost you
             will need to pay union overtime fees depending on how many tiles you
-            have built.</p>
-          <div style={{marginBottom: "1em"}}>
+            have built.
+          </p>
+          <div style={{ marginBottom: "1em" }}>
             <Table celled compact collapsing>
               <TableHeader>
                 <TableRow>
@@ -82,7 +91,10 @@ export function LondonRules() {
           <b>Shares:</b> This map has a limit of 20 shares.
         </li>
         <li>
-          <p>The lighter green hexes visually indicate Central London, but have no effect on gameplay.</p>
+          <p>
+            The lighter green hexes visually indicate Central London, but have
+            no effect on gameplay.
+          </p>
         </li>
       </ul>
     </div>

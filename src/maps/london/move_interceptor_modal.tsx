@@ -2,9 +2,7 @@ import { InterceptMoveModalProps } from "../../engine/move/interceptor";
 import { useAction } from "../../client/services/action";
 import { LondonMoveAction } from "./move_good";
 import { useCallback, useMemo, useState } from "react";
-import {
-  useGrid,
-} from "../../client/utils/injection_context";
+import { useGrid } from "../../client/utils/injection_context";
 import {
   Button,
   DropdownProps,

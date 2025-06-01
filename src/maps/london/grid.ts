@@ -13,11 +13,11 @@ import { SpaceStyle } from "../../engine/state/location_style";
 
 const CENTRAL_LONDON_PLAIN = {
   ...PLAIN,
-  style: SpaceStyle.LIGHT_PLAIN
+  style: SpaceStyle.LIGHT_PLAIN,
 };
 const CENTRAL_LONDON_RIVER = {
   ...RIVER,
-  style: SpaceStyle.LIGHT_RIVER
+  style: SpaceStyle.LIGHT_RIVER,
 };
 
 export const map = grid([

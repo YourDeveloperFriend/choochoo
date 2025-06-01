@@ -75,7 +75,7 @@ export class Land {
     return this.data.type;
   }
 
-  getSpaceStyle(): SpaceStyle|undefined {
+  getSpaceStyle(): SpaceStyle | undefined {
     return this.data.style;
   }
 

@@ -19,7 +19,7 @@ export class GermanyMapSettings implements MapSettings {
   readonly maxPlayers = 6;
   readonly startingGrid = map;
   readonly interCityConnections = interCityConnections(map, [
-    {connects: ["Düsseldorf", "Essen"]},
+    { connects: ["Düsseldorf", "Essen"] },
   ]);
   readonly stage = ReleaseStage.ALPHA;
 
