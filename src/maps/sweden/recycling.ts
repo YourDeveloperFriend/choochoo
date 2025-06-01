@@ -62,6 +62,7 @@ export class SwedenMovePhase extends MovePhase {
   protected getNextGood(good: Good): Good {
     assert(good !== Good.PURPLE);
     assert(good !== Good.BLACK);
+    assert(good !== Good.WHITE);
     switch (good) {
       case Good.YELLOW:
         return Good.RED;

@@ -14,6 +14,8 @@ export function goodStyle(good: Good): string {
       return styles.red;
     case Good.YELLOW:
       return styles.yellow;
+    case Good.WHITE:
+      return styles.white;
     default:
       assertNever(good);
   }
