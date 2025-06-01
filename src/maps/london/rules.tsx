@@ -1,3 +1,5 @@
+import { Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow } from "semantic-ui-react";
+
 export function LondonRules() {
   return (
     <div>
@@ -13,39 +15,41 @@ export function LondonRules() {
           fees. See the next rule for the cost chart.
         </li>
         <li>
-          <b>Union Overtime Fees:</b> In addition to the usual track cost you
-          will need to pay union overtime fees depending on how many tiles you
-          have built.
-          <table>
-            <thead>
-              <tr>
-                <th># Tiles</th>
-                <th>1</th>
-                <th>2</th>
-                <th>3</th>
-                <th>4</th>
-                <th>5</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Normal</td>
-                <td>1</td>
-                <td>3</td>
-                <td>6</td>
-                <td>10</td>
-                <td>15</td>
-              </tr>
-              <tr>
-                <td>Engineer</td>
-                <td>0</td>
-                <td>1</td>
-                <td>2</td>
-                <td>4</td>
-                <td>8</td>
-              </tr>
-            </tbody>
-          </table>
+          <p><b>Union Overtime Fees:</b> In addition to the usual track cost you
+            will need to pay union overtime fees depending on how many tiles you
+            have built.</p>
+          <div style={{marginBottom: "1em"}}>
+            <Table celled compact collapsing>
+              <TableHeader>
+                <TableRow>
+                  <TableHeaderCell># Tiles</TableHeaderCell>
+                  <TableHeaderCell>1</TableHeaderCell>
+                  <TableHeaderCell>2</TableHeaderCell>
+                  <TableHeaderCell>3</TableHeaderCell>
+                  <TableHeaderCell>4</TableHeaderCell>
+                  <TableHeaderCell>5</TableHeaderCell>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Normal</TableCell>
+                  <TableCell>$1</TableCell>
+                  <TableCell>$3</TableCell>
+                  <TableCell>$6</TableCell>
+                  <TableCell>$10</TableCell>
+                  <TableCell>$15</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Engineer</TableCell>
+                  <TableCell>$0</TableCell>
+                  <TableCell>$1</TableCell>
+                  <TableCell>$2</TableCell>
+                  <TableCell>$4</TableCell>
+                  <TableCell>$8</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
         </li>
         <li>
           <b>Urbanization:</b> A town may only be urbanized if there if there is

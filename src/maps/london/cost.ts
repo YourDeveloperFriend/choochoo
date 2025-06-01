@@ -20,11 +20,9 @@ export class LondonCostCalculator extends BuildCostCalculator {
     newTileType: TileType,
     orientation: Direction,
   ): number {
-    // FIXME: Calculate union fees here
     const buildCount = this.buildCount();
     assert(buildCount < 5);
 
-    // If the user doesn't have engineer, just return the base cost
     let unionFees: number;
     if (this.currentPlayer().selectedAction === Action.ENGINEER) {
       unionFees = ENGINEER_UNION_FEES[buildCount];
