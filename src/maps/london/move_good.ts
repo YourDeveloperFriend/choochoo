@@ -27,8 +27,8 @@ export class LondonMoveAction extends MoveAction<LondonMoveData> {
     });
 
     assert(
-      city.coordinates === data.startingCity ||
-        city.coordinates === data.path[data.path.length - 1].endingStop,
+      city.coordinates.equals(data.startingCity) ||
+        city.coordinates.equals(data.path[data.path.length - 1].endingStop),
       {
         invalidInput: "city must be the starting city or ending city",
       },

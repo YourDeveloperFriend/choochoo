@@ -13,6 +13,7 @@ import {
   Select,
 } from "semantic-ui-react";
 import { City } from "../../engine/map/city";
+import {Coordinates} from "../../utils/coordinates";
 
 export function LondonMoveInterceptorModal({
   cityName,
@@ -41,20 +42,23 @@ export function LondonMoveInterceptorModal({
       result.push({
         key: start.name(),
         text: start.name(),
-        value: start.name(),
+        value: start.coordinates.serialize(),
       });
     }
     const end = grid.get(moveData.path[moveData.path.length - 1].endingStop);
     if (end && end instanceof City) {
-      result.push({ key: end.name(), text: end.name(), value: end.name() });
+      result.push({ key: end.name(), text: end.name(), value: end.coordinates.serialize() });
     }
 
     return result;
   }, [grid, moveData]);
 
   const completeMove = useCallback(() => {
+    if (!selectedCity) {
+      return;
+    }
     emitMoveAction({
-      city: selectedCity,
+      city: Coordinates.unserialize(selectedCity),
       ...moveData!,
     });
     clearMoveData();
