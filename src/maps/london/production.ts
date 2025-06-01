@@ -1,11 +1,9 @@
 import { PhaseEngine } from "../../engine/game/phase";
 import { Phase } from "../../engine/state/phase";
+import {remove} from "../../utils/functions";
 
 export class LondonPhaseEngine extends PhaseEngine {
   phaseOrder(): Phase[] {
-    // No goods growth phase in London
-    const previous = super.phaseOrder();
-    previous.splice(previous.indexOf(Phase.GOODS_GROWTH), 1);
-    return previous;
+    return remove(super.phaseOrder(), Phase.GOODS_GROWTH);
   }
 }

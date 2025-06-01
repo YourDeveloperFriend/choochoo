@@ -35,9 +35,6 @@ export class LondonCostCalculator extends BuildCostCalculator {
   }
 
   private buildCount(): number {
-    // TODO: remove the call to previousBuilds and just rely on buildCount, once all games have migrated.
-    return (
-      this.buildState().buildCount ?? this.buildState().previousBuilds.length
-    );
+    return this.buildState().buildCount ?? this.buildState().previousBuilds.length;
   }
 }

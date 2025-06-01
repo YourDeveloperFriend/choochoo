@@ -9,10 +9,10 @@ import { LondonAllowedActions } from "./allowed_actions";
 import { LondonPhaseEngine } from "./production";
 import { LondonMoveInterceptor } from "./move_interceptor";
 import { LondonMoveAction } from "./move_good";
-import { LondonRoundEngine } from "./shorter_game";
 import { LondonShareHelper } from "./shares";
 import { LondonUrbanizeAction } from "./urbanize";
 import { LondonPlayerHelper } from "./score";
+import {TurnLengthModule} from "../../modules/turn_length";
 
 export class LondonMapSettings implements MapSettings {
   static readonly key = GameKey.LONDON;
@@ -22,8 +22,8 @@ export class LondonMapSettings implements MapSettings {
   readonly maxPlayers = 6;
   readonly startingGrid = map;
   readonly interCityConnections = interCityConnections(map, [
-    ["Bloomsbury", "Shoreditch", 4],
-    ["Westminster", "Waterloo", 4],
+    {connects: ["Bloomsbury", "Shoreditch"], cost: 4},
+    {connects: ["Westminster", "Waterloo"], cost: 4},
   ]);
   readonly stage = ReleaseStage.ALPHA;
 
@@ -36,10 +36,15 @@ export class LondonMapSettings implements MapSettings {
       LondonPhaseEngine,
       LondonMoveInterceptor,
       LondonMoveAction,
-      LondonRoundEngine,
       LondonShareHelper,
       LondonUrbanizeAction,
       LondonPlayerHelper,
     ];
+  }
+
+  getModules() {
+    return [
+      new TurnLengthModule({ add: -1 }),
+    ]
   }
 }

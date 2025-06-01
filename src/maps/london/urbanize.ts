@@ -6,7 +6,7 @@ export class LondonUrbanizeAction extends UrbanizeAction {
   validate(data: UrbanizeData): void {
     super.validate(data);
     const space = this.gridHelper.lookup(data.coordinates);
-    assert(space instanceof Land, "cannot urbanize on non-land tile");
+    assert(space instanceof Land, {invalidInput: "cannot urbanize on non-land tile"});
     const tileType = space.getTileType();
     assert(
       tileType !== undefined,

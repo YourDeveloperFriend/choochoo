@@ -7,9 +7,10 @@ import { SpaceType } from "../../engine/state/location_type";
 import { OnRollData } from "../../engine/state/roll";
 import { Good, goodToString } from "../../engine/state/good";
 import { Random } from "../../engine/game/random";
+import {CoordinatesZod} from "../../utils/coordinates";
 
 export const LondonMoveData = MoveData.extend({
-  city: z.string().optional(),
+  city: CoordinatesZod,
 });
 export type LondonMoveData = z.infer<typeof LondonMoveData>;
 
@@ -21,28 +22,26 @@ export class LondonMoveAction extends MoveAction<LondonMoveData> {
   validate(data: LondonMoveData) {
     super.validate(data);
 
-    assert(!!data.city, {
+    const city = this.gridHelper.lookup(data.city);
+    assert(city !== undefined, {
       invalidInput: "city must be set and non-empty",
     });
+
+    assert(city.coordinates === data.startingCity
+           || city.coordinates === data.path[data.path.length-1].endingStop,
+        {
+          invalidInput: "city must be the starting city or ending city",
+        });
   }
 
   process(action: LondonMoveData): boolean {
     const result = super.process(action);
 
-    let foundCity: City | undefined;
-    for (const city of this.gridHelper.findAllCities()) {
-      if (city.name() === action.city) {
-        foundCity = city;
-        break;
-      }
-    }
-    if (!foundCity) {
-      fail({
-        invalidInput: "city name is invalid",
-      });
-    }
+    const city = this.gridHelper.lookup(action.city);
+    assert(city !== undefined);
 
-    this.gridHelper.update(foundCity.coordinates, (loc) => {
+    const coordinates = city.coordinates;
+    this.gridHelper.update(coordinates, (loc) => {
       assert(loc.type === SpaceType.CITY);
       const onRoll: OnRollData[] = loc.onRoll;
       assert(onRoll.length === 1);
@@ -53,7 +52,7 @@ export class LondonMoveAction extends MoveAction<LondonMoveData> {
       } while (newGood == undefined && onRoll[0].goods.length > 0);
 
       if (newGood != null) {
-        this.log.log(`A ${goodToString(newGood)} good is added to ${loc.name}`);
+        this.log.log(`A ${goodToString(newGood)} good is added to ${this.gridHelper.displayName(coordinates)}`);
         loc.goods.push(newGood);
       } else {
         const pull: Good[] | undefined = [];
@@ -65,7 +64,7 @@ export class LondonMoveAction extends MoveAction<LondonMoveData> {
         });
         for (const pulledGood of pull) {
           this.log.log(
-            `A ${goodToString(pulledGood)} good is added to the Goods Growth for ${loc.name}`,
+            `A ${goodToString(pulledGood)} good is added to the Goods Growth for ${this.gridHelper.displayName(coordinates)}`,
           );
           onRoll[0].goods.push(pulledGood);
         }

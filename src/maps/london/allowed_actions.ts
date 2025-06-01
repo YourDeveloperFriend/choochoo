@@ -4,11 +4,11 @@ import { ImmutableSet } from "../../utils/immutable";
 
 export class LondonAllowedActions extends AllowedActions {
   getActions(): ImmutableSet<Action> {
-    let actions = [Action.FIRST_BUILD, Action.FIRST_MOVE, Action.ENGINEER];
-    if (this.players().length >= 4) {
-      actions.push(Action.LOCOMOTIVE);
+    let actions = new Set<Action>(super.getActions());
+    actions.delete(Action.PRODUCTION);
+    if (this.players().length < 4) {
+      actions.delete(Action.LOCOMOTIVE);
     }
-    actions = actions.concat([Action.URBANIZATION, Action.TURN_ORDER_PASS]);
-    return ImmutableSet(actions);
+    return ImmutableSet<Action>(actions);
   }
 }
