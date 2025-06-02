@@ -793,7 +793,7 @@
         },
         {
           "type": 1,
-          "name": "Cincinatti",
+          "name": "Cincinnati",
           "color": [0],
           "goods": [2],
           "onRoll": [
@@ -1748,7 +1748,7 @@
         },
         {
           "type": 1,
-          "name": "Deluth",
+          "name": "Duluth",
           "color": [3],
           "goods": [3, 1, 4, 3],
           "onRoll": [
