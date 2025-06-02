@@ -1,11 +1,10 @@
-import { CircularProgress } from "@mui/material";
-
 import { loadingContainer } from "./loading.module.css";
+import { Loader } from "semantic-ui-react";
 
 export function Loading() {
   return (
     <div className={loadingContainer}>
-      <CircularProgress size={80} />
+      <Loader active inline />
     </div>
   );
 }

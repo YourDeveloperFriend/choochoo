@@ -9,6 +9,20 @@
   margin: 0 auto;
 }
 
-.appBar.appBarActive {
+:global(.ui.menu).appBar {
+  background-color: #1976d2;
+}
+
+:global(.ui.menu).appBar > :global(.header) {
+  font-size: 1.2em;
+}
+
+:global(.ui.menu).appBar > :global(.item),
+:global(.ui.menu).appBar > :global(.menu) > :global(.item) {
+  color: white;
+}
+
+:global(.ui.menu).appBar.appBarActive,
+:global(body.dark-mode) :global(.ui.menu).appBar.appBarActive {
   background-color: orangered;
 }

@@ -1,13 +1,4 @@
 import {
-  Box,
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  TextField,
-} from "@mui/material";
-import {
   FormEvent,
   MouseEvent,
   useCallback,
@@ -16,7 +7,16 @@ import {
   useState,
 } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Header, Segment } from "semantic-ui-react";
+import {
+  Button,
+  Container,
+  Form,
+  FormCheckbox,
+  FormInput,
+  Header,
+  Icon,
+  Segment,
+} from "semantic-ui-react";
 import { ValidationError } from "../../api/error";
 import { GameStatus, ListGamesApi } from "../../api/game";
 import {
@@ -39,7 +39,10 @@ import { useNotificationPreferences } from "../services/notifications/preference
 import { useSetNotificationPreferences } from "../services/notifications/set";
 import { useSendTestNotification } from "../services/notifications/test_notification";
 import { useUser } from "../services/user";
-import { useCheckboxState, useTextInputState } from "../utils/form_state";
+import {
+  useSemanticUiCheckboxState,
+  useTextInputState,
+} from "../utils/form_state";
 import { useTypedMemo } from "../utils/hooks";
 import { DiscordNotificationSettings } from "./discord";
 import { PreferredColors } from "./preferred_colors";
@@ -177,14 +180,14 @@ function InternalNotificationSettings({
 
   const marketing = preferences.marketing;
 
-  const [email, setEmail] = useCheckboxState(
+  const [email, setEmail] = useSemanticUiCheckboxState(
     preferences.turnNotifications.some(
       ({ method }) => method === NotificationMethod.EMAIL,
     ),
   );
 
   const initialWebHook = preferences.turnNotifications.find(isWebHookSetting);
-  const [enableWebHook, setEnableWebHook] = useCheckboxState(
+  const [enableWebHook, setEnableWebHook] = useSemanticUiCheckboxState(
     initialWebHook != null,
   );
   const [webHookUrl, setWebHookUrl] = useTextInputState(
@@ -197,23 +200,22 @@ function InternalNotificationSettings({
   const aosDiscordWebHook = preferences.turnNotifications.find((not) =>
     isDiscordWebHookSetting(not, WebHookOption.AOS),
   );
-  const [enableAosDiscord, setEnableAosDiscord] = useCheckboxState(
+  const [enableAosDiscord, setEnableAosDiscord] = useSemanticUiCheckboxState(
     aosDiscordWebHook != null,
   );
 
   const eotDiscordWebHook = preferences.turnNotifications.find((not) =>
     isDiscordWebHookSetting(not, WebHookOption.EOT),
   );
-  const [enableEotDiscord, setEnableEotDiscord] = useCheckboxState(
+  const [enableEotDiscord, setEnableEotDiscord] = useSemanticUiCheckboxState(
     eotDiscordWebHook != null,
   );
 
   const customDiscordWebHook = preferences.turnNotifications.find((not) =>
     isCustomDiscordWebHookSetting(not),
   );
-  const [enableCustomDiscord, setEnableCustomDiscord] = useCheckboxState(
-    customDiscordWebHook != null,
-  );
+  const [enableCustomDiscord, setEnableCustomDiscord] =
+    useSemanticUiCheckboxState(customDiscordWebHook != null);
   const [discordWebHookUrl, setDiscordWebHookUrl] = useTextInputState(
     customDiscordWebHook?.webHookUrl ?? "",
   );
@@ -273,134 +275,85 @@ function InternalNotificationSettings({
     <Segment>
       <Header as="h2">Notification Preferences</Header>
       <DiscordNotificationSettings preferences={preferences} />
-      <Box
-        component="form"
-        sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-        noValidate
-        autoComplete="off"
-        onSubmit={onSubmit}
-      >
-        <div>
-          <FormControl>
-            <FormControlLabel
-              sx={{ m: 1, minWidth: 80 }}
-              label="AoS Discord"
-              control={
-                <Checkbox
-                  checked={enableAosDiscord}
-                  disabled={isPending || preferences.discordId == null}
-                  onChange={setEnableAosDiscord}
-                />
-              }
-            />
-          </FormControl>
-        </div>
-        <div>
-          <FormControl>
-            <FormControlLabel
-              sx={{ m: 1, minWidth: 80 }}
-              label="EoT Discord"
-              control={
-                <Checkbox
-                  checked={enableEotDiscord}
-                  disabled={isPending || preferences.discordId == null}
-                  onChange={setEnableEotDiscord}
-                />
-              }
-            />
-          </FormControl>
-        </div>
-        <div>
-          <FormControl>
-            <FormControlLabel
-              sx={{ m: 1, minWidth: 80 }}
-              label="Discord Webhook"
-              control={
-                <Checkbox
-                  checked={enableCustomDiscord}
-                  disabled={isPending || preferences.discordId == null}
-                  onChange={setEnableCustomDiscord}
-                />
-              }
-            />
-          </FormControl>
-          <FormControl>
-            <TextField
-              required
-              label="Discord Webhook URL"
-              value={discordWebHookUrl}
-              disabled={!enableCustomDiscord}
-              error={discordWebHookUrlError != null}
-              helperText={discordWebHookUrlError}
-              onChange={setDiscordWebHookUrl}
-            />
-          </FormControl>
-        </div>
-        <div>
-          <FormControl>
-            <FormControlLabel
-              sx={{ m: 1, minWidth: 80 }}
-              label="Custom Webhook"
-              control={
-                <Checkbox
-                  checked={enableWebHook}
-                  disabled={isPending}
-                  onChange={setEnableWebHook}
-                />
-              }
-            />
-          </FormControl>
-          <FormControl>
-            <TextField
-              required
-              label="Webhook URL"
-              value={webHookUrl}
-              disabled={!enableWebHook}
-              error={webHookUrlError != null}
-              helperText={webHookUrlError}
-              onChange={setWebHookUrl}
-            />
-          </FormControl>
-          <FormControl>
-            <TextField
-              required
-              label="Webhook User ID"
-              disabled={!enableWebHook}
-              value={webHookUserId}
-              error={webHookUserIdError != null}
-              helperText={webHookUserIdError}
-              onChange={setWebHookUserId}
-            />
-          </FormControl>
-        </div>
-        <FormControl error={email}>
-          <FormControlLabel
-            sx={{ m: 1, minWidth: 80 }}
-            label="Email notifications"
-            control={
-              <Checkbox
-                checked={email}
-                disabled={isPending}
-                onChange={setEmail}
-              />
+      <br />
+      <Form onSubmit={onSubmit}>
+        <FormCheckbox
+          label="AoS Discord"
+          checked={enableAosDiscord}
+          disabled={isPending || preferences.discordId == null}
+          onChange={setEnableAosDiscord}
+        />
+        <FormCheckbox
+          label="EoT Discord"
+          checked={enableEotDiscord}
+          disabled={isPending || preferences.discordId == null}
+          onChange={setEnableEotDiscord}
+        />
+        <FormCheckbox
+          label="Discord Webhook"
+          checked={enableCustomDiscord}
+          disabled={isPending || preferences.discordId == null}
+          onChange={setEnableCustomDiscord}
+        />
+        <FormInput
+          required
+          label="Discord Webhook URL"
+          value={discordWebHookUrl}
+          disabled={!enableCustomDiscord}
+          error={discordWebHookUrlError}
+          onChange={setDiscordWebHookUrl}
+        />
+        <FormCheckbox
+          label="Custom Webhook"
+          checked={enableWebHook}
+          disabled={isPending}
+          onChange={setEnableWebHook}
+        />
+        <FormInput
+          required
+          label="Webhook URL"
+          value={webHookUrl}
+          disabled={!enableWebHook}
+          error={webHookUrlError}
+          onChange={setWebHookUrl}
+        />
+        <FormInput
+          required
+          label="Webhook User ID"
+          disabled={!enableWebHook}
+          value={webHookUserId}
+          error={webHookUserIdError}
+          helperText={webHookUserIdError}
+          onChange={setWebHookUserId}
+        />
+        <FormCheckbox
+          label="Email notifications"
+          checked={email}
+          disabled={isPending}
+          onChange={setEmail}
+          error={
+            email && {
+              content:
+                "Email notifications are significantly more expensive than webhooks. Please consider setting up a webhook instead to support the site.",
+              pointing: "left",
             }
-          />
-          {email && (
-            <FormHelperText>
-              Email notifications are significantly more expensive than webooks.
-              Please consider setting up a webhook instead to support the site.
-            </FormHelperText>
-          )}
-        </FormControl>
+          }
+        />
         <div>
-          <Button type="submit" disabled={isPending}>
+          <Button primary type="submit" disabled={isPending}>
+            <Icon name="save" />
             Save Preferences
           </Button>
-          <Button onClick={sendTestNotification} disabled={isTestPending}>
+          <Button
+            secondary
+            onClick={sendTestNotification}
+            disabled={isTestPending}
+          >
+            <Icon name="bullhorn" />
             Test
           </Button>
         </div>
-      </Box>
+      </Form>
     </Segment>
   );
 }

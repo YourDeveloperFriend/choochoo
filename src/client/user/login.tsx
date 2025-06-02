@@ -1,8 +1,8 @@
-import { Box, Button, FormControl, TextField } from "@mui/material";
 import { FormEvent, useCallback, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useLogin, useMe } from "../services/me";
 import { useTextInputState } from "../utils/form_state";
+import { Button, Form, FormGroup, FormInput } from "semantic-ui-react";
 
 export function LoginPage() {
   const [searchParams] = useSearchParams();
@@ -28,37 +28,27 @@ export function LoginPage() {
   );
 
   return (
-    <Box
-      component="form"
-      sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-      noValidate
-      autoComplete="off"
-      onSubmit={onSubmit}
-    >
+    <Form onSubmit={onSubmit}>
       <h1>Login</h1>
-      <FormControl>
-        <TextField
+      <FormGroup>
+        <FormInput
           required
           label="Username or Email"
           value={usernameOrEmail}
-          error={validationError?.usernameOrEmail != null}
-          helperText={validationError?.usernameOrEmail}
+          error={validationError?.usernameOrEmail}
           onChange={setUsernameOrEmail}
         />
-      </FormControl>
-      <FormControl>
-        <TextField
+        <FormInput
           required
           label="Password"
           type="password"
           value={password}
-          error={validationError?.password != null}
-          helperText={validationError?.password}
+          error={validationError?.password}
           onChange={setPassword}
         />
-      </FormControl>
+      </FormGroup>
       <div>
-        <Button type="submit" disabled={isPending}>
+        <Button primary type="submit" disabled={isPending}>
           Login
         </Button>
       </div>
@@ -68,6 +58,6 @@ export function LoginPage() {
       <p>
         <Link to="/app/users/register">Register</Link>
       </p>
-    </Box>
+    </Form>
   );
 }
