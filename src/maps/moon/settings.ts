@@ -12,6 +12,7 @@ import { map } from "./grid";
 import { MoonAllowedActions, MoonMoveAction } from "./low_gravitation";
 import { MoonStarter } from "./starter";
 import { getNeighbor } from "./wrap_around";
+import { MoonMoveInterceptor } from "./move_interceptor";
 
 export class MoonMapSettings implements MapSettings {
   readonly key = GameKey.MOON;
@@ -33,6 +34,7 @@ export class MoonMapSettings implements MapSettings {
       MoonMoveAction,
       MoonAllowedActions,
       MoonUrbanizeAction,
+      MoonMoveInterceptor,
     ];
   }
 

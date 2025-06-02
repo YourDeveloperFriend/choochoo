@@ -15,8 +15,8 @@ export class KoreaWallaceMapSettings implements MapSettings {
   readonly maxPlayers = 6;
   readonly startingGrid = map;
   readonly interCityConnections = interCityConnections(map, [
-    ["Inchon", "Suwon"],
-    ["Suwon", "Seoul"],
+    { connects: ["Inchon", "Suwon"] },
+    { connects: ["Suwon", "Seoul"] },
   ]);
   readonly stage = ReleaseStage.BETA;
 

@@ -3,6 +3,7 @@ import { VariantConfig } from "../api/variant_config";
 import { RowFactory } from "../client/game/final_overview_row";
 import { MapSettings } from "../engine/game/map_settings";
 import { Action } from "../engine/state/action";
+import { InterceptMoveModalProps } from "../engine/move/interceptor";
 
 export interface VariantConfigProps {
   config: Partial<VariantConfig>;
@@ -27,4 +28,5 @@ export interface MapViewSettings extends MapSettings {
   getFinalOverviewRows?(): RowFactory[];
   getActionCaption?(action: Action): string | undefined;
   moveGoodsMessage?(): string | undefined;
+  moveInterceptModal?(props: InterceptMoveModalProps): ReactNode;
 }
