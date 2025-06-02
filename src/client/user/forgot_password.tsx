@@ -1,8 +1,8 @@
-import { Box, Button, FormControl, TextField } from "@mui/material";
 import { FormEvent, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useForgotPassword } from "../services/me";
 import { useTextInputState } from "../utils/form_state";
+import { Button, Form, FormInput } from "semantic-ui-react";
 
 export function ForgotPassword() {
   const [usernameOrEmail, setUsernameOrEmail] = useTextInputState("");
@@ -26,32 +26,24 @@ export function ForgotPassword() {
         </p>
       )}
       {!isSuccess && (
-        <Box
-          component="form"
-          sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-          noValidate
-          autoComplete="off"
-          onSubmit={onSubmit}
-        >
-          <FormControl>
-            <TextField
-              required
-              label="Username or Email"
-              value={usernameOrEmail}
-              error={validationError?.usernameOrEmail != null}
-              helperText={validationError?.usernameOrEmail}
-              onChange={setUsernameOrEmail}
-            />
-          </FormControl>
+        <Form onSubmit={onSubmit}>
+          <FormInput
+            inline
+            required
+            label="Username or Email"
+            value={usernameOrEmail}
+            error={validationError?.usernameOrEmail}
+            onChange={setUsernameOrEmail}
+          />
           <div>
-            <Button type="submit" disabled={isPending}>
+            <Button primary type="submit" disabled={isPending}>
               Request update password link
             </Button>
           </div>
           <p>
             <Link to="/app/users/login">Login</Link>
           </p>
-        </Box>
+        </Form>
       )}
     </>
   );

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Good, goodToString } from "../../../engine/state/good";
 import {
   InProgressProduction,
@@ -6,11 +6,17 @@ import {
   SelectCityAction,
   SelectGoodAction,
 } from "../../../maps/india-steam-brothers/production";
-import { DropdownMenu, DropdownMenuItem } from "../../components/dropdown_menu";
 import { Username } from "../../components/username";
 import { useAction } from "../../services/action";
 import { useInjectedState } from "../../utils/injection_context";
 import { GenericMessage } from "../action_summary";
+import {
+  Button,
+  DropdownProps,
+  Form,
+  FormGroup,
+  FormSelect,
+} from "semantic-ui-react";
 
 export function ManualGoodsGrowth() {
   const state = useInjectedState(PRODUCTION_STATE);
@@ -87,49 +93,42 @@ interface GoodSelectorProps {
   onSelect(good: Good): void;
 }
 
-export function GoodSelector({
+function GoodSelector({
   goods,
   disabled,
   selected,
   onSelect,
 }: GoodSelectorProps) {
+  const [selectedGood, setSelectedGood] = useState<Good | undefined>(selected);
+
   return (
-    <DropdownMenu
-      id="select-good"
-      title={selected == null ? "Select good" : goodToString(selected)}
-      disabled={disabled}
-    >
-      {goods.map((good) => (
-        <GoodDropdownMenuItem
-          key={good}
-          good={good}
+    <Form>
+      <FormGroup>
+        <FormSelect
           disabled={disabled}
-          onSelect={onSelect}
+          value={selectedGood}
+          onChange={(
+            event: React.SyntheticEvent<HTMLElement>,
+            data: DropdownProps,
+          ) => {
+            setSelectedGood(data.value as Good);
+          }}
+          options={goods.map((good) => {
+            return {
+              key: good,
+              value: good,
+              text: goodToString(good),
+            };
+          })}
         />
-      ))}
-    </DropdownMenu>
-  );
-}
-
-interface GoodDropdownMenuItemProps {
-  good: Good;
-  selected?: boolean;
-  disabled?: boolean;
-  onSelect(good: Good): void;
-}
-
-function GoodDropdownMenuItem({
-  good,
-  disabled,
-  onSelect,
-}: GoodDropdownMenuItemProps) {
-  const onClick = useCallback(() => {
-    onSelect(good);
-  }, [onSelect, good]);
-
-  return (
-    <DropdownMenuItem onClick={onClick} disabled={disabled}>
-      {goodToString(good)}
-    </DropdownMenuItem>
+        <Button
+          primary
+          onClick={() => onSelect(selectedGood as Good)}
+          disabled={!selectedGood || disabled}
+        >
+          Select Good
+        </Button>
+      </FormGroup>
+    </Form>
   );
 }
