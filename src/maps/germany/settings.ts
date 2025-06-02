@@ -10,6 +10,10 @@ import { GermanyCostCalculator } from "./cost";
 import { map } from "./grid";
 import { GermanyMoveHelper } from "./move";
 import { GermanyStarter } from "./starter";
+import { GoodsGrowthPhase } from "../../engine/goods_growth/phase";
+import { GoodsHelper } from "../../engine/goods_growth/helper";
+import { inject } from "../../engine/framework/execution_context";
+import { goodToString } from "../../engine/state/good";
 
 export class GermanyMapSettings implements MapSettings {
   static readonly key = GameKey.GERMANY;
@@ -31,6 +35,26 @@ export class GermanyMapSettings implements MapSettings {
       GermanyBuilderHelper,
       GermanyBuildAction,
       GermanyBuildPhase,
+      GermanyGoodsGrowth,
     ];
+  }
+}
+
+export class GermanyGoodsGrowth extends GoodsGrowthPhase {
+  protected readonly helper = inject(GoodsHelper);
+
+  onStart(): void {
+    super.onStart();
+    const berlin = [...this.grid.findAllCities()].find((city) => 
+      city.data.name === "Berlin")!;
+    const currentBerlinGoods = berlin.getGoods();
+    const newGood = this.helper.drawGood();
+    this.grid.update(berlin.coordinates, (cityData) => {
+      cityData.goods = [...currentBerlinGoods, newGood];
+    });
+    this.log.log(
+      `A ${goodToString(newGood)} good is added to Berlin (J9)`,
+    );
+
   }
 }

@@ -184,7 +184,7 @@ export const map = grid([
     WATER,
     PLAIN,
     PLAIN,
-    city("Berlin", [BLACK], undefined, 4),
+    city("Berlin", [BLACK], undefined, 2),
     PLAIN,
     PLAIN,
     PLAIN,
