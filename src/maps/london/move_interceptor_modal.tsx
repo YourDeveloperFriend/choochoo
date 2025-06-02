@@ -13,7 +13,7 @@ import {
   Select,
 } from "semantic-ui-react";
 import { City } from "../../engine/map/city";
-import {Coordinates} from "../../utils/coordinates";
+import { Coordinates } from "../../utils/coordinates";
 
 export function LondonMoveInterceptorModal({
   cityName,
@@ -47,7 +47,11 @@ export function LondonMoveInterceptorModal({
     }
     const end = grid.get(moveData.path[moveData.path.length - 1].endingStop);
     if (end && end instanceof City) {
-      result.push({ key: end.name(), text: end.name(), value: end.coordinates.serialize() });
+      result.push({
+        key: end.name(),
+        text: end.name(),
+        value: end.coordinates.serialize(),
+      });
     }
 
     return result;
