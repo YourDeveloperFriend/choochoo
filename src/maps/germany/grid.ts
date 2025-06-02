@@ -184,7 +184,7 @@ export const map = grid([
     WATER,
     PLAIN,
     PLAIN,
-    city("Berlin", [BLACK], undefined, 2),
+    city("Berlin", [BLACK], undefined, 4),
     PLAIN,
     PLAIN,
     PLAIN,
@@ -243,6 +243,6 @@ export const map = grid([
     PLAIN,
     MOUNTAIN,
     plain({ terrainCost: 10 }),
-    city("To Wien", [YELLOW], black(4), 4),
+    city("To Wien", [YELLOW], black(4), 2),
   ],
 ]);
