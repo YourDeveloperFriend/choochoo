@@ -7,6 +7,7 @@ import { map } from "./grid";
 import { AlabamaGoodsGrowthPhase } from "./growth";
 import { AlabamaMoveAction } from "./move_good";
 import { AlabamaRailwaysStarter } from "./starter";
+import { AlabamaRailwaysMoveInterceptor } from "./move_interceptor";
 
 export class AlabamaRailwaysMapSettings implements MapSettings {
   readonly key = GameKey.ALABAMA_RAILWAYS;
@@ -17,7 +18,12 @@ export class AlabamaRailwaysMapSettings implements MapSettings {
   readonly stage = ReleaseStage.ALPHA;
 
   getOverrides() {
-    return [AlabamaRailwaysStarter, AlabamaMoveAction, AlabamaGoodsGrowthPhase];
+    return [
+      AlabamaRailwaysStarter,
+      AlabamaMoveAction,
+      AlabamaGoodsGrowthPhase,
+      AlabamaRailwaysMoveInterceptor,
+    ];
   }
 
   getModules() {

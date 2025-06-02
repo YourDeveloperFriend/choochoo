@@ -25,6 +25,7 @@ import { SoulTrainViewSettings } from "./soultrain/view_settings";
 import { StLuciaViewSettings } from "./st-lucia/view_settings";
 import { SwedenRecyclingViewSettings } from "./sweden/view_settings";
 import { MapViewSettings } from "./view_settings";
+import { LondonViewSettings } from "./london/view_settings";
 
 export class ViewRegistry {
   static readonly singleton = new ViewRegistry();
@@ -47,6 +48,7 @@ export class ViewRegistry {
     this.add(new MadagascarViewSettings());
     this.add(new IndiaSteamBrothersViewSettings());
     this.add(new KoreaWallaceViewSettings());
+    this.add(new LondonViewSettings());
     this.add(new GermanyViewSettings());
     this.add(new DetroitBankruptcyViewSettings());
     this.add(new StLuciaViewSettings());

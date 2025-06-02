@@ -82,9 +82,10 @@ body.dark-mode .ui.form .inline.fields .field > p,
 body.dark-mode .ui.form .inline.fields > label {
   color: rgba(255, 255, 255, 0.9);
 }
-body.dark-mode .ui.inverted.input > input {
+body.dark-mode .ui.input > input {
   border: none;
 }
+
 body.dark-mode .ui.menu {
   border: 0px solid transparent;
   background: #1b1c1d;
@@ -97,6 +98,11 @@ body.dark-mode .ui.menu .item > a:not(.ui) {
 }
 body.dark-mode .ui.menu .item.menu {
   background: transparent;
+}
+/* This does not apply dark mode to modals, but ensures text is visible on non-inverted modal even in dark mode. */
+body.dark-mode .ui.modal,
+body.dark-mode .ui.modal > .header {
+  color: black;
 }
 
 /**

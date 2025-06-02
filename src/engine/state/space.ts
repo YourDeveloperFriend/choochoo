@@ -4,6 +4,7 @@ import { Good } from "./good";
 import { SpaceType, SpaceTypeZod } from "./location_type";
 import { OnRollData } from "./roll";
 import { DirectionZod, MutableTileData } from "./tile";
+import { SpaceStyleZod } from "./location_style";
 
 export const MutableCityData = z.object({
   type: z.literal(SpaceType.CITY),
@@ -35,6 +36,7 @@ export const MutableLandData = z.object({
   terrainCost: z.number().optional(),
   goods: z.array(z.number()).optional(),
   unpassableEdges: z.array(DirectionZod).optional(),
+  style: SpaceStyleZod.optional(),
   mapSpecific: z.any().optional(),
 });
 

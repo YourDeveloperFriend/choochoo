@@ -14,6 +14,7 @@ export enum GameKey {
   INDIA_STEAM_BROTHERS = "india",
   IRELAND = "ireland",
   KOREA_WALLACE = "korea",
+  LONDON = "london",
   MADAGASCAR = "madagascar",
   MONTREAL_METRO = "montreal-metro",
   REVERSTEAM = "reversteam",

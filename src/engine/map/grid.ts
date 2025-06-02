@@ -253,6 +253,16 @@ export class Grid {
     }
   }
 
+  /** Returns a new Grid, where every space is the same, but the one being updated. */
+  setSpace(coordinates: Coordinates, space: Space) {
+    return new Grid(
+      this.mapSettings,
+      this.grid.set(coordinates, space),
+      this.connections,
+    );
+  }
+
+  /** Returns a new Grid, where each space is updated if it changed. */
   merge(gridData: GridData, connections: InterCityConnection[]): Grid {
     let map = this.grid;
     const toDeleteKeys = new Set([...this.grid.keys()]);

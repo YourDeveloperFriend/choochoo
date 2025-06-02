@@ -30,6 +30,7 @@ import * as gridStyles from "./hex_grid.module.css";
 import { HexName } from "./hex_name";
 import { OnRoll } from "./on_roll";
 import { Track as TrackSvg } from "./track";
+import { SpaceStyle } from "../../engine/state/location_style";
 
 function cityColorStyles(space: City): string[] {
   const colors = space.goodColors();
@@ -40,6 +41,18 @@ function cityColorStyles(space: City): string[] {
 }
 
 function landColorStyle(space: Land): string {
+  const style = space.getSpaceStyle();
+  if (style !== undefined) {
+    switch (style) {
+      case SpaceStyle.LIGHT_PLAIN:
+        return styles.light_plain;
+      case SpaceStyle.LIGHT_RIVER:
+        return styles.light_river;
+      default:
+        assertNever(style);
+    }
+  }
+
   const type = space.getLandType();
   switch (type) {
     case SpaceType.PLAIN:

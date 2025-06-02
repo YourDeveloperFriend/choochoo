@@ -31,8 +31,8 @@ export class DetroitBankruptcyMapSettings implements MapSettings {
   readonly startingGrid = map;
   readonly stage = ReleaseStage.ALPHA;
   readonly interCityConnections = interCityConnections(map, [
-    ["Midtown Detroit", "Downtown Detroit"],
-    ["Windsor", "Windsor Airport"],
+    { connects: ["Midtown Detroit", "Downtown Detroit"] },
+    { connects: ["Windsor", "Windsor Airport"] },
   ]).map((connection) => ({ ...connection, cost: 6 }));
 
   getOverrides() {
