@@ -20,7 +20,7 @@ export class ScotlandMapSettings implements MapSettings {
   readonly startingGrid = map;
   readonly stage = ReleaseStage.DEVELOPMENT;
   readonly interCityConnections = interCityConnections(map, [
-      ["Glasgow", "Ayr"],
+      {connects : ["Glasgow", "Ayr"]},
     ]);
 
   getOverrides() {
