@@ -1,9 +1,9 @@
-import { DCMetroMapSettings } from "./d_c_metro/settings";
 import { GameKey } from "../api/game_key";
 import { MapSettings } from "../engine/game/map_settings";
 import { assert } from "../utils/validate";
 import { AlabamaRailwaysMapSettings } from "./alabama_railways/settings";
 import { CyprusMapSettings } from "./cyprus/settings";
+import { DCMetroMapSettings } from "./d_c_metro/settings";
 import { DetroitBankruptcyMapSettings } from "./detroit/settings";
 import { DiscoInfernoMapSettings } from "./disco/settings";
 import { GermanyMapSettings } from "./germany/settings";
@@ -12,6 +12,7 @@ import { IndiaSteamBrothersMapSettings } from "./india-steam-brothers/settings";
 import { IrelandMapSettings } from "./ireland/settings";
 import { JamaicaMapSettings } from "./jamaica/settings";
 import { KoreaWallaceMapSettings } from "./korea-wallace/settings";
+import { LondonMapSettings } from "./london/settings";
 import { MadagascarMapSettings } from "./madagascar/settings";
 import { MontrealMetroMapSettings } from "./montreal_metro/settings";
 import { MoonMapSettings } from "./moon/settings";
@@ -20,11 +21,11 @@ import { PittsburghMapSettings } from "./pittsburgh/settings";
 import { ReversteamMapSettings } from "./reversteam/settings";
 import { RustBeltMapSettings } from "./rust_belt/settings";
 import { ScandinaviaMapSettings } from "./scandinavia/settings";
+import { ScotlandMapSettings } from "./scotland/settings";
 import { SicilyMapSettings } from "./sicily/settings";
 import { SoulTrainMapSettings } from "./soultrain/settings";
 import { StLuciaMapSettings } from "./st-lucia/settings";
 import { SwedenRecyclingMapSettings } from "./sweden/settings";
-import { LondonMapSettings } from "./london/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();
@@ -34,6 +35,7 @@ export class MapRegistry {
     this.add(new DCMetroMapSettings());
     this.add(new ScandinaviaMapSettings());
     this.add(new NewEnglandMapSettings());
+    this.add(new ScotlandMapSettings());
     this.add(new AlabamaRailwaysMapSettings());
     this.add(new SicilyMapSettings());
     this.add(new RustBeltMapSettings());

@@ -66,6 +66,14 @@
   fill: #867565;
 }
 
+.location.riverMountain {
+  fill: #77685a;
+}
+
+:global(.dark-mode) .location.riverMountain {
+  fill: #38312a;
+}
+
 :global(.dark-mode) .location.mountain {
   fill: #433a32;
 }

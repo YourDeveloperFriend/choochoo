@@ -81,6 +81,8 @@ function landColorStyle(space: Land): string {
       return styles.crater;
     case SpaceType.DARK_MOUNTAIN:
       return styles.darkMountain;
+    case SpaceType.RIVER_MOUNTAIN:
+      return styles.riverMountain;
     default:
       assertNever(type);
   }

@@ -4,6 +4,7 @@ export enum GameKey {
   D_C_METRO = "d-c-metro",
   SCANDINAVIA = "scandinavia",
   NEW_ENGLAND = "new-england",
+  SCOTLAND = "scotland",
   ALABAMA_RAILWAYS = "alabama-railways",
   SICILY = "sicily",
   CYPRUS = "cyprus",

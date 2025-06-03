@@ -20,7 +20,7 @@ export const map = grid([
     ...duplicate(7, PLAIN),
   ],
   [
-    city("Deluth", Good.PURPLE, white(6)),
+    city("Duluth", Good.PURPLE, white(6)),
     ...duplicate(2, PLAIN),
     RIVER,
     ...duplicate(3, PLAIN),
@@ -80,7 +80,7 @@ export const map = grid([
     town("Toledo"),
     PLAIN,
     PLAIN,
-    city("Cincinatti", Good.BLUE, black(2)),
+    city("Cincinnati", Good.BLUE, black(2)),
     RIVER,
     PLAIN,
   ],
