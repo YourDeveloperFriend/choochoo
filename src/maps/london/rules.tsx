@@ -28,7 +28,7 @@ export function LondonRules() {
             have built.
           </p>
           <div style={{ marginBottom: "1em" }}>
-            <Table celled compact collapsing>
+            <Table celled compact collapsing unstackable>
               <TableHeader>
                 <TableRow>
                   <TableHeaderCell># Tiles</TableHeaderCell>
