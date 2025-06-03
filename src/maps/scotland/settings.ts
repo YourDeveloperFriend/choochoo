@@ -18,7 +18,7 @@ export class ScotlandMapSettings implements MapSettings {
   readonly minPlayers = 2;
   readonly maxPlayers = 2;
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.DEVELOPMENT;
+  readonly stage = ReleaseStage.ALPHA;
   readonly interCityConnections = interCityConnections(map, [
       {connects : ["Glasgow", "Ayr"]},
     ]);

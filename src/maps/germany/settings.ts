@@ -14,6 +14,7 @@ import { GermanyCostCalculator } from "./cost";
 import { map } from "./grid";
 import { GermanyMoveHelper } from "./move";
 import { GermanyStarter } from "./starter";
+import { Log } from "../../engine/game/log";
 
 export class GermanyMapSettings implements MapSettings {
   static readonly key = GameKey.GERMANY;
