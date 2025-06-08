@@ -1,0 +1,13 @@
+.cityOption {
+  display: inline-block;
+  border: 2px solid black;
+  border-radius: 1px;
+  cursor: pointer;
+  padding: 8px;
+  margin: 4px;
+  text-align: center;
+}
+
+.cityOption.selected {
+  border: 2px solid orange;
+}
