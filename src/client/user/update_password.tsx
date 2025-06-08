@@ -58,7 +58,7 @@ export function UpdatePassword({ updateCode, onSuccess }: UpdatePasswordProps) {
       )}
       {!isInvalid && (
         <Form onSubmit={onSubmit}>
-          <FormGroup>
+          <FormGroup widths={4}>
             {!updateCode && (
               <FormInput
                 required

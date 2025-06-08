@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Button, CardGroup } from "semantic-ui-react";
+import { Button, CardGroup, Icon } from "semantic-ui-react";
 import { GameLiteApi, GameStatus, ListGamesApi } from "../../api/game";
 import { partition } from "../../utils/functions";
 import { useGameList } from "../services/game";
@@ -53,16 +53,20 @@ export function GameList({
           <GameCard game={game} key={game.id} hideStatus={hideStatus} />
         ))}
       </CardGroup>
-      {hasPrevPage && (
-        <Button secondary onClick={prevPage}>
-          Prev
-        </Button>
-      )}
-      {hasNextPage && (
-        <Button secondary onClick={nextPage} disabled={games == null}>
-          Next
-        </Button>
-      )}
+      <div style={{marginTop: "1em"}}>
+        {hasPrevPage && (
+          <Button secondary onClick={prevPage}>
+            <Icon name="angle left" />
+            Prev
+          </Button>
+        )}
+        {hasNextPage && (
+          <Button secondary onClick={nextPage} disabled={games == null}>
+            Next
+            <Icon name="angle right" />
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

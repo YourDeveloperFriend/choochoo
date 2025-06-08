@@ -2,7 +2,7 @@ import { UserRole } from "../../api/user";
 import { LoginButton } from "../game/login_button";
 import { useResendActivationCode } from "../services/me";
 import { useUserList } from "../services/user";
-import { Button } from "semantic-ui-react";
+import {Button, Icon, Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow} from "semantic-ui-react";
 
 export function UserList() {
   const { users, hasNextPage, nextPage, hasPrevPage, prevPage, isLoading } =
@@ -11,24 +11,24 @@ export function UserList() {
 
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table celled compact>
+        <TableHeader>
+          <TableRow>
+            <TableHeaderCell>ID</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+            <TableHeaderCell>Email</TableHeaderCell>
+            <TableHeaderCell>Role</TableHeaderCell>
+            <TableHeaderCell></TableHeaderCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {users?.map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.username}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-              <td>
+            <TableRow key={user.id}>
+              <TableCell>{user.id}</TableCell>
+              <TableCell>{user.username}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.role}</TableCell>
+              <TableCell>
                 {user.role == UserRole.enum.ACTIVATE_EMAIL && (
                   <Button
                     primary
@@ -39,21 +39,25 @@ export function UserList() {
                   </Button>
                 )}
                 <LoginButton playerId={user.id}>Act as</LoginButton>
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-      {hasNextPage && (
-        <Button disabled={isLoading} onClick={nextPage}>
-          Next
-        </Button>
-      )}
-      {hasPrevPage && (
-        <Button disabled={isLoading} onClick={prevPage}>
-          Prev
-        </Button>
-      )}
+        </TableBody>
+      </Table>
+      <div style={{marginTop: "1em"}}>
+        {hasPrevPage && (
+          <Button disabled={isLoading} onClick={prevPage}>
+            <Icon name="angle left" />
+            Prev
+          </Button>
+        )}
+        {hasNextPage && (
+            <Button disabled={isLoading} onClick={nextPage}>
+              Next
+              <Icon name="angle right" />
+            </Button>
+        )}
+      </div>
     </div>
   );
 }

@@ -45,6 +45,7 @@ import {
   FormSelect,
   DropdownProps,
   FormGroup,
+  FormField,
 } from "semantic-ui-react";
 
 const PASS_ACTION = "Pass" as const;
@@ -372,10 +373,11 @@ function Bid() {
     <div>
       <p>You must bid.</p>
       <Form>
-        <FormGroup>
+        <FormGroup widths={8}>
           <FormSelect
             disabled={isPending}
             value={selectedBid}
+            placeholder=""
             onChange={(
               event: React.SyntheticEvent<HTMLElement>,
               data: DropdownProps,
@@ -391,16 +393,18 @@ function Bid() {
               };
             })}
           />
-          <Button
-            primary
-            onClick={() => placeBid(selectedBid)}
-            disabled={!selectedBid || isPending}
-          >
-            Place Bid
-          </Button>
+          <FormField>
+            <Button
+              primary
+              onClick={() => placeBid(selectedBid)}
+              disabled={!selectedBid || isPending}
+            >
+              Place Bid
+            </Button>
+          </FormField>
         </FormGroup>
         {helper.canUseTurnOrderPass() && (
-          <FormGroup>
+          <FormField>
             <Button
               secondary
               onClick={() => placeBid(TURN_ORDER_PASS_ACTION)}
@@ -408,9 +412,9 @@ function Bid() {
             >
               Turn Order Pass
             </Button>
-          </FormGroup>
+          </FormField>
         )}
-        <FormGroup>
+        <FormField>
           <Button
             negative
             onClick={() => placeBid(PASS_ACTION)}
@@ -418,7 +422,7 @@ function Bid() {
           >
             Pass
           </Button>
-        </FormGroup>
+        </FormField>
       </Form>
     </div>
   );

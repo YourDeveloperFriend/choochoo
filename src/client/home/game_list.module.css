@@ -3,3 +3,9 @@
   flex-direction: column;
   margin-bottom: 1em;
 }
+
+@media only screen and (max-width: 767px) {
+  .gameListCard > :global(.ui.stackable.cards .card:first-child) {
+    margin-top: 1em !important;
+  }
+}
