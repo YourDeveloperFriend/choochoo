@@ -63,18 +63,11 @@ export class ScandinaviaMoveValidator extends MoveValidator {
     super.validatePartial(player, action);
 
     const numTeleports = action.path.filter(isTeleport).length;
-    if (player.selectedAction === Action.FERRY) {
+    if (player.selectedAction === Action.FERRY && !this.usedFerry) {
       assert(numTeleports <= 1, {
         invalidInput: "can only use the ferry once in a move",
       });
-      assert(!this.usedFerry.getOr(false), {
-        invalidInput: "can only use the ferry once per round",
-      });
-    } else {
-      assert(numTeleports <= 0, {
-        invalidInput: "cannot use a teleport without the ferry action",
-      });
-    }
+    } 
   }
 
   findRoutesToLocation(
@@ -82,6 +75,9 @@ export class ScandinaviaMoveValidator extends MoveValidator {
     fromCoordinates: Coordinates,
     toCoordinates: Coordinates,
   ): RouteInfo[] {
+    if(this.usedFerry.getOr(false)){
+      return super.findRoutesToLocation(player, fromCoordinates, toCoordinates);
+    }
     return super
       .findRoutesToLocation(player, fromCoordinates, toCoordinates)
       .concat(this.findTeleportRoutes(player, fromCoordinates, toCoordinates));
