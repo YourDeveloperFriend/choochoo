@@ -63,7 +63,7 @@ export class ScandinaviaMoveValidator extends MoveValidator {
     super.validatePartial(player, action);
 
     const numTeleports = action.path.filter(isTeleport).length;
-    if (player.selectedAction === Action.FERRY && !this.usedFerry) {
+    if (player.selectedAction === Action.FERRY) {
       assert(numTeleports <= 1, {
         invalidInput: "can only use the ferry once in a move",
       });
