@@ -11,6 +11,8 @@ import { City } from "../../engine/map/city";
 import { Space } from "../../engine/map/grid";
 
 export const LondonMoveData = MoveData.extend({
+  // City will be absent if no city had to be selected, e.g. because the delivery started from a town, so there
+  // is no _choice_ about which end of the delivery instant production will happen on.
   city: CoordinatesZod.optional(),
 });
 export type LondonMoveData = z.infer<typeof LondonMoveData>;
