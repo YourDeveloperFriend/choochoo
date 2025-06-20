@@ -1,102 +1,95 @@
-import z from "zod";
 import { MoveAction, MoveData } from "../../engine/move/move";
 import { assert } from "../../utils/validate";
-import { inject } from "../../engine/framework/execution_context";
-import { SpaceType } from "../../engine/state/location_type";
-import { OnRollData } from "../../engine/state/roll";
+import { inject, injectState } from "../../engine/framework/execution_context";
 import { Good, goodToString } from "../../engine/state/good";
-import { Random } from "../../engine/game/random";
-import { CoordinatesZod } from "../../utils/coordinates";
+import { MovePhase } from "../../engine/move/phase";
+import {
+  applyInstantProduction,
+  INSTANT_PRODUCTION_STATE,
+  InstantProductionAction,
+} from "./instant_production";
+import { GoodsHelper } from "../../engine/goods_growth/helper";
+import { Grid } from "../../engine/map/grid";
 import { City } from "../../engine/map/city";
-import { Space } from "../../engine/map/grid";
 
-export const LondonMoveData = MoveData.extend({
-  // City will be absent if no city had to be selected, e.g. because the delivery started from a town, so there
-  // is no _choice_ about which end of the delivery instant production will happen on.
-  city: CoordinatesZod.optional(),
-});
-export type LondonMoveData = z.infer<typeof LondonMoveData>;
+export class LondonMovePhase extends MovePhase {
+  private readonly instantProductionState = injectState(
+    INSTANT_PRODUCTION_STATE,
+  );
 
-export class LondonMoveAction extends MoveAction<LondonMoveData> {
-  private readonly random = inject(Random);
-
-  assertInput = LondonMoveData.parse;
-
-  validate(data: LondonMoveData) {
-    super.validate(data);
-
-    const start = this.grid().get(data.startingCity);
-    if (!(start instanceof City)) {
-      assert(data.city === undefined, {
-        invalidInput: "city should be empty when starting from a town",
-      });
-      return;
-    }
-
-    assert(data.city !== undefined, {
-      invalidInput: "city must be set and non-empty",
-    });
-
-    const city = this.gridHelper.lookup(data.city);
-    assert(city !== undefined, {
-      invalidInput: "city coordinate is invalid",
-    });
-
-    assert(
-      city.coordinates.equals(data.startingCity) ||
-        city.coordinates.equals(data.path[data.path.length - 1].endingStop),
-      {
-        invalidInput: "city must be the starting city or ending city",
-      },
-    );
+  configureActions() {
+    super.configureActions();
+    this.installAction(InstantProductionAction);
   }
 
-  process(action: LondonMoveData): boolean {
-    const result = super.process(action);
-
-    let city: Space | undefined;
-    if (action.city === undefined) {
-      city = this.gridHelper.lookup(
-        action.path[action.path.length - 1].endingStop,
-      );
-    } else {
-      city = this.gridHelper.lookup(action.city);
-    }
-    assert(city !== undefined);
-
-    const coordinates = city.coordinates;
-    this.gridHelper.update(coordinates, (loc) => {
-      assert(loc.type === SpaceType.CITY);
-      const onRoll: OnRollData[] = loc.onRoll;
-      assert(onRoll.length === 1);
-
-      let newGood: Good | undefined | null;
-      do {
-        newGood = onRoll[0].goods.pop();
-      } while (newGood == undefined && onRoll[0].goods.length > 0);
-
-      if (newGood != null) {
-        this.log.log(
-          `A ${goodToString(newGood)} good is added to ${this.gridHelper.displayName(coordinates)}`,
-        );
-        loc.goods.push(newGood);
-      } else {
-        const pull: Good[] | undefined = [];
-        this.bag.update((bag) => {
-          const pulled = this.random.draw(1, bag, false);
-          for (const good of pulled) {
-            pull.push(good);
-          }
-        });
-        for (const pulledGood of pull) {
-          this.log.log(
-            `A ${goodToString(pulledGood)} good is added to the Goods Growth for ${this.gridHelper.displayName(coordinates)}`,
-          );
-          onRoll[0].goods.push(pulledGood);
-        }
-      }
-    });
-
+  onStartTurn() {
+    const result = super.onStartTurn();
+    this.instantProductionState.initState({});
     return result;
   }
+
+  onEndTurn(): void {
+    this.instantProductionState.delete();
+    return super.onEndTurn();
+  }
+}
+
+export class LondonMoveAction extends MoveAction {
+  private readonly instantProductionState = injectState(
+    INSTANT_PRODUCTION_STATE,
+  );
+  private readonly goodsHelper = inject(GoodsHelper);
+
+  process(action: MoveData): boolean {
+    super.process(action);
+
+    const grid = this.grid();
+    if (hasStartingTown(grid, action)) {
+      // Automatically apply instant production since there is no choice
+      applyInstantProduction(
+        this.gridHelper,
+        this.goodsHelper,
+        this.log,
+        action.path[action.path.length - 1].endingStop,
+      );
+      return true;
+    }
+
+    // Configure the instant production state so that the InstantProductionAction can then be emitted
+    const start = grid.get(action.startingCity);
+    assert(start instanceof City);
+    const end = grid.get(action.path[action.path.length - 1].endingStop);
+    assert(end instanceof City);
+    let drawnCube: Good | undefined;
+    if (!hasGoodsGrowth(start) && !hasGoodsGrowth(end)) {
+      drawnCube = this.goodsHelper.drawGood();
+      this.log.log(
+        `A ${goodToString(drawnCube)} was drawn for instant production.`,
+      );
+    }
+
+    this.instantProductionState.set({
+      startCity: start.coordinates,
+      endCity: end.coordinates,
+      drawnCube: drawnCube,
+    });
+    return false;
+  }
+}
+
+function hasStartingTown(grid: Grid, moveData: MoveData): boolean {
+  const start = grid.get(moveData.startingCity);
+  return !(start instanceof City);
+}
+
+function hasGoodsGrowth(city: City): boolean {
+  const onRolls = city.onRoll();
+  for (const onRoll of onRolls) {
+    for (const good of onRoll.goods) {
+      if (good != null) {
+        return true;
+      }
+    }
+  }
+  return false;
 }

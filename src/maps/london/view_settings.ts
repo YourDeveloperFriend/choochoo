@@ -3,7 +3,8 @@ import { LondonRules } from "./rules";
 import { LondonMapSettings } from "./settings";
 import { MapViewSettings } from "../view_settings";
 import { LondonRivers } from "./rivers";
-import { LondonMoveInterceptorModal } from "./move_interceptor_modal";
+import { MoveGoodsActionSummary } from "./instant_production_view";
+import { Phase } from "../../engine/state/phase";
 
 export class LondonViewSettings
   extends LondonMapSettings
@@ -22,5 +23,9 @@ export class LondonViewSettings
     return undefined;
   }
 
-  moveInterceptModal = LondonMoveInterceptorModal;
+  getActionSummary(phase: Phase) {
+    if (phase === Phase.MOVING) {
+      return MoveGoodsActionSummary;
+    }
+  }
 }

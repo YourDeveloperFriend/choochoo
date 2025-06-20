@@ -7,8 +7,7 @@ import { map } from "./grid";
 import { LondonStarter } from "./starter";
 import { LondonAllowedActions } from "./allowed_actions";
 import { LondonPhaseEngine } from "./production";
-import { LondonMoveInterceptor } from "./move_interceptor";
-import { LondonMoveAction } from "./move_good";
+import { LondonMoveAction, LondonMovePhase } from "./move_good";
 import { LondonShareHelper } from "./shares";
 import { LondonUrbanizeAction } from "./urbanize";
 import { LondonPlayerHelper } from "./score";
@@ -34,8 +33,8 @@ export class LondonMapSettings implements MapSettings {
       LondonStarter,
       LondonBuilderHelper,
       LondonPhaseEngine,
-      LondonMoveInterceptor,
       LondonMoveAction,
+      LondonMovePhase,
       LondonShareHelper,
       LondonUrbanizeAction,
       LondonPlayerHelper,

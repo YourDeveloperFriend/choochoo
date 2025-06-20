@@ -13,8 +13,6 @@ import { DoneAction } from "../../engine/build/done";
 import { BuilderHelper } from "../../engine/build/helper";
 import { inject, injectState } from "../../engine/framework/execution_context";
 import { PHASE } from "../../engine/game/phase";
-import { LocoAction } from "../../engine/move/loco";
-import { MovePassAction } from "../../engine/move/pass";
 import { SelectAction as ActionSelectionSelectAction } from "../../engine/select_action/select";
 import { SkipAction } from "../../engine/select_action/skip";
 import { ShareHelper } from "../../engine/shares/share_helper";
@@ -38,7 +36,6 @@ import {
 import { iterate } from "../../utils/functions";
 import { assertNever } from "../../utils/validate";
 import { useConfirm } from "../components/confirm";
-import { MaybeTooltip } from "../components/maybe_tooltip";
 import { Username } from "../components/username";
 import { useAction, useEmptyAction } from "../services/action";
 import {
@@ -48,6 +45,7 @@ import {
   useViewSettings,
 } from "../utils/injection_context";
 import { ManualGoodsGrowth } from "./india-steam-brothers/goods_growth";
+import { MoveGoods } from "./move_goods_action_summary";
 
 const PASS_ACTION = "Pass" as const;
 type PassActionString = typeof PASS_ACTION;
@@ -57,6 +55,15 @@ type TurnOrderPassActionString = typeof TURN_ORDER_PASS_ACTION;
 
 export function ActionSummary() {
   const currentPhase = useActiveGameState(PHASE);
+  const viewSettings = useViewSettings();
+
+  if (viewSettings.getActionSummary) {
+    const ActionSummary = viewSettings.getActionSummary(currentPhase);
+    if (ActionSummary !== undefined) {
+      return <ActionSummary />;
+    }
+  }
+
   switch (currentPhase) {
     case Phase.SHARES:
       return <TakeShares />;
@@ -281,54 +288,6 @@ function SpecialActionSelector() {
 
 function EndGame() {
   return <GenericMessage>This game is over.</GenericMessage>;
-}
-
-function MoveGoods() {
-  const {
-    emit: emitLoco,
-    canEmit,
-    canEmitUserId,
-    getErrorMessage,
-  } = useEmptyAction(LocoAction);
-  const { emit: emitPass } = useEmptyAction(MovePassAction);
-  const viewSettings = useViewSettings();
-
-  const message = viewSettings.moveGoodsMessage?.();
-
-  if (canEmitUserId == null) {
-    return <></>;
-  }
-
-  if (!canEmit) {
-    return (
-      <GenericMessage>
-        <Username userId={canEmitUserId} /> must move a good.
-      </GenericMessage>
-    );
-  }
-
-  const locoDisabledReason = getErrorMessage();
-
-  return (
-    <div>
-      <GenericMessage>{message ?? "You must move a good."}</GenericMessage>
-      <MaybeTooltip tooltip={locoDisabledReason}>
-        <Button
-          icon
-          labelPosition="left"
-          color="green"
-          onClick={emitLoco}
-          disabled={locoDisabledReason != null}
-        >
-          <Icon name="train" />
-          Locomotive
-        </Button>
-      </MaybeTooltip>
-      <Button negative onClick={emitPass}>
-        Pass
-      </Button>
-    </div>
-  );
 }
 
 function numberFormat(num: number): string {
