@@ -6,7 +6,7 @@ const c = initContract();
 const Notes = z.object({
   notes: z.string(),
 });
-type Notes = z.infer<typeof Notes>;
+export type Notes = z.infer<typeof Notes>;
 
 export const notesContract = c.router({
   get: {

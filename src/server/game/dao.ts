@@ -149,7 +149,7 @@ export class GameDao extends Model<
     assert(index >= 0, { unauthorized: "only players can set notes" });
     this.notes ??= [];
     this.notes[index] = notes;
-    this.changed("notes");
+    this.changed("notes", true);
   }
 }
 

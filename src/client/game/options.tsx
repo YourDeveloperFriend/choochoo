@@ -12,6 +12,7 @@ import { useAbandon, useConcede, useGame, useKick } from "../services/game";
 import { useMe } from "../services/me";
 import * as styles from "./options.module.css";
 import { useState } from "react";
+import { GameNotesButton } from "./game_notes";
 
 export function GameOptions() {
   const game = useGame();
@@ -93,6 +94,12 @@ export function GameOptions() {
                   the current player.
                 </p>
               )}
+            </div>
+            <div className={styles.row}>
+              <div className={styles.buttonContainer}>
+                <GameNotesButton />
+              </div>
+              <p>Add notes for yourself for when you return to this game.</p>
             </div>
           </div>
         </AccordionContent>
