@@ -11,6 +11,7 @@ export enum GameKey {
   ALABAMA_RAILWAYS = "alabama-railways",
   SICILY = "sicily",
   CYPRUS = "cyprus",
+  DENMARK = "denmark",
   DETROIT = "detroit-bankruptcy",
   GERMANY = "germany",
   DISCO_INFERNO = "disco-inferno",

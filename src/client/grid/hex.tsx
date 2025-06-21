@@ -48,6 +48,8 @@ function landColorStyle(space: Land): string {
         return styles.light_plain;
       case SpaceStyle.LIGHT_RIVER:
         return styles.light_river;
+      case SpaceStyle.FYORD:
+        return styles.fyord;
       default:
         assertNever(style);
     }
@@ -446,13 +448,8 @@ function TerrainCost({ space, center, size, rotation }: TerrainCostProps) {
 
   return (
     <>
+      <polygon fill="#cfddbb" points={corners} stroke="black" strokeWidth="0" />
       <Rotate rotation={rotation} center={center} reverse={true}>
-        <polygon
-          fill="#cfddbb"
-          points={corners}
-          stroke="black"
-          strokeWidth="0"
-        />
         <text
           fontSize={size / 2.5}
           fill="#b63421"

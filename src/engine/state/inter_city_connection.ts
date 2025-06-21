@@ -6,6 +6,7 @@ export const InterCityConnection = z.object({
   id: z.string(),
   connects: CoordinatesZod.array(),
   cost: z.number(),
+  center: CoordinatesZod.optional(),
   // No owner means the connection isn't built. An owner but no color means it's built but unowned.
   owner: z.object({ color: PlayerColorZod.optional() }).optional(),
 });

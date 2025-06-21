@@ -22,6 +22,14 @@
   fill: #5f8a40;
 }
 
+.location.fyord {
+  fill: #88d4ad;
+}
+
+:global(.dark-mode) .location.fyord {
+  fill: #6fad8e;
+}
+
 .location.fire {
   fill: #d66f34;
 }
