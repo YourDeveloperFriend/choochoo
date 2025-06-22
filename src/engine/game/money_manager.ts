@@ -49,7 +49,7 @@ export class MoneyManager {
       this.playerHelper.update(playerColor, (player) => {
         player.income -= lostIncome;
         player.money = 0;
-        if (player.income < 0) {
+        if (this.isBankrupt(player)) {
           player.outOfGame = true;
         }
       });
@@ -61,6 +61,10 @@ export class MoneyManager {
 
       return { lostIncome, outOfGame: newPlayerData.outOfGame ?? false };
     }
+  }
+
+  protected isBankrupt(player: PlayerData): boolean {
+    return player.income < 0;
   }
 
   protected outOfGame(player: PlayerData) {

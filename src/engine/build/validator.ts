@@ -19,7 +19,7 @@ export interface BuildInfo {
   playerColor: PlayerColor;
 }
 
-type InvalidBuildReason = string;
+export type InvalidBuildReason = string;
 
 export class Validator {
   private readonly helper = inject(BuilderHelper);

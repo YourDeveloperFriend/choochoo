@@ -6,6 +6,14 @@ import {
 } from "../../engine/game/map_settings";
 import { interCityConnections } from "../factory";
 import { map } from "./grid";
+import {DenmarkShareHelper, DenmarkTakeSharesAction} from "./shares";
+import {DenmarkIncomeReduction} from "./expenses";
+import {DenmarkMoneyManager} from "./money_manager";
+import {DenmarkAllowedActions, DenmarkSelectAction} from "./allowed_actions";
+import {DenmarkPhaseEngine} from "./production";
+import {DenmarkLocoAction} from "./loco";
+import {DenmarkBuildCostCalculator} from "./cost";
+import {DenmarkBuildValidator} from "./build_validator";
 
 export class DenmarkMapSettings implements MapSettings {
   static readonly key = GameKey.DENMARK;
@@ -55,6 +63,17 @@ export class DenmarkMapSettings implements MapSettings {
   readonly rotation = Rotation.CLOCKWISE;
 
   getOverrides() {
-    return [];
+    return [
+        DenmarkShareHelper,
+        DenmarkTakeSharesAction,
+        DenmarkIncomeReduction,
+        DenmarkMoneyManager,
+        DenmarkAllowedActions,
+        DenmarkPhaseEngine,
+        DenmarkLocoAction,
+        DenmarkSelectAction,
+        DenmarkBuildCostCalculator,
+        DenmarkBuildValidator,
+    ];
   }
 }
