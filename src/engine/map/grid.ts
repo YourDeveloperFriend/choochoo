@@ -3,13 +3,10 @@ import { z } from "zod";
 import { Coordinates, CoordinatesZod } from "../../utils/coordinates";
 import { deepEquals } from "../../utils/deep_equals";
 import { DoubleHeight } from "../../utils/double_height";
-import { arrayEqualsIgnoreOrder, isNotNull } from "../../utils/functions";
+import { isNotNull } from "../../utils/functions";
 import { MapSettings } from "../game/map_settings";
 import { GridData } from "../state/grid";
-import {
-  InterCityConnection,
-  OwnedInterCityConnection,
-} from "../state/inter_city_connection";
+import { InterCityConnection } from "../state/inter_city_connection";
 import { SpaceType } from "../state/location_type";
 import { PlayerColor } from "../state/player";
 import { Direction } from "../state/tile";
@@ -45,10 +42,8 @@ export class Grid {
     );
   }
 
-  findConnection(coordinates: Coordinates[]): InterCityConnection | undefined {
-    return this.connections.find((connection) =>
-      arrayEqualsIgnoreOrder(connection.connects, coordinates),
-    );
+  getConnection(id: string): InterCityConnection | undefined {
+    return this.connections.find((connection) => connection.id === id);
   }
 
   get(coordinates: Coordinates): Space | undefined {
@@ -182,8 +177,18 @@ export class Grid {
     const isClaimableRoute = track.isClaimable() || track.wasClaimed();
     return tupleMap(track.getExits(), (exit) => {
       const otherExit = track.otherExit(exit);
-      const connects =
-        exit === TOWN || this.connection(track.coordinates, exit) != null;
+      let connects: boolean;
+      if (exit === TOWN) {
+        connects = true;
+      } else if (this.getNeighbor(track.coordinates, exit) instanceof City) {
+        connects = true;
+      } else if (
+        this.getTrackConnection(track.coordinates, exit) !== undefined
+      ) {
+        connects = true;
+      } else {
+        connects = false;
+      }
       return {
         exit,
         dangles: !isClaimableRoute && !connects,
@@ -192,25 +197,22 @@ export class Grid {
     });
   }
 
-  connection(
+  /**
+   * Where neighbor is the location at fromCoordinates moved by direction, this
+   * will return the Track, if it exists, at the neighbor coordinates that connects
+   * back to fromCoordinates. If no track exists (e.g. because neighbor goes offboard,
+   * the neighbor tile is a city, or there is simply no track on that tile) undefined
+   * is returned.
+   */
+  getTrackConnection(
     fromCoordinates: Coordinates,
     direction: Direction,
-  ): City | Track | OwnedInterCityConnection | undefined {
-    const current = this.grid.get(fromCoordinates);
+  ): Track | undefined {
     const neighbor = this.getNeighbor(fromCoordinates, direction);
     if (neighbor == null) return undefined;
 
     if (neighbor instanceof City) {
-      if (current instanceof City) {
-        const connection = this.findConnection([
-          fromCoordinates,
-          neighbor.coordinates,
-        ]);
-        return connection?.owner != null
-          ? (connection as OwnedInterCityConnection)
-          : undefined;
-      }
-      return neighbor;
+      return undefined;
     }
     return neighbor.trackExiting(getOpposite(direction));
   }
@@ -230,8 +232,8 @@ export class Grid {
       return [];
     }
 
-    const neighbor = this.connection(track.coordinates, toExit);
-    if (!(neighbor instanceof Track)) {
+    const neighbor = this.getTrackConnection(track.coordinates, toExit);
+    if (neighbor === undefined) {
       return [];
     } else {
       return [neighbor, ...this.getRouteOneWay(neighbor, getOpposite(toExit))];
@@ -245,8 +247,8 @@ export class Grid {
       return [track.coordinates, toExit];
     }
 
-    const neighbor = this.connection(track.coordinates, toExit);
-    if (!(neighbor instanceof Track)) {
+    const neighbor = this.getTrackConnection(track.coordinates, toExit);
+    if (neighbor === undefined) {
       return [track.coordinates, toExit];
     } else {
       return this.getEnd(neighbor, getOpposite(toExit));

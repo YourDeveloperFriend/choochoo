@@ -11,7 +11,7 @@ import { City } from "../../engine/map/city";
 import { getOpposite } from "../../engine/map/direction";
 import { GridHelper } from "../../engine/map/grid_helper";
 import { Land } from "../../engine/map/location";
-import { TOWN, Track } from "../../engine/map/track";
+import { TOWN } from "../../engine/map/track";
 import { MoveHelper } from "../../engine/move/helper";
 import { MovePhase } from "../../engine/move/phase";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
@@ -136,11 +136,11 @@ export class HeavyLiftingAction implements ActionProcessor<HeavyLiftingData> {
       );
     } else {
       return allDirections.some((direction) => {
-        const track = this.grid().connection(
+        const track = this.grid().getTrackConnection(
           startingCity.coordinates,
           direction,
         );
-        if (!(track instanceof Track)) return false;
+        if (track === undefined) return false;
         if (track.getOwner() !== this.currentPlayer().color) return false;
         const [endTrack, exit] = this.grid().getEnd(
           track,

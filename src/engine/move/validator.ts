@@ -148,41 +148,38 @@ export class MoveValidator {
   }
 
   private findRoutesFromCity(originCity: City): RouteInfo[] {
-    const allCities = this.grid().getSameCities(originCity);
-    return allCities.flatMap((originCity) =>
+    const grid = this.grid();
+    const allCities = grid.getSameCities(originCity);
+    const trackRoutes: RouteInfo[] = allCities.flatMap((originCity) =>
       allDirections
         .map((direction) =>
-          this.grid().connection(originCity.coordinates, direction),
+          grid.getTrackConnection(originCity.coordinates, direction),
         )
         .filter(isNotNull)
-        .filter(
-          (connection): connection is Track | OwnedInterCityConnection =>
-            !(connection instanceof City),
-        )
-        .filter(
-          (connection) =>
-            !(connection instanceof Track) ||
-            this.canMoveGoodsAcrossTrack(connection),
-        )
+        .filter((connection) => this.canMoveGoodsAcrossTrack(connection))
         .flatMap((connection) => {
-          if (connection instanceof Track) {
-            return this.findRoutesFromTrack(connection).filter(
-              (route) => route.destination !== originCity.coordinates,
-            );
-          }
-          const otherCity = this.grid().get(
-            connection.connects.find((c) => originCity.coordinates !== c)!,
-          ) as City;
-          return [
-            {
-              type: "connection",
-              destination: otherCity.coordinates,
-              connection,
-              owner: connection.owner.color,
-            },
-          ];
+          return this.findRoutesFromTrack(connection).filter(
+            (route) => route.destination !== originCity.coordinates,
+          );
         }),
     );
+    const interCityRoutes: RouteInfo[] = grid.connections
+      .filter((connection) =>
+        connection.connects.some((c) => c.equals(originCity.coordinates)),
+      )
+      .filter((connection) => connection.owner != null)
+      .map((connection) => {
+        const otherCity = grid.get(
+          connection.connects.find((c) => !originCity.coordinates.equals(c))!,
+        ) as City;
+        return {
+          type: "connection",
+          destination: otherCity.coordinates,
+          connection: connection as OwnedInterCityConnection,
+          owner: connection.owner!.color,
+        };
+      });
+    return trackRoutes.concat(interCityRoutes);
   }
 
   private findRoutesFromLand(location: Land): RouteInfo[] {

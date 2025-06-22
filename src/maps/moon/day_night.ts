@@ -77,7 +77,8 @@ export class MoonGoodsGrowthPhase extends GoodsGrowthPhase {
     }
     const connected = allDirections.some(
       (direction) =>
-        this.actualGrid().connection(city.coordinates, direction) != null,
+        this.actualGrid().getTrackConnection(city.coordinates, direction) !=
+        null,
     );
     if (!connected) return true;
 

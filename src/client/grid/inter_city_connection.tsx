@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { Rotation } from "../../engine/game/map_settings";
 import { InterCityConnection } from "../../engine/state/inter_city_connection";
-import { Coordinates } from "../../utils/coordinates";
 import { coordinatesToCenter, movePointInDirection } from "../../utils/point";
 import { getPlayerColorCss } from "../components/player_color";
 import { Rotate } from "../components/rotation";
@@ -15,7 +14,7 @@ interface InterCityConnectionRenderProps {
   clickTargets: Set<ClickTarget>;
   highlighted?: boolean;
   rotation?: Rotation;
-  onClick?: (connects: Coordinates[]) => void;
+  onClick?: (id: string) => void;
 }
 
 export function InterCityConnectionRender({
@@ -40,7 +39,7 @@ export function InterCityConnectionRender({
     : "";
 
   const internalOnClick = useCallback(
-    () => onClick && onClick(connection.connects),
+    () => onClick && onClick(connection.id!),
     [...connection.connects],
   );
 

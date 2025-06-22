@@ -1,5 +1,4 @@
 import z from "zod";
-import { CoordinatesZod } from "../../utils/coordinates";
 import { assert } from "../../utils/validate";
 import { inject, injectState } from "../framework/execution_context";
 import { ActionProcessor } from "../game/action";
@@ -14,7 +13,7 @@ import { BuilderHelper } from "./helper";
 import { BUILD_STATE } from "./state";
 
 export const ConnectCitiesData = z.object({
-  connect: CoordinatesZod.array(),
+  id: z.string(),
 });
 export type ConnectCitiesData = z.infer<typeof ConnectCitiesData>;
 
@@ -36,8 +35,8 @@ export class ConnectCitiesAction implements ActionProcessor<ConnectCitiesData> {
     return cost - this.discountManager.getDiscount(data, cost);
   }
 
-  protected validateUrbanizedCities(data: ConnectCitiesData): void {
-    const cities = data.connect.map((coordinates) => this.grid().get(coordinates));
+  protected validateUrbanizedCities(connection: InterCityConnection): void {
+    const cities = connection.connects.map((coordinates) => this.grid().get(coordinates));
     assert(cities.every(isCity), { invalidInput: 'Cannot connect cities until both have been urbanized' });
 }
 
@@ -45,19 +44,16 @@ export class ConnectCitiesAction implements ActionProcessor<ConnectCitiesData> {
     const maxTrack = this.helper.getMaxBuilds();
     assert(this.helper.buildsRemaining() > 0, { invalidInput: `You can only build at most ${maxTrack} track` });
 
-    assert(data.connect.length === 2, { invalidInput: 'Invalid connection' });
-
-    const connection = this.grid().findConnection(data.connect);
-    assert(connection != null, { invalidInput: 'Connection not found' });
+    const connection = this.getConnection(data);
     assert(connection.owner == null, { invalidInput: 'City already connected' });
     assert(this.currentPlayer().money >= this.totalCost(data, connection), { invalidInput: 'Cannot afford purchase' });
 
-    this.validateUrbanizedCities(data);
+    this.validateUrbanizedCities(connection);
   }
 
   process(data: ConnectCitiesData): boolean {
-    const cities = data.connect.map(coordinates => this.grid().get(coordinates) as City);
-    const connection = this.grid().findConnection(data.connect)!;
+    const connection = this.getConnection(data);
+    const cities = connection.connects.map(coordinates => this.grid().get(coordinates) as City);
     this.moneyHelper.addMoneyForCurrentPlayer(-this.totalCost(data, connection));
     this.discountManager.applyDiscount(data, connection.cost);
     this.gridHelper.setInterCityOwner(this.currentPlayer().color, connection);
@@ -71,5 +67,11 @@ export class ConnectCitiesAction implements ActionProcessor<ConnectCitiesData> {
     this.helper.checkOwnershipMarkerLimits();
 
     return this.helper.isAtEndOfTurn();
+  }
+
+  private getConnection(data: ConnectCitiesData): InterCityConnection {
+    const connection = this.grid().getConnection(data.id);
+    assert(connection !== undefined, { invalidInput: 'Invalid connection' });
+    return connection;
   }
 }

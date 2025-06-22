@@ -7,7 +7,6 @@ import { Log } from "../game/log";
 import { AVAILABLE_CITIES, injectCurrentPlayer, injectGrid } from "../game/state";
 import { GridHelper } from "../map/grid_helper";
 import { Land } from "../map/location";
-import { Track } from "../map/track";
 import { Action } from "../state/action";
 import { toLetter } from "../state/city_group";
 import { SpaceType } from "../state/location_type";
@@ -65,8 +64,8 @@ export class UrbanizeAction implements ActionProcessor<UrbanizeData> {
 
     // Take ownership of connecting unowned track.
     for (const direction of allDirections) {
-      const connection = this.grid().connection(data.coordinates, direction);
-      if (!(connection instanceof Track) || connection.getOwner() != null) continue;
+      const connection = this.grid().getTrackConnection(data.coordinates, direction);
+      if (connection == null || connection.getOwner() != null) continue;
       if (this.grid().getRoute(connection).some((track) => track.isClaimable())) continue;
 
       this.gridHelper.setRouteOwner(connection, this.currentPlayer().color);

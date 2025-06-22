@@ -150,7 +150,8 @@ export function interCityConnections(
     }),
   );
   return connections.map(
-    (spec): InterCityConnection => ({
+    (spec, idx): InterCityConnection => ({
+      id: "" + (idx + 1),
       connects: [cities.get(spec.connects[0])!, cities.get(spec.connects[1])!],
       cost: spec.cost ?? 2,
       owner: undefined,

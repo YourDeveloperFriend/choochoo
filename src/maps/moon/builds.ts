@@ -3,7 +3,7 @@ import { BuilderHelper } from "../../engine/build/helper";
 import { City } from "../../engine/map/city";
 import { calculateTrackInfo } from "../../engine/map/location";
 import { isTownTile } from "../../engine/map/tile";
-import { TOWN, Track, TrackInfo } from "../../engine/map/track";
+import { TOWN, TrackInfo } from "../../engine/map/track";
 import { Action } from "../../engine/state/action";
 import { allDirections } from "../../engine/state/tile";
 import { assert } from "../../utils/validate";
@@ -22,13 +22,16 @@ export class MoonBuildAction extends BuildAction {
       track.exits.some((exit) => {
         if (exit === TOWN) return false;
 
-        const neighbor = this.grid().connection(data.coordinates, exit);
-        if (neighbor instanceof Track) return true;
+        if (this.grid().getTrackConnection(data.coordinates, exit) != null) {
+          return true;
+        }
+        const neighbor = this.grid().getNeighbor(data.coordinates, exit);
         if (!(neighbor instanceof City)) return false;
         if (neighbor.name() === "Moon Base") return true;
         return allDirections.some(
           (direction) =>
-            this.grid().connection(neighbor.coordinates, direction) != null,
+            this.grid().getTrackConnection(neighbor.coordinates, direction) !=
+            null,
         );
       });
     const allConnected = isTownTile(data.tileType)

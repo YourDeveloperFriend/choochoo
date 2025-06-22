@@ -10,7 +10,7 @@ import { ROUND } from "../../engine/game/round";
 import { City } from "../../engine/map/city";
 import { calculateTrackInfo, Land } from "../../engine/map/location";
 import { isTownTile } from "../../engine/map/tile";
-import { TOWN, Track, TrackInfo } from "../../engine/map/track";
+import { TOWN, TrackInfo } from "../../engine/map/track";
 import { Phase } from "../../engine/state/phase";
 import { PlayerColor, PlayerColorZod } from "../../engine/state/player";
 import { allDirections, Direction } from "../../engine/state/tile";
@@ -81,17 +81,17 @@ export class MontrealMetroBuildAction extends BuildAction {
     const trackIsContiguous = (track: TrackInfo) =>
       track.exits.some((exit) => {
         if (exit === TOWN) return false;
-        const connection = this.grid().connection(data.coordinates, exit);
-        if (connection instanceof Track) {
+        if (this.grid().getTrackConnection(data.coordinates, exit) != null) {
           return true;
         }
-        if (!(connection instanceof City)) {
+        const neighbor = this.grid().getNeighbor(data.coordinates, exit);
+        if (!(neighbor instanceof City)) {
           return false;
         }
         return allDirections.some((direction) => {
           return (
-            this.grid().connection(connection.coordinates, direction) instanceof
-            Track
+            this.grid().getTrackConnection(neighbor.coordinates, direction) !=
+            null
           );
         });
       });
@@ -118,8 +118,8 @@ export class MontrealMetroBuildAction extends BuildAction {
     if (trackInfo.length !== 1) return false;
     return trackInfo[0].exits.some((exit) => {
       if (exit === TOWN) return false;
-      const connection = this.grid().connection(data.coordinates, exit);
-      return connection instanceof Track;
+      const connection = this.grid().getTrackConnection(data.coordinates, exit);
+      return connection != null;
     });
   }
 
@@ -149,7 +149,13 @@ export class MontrealMetroBuildAction extends BuildAction {
       }
       return track.exits.every((exit) => {
         if (exit === TOWN) return true;
-        return this.grid().connection(data.coordinates, exit) != null;
+        if (this.grid().getTrackConnection(data.coordinates, exit) != null) {
+          return true;
+        }
+        if (this.grid().getNeighbor(data.coordinates, exit) instanceof City) {
+          return true;
+        }
+        return false;
       });
     });
     return !isComplete;

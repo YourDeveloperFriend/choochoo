@@ -158,8 +158,8 @@ export class Validator {
     if (exit === TOWN) {
       return [coordinates, exit];
     }
-    const neighbor = this.grid().connection(coordinates, exit);
-    if (!(neighbor instanceof Track)) {
+    const neighbor = this.grid().getTrackConnection(coordinates, exit);
+    if (neighbor == null) {
       return [coordinates, exit];
     }
     return this.grid().getEnd(neighbor, getOpposite(exit));
@@ -233,8 +233,8 @@ export class Validator {
     return newTracks.some((track) => {
       return track.exits.some((exit) => {
         if (exit == TOWN) return false;
-        const connection = this.grid().connection(space.coordinates, exit);
-        if (!(connection instanceof Track)) return false;
+        const connection = this.grid().getTrackConnection(space.coordinates, exit);
+        if (connection === undefined) return false;
         return connection.getOwner() != null && connection.getOwner() != playerColor;
       });
     });

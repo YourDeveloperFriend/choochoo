@@ -7,7 +7,7 @@ import { Good } from "../../engine/state/good";
 import { PlayerData } from "../../engine/state/player";
 import { Coordinates } from "../../utils/coordinates";
 import { InvalidInputError } from "../../utils/error";
-import { arrayEqualsIgnoreOrder, peek } from "../../utils/functions";
+import { peek } from "../../utils/functions";
 import { useAction } from "../services/action";
 import { useTypedCallback } from "../utils/hooks";
 import {
@@ -195,10 +195,7 @@ function redirectPath(
           routeInfo.startingTrack.equals(previousRoute.startingTrack)
       : routeInfo.type === "connection"
         ? previousRoute.type === "connection" &&
-          arrayEqualsIgnoreOrder(
-            routeInfo.connection.connects,
-            previousRoute.connection.connects,
-          )
+          routeInfo.connection.id === previousRoute.connection.id
         : previousRoute.type === "teleport";
   });
   return newDatas[(previousRouteExitIndex + 1) % newDatas.length];

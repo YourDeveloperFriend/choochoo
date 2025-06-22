@@ -4,7 +4,7 @@ import { inject } from "../../engine/framework/execution_context";
 import { GoodsHelper } from "../../engine/goods_growth/helper";
 import { City } from "../../engine/map/city";
 import { calculateTrackInfo } from "../../engine/map/location";
-import { TOWN, Track } from "../../engine/map/track";
+import { TOWN } from "../../engine/map/track";
 import { PlayerColor } from "../../engine/state/player";
 import { allDirections } from "../../engine/state/tile";
 import { Coordinates } from "../../utils/coordinates";
@@ -26,15 +26,15 @@ export class IndiaSteamBrothersBuildAction extends BuildAction {
       .filter((track) => track.owner === currentColor)
       .flatMap(({ exits }) => exits)
       .filter((exit) => exit !== TOWN)
-      .map((exit) => this.grid().connection(data.coordinates, exit))
-      .filter((connection) => connection instanceof City)
+      .map((exit) => this.grid().getNeighbor(data.coordinates, exit))
+      .filter((neighbor) => neighbor instanceof City)
       .filter((city) => {
         for (const direction of allDirections) {
-          const cityConnection = this.grid().connection(
+          const cityConnection = this.grid().getTrackConnection(
             city.coordinates,
             direction,
           );
-          if (!(cityConnection instanceof Track)) continue;
+          if (cityConnection == null) continue;
           if (cityConnection.getOwner() === currentColor) return false;
         }
         return true;
@@ -60,8 +60,8 @@ export class IndiaSteamBrothersUrbanizeAction extends UrbanizeAction {
     const connectedPlayers = new Set<PlayerColor | undefined>();
 
     for (const direction of allDirections) {
-      const connection = this.grid().connection(coordinates, direction);
-      if (!(connection instanceof Track)) continue;
+      const connection = this.grid().getTrackConnection(coordinates, direction);
+      if (connection == null) continue;
       connectedPlayers.add(connection.getOwner());
     }
 

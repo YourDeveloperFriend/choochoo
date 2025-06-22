@@ -10,7 +10,6 @@ import {
   HeavyLiftingAction,
   HeavyLiftingData,
 } from "../../maps/heavy_cardboard/heavy_lifting";
-import { Coordinates } from "../../utils/coordinates";
 import { PromiseOr } from "../../utils/types";
 import { assertNever } from "../../utils/validate";
 import { useConfirm } from "../components/confirm";
@@ -55,7 +54,7 @@ type OnClickHandlerTuple =
 interface OnClickResponse {
   clickTargets: Set<ClickTarget>;
   onClick(space: Space, good?: Good): Promise<void>;
-  onClickInterCity(coordinates: Coordinates[]): void;
+  onClickInterCity(id: string): void;
 }
 
 function useClaim(on: OnClickRegister) {
@@ -181,7 +180,7 @@ export function useOnClick(
   };
 
   const onClickInterCity = useCallback(
-    (connect: Coordinates[]) => emitConnectCity({ connect }),
+    (id: string) => emitConnectCity({ id }),
     [emitConnectCity],
   );
 

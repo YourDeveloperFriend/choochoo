@@ -3,10 +3,7 @@ import { deepEquals } from "../../utils/deep_equals";
 import { assert } from "../../utils/validate";
 import { injectState } from "../framework/execution_context";
 import { GRID, injectGrid, INTER_CITY_CONNECTIONS } from "../game/state";
-import {
-  InterCityConnection,
-  interCityConnectionEquals,
-} from "../state/inter_city_connection";
+import { InterCityConnection } from "../state/inter_city_connection";
 import { SpaceType } from "../state/location_type";
 import { PlayerColor } from "../state/player";
 import { MutableSpaceData, SpaceData } from "../state/space";
@@ -61,9 +58,7 @@ export class GridHelper {
     connection: InterCityConnection,
   ): void {
     this.interCityConnections.update((connections) => {
-      const matching = connections.find((c) =>
-        interCityConnectionEquals(connection, c),
-      )!;
+      const matching = connections.find((c) => c.id === connection.id)!;
       matching.owner = { color: owner };
     });
   }

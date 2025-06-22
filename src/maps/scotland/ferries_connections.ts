@@ -1,21 +1,18 @@
-import z from "zod";
 import { BuildAction, BuildData } from "../../engine/build/build";
 import { ConnectCitiesAction } from "../../engine/build/connect_cities";
 import { Land } from "../../engine/map/location";
 import { MoveValidator, RouteInfo } from "../../engine/move/validator";
-import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
+import {
+  InterCityConnection,
+  OwnedInterCityConnection,
+} from "../../engine/state/inter_city_connection";
 import { PlayerData } from "../../engine/state/player";
-import { Coordinates, CoordinatesZod } from "../../utils/coordinates";
+import { Coordinates } from "../../utils/coordinates";
 import { assert } from "../../utils/validate";
-
-export const ConnectCitiesData = z.object({
-  connect: CoordinatesZod.array(),
-});
-
-export type ConnectCitiesData = z.infer<typeof ConnectCitiesData>;
+import { arrayEqualsIgnoreOrder } from "../../utils/functions";
 
 export class ScotlandConnectCitiesAction extends ConnectCitiesAction {
-  protected validateUrbanizedCities(_: ConnectCitiesData): void {
+  protected validateUrbanizedCities(_: InterCityConnection): void {
     // Scotland allows connection between Ayr town and Glasgow city
   }
 }
@@ -43,17 +40,27 @@ export class ScotlandMoveValidator extends MoveValidator {
     fromCoordinates: Coordinates,
     toCoordinates: Coordinates,
   ): RouteInfo[] {
-    const connection = this.grid().findConnection([
-      fromCoordinates,
-      toCoordinates,
-    ]) as OwnedInterCityConnection | undefined;
-    if (
-      this.checkAyrGlasgow(fromCoordinates, toCoordinates) &&
-      connection?.owner !== undefined
-    ) {
-      return super
-        .findRoutesToLocation(player, fromCoordinates, toCoordinates)
-        .concat(this.glasgowAyrTownConnection(connection, toCoordinates));
+    if (this.isAyrGlasgow(fromCoordinates, toCoordinates)) {
+      const connections = this.grid().connections;
+      assert(connections.length === 1);
+      const connection = connections[0];
+      assert(
+        arrayEqualsIgnoreOrder(connection.connects, [
+          toCoordinates,
+          fromCoordinates,
+        ]),
+      );
+
+      if (connection?.owner !== undefined) {
+        return super
+          .findRoutesToLocation(player, fromCoordinates, toCoordinates)
+          .concat(
+            this.glasgowAyrTownConnection(
+              connection as OwnedInterCityConnection,
+              toCoordinates,
+            ),
+          );
+      }
     }
     return super.findRoutesToLocation(player, fromCoordinates, toCoordinates);
   }
@@ -72,7 +79,7 @@ export class ScotlandMoveValidator extends MoveValidator {
     ];
   }
 
-  private checkAyrGlasgow(
+  private isAyrGlasgow(
     fromCoordinates: Coordinates,
     toCoordinates: Coordinates,
   ): boolean {
