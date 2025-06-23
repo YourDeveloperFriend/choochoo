@@ -177,18 +177,10 @@ export class Grid {
     const isClaimableRoute = track.isClaimable() || track.wasClaimed();
     return tupleMap(track.getExits(), (exit) => {
       const otherExit = track.otherExit(exit);
-      let connects: boolean;
-      if (exit === TOWN) {
-        connects = true;
-      } else if (this.getNeighbor(track.coordinates, exit) instanceof City) {
-        connects = true;
-      } else if (
-        this.getTrackConnection(track.coordinates, exit) !== undefined
-      ) {
-        connects = true;
-      } else {
-        connects = false;
-      }
+      const connects =
+        exit === TOWN ||
+        this.getNeighbor(track.coordinates, exit) instanceof City ||
+        this.getTrackConnection(track.coordinates, exit) !== undefined;
       return {
         exit,
         dangles: !isClaimableRoute && !connects,
