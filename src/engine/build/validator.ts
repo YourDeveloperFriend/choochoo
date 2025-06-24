@@ -173,7 +173,7 @@ export class Validator {
     return this.grid().getEnd(neighbor, getOpposite(exit));
   }
 
-  private partitionTracks(space: Land, tracks: TrackInfo[]): Partitioned {
+  protected partitionTracks(space: Land, tracks: TrackInfo[]): Partitioned {
     const preserved: TrackInfo[] = [];
     const rerouted: TrackInfo[] = [];
     const newTracks: TrackInfo[] = [];
@@ -204,7 +204,7 @@ export class Validator {
     return oldTrackList[0];
   }
 
-  private newTrackExtendsPrevious(playerColor: PlayerColor, space: Land, newTracks: TrackInfo[]): boolean {
+  protected newTrackExtendsPrevious(playerColor: PlayerColor, space: Land, newTracks: TrackInfo[]): boolean {
     // if it's a town tile, only one of the track needs to be placeable
     if (space.hasTown()) {
       return newTracks.some((track) => this.newTrackConnectsToOwned(space, playerColor, track));

@@ -4,13 +4,13 @@ import {SpaceStyle} from "../../engine/state/location_style";
 import {LandData} from "../../engine/state/space";
 import {Direction} from "../../engine/state/tile";
 
-const FYORD = {
+const FJORD = {
   ...MOUNTAIN,
-  style: SpaceStyle.FYORD,
+  style: SpaceStyle.FJORD,
 };
 
-function fyordTown(townName: string): LandData {
-  return { ...MOUNTAIN, townName: townName, style: SpaceStyle.FYORD };
+function fjordTown(townName: string): LandData {
+  return { ...MOUNTAIN, townName: townName, style: SpaceStyle.FJORD };
 }
 function hillTown(townName: string): LandData {
   return { ...HILL, townName: townName };
@@ -76,8 +76,8 @@ export const map = grid([
     WATER,
     hillTown("Aalborg"),
     HILL,
-    FYORD,
-    fyordTown("Thisted"),
+    FJORD,
+    fjordTown("Thisted"),
     PLAIN,
   ],
   [
@@ -91,8 +91,8 @@ export const map = grid([
     PLAIN,
     HILL,
     PLAIN,
-    FYORD,
-    fyordTown("Thyborøn"),
+    FJORD,
+    fjordTown("Thyborøn"),
   ],
   [
     city("Malmö", [BLUE], white(4), 2),
@@ -104,8 +104,8 @@ export const map = grid([
     town("Randers"),
     HILL,
     city("Viborg", [BLUE], white(3), 2),
-    FYORD,
-    FYORD,
+    FJORD,
+    FJORD,
   ],
   [
     WATER,
@@ -119,7 +119,7 @@ export const map = grid([
     HILL,
     HILL,
     town("Ringkøbing"),
-    FYORD,
+    FJORD,
   ],
   [
     WATER,
@@ -137,7 +137,7 @@ export const map = grid([
   [
     WATER,
     PLAIN,
-    FYORD,
+    FJORD,
     WATER,
     WATER,
     WATER,
@@ -151,7 +151,7 @@ export const map = grid([
   [
     city("Copenhagen", [YELLOW], black(2), 2),
     PLAIN,
-    FYORD,
+    FJORD,
     PLAIN,
     city("Kalundborh", [RED], black(1), 2),
     WATER,
@@ -206,7 +206,7 @@ export const map = grid([
     WATER,
     WATER,
     PLAIN,
-    FYORD,
+    FJORD,
     ferryTown("Rødbyhavn", [{direction: Direction.TOP_LEFT, city: "Nyborg"}, {direction: Direction.BOTTOM_RIGHT, city: "Puttgarden"}]),
     WATER,
     WATER,
@@ -236,8 +236,8 @@ export const map = grid([
     WATER,
     WATER,
     WATER,
-    FYORD,
-    FYORD,
+    FJORD,
+    FJORD,
     PLAIN,
     PLAIN,
     WATER,
@@ -253,7 +253,7 @@ export const map = grid([
     town("Kiel"),
     PLAIN,
     town("Schleswig"),
-    FYORD,
+    FJORD,
     WATER,
   ],
 ]);

@@ -48,8 +48,8 @@ function landColorStyle(space: Land): string {
         return styles.light_plain;
       case SpaceStyle.LIGHT_RIVER:
         return styles.light_river;
-      case SpaceStyle.FYORD:
-        return styles.fyord;
+      case SpaceStyle.FJORD:
+        return styles.fjord;
       default:
         assertNever(style);
     }

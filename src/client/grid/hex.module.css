@@ -22,11 +22,11 @@
   fill: #5f8a40;
 }
 
-.location.fyord {
+.location.fjord {
   fill: #88d4ad;
 }
 
-:global(.dark-mode) .location.fyord {
+:global(.dark-mode) .location.fjord {
   fill: #6fad8e;
 }
 
