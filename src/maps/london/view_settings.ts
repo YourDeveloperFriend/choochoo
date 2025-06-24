@@ -3,8 +3,8 @@ import { LondonRules } from "./rules";
 import { LondonMapSettings } from "./settings";
 import { MapViewSettings } from "../view_settings";
 import { LondonRivers } from "./rivers";
-import { MoveGoodsActionSummary } from "./instant_production_view";
 import { Phase } from "../../engine/state/phase";
+import { InstantProductionMoveGoodsActionSummary } from "../../modules/instant_production/instant_production_view";
 
 export class LondonViewSettings
   extends LondonMapSettings
@@ -25,7 +25,7 @@ export class LondonViewSettings
 
   getActionSummary(phase: Phase) {
     if (phase === Phase.MOVING) {
-      return MoveGoodsActionSummary;
+      return InstantProductionMoveGoodsActionSummary;
     }
   }
 }

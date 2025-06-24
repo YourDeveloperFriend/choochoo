@@ -24,11 +24,11 @@ import * as styles from "./instant_production_view.module.css";
 import { ReactNode, useMemo, useState } from "react";
 import { City } from "../../engine/map/city";
 import { Coordinates } from "../../utils/coordinates";
-import { MapRegistry } from "../registry";
 import { Grid } from "../../engine/map/grid";
 import { HexGrid } from "../../client/grid/hex_grid";
+import { MapRegistry } from "../../maps/registry";
 
-export function MoveGoodsActionSummary() {
+export function InstantProductionMoveGoodsActionSummary() {
   const state = useInjectedState(INSTANT_PRODUCTION_STATE);
   const grid = useGrid();
   const [open, setOpen] = useState<boolean>(true);
