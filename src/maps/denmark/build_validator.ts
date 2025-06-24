@@ -4,18 +4,18 @@ import {BuildPhase} from "../../engine/build/phase";
 import {injectState} from "../../engine/framework/execution_context";
 import {assert} from "../../utils/validate";
 import {ConnectCitiesAction, ConnectCitiesData} from "../../engine/build/connect_cities";
-import {arrayEqualsIgnoreOrder} from "../../utils/functions";
+import {arrayEqualsIgnoreOrder, isNotNull} from "../../utils/functions";
 import {InterCityConnection} from "../../engine/state/inter_city_connection";
 import {BuildInfo, InvalidBuildReason, Validator} from "../../engine/build/validator";
 import {DenmarkMapData} from "./map_data";
 import {BuildAction, BuildData} from "../../engine/build/build";
 import {calculateTrackInfo, Land} from "../../engine/map/location";
-import {Direction} from "../../engine/state/tile";
+import {allDirections, Direction} from "../../engine/state/tile";
 import {Coordinates} from "../../utils/coordinates";
-import {TOWN, TrackInfo} from "../../engine/map/track";
+import {TOWN, Track, TrackInfo} from "../../engine/map/track";
 import {City} from "../../engine/map/city";
-import {isTownTile} from "../../engine/map/tile";
 import {PlayerColor} from "../../engine/state/player";
+import {RouteInfo} from "../../engine/move/validator";
 
 const FERRY_CLAIM_COUNT = new Key("FERRY_CLAIM_COUNT", { parse: z.number().parse });
 
@@ -79,36 +79,100 @@ export class DenmarkBuildValidator extends Validator {
         const space = grid.get(coordinates);
         assert(space !== undefined && !(space instanceof City));
         const newTileData = calculateTrackInfo(buildData);
-        const { preserved, rerouted, newTracks } = this.partitionTracks(space, newTileData);
+        const { rerouted, newTracks } = this.partitionTracks(space, newTileData);
         const trackToValidate = newTracks.concat(rerouted);
-/*
+
         for (const track of trackToValidate) {
-            const [firstExit, secondExit] = track.exits;
-            const [firstCoordinates, firstEndExit] = this.getEnd(coordinates, firstExit);
-            const [secondCoordinates, secondEndExit] = this.getEnd(coordinates, secondExit);
-
-            const src = (firstEndExit === TOWN) ? firstCoordinates : firstCoordinates.neighbor(firstEndExit);
-            const dst = (secondEndExit === TOWN) ? secondCoordinates : secondCoordinates.neighbor(secondEndExit);
-            const srcTile = grid.get(src)!;
-            const dstTile = grid.get(dst)!;
-            srcTile.
-
-            if (firstEndExit === TOWN) {
-                return secondEndExit === TOWN && firstCoordinates.equals(secondCoordinates);
+            const routeEnds = this.getRouteEnds(coordinates, track);
+            if (!routeEnds) {
+                continue;
             }
-            if (secondEndExit === TOWN) {
-                return false;
+            const existingRoutes = this.getRoutesFromSpace(routeEnds[0]);
+            for (const existingRoute of existingRoutes) {
+                if (existingRoute.owner === buildData.playerColor
+                        && existingRoute.destination.equals(routeEnds[1])) {
+                    return 'each player can only build a single direct link between each source/destination'
+                }
             }
-            const first = grid.get(firstCoordinates.neighbor(firstEndExit))!;
-            const second = grid.get(secondCoordinates.neighbor(secondEndExit))!;
-            if (first instanceof City && second instanceof City) {
-                return first.isSameCity(second);
-            }
-            return false;
-
         }
+    }
 
- */
+    private getRouteEnds(coordinates: Coordinates, track: TrackInfo): [Coordinates, Coordinates]|undefined {
+        const [firstExit, secondExit] = track.exits;
+        const [firstCoordinates, firstEndExit] = this.getEnd(coordinates, firstExit);
+        const [secondCoordinates, secondEndExit] = this.getEnd(coordinates, secondExit);
+
+        const src = (firstEndExit === TOWN) ? firstCoordinates : firstCoordinates.neighbor(firstEndExit);
+        const dst = (secondEndExit === TOWN) ? secondCoordinates : secondCoordinates.neighbor(secondEndExit);
+
+        if (firstEndExit !== TOWN && !(this.grid().get(src) instanceof City)) {
+            return undefined;
+        }
+        if (secondEndExit !== TOWN && !(this.grid().get(dst) instanceof City)) {
+            return undefined;
+        }
+        return [src, dst];
+    }
+
+    private getRoutesFromSpace(coordinates: Coordinates): RouteInfo[] {
+        const space = this.grid().get(coordinates);
+        assert(space !== undefined);
+        if (space instanceof City) {
+            return this.findRoutesFromCity(space);
+        } else {
+            return this.findRoutesFromTown(space);
+        }
+    }
+
+    private findRoutesFromTown(origin: Land): RouteInfo[] {
+        return origin
+            .getTrack()
+            .flatMap((track) => this.findRoutesFromTrack(track))
+            .filter((route) => !route.destination.equals(origin.coordinates));
+    }
+
+    private findRoutesFromCity(originCity: City): RouteInfo[] {
+        const grid = this.grid();
+        const allCities = grid.getSameCities(originCity);
+        return allCities.flatMap((originCity) =>
+            allDirections
+                .map((direction) =>
+                    grid.getTrackConnection(originCity.coordinates, direction),
+                )
+                .filter(isNotNull)
+                .flatMap((connection) => {
+                    return this.findRoutesFromTrack(connection).filter(
+                        (route) => route.destination !== originCity.coordinates,
+                    );
+                }),
+        );
+    }
+
+    private findRoutesFromTrack(startingTrack: Track): RouteInfo[] {
+        return startingTrack
+            .getExits()
+            .map((exit): RouteInfo | undefined => {
+                const [end, endExit] = this.grid().getEnd(startingTrack, exit);
+                if (endExit === TOWN) {
+                    return {
+                        type: "track",
+                        destination: end,
+                        startingTrack,
+                        owner: startingTrack.getOwner(),
+                    };
+                }
+                const next = this.grid().get(end.neighbor(endExit));
+                if (next instanceof City) {
+                    return {
+                        type: "track",
+                        destination: next.coordinates,
+                        startingTrack,
+                        owner: startingTrack.getOwner(),
+                    };
+                }
+                return undefined;
+            })
+            .filter(isNotNull);
     }
 
     protected newTrackExtendsPrevious(playerColor: PlayerColor, space: Land, newTracks: TrackInfo[]): boolean {

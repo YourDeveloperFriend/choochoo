@@ -162,7 +162,7 @@ export class Validator {
   }
 
   /** Similar to grid.getEnd, finds the track at the given exit, and traces it to the end */
-  private getEnd(coordinates: Coordinates, exit: Exit): [Coordinates, Exit] {
+  protected getEnd(coordinates: Coordinates, exit: Exit): [Coordinates, Exit] {
     if (exit === TOWN) {
       return [coordinates, exit];
     }
