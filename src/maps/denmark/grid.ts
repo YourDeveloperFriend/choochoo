@@ -1,29 +1,28 @@
-import {
-  black,
-  city,
-  grid,
-  HILL,
-  MOUNTAIN,
-  plain,
-  PLAIN,
-  town,
-  UNPASSABLE,
-  WATER,
-  white,
-} from "../factory";
-import { BLUE, PURPLE, RED, YELLOW } from "../../engine/state/good";
-import { SpaceStyle } from "../../engine/state/location_style";
+import {black, city, grid, HILL, MOUNTAIN, plain, PLAIN, town, UNPASSABLE, WATER, white,} from "../factory";
+import {BLUE, PURPLE, RED, YELLOW} from "../../engine/state/good";
+import {SpaceStyle} from "../../engine/state/location_style";
+import {LandData} from "../../engine/state/space";
+import {Direction} from "../../engine/state/tile";
 
 const FYORD = {
   ...MOUNTAIN,
   style: SpaceStyle.FYORD,
 };
 
-function fyordTown(townName: string) {
+function fyordTown(townName: string): LandData {
   return { ...MOUNTAIN, townName: townName, style: SpaceStyle.FYORD };
 }
-function hillTown(townName: string) {
+function hillTown(townName: string): LandData {
   return { ...HILL, townName: townName };
+}
+
+function ferryTown(name: string, ferryLinks: Array<{direction: Direction, city: string}>): LandData {
+  return {
+    ...town(name),
+    mapSpecific: {
+      ferryLinks: ferryLinks,
+    },
+  };
 }
 
 export const map = grid([
@@ -180,7 +179,7 @@ export const map = grid([
     WATER,
     PLAIN,
     HILL,
-    town("Korsør"),
+    ferryTown("Korsør", [{direction: Direction.BOTTOM, city: "Nyborg"}, {direction: Direction.TOP_RIGHT, city: "Nykøbing"}]),
     WATER,
     city("Nyborg", [RED], black(3), 2),
     HILL,
@@ -208,7 +207,7 @@ export const map = grid([
     WATER,
     PLAIN,
     FYORD,
-    town("Rødbyhavn"),
+    ferryTown("Rødbyhavn", [{direction: Direction.TOP_LEFT, city: "Nyborg"}, {direction: Direction.BOTTOM_RIGHT, city: "Puttgarden"}]),
     WATER,
     WATER,
     plain({ terrainCost: 3 }),
@@ -246,7 +245,7 @@ export const map = grid([
   [
     UNPASSABLE,
     plain({ terrainCost: 4 }),
-    town("Warnemünde"),
+    ferryTown("Warnemünde", [{direction: Direction.BOTTOM_LEFT, city: "Nykøbing"}]),
     WATER,
     WATER,
     city("Puttgarden", [PURPLE], black(6), 2),

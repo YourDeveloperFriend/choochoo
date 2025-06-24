@@ -13,7 +13,14 @@ import {DenmarkAllowedActions, DenmarkSelectAction} from "./allowed_actions";
 import {DenmarkPhaseEngine} from "./production";
 import {DenmarkLocoAction} from "./loco";
 import {DenmarkBuildCostCalculator} from "./cost";
-import {DenmarkBuildValidator} from "./build_validator";
+import {
+  DenmarkBuildAction,
+  DenmarkBuildPhase,
+  DenmarkBuildValidator,
+  DenmarkConnectCitiesAction
+} from "./build_validator";
+import {DenmarkMoveValidator} from "./move_validator";
+import {DenmarkStarter} from "./starter";
 
 export class DenmarkMapSettings implements MapSettings {
   static readonly key = GameKey.DENMARK;
@@ -74,6 +81,11 @@ export class DenmarkMapSettings implements MapSettings {
         DenmarkSelectAction,
         DenmarkBuildCostCalculator,
         DenmarkBuildValidator,
+        DenmarkBuildPhase,
+        DenmarkConnectCitiesAction,
+        DenmarkMoveValidator,
+        DenmarkBuildAction,
+        DenmarkStarter,
     ];
   }
 }

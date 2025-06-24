@@ -168,26 +168,41 @@ export class MoveValidator {
         connection.connects.some((c) => c.equals(originCity.coordinates)),
       )
       .filter((connection) => connection.owner != null)
-      .map((connection) => {
-        const otherCity = grid.get(
+      .flatMap((connection) => {
+        const otherEnd = grid.get(
           connection.connects.find((c) => !originCity.coordinates.equals(c))!,
-        ) as City;
-        return {
-          type: "connection",
-          destination: otherCity.coordinates,
-          connection: connection as OwnedInterCityConnection,
-          owner: connection.owner!.color,
-        };
+        );
+        if (otherEnd instanceof City) {
+          return [{
+            type: "connection",
+            destination: otherEnd.coordinates,
+            connection: connection as OwnedInterCityConnection,
+            owner: connection.owner!.color,
+          }];
+        } else {
+          return [];
+        }
       });
-    return trackRoutes.concat(interCityRoutes);
+    const additionalRoutes = this.getAdditionalRoutesFromCity(originCity);
+    return trackRoutes.concat(interCityRoutes).concat(additionalRoutes);
   }
 
   private findRoutesFromLand(location: Land): RouteInfo[] {
-    return location
+    const standardRoutes = location
       .getTrack()
       .filter((track) => this.canMoveGoodsAcrossTrack(track))
       .flatMap((track) => this.findRoutesFromTrack(track))
       .filter((route) => route.destination !== location.coordinates);
+    const additionalRoutes = this.getAdditionalRoutesFromLand(location);
+    return standardRoutes.concat(additionalRoutes);
+  }
+
+  protected getAdditionalRoutesFromLand(location: Land): RouteInfo[] {
+    return [];
+  }
+
+  protected getAdditionalRoutesFromCity(location: City): RouteInfo[] {
+    return [];
   }
 
   private findRoutesFromTrack(startingTrack: Track): RouteInfo[] {
