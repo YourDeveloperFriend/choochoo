@@ -9,6 +9,7 @@ export class DenmarkStarter extends GameStarter {
   protected onStartGame(): void {
     super.onStartGame();
 
+    // Draw a random cube to determine Europe's color
     const bag = [...this.bag()];
     for (const space of this.gridHelper.all()) {
       if (space.name() == "Europe") {
@@ -23,6 +24,7 @@ export class DenmarkStarter extends GameStarter {
     this.bag.set(bag);
   }
 
+  // Also a goods cube to every town
   protected drawCubesFor(
       bag: Good[],
       location: SpaceData,

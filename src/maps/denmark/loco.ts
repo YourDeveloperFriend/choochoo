@@ -34,14 +34,14 @@ export function getNextAvailableLinkValue(currentPlayer: PlayerData, players: Pl
   const otherPlayers = players
       .filter(player => player.playerId !== currentPlayer.playerId);
 
-  let maxLoco = 0;
-  for (let player of otherPlayers) {
-    maxLoco = Math.max(maxLoco, player.locomotive);
+  // Find the smallest value which all other players have met or exceeded
+  const minOtherPlayerLoco = Math.min.apply(null, otherPlayers.map(player => player.locomotive));
+  // The next available loco is the smallest number that all other players have not met or exceeded (to a limit of 9)
+  const nextAvailableLoco = Math.min(minOtherPlayerLoco+1, 9);
+  // If the next available is greater than the player's current loco, that's what they can increase to
+  if (nextAvailableLoco > currentPlayer.locomotive) {
+    return nextAvailableLoco;
   }
-  const haveAllOtherPlayersReachedIt = otherPlayers
-      .some(player => player.locomotive !== maxLoco);
-  if (haveAllOtherPlayersReachedIt) {
-    return Math.max(maxLoco+1, 9);
-  }
-  return maxLoco;
+  // Otherwise they can increase by one (to a max of 9)
+  return Math.min(currentPlayer.locomotive+1, 9);
 }

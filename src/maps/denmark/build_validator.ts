@@ -75,6 +75,7 @@ export class DenmarkBuildValidator extends Validator {
             return reason;
         }
 
+        // Validate that the build does not cause the player to own two direct links between the same source/destination
         const grid = this.grid();
         const space = grid.get(coordinates);
         assert(space !== undefined && !(space instanceof City));
@@ -175,6 +176,7 @@ export class DenmarkBuildValidator extends Validator {
             .filter(isNotNull);
     }
 
+    // Allow builds from an otherwise unconnected town to build a connection to a ferry link and then be considered connected
     protected newTrackExtendsPrevious(playerColor: PlayerColor, space: Land, newTracks: TrackInfo[]): boolean {
         if (space.hasTown()) {
             const mapData = space.getMapSpecific(DenmarkMapData.parse);
@@ -214,6 +216,7 @@ export class DenmarkBuildValidator extends Validator {
         return super.connectionAllowed(land, exit);
     }
 
+    // Town discs should be considered unlimited in this map
     protected townDiscCount(): number {
         return 99;
     }
@@ -223,7 +226,7 @@ export class DenmarkBuildAction extends BuildAction {
     process(data: BuildData): boolean {
         const result = super.process(data);
 
-        // No-one can own the ferry-link connection. Unset the ownership if it got set by the processor
+        // Noone can own the ferry-link connection. Unset the ownership if it got set by the processor
         const location = this.gridHelper.lookup(data.coordinates);
         assert(location instanceof Land);
         const mapData = location.getMapSpecific(DenmarkMapData.parse);

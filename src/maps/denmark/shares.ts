@@ -3,6 +3,7 @@ import {TakeSharesAction, TakeSharesData} from "../../engine/shares/take_shares"
 
 export class DenmarkShareHelper extends ShareHelper {
   getMaxShares(): number {
+    // This lets players take shares until they hit -15 income. Technically shares should be unlimited. In practice this is Good Enough.
     return this.currentPlayer().income + 15;
   }
 }

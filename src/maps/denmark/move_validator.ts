@@ -5,6 +5,7 @@ import {OwnedInterCityConnection} from "../../engine/state/inter_city_connection
 import {DenmarkMapData} from "./map_data";
 
 export class DenmarkMoveValidator extends MoveValidator {
+    // Return additional routes from towns if they are linked to sea routes with town stubs
     protected getAdditionalRoutesFromLand(location: Land): RouteInfo[] {
         const grid = this.grid();
         return grid.connections
@@ -28,6 +29,8 @@ export class DenmarkMoveValidator extends MoveValidator {
             });
     }
 
+    // Normal logic will include the sea routes, but only if both ends are cities/urbanized
+    // This method also returns sea routes if the other end is a town with a track connecing to the sea link
     protected getAdditionalRoutesFromCity(originCity: City): RouteInfo[] {
         const grid = this.grid();
         return grid.connections
