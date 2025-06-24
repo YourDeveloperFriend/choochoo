@@ -3,10 +3,7 @@ import * as styles from "../../client/grid/hex.module.css";
 export function DenmarkRivers() {
   return (
     <>
-      <path
-        className={styles.seaRoute}
-        d="M -2.555e-5,2000.65 V 2243"
-      />
+      <path className={styles.seaRoute} d="M -2.555e-5,2000.65 V 2243" />
       <path
         className={styles.seaRoute}
         d="m 105,1697.5 c 0.0958,-16.0846 -0.64643,-135.9918 0,-169.1354 1.12392,-57.6259 6.79751,-132.4532 -52.5,-164.3646"

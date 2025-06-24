@@ -6,24 +6,24 @@ import {
 } from "../../engine/game/map_settings";
 import { interCityConnections } from "../factory";
 import { map } from "./grid";
-import {DenmarkShareHelper, DenmarkTakeSharesAction} from "./shares";
-import {DenmarkIncomeReduction} from "./expenses";
-import {DenmarkMoneyManager} from "./money_manager";
-import {DenmarkAllowedActions, DenmarkSelectAction} from "./allowed_actions";
-import {DenmarkPhaseEngine} from "./production";
-import {DenmarkLocoAction} from "./loco";
-import {DenmarkBuildCostCalculator} from "./cost";
+import { DenmarkShareHelper, DenmarkTakeSharesAction } from "./shares";
+import { DenmarkIncomeReduction } from "./expenses";
+import { DenmarkMoneyManager } from "./money_manager";
+import { DenmarkAllowedActions, DenmarkSelectAction } from "./allowed_actions";
+import { DenmarkPhaseEngine } from "./production";
+import { DenmarkLocoAction } from "./loco";
+import { DenmarkBuildCostCalculator } from "./cost";
 import {
   DenmarkBuildAction,
   DenmarkBuildPhase,
   DenmarkBuildValidator,
-  DenmarkConnectCitiesAction
+  DenmarkConnectCitiesAction,
 } from "./build_validator";
-import {DenmarkMoveValidator} from "./move_validator";
-import {DenmarkStarter} from "./starter";
-import {InstantProductionModule} from "../../modules/instant_production/module";
-import {Module} from "../../engine/module/module";
-import {DenmarkMoveHelper} from "./locomotive_action";
+import { DenmarkMoveValidator } from "./move_validator";
+import { DenmarkStarter } from "./starter";
+import { InstantProductionModule } from "../../modules/instant_production/module";
+import { Module } from "../../engine/module/module";
+import { DenmarkMoveHelper } from "./locomotive_action";
 
 export class DenmarkMapSettings implements MapSettings {
   static readonly key = GameKey.DENMARK;
@@ -74,28 +74,26 @@ export class DenmarkMapSettings implements MapSettings {
 
   getOverrides() {
     return [
-        DenmarkShareHelper,
-        DenmarkTakeSharesAction,
-        DenmarkIncomeReduction,
-        DenmarkMoneyManager,
-        DenmarkAllowedActions,
-        DenmarkPhaseEngine,
-        DenmarkLocoAction,
-        DenmarkSelectAction,
-        DenmarkBuildCostCalculator,
-        DenmarkBuildValidator,
-        DenmarkBuildPhase,
-        DenmarkConnectCitiesAction,
-        DenmarkMoveValidator,
-        DenmarkBuildAction,
-        DenmarkStarter,
-        DenmarkMoveHelper,
+      DenmarkShareHelper,
+      DenmarkTakeSharesAction,
+      DenmarkIncomeReduction,
+      DenmarkMoneyManager,
+      DenmarkAllowedActions,
+      DenmarkPhaseEngine,
+      DenmarkLocoAction,
+      DenmarkSelectAction,
+      DenmarkBuildCostCalculator,
+      DenmarkBuildValidator,
+      DenmarkBuildPhase,
+      DenmarkConnectCitiesAction,
+      DenmarkMoveValidator,
+      DenmarkBuildAction,
+      DenmarkStarter,
+      DenmarkMoveHelper,
     ];
   }
 
   getModules(): Array<Module> {
-      return [
-          new InstantProductionModule(),
-      ]
+    return [new InstantProductionModule()];
   }
 }

@@ -1,7 +1,7 @@
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
 import { Action } from "../../engine/state/action";
 import { ImmutableSet } from "../../utils/immutable";
-import {SelectAction} from "../../engine/select_action/select";
+import { SelectAction } from "../../engine/select_action/select";
 
 export class DenmarkSelectAction extends SelectAction {
   // Loco provides a temporary increase of loco; see DenmarkMoveHelper

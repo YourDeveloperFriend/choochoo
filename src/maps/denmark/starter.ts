@@ -1,9 +1,9 @@
 import { GameStarter } from "../../engine/game/starter";
 import { assert } from "../../utils/validate";
 import { SpaceType } from "../../engine/state/location_type";
-import {Good} from "../../engine/state/good";
-import {SpaceData} from "../../engine/state/space";
-import {PlayerColor, PlayerData} from "../../engine/state/player";
+import { Good } from "../../engine/state/good";
+import { SpaceData } from "../../engine/state/space";
+import { PlayerColor, PlayerData } from "../../engine/state/player";
 
 export class DenmarkStarter extends GameStarter {
   protected onStartGame(): void {
@@ -26,9 +26,9 @@ export class DenmarkStarter extends GameStarter {
 
   // Also a goods cube to every town
   protected drawCubesFor(
-      bag: Good[],
-      location: SpaceData,
-      playerCount: number,
+    bag: Good[],
+    location: SpaceData,
+    playerCount: number,
   ): SpaceData {
     if (location.type !== SpaceType.CITY && location.townName != null) {
       const cube = bag.pop();

@@ -173,12 +173,14 @@ export class MoveValidator {
           connection.connects.find((c) => !originCity.coordinates.equals(c))!,
         );
         if (otherEnd instanceof City) {
-          return [{
-            type: "connection",
-            destination: otherEnd.coordinates,
-            connection: connection as OwnedInterCityConnection,
-            owner: connection.owner!.color,
-          }];
+          return [
+            {
+              type: "connection",
+              destination: otherEnd.coordinates,
+              connection: connection as OwnedInterCityConnection,
+              owner: connection.owner!.color,
+            },
+          ];
         } else {
           return [];
         }
@@ -197,11 +199,11 @@ export class MoveValidator {
     return standardRoutes.concat(additionalRoutes);
   }
 
-  protected getAdditionalRoutesFromLand(location: Land): RouteInfo[] {
+  protected getAdditionalRoutesFromLand(_: Land): RouteInfo[] {
     return [];
   }
 
-  protected getAdditionalRoutesFromCity(location: City): RouteInfo[] {
+  protected getAdditionalRoutesFromCity(_: City): RouteInfo[] {
     return [];
   }
 

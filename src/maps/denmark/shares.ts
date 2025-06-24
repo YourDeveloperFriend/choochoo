@@ -1,5 +1,8 @@
 import { ShareHelper } from "../../engine/shares/share_helper";
-import {TakeSharesAction, TakeSharesData} from "../../engine/shares/take_shares";
+import {
+  TakeSharesAction,
+  TakeSharesData,
+} from "../../engine/shares/take_shares";
 
 export class DenmarkShareHelper extends ShareHelper {
   getMaxShares(): number {
@@ -17,7 +20,7 @@ export class DenmarkTakeSharesAction extends TakeSharesAction {
       this.log.currentPlayer("does not take out any shares");
     } else {
       this.log.currentPlayer(
-          `takes out ${numShares} shares, receiving $${6 * numShares} and going back ${numShares} on income`,
+        `takes out ${numShares} shares, receiving $${6 * numShares} and going back ${numShares} on income`,
       );
     }
 

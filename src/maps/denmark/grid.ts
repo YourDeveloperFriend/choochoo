@@ -1,8 +1,20 @@
-import {black, city, grid, HILL, MOUNTAIN, plain, PLAIN, town, UNPASSABLE, WATER, white,} from "../factory";
-import {BLUE, PURPLE, RED, YELLOW} from "../../engine/state/good";
-import {SpaceStyle} from "../../engine/state/location_style";
-import {LandData} from "../../engine/state/space";
-import {Direction} from "../../engine/state/tile";
+import {
+  black,
+  city,
+  grid,
+  HILL,
+  MOUNTAIN,
+  plain,
+  PLAIN,
+  town,
+  UNPASSABLE,
+  WATER,
+  white,
+} from "../factory";
+import { BLUE, PURPLE, RED, YELLOW } from "../../engine/state/good";
+import { SpaceStyle } from "../../engine/state/location_style";
+import { LandData } from "../../engine/state/space";
+import { Direction } from "../../engine/state/tile";
 
 const FJORD = {
   ...MOUNTAIN,
@@ -16,7 +28,10 @@ function hillTown(townName: string): LandData {
   return { ...HILL, townName: townName };
 }
 
-function ferryTown(name: string, ferryLinks: Array<{direction: Direction, city: string}>): LandData {
+function ferryTown(
+  name: string,
+  ferryLinks: Array<{ direction: Direction; city: string }>,
+): LandData {
   return {
     ...town(name),
     mapSpecific: {
@@ -179,7 +194,10 @@ export const map = grid([
     WATER,
     PLAIN,
     HILL,
-    ferryTown("Korsør", [{direction: Direction.BOTTOM, city: "Nyborg"}, {direction: Direction.TOP_RIGHT, city: "Nykøbing"}]),
+    ferryTown("Korsør", [
+      { direction: Direction.BOTTOM, city: "Nyborg" },
+      { direction: Direction.TOP_RIGHT, city: "Nykøbing" },
+    ]),
     WATER,
     city("Nyborg", [RED], black(3), 2),
     HILL,
@@ -207,7 +225,10 @@ export const map = grid([
     WATER,
     PLAIN,
     FJORD,
-    ferryTown("Rødbyhavn", [{direction: Direction.TOP_LEFT, city: "Nyborg"}, {direction: Direction.BOTTOM_RIGHT, city: "Puttgarden"}]),
+    ferryTown("Rødbyhavn", [
+      { direction: Direction.TOP_LEFT, city: "Nyborg" },
+      { direction: Direction.BOTTOM_RIGHT, city: "Puttgarden" },
+    ]),
     WATER,
     WATER,
     plain({ terrainCost: 3 }),
@@ -245,7 +266,9 @@ export const map = grid([
   [
     UNPASSABLE,
     plain({ terrainCost: 4 }),
-    ferryTown("Warnemünde", [{direction: Direction.BOTTOM_LEFT, city: "Nykøbing"}]),
+    ferryTown("Warnemünde", [
+      { direction: Direction.BOTTOM_LEFT, city: "Nykøbing" },
+    ]),
     WATER,
     WATER,
     city("Puttgarden", [PURPLE], black(6), 2),
