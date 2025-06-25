@@ -31,12 +31,12 @@ export class MoneyManager {
   ): LostMoneyResponse {
     const player = this.playerHelper.getPlayer(playerColor);
     const newMoney = player.money + money;
+    const lostIncome = newMoney >= 0 ? 0 : -newMoney;
     if (newMoney >= 0) {
       this.playerHelper.update(
         playerColor,
         (player) => (player.money = newMoney),
       );
-      return { lostIncome: 0, outOfGame: false };
     } else {
       assert(forced === true);
       const lostIncome = -newMoney;
@@ -49,22 +49,26 @@ export class MoneyManager {
       this.playerHelper.update(playerColor, (player) => {
         player.income -= lostIncome;
         player.money = 0;
-        if (this.isBankrupt(player)) {
-          player.outOfGame = true;
-        }
       });
-
-      const newPlayerData = this.playerHelper.getPlayer(playerColor);
-      if (newPlayerData.outOfGame ?? false) {
-        this.outOfGame(newPlayerData);
-      }
-
-      return { lostIncome, outOfGame: newPlayerData.outOfGame ?? false };
     }
+
+    let newPlayerData = this.playerHelper.getPlayer(playerColor);
+    if (this.isBankrupt(newPlayerData, forced)) {
+      this.playerHelper.update(playerColor, (player) => {
+        player.outOfGame = true;
+      });
+      newPlayerData = this.playerHelper.getPlayer(playerColor);
+      this.outOfGame(newPlayerData);
+    }
+    return { lostIncome, outOfGame: newPlayerData.outOfGame ?? false };
   }
 
-  protected isBankrupt(player: PlayerData): boolean {
-    return player.income < 0;
+  protected isBankrupt(player: PlayerData, forced: boolean): boolean {
+    if (player.income < 0) {
+      assert(forced === true);
+      return true;
+    }
+    return false;
   }
 
   protected outOfGame(player: PlayerData) {

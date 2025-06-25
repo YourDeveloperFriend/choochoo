@@ -1,4 +1,6 @@
 import { IncomeReductionPhase } from "../../engine/income_and_expenses/reduction";
+import { ProfitHelper } from "../../engine/income_and_expenses/helper";
+import { PlayerData } from "../../engine/state/player";
 
 export class DenmarkIncomeReduction extends IncomeReductionPhase {
   protected calculateIncomeReduction(income: number): number {
@@ -8,5 +10,11 @@ export class DenmarkIncomeReduction extends IncomeReductionPhase {
     if (income <= 15) return 6;
     if (income <= 20) return 8;
     return 10;
+  }
+}
+
+export class DenmarkProfitHelper extends ProfitHelper {
+  getExpenses(_: PlayerData): number {
+    return 0;
   }
 }

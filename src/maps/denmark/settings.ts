@@ -7,7 +7,7 @@ import {
 import { interCityConnections } from "../factory";
 import { map } from "./grid";
 import { DenmarkShareHelper, DenmarkTakeSharesAction } from "./shares";
-import { DenmarkIncomeReduction } from "./expenses";
+import { DenmarkIncomeReduction, DenmarkProfitHelper } from "./expenses";
 import { DenmarkMoneyManager } from "./money_manager";
 import { DenmarkAllowedActions, DenmarkSelectAction } from "./allowed_actions";
 import { DenmarkPhaseEngine } from "./production";
@@ -90,6 +90,7 @@ export class DenmarkMapSettings implements MapSettings {
       DenmarkBuildAction,
       DenmarkStarter,
       DenmarkMoveHelper,
+      DenmarkProfitHelper,
     ];
   }
 

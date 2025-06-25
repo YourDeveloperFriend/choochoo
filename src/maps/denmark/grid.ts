@@ -40,6 +40,18 @@ function ferryTown(
   };
 }
 
+function ferryHillTown(
+  name: string,
+  ferryLinks: Array<{ direction: Direction; city: string }>,
+): LandData {
+  return {
+    ...hillTown(name),
+    mapSpecific: {
+      ferryLinks: ferryLinks,
+    },
+  };
+}
+
 export const map = grid([
   [
     UNPASSABLE,
@@ -89,7 +101,9 @@ export const map = grid([
     WATER,
     WATER,
     WATER,
-    hillTown("Aalborg"),
+    ferryHillTown("Aalborg", [
+      { direction: Direction.TOP, city: "Copenhagen" },
+    ]),
     HILL,
     FJORD,
     fjordTown("Thisted"),
