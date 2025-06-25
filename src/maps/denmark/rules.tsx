@@ -1,11 +1,16 @@
 export function DenmarkRules() {
   return (
     <div>
+      <p>
+        Denmark supports 3 through 6 players and is particularly recommended for
+        3 players. The rules for Denmark make significant changes to the way
+        shares and increasing your Locomotive works.
+      </p>
       <ul>
         <li>Each player starts with $12 and an income of -4.</li>
         <li>
-          Players go bankrupt if their income is at -10 or below during the
-          expenses phase.
+          Players can have negative income and only go bankrupt if their income
+          is at -10 or below during the expenses phase.
         </li>
         <li>
           When taking shares, each share is worth $6. Instead of increasing your
@@ -34,11 +39,23 @@ export function DenmarkRules() {
         </li>
         <li>The maximum loco is 9.</li>
         <li>
-          The trains needed when increasing loco are limited. Players may only
-          increase to the next largest value which all of the other players have
-          not reached or exceeded yet, limited by the maximum of 9. This may
-          require increasing loco by more than +1 in a single step. The
-          player&apos;s income is reduced by -$2 for each +1 increase in Links.
+          <p>
+            The trains needed when increasing loco are limited. Players may only
+            increase to the next largest value which all of the other players
+            have not reached or exceeded yet, limited by the maximum of 9. This
+            may require increasing loco by more than +1 in a single step. The
+            player&apos;s income is reduced by -$2 for each +1 increase in
+            Links.
+          </p>
+          <p>
+            Example: In a 3-player game, Alice has 2 loco, Bob has 6 loco, and
+            Charles has 7 loco. The next available loco for Alice is 7. Bob's
+            next available loco is also 7, and for Charles it is 8.
+          </p>
+          <p>
+            Example: In another game, Alice has 3 loco while Bob and Charles both have 5. The
+            next available loco for everyone is 6.
+          </p>
         </li>
         <li>
           The Locomotive special action allows a player to deliver as if their
