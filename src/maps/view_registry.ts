@@ -30,6 +30,7 @@ import { SwedenRecyclingViewSettings } from "./sweden/view_settings";
 import { MapViewSettings } from "./view_settings";
 import { LondonViewSettings } from "./london/view_settings";
 import { DenmarkViewSettings } from "./denmark/view_settings";
+import { ChesapeakeAndOhioViewSettings } from "./chesapeake-and-ohio/view_settings";
 
 export class ViewRegistry {
   static readonly singleton = new ViewRegistry();
@@ -65,6 +66,7 @@ export class ViewRegistry {
     this.add(new HeavyCardboardViewSettings());
     this.add(new MontrealMetroViewSettings());
     this.add(new DenmarkViewSettings());
+    this.add(new ChesapeakeAndOhioViewSettings());
   }
 
   values(): Iterable<MapViewSettings> {

@@ -30,6 +30,7 @@ export enum GameKey {
   SWEDEN = "SwedenRecycling",
   JAMAICA = "jamaica",
   HEAVY_CARDBOARD = "heavy-cardboard",
+  CHESAPEAKE_AND_OHIO = "chesapeake-and-ohio",
 }
 
 export const GameKeyZod = z.nativeEnum(GameKey);
