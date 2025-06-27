@@ -6,6 +6,7 @@ import { UrbanizationUsesBuildModule } from "../../modules/urbanization_uses_bui
 import { map } from "./grid";
 import { AustraliaMoveAction } from "./perth";
 import { AustraliaStarter } from "./starter";
+import { AustraliaActionNamingProvider } from "./actions";
 
 export class AustraliaMapSettings implements MapSettings {
   readonly key = GameKey.AUSTRALIA;
@@ -16,7 +17,11 @@ export class AustraliaMapSettings implements MapSettings {
   readonly stage = ReleaseStage.ALPHA;
 
   getOverrides() {
-    return [AustraliaStarter, AustraliaMoveAction];
+    return [
+      AustraliaStarter,
+      AustraliaMoveAction,
+      AustraliaActionNamingProvider,
+    ];
   }
 
   getModules(): Array<Module> {

@@ -12,6 +12,7 @@ import { LondonShareHelper } from "./shares";
 import { LondonUrbanizeAction } from "./urbanize";
 import { LondonPlayerHelper } from "./score";
 import { TurnLengthModule } from "../../modules/turn_length";
+import { LondonActionNamingProvider } from "./actions";
 
 export class LondonMapSettings implements MapSettings {
   static readonly key = GameKey.LONDON;
@@ -38,6 +39,7 @@ export class LondonMapSettings implements MapSettings {
       LondonShareHelper,
       LondonUrbanizeAction,
       LondonPlayerHelper,
+      LondonActionNamingProvider,
     ];
   }
 

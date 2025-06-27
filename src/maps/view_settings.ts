@@ -32,7 +32,6 @@ export interface MapViewSettings extends MapSettings {
   additionalSliders?: Array<() => ReactElement>;
   getVariantString?(variant: VariantConfig): string[] | undefined;
   getMapRules(props: RulesProps): ReactElement;
-  getActionDescription?(action: Action): string | undefined;
   getTexturesLayer?(props: TexturesProps): ReactNode;
   getFinalOverviewRows?(): RowFactory[];
   getActionCaption?(action: Action): string[] | string | undefined;

@@ -8,6 +8,7 @@ import {
 } from "./bidding";
 import { map } from "./grid";
 import { StLuciaStarter } from "./starter";
+import { StLuciaActionNamingProvider } from "./actions";
 
 export class StLuciaMapSettings implements MapSettings {
   readonly key = GameKey.ST_LUCIA;
@@ -24,6 +25,7 @@ export class StLuciaMapSettings implements MapSettings {
       StLuciaStarter,
       StLuciaPhaseDelegator,
       StLuciaAllowedActions,
+      StLuciaActionNamingProvider,
     ];
   }
 }

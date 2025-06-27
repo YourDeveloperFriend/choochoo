@@ -1,4 +1,3 @@
-import { Action } from "../../engine/state/action";
 import { LondonRules } from "./rules";
 import { LondonMapSettings } from "./settings";
 import { MapViewSettings } from "../view_settings";
@@ -12,16 +11,6 @@ export class LondonViewSettings
 {
   getMapRules = LondonRules;
   getTexturesLayer = LondonRivers;
-
-  getActionDescription(action: Action): string | undefined {
-    if (action === Action.ENGINEER) {
-      return "Negotiate with the unions for lower overtime fees.";
-    }
-    if (action === Action.URBANIZATION) {
-      return "Add a New City to the board. Must replace an existing track segment.";
-    }
-    return undefined;
-  }
 
   getActionSummary(phase: Phase) {
     if (phase === Phase.MOVING) {

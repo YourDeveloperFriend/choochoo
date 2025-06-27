@@ -2,8 +2,6 @@ import { GameKey } from "../../api/game_key";
 import { IrelandVariantConfig, VariantConfig } from "../../api/variant_config";
 import { ClickTarget, OnClickRegister } from "../../client/grid/click_target";
 import { useAction } from "../../client/services/action";
-import { useGame } from "../../client/services/game";
-import { Action } from "../../engine/state/action";
 import { MapViewSettings } from "../view_settings";
 import { DeurbanizeAction } from "./deurbanization";
 import { IrelandRivers } from "./rivers";
@@ -27,18 +25,6 @@ export class IrelandViewSettings
     if ((variant as IrelandVariantConfig).locoVariant) {
       return ["Loco"];
     }
-  }
-
-  getActionDescription(action: Action): string | undefined {
-    const game = useGame();
-    if (action === Action.LOCOMOTIVE) {
-      if (IrelandVariantConfig.parse(game.variant).locoVariant) {
-        return "Temporarily increase your locomotive by one for the round. Does not increase your expenses.";
-      } else {
-        return "Allows you to loco twice in one round.";
-      }
-    }
-    return undefined;
   }
 
   useOnMapClick = useDeurbanizeOnClick;

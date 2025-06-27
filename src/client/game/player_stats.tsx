@@ -8,7 +8,7 @@ import {
 } from "../../engine/game/state";
 import { ProfitHelper } from "../../engine/income_and_expenses/helper";
 import { MoveHelper } from "../../engine/move/helper";
-import { getSelectedActionString } from "../../engine/state/action";
+import { ActionNamingProvider } from "../../engine/state/action";
 import { PlayerColor, PlayerData } from "../../engine/state/player";
 import { countryName } from "../../maps/cyprus/roles";
 import { CyprusMapSettings } from "../../maps/cyprus/settings";
@@ -29,8 +29,8 @@ import { LoginButton } from "./login_button";
 import * as styles from "./player_stats.module.css";
 import {
   Accordion,
-  AccordionTitle,
   AccordionContent,
+  AccordionTitle,
   Icon,
   Menu,
   MenuItem,
@@ -156,7 +156,8 @@ const actionColumn = {
 };
 
 function ActionCell({ player }: PlayerStatColumnProps) {
-  return <>{getSelectedActionString(player.selectedAction)}</>;
+  const actionNamingProvider = useInjected(ActionNamingProvider);
+  return <>{actionNamingProvider.getActionString(player.selectedAction)}</>;
 }
 
 const moneyColumn = {

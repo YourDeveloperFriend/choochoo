@@ -13,6 +13,7 @@ import {
   DiscoProductionPhase,
 } from "./production";
 import { DiscoStarter } from "./starter";
+import { DiscoActionNamingProvider } from "./actions";
 
 export class DiscoInfernoMapSettings implements MapSettings {
   static readonly key = GameKey.DISCO_INFERNO;
@@ -33,6 +34,7 @@ export class DiscoInfernoMapSettings implements MapSettings {
       DiscoMoveHelper,
       DiscoMovePhase,
       DiscoLoco,
+      DiscoActionNamingProvider,
     ];
   }
 }

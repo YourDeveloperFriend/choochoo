@@ -14,6 +14,7 @@ import { GermanyCostCalculator } from "./cost";
 import { map } from "./grid";
 import { GermanyMoveHelper } from "./move";
 import { GermanyStarter } from "./starter";
+import { GermanyActionNamingProvider } from "./actions";
 
 export class GermanyMapSettings implements MapSettings {
   static readonly key = GameKey.GERMANY;
@@ -36,6 +37,7 @@ export class GermanyMapSettings implements MapSettings {
       GermanyBuildAction,
       GermanyBuildPhase,
       GermanyGoodsGrowth,
+      GermanyActionNamingProvider,
     ];
   }
 }
