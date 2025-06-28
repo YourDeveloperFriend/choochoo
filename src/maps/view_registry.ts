@@ -29,6 +29,7 @@ import { StLuciaViewSettings } from "./st-lucia/view_settings";
 import { SwedenRecyclingViewSettings } from "./sweden/view_settings";
 import { MapViewSettings } from "./view_settings";
 import { LondonViewSettings } from "./london/view_settings";
+import { DenmarkViewSettings } from "./denmark/view_settings";
 
 export class ViewRegistry {
   static readonly singleton = new ViewRegistry();
@@ -63,6 +64,7 @@ export class ViewRegistry {
     this.add(new MoonViewSettings());
     this.add(new HeavyCardboardViewSettings());
     this.add(new MontrealMetroViewSettings());
+    this.add(new DenmarkViewSettings());
   }
 
   values(): Iterable<MapViewSettings> {

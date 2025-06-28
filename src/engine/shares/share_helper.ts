@@ -1,7 +1,7 @@
 import { injectCurrentPlayer } from "../game/state";
 
 export class ShareHelper {
-  private readonly currentPlayer = injectCurrentPlayer();
+  protected readonly currentPlayer = injectCurrentPlayer();
 
   getMaxShares(): number {
     return 15;

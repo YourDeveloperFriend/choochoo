@@ -328,6 +328,7 @@ export function HexGrid({
                   onClick={onClickInterCity}
                   size={size}
                   connection={connection}
+                  rotation={rotation}
                 />
               ))}
               {fullMapVersion && <SwedenProgressionGraphic />}

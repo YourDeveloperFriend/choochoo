@@ -137,6 +137,7 @@ export function town(townName: string): LandData {
 interface InterCityConnectionFactoryProps {
   connects: [string, string];
   cost?: number;
+  center?: [number, number];
 }
 
 export function interCityConnections(
@@ -154,6 +155,9 @@ export function interCityConnections(
       id: "" + (idx + 1),
       connects: [cities.get(spec.connects[0])!, cities.get(spec.connects[1])!],
       cost: spec.cost ?? 2,
+      center: spec.center
+        ? Coordinates.from({ q: spec.center[0], r: spec.center[1] })
+        : undefined,
       owner: undefined,
     }),
   );

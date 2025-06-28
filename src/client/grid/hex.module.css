@@ -22,6 +22,14 @@
   fill: #5f8a40;
 }
 
+.location.fjord {
+  fill: #88d4ad;
+}
+
+:global(.dark-mode) .location.fjord {
+  fill: #6fad8e;
+}
+
 .location.fire {
   fill: #d66f34;
 }
@@ -113,5 +121,11 @@
 .riverPath {
   stroke: #009bb2;
   stroke-width: 5;
+  fill: none;
+}
+
+.seaRoute {
+  stroke: #ffffff;
+  stroke-width: 9;
   fill: none;
 }

@@ -1,7 +1,11 @@
 import { useCallback, useMemo } from "react";
 import { Rotation } from "../../engine/game/map_settings";
 import { InterCityConnection } from "../../engine/state/inter_city_connection";
-import { coordinatesToCenter, movePointInDirection } from "../../utils/point";
+import {
+  coordinatesToCenter,
+  movePointInDirection,
+  Point,
+} from "../../utils/point";
 import { getPlayerColorCss } from "../components/player_color";
 import { Rotate } from "../components/rotation";
 import { ClickTarget } from "./click_target";
@@ -29,10 +33,15 @@ export function InterCityConnectionRender({
   if (connection.connects.length !== 2) return <></>;
 
   const [first, second] = connection.connects;
-  const connectionCenter = useMemo(() => {
-    const center = coordinatesToCenter(first, size);
-    return movePointInDirection(center, size, first.getDirection(second));
-  }, [first, second, size]);
+  let connectionCenter: Point;
+  if (connection.center !== undefined) {
+    connectionCenter = coordinatesToCenter(connection.center, size);
+  } else {
+    connectionCenter = useMemo(() => {
+      const center = coordinatesToCenter(first, size);
+      return movePointInDirection(center, size, first.getDirection(second));
+    }, [first, second, size]);
+  }
 
   const clickable = clickTargets.has(ClickTarget.INTER_CITY_CONNECTION)
     ? gridStyles.clickable
