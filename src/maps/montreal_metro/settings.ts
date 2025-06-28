@@ -24,6 +24,7 @@ import { MontrealMetroShareHelper } from "./max_shares";
 import { MontrealMetroRoundEngine } from "./rounds";
 import { MontrealAllowedActions } from "./select_action/allowed_actions";
 import { MontrealSelectAction } from "./select_action/montreal_select_action";
+import { MontrealActionNamingProvider } from "./actions";
 
 export class MontrealMetroMapSettings implements MapSettings {
   readonly key = GameKey.MONTREAL_METRO;
@@ -50,6 +51,7 @@ export class MontrealMetroMapSettings implements MapSettings {
       MontrealMetroMoveHelper,
       MontrealMetroBuilderHelper,
       MontrealMetroUrbanizeAction,
+      MontrealActionNamingProvider,
     ];
   }
 }

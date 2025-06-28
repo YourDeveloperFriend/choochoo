@@ -6,10 +6,8 @@ import {
   FormField,
   FormGroup,
   FormSelect,
-  Icon,
 } from "semantic-ui-react";
 import { BuildAction } from "../../engine/build/build";
-import { DoneAction } from "../../engine/build/done";
 import { BuilderHelper } from "../../engine/build/helper";
 import { inject, injectState } from "../../engine/framework/execution_context";
 import { PHASE } from "../../engine/game/phase";
@@ -35,7 +33,6 @@ import {
 } from "../../maps/st-lucia/bidding";
 import { iterate } from "../../utils/functions";
 import { assertNever } from "../../utils/validate";
-import { useConfirm } from "../components/confirm";
 import { Username } from "../components/username";
 import { useAction, useEmptyAction } from "../services/action";
 import {
@@ -46,6 +43,7 @@ import {
 } from "../utils/injection_context";
 import { ManualGoodsGrowth } from "./india-steam-brothers/goods_growth";
 import { MoveGoods } from "./move_goods_action_summary";
+import { Build } from "./build_action_summary";
 
 const PASS_ACTION = "Pass" as const;
 type PassActionString = typeof PASS_ACTION;
@@ -520,53 +518,4 @@ function GovernmentBuild() {
   }
 
   return <div>You can build {buildsRemaining} more government track.</div>;
-}
-
-function Build() {
-  const { emit: emitPass, canEmit, canEmitUserId } = useEmptyAction(DoneAction);
-  const confirm = useConfirm();
-  const [buildsRemaining, canUrbanize] = useInject(() => {
-    const helper = inject(BuilderHelper);
-    if (!canEmit) return [undefined, undefined];
-    return [helper.buildsRemaining(), helper.canUrbanize()];
-  }, [canEmit]);
-
-  const emitPassClick = useCallback(() => {
-    if (!canUrbanize) {
-      emitPass();
-      return;
-    }
-    confirm(
-      "You still have an urbanize available, are you sure you are done building?",
-    ).then((stillPass) => {
-      if (stillPass) {
-        emitPass();
-      }
-    });
-  }, [emitPass, canUrbanize]);
-
-  if (canEmitUserId == null) {
-    return <></>;
-  }
-
-  if (!canEmit) {
-    return (
-      <GenericMessage>
-        <Username userId={canEmitUserId} /> must build.
-      </GenericMessage>
-    );
-  }
-
-  return (
-    <div>
-      <p>
-        You can build {buildsRemaining} more track
-        {canUrbanize && " and urbanize"}.
-      </p>
-      <Button icon labelPosition="left" color="green" onClick={emitPassClick}>
-        <Icon name="check" />
-        Done Building
-      </Button>
-    </div>
-  );
 }

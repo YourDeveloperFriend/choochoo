@@ -11,6 +11,7 @@ import { IrelandLocoAction, IrelandMoveHelper } from "./locomotive_action";
 import { IrelandAllowedActions, IrelandSelectAction } from "./select_action";
 import { IrelandRoundEngine } from "./shortened_round";
 import { IrelandStarter } from "./starter";
+import { IrelandActionNamingProvider } from "./actions";
 
 export class IrelandMapSettings implements MapSettings {
   static readonly key = GameKey.IRELAND;
@@ -35,6 +36,7 @@ export class IrelandMapSettings implements MapSettings {
       IrelandPhaseEngine,
       IrelandStarter,
       IrelandLocoAction,
+      IrelandActionNamingProvider,
     ];
   }
 }

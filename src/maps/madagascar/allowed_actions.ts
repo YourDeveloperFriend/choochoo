@@ -7,8 +7,8 @@ import { GameStarter } from "../../engine/game/starter";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
 import {
   Action,
+  ActionNamingProvider,
   ActionZod,
-  getSelectedActionString,
 } from "../../engine/state/action";
 import { iterate, peek } from "../../utils/functions";
 import { ImmutableSet } from "../../utils/immutable";
@@ -57,6 +57,7 @@ export class MadagascarRoundEngine extends RoundEngine {
   private readonly disabledActions = injectState(DISABLED_ACTIONS);
   private readonly random = inject(Random);
   private readonly allowedActions = inject(AllowedActions);
+  private readonly actionNamingProvider = inject(ActionNamingProvider);
 
   start(round: number) {
     super.start(round);
@@ -82,7 +83,8 @@ export class MadagascarRoundEngine extends RoundEngine {
       newActions.push(allActions[nextActionIndex]);
     });
     this.log.log(
-      "Disabling actions " + newActions.map(getSelectedActionString).join(", "),
+      "Disabling actions " +
+        newActions.map(this.actionNamingProvider.getActionString).join(", "),
     );
     this.disabledActions.set(new Set(newActions));
   }

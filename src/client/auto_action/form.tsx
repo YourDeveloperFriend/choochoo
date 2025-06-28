@@ -2,7 +2,7 @@ import { MouseEvent, useCallback, useState } from "react";
 import { GameStatus } from "../../api/game";
 import { inject } from "../../engine/framework/execution_context";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
-import { Action, getSelectedActionString } from "../../engine/state/action";
+import { Action, ActionNamingProvider } from "../../engine/state/action";
 import { AutoAction } from "../../engine/state/auto_action";
 import { canEditGame, useGame } from "../services/game";
 import { useMe } from "../services/me";
@@ -11,25 +11,25 @@ import {
   useSemanticSelectState,
   useSemanticUiCheckboxState,
 } from "../utils/form_state";
-import { useInject } from "../utils/injection_context";
+import { useInject, useInjected } from "../utils/injection_context";
 import * as styles from "./form.module.css";
 import { useAutoAction, useSetAutoAction } from "./hooks";
 import {
   Accordion,
   AccordionContent,
   AccordionTitle,
+  Button,
+  Dropdown,
   Form,
   FormCheckbox,
   FormField,
   FormGroup,
+  Icon,
+  Input,
   Menu,
   MenuItem,
   Popup,
-  Icon,
-  Input,
-  Button,
   Radio,
-  Dropdown,
 } from "semantic-ui-react";
 
 export function AutoActionForm() {
@@ -71,6 +71,7 @@ function InternalAutoActionForm({
   expanded,
   setExpanded,
 }: InternalAutoActionFormProps) {
+  const actionNamingProvider = useInjected(ActionNamingProvider);
   const availableActions = useInject(
     () => inject(AllowedActions).getActions(),
     [],
@@ -316,7 +317,7 @@ function InternalAutoActionForm({
                         return {
                           key: action,
                           value: action,
-                          text: getSelectedActionString(action),
+                          text: actionNamingProvider.getActionString(action),
                         };
                       })}
                     />

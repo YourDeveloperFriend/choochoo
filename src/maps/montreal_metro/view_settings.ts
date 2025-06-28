@@ -1,6 +1,5 @@
 import { ClickTarget, OnClickRegister } from "../../client/grid/click_target";
 import { useAction } from "../../client/services/action";
-import { Action } from "../../engine/state/action";
 import { MapViewSettings } from "../view_settings";
 import { GovtBuildOrder } from "./govt_build_order";
 import { LocoTrack } from "./loco_track";
@@ -16,13 +15,6 @@ export class MontrealMetroViewSettings
   getMapRules = MontrealMetroRules;
 
   getTexturesLayer = MontrealStreets;
-
-  getActionDescription(action: Action): string | undefined {
-    if (action === Action.LOCOMOTIVE) {
-      return "Increases your government engine level.";
-    }
-    return undefined;
-  }
 
   additionalSliders = [LocoTrack, GovtBuildOrder];
 

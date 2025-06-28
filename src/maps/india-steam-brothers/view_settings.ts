@@ -1,6 +1,5 @@
 import { ClickTarget, OnClickRegister } from "../../client/grid/click_target";
 import { useAction } from "../../client/services/action";
-import { Action } from "../../engine/state/action";
 import { MapViewSettings } from "../view_settings";
 import { SelectCityAction } from "./production";
 import { IndiaSteamBrothersRivers } from "./rivers";
@@ -13,13 +12,6 @@ export class IndiaSteamBrothersViewSettings
 {
   getMapRules = IndiaSteamBrothersRules;
   getTexturesLayer = IndiaSteamBrothersRivers;
-
-  getActionDescription(action: Action): string | undefined {
-    if (action === Action.PRODUCTION) {
-      return "During the Goods Growth step, select a city, draw 2 goods, then place one of those goods in the selected city.";
-    }
-    return undefined;
-  }
 
   useOnMapClick = useSelectCityOnClick;
 }

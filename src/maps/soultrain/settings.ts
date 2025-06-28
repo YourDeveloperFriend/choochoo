@@ -15,6 +15,7 @@ import {
   SoulTrainRoundEngine,
 } from "./phases";
 import { SoulTrainStarter } from "./starter";
+import { SoulTrainActionNamingProvider } from "./actions";
 
 export class SoulTrainMapSettings implements MapSettings {
   readonly key = GameKey.SOUL_TRAIN;
@@ -36,6 +37,7 @@ export class SoulTrainMapSettings implements MapSettings {
       SoulTrainMoveAction,
       SoulTrainBuilderHelper,
       SoulTrainAllowedActions,
+      SoulTrainActionNamingProvider,
     ];
   }
 

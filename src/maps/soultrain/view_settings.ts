@@ -1,6 +1,5 @@
 import { ClickTarget, OnClickRegister } from "../../client/grid/click_target";
 import { useAction } from "../../client/services/action";
-import { Action } from "../../engine/state/action";
 import { MapViewSettings } from "../view_settings";
 import { PlaceAction } from "./earth_to_heaven";
 import { SoulTrainRules } from "./rules";
@@ -11,12 +10,6 @@ export class SoulTrainViewSettings
   implements MapViewSettings
 {
   getMapRules = SoulTrainRules;
-
-  getActionDescription(action: Action): string | undefined {
-    if (action == Action.ENGINEER) {
-      return "Cut the total cost of your build in half (rounded up).";
-    }
-  }
   useOnMapClick = usePlaceOnClick;
 }
 

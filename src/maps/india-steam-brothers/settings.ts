@@ -11,6 +11,7 @@ import {
   IndiaSteamBrothersPhaseDelegator,
   IndiaSteamBrothersPhaseEngine,
 } from "./production";
+import { IndiaSteamBrothersActionNamingProvider } from "./actions";
 
 export class IndiaSteamBrothersMapSettings implements MapSettings {
   static readonly key = GameKey.INDIA_STEAM_BROTHERS;
@@ -29,6 +30,7 @@ export class IndiaSteamBrothersMapSettings implements MapSettings {
       IndiaSteamBrothersPhaseDelegator,
       IndiaSteamBrothersBuildAction,
       IndiaSteamBrothersUrbanizeAction,
+      IndiaSteamBrothersActionNamingProvider,
     ];
   }
 }

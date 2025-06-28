@@ -23,6 +23,7 @@ import {
   MadagascarTurnOrderPass,
   MadagascarTurnOrderPhase,
 } from "./turn_order";
+import { MadagascarActionNamingProvider } from "./actions";
 
 export class MadagascarMapSettings implements MapSettings {
   static readonly key = GameKey.MADAGASCAR;
@@ -48,6 +49,7 @@ export class MadagascarMapSettings implements MapSettings {
       MadagascarRoundEngine,
       MadagascarTurnOrderPhase,
       MadagascarTurnOrderPass,
+      MadagascarActionNamingProvider,
     ];
   }
 }

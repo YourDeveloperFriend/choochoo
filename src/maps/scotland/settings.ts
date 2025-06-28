@@ -12,6 +12,7 @@ import {
 } from "./ferries_connections";
 import { map } from "./grid";
 import { ScotlandPhaseEngine, ScotlandRoundEngine } from "./turn_order";
+import { ScotlandActionNamingProvider } from "./actions";
 
 export class ScotlandMapSettings implements MapSettings {
   readonly key = GameKey.SCOTLAND;
@@ -32,6 +33,7 @@ export class ScotlandMapSettings implements MapSettings {
       ScotlandBuildAction,
       ScotlandMoveValidator,
       ScotlandPhaseEngine,
+      ScotlandActionNamingProvider,
     ];
   }
 

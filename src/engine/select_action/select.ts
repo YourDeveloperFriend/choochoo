@@ -5,7 +5,7 @@ import { ActionProcessor } from "../game/action";
 import { Log } from "../game/log";
 import { PlayerHelper } from "../game/player";
 import { injectCurrentPlayer } from "../game/state";
-import { Action, getSelectedActionString } from "../state/action";
+import { Action, ActionNamingProvider } from "../state/action";
 import { AllowedActions } from "./allowed_actions";
 
 export const SelectData = z.object({
@@ -20,6 +20,7 @@ export class SelectAction implements ActionProcessor<SelectData> {
   protected readonly helper = inject(PlayerHelper);
   protected readonly log = inject(Log);
   private readonly actions = inject(AllowedActions);
+  private readonly actionNamingProvider = inject(ActionNamingProvider);
 
   readonly assertInput = SelectData.parse;
 
@@ -44,7 +45,9 @@ export class SelectAction implements ActionProcessor<SelectData> {
     if (action === Action.LOCOMOTIVE) {
       this.applyLocomotive();
     }
-    this.log.currentPlayer(`selected ${getSelectedActionString(action)}`);
+    this.log.currentPlayer(
+      `selected ${this.actionNamingProvider.getActionString(action)}`,
+    );
     return true;
   }
 }
