@@ -49,12 +49,12 @@ export function DenmarkRules() {
           </p>
           <p>
             Example: In a 3-player game, Alice has 2 loco, Bob has 6 loco, and
-            Charles has 7 loco. The next available loco for Alice is 7. Bob's
-            next available loco is also 7, and for Charles it is 8.
+            Charles has 7 loco. The next available loco for Alice is 7.
+            Bob&apos;s next available loco is also 7, and for Charles it is 8.
           </p>
           <p>
-            Example: In another game, Alice has 3 loco while Bob and Charles both have 5. The
-            next available loco for everyone is 6.
+            Example: In another game, Alice has 3 loco while Bob and Charles
+            both have 5. The next available loco for everyone is 6.
           </p>
         </li>
         <li>

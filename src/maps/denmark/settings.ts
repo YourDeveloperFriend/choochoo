@@ -24,6 +24,7 @@ import { DenmarkStarter } from "./starter";
 import { InstantProductionModule } from "../../modules/instant_production/module";
 import { Module } from "../../engine/module/module";
 import { DenmarkMoveHelper } from "./locomotive_action";
+import { DenmarkActionNamingProvider } from "./actions";
 
 export class DenmarkMapSettings implements MapSettings {
   static readonly key = GameKey.DENMARK;
@@ -91,6 +92,7 @@ export class DenmarkMapSettings implements MapSettings {
       DenmarkStarter,
       DenmarkMoveHelper,
       DenmarkProfitHelper,
+      DenmarkActionNamingProvider,
     ];
   }
 
