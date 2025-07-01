@@ -9,8 +9,7 @@ import { map } from "./grid";
 import { DenmarkShareHelper, DenmarkTakeSharesAction } from "./shares";
 import { DenmarkIncomeReduction, DenmarkProfitHelper } from "./expenses";
 import { DenmarkMoneyManager } from "./money_manager";
-import { DenmarkAllowedActions, DenmarkSelectAction } from "./allowed_actions";
-import { DenmarkPhaseEngine } from "./production";
+import { DenmarkSelectAction } from "./allowed_actions";
 import { DenmarkLocoAction } from "./loco";
 import { DenmarkBuildCostCalculator } from "./cost";
 import {
@@ -23,8 +22,13 @@ import { DenmarkMoveValidator } from "./move_validator";
 import { DenmarkStarter } from "./starter";
 import { InstantProductionModule } from "../../modules/instant_production/module";
 import { Module } from "../../engine/module/module";
-import { DenmarkMoveHelper } from "./locomotive_action";
+import { DenmarkMoveHelper } from "./locomotive_special_action";
 import { DenmarkActionNamingProvider } from "./actions";
+import { AvailableActionsModule } from "../../modules/available_actions";
+import { Action } from "../../engine/state/action";
+import { PhasesModule } from "../../modules/phases";
+import { remove } from "../../utils/functions";
+import { Phase } from "../../engine/state/phase";
 
 export class DenmarkMapSettings implements MapSettings {
   static readonly key = GameKey.DENMARK;
@@ -79,8 +83,6 @@ export class DenmarkMapSettings implements MapSettings {
       DenmarkTakeSharesAction,
       DenmarkIncomeReduction,
       DenmarkMoneyManager,
-      DenmarkAllowedActions,
-      DenmarkPhaseEngine,
       DenmarkLocoAction,
       DenmarkSelectAction,
       DenmarkBuildCostCalculator,
@@ -97,6 +99,12 @@ export class DenmarkMapSettings implements MapSettings {
   }
 
   getModules(): Array<Module> {
-    return [new InstantProductionModule()];
+    return [
+      new InstantProductionModule(),
+      new AvailableActionsModule({ remove: [Action.PRODUCTION] }),
+      new PhasesModule({
+        replace: (phases) => remove(phases, Phase.GOODS_GROWTH),
+      }),
+    ];
   }
 }

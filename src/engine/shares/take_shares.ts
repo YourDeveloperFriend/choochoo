@@ -21,6 +21,9 @@ export class TakeSharesAction implements ActionProcessor<TakeSharesData> {
   protected readonly helper = inject(ShareHelper);
 
   validate(data: TakeSharesData) {
+    assert(data.numShares >= 0, {
+      invalidInput: `cannot take a negative number of shares`,
+    });
     assert(data.numShares <= this.helper.getSharesTheyCanTake(), {
       invalidInput: `cannot take more than ${this.helper.getMaxShares()} shares`,
     });

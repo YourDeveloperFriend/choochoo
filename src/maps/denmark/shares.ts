@@ -6,17 +6,15 @@ import {
 
 export class DenmarkShareHelper extends ShareHelper {
   getMaxShares(): number {
-    // This lets players take shares until they hit -15 income. Technically shares should be unlimited. In practice this is Good Enough.
-    return this.currentPlayer().income + 15;
+    // There is no limit to how many shares a player can take
+    return Infinity;
   }
 }
 
 export class DenmarkTakeSharesAction extends TakeSharesAction {
   process(data: TakeSharesData): boolean {
     const numShares = data.numShares;
-    if (this.helper.getSharesTheyCanTake() === 0) {
-      this.log.currentPlayer(`cannot take out anymore shares`);
-    } else if (numShares === 0) {
+    if (numShares === 0) {
       this.log.currentPlayer("does not take out any shares");
     } else {
       this.log.currentPlayer(

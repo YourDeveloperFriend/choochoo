@@ -39,7 +39,6 @@ export class MoneyManager {
       );
     } else {
       assert(forced === true);
-      const lostIncome = -newMoney;
       assert(
         lostIncome > 0,
         `you should never gain income through this code path, got ` +

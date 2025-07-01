@@ -60,20 +60,17 @@ export class DenmarkConnectCitiesAction extends ConnectCitiesAction {
     assert(thisConnection !== undefined, {
       invalidInput: "Invalid connection ID",
     });
-    for (const connection of this.grid().connections) {
-      if (connection.id === data.id) {
-        continue;
-      }
-      if (
-        arrayEqualsIgnoreOrder(connection.connects, thisConnection.connects)
-      ) {
-        assert(
-          !connection.owner ||
-            connection.owner.color !== this.currentPlayer().color,
-          { invalidInput: "Cannot claim the same ferry link twice" },
-        );
-      }
-    }
+    const existingConnection = this.grid()
+      .connections.filter((connection) => connection.id !== thisConnection.id)
+      .filter((connection) =>
+        arrayEqualsIgnoreOrder(connection.connects, thisConnection.connects),
+      )
+      .find(
+        (connection) => connection.owner?.color === this.currentPlayer().color,
+      );
+    assert(existingConnection === undefined, {
+      invalidInput: "Cannot claim the same ferry link twice",
+    });
 
     return super.validate(data);
   }
@@ -275,7 +272,8 @@ export class DenmarkBuildAction extends BuildAction {
   process(data: BuildData): boolean {
     const result = super.process(data);
 
-    // Noone can own the ferry-link connection. Unset the ownership if it got set by the processor
+    // When a player builds a ferry-link connection from a town, they do not get ownership of the track.
+    // Unset the ownership on the built link if this is applicable.
     const location = this.gridHelper.lookup(data.coordinates);
     assert(location instanceof Land);
     const mapData = location.getMapSpecific(DenmarkMapData.parse);

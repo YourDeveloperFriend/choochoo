@@ -5,6 +5,7 @@ import {
   Form,
   FormField,
   FormGroup,
+  FormInput,
   FormSelect,
 } from "semantic-ui-react";
 import { BuildAction } from "../../engine/build/build";
@@ -44,6 +45,7 @@ import {
 import { ManualGoodsGrowth } from "./india-steam-brothers/goods_growth";
 import { MoveGoods } from "./move_goods_action_summary";
 import { Build } from "./build_action_summary";
+import * as React from "react";
 
 const PASS_ACTION = "Pass" as const;
 type PassActionString = typeof PASS_ACTION;
@@ -437,23 +439,32 @@ function TakeShares() {
       <p>Choose how many shares you would like to take out.</p>
       <Form>
         <FormGroup>
-          <FormSelect
-            disabled={isPending}
-            value={selectedShares}
-            onChange={(
-              event: React.SyntheticEvent<HTMLElement>,
-              data: DropdownProps,
-            ) => {
-              setSelectedShares(data.value as number);
-            }}
-            options={iterate(numShares + 1, (i) => {
-              return {
-                key: i,
-                value: i,
-                text: numberFormat(i),
-              };
-            })}
-          />
+          {numShares === Infinity ? (
+            <FormInput
+              type="number"
+              disabled={isPending}
+              value={selectedShares}
+              onChange={(_, data) => setSelectedShares(parseInt(data.value))}
+            />
+          ) : (
+            <FormSelect
+              disabled={isPending}
+              value={selectedShares}
+              onChange={(
+                event: React.SyntheticEvent<HTMLElement>,
+                data: DropdownProps,
+              ) => {
+                setSelectedShares(data.value as number);
+              }}
+              options={iterate(numShares + 1, (i) => {
+                return {
+                  key: i,
+                  value: i,
+                  text: numberFormat(i),
+                };
+              })}
+            />
+          )}
           <Button
             primary
             onClick={() => chooseValue(selectedShares)}
