@@ -1,28 +1,23 @@
 import { Key } from "../../engine/framework/key";
 import z from "zod";
 import { BuildPhase } from "../../engine/build/phase";
-import { injectState } from "../../engine/framework/execution_context";
+import { inject, injectState } from "../../engine/framework/execution_context";
 import { assert } from "../../utils/validate";
 import {
   ConnectCitiesAction,
   ConnectCitiesData,
 } from "../../engine/build/connect_cities";
-import { arrayEqualsIgnoreOrder, isNotNull } from "../../utils/functions";
+import { arrayEqualsIgnoreOrder } from "../../utils/functions";
 import { InterCityConnection } from "../../engine/state/inter_city_connection";
-import {
-  BuildInfo,
-  InvalidBuildReason,
-  Validator,
-} from "../../engine/build/validator";
+import { InvalidBuildReason, Validator } from "../../engine/build/validator";
 import { DenmarkMapData } from "./map_data";
 import { BuildAction, BuildData } from "../../engine/build/build";
-import { calculateTrackInfo, Land } from "../../engine/map/location";
-import { allDirections, Direction } from "../../engine/state/tile";
-import { Coordinates } from "../../utils/coordinates";
-import { TOWN, Track, TrackInfo } from "../../engine/map/track";
+import { Land } from "../../engine/map/location";
+import { Direction } from "../../engine/state/tile";
+import { TrackInfo } from "../../engine/map/track";
 import { City } from "../../engine/map/city";
 import { PlayerColor } from "../../engine/state/player";
-import { RouteInfo } from "../../engine/move/validator";
+import { MoveValidator, RouteInfo } from "../../engine/move/validator";
 
 const FERRY_CLAIM_COUNT = new Key("FERRY_CLAIM_COUNT", {
   parse: z.number().parse,
@@ -82,133 +77,6 @@ export class DenmarkConnectCitiesAction extends ConnectCitiesAction {
 }
 
 export class DenmarkBuildValidator extends Validator {
-  getInvalidBuildReason(
-    coordinates: Coordinates,
-    buildData: BuildInfo,
-  ): InvalidBuildReason | undefined {
-    const reason = super.getInvalidBuildReason(coordinates, buildData);
-    if (reason !== undefined) {
-      return reason;
-    }
-
-    // Validate that the build does not cause the player to own two direct links between the same source/destination
-    const grid = this.grid();
-    const space = grid.get(coordinates);
-    assert(space !== undefined && !(space instanceof City));
-    const newTileData = calculateTrackInfo(buildData);
-    const { rerouted, newTracks } = this.partitionTracks(space, newTileData);
-    const trackToValidate = newTracks.concat(rerouted);
-
-    for (const track of trackToValidate) {
-      const routeEnds = this.getRouteEnds(coordinates, track);
-      if (!routeEnds) {
-        continue;
-      }
-      const existingRoutes = this.getRoutesFromSpace(routeEnds[0]);
-      for (const existingRoute of existingRoutes) {
-        if (
-          existingRoute.owner === buildData.playerColor &&
-          existingRoute.destination.equals(routeEnds[1])
-        ) {
-          return "each player can only build a single direct link between each source/destination";
-        }
-      }
-    }
-  }
-
-  private getRouteEnds(
-    coordinates: Coordinates,
-    track: TrackInfo,
-  ): [Coordinates, Coordinates] | undefined {
-    const [firstExit, secondExit] = track.exits;
-    const [firstCoordinates, firstEndExit] = this.getEnd(
-      coordinates,
-      firstExit,
-    );
-    const [secondCoordinates, secondEndExit] = this.getEnd(
-      coordinates,
-      secondExit,
-    );
-
-    const src =
-      firstEndExit === TOWN
-        ? firstCoordinates
-        : firstCoordinates.neighbor(firstEndExit);
-    const dst =
-      secondEndExit === TOWN
-        ? secondCoordinates
-        : secondCoordinates.neighbor(secondEndExit);
-
-    if (firstEndExit !== TOWN && !(this.grid().get(src) instanceof City)) {
-      return undefined;
-    }
-    if (secondEndExit !== TOWN && !(this.grid().get(dst) instanceof City)) {
-      return undefined;
-    }
-    return [src, dst];
-  }
-
-  private getRoutesFromSpace(coordinates: Coordinates): RouteInfo[] {
-    const space = this.grid().get(coordinates);
-    assert(space !== undefined);
-    if (space instanceof City) {
-      return this.findRoutesFromCity(space);
-    } else {
-      return this.findRoutesFromTown(space);
-    }
-  }
-
-  private findRoutesFromTown(origin: Land): RouteInfo[] {
-    return origin
-      .getTrack()
-      .flatMap((track) => this.findRoutesFromTrack(track))
-      .filter((route) => !route.destination.equals(origin.coordinates));
-  }
-
-  private findRoutesFromCity(originCity: City): RouteInfo[] {
-    const grid = this.grid();
-    const allCities = grid.getSameCities(originCity);
-    return allCities.flatMap((originCity) =>
-      allDirections
-        .map((direction) =>
-          grid.getTrackConnection(originCity.coordinates, direction),
-        )
-        .filter(isNotNull)
-        .flatMap((connection) => {
-          return this.findRoutesFromTrack(connection).filter(
-            (route) => route.destination !== originCity.coordinates,
-          );
-        }),
-    );
-  }
-
-  private findRoutesFromTrack(startingTrack: Track): RouteInfo[] {
-    return startingTrack
-      .getExits()
-      .map((exit): RouteInfo | undefined => {
-        const [end, endExit] = this.grid().getEnd(startingTrack, exit);
-        if (endExit === TOWN) {
-          return {
-            type: "track",
-            destination: end,
-            startingTrack,
-            owner: startingTrack.getOwner(),
-          };
-        }
-        const next = this.grid().get(end.neighbor(endExit));
-        if (next instanceof City) {
-          return {
-            type: "track",
-            destination: next.coordinates,
-            startingTrack,
-            owner: startingTrack.getOwner(),
-          };
-        }
-        return undefined;
-      })
-      .filter(isNotNull);
-  }
-
   // Allow builds from an otherwise unconnected town to build a connection to a ferry link and then be considered connected
   protected newTrackExtendsPrevious(
     playerColor: PlayerColor,
@@ -269,8 +137,23 @@ export class DenmarkBuildValidator extends Validator {
 }
 
 export class DenmarkBuildAction extends BuildAction {
+  private readonly moveValidator = inject(MoveValidator);
+
   process(data: BuildData): boolean {
     const result = super.process(data);
+
+    // Validate that this build has not resulted in any player having multiple direct links between two locations
+    for (const space of this.grid().values()) {
+      if (space instanceof City || space.hasTown()) {
+        const routes = this.moveValidator.findRoutesFromLocation(
+          space.coordinates,
+        );
+        assert(!hasDuplicateOwnedRoute(routes), {
+          invalidInput:
+            "A player cannot have multiple direct routes between two locations",
+        });
+      }
+    }
 
     // When a player builds a ferry-link connection from a town, they do not get ownership of the track.
     // Unset the ownership on the built link if this is applicable.
@@ -292,4 +175,20 @@ export class DenmarkBuildAction extends BuildAction {
 
     return result;
   }
+}
+
+function hasDuplicateOwnedRoute(routes: RouteInfo[]): boolean {
+  for (let i = 0; i < routes.length; i++) {
+    const a = routes[i];
+    if (a.owner === undefined) {
+      continue;
+    }
+    for (let j = i + 1; j < routes.length; j++) {
+      const b = routes[j];
+      if (a.destination.equals(b.destination) && a.owner === b.owner) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
