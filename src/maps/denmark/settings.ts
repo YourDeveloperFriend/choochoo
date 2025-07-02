@@ -74,7 +74,7 @@ export class DenmarkMapSettings implements MapSettings {
     { connects: ["Nykøbing", "Warnemünde"], cost: 4, center: [15, 4] },
     { connects: ["Nykøbing", "Warnemünde"], cost: 6, center: [15, 3] },
   ]);
-  readonly stage = ReleaseStage.DEVELOPMENT;
+  readonly stage = ReleaseStage.ALPHA;
   readonly rotation = Rotation.CLOCKWISE;
 
   getOverrides() {
