@@ -17,15 +17,6 @@ import {
 } from "../../utils/point";
 import { TexturesProps } from "../view_settings";
 
-export function HeavyCardboardTextures(props: TexturesProps) {
-  return (
-    <>
-      <HeavyCardboardCity {...props} />
-      <HeavyCardboardRivers />
-    </>
-  );
-}
-
 function movePointInRadDirections(
   point: Point,
   ...directions: [number, number][]
@@ -49,7 +40,11 @@ function polygonFromDirections(
   return points;
 }
 
-function HeavyCardboardCity({ grid, size, clickTargets }: TexturesProps) {
+export function HeavyCardboardOverlayLayer({
+  grid,
+  size,
+  clickTargets,
+}: TexturesProps) {
   const city = useMemo(() => {
     return grid.cities().find((city) => city.data.mapSpecific?.center)!;
   }, [grid]);
@@ -111,7 +106,7 @@ function HeavyCardboardCity({ grid, size, clickTargets }: TexturesProps) {
   );
 }
 
-function HeavyCardboardRivers() {
+export function HeavyCardboardRivers() {
   return (
     <>
       <path

@@ -136,6 +136,7 @@ export function HexGrid({
   const terrainHexes = {
     beforeTextures: [] as ReactNode[][],
     afterTextures: [] as ReactNode[][],
+    afterOverlay: [] as ReactNode[][],
   };
   for (const space of spaces) {
     const isHighlighted = useMemo(
@@ -181,6 +182,7 @@ export function HexGrid({
 
     aggregate(terrainHexes.beforeTextures, newTerrainHexes.beforeTextures);
     aggregate(terrainHexes.afterTextures, newTerrainHexes.afterTextures);
+    aggregate(terrainHexes.afterOverlay, newTerrainHexes.afterOverlay);
 
     function aggregate<T>(outputArr: T[][], inputArr: T[]) {
       for (const [index, space] of inputArr.entries()) {
@@ -193,10 +195,18 @@ export function HexGrid({
   }
 
   let texturesLayer: ReactNode = null;
+  let overlayLayer: ReactNode = null;
   if (gameKey) {
     const mapSettings = ViewRegistry.singleton.get(gameKey);
     if (mapSettings.getTexturesLayer) {
       texturesLayer = mapSettings.getTexturesLayer({
+        size,
+        grid,
+        clickTargets,
+      });
+    }
+    if (mapSettings.getOverlayLayer) {
+      overlayLayer = mapSettings.getOverlayLayer({
         size,
         grid,
         clickTargets,
@@ -318,6 +328,8 @@ export function HexGrid({
               {terrainHexes.beforeTextures}
               {texturesLayer}
               {terrainHexes.afterTextures}
+              {overlayLayer}
+              {terrainHexes.afterOverlay}
               {grid.connections.map((connection, index) => (
                 <InterCityConnectionRender
                   key={index}

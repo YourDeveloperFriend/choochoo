@@ -33,6 +33,7 @@ export interface MapViewSettings extends MapSettings {
   getVariantString?(variant: VariantConfig): string[] | undefined;
   getMapRules(props: RulesProps): ReactElement;
   getTexturesLayer?(props: TexturesProps): ReactNode;
+  getOverlayLayer?(props: TexturesProps): ReactNode;
   getFinalOverviewRows?(): RowFactory[];
   getActionCaption?(action: Action): string[] | string | undefined;
   moveGoodsMessage?(): string | undefined;

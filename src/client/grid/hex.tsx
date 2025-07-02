@@ -104,6 +104,7 @@ const CITY_INNER_HEX_SIZE = 0.85;
 interface TerrainHexes {
   beforeTextures: ReactNode[];
   afterTextures: ReactNode[];
+  afterOverlay: ReactNode[];
 }
 
 export function getTerrainHexes(props: TerrainHexProps): TerrainHexes {
@@ -116,17 +117,12 @@ export function getTerrainHexes(props: TerrainHexProps): TerrainHexes {
       <BorderBoundaries key={key + "BorderBoundaries"} {...props} />,
       <TrackHex key={key + "TrackHex"} {...props} />,
       <UpperTerrainHex key={key + "UpperTerrainHex"} {...props} />,
-      <GoodsOnHex key={key + "GoodsOnHex"} {...props} />,
     ],
+    afterOverlay: [<GoodsOnHex key={key + "GoodsOnHex"} {...props} />],
   };
 }
 
-function LowerTerrainHex({
-  space,
-  size,
-  clickTargets,
-  rotation,
-}: TerrainHexProps) {
+function LowerTerrainHex({ space, size, clickTargets }: TerrainHexProps) {
   const coordinates = space.coordinates;
   const center = useMemo(
     () => coordinatesToCenter(coordinates, size),
@@ -180,61 +176,7 @@ function LowerTerrainHex({
       </>
     );
   } else {
-    const [hexColor, alternateColor] = cityColorStyles(space);
-
-    const cityGroup: CityGroup = space.onRoll()[0]?.group ?? CityGroup.WHITE;
-    // Determine the "outer fill" color, which is the thick border around cities indicating its goods-growth group color.
-    const outerFill = (() => {
-      if (cityGroup == CityGroup.WHITE) return "#ffffff";
-      return "#222222";
-    })();
-
-    const innerCorners = polygon(
-      getCorners(center, size * CITY_INNER_HEX_SIZE),
-    );
-
-    return (
-      <>
-        <polygon
-          className={`${clickable ? gridStyles.clickable : ""} ${hexColor}`}
-          data-coordinates={space.coordinates.serialize()}
-          points={corners}
-          fill={outerFill}
-          stroke="black"
-          strokeWidth="0"
-        />
-        <polygon
-          className={`${styles.city} ${hexColor}`}
-          data-coordinates={space.coordinates.serialize()}
-          points={innerCorners}
-          stroke="black"
-          strokeWidth="0"
-        />
-        {alternateColor && (
-          <HalfHex
-            center={center}
-            size={size * 0.85}
-            alternateColor={alternateColor}
-          />
-        )}
-        <polygon
-          fillOpacity="0"
-          data-coordinates={space.coordinates.toString()}
-          points={corners}
-          stroke="black"
-          strokeWidth={size / 100}
-        />
-        <OnRoll city={space} center={center} size={size} rotation={rotation} />
-        {space.name() != "" && (
-          <HexName
-            name={space.name()}
-            rotation={rotation}
-            center={center}
-            size={size}
-          />
-        )}
-      </>
-    );
+    return null;
   }
 }
 
@@ -271,6 +213,7 @@ function UpperTerrainHex({
   size,
   rotation,
   isHighlighted,
+  clickTargets,
 }: TerrainHexProps) {
   const coordinates = space.coordinates;
   const center = useMemo(
@@ -312,6 +255,12 @@ function UpperTerrainHex({
   } else {
     return (
       <>
+        <CityHex
+          city={space}
+          size={size}
+          clickable={clickTargets.has(ClickTarget.CITY)}
+          rotation={rotation}
+        />
         {isHighlighted && (
           <polygon
             fillOpacity="0"
@@ -331,6 +280,83 @@ interface TrackHexProps {
   size: number;
   highlightedTrack?: Track[];
   rotation?: Rotation;
+}
+
+function CityHex({
+  city,
+  size,
+  rotation,
+  clickable,
+}: {
+  city: City;
+  size: number;
+  rotation?: Rotation;
+  clickable: boolean;
+}) {
+  const coordinates = city.coordinates;
+  const center = useMemo(
+    () => coordinatesToCenter(coordinates, size),
+    [coordinates, size],
+  );
+
+  const corners = useMemo(
+    () => polygon(getCorners(center, size)),
+    [center, size],
+  );
+
+  const [hexColor, alternateColor] = cityColorStyles(city);
+
+  const cityGroup: CityGroup = city.onRoll()[0]?.group ?? CityGroup.WHITE;
+  // Determine the "outer fill" color, which is the thick border around cities indicating its goods-growth group color.
+  const outerFill = (() => {
+    if (cityGroup == CityGroup.WHITE) return "#ffffff";
+    return "#222222";
+  })();
+
+  const innerCorners = polygon(getCorners(center, size * CITY_INNER_HEX_SIZE));
+
+  return (
+    <>
+      <polygon
+        className={`${clickable ? gridStyles.clickable : ""} ${hexColor}`}
+        data-coordinates={city.coordinates.serialize()}
+        points={corners}
+        fill={outerFill}
+        stroke="black"
+        strokeWidth="0"
+      />
+      <polygon
+        className={`${styles.city} ${hexColor}`}
+        data-coordinates={city.coordinates.serialize()}
+        points={innerCorners}
+        stroke="black"
+        strokeWidth="0"
+      />
+      {alternateColor && (
+        <HalfHex
+          center={center}
+          size={size * 0.85}
+          alternateColor={alternateColor}
+        />
+      )}
+      <polygon
+        fillOpacity="0"
+        data-coordinates={city.coordinates.toString()}
+        points={corners}
+        stroke="black"
+        strokeWidth={size / 100}
+      />
+      <OnRoll city={city} center={center} size={size} rotation={rotation} />
+      {city.name() != "" && (
+        <HexName
+          name={city.name()}
+          rotation={rotation}
+          center={center}
+          size={size}
+        />
+      )}
+    </>
+  );
 }
 
 function TrackHex({ space, highlightedTrack, size, rotation }: TrackHexProps) {

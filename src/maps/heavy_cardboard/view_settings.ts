@@ -1,5 +1,5 @@
 import { MapViewSettings } from "../view_settings";
-import { HeavyCardboardTextures } from "./rivers";
+import { HeavyCardboardOverlayLayer, HeavyCardboardRivers } from "./rivers";
 import { HeavyCardboardRules } from "./rules";
 import { HeavyCardboardMapSettings } from "./settings";
 
@@ -8,5 +8,6 @@ export class HeavyCardboardViewSettings
   implements MapViewSettings
 {
   getMapRules = HeavyCardboardRules;
-  getTexturesLayer = HeavyCardboardTextures;
+  getTexturesLayer = HeavyCardboardRivers;
+  getOverlayLayer = HeavyCardboardOverlayLayer;
 }
