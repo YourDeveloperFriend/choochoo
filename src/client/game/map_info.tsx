@@ -2,6 +2,12 @@ import { GameKey } from "../../api/game_key";
 import { VariantConfig } from "../../api/variant_config";
 import { ViewRegistry } from "../../maps/view_registry";
 import { Username } from "../components/username";
+import { useMemo } from "react";
+import { Grid } from "../../engine/map/grid";
+import { HexGrid } from "../grid/hex_grid";
+import * as React from "react";
+import { useLocalStorage } from "../services/local_storage";
+import { River, RiverDots, RiverEditor, RiverPath } from "./river_editor";
 
 export function MapInfo({
   gameKey,
@@ -37,5 +43,55 @@ export function MapInfo({
       <h3>Rules</h3>
       <Rules variant={variant} />
     </div>
+  );
+}
+
+export function MapGridPreview({
+  gameKey,
+  showRiverEditor,
+}: {
+  gameKey: GameKey;
+  showRiverEditor?: boolean;
+}) {
+  const [riverPath, setRiverPath] = useLocalStorage<RiverPath | undefined>(
+    "riverPath",
+  );
+
+  const selectedMap = useMemo(() => {
+    return ViewRegistry.singleton.get(gameKey);
+  }, [gameKey]);
+
+  const grid = useMemo(() => {
+    return Grid.fromData(
+      selectedMap,
+      selectedMap.startingGrid,
+      selectedMap.interCityConnections ?? [],
+    );
+  }, [selectedMap]);
+
+  if (!grid) {
+    return null;
+  }
+
+  return (
+    <>
+      {showRiverEditor && (
+        <RiverEditor path={riverPath} setRiverPath={setRiverPath} />
+      )}
+      <HexGrid
+        key={gameKey}
+        gameKey={gameKey}
+        rotation={selectedMap.rotation}
+        grid={grid}
+        fullMapVersion={true}
+      >
+        {showRiverEditor && (
+          <>
+            <River path={riverPath} />
+            <RiverDots path={riverPath} setRiverPath={setRiverPath} />
+          </>
+        )}
+      </HexGrid>
+    </>
   );
 }
