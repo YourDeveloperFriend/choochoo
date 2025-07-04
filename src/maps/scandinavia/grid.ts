@@ -36,8 +36,9 @@ function coastal<T>(data: T): T & { mapSpecific: ScandinaviaMapData } {
 
 export const map = startsLowerGrid<SpaceData>([
   [
-    UNPASSABLE,
-    town("Söderhamn"),
+    WATER,
+    WATER,
+    coastal(town("Söderhamn")),
     PLAIN,
     PLAIN,
     ...duplicate(3, MOUNTAIN),
@@ -46,15 +47,27 @@ export const map = startsLowerGrid<SpaceData>([
     MOUNTAIN,
   ],
   [
-    UNPASSABLE,
-    UNPASSABLE,
+    WATER,
+    WATER,
+    WATER,
     PLAIN,
     PLAIN,
     { ...PLAIN, unpassableEdges: [TOP, TOP_LEFT] },
     ...duplicate(6, MOUNTAIN),
   ],
-  [PLAIN, RIVER, PLAIN, RIVER, PLAIN, PLAIN, RIVER, ...duplicate(3, MOUNTAIN)],
   [
+    WATER,
+    PLAIN,
+    RIVER,
+    PLAIN,
+    RIVER,
+    PLAIN,
+    PLAIN,
+    RIVER,
+    ...duplicate(3, MOUNTAIN),
+  ],
+  [
+    WATER,
     PLAIN,
     city("Uppsala", BLUE, white(1)),
     ...duplicate(4, RIVER),
@@ -65,6 +78,7 @@ export const map = startsLowerGrid<SpaceData>([
     MOUNTAIN,
   ],
   [
+    WATER,
     RIVER,
     RIVER,
     { ...PLAIN, unpassableEdges: [TOP_RIGHT, BOTTOM_RIGHT] },
@@ -77,6 +91,7 @@ export const map = startsLowerGrid<SpaceData>([
     MOUNTAIN,
   ],
   [
+    WATER,
     coastal(city("Stockholm", YELLOW, white(3))),
     ...duplicate(4, PLAIN),
     WATER,
@@ -87,6 +102,7 @@ export const map = startsLowerGrid<SpaceData>([
     MOUNTAIN,
   ],
   [
+    WATER,
     WATER,
     PLAIN,
     town("Norrköping"),
@@ -101,6 +117,7 @@ export const map = startsLowerGrid<SpaceData>([
   [
     WATER,
     WATER,
+    WATER,
     PLAIN,
     PLAIN,
     WATER,
@@ -111,6 +128,7 @@ export const map = startsLowerGrid<SpaceData>([
     WATER,
   ],
   [
+    WATER,
     WATER,
     ...duplicate(5, PLAIN),
     coastal(city("Göteborg", YELLOW, white(6))),
@@ -125,6 +143,7 @@ export const map = startsLowerGrid<SpaceData>([
     WATER,
   ],
   [
+    WATER,
     coastal(town("Visby")),
     WATER,
     ...duplicate(5, PLAIN),
@@ -135,6 +154,7 @@ export const map = startsLowerGrid<SpaceData>([
     WATER,
   ],
   [
+    WATER,
     PLAIN,
     WATER,
     PLAIN,
@@ -150,6 +170,7 @@ export const map = startsLowerGrid<SpaceData>([
   [
     WATER,
     WATER,
+    WATER,
     coastal(town("Kalmar")),
     PLAIN,
     PLAIN,
@@ -162,7 +183,7 @@ export const map = startsLowerGrid<SpaceData>([
     WATER,
   ],
   [
-    ...duplicate(4, WATER),
+    ...duplicate(5, WATER),
     PLAIN,
     bridge({
       tile: {
@@ -182,7 +203,7 @@ export const map = startsLowerGrid<SpaceData>([
     WATER,
   ],
   [
-    ...duplicate(4, WATER),
+    ...duplicate(5, WATER),
     PLAIN,
     coastal(town("Malmö")),
     WATER,
@@ -193,7 +214,7 @@ export const map = startsLowerGrid<SpaceData>([
     WATER,
   ],
   [
-    ...duplicate(4, WATER),
+    ...duplicate(5, WATER),
     bridge({
       tile: {
         ...startFrom(BOTTOM_LEFT).straightAcross(),
@@ -207,6 +228,7 @@ export const map = startsLowerGrid<SpaceData>([
     WATER,
   ],
   [
+    WATER,
     coastal(city("Gdansk", RED, black(4))),
     PLAIN,
     WATER,
@@ -224,6 +246,7 @@ export const map = startsLowerGrid<SpaceData>([
     WATER,
   ],
   [
+    WATER,
     ...duplicate(3, PLAIN),
     WATER,
     bridge({
@@ -239,6 +262,7 @@ export const map = startsLowerGrid<SpaceData>([
     WATER,
   ],
   [
+    UNPASSABLE,
     ...duplicate(4, PLAIN),
     coastal(city("Szczecin", PURPLE, black(6))),
     ...duplicate(4, PLAIN),

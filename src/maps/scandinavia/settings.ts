@@ -17,6 +17,7 @@ import {
   ScandinaviaMoveValidator,
 } from "./ferry";
 import { map } from "./grid";
+import { ScandinaviaBuildPhase, ScandinaviaClaimAction } from "./claim_once";
 
 export class ScandinaviaMapSettings implements MapSettings {
   readonly key = GameKey.SCANDINAVIA;
@@ -35,6 +36,8 @@ export class ScandinaviaMapSettings implements MapSettings {
       ScandinaviaMoveHelper,
       ScandinaviaMoveAction,
       ScandinaviaMovePhase,
+      ScandinaviaClaimAction,
+      ScandinaviaBuildPhase,
     ];
   }
 

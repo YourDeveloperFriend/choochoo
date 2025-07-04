@@ -6,7 +6,7 @@ export function ScandinaviaRules() {
         <li>
           <b>Sea Routes:</b> can be claimed for $6 and counts as a build. They
           can only be claimed if both ends have a city (i.e. have been
-          urbanized).
+          urbanized). Only one sea route can be claimed per turn.
         </li>
         <li>
           <b>Game ends:</b> one turn earlier.
