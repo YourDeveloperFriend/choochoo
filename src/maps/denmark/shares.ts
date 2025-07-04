@@ -5,9 +5,9 @@ import {
 } from "../../engine/shares/take_shares";
 
 export class DenmarkShareHelper extends ShareHelper {
-  getMaxShares(): number {
-    // There is no limit to how many shares a player can take
-    return Infinity;
+  getSharesTheyCanTake(): number {
+    // Players can take shares until the limit of hitting -15 income.
+    return this.currentPlayer().income + 15;
   }
 }
 

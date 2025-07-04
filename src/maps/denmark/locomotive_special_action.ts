@@ -12,13 +12,12 @@ import { getNextAvailableLinkValue } from "./loco";
 
 export class DenmarkMoveHelper extends MoveHelper {
   private readonly players = injectInGamePlayers();
-  private readonly currentPlayer = injectCurrentPlayer();
   private readonly phase = injectState(PHASE);
 
   getLocomotiveDisplay(player: PlayerData): string {
     if (this.canUseLoco(player)) {
-      const effectiveLink = this.getLocoLinkValue();
-      const currentLink = this.currentPlayer().locomotive;
+      const effectiveLink = this.getLocoLinkValue(player);
+      const currentLink = player.locomotive;
       return `${player.locomotive} (+${effectiveLink - currentLink})`;
     }
     return super.getLocomotiveDisplay(player);
@@ -26,7 +25,7 @@ export class DenmarkMoveHelper extends MoveHelper {
 
   getLocomotive(player: PlayerData): number {
     if (this.canUseLoco(player)) {
-      return this.getLocoLinkValue();
+      return this.getLocoLinkValue(player);
     }
     return super.getLocomotive(player);
   }
@@ -42,7 +41,7 @@ export class DenmarkMoveHelper extends MoveHelper {
     }
   }
 
-  private getLocoLinkValue() {
-    return getNextAvailableLinkValue(this.currentPlayer(), this.players());
+  private getLocoLinkValue(player: PlayerData) {
+    return getNextAvailableLinkValue(player, this.players());
   }
 }
