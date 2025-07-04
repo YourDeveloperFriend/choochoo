@@ -187,7 +187,7 @@ export const map = startsLowerGrid<SpaceData>([
     coastal(town("Malmö")),
     WATER,
     { ...PLAIN, unpassableEdges: [BOTTOM] },
-    city("Odense", YELLOW, black(3)),
+    coastal(city("Odense", YELLOW, black(3))),
     { ...PLAIN, unpassableEdges: [TOP] },
     coastal(town("Flensburg")),
     WATER,
