@@ -255,6 +255,10 @@ export function inTheLead(game: GameDao): number[] {
   return EngineDelegator.singleton.inTheLead(game.toLimitedGame());
 }
 
+export function remainingPlayers(game: GameDao): number[] {
+  return EngineDelegator.singleton.remainingPlayers(game.toLimitedGame());
+}
+
 Lifecycle.singleton.onStart(() => {
   GameDao.hooks.addListener(
     "afterSave",

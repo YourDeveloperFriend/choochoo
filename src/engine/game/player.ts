@@ -37,8 +37,12 @@ export class PlayerHelper {
     return this.getPlayersRemaining() <= checkFor;
   }
 
+  getRemainingPlayers(): PlayerData[] {
+    return this.players().filter((p) => p.outOfGame !== true);
+  }
+
   getPlayersRemaining(): number {
-    return this.players().filter((p) => p.outOfGame !== true).length;
+    return this.getRemainingPlayers().length;
   }
 
   isSoloGame(): boolean {

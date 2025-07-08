@@ -66,6 +66,10 @@ export class EngineDelegator {
   inTheLead(game: LimitedGame): number[] {
     return this.getEngine(game.gameKey).inTheLead(game);
   }
+
+  remainingPlayers(game: LimitedGame): number[] {
+    return this.getEngine(game.gameKey).remainingPlayers(game);
+  }
 }
 
 interface StartProps {
@@ -144,6 +148,14 @@ export class EngineProcessor {
       return this.playerHelper
         .getPlayersOrderedByScore()[0]
         .map(({ playerId }) => playerId);
+    });
+  }
+
+  remainingPlayers(game: LimitedGame): number[] {
+    return this.process(game, () => {
+      return this.playerHelper
+        .getRemainingPlayers()
+        .map((player) => player.playerId);
     });
   }
 
