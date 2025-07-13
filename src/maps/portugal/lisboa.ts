@@ -8,6 +8,8 @@ import { BuildPhase } from "../../engine/build/phase";
 import { Validator, InvalidBuildReason } from "../../engine/build/validator";
 import { BOTTOM, Direction } from "../../engine/state/tile";
 import { MoveValidator, RouteInfo } from "../../engine/move/validator";
+import { PlayerColor } from "../../engine/state/player";
+import { DanglerInfo } from "../../engine/map/grid";
 import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
 import { injectState } from "../../engine/framework/execution_context";
 import { Key } from "../../engine/framework/key";
@@ -103,7 +105,8 @@ export class LisboaConnectAction extends ConnectCitiesAction {
 
 export class PortugalValidator extends Validator {
   protected connectionAllowed(land: Land, exit: Direction): InvalidBuildReason|undefined {
-    if ((land.name() === "Sagres" || land.name() === "Sines")
+    if (
+      (land.name() === "Sagres" || land.name() === "Sines")
       && land.hasTown()
       && exit === BOTTOM 
     )  { return undefined }
@@ -124,8 +127,10 @@ export class PortugalMoveValidator extends MoveValidator {
         const otherEnd = grid.get(
           connection.connects.find((c) => !location.coordinates.equals(c))!,
         ) as City;
-        if (location.name() === "Sagres" || location.name() === "Sines"
-            && location.hasTown()) {
+        if (
+            (isLisboa(otherEnd) || otherEnd.name() === "Madeira") &&
+            (location.name() === "Sagres" || location.name() === "Sines") && 
+            location.hasTown()) {
           return [
             {
               type: "connection",
@@ -137,6 +142,56 @@ export class PortugalMoveValidator extends MoveValidator {
         }
         return [];
       });
+  }
+
+  protected getAdditionalRoutesFromCity(location: City): RouteInfo[] {
+    const grid = this.grid();
+    return grid.connections
+      .filter((connection) =>
+        connection.connects.some((c) => c.equals(location.coordinates)),
+      )
+      .filter((connection) => connection.owner != null)
+      .flatMap((connection) => {
+        const otherEnd = grid.get(
+          connection.connects.find((c) => !location.coordinates.equals(c))!,
+        ) as Land;
+        if (
+            (isLisboa(location) || location.name() === "Madeira") &&
+            (otherEnd.name() === "Sagres" || otherEnd.name() === "Sines") && 
+            otherEnd.hasTown()) {
+          return [
+            {
+              type: "connection",
+              destination: otherEnd.coordinates,
+              connection: connection as OwnedInterCityConnection,
+              owner: connection.owner!.color,
+            },
+          ];
+        }
+        return [];
+      });
+  }
+}
+
+export class PortugalBuildPhase extends BuildPhase {
+  getDanglersAsInfo(color?: PlayerColor): DanglerInfo[] {
+    return this.grid().getDanglers(color)
+    .filter((track) => {
+      if (
+        //Sines
+        ((track.coordinates.q === 14 && track.coordinates.r === 7) ||
+        //Sagres
+        (track.coordinates.q === 17 && track.coordinates.r === 6)) &&
+        this.grid().getImmovableExitReference(track)=== BOTTOM
+      ) { return false };
+
+      return true;
+    })
+    .map((track) => ({
+      coordinates: track.coordinates,
+      immovableExit: this.grid().getImmovableExitReference(track),
+      length: this.grid().getRoute(track).length,
+    }));
   }
 }
 
