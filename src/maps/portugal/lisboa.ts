@@ -5,6 +5,8 @@ import {
   ConnectCitiesData,
 } from "../../engine/build/connect_cities";
 import { BuildPhase } from "../../engine/build/phase";
+import { Validator, InvalidBuildReason } from "../../engine/build/validator";
+import { BOTTOM, Direction } from "../../engine/state/tile";
 import { injectState } from "../../engine/framework/execution_context";
 import { Key } from "../../engine/framework/key";
 import { City } from "../../engine/map/city";
@@ -73,6 +75,9 @@ export class LisboaBuildAction extends BuildAction {
 export class LisboaConnectAction extends ConnectCitiesAction {
   private readonly connected = injectState(CONNECTED_TO_LISBOA);
 
+  protected validateUrbanizedCities(): void {
+  }
+
   validate(data: ConnectCitiesData): void {
     super.validate(data);
     // Only one connection out of Lisboa can be built per turn, per player.
@@ -91,6 +96,17 @@ export class LisboaConnectAction extends ConnectCitiesAction {
     return connection.connects
       .map((coordinates) => this.grid().get(coordinates))
       .some(isLisboa);
+  }
+}
+
+export class PortugalValidator extends Validator {
+  protected connectionAllowed(land: Land, exit: Direction): InvalidBuildReason|undefined {
+    if ((land.name() === "Sagres" || land.name() === "Sines")
+      && land.hasTown()
+      && exit === BOTTOM 
+    )  { return undefined }
+
+    return super.connectionAllowed(land, exit);
   }
 }
 

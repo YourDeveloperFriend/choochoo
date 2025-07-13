@@ -14,6 +14,7 @@ import {
   LisboaBuildAction,
   LisboaBuildPhase,
   LisboaConnectAction,
+  PortugalValidator,
 } from "./lisboa";
 
 export class PortugalMapSettings implements MapSettings {
@@ -64,6 +65,7 @@ export class PortugalMapSettings implements MapSettings {
       LisboaBuildPhase,
       LisboaConnectAction,
       PortugalGoodsGrowthPhase,
+      PortugalValidator,
     ];
   }
 
