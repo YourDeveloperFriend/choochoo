@@ -7,6 +7,8 @@ import {
 import { BuildPhase } from "../../engine/build/phase";
 import { Validator, InvalidBuildReason } from "../../engine/build/validator";
 import { BOTTOM, Direction } from "../../engine/state/tile";
+import { MoveValidator, RouteInfo } from "../../engine/move/validator";
+import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
 import { injectState } from "../../engine/framework/execution_context";
 import { Key } from "../../engine/framework/key";
 import { City } from "../../engine/map/city";
@@ -107,6 +109,34 @@ export class PortugalValidator extends Validator {
     )  { return undefined }
 
     return super.connectionAllowed(land, exit);
+  }
+}
+
+export class PortugalMoveValidator extends MoveValidator {
+  protected getAdditionalRoutesFromLand(location: Land): RouteInfo[] {
+    const grid = this.grid();
+    return grid.connections
+      .filter((connection) =>
+        connection.connects.some((c) => c.equals(location.coordinates)),
+      )
+      .filter((connection) => connection.owner != null)
+      .flatMap((connection) => {
+        const otherEnd = grid.get(
+          connection.connects.find((c) => !location.coordinates.equals(c))!,
+        ) as City;
+        if (location.name() === "Sagres" || location.name() === "Sines"
+            && location.hasTown()) {
+          return [
+            {
+              type: "connection",
+              destination: otherEnd.coordinates,
+              connection: connection as OwnedInterCityConnection,
+              owner: connection.owner!.color,
+            },
+          ];
+        }
+        return [];
+      });
   }
 }
 
