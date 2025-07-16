@@ -12,7 +12,7 @@ import {
 import { MoveAction, MoveData } from "../../engine/move/move";
 import { GoodsHelper } from "../../engine/goods_growth/helper";
 import { Good, goodToString } from "../../engine/state/good";
-import { Grid } from "../../engine/map/grid";
+import { Space } from "../../engine/map/grid";
 
 export class InstantProductionModule extends Module {
   installMixins() {
@@ -60,24 +60,42 @@ function moveActionMixin(
       super.process(action);
 
       const grid = this.grid();
-      if (hasStartingTown(grid, action)) {
-        // Automatically apply instant production since there is no choice
+      const start = grid.get(action.startingCity);
+      const end = grid.get(action.path[action.path.length - 1].endingStop);
+
+      const startCanInstantProduction = isInstantProductionTarget(start);
+      const endCanInstantProduction = isInstantProductionTarget(end);
+
+      // If neither side can instant production, just end the turn; no instant production
+      if (!startCanInstantProduction && !endCanInstantProduction) {
+        return true;
+      }
+
+      // If exactly one side can instant production, just apply it since there is no choice
+      if (startCanInstantProduction && !endCanInstantProduction) {
         applyInstantProduction(
           this.gridHelper,
           this.goodsHelper,
           this.log,
-          action.path[action.path.length - 1].endingStop,
+          start!.coordinates,
+        );
+        return true;
+      }
+      if (!startCanInstantProduction && endCanInstantProduction) {
+        applyInstantProduction(
+          this.gridHelper,
+          this.goodsHelper,
+          this.log,
+          end!.coordinates,
         );
         return true;
       }
 
-      // Configure the instant production state so that the InstantProductionAction can then be emitted
-      const start = grid.get(action.startingCity);
+      // Both sides are valid targets, so present the choice on where to apply it
       assert(start instanceof City);
-      const end = grid.get(action.path[action.path.length - 1].endingStop);
       assert(end instanceof City);
       let drawnCube: Good | undefined;
-      if (!hasGoodsGrowth(start) && !hasGoodsGrowth(end)) {
+      if (!hasGoodsGrowthCube(start) && !hasGoodsGrowthCube(end)) {
         drawnCube = this.goodsHelper.drawGood();
         this.log.log(
           `A ${goodToString(drawnCube)} was drawn for instant production.`,
@@ -94,12 +112,21 @@ function moveActionMixin(
   };
 }
 
-function hasStartingTown(grid: Grid, moveData: MoveData): boolean {
-  const start = grid.get(moveData.startingCity);
-  return !(start instanceof City);
+function isInstantProductionTarget(space: Space | undefined): boolean {
+  if (space === undefined) {
+    return false;
+  }
+  if (space instanceof City) {
+    const onRoll = space.onRoll();
+    if (onRoll.length === 0) {
+      return false;
+    }
+    return true;
+  }
+  return false;
 }
 
-function hasGoodsGrowth(city: City): boolean {
+function hasGoodsGrowthCube(city: City): boolean {
   const onRolls = city.onRoll();
   for (const onRoll of onRolls) {
     for (const good of onRoll.goods) {
