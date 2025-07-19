@@ -63,9 +63,7 @@ export class GridHelper {
     });
   }
 
-  addInterCityConnection(
-    connection: InterCityConnection,
-  ): void {
+  addInterCityConnection(connection: InterCityConnection): void {
     this.interCityConnections.update((connections) => {
       connections.push(connection);
     });

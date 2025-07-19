@@ -1,5 +1,9 @@
 import { GameKey } from "../../api/game_key";
-import { KAOSKODY, MapSettings, ReleaseStage } from "../../engine/game/map_settings";
+import {
+  KAOSKODY,
+  MapSettings,
+  ReleaseStage,
+} from "../../engine/game/map_settings";
 import { Module } from "../../engine/module/module";
 import { EngineerFreeBuildModule } from "../../modules/engineer_free_build";
 import { UrbanizationUsesBuildModule } from "../../modules/urbanization_uses_build";

@@ -24,6 +24,10 @@ export const FIRE: LandData = {
   type: SpaceType.FIRE,
 };
 
+export const SWAMP: LandData = {
+  type: SpaceType.SWAMP,
+};
+
 export function plain(data: Omit<LandData, "type">): LandData {
   return { ...data, type: SpaceType.PLAIN };
 }
@@ -48,6 +52,10 @@ export const MOUNTAIN: LandData = {
 
 export const RIVER_MOUNTAIN: LandData = {
   type: SpaceType.RIVER_MOUNTAIN,
+};
+
+export const DARK_MOUNTAIN: LandData = {
+  type: SpaceType.DARK_MOUNTAIN,
 };
 
 export function black(onRoll: OnRoll): OnRollData {

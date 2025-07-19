@@ -68,6 +68,16 @@ export class GoodsHelper {
     });
   }
 
+  addGoodToCity(coordinates: Coordinates, good: Good): void {
+    this.grid.update(coordinates, (location) => {
+      assert(location.type === SpaceType.CITY);
+      this.log.log(
+        `A ${goodToString(good)} good is added to ${this.grid.displayName(coordinates)}`,
+      );
+      location.goods.push(good);
+    });
+  }
+
   drawGood(): Good {
     const [good] = this.drawGoods(1);
     return good;
