@@ -63,30 +63,20 @@ function moveActionMixin(
       const start = grid.get(action.startingCity);
       const end = grid.get(action.path[action.path.length - 1].endingStop);
 
-      const startCanInstantProduction = isInstantProductionTarget(start);
-      const endCanInstantProduction = isInstantProductionTarget(end);
+      const validTargets = [start, end].filter(isInstantProductionTarget);
 
       // If neither side can instant production, just end the turn; no instant production
-      if (!startCanInstantProduction && !endCanInstantProduction) {
+      if (validTargets.length === 0) {
         return true;
       }
 
       // If exactly one side can instant production, just apply it since there is no choice
-      if (startCanInstantProduction && !endCanInstantProduction) {
+      if (validTargets.length === 1) {
         applyInstantProduction(
           this.gridHelper,
           this.goodsHelper,
           this.log,
-          start!.coordinates,
-        );
-        return true;
-      }
-      if (!startCanInstantProduction && endCanInstantProduction) {
-        applyInstantProduction(
-          this.gridHelper,
-          this.goodsHelper,
-          this.log,
-          end!.coordinates,
+          validTargets[0]!.coordinates,
         );
         return true;
       }
