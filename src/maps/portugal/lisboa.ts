@@ -23,19 +23,6 @@ const CONNECTED_TO_LISBOA = new Key("connectedToLisboa", {
   parse: z.boolean().parse,
 });
 
-export class LisboaBuildPhase extends BuildPhase {
-  private readonly connected = injectState(CONNECTED_TO_LISBOA);
-  onStartTurn(): void {
-    super.onStartTurn();
-    this.connected.initState(false);
-  }
-
-  onEndTurn(): void {
-    this.connected.delete();
-    super.onEndTurn();
-  }
-}
-
 export class LisboaBuildAction extends BuildAction {
   private readonly connected = injectState(CONNECTED_TO_LISBOA);
 
@@ -174,6 +161,17 @@ export class PortugalMoveValidator extends MoveValidator {
 }
 
 export class PortugalBuildPhase extends BuildPhase {
+  private readonly connected = injectState(CONNECTED_TO_LISBOA);
+  onStartTurn(): void {
+    super.onStartTurn();
+    this.connected.initState(false);
+  }
+
+  onEndTurn(): void {
+    this.connected.delete();
+    super.onEndTurn();
+  }
+
   getDanglersAsInfo(color?: PlayerColor): DanglerInfo[] {
     return this.grid().getDanglers(color)
     .filter((track) => {

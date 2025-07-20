@@ -12,7 +12,6 @@ import { PortugalGoodsGrowthPhase } from "./goods";
 import { map } from "./grid";
 import {
   LisboaBuildAction,
-  LisboaBuildPhase,
   LisboaConnectAction,
   PortugalValidator,
   PortugalMoveValidator,
@@ -64,7 +63,6 @@ export class PortugalMapSettings implements MapSettings {
   getOverrides() {
     return [
       LisboaBuildAction,
-      LisboaBuildPhase,
       LisboaConnectAction,
       PortugalGoodsGrowthPhase,
       PortugalValidator,
