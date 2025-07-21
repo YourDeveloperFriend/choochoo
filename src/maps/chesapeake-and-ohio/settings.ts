@@ -22,6 +22,7 @@ import { map } from "./grid";
 import { ChesapeakeAndOhioPhaseEngine } from "./phase";
 import { ChesapeakeAndOhioStarter } from "./starter";
 import { ChesapeakeAndOhioUrbanizeAction } from "./urbanize";
+import { ChesapeakeAndOhioMoveInterceptor } from "./move_interceptor";
 
 export class ChesapeakeAndOhioMapSettings implements MapSettings {
   static readonly key = GameKey.CHESAPEAKE_AND_OHIO;
@@ -49,6 +50,7 @@ export class ChesapeakeAndOhioMapSettings implements MapSettings {
       ChesapeakeAndOhioLocoAction,
       ChesapeakeAndOhioActionNamingProvider,
       ChesapeakeAndOhioMoveValidator,
+      ChesapeakeAndOhioMoveInterceptor,
     ];
   }
 }

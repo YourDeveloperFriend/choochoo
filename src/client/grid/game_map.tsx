@@ -94,15 +94,12 @@ function confirmDeliveryCb(
     if (moveAction == null) return;
     const endingStop = grid.get(peek(moveAction.path).endingStop) as City;
     if (maybeInterceptMove(moveAction, endingStop.name())) return;
-    const income = moveInstance.value.calculateIncome(moveAction);
-    const counts = [...income]
-      .filter(([a]) => a != null)
-      .map(
-        ([owner, income]) =>
-          `${owner === player ? "you" : playerColorToString(owner)} ${income} income`,
-      );
-    const countsStr = counts.length > 0 ? counts.join(", ") : "zero income";
-    const message = `Deliver to ${endingStop.name()}? This will give ${countsStr}.`;
+    const message = getConfirmDeliveryMessage(
+      player,
+      moveAction,
+      grid,
+      moveInstance.value,
+    );
     confirm(message, {
       confirmButton: "Confirm Delivery",
       cancelButton: "Cancel",
@@ -114,6 +111,24 @@ function confirmDeliveryCb(
       });
     });
   };
+}
+
+export function getConfirmDeliveryMessage(
+  player: PlayerColor | undefined,
+  moveAction: MoveData,
+  grid: Grid,
+  moveInstance: MoveAction,
+) {
+  const endingStop = grid.get(peek(moveAction.path).endingStop) as City;
+  const income = moveInstance.calculateIncome(moveAction);
+  const counts = [...income]
+    .filter(([a]) => a != null)
+    .map(
+      ([owner, income]) =>
+        `${owner === player ? "you" : playerColorToString(owner)} ${income} income`,
+    );
+  const countsStr = counts.length > 0 ? counts.join(", ") : "zero income";
+  return `Deliver to ${endingStop.name()}? This will give ${countsStr}.`;
 }
 
 function getConfirmDeliveryCity(
