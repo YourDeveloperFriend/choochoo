@@ -12,6 +12,23 @@ Special thanks to all the [contributors](https://github.com/YourDeveloperFriend/
 
 Please submit [issues](https://github.com/YourDeveloperFriend/choochoo/issues) and [pull requests](https://github.com/YourDeveloperFriend/choochoo/pulls).
 
+### Quick Start with Docker Compose (Recommended)
+
+The easiest way to get started is using Docker Compose. This will start the service and watch for changes.
+
+```bash
+docker-compose up --watch
+```
+
+Visit http://localhost:3001 to see the application.
+
+**Note:** 
+- If you encounter port conflicts, check for existing services with `lsof -i :PORT_NUMBER`
+
+### Manual Setup
+
+Alternatively, you can set up services manually.
+
 To run locally, you should start a local postgres and redis instance.
 With docker you can run:
 
@@ -31,4 +48,3 @@ export SESSION_SECRET=foobar
 
 Apply database migrations with `npm run migrate`.
 You can then start up a server with `npm run dev`.
-
