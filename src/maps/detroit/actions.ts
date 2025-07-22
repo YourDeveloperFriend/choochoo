@@ -67,6 +67,14 @@ export class DetroitSelectAction extends SelectAction {
 export class DetroitSelectActionPhase extends SelectActionPhase {
   configureActions() {
     super.configureActions();
-    this.installAction(SkipAction);
+    this.installAction(DetroitSkipAction);
+  }
+}
+
+export class DetroitSkipAction extends SkipAction {
+  private readonly playerCount = injectInitialPlayerCount();
+
+  canEmit(): boolean {
+    return this.playerCount() === 1;
   }
 }

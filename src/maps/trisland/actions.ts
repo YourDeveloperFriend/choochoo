@@ -1,10 +1,12 @@
 import z from "zod";
 import { DoneAction } from "../../engine/build/done";
-import { injectState } from "../../engine/framework/execution_context";
+import { inject, injectState } from "../../engine/framework/execution_context";
 import { Key } from "../../engine/framework/key";
+import { Log } from "../../engine/game/log";
 import { injectCurrentPlayer } from "../../engine/game/state";
 import { PassAction } from "../../engine/goods_growth/pass";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
+import { SelectActionPhase } from "../../engine/select_action/phase";
 import { SelectAction, SelectData } from "../../engine/select_action/select";
 import { Action, ActionZod } from "../../engine/state/action";
 import { PlayerColorZod } from "../../engine/state/player";
@@ -38,6 +40,19 @@ export class TrislandAvailableActions extends AllowedActions {
       return "no more tokens remaining to select this action";
     }
     return undefined;
+  }
+}
+
+export class TrislandSelectActionPhase extends SelectActionPhase {
+  private readonly log = inject(Log);
+  checkSkipTurn(): boolean {
+    if (this.allowedActions.getAvailableActions().size === 0) {
+      this.log.currentPlayer(
+        "forgoes action selection because there are no available actions",
+      );
+      return true;
+    }
+    return false;
   }
 }
 

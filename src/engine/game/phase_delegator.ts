@@ -37,6 +37,10 @@ export class PhaseDelegator {
 
   install(ctor: PhaseConstructor): void {
     const phase = inject(ctor);
+    assert(
+      !this.phases.has(ctor.phase),
+      `duplicate installs of phase key ctor=${ctor.name} phase=${ctor.phase}`,
+    );
     phase.configureActions();
     this.phases.set(ctor.phase, phase);
   }

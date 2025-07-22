@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { ListUsersApi, UserApi, UserPageCursor } from "../../api/user";
+import { ImmutableMap } from "../../utils/immutable";
 import { tsr } from "./client";
 import { handleError } from "./network";
 
@@ -41,8 +42,8 @@ export function useUsers(userIds: number[]): Array<UserApi | undefined> {
   }, [userIds, data]);
 }
 
-export function useUserList() {
-  const queryWithLimit: ListUsersApi = { pageSize: 20 };
+export function useUserList(query: ListUsersApi) {
+  const queryWithLimit: ListUsersApi = { pageSize: 20, ...query };
   const queryKeyFromFilter = Object.entries(queryWithLimit)
     .sort((a, b) => (a[0] > b[0] ? 1 : -1))
     .map(([key, value]) => `${key}:${value}`)
@@ -63,7 +64,18 @@ export function useUserList() {
 
   handleError(isLoading, error);
 
-  const [page, setPage] = useState(0);
+  const [pageN, setPageN] = useState(ImmutableMap<string, number>());
+
+  const page = useMemo(
+    () => pageN.get(queryKeyFromFilter) ?? 0,
+    [pageN, queryKeyFromFilter],
+  );
+  const setPage = useCallback(
+    (page: number) => {
+      setPageN((prev) => prev.set(queryKeyFromFilter, page));
+    },
+    [queryKeyFromFilter, setPageN],
+  );
 
   const users = data?.pages[page]?.body.users;
 

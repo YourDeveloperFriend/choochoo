@@ -244,7 +244,7 @@ function UpperTerrainHex({
             rotation={rotation}
           />
         )}
-        {space.hasTown() && (
+        {(space.name()?.length ?? 0) > 0 && (
           <HexName
             name={space.name()!}
             rotation={rotation}

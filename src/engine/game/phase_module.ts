@@ -87,7 +87,9 @@ export class PhaseModule {
 
   onEndTurn(): void {}
 
-  checkSkipTurn(): void {}
+  checkSkipTurn(): boolean {
+    return false;
+  }
 
   getFirstPlayer(): PlayerColor | undefined {
     return this.getPlayerOrder()[0];

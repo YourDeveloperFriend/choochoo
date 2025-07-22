@@ -33,6 +33,7 @@ import {
 } from "../../api/notifications";
 import { MyUserApi } from "../../api/user";
 import { Loading } from "../components/loading";
+import { LoginButton } from "../game/login_button";
 import { GameList } from "../home/game_list";
 import { useMe } from "../services/me";
 import { useNotificationPreferences } from "../services/notifications/preferences";
@@ -368,6 +369,9 @@ function UserProfile({ userId }: { userId: number }) {
       <Segment>
         <p>Username: {user.username}</p>
         <p># Abandons: {user.abandons}</p>
+        <p>
+          <LoginButton playerId={user.id}>Switch to user</LoginButton>
+        </p>
       </Segment>
       <UserGameList userId={userId} />
     </Container>

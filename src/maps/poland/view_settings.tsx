@@ -1,11 +1,11 @@
 import { ClickTarget, OnClickRegister } from "../../client/grid/click_target";
 import { useAction } from "../../client/services/action";
-import { MapViewSettings } from "../view_settings";
-import { PolandMapSettings } from "./settings";
-import { ProductionAction } from "./goods_growth";
-import { PolandRules } from "./rules";
 import { Phase } from "../../engine/state/phase";
+import { MapViewSettings } from "../view_settings";
+import { PolandProductionAction } from "./goods_growth";
 import { PolandProduction } from "./production_action_summary";
+import { PolandRules } from "./rules";
+import { PolandMapSettings } from "./settings";
 
 export class PolandViewSettings
   extends PolandMapSettings
@@ -21,7 +21,7 @@ export class PolandViewSettings
 }
 
 function usePolandProduction(on: OnClickRegister) {
-  const { canEmit, emit, isPending } = useAction(ProductionAction);
+  const { canEmit, emit, isPending } = useAction(PolandProductionAction);
   if (canEmit) {
     on(ClickTarget.TOWN, (town) => emit({ coordinates: town.coordinates }));
   }

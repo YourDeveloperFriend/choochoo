@@ -87,6 +87,9 @@ const router = initServer().router(userContract, {
     if (pageCursor != null) {
       where.id = { [Op.notIn]: pageCursor };
     }
+    if (query.search != null && query.search.trim() !== "") {
+      where.username = { [Op.like]: query.search.toLowerCase().trim() };
+    }
     const pageSize = query.pageSize ?? 20;
     const allUsers = await UserDao.findAll({
       order: [["id", "DESC"]],

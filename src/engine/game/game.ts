@@ -104,7 +104,11 @@ export class GameEngine {
       this.lifecycle.set(lifecycle.endPhase());
     } else if (lifecycle instanceof StartTurn) {
       this.turn.start(lifecycle.currentPlayer);
-      this.lifecycle.set(lifecycle.checkForcedAction());
+      if (this.delegator.get().checkSkipTurn()) {
+        this.lifecycle.set(lifecycle.skipTurn());
+      } else {
+        this.lifecycle.set(lifecycle.checkForcedAction());
+      }
     } else if (lifecycle instanceof CheckForcedAction) {
       const autoAction = this.delegator.get().forcedAction();
       if (autoAction != null) {

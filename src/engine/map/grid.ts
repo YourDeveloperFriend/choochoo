@@ -106,8 +106,10 @@ export class Grid {
     const space = this.get(coordinates);
     const coordinatesString =
       this.toDoubleHeightDisplay(coordinates).toString();
-    if (space?.name() != null) {
-      return `${space.name()} (${coordinatesString})`;
+    const name = space?.name();
+    const nameIsEmpty = name == null || name.length === 0;
+    if (!nameIsEmpty) {
+      return `${name} (${coordinatesString})`;
     }
     return coordinatesString;
   }

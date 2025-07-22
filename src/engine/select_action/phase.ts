@@ -6,6 +6,7 @@ import { AutoAction } from "../state/auto_action";
 import { Phase } from "../state/phase";
 import { AllowedActions } from "./allowed_actions";
 import { SelectAction } from "./select";
+import { SkipAction } from "./skip";
 
 export class SelectActionPhase extends PhaseModule {
   static readonly phase = Phase.ACTION_SELECTION;
@@ -32,6 +33,28 @@ export class SelectActionPhase extends PhaseModule {
       autoAction.takeActionNext = undefined;
     });
     super.onEndTurn();
+  }
+
+  forcedAction(): ActionBundle<object> | undefined {
+    if (
+      this.allowedActions.getAvailableActions().size === 0 &&
+      this.canEmit(SkipAction)
+    ) {
+      return {
+        action: SkipAction,
+        data: { forced: true },
+      };
+    }
+    if (this.allowedActions.getAvailableActions().size === 1) {
+      const action = this.allowedActions
+        .getAvailableActions()
+        [Symbol.iterator]()
+        .next().value;
+      return {
+        action: SelectAction,
+        data: { action, forced: true },
+      };
+    }
   }
 
   protected getAutoAction(

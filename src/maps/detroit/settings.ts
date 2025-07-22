@@ -9,6 +9,7 @@ import {
   DetroitAllowedActions,
   DetroitSelectAction,
   DetroitSelectActionPhase,
+  DetroitSkipAction,
 } from "./actions";
 import {
   DetroitMoneyManager,
@@ -56,6 +57,7 @@ export class DetroitBankruptcyMapSettings implements MapSettings {
       DetroitGoodsGrowthPhase,
       DetroitDiscountManager,
       DetroitSelectActionPhase,
+      DetroitSkipAction,
     ];
   }
 }

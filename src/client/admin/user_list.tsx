@@ -1,7 +1,4 @@
-import { UserRole } from "../../api/user";
-import { LoginButton } from "../game/login_button";
-import { useResendActivationCode } from "../services/me";
-import { useUserList } from "../services/user";
+import { useEffect, useState } from "react";
 import {
   Button,
   Icon,
@@ -12,14 +9,31 @@ import {
   TableHeaderCell,
   TableRow,
 } from "semantic-ui-react";
+import { UserRole } from "../../api/user";
+import { LoginButton } from "../game/login_button";
+import { useResendActivationCode } from "../services/me";
+import { useUserList } from "../services/user";
 
 export function UserList() {
+  const [search, setSearch] = useState("");
+  const [searchPersistent, setSearchPersistent] = useState("");
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setSearchPersistent(search);
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [search, setSearchPersistent]);
   const { users, hasNextPage, nextPage, hasPrevPage, prevPage, isLoading } =
-    useUserList();
+    useUserList({ search: searchPersistent });
   const { resend, isPending } = useResendActivationCode();
 
   return (
     <div>
+      <input
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search by username"
+      />
       <Table celled compact>
         <TableHeader>
           <TableRow>

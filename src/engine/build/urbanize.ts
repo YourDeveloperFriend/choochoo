@@ -77,7 +77,7 @@ export class UrbanizeAction implements ActionProcessor<UrbanizeData> {
       this.gridHelper.setRouteOwner(connection, this.currentPlayer().color);
     }
 
-    this.log.currentPlayer(`places city ${toLetter(city.onRoll[0])} in ${location.name() ?? this.grid().displayName(data.coordinates)}`);
+    this.log.currentPlayer(`places city ${toLetter(city.onRoll[0])} in ${this.grid().displayName(data.coordinates)}`);
     return this.helper.isAtEndOfTurn();
   }
 }

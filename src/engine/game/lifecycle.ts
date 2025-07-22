@@ -31,6 +31,10 @@ export class StartTurn {
     readonly currentPlayer: PlayerColor,
   ) {}
 
+  skipTurn(): EndTurn {
+    return new EndTurn(this.round, this.phase, this.currentPlayer);
+  }
+
   checkForcedAction(): CheckAutoAction {
     return new CheckAutoAction(this.round, this.phase, this.currentPlayer);
   }

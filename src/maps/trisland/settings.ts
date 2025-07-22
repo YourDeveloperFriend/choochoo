@@ -13,6 +13,7 @@ import {
   TrislandBuildDoneAction,
   TrislandProductionPassAction,
   TrislandSelectAction,
+  TrislandSelectActionPhase,
 } from "./actions";
 import { map } from "./grid";
 import { TrislandStarter } from "./starter";
@@ -25,7 +26,7 @@ export class TrislandMapSettings implements MapSettings {
   readonly minPlayers = 3;
   readonly maxPlayers = 3;
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.DEVELOPMENT;
+  readonly stage = ReleaseStage.ALPHA;
 
   getOverrides() {
     return [
@@ -34,6 +35,7 @@ export class TrislandMapSettings implements MapSettings {
       TrislandBuildDoneAction,
       TrislandProductionPassAction,
       TrislandAvailableActions,
+      TrislandSelectActionPhase,
     ];
   }
 

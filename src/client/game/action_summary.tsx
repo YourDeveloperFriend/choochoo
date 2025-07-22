@@ -257,11 +257,9 @@ function DiscoProduction() {
 
 function SpecialActionSelector() {
   const { canEmit, canEmitUserId } = useAction(ActionSelectionSelectAction);
-  const {
-    canEmit: canEmitSkip,
-    isPending,
-    emit: emitSkip,
-  } = useEmptyAction(SkipAction);
+  const { canEmit: canEmitSkip, isPending, emit } = useAction(SkipAction);
+
+  const emitSkip = useCallback(() => emit({ forced: false }), [emit]);
 
   if (canEmitUserId == null) {
     return <></>;

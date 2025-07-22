@@ -1,30 +1,21 @@
 import z from "zod";
 import { inject, injectState } from "../../engine/framework/execution_context";
-import { BLACK } from "../../engine/state/good";
-import { BAG, injectPlayerAction, injectGrid } from "../../engine/game/state";
-import { GridHelper } from "../../engine/map/grid_helper";
-import { Log } from "../../engine/game/log";
-import { PhaseDelegator } from "../../engine/game/phase_delegator";
-import { CoordinatesZod } from "../../utils/coordinates";
 import {
   ActionProcessor,
   EmptyActionProcessor,
 } from "../../engine/game/action";
-import { GOODS_GROWTH_STATE } from "../../engine/goods_growth/state";
+import { Log } from "../../engine/game/log";
+import { BAG, injectGrid, injectPlayerAction } from "../../engine/game/state";
 import { GoodsHelper } from "../../engine/goods_growth/helper";
-import { assert } from "../../utils/validate";
-import { Land } from "../../engine/map/location";
-import { goodToString } from "../../engine/state/good";
-import { PlayerColor } from "../../engine/state/player";
-import { Action } from "../../engine/state/action";
 import { GoodsGrowthPhase } from "../../engine/goods_growth/phase";
-
-export class DiscoPhaseDelegator extends PhaseDelegator {
-  constructor() {
-    super();
-    this.install(PolandGoodsGrowthPhase);
-  }
-}
+import { GOODS_GROWTH_STATE } from "../../engine/goods_growth/state";
+import { GridHelper } from "../../engine/map/grid_helper";
+import { Land } from "../../engine/map/location";
+import { Action } from "../../engine/state/action";
+import { BLACK, goodToString } from "../../engine/state/good";
+import { PlayerColor } from "../../engine/state/player";
+import { CoordinatesZod } from "../../utils/coordinates";
+import { assert } from "../../utils/validate";
 
 export class PolandGoodsGrowthPhase extends GoodsGrowthPhase {
   protected readonly log = inject(Log);
@@ -36,7 +27,7 @@ export class PolandGoodsGrowthPhase extends GoodsGrowthPhase {
   private readonly grid = injectGrid();
 
   configureActions(): void {
-    this.installAction(ProductionAction);
+    this.installAction(PolandProductionAction);
     this.installAction(ProductionPassAction);
   }
 
@@ -82,7 +73,7 @@ export const ProductionData = z.object({
 
 export type ProductionData = z.infer<typeof ProductionData>;
 
-export class ProductionAction implements ActionProcessor<ProductionData> {
+export class PolandProductionAction implements ActionProcessor<ProductionData> {
   static readonly action = "poland-production";
   readonly assertInput = ProductionData.parse;
 

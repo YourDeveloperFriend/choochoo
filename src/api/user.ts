@@ -50,6 +50,7 @@ export type UserPageCursor = z.infer<typeof UserPageCursor>;
 export const ListUsersApi = z.object({
   pageSize: z.coerce.number().optional(),
   pageCursor: UserPageCursor.optional(),
+  search: z.string().optional(),
 });
 export type ListUsersApi = z.infer<typeof ListUsersApi>;
 

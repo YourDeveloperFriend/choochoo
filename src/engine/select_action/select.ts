@@ -10,6 +10,7 @@ import { AllowedActions } from "./allowed_actions";
 
 export const SelectData = z.object({
   action: z.nativeEnum(Action),
+  forced: z.boolean().optional(),
 });
 
 export type SelectData = z.infer<typeof SelectData>;
@@ -26,7 +27,7 @@ export class SelectAction implements ActionProcessor<SelectData> {
 
   validate({ action }: SelectData): void {
     assert(this.actions.getAvailableActions().has(action), {
-      invalidInput: "action already selected",
+      invalidInput: "action not available",
     });
   }
 
@@ -38,16 +39,22 @@ export class SelectAction implements ActionProcessor<SelectData> {
     });
   }
 
-  process({ action }: SelectData): boolean {
+  process({ action, forced }: SelectData): boolean {
     this.helper.updateCurrentPlayer((player) => {
       player.selectedAction = action;
     });
     if (action === Action.LOCOMOTIVE) {
       this.applyLocomotive();
     }
-    this.log.currentPlayer(
-      `selected ${this.actionNamingProvider.getActionString(action)}`,
-    );
+    if (forced) {
+      this.log.currentPlayer(
+        `takes the remaining action (${this.actionNamingProvider.getActionString(action)})`,
+      );
+    } else {
+      this.log.currentPlayer(
+        `selected ${this.actionNamingProvider.getActionString(action)}`,
+      );
+    }
     return true;
   }
 }

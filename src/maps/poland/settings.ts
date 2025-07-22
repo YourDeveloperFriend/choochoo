@@ -7,7 +7,7 @@ import {
 import { PolandActionNamingProvider } from "./actions";
 import { PolandBuildAction } from "./building";
 import { PolandBuildCostCalculator } from "./cost";
-import { DiscoPhaseDelegator, PolandGoodsGrowthPhase } from "./goods_growth";
+import { PolandGoodsGrowthPhase } from "./goods_growth";
 
 import { map } from "./grid";
 
@@ -27,7 +27,6 @@ export class PolandMapSettings implements MapSettings {
       PolandBuildAction,
       PolandActionNamingProvider,
       PolandBuildCostCalculator,
-      DiscoPhaseDelegator,
     ];
   }
 }
