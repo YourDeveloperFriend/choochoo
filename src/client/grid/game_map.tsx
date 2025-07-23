@@ -122,7 +122,7 @@ export function getConfirmDeliveryMessage(
   const endingStop = grid.get(peek(moveAction.path).endingStop) as City;
   const income = moveInstance.calculateIncome(moveAction);
   const counts = [...income]
-    .filter(([a]) => a != null)
+    .filter(([owner, income]) => owner != null && income != 0)
     .map(
       ([owner, income]) =>
         `${owner === player ? "you" : playerColorToString(owner)} ${income} income`,
