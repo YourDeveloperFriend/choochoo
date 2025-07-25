@@ -31,6 +31,7 @@ import { DenmarkMoneyManager } from "./money_manager";
 import { DenmarkMoveValidator } from "./move_validator";
 import { DenmarkShareHelper, DenmarkTakeSharesAction } from "./shares";
 import { DenmarkStarter } from "./starter";
+import { DenmarkBuilderHelper } from "./builder_helper";
 
 export class DenmarkMapSettings implements MapSettings {
   static readonly key = GameKey.DENMARK;
@@ -99,6 +100,7 @@ export class DenmarkMapSettings implements MapSettings {
       DenmarkMoveHelper,
       DenmarkProfitHelper,
       DenmarkActionNamingProvider,
+      DenmarkBuilderHelper,
     ];
   }
 
