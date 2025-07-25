@@ -66,8 +66,6 @@ export class LisboaBuildAction extends BuildAction {
 export class LisboaConnectAction extends ConnectCitiesAction {
   private readonly connected = injectState(CONNECTED_TO_LISBOA);
 
-  protected validateUrbanizedCities(): void {}
-
   validate(data: ConnectCitiesData): void {
     super.validate(data);
     // Only one connection out of Lisboa can be built per turn, per player.

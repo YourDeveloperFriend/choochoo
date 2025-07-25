@@ -7,6 +7,7 @@ import {
 import { Module } from "../../engine/module/module";
 import { BOTTOM, TOP } from "../../engine/state/tile";
 import { OneClaimLimitModule } from "../../modules/one_claim_limit";
+import { AllowTownConnectionModule } from "../../modules/allow_town_connection";
 import { interCityConnections } from "../factory";
 import { PortugalGoodsGrowthPhase } from "./goods";
 import { map } from "./grid";
@@ -72,6 +73,9 @@ export class PortugalMapSettings implements MapSettings {
   }
 
   getModules(): Array<Module> {
-    return [new OneClaimLimitModule()];
+    return [
+      new OneClaimLimitModule(),
+      new AllowTownConnectionModule(),
+    ];
   }
 }

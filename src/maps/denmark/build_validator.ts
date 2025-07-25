@@ -40,11 +40,6 @@ export class DenmarkBuildPhase extends BuildPhase {
 export class DenmarkConnectCitiesAction extends ConnectCitiesAction {
   private readonly ferryClaimCount = injectState(FERRY_CLAIM_COUNT);
 
-  protected validateUrbanizedCities(_: InterCityConnection): void {
-    // On the Denmark map, towns do not need to be urbanized to claim a link, though goods cannot
-    // be moved across until a route is built. See DenmarkMoveValidator.
-  }
-
   validate(data: ConnectCitiesData): void {
     assert(this.ferryClaimCount() < 2, {
       invalidInput: "Can only claim two ferry routes per turn",
