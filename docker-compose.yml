@@ -1,0 +1,62 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: choochoo-pg
+    environment:
+      POSTGRES_DB: choochoo
+      POSTGRES_USER: choochoo
+      POSTGRES_PASSWORD: choochoo
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U choochoo -d choochoo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: choochoo-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  app:
+    build: .
+    container_name: choochoo-app
+    ports:
+      - "3001:3000"
+    environment:
+      NODE_ENV: development
+      POSTGRES_URL: postgresql://choochoo:choochoo@postgres:5432/choochoo
+      REDIS_URL: redis://redis:6379
+      SESSION_SECRET: foobar-dev
+      PORT: 3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - /app/node_modules
+      - /app/dist
+    command: sh -c "npm run build-server && npm run migrate && npm run dev"
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+        - action: rebuild
+          path: ./package*.json
+
+volumes:
+  postgres_data:
+  redis_data: 

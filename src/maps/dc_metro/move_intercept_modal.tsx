@@ -17,6 +17,11 @@ import { remove } from "../../utils/functions";
 import { DCMoveAction } from "./move";
 import * as styles from "./move_intercept_modal.module.css";
 
+interface GoodContainer {
+  id: number;
+  good: Good;
+}
+
 export function DCMetroMoveInterceptorModal({
   cityName,
   moveData,
@@ -31,18 +36,23 @@ export function DCMetroMoveInterceptorModal({
     return remove(goods, moveData.good);
   }, [moveData]);
 
-  const [goods, setGoods] = useState<Good[] | undefined>(undefined);
+  const [goods, setGoods] = useState<GoodContainer[] | undefined>(undefined);
 
   useEffect(() => {
     if (moveData?.startingCity == null) return;
-    setGoods(initialOptions);
+    setGoods(
+      initialOptions?.map((good, index) => ({
+        id: index,
+        good,
+      })),
+    );
   }, [initialOptions?.join(",")]);
 
   const completeMove = useCallback(() => {
     if (moveData == null || goods == null) return;
     emit({
       ...moveData,
-      goods: goods.slice(0, moveData.path.length - 1),
+      goods: goods.map(({ good }) => good).slice(0, moveData.path.length - 1),
     });
     clearMoveData();
   }, [moveData, goods, emit]);
@@ -80,12 +90,12 @@ export function DCMetroMoveInterceptorModal({
               >
                 {goods.map((good) => (
                   <Reorder.Item
-                    key={good}
+                    key={good.id}
                     value={good}
                     className={styles.reorderItem}
                   >
-                    <GoodBlock good={good} className={styles.goodsBlock} />
-                    {goodToString(good)}
+                    <GoodBlock good={good.good} className={styles.goodsBlock} />
+                    {goodToString(good.good)}
                   </Reorder.Item>
                 ))}
               </Reorder.Group>

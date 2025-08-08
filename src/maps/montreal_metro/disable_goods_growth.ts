@@ -38,7 +38,7 @@ export class MontrealMetroStarter extends GameStarter {
     return remove(eligiblePlayerColors, GOVERNMENT_COLOR);
   }
 
-  isProductionEnabled(): boolean {
+  isGoodsGrowthEnabled(): boolean {
     return false;
   }
 }

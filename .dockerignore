@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.gitignore
+.env
+*.md
+*.log
+coverage
+.nyc_output
+.DS_Store
+Thumbs.db
+.vscode
+.idea
+docker-compose*.yml

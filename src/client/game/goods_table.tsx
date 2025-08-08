@@ -116,7 +116,7 @@ export function GoodsTable() {
       // a display of what goods were recycled that round.
       return <></>;
     }
-  } else if (!starter.isProductionEnabled()) {
+  } else if (!starter.isGoodsGrowthEnabled()) {
     return <></>;
   }
 

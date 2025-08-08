@@ -175,7 +175,7 @@ export class BuilderHelper {
   checkOwnershipMarkerLimits(): void {
     const count = this.grid().countOwnershipMarkers(this.currentPlayer().color);
     const ownershipMarkerLimit = this.ownershipMarkerLimit();
-    assert(count <= ownershipMarkerLimit, `cannot exceed ownership marker limit of ${ownershipMarkerLimit}`);
+    assert(count <= ownershipMarkerLimit, { invalidInput: `cannot exceed ownership marker limit of ${ownershipMarkerLimit}` });
   }
 
   protected ownershipMarkerLimit(): number {

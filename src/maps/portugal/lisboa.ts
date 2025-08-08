@@ -115,7 +115,10 @@ export class PortugalMoveValidator extends MoveValidator {
       .flatMap((connection) => {
         const otherEnd = grid.get(
           connection.connects.find((c) => !location.coordinates.equals(c))!,
-        ) as City;
+        );
+        if (!(otherEnd instanceof City)) {
+          return [];
+        }
         if (
           (isLisboa(otherEnd) || otherEnd.name() === "Madeira") &&
           (location.name() === "Sagres" || location.name() === "Sines") &&
@@ -144,7 +147,10 @@ export class PortugalMoveValidator extends MoveValidator {
       .flatMap((connection) => {
         const otherEnd = grid.get(
           connection.connects.find((c) => !location.coordinates.equals(c))!,
-        ) as Land;
+        );
+        if (!(otherEnd instanceof Land)) {
+          return [];
+        }
         if (
           (isLisboa(location) || location.name() === "Madeira") &&
           (otherEnd.name() === "Sagres" || otherEnd.name() === "Sines") &&

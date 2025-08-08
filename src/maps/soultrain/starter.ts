@@ -17,7 +17,7 @@ export class SoulTrainStarter extends GameStarter {
     this.restriction.initState({ from: Dimension.HELL, to: Dimension.EARTH });
   }
 
-  isProductionEnabled(): boolean {
+  isGoodsGrowthEnabled(): boolean {
     return false;
   }
 

@@ -10,6 +10,7 @@ import {
   ChesapeakeAndOhioOverlayLayer,
   ChesapeakeAndOhioRivers,
 } from "./rivers";
+import { ChesapeakeAndOhioMoveInterceptorModal } from "./move_interceptor_modal";
 
 export class ChesapeakeAndOhioViewSettings
   extends ChesapeakeAndOhioMapSettings
@@ -18,6 +19,7 @@ export class ChesapeakeAndOhioViewSettings
   getMapRules = ChesapeakeAndOhioRules;
   getTexturesLayer = ChesapeakeAndOhioRivers;
   getOverlayLayer = ChesapeakeAndOhioOverlayLayer;
+  moveInterceptModal = ChesapeakeAndOhioMoveInterceptorModal;
 
   getActionSummary(phase: Phase) {
     if (phase === Phase.BUILDING) {

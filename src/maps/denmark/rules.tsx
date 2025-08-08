@@ -80,6 +80,7 @@ export function DenmarkRules() {
           $6 for $11-$15, $8 for $16-$20 and $10 for everything larger than
           that.
         </li>
+        <li>Track ownership markers and town markers are not limited.</li>
       </ul>
     </div>
   );

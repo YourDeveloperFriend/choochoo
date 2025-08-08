@@ -53,7 +53,7 @@ export const map = grid([
     HILL,
     PLAIN,
     PLAIN,
-    city("Suwon", [], [], 0),
+    city("Suwon", [], [], 2),
     plain({ unpassableEdges: [BOTTOM_LEFT, BOTTOM] }),
     HILL,
     HILL,

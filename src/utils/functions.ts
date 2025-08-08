@@ -1,6 +1,13 @@
 import { Entry, Primitive } from "./types";
 import { assert } from "./validate";
 
+export function capitalizeFirstLetter(str: string) {
+  if (str.length === 0) {
+    return str;
+  }
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export function peek<T>(arr: T[]): T {
   return arr[arr.length - 1];
 }

@@ -4,7 +4,7 @@ import { SpaceType } from "../../engine/state/location_type";
 import { SpaceData } from "../../engine/state/space";
 
 export class ChesapeakeAndOhioStarter extends GameStarter {
-  isProductionEnabled(): boolean {
+  isGoodsGrowthEnabled(): boolean {
     return false;
   }
 
