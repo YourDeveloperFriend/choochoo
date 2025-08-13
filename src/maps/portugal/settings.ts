@@ -14,7 +14,6 @@ import { map } from "./grid";
 import {
   LisboaBuildAction,
   LisboaConnectAction,
-  PortugalMoveValidator,
   PortugalBuildPhase,
 } from "./lisboa";
 
@@ -65,7 +64,6 @@ export class PortugalMapSettings implements MapSettings {
       LisboaBuildAction,
       LisboaConnectAction,
       PortugalGoodsGrowthPhase,
-      PortugalMoveValidator,
       PortugalBuildPhase,
     ];
   }

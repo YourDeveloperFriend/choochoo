@@ -6,10 +6,8 @@ import {
 } from "../../engine/build/connect_cities";
 import { BuildPhase } from "../../engine/build/phase";
 import { BOTTOM } from "../../engine/state/tile";
-import { MoveValidator, RouteInfo } from "../../engine/move/validator";
 import { PlayerColor } from "../../engine/state/player";
 import { DanglerInfo } from "../../engine/map/grid";
-import { OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
 import { injectState } from "../../engine/framework/execution_context";
 import { Key } from "../../engine/framework/key";
 import { City } from "../../engine/map/city";
@@ -83,72 +81,6 @@ export class LisboaConnectAction extends ConnectCitiesAction {
     return connection.connects
       .map((coordinates) => this.grid().get(coordinates))
       .some(isLisboa);
-  }
-}
-
-export class PortugalMoveValidator extends MoveValidator {
-  protected getAdditionalRoutesFromLand(location: Land): RouteInfo[] {
-    const grid = this.grid();
-    return grid.connections
-      .filter((connection) =>
-        connection.connects.some((c) => c.equals(location.coordinates)),
-      )
-      .filter((connection) => connection.owner != null)
-      .flatMap((connection) => {
-        const otherEnd = grid.get(
-          connection.connects.find((c) => !location.coordinates.equals(c))!,
-        );
-        if (!(otherEnd instanceof City)) {
-          return [];
-        }
-        if (
-          (isLisboa(otherEnd) || otherEnd.name() === "Madeira") &&
-          (location.name() === "Sagres" || location.name() === "Sines") &&
-          location.hasTown()
-        ) {
-          return [
-            {
-              type: "connection",
-              destination: otherEnd.coordinates,
-              connection: connection as OwnedInterCityConnection,
-              owner: connection.owner!.color,
-            },
-          ];
-        }
-        return [];
-      });
-  }
-
-  protected getAdditionalRoutesFromCity(location: City): RouteInfo[] {
-    const grid = this.grid();
-    return grid.connections
-      .filter((connection) =>
-        connection.connects.some((c) => c.equals(location.coordinates)),
-      )
-      .filter((connection) => connection.owner != null)
-      .flatMap((connection) => {
-        const otherEnd = grid.get(
-          connection.connects.find((c) => !location.coordinates.equals(c))!,
-        );
-        if (!(otherEnd instanceof Land)) {
-          return [];
-        }
-        if (
-          (isLisboa(location) || location.name() === "Madeira") &&
-          (otherEnd.name() === "Sagres" || otherEnd.name() === "Sines") &&
-          otherEnd.hasTown()
-        ) {
-          return [
-            {
-              type: "connection",
-              destination: otherEnd.coordinates,
-              connection: connection as OwnedInterCityConnection,
-              owner: connection.owner!.color,
-            },
-          ];
-        }
-        return [];
-      });
   }
 }
 

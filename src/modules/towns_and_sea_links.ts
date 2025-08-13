@@ -4,12 +4,16 @@ import { SimpleConstructor } from "../engine/framework/dependency_stack";
 import { Land } from "../engine/map/location";
 import { Direction } from "../engine/state/tile";
 import { InvalidBuildReason, Validator } from "../engine/build/validator";
+import { MoveValidator, RouteInfo } from "../engine/move/validator";
 import { SpaceType } from "../engine/state/location_type";
+import { City } from "../engine/map/city";
+import { OwnedInterCityConnection } from "../engine/state/inter_city_connection";
 
 export class TownsAndSeaLinksModule extends Module {
   installMixins(): void {
     this.installMixin(ConnectCitiesAction, skipCityValidationMixin);
     this.installMixin(Validator, allowTownConnectionMixin);
+    this.installMixin(MoveValidator, allowGoodsMovementMixin);
   }
 }
 
@@ -51,7 +55,68 @@ function allowTownConnectionMixin(
                 ? connection.connectedTownExit.includes(exit)
                 : connection.connectedTownExit === exit
               )
-    );
+        );
+      }
+  }
 }
+
+function allowGoodsMovementMixin(
+  Ctor: SimpleConstructor<MoveValidator>
+): SimpleConstructor<MoveValidator> {
+  return class extends Ctor {
+    protected getAdditionalRoutesFromLand(location: Land): RouteInfo[] {
+        const grid = this.grid();
+        return grid.connections
+          .filter((connection) =>
+            connection.connects.some((c) => c.equals(location.coordinates)),
+          )
+          .filter((connection) => connection.owner != null)
+          .flatMap((connection) => {
+            const otherEnd = grid.get(
+              connection.connects.find((c) => !location.coordinates.equals(c))!,
+            );
+            if (!(otherEnd instanceof City)) {
+              return [];
+            }
+              return [
+                {
+                  type: "connection",
+                  destination: otherEnd.coordinates,
+                  connection: connection as OwnedInterCityConnection,
+                  owner: connection.owner!.color,
+                },
+              ];
+
+          });
+    }
+
+    protected getAdditionalRoutesFromCity(originCity: City): RouteInfo[] {
+      const grid = this.grid();
+      return grid.connections
+        .filter((connection) =>
+          connection.connects.some((c) => c.equals(originCity.coordinates)),
+        )
+        .filter((connection) => connection.owner != null)
+        .flatMap((connection) => {
+          const otherEnd = grid.get(
+            connection.connects.find((c) => !originCity.coordinates.equals(c))!,
+          );
+          if (
+            otherEnd != null &&
+            !(otherEnd instanceof City) &&
+            otherEnd.hasTown() 
+          ) {
+            return [
+              {
+                type: "connection",
+                destination: otherEnd.coordinates,
+                connection: connection as OwnedInterCityConnection,
+                owner: connection.owner!.color,
+              },
+            ];
+          }
+          return [];
+        });
+    }
   }
 }
