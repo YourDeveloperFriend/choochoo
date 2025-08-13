@@ -12,9 +12,14 @@ export type Offset = z.infer<typeof Offset>;
 export const InterCityConnection = z.object({
   id: z.string(),
   connects: CoordinatesZod.array(),
+  connectedTownExit: z.union([
+                        DirectionZod,             
+                        DirectionZod.array()       
+                      ]).optional(),
   cost: z.number(),
   center: CoordinatesZod.optional(),
   offset: Offset.optional(),
+
   // No owner means the connection isn't built. An owner but no color means it's built but unowned.
   owner: z.object({ color: PlayerColorZod.optional() }).optional(),
 });

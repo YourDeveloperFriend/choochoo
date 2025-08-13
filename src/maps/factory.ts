@@ -11,6 +11,7 @@ import { OnRoll, OnRollData } from "../engine/state/roll";
 import { CityData, LandData } from "../engine/state/space";
 import { Coordinates } from "../utils/coordinates";
 import { duplicate } from "../utils/functions";
+import { Direction } from "../engine/state/tile";
 
 export const PLAIN: LandData = {
   type: SpaceType.PLAIN,
@@ -150,6 +151,7 @@ interface InterCityConnectionFactoryProps {
   cost?: number;
   center?: [number, number];
   offset?: Offset;
+  connectedTownExit?: Direction | Direction[];
 }
 
 export function interCityConnections(
@@ -167,6 +169,7 @@ export function interCityConnections(
       id: "" + (idx + 1),
       connects: [cities.get(spec.connects[0])!, cities.get(spec.connects[1])!],
       cost: spec.cost ?? 2,
+      connectedTownExit: spec.connectedTownExit,
       offset: spec.offset,
       center: spec.center
         ? Coordinates.from({ q: spec.center[0], r: spec.center[1] })

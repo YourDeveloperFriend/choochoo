@@ -5,8 +5,7 @@ import {
   ConnectCitiesData,
 } from "../../engine/build/connect_cities";
 import { BuildPhase } from "../../engine/build/phase";
-import { Validator, InvalidBuildReason } from "../../engine/build/validator";
-import { BOTTOM, Direction } from "../../engine/state/tile";
+import { BOTTOM } from "../../engine/state/tile";
 import { MoveValidator, RouteInfo } from "../../engine/move/validator";
 import { PlayerColor } from "../../engine/state/player";
 import { DanglerInfo } from "../../engine/map/grid";
@@ -84,23 +83,6 @@ export class LisboaConnectAction extends ConnectCitiesAction {
     return connection.connects
       .map((coordinates) => this.grid().get(coordinates))
       .some(isLisboa);
-  }
-}
-
-export class PortugalValidator extends Validator {
-  protected connectionAllowed(
-    land: Land,
-    exit: Direction,
-  ): InvalidBuildReason | undefined {
-    if (
-      (land.name() === "Sagres" || land.name() === "Sines") &&
-      land.hasTown() &&
-      exit === BOTTOM
-    ) {
-      return undefined;
-    }
-
-    return super.connectionAllowed(land, exit);
   }
 }
 

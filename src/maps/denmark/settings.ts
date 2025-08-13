@@ -12,7 +12,6 @@ import { AvailableActionsModule } from "../../modules/available_actions";
 import { InstantProductionModule } from "../../modules/instant_production/module";
 import { OneClaimLimitModule } from "../../modules/one_claim_limit";
 import { PhasesModule } from "../../modules/phases";
-import { AllowTownConnectionModule } from "../../modules/allow_town_connection";
 import { remove } from "../../utils/functions";
 import { interCityConnections } from "../factory";
 import { DenmarkActionNamingProvider } from "./actions";
@@ -113,9 +112,6 @@ export class DenmarkMapSettings implements MapSettings {
       new PhasesModule({
         replace: (phases) => remove(phases, Phase.GOODS_GROWTH),
       }),
-      // On the Denmark map, towns do not need to be urbanized to claim a link, though goods cannot
-      // be moved across until a route is built. See DenmarkMoveValidator.
-      new AllowTownConnectionModule(),
     ];
   }
 }

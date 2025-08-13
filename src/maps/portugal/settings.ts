@@ -7,14 +7,13 @@ import {
 import { Module } from "../../engine/module/module";
 import { BOTTOM, TOP } from "../../engine/state/tile";
 import { OneClaimLimitModule } from "../../modules/one_claim_limit";
-import { AllowTownConnectionModule } from "../../modules/allow_town_connection";
+import { TownsAndSeaLinksModule } from "../../modules/towns_and_sea_links";
 import { interCityConnections } from "../factory";
 import { PortugalGoodsGrowthPhase } from "./goods";
 import { map } from "./grid";
 import {
   LisboaBuildAction,
   LisboaConnectAction,
-  PortugalValidator,
   PortugalMoveValidator,
   PortugalBuildPhase,
 } from "./lisboa";
@@ -53,12 +52,12 @@ export class PortugalMapSettings implements MapSettings {
       center: [11, 13],
       offset: { direction: TOP, distance: 0.2 },
     },
-    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 7] },
-    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 8] },
-    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 9] },
-    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 10] },
+    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 7], connectedTownExit: BOTTOM },
+    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 8], connectedTownExit: BOTTOM },
+    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 9], connectedTownExit: BOTTOM },
+    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 10], connectedTownExit: BOTTOM },
     { connects: ["Lisboa", "Porto"], cost: 6, center: [6, 13] },
-    { connects: ["Lisboa", "Sines"], cost: 6, center: [13, 9] },
+    { connects: ["Lisboa", "Sines"], cost: 6, center: [13, 9], connectedTownExit: BOTTOM },
   ]);
 
   getOverrides() {
@@ -66,7 +65,6 @@ export class PortugalMapSettings implements MapSettings {
       LisboaBuildAction,
       LisboaConnectAction,
       PortugalGoodsGrowthPhase,
-      PortugalValidator,
       PortugalMoveValidator,
       PortugalBuildPhase,
     ];
@@ -75,7 +73,7 @@ export class PortugalMapSettings implements MapSettings {
   getModules(): Array<Module> {
     return [
       new OneClaimLimitModule(),
-      new AllowTownConnectionModule(),
+      new TownsAndSeaLinksModule(),
     ];
   }
 }
