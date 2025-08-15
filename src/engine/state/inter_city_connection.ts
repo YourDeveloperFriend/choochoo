@@ -12,10 +12,7 @@ export type Offset = z.infer<typeof Offset>;
 export const InterCityConnection = z.object({
   id: z.string(),
   connects: CoordinatesZod.array(),
-  connectedTownExit: z.union([
-                        DirectionZod,             
-                        DirectionZod.array()       
-                      ]).optional(),
+  connectedTownExits: DirectionZod.array().optional(),      
   cost: z.number(),
   center: CoordinatesZod.optional(),
   offset: Offset.optional(),

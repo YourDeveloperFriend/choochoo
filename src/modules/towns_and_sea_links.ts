@@ -8,12 +8,16 @@ import { MoveValidator, RouteInfo } from "../engine/move/validator";
 import { SpaceType } from "../engine/state/location_type";
 import { City } from "../engine/map/city";
 import { OwnedInterCityConnection } from "../engine/state/inter_city_connection";
+import { BuildPhase } from "../engine/build/phase";
+import { DanglerInfo } from "../engine/map/grid";
+import { PlayerColor } from "../engine/state/player";
 
 export class TownsAndSeaLinksModule extends Module {
   installMixins(): void {
     this.installMixin(ConnectCitiesAction, skipCityValidationMixin);
     this.installMixin(Validator, allowTownConnectionMixin);
     this.installMixin(MoveValidator, allowGoodsMovementMixin);
+    this.installMixin(BuildPhase, noSeaRouteDanglersMixin);
   }
 }
 
@@ -50,11 +54,8 @@ function allowTownConnectionMixin(
       protected isExitTowardsInterCity(space: Land, exit: Direction): boolean {
         return this.grid().connections.some(connection =>
           connection.connects.some(c => c.equals(space.coordinates)) 
-          && (
-                Array.isArray(connection.connectedTownExit)
-                ? connection.connectedTownExit.includes(exit)
-                : connection.connectedTownExit === exit
-              )
+          && Array.isArray(connection.connectedTownExits)
+          && connection.connectedTownExits.includes(exit)
         );
       }
   }
@@ -119,4 +120,42 @@ function allowGoodsMovementMixin(
         });
     }
   }
+}
+
+function noSeaRouteDanglersMixin(
+  Ctor: SimpleConstructor<BuildPhase>
+): SimpleConstructor<BuildPhase> {
+  return class extends Ctor {
+      getDanglersAsInfo(color?: PlayerColor): DanglerInfo[] {
+        const ownedConnectionsWithSeaRoutes = this.grid().connections
+          .filter(connection =>
+            Array.isArray(connection.connectedTownExits) &&
+            connection.owner != undefined
+          );
+
+        return this.grid()
+          .getDanglers(color)
+          .filter(track => {
+            const matchingConnection = ownedConnectionsWithSeaRoutes.find(conn =>
+              conn.connects.some(coord =>
+                coord.q === track.coordinates.q 
+                && coord.r === track.coordinates.r
+              )
+            );
+
+            if (!matchingConnection) return true;
+
+            const immovableExit = this.grid().getImmovableExitReference(track);
+            const isMatchingExit = matchingConnection.connectedTownExits?.includes(immovableExit) ?? false;
+
+            if (isMatchingExit) { return false }
+            return true;
+          })
+          .map(track => ({
+            coordinates: track.coordinates,
+            immovableExit: this.grid().getImmovableExitReference(track),
+            length: this.grid().getRoute(track).length,
+          }));
+      }
+  };
 }

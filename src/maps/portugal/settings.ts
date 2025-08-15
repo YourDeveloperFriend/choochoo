@@ -51,12 +51,12 @@ export class PortugalMapSettings implements MapSettings {
       center: [11, 13],
       offset: { direction: TOP, distance: 0.2 },
     },
-    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 7], connectedTownExit: BOTTOM },
-    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 8], connectedTownExit: BOTTOM },
-    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 9], connectedTownExit: BOTTOM },
-    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 10], connectedTownExit: BOTTOM },
+    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 7], connectedTownExits: [BOTTOM] },
+    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 8], connectedTownExits: [BOTTOM] },
+    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 9], connectedTownExits: [BOTTOM] },
+    { connects: ["Sagres", "Madeira"], cost: 6, center: [17, 10], connectedTownExits: [BOTTOM] },
     { connects: ["Lisboa", "Porto"], cost: 6, center: [6, 13] },
-    { connects: ["Lisboa", "Sines"], cost: 6, center: [13, 9], connectedTownExit: BOTTOM },
+    { connects: ["Lisboa", "Sines"], cost: 6, center: [13, 9], connectedTownExits: [BOTTOM] },
   ]);
 
   getOverrides() {

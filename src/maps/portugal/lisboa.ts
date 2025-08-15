@@ -5,9 +5,6 @@ import {
   ConnectCitiesData,
 } from "../../engine/build/connect_cities";
 import { BuildPhase } from "../../engine/build/phase";
-import { BOTTOM } from "../../engine/state/tile";
-import { PlayerColor } from "../../engine/state/player";
-import { DanglerInfo } from "../../engine/map/grid";
 import { injectState } from "../../engine/framework/execution_context";
 import { Key } from "../../engine/framework/key";
 import { City } from "../../engine/map/city";
@@ -94,29 +91,6 @@ export class PortugalBuildPhase extends BuildPhase {
   onEndTurn(): void {
     this.connected.delete();
     super.onEndTurn();
-  }
-
-  getDanglersAsInfo(color?: PlayerColor): DanglerInfo[] {
-    return this.grid()
-      .getDanglers(color)
-      .filter((track) => {
-        if (
-          //Sines
-          ((track.coordinates.q === 14 && track.coordinates.r === 7) ||
-            //Sagres
-            (track.coordinates.q === 17 && track.coordinates.r === 6)) &&
-          this.grid().getImmovableExitReference(track) === BOTTOM
-        ) {
-          return false;
-        }
-
-        return true;
-      })
-      .map((track) => ({
-        coordinates: track.coordinates,
-        immovableExit: this.grid().getImmovableExitReference(track),
-        length: this.grid().getRoute(track).length,
-      }));
   }
 }
 
