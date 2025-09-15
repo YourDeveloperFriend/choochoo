@@ -19,10 +19,11 @@ export function DiscoInfernoRules() {
           <b>Track:</b> is all built on fire for $3.
         </li>
         <li>
-          <b>Chain Reaction:</b> lets you deliver more than one good, as long as
-          the new good starts where the old good was delivered. [Controls]
-          confirm the first delivery, then you will be given the chance to do
-          more deliveries.
+          <b>Chain Reaction:</b> lets you deliver more than one good if you have
+          locomotive points remaining after your delivery. The new good must start
+          where the old good was delivered. [Controls] confirm the first delivery,
+          then you will be given the chance to do more deliveries if you still have
+          moves left.
         </li>
         <li>
           <b>Burn baby burn:</b> when a city runs out of cubes, it becomes
