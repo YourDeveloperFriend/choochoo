@@ -131,7 +131,7 @@ export const map = startsLowerGrid([
     ...duplicate(2, PLAIN),
     RIVER,
     ...duplicate(3, PLAIN),
-    city("Desmoines", Good.BLUE, white(4)),
+    city("Des Moines", Good.BLUE, white(4)),
     ...duplicate(3, PLAIN),
   ],
   [

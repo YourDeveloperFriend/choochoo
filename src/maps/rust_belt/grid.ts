@@ -24,7 +24,7 @@ export const map = grid([
     ...duplicate(2, PLAIN),
     RIVER,
     ...duplicate(3, PLAIN),
-    city("Desmoines", Good.BLUE, white(4)),
+    city("Des Moines", Good.BLUE, white(4)),
     ...duplicate(3, PLAIN),
   ],
   [WATER, PLAIN, PLAIN, RIVER, ...duplicate(6, PLAIN)],
