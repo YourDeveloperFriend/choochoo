@@ -34,6 +34,7 @@ import { SoulTrainMapSettings } from "./soultrain/settings";
 import { StLuciaMapSettings } from "./st-lucia/settings";
 import { SwedenRecyclingMapSettings } from "./sweden/settings";
 import { TrislandMapSettings } from "./trisland/settings";
+import { CaliforniaGoldRushMapSettings } from "./ca-gold-rush/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();
@@ -73,6 +74,7 @@ export class MapRegistry {
     this.add(new HeavyCardboardMapSettings());
     this.add(new DenmarkMapSettings());
     this.add(new ChesapeakeAndOhioMapSettings());
+    this.add(new CaliforniaGoldRushMapSettings());
   }
 
   values(): Iterable<MapSettings> {

@@ -7,6 +7,7 @@ import { Grid } from "../engine/map/grid";
 import { InterceptMoveModalProps } from "../engine/move/interceptor";
 import { Action } from "../engine/state/action";
 import { Phase } from "../engine/state/phase";
+import { PlayerData } from "../engine/state/player";
 
 export interface VariantConfigProps {
   config: Partial<VariantConfig>;
@@ -39,5 +40,9 @@ export interface MapViewSettings extends MapSettings {
   moveGoodsMessage?(): string | undefined;
   moveInterceptModal?(props: InterceptMoveModalProps): ReactNode;
   getActionSummary?(phase: Phase | undefined): undefined | (() => ReactNode);
+  getPlayerStatColumns?(): Array<{
+    header: string;
+    cell: ({ player }: { player: PlayerData }) => ReactNode;
+  }>;
   useOnMapClick?: OnClickFunction;
 }

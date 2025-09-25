@@ -22,6 +22,7 @@ import {
   useInject,
   useInjected,
   useInjectedState,
+  useViewSettings,
 } from "../utils/injection_context";
 import { FinalOverview } from "./final_overview";
 import { LoginButton } from "./login_button";
@@ -41,6 +42,7 @@ export function PlayerStats() {
   const playerOrder = useInjectedState(TURN_ORDER);
   const currentPlayer = useActiveGameState(CURRENT_PLAYER);
   const [expanded, setExpanded] = useState<boolean>(true);
+  const viewSettings = useViewSettings();
   const outOfGamePlayers = playerData
     .filter((p) => p.outOfGame)
     .map((p) => p.color);
@@ -65,6 +67,9 @@ export function PlayerStats() {
     locoColumn,
     ...(gameKey === SwedenRecyclingMapSettings.key ? [garbageColumn] : []),
     scoreColumn,
+    ...(viewSettings.getPlayerStatColumns
+      ? viewSettings.getPlayerStatColumns()
+      : []),
   ];
 
   return (
