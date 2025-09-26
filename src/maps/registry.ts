@@ -36,6 +36,7 @@ import { SwedenRecyclingMapSettings } from "./sweden/settings";
 import { TrislandMapSettings } from "./trisland/settings";
 import { CaliforniaGoldRushMapSettings } from "./ca-gold-rush/settings";
 import { UnionPacificExpressMapSettings } from "./union_pacific_express/settings";
+import { RustBeltExpressMapSettings } from "./rust_belt_express/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();
@@ -77,6 +78,7 @@ export class MapRegistry {
     this.add(new ChesapeakeAndOhioMapSettings());
     this.add(new CaliforniaGoldRushMapSettings());
     this.add(new UnionPacificExpressMapSettings());
+    this.add(new RustBeltExpressMapSettings());
   }
 
   values(): Iterable<MapSettings> {
