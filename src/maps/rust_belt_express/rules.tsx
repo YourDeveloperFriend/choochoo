@@ -6,7 +6,7 @@ export function RustBeltExpressRules() {
           <p>
             <b>Build Track:</b> Track builds are $3 per tile, including
             redirects and all Complex Track and Towns. The interurban link
-            between Toronto and Buffalo is simalarly $3 and counts for 1 victory
+            between Toronto and Buffalo is similarly $3 and counts for 1 victory
             point at the end of the game.
           </p>
           <p>
