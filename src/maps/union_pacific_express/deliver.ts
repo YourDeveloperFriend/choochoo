@@ -40,21 +40,21 @@ export const UNION_PACIFIC_EXPRESS_MOVE_STATE = new Key(
 );
 
 export class UnionPacificExpressMovePhase extends MovePhase {
-  private readonly UnionPacificExpressMoveState = injectState(
+  private readonly unionPacificExpressMoveState = injectState(
     UNION_PACIFIC_EXPRESS_MOVE_STATE,
   );
   protected readonly currentPlayer = injectCurrentPlayer();
 
   onStartTurn() {
     const result = super.onStartTurn();
-    this.UnionPacificExpressMoveState.initState({
+    this.unionPacificExpressMoveState.initState({
       usedLinks: [],
     });
     return result;
   }
 
   onEndTurn(): void {
-    this.UnionPacificExpressMoveState.delete();
+    this.unionPacificExpressMoveState.delete();
     return super.onEndTurn();
   }
 }
@@ -67,7 +67,7 @@ export class UnionPacificExpressMovePassAction extends MovePassAction {
   validate(data: EmptyAction): void {
     super.validate(data);
     assert(this.unionPacificExpressMoveState().usedLinks.length === 0, {
-      invalidInput: "cannot pass when usng a transfer station",
+      invalidInput: "cannot pass when using a transfer station",
     });
   }
 }
