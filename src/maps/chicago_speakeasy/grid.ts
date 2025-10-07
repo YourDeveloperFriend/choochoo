@@ -91,7 +91,7 @@ export const map = grid([
   ],
   [
     UNPASSABLE,
-    city("Chicago Pizza & Oven Grinder Co.", PURPLE, white(1), 0),
+    city("Chicago Pizza & Oven Co.", PURPLE, white(1), 0),
     PLAIN,
     town(""),
     RIVER,
