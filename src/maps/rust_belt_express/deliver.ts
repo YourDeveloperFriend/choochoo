@@ -32,8 +32,6 @@ export class RustBeltExpressMoveAction extends MoveAction {
     assert(endingCity instanceof City);
     if (endingCity.name() === "Pittsburgh" && action.good === Good.BLACK) {
       this.playerHelper.updateCurrentPlayer((player) => {
-        assert(player.money >= 2);
-        assert(player.selectedAction === Action.FIRST_MOVE);
         player.money += 2;
       });
       this.log.currentPlayer(
