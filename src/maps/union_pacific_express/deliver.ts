@@ -122,12 +122,19 @@ export class UnionPacificExpressMoveValidator extends MoveValidator {
   validate(player: PlayerData, action: MoveData) {
     super.validate(player, action);
     const { usedLinks } = this.unionPacificExpressMoveState();
-    if (usedLinks.length > 0) {
-      const startingCity = this.grid().get(action.startingCity);
-      const mapSpecific = startingCity?.getMapSpecific(
-        UnionPacificExpressMapData.parse,
-      );
-      assert(mapSpecific !== undefined && !!mapSpecific.transferStation, {
+
+    const startingCity = this.grid().get(action.startingCity);
+    const mapSpecific = startingCity?.getMapSpecific(
+      UnionPacificExpressMapData.parse,
+    );
+    const transferStation =
+      mapSpecific !== undefined && !!mapSpecific.transferStation;
+    if (usedLinks.length === 0) {
+      assert(!transferStation, {
+        invalidInput: `cannot start deliveries from the transfer station`,
+      });
+    } else {
+      assert(transferStation, {
         invalidInput: `must continue chained delivery from the transfer station`,
       });
     }

@@ -4,9 +4,6 @@ import { ImmutableSet } from "../../utils/immutable";
 
 export class UnionPacificExpressAllowedActions extends AllowedActions {
   getActions(): ImmutableSet<Action> {
-    return super
-        .getActions()
-        .remove(Action.PRODUCTION)
-        .remove(Action.ENGINEER);
+    return super.getActions().remove(Action.PRODUCTION).remove(Action.ENGINEER);
   }
 }

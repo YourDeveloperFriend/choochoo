@@ -13,7 +13,8 @@ export function UnionPacificExpressRules() {
         <li>
           <p>
             <b>Move Goods:</b> The multi-hex Bailey Yard area is considered to
-            be a single, colorless City for all purposes; additionally, the
+            be a single, colorless City. You cannot start a delivery from Bailey
+            Yard, but you may pass through it during a delivery. Alternatively,
             Bailey Yard area may function as a transfer station.
           </p>
           <p>
@@ -25,7 +26,8 @@ export function UnionPacificExpressRules() {
             in this manner, the Good delivered to Bailey Yard remains on Bailey
             Yard for future deliveries, and the Good transferred to the
             destination City is returned to the supply. All other rules for
-            completing deliveries remain in effect.
+            completing deliveries remain in effect such as not repeating links
+            or locations for the whole delivery.
           </p>
           <p>
             To use the transfer station, finish the first part of your delivery
