@@ -1,0 +1,103 @@
+import { Good } from "../../engine/state/good";
+import { SpaceData } from "../../engine/state/space";
+import { grid } from "../factory";
+import { duplicate } from "../../utils/functions";
+import {
+  black,
+  city,
+  MOUNTAIN,
+  PLAIN,
+  RIVER,
+  town,
+  WATER,
+  white,
+  UNPASSABLE,
+} from "../factory";
+
+export const map = grid<SpaceData>([
+  [
+    UNPASSABLE,
+    ...duplicate(2, PLAIN),
+    city("Memphis", Good.RED, white(2), 1),
+    ...duplicate(3, PLAIN),
+    city("Jackson", Good.BLUE, white(3), 1),
+    ...duplicate(3, PLAIN),
+    city("New Orleans", Good.YELLOW, white(4), 3),
+  ],
+  [...duplicate(10, PLAIN), WATER],
+  [
+    UNPASSABLE,
+    PLAIN,
+    town("Jackson", Good.WHITE),
+    PLAIN,
+    town("Tupelo", Good.WHITE),
+    ...duplicate(2, PLAIN),
+    town("Meridian", Good.WHITE),
+    ...duplicate(2, PLAIN),
+    town("Biloxi", Good.WHITE),
+  ],
+  [...duplicate(3, RIVER), ...duplicate(7, PLAIN)],
+  [
+    UNPASSABLE,
+    ...duplicate(2, PLAIN),
+    RIVER,
+    ...duplicate(3, PLAIN),
+    town("Selma", Good.WHITE),
+    RIVER,
+    RIVER,
+    city("Mobile", Good.PURPLE, white(5), 3),
+  ],
+  [
+    city("Nashville", Good.BLUE, white(1), 1),
+    ...duplicate(2, PLAIN),
+    town("Decatur", Good.WHITE),
+    PLAIN,
+    town("Birmingham", Good.WHITE),
+    ...duplicate(4, PLAIN),
+  ],
+  [
+    UNPASSABLE,
+    ...duplicate(6, PLAIN),
+    city("Montgomery", Good.BLUE, white(6), 1),
+    ...duplicate(3, PLAIN),
+  ],
+  [MOUNTAIN, PLAIN, town("Chattanooga", Good.WHITE), ...duplicate(8, PLAIN)],
+  [
+    city("Knoxville", Good.RED, black(1), 1),
+    ...duplicate(3, MOUNTAIN),
+    city("Atlanta", Good.RED, black(3), 4),
+    ...duplicate(4, PLAIN),
+    town("Tallahassee", Good.WHITE),
+    PLAIN,
+  ],
+  [
+    ...duplicate(3, MOUNTAIN),
+    ...duplicate(2, PLAIN),
+    town("Macon", Good.WHITE),
+    ...duplicate(4, PLAIN),
+  ],
+  [...duplicate(3, MOUNTAIN), ...duplicate(9, PLAIN)],
+  [
+    ...duplicate(2, MOUNTAIN),
+    ...duplicate(2, PLAIN),
+    town("Augusta", Good.WHITE),
+    ...duplicate(6, PLAIN),
+  ],
+  [
+    PLAIN,
+    town("Charlotte", Good.WHITE),
+    PLAIN,
+    town("Columbia", Good.WHITE),
+    PLAIN,
+    RIVER,
+    ...duplicate(3, PLAIN),
+    city("Jacksonville", Good.RED, black(6), 1),
+    PLAIN,
+  ],
+  [...duplicate(5, PLAIN), RIVER, city("Savannah", Good.YELLOW, black(5), 3)],
+  [
+    city("Raleigh", Good.BLUE, black(2), 1),
+    ...duplicate(4, PLAIN),
+    city("Charleston", Good.PURPLE, black(4), 3),
+  ],
+]);

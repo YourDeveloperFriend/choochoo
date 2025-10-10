@@ -139,10 +139,14 @@ function getOffset(i: number, length: number, startsLower: boolean): number {
   return total - placement;
 }
 
-export function town(townName: string): LandData {
+export function town(townName: string, goods?: Good | Good[]): LandData {
+  const goodsArray =
+    goods == null ? [] : Array.isArray(goods) ? goods : [goods];
+
   return {
     ...PLAIN,
     townName,
+    goods: goodsArray,
   };
 }
 

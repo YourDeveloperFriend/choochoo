@@ -1,6 +1,7 @@
 import z from "zod";
 
 export enum GameKey {
+  SOUTHERN_US = "southern-us",
   BARBADOS = "barbados",
   BALKAN = "balkan",
   POLAND = "poland",
