@@ -12,6 +12,8 @@ import { ActionNamingProvider } from "../../engine/state/action";
 import { PlayerColor, PlayerData } from "../../engine/state/player";
 import { countryName } from "../../maps/cyprus/roles";
 import { CyprusMapSettings } from "../../maps/cyprus/settings";
+import { capturedCubesColumn } from "../../maps/four_corners/captured_cubes_column";
+import { FourCornersMapSettings } from "../../maps/four_corners/settings";
 import { Incinerator } from "../../maps/sweden/incinerator";
 import { SwedenRecyclingMapSettings } from "../../maps/sweden/settings";
 import { getPlayerColorCss } from "../components/player_color";
@@ -66,6 +68,7 @@ export function PlayerStats() {
     sharesColumn,
     locoColumn,
     ...(gameKey === SwedenRecyclingMapSettings.key ? [garbageColumn] : []),
+    ...(gameKey === FourCornersMapSettings.key ? [capturedCubesColumn] : []),
     scoreColumn,
     ...(viewSettings.getPlayerStatColumns
       ? viewSettings.getPlayerStatColumns()

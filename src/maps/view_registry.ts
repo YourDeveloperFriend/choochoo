@@ -1,4 +1,5 @@
 import { SouthernUsViewSettings } from "./southern_us/view_settings";
+import { FourCornersViewSettings } from "./four_corners/view_settings";
 import { BarbadosViewSettings } from "./barbados/view_settings";
 import { GameKey } from "../api/game_key";
 import { assert } from "../utils/validate";
@@ -48,6 +49,7 @@ export class ViewRegistry {
 
   private constructor() {
     this.add(new SouthernUsViewSettings());
+    this.add(new FourCornersViewSettings());
     this.add(new BarbadosViewSettings());
     this.add(new TrislandViewSettings());
     this.add(new PortugalViewSettings());
