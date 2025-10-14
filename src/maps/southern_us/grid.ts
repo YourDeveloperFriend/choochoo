@@ -63,6 +63,13 @@ export const map = grid<SpaceData>([
   ],
   [MOUNTAIN, PLAIN, town("Chattanooga", Good.WHITE), ...duplicate(8, PLAIN)],
   [
+    UNPASSABLE,
+    ...duplicate(3, MOUNTAIN),
+    ...duplicate(3, PLAIN),
+    town("Columbus", Good.WHITE),
+    ...duplicate(3, RIVER),
+  ],
+  [
     city("Knoxville", Good.RED, black(1), 1),
     ...duplicate(3, MOUNTAIN),
     city("Atlanta", Good.RED, black(3), 4),
@@ -71,6 +78,7 @@ export const map = grid<SpaceData>([
     PLAIN,
   ],
   [
+    UNPASSABLE,
     ...duplicate(3, MOUNTAIN),
     ...duplicate(2, PLAIN),
     town("Macon", Good.WHITE),
@@ -78,6 +86,7 @@ export const map = grid<SpaceData>([
   ],
   [...duplicate(3, MOUNTAIN), ...duplicate(9, PLAIN)],
   [
+    UNPASSABLE,
     ...duplicate(2, MOUNTAIN),
     ...duplicate(2, PLAIN),
     town("Augusta", Good.WHITE),
@@ -94,7 +103,12 @@ export const map = grid<SpaceData>([
     city("Jacksonville", Good.RED, black(6), 1),
     PLAIN,
   ],
-  [...duplicate(5, PLAIN), RIVER, city("Savannah", Good.YELLOW, black(5), 3)],
+  [
+    UNPASSABLE,
+    ...duplicate(5, PLAIN),
+    RIVER,
+    city("Savannah", Good.YELLOW, black(5), 3),
+  ],
   [
     city("Raleigh", Good.BLUE, black(2), 1),
     ...duplicate(4, PLAIN),
