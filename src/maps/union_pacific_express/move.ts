@@ -31,7 +31,7 @@ export class UnionPacificExpressMoveHelper extends MoveHelper {
   isWithinLocomotive(player: PlayerData, moveData: MoveData): boolean {
     return (
       moveData.path.length +
-        this.unionPacificExpressMoveState().usedLinks.length <=
+        this.unionPacificExpressMoveState().visitedLocations.length <=
       player.locomotive
     );
   }
