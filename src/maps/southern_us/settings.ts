@@ -12,6 +12,7 @@ import {
 } from "./move";
 import { SouthernUSGoodsGrowthPhase } from "./goods_growth";
 import { SouthernUSIncomeReductionPhase } from "./income";
+import { SouthernUSStarter } from "./starter";
 
 export class SouthernUsMapSettings implements MapSettings {
   readonly key = GameKey.SOUTHERN_US;
@@ -21,7 +22,7 @@ export class SouthernUsMapSettings implements MapSettings {
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.DEVELOPMENT;
+  readonly stage = ReleaseStage.ALPHA;
 
   getOverrides() {
     return [
@@ -30,6 +31,7 @@ export class SouthernUsMapSettings implements MapSettings {
       SouthernUSMoveAction,
       SouthernUSGoodsGrowthPhase,
       SouthernUSIncomeReductionPhase,
+      SouthernUSStarter
     ];
   }
 }

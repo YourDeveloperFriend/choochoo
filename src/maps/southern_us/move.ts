@@ -2,11 +2,10 @@ import { MoveValidator } from "../../engine/move/validator";
 import { MoveHelper } from "../../engine/move/helper";
 import { MoveData } from "../../engine/move/move";
 import { MoveAction } from "../../engine/move/move";
-import { Good, goodToString } from "../../engine/state/good";
+import { Good } from "../../engine/state/good";
 import { City } from "../../engine/map/city";
 import { inject } from "../../engine/framework/execution_context";
 import { InvalidInputError } from "../../utils/error";
-import { peek } from "../../utils/functions";
 import { PlayerData } from "../../engine/state/player";
 import { injectGrid } from "../../engine/game/state";
 import { Log } from "../../engine/game/log";
@@ -36,26 +35,6 @@ export class SouthernUSMoveHelper extends MoveHelper {
 export class SouthernUSMoveValidator extends MoveValidator {
   protected readonly grid = injectGrid();
   protected readonly moveHelper = inject(SouthernUSMoveHelper);
-
-  validateEnd(action: MoveData): void {
-    if (action.path.length === 0) {
-      throw new InvalidInputError("must move over at least one route");
-    }
-
-    const endingLocation = this.grid().get(peek(action.path).endingStop);
-
-    if (!(endingLocation instanceof City)) {
-      throw new InvalidInputError(
-        `${goodToString(action.good)} good cannot be delivered to non city`,
-      );
-    }
-
-    if (this.moveHelper.isWhiteInCostal(endingLocation, action.good)) {
-      return;
-    }
-
-    super.validateEnd(action);
-  }
 
   validatePartial(player: PlayerData, action: MoveData): void {
     const grid = this.grid();
