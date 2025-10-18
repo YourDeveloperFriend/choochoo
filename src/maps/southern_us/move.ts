@@ -1,13 +1,9 @@
-import { MoveValidator } from "../../engine/move/validator";
 import { MoveHelper } from "../../engine/move/helper";
 import { MoveData } from "../../engine/move/move";
 import { MoveAction } from "../../engine/move/move";
 import { Good } from "../../engine/state/good";
 import { City } from "../../engine/map/city";
 import { inject } from "../../engine/framework/execution_context";
-import { InvalidInputError } from "../../utils/error";
-import { PlayerData } from "../../engine/state/player";
-import { injectGrid } from "../../engine/game/state";
 import { Log } from "../../engine/game/log";
 import { PlayerHelper } from "../../engine/game/player";
 
@@ -29,29 +25,6 @@ export class SouthernUSMoveHelper extends MoveHelper {
     }
 
     return super.canDeliverTo(city, good);
-  }
-}
-
-export class SouthernUSMoveValidator extends MoveValidator {
-  protected readonly grid = injectGrid();
-  protected readonly moveHelper = inject(SouthernUSMoveHelper);
-
-  validatePartial(player: PlayerData, action: MoveData): void {
-    const grid = this.grid();
-
-    for (const step of action.path.slice(0, action.path.length - 1)) {
-      const location = grid.get(step.endingStop);
-
-      if (
-        location instanceof City &&
-        this.moveHelper.isWhiteInCostal(location, action.good)
-      ) {
-        throw new InvalidInputError(
-          `Cannot pass through a costal city with a white good`,
-        );
-      }
-    }
-    super.validatePartial(player, action);
   }
 }
 

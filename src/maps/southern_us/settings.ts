@@ -6,7 +6,6 @@ import {
 } from "../../engine/game/map_settings";
 import { map } from "./grid";
 import {
-  SouthernUSMoveValidator,
   SouthernUSMoveHelper,
   SouthernUSMoveAction,
 } from "./move";
@@ -26,7 +25,7 @@ export class SouthernUsMapSettings implements MapSettings {
 
   getOverrides() {
     return [
-      SouthernUSMoveValidator,
+      // SouthernUSMoveValidator,
       SouthernUSMoveHelper,
       SouthernUSMoveAction,
       SouthernUSGoodsGrowthPhase,
