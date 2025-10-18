@@ -125,7 +125,7 @@ export const map = grid<SpaceData>([
     RIVER,
     PLAIN,
     PLAIN,
-    city("San Antioni", Good.BLUE, black(6), 2),
+    city("San Antoni", Good.BLUE, black(6), 2),
   ],
   [
     UNPASSABLE,
