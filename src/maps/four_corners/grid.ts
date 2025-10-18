@@ -10,7 +10,6 @@ import {
   RIVER,
   town,
   UNPASSABLE,
-  WATER,
   white,
 } from "../factory";
 
@@ -157,11 +156,5 @@ export const map = grid<SpaceData>([
     town("Santa Rosa"),
     RIVER,
   ],
-  [
-    UNPASSABLE,
-    ...duplicate(9, MOUNTAIN),
-    RIVER,
-    ...duplicate(3, PLAIN),
-    
-  ]
+  [UNPASSABLE, ...duplicate(9, MOUNTAIN), RIVER, ...duplicate(3, PLAIN)],
 ]);
