@@ -23,6 +23,7 @@ import {
 import { RustBeltExpressStarter } from "./starter";
 import { fail } from "../../utils/validate";
 import { interCityConnections } from "../factory";
+import { RustBeltExpressActionNamingProvider } from "./actions";
 
 export class RustBeltExpressMapSettings implements MapSettings {
   readonly key = GameKey.RUST_BELT_EXPRESS;
@@ -52,6 +53,7 @@ export class RustBeltExpressMapSettings implements MapSettings {
       RustBeltExpressMoveValidator,
       RustBeltExpressStarter,
       RustBeltExpressBuilderHelper,
+      RustBeltExpressActionNamingProvider,
     ];
   }
 
