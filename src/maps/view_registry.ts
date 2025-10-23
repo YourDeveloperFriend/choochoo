@@ -1,3 +1,4 @@
+import { SouthernUsViewSettings } from "./southern_us/view_settings";
 import { BarbadosViewSettings } from "./barbados/view_settings";
 import { GameKey } from "../api/game_key";
 import { assert } from "../utils/validate";
@@ -43,6 +44,7 @@ export class ViewRegistry {
   private readonly maps = new Map<GameKey, MapViewSettings>();
 
   private constructor() {
+    this.add(new SouthernUsViewSettings());
     this.add(new BarbadosViewSettings());
     this.add(new TrislandViewSettings());
     this.add(new PortugalViewSettings());
