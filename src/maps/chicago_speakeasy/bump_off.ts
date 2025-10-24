@@ -1,4 +1,4 @@
-import { Action, ActionNamingProvider } from "../../engine/state/action";
+import { Action } from "../../engine/state/action";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
 import { ImmutableSet } from "../../utils/immutable";
 import { MovePhase } from "../../engine/move/phase";
@@ -13,27 +13,9 @@ import { Good } from "../../engine/state/good";
 import { GridHelper } from "../../engine/map/grid_helper";
 import { Log } from "../../engine/game/log";
 
-export const BUMP_OFF_ACTION = Action.DEURBANIZATION;
-
 export class ChicagoSpeakEasyAllowedActions extends AllowedActions {
   getActions(): ImmutableSet<Action> {
-    return super.getActions().add(BUMP_OFF_ACTION);
-  }
-}
-
-export class ChicagoSpeakEasyActionNamingProvider extends ActionNamingProvider {
-  getActionString(action?: Action): string {
-    if (action === BUMP_OFF_ACTION) {
-      return "Bump Off an Agent";
-    }
-    return super.getActionString(action);
-  }
-
-  getActionDescription(action: Action): string {
-    if (action === BUMP_OFF_ACTION) {
-      return "You may remove 1 black good from the map before 1 of your deliveries.";
-    }
-    return super.getActionDescription(action);
+    return super.getActions().add(Action.BUMP_OFF);
   }
 }
 
@@ -77,7 +59,7 @@ export class BumpOffAction implements ActionProcessor<BumpOffData> {
 
   validate(data: BumpOffData): void {
     const currentPlayer = this.currentPlayer();
-    assert(currentPlayer.selectedAction === BUMP_OFF_ACTION, {
+    assert(currentPlayer.selectedAction === Action.BUMP_OFF, {
       invalidInput: "Current player cannot use bump-off action.",
     });
     assert(this.hasUsedBumpOff() === false, {

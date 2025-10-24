@@ -12,7 +12,6 @@ import {
   ChicagoSpeakEasyMoveHelper,
 } from "./move_goods";
 import {
-  ChicagoSpeakEasyActionNamingProvider,
   ChicagoSpeakEasyAllowedActions,
   ChicagoSpeakEasyMovePhase,
 } from "./bump_off";
@@ -34,7 +33,6 @@ export class ChicagoSpeakeasyMapSettings implements MapSettings {
       ChicagoSpeakEasyMoveHelper,
       ChicagoSpeakEasyMoveAction,
       ChicagoSpeakEasyAllowedActions,
-      ChicagoSpeakEasyActionNamingProvider,
       ChicagoSpeakEasyMovePhase,
     ];
   }

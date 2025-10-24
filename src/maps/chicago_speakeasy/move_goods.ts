@@ -6,6 +6,7 @@ import { assert } from "../../utils/validate";
 import { PlayerColor } from "../../engine/state/player";
 import { inject } from "../../engine/framework/execution_context";
 import { PlayerHelper } from "../../engine/game/player";
+import { Coordinates } from "../../utils/coordinates";
 
 export class ChicagoSpeakEasyMoveHelper extends MoveHelper {
   canDeliverTo(city: City, good: Good): boolean {
@@ -65,13 +66,13 @@ export class ChicagoSpeakEasyMoveAction extends MoveAction {
       return 0;
     }
     const grid = this.grid();
-    let cost = 0;
-    const startingCity = grid.get(action.startingCity);
-    if (startingCity) {
-      cost += startingCity.getGoods().filter((g) => g === Good.BLACK).length;
-    }
+    const cities: Coordinates[] = [action.startingCity];
     for (let i = 0; i < action.path.length - 1; i++) {
-      const city = grid.get(action.path[i].endingStop);
+      cities.push(action.path[i].endingStop);
+    }
+    let cost = 0;
+    for (const cityCoordinate of cities) {
+      const city = grid.get(cityCoordinate);
       if (city) {
         cost += city.getGoods().filter((g) => g === Good.BLACK).length;
       }

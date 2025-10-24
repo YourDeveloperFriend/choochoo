@@ -3,9 +3,10 @@ import {
   useInjectedState,
 } from "../../client/utils/injection_context";
 import { useAction } from "../../client/services/action";
-import { BUMP_OFF_ACTION, BumpOffAction, HAS_USED_BUMP_OFF } from "./bump_off";
+import { BumpOffAction, HAS_USED_BUMP_OFF } from "./bump_off";
 import { Button, Icon } from "semantic-ui-react";
 import { MoveGoods } from "../../client/game/move_goods_action_summary";
+import { Action } from "../../engine/state/action";
 
 export function MoveActionSummary() {
   const { emit, canEmit, data, isPending } = useAction(BumpOffAction);
@@ -13,7 +14,7 @@ export function MoveActionSummary() {
   const player = useCurrentPlayer();
 
   const canUseBumpOff =
-    !hasUsedBumpOff && player?.selectedAction === BUMP_OFF_ACTION;
+    !hasUsedBumpOff && player?.selectedAction === Action.BUMP_OFF;
 
   return (
     <>
