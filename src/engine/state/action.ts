@@ -41,6 +41,9 @@ export enum Action {
 
   // Scandinavia
   FERRY = 21,
+
+  // Chicago Speakeasy
+  BUMP_OFF = 22,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -92,6 +95,8 @@ export class ActionNamingProvider {
         return "Protection";
       case Action.FERRY:
         return "Ferry";
+      case Action.BUMP_OFF:
+        return "Bump Off an Agent"
       default:
         assertNever(action);
     }
@@ -142,6 +147,8 @@ export class ActionNamingProvider {
         return "Allows you to move black cubes from towns during the Move Goods step.";
       case Action.FERRY:
         return "Allows you to move one good across water. See rules for more information.";
+      case Action.BUMP_OFF:
+        return "You may remove 1 black good from the map before 1 of your deliveries.";
       default:
         assertNever(action);
     }
