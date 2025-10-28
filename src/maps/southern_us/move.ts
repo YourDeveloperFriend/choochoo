@@ -6,6 +6,7 @@ import { City } from "../../engine/map/city";
 import { inject } from "../../engine/framework/execution_context";
 import { Log } from "../../engine/game/log";
 import { PlayerHelper } from "../../engine/game/player";
+import { PlayerColor } from "../../engine/state/player";
 
 export class SouthernUSMoveHelper extends MoveHelper {
   readonly COASTAL_CITIES = new Set([
@@ -32,19 +33,16 @@ export class SouthernUSMoveAction extends MoveAction<MoveData> {
   protected readonly log = inject(Log);
   protected readonly playerHelper = inject(PlayerHelper);
 
-  process(action: MoveData): boolean {
-    super.process(action);
+  calculateIncome(action: MoveData): Map<PlayerColor | undefined, number> {
+    const income = super.calculateIncome(action);
 
     if (action.good === Good.WHITE) {
-      this.playerHelper.updateCurrentPlayer((player) => {
-        player.income++;
-      });
-      this.log.currentPlayer(
-        "received an additional income due to moving white goods",
-      );
+      const currentPlayerColor = this.currentPlayer().color;
+      const currentIncome = income.get(currentPlayerColor) || 0;
+      income.set(currentPlayerColor, currentIncome + 1);
     }
 
-    return true;
+    return income;
   }
 
   protected returnToBag(action: MoveData): void {
