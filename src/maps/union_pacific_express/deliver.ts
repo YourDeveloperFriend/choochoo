@@ -6,7 +6,7 @@ import { LocoAction } from "../../engine/move/loco";
 import { MoveAction, MoveData } from "../../engine/move/move";
 import { MovePhase } from "../../engine/move/phase";
 import { SpaceType } from "../../engine/state/location_type";
-import { PlayerData } from "../../engine/state/player";
+import { PlayerColorZod, PlayerData } from "../../engine/state/player";
 import { Coordinates, CoordinatesZod } from "../../utils/coordinates";
 import { assert } from "../../utils/validate";
 import { MoveValidator } from "../../engine/move/validator";
@@ -16,8 +16,17 @@ import { UnionPacificExpressMapData } from "./grid";
 
 export const BAILEY_YARD_SAME_CITY = 1;
 
+const UsedLink = z.object({
+  start: CoordinatesZod,
+  end: CoordinatesZod,
+  owner: PlayerColorZod.optional(),
+});
+type UsedLink = z.infer<typeof UsedLink>;
+
+// FIXME: Remove usedLinks and make visitedLocations some time after these changes are merged and there are no move phases in progress from before this refactor
 const UnionPacificExpressMoveState = z.object({
-  visitedLocations: CoordinatesZod.array(),
+  visitedLocations: CoordinatesZod.array().optional(),
+  usedLinks: UsedLink.array().optional(),
 });
 type UnionPacificExpressMoveState = z.infer<
   typeof UnionPacificExpressMoveState
@@ -57,7 +66,8 @@ export class UnionPacificExpressMovePassAction extends MovePassAction {
 
   validate(data: EmptyAction): void {
     super.validate(data);
-    assert(this.unionPacificExpressMoveState().visitedLocations.length === 0, {
+    const state = this.unionPacificExpressMoveState();
+    assert((!state.visitedLocations || state.visitedLocations.length === 0), {
       invalidInput: "cannot pass when using a transfer station",
     });
   }
@@ -86,6 +96,9 @@ export class UnionPacificExpressMoveAction extends MoveAction {
         city.goods.push(action.good);
       });
       this.unionPacificExpressMoveState.update((val) => {
+        if (!val.visitedLocations) {
+          val.visitedLocations = [];
+        }
         // Add starting and intermediate locations to visited locations, but not the ending one (the transfer station)
         val.visitedLocations.push(action.startingCity);
         for (let i = 0; i < action.path.length - 1; i++) {
@@ -106,7 +119,7 @@ export class UnionPacificExpressMoveValidator extends MoveValidator {
 
   validate(player: PlayerData, action: MoveData) {
     super.validate(player, action);
-    const { visitedLocations } = this.unionPacificExpressMoveState();
+    const { usedLinks, visitedLocations } = this.unionPacificExpressMoveState();
 
     const startingCity = this.grid().get(action.startingCity);
     const mapSpecific = startingCity?.getMapSpecific(
@@ -114,13 +127,13 @@ export class UnionPacificExpressMoveValidator extends MoveValidator {
     );
     const transferStation =
       mapSpecific !== undefined && !!mapSpecific.transferStation;
-    if (visitedLocations.length === 0) {
-      assert(!transferStation, {
-        invalidInput: `cannot start deliveries from the transfer station`,
-      });
-    } else {
+    if ((usedLinks && usedLinks.length > 0) || (visitedLocations && visitedLocations.length > 0)) {
       assert(transferStation, {
         invalidInput: `must continue chained delivery from the transfer station`,
+      });
+    } else {
+      assert(!transferStation, {
+        invalidInput: `cannot start deliveries from the transfer station`,
       });
     }
 
@@ -129,8 +142,11 @@ export class UnionPacificExpressMoveValidator extends MoveValidator {
 
   private validateVisitedLocationsNotReused(
     action: MoveData,
-    visitedLocations: Coordinates[],
+    visitedLocations: Coordinates[]|undefined,
   ) {
+    if (!visitedLocations) {
+      return;
+    }
     for (const newLoc of [action.startingCity].concat(
       action.path.map((step) => step.endingStop),
     )) {
@@ -148,7 +164,7 @@ export class UnionPacificExpressLocoAction extends LocoAction {
 
   validate(): void {
     super.validate();
-    assert(this.unionPacificExpressMoveState().visitedLocations.length === 0, {
+    assert((this.unionPacificExpressMoveState().visitedLocations?.length || 0) === 0, {
       invalidInput: "cannot loco in the middle of a delivery chain",
     });
   }
