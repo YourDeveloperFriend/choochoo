@@ -43,7 +43,7 @@ export const map = grid([
     PLAIN,
     city("Bydgoszcz", Good.BLUE, white(2), 2),
     ...duplicate(4, PLAIN),
-    town("Opale"),
+    town("Opole"),
     DARK_MOUNTAIN,
   ],
   [
