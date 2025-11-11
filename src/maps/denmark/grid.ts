@@ -61,7 +61,9 @@ export const map = grid([
     WATER,
     WATER,
     PLAIN,
-    town("Hirtshals"),
+    ferryTown("Hirtshals", [
+      { direction: Direction.BOTTOM, city: "Europe" },
+    ]),
     WATER,
     WATER,
     city("Europe", [], undefined, 0),
