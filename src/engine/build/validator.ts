@@ -25,8 +25,13 @@ export class Validator {
   protected readonly helper = inject(BuilderHelper);
   protected readonly grid = injectGrid();
 
-  tileMatchesTownType(coordinates: Coordinates, tileType: TileType) {
-    const space = this.grid().get(coordinates) as Land;
+  tileMatchesTownType(coordinates: Coordinates, tileType: TileType): InvalidBuildReason | undefined {
+    const space = this.grid().get(coordinates);
+    assert(space !== undefined);
+    if (space instanceof City) {
+      return 'cannot place track on a city';
+    }
+
     const thisIsTownTile = isTownTile(tileType);
     if (space.hasTown() !== thisIsTownTile) {
       if (thisIsTownTile) {
@@ -206,7 +211,8 @@ export class Validator {
 
   protected newTrackExtendsPrevious(playerColor: PlayerColor, space: Land, newTracks: TrackInfo[]): boolean {
     // if it's a town tile, only one of the track needs to be placeable
-    if (space.hasTown()) {
+    const hasTown = newTracks.some(track => track.exits.some(exit => exit === TOWN));
+    if (hasTown) {
       return newTracks.some((track) => this.newTrackConnectsToOwned(space, playerColor, track));
     }
     return newTracks.every((track) => this.newTrackConnectsToOwned(space, playerColor, track));
