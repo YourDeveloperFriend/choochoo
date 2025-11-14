@@ -69,6 +69,7 @@ export function BuildingDialog({
     useAction(UrbanizeAction);
   const action = useInjectedMemo(BuildAction);
   const buildValidator = useInjectedMemo(Validator);
+  const urbanizeAction = useInjectedMemo(UrbanizeAction);
   const availableCities = useInjectedState(AVAILABLE_CITIES);
   const grid = useInjected(GridHelper);
   const [showReasons, setShowReasons] = useState(false);
@@ -76,7 +77,7 @@ export function BuildingDialog({
     (prev: Direction, _: object) => rotateDirectionClockwise(prev),
     Direction.TOP,
   );
-  const space = coordinates && (grid.lookup(coordinates) as Land);
+  const space = coordinates && (grid.lookup(coordinates) as Space);
   const { eligible, errorReason } = useTypedMemo(getEligibleBuilds, [
     action,
     buildValidator,
@@ -103,8 +104,8 @@ export function BuildingDialog({
   const canUrbanize =
     canEmitUrbanize &&
     space != null &&
-    space.hasTown() &&
-    availableCities.length > 0;
+    availableCities.length > 0 &&
+    canUrbanizeSpace(urbanizeAction, coordinates);
   const hasBuildingOptions = canUrbanize || eligible.length > 0;
 
   const isOpen = coordinates != null && (hasBuildingOptions || isAdmin);
@@ -242,9 +243,7 @@ export function ModifiedSpace({
   onClick,
 }: ModifiedSpaceProps) {
   const newSpace = useMemo(() => {
-    if (space instanceof City) {
-      return new City(space.coordinates, space.data);
-    } else if (asCity != null) {
+    if (asCity != null) {
       return new City(space.coordinates, {
         type: SpaceType.CITY,
         name: space.name()!,
@@ -253,6 +252,8 @@ export function ModifiedSpace({
         urbanized: true,
         onRoll: asCity.onRoll,
       });
+    } else if (space instanceof City) {
+      return new City(space.coordinates, space.data);
     } else {
       const newLocationData = {
         ...space.data,
@@ -307,6 +308,10 @@ function getEligibleBuilds(
       showReasons ? [direction] : allDirections,
     ),
   ];
+  if (builds.length === 0) {
+    return { eligible: [], errorReason: "No valid builds for this location" };
+  }
+
   const filteredDuplicates = builds.filter((build1, index) => {
     const tileInfo1 = calculateTrackInfo(build1.tile);
     return !builds.slice(index + 1).some((build2) => {
@@ -352,5 +357,17 @@ function* getAllEligibleBuilds(
         yield { action, tile, reason: (e as Error).message };
       }
     }
+  }
+}
+
+function canUrbanizeSpace(action: Memoized<UrbanizeAction>, coordinates: Coordinates|undefined): boolean {
+  if (!coordinates) {
+    return false;
+  }
+  try {
+    action.value.validate({coordinates: coordinates, cityIndex: 0});
+    return true;
+  } catch (_: unknown) {
+    return false;
   }
 }

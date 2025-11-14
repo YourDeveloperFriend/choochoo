@@ -39,6 +39,7 @@ import { CaliforniaGoldRushViewSettings } from "./ca-gold-rush/view_settings";
 import { UnionPacificExpressViewSettings } from "./union_pacific_express/view_settings";
 import { RustBeltExpressViewSettings } from "./rust_belt_express/view_settings";
 import { ChicagoSpeakeasyViewSettings } from "./chicago_speakeasy/view_settings";
+import { BelgiumViewSettings } from "./belgium/view_settings";
 
 export class ViewRegistry {
   static readonly singleton = new ViewRegistry();
@@ -83,6 +84,7 @@ export class ViewRegistry {
     this.add(new UnionPacificExpressViewSettings());
     this.add(new RustBeltExpressViewSettings());
     this.add(new ChicagoSpeakeasyViewSettings());
+    this.add(new BelgiumViewSettings());
   }
 
   values(): Iterable<MapViewSettings> {

@@ -39,6 +39,7 @@ export enum GameKey {
   UNION_PACIFIC_EXPRESS = "union-pacific-express",
   RUST_BELT_EXPRESS = "rust-belt-express",
   CHICAGO_SPEAKEASY = "chicago-speakeasy",
+  BELGIUM = "belgium",
 }
 
 export const GameKeyZod = z.nativeEnum(GameKey);

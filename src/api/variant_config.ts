@@ -38,6 +38,7 @@ const EmptyVariantConfig = z.object({
     GameKey.UNION_PACIFIC_EXPRESS,
     GameKey.RUST_BELT_EXPRESS,
     GameKey.CHICAGO_SPEAKEASY,
+    GameKey.BELGIUM,
   ]),
 });
 type EmptyVariantConfig = z.infer<typeof EmptyVariantConfig>;
