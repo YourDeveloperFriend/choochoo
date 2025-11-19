@@ -124,6 +124,10 @@
   fill: none;
 }
 
+.lakePath {
+  fill: #009bb2;
+}
+
 .seaRoute {
   stroke: #ffffff;
   stroke-width: 9;

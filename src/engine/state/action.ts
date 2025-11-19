@@ -44,6 +44,9 @@ export enum Action {
 
   // Chicago Speakeasy
   BUMP_OFF = 22,
+
+  // Eastern US & Canada
+  MARKETING = 23,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -97,6 +100,8 @@ export class ActionNamingProvider {
         return "Ferry";
       case Action.BUMP_OFF:
         return "Bump Off an Agent"
+      case Action.MARKETING:
+        return "Marketing";
       default:
         assertNever(action);
     }
@@ -149,6 +154,8 @@ export class ActionNamingProvider {
         return "Allows you to move one good across water. See rules for more information.";
       case Action.BUMP_OFF:
         return "You may remove 1 black good from the map before 1 of your deliveries.";
+      case Action.MARKETING:
+        return "You can move through one city matching the good's color on both of your moves.";
       default:
         assertNever(action);
     }

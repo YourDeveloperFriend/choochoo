@@ -34,7 +34,7 @@ import { useTypedCallback } from "../utils/hooks";
 import { ClickTarget } from "./click_target";
 import { getTerrainHexes } from "./hex";
 import * as styles from "./hex_grid.module.css";
-import { InterCityConnectionRender } from "./inter_city_connection";
+import { InterCityConnectionsRender } from "./inter_city_connection";
 
 interface HexGridProps {
   id?: string;
@@ -330,19 +330,14 @@ export function HexGrid({
               {terrainHexes.afterTextures}
               {overlayLayer}
               {terrainHexes.afterOverlay}
-              {grid.connections.map((connection, index) => (
-                <InterCityConnectionRender
-                  key={index}
-                  highlighted={highlightedConnections?.some(
-                    (c) => connection.id === c.id,
-                  )}
+              <InterCityConnectionsRender
+                  highlightedConnections={highlightedConnections}
                   clickTargets={clickTargetsNormalized}
                   onClick={onClickInterCity}
                   size={size}
-                  connection={connection}
+                  connections={grid.connections}
                   rotation={rotation}
-                />
-              ))}
+              />
               {fullMapVersion && <SwedenProgressionGraphic />}
               {children}
               {spaceToConfirm && (

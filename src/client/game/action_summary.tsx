@@ -255,7 +255,7 @@ function DiscoProduction() {
   );
 }
 
-function SpecialActionSelector() {
+export function SpecialActionSelector() {
   const { canEmit, canEmitUserId } = useAction(ActionSelectionSelectAction);
   const { canEmit: canEmitSkip, isPending, emit } = useAction(SkipAction);
 

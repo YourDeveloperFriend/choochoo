@@ -102,7 +102,7 @@ export function getExitPoint(center: Point, exit: Exit, size: number): Point {
   return movePointInDirection(center, size, exit);
 }
 
-function directionToRad(direction: Direction): number {
+export function directionToRad(direction: Direction): number {
   switch (direction) {
     case Direction.TOP_RIGHT:
       return (Math.PI * 11) / 6;

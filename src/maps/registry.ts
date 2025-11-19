@@ -40,6 +40,7 @@ import { UnionPacificExpressMapSettings } from "./union_pacific_express/settings
 import { RustBeltExpressMapSettings } from "./rust_belt_express/settings";
 import { ChicagoSpeakeasyMapSettings } from "./chicago_speakeasy/settings";
 import { BelgiumMapSettings } from "./belgium/settings";
+import { EasternUsAndCanadaMapSettings } from "./eastern_us_and_canada/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();
@@ -85,6 +86,7 @@ export class MapRegistry {
     this.add(new RustBeltExpressMapSettings());
     this.add(new ChicagoSpeakeasyMapSettings());
     this.add(new BelgiumMapSettings());
+    this.add(new EasternUsAndCanadaMapSettings());
   }
 
   values(): Iterable<MapSettings> {
