@@ -50,6 +50,11 @@ export class EasternUsAndCanadaSelectAction extends SelectAction {
   private readonly bag = injectState(BAG);
   private readonly random = inject(Random);
 
+  validate(data: SelectData): void {
+    super.validate(data);
+    assert(this.productionState().goods.length === 0, { invalidInput: 'cannot select an action while production goods need to be placed' });
+  }
+
   process(data: SelectData): boolean {
     const result = super.process(data);
 
