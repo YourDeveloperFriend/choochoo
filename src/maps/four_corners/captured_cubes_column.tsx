@@ -21,7 +21,6 @@ export function CapturedCubesCell({ player }: PlayerStatColumnProps) {
     return acc;
   }, new Map());
 
-  // Format as "Blue:2, Red:1"
   const cubesText = Array.from(cubesSummary.entries())
     .map(([good, count]) => `${goodToString(good)}:${count}`)
     .join(", ");
