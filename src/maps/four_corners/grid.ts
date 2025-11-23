@@ -1,6 +1,9 @@
-import { SpaceData } from "../../engine/state/space";
+import { SpaceData, LandData } from "../../engine/state/space";
 import { Good } from "../../engine/state/good";
 import { duplicate } from "../../utils/functions";
+import { SpaceStyle } from "../../engine/state/location_style";
+import { SpaceType } from "../../engine/state/location_type";
+
 import {
   black,
   city,
@@ -13,6 +16,12 @@ import {
   white,
 } from "../factory";
 
+const CANYON : LandData = {
+  type: SpaceType.UNPASSABLE,
+  style: SpaceStyle.CANYON,
+};
+
+
 export const map = grid<SpaceData>([
   [UNPASSABLE, ...duplicate(4, PLAIN), RIVER, ...duplicate(9, PLAIN)],
   [
@@ -21,8 +30,8 @@ export const map = grid<SpaceData>([
     RIVER,
     city("Cedar City", Good.PURPLE, white(3), 2),
     PLAIN,
-    UNPASSABLE,
-    UNPASSABLE,
+    CANYON,
+    CANYON,
     PLAIN,
     town("Prescott"),
     PLAIN,
@@ -38,8 +47,8 @@ export const map = grid<SpaceData>([
     PLAIN,
     RIVER,
     RIVER,
-    UNPASSABLE,
-    UNPASSABLE,
+    CANYON,
+    CANYON,
     RIVER,
     ...duplicate(4, PLAIN),
   ],
@@ -52,8 +61,8 @@ export const map = grid<SpaceData>([
     RIVER,
     RIVER,
     RIVER,
-    UNPASSABLE,
-    UNPASSABLE,
+    CANYON,
+    CANYON,
     city("Flagstaff", Good.RED, black(1), 2),
     ...duplicate(3, PLAIN),
     town("Tuscon"),
@@ -68,7 +77,7 @@ export const map = grid<SpaceData>([
     RIVER,
     town("Mt.Pleasant"),
     RIVER,
-    UNPASSABLE,
+    CANYON,
     PLAIN,
     RIVER,
     ...duplicate(3, PLAIN),
