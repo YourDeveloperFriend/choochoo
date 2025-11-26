@@ -52,7 +52,10 @@ export class EasternUsAndCanadaSelectAction extends SelectAction {
 
   validate(data: SelectData): void {
     super.validate(data);
-    assert(this.productionState().goods.length === 0, { invalidInput: 'cannot select an action while production goods need to be placed' });
+    assert(this.productionState().goods.length === 0, {
+      invalidInput:
+        "cannot select an action while production goods need to be placed",
+    });
   }
 
   process(data: SelectData): boolean {

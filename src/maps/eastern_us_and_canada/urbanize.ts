@@ -10,7 +10,7 @@ import { TOWN } from "../../engine/map/track";
 import { allDirections, Direction } from "../../engine/state/tile";
 import { PlayerColor } from "../../engine/state/player";
 import { City } from "../../engine/map/city";
-import {BuilderHelper} from "../../engine/build/helper";
+import { BuilderHelper } from "../../engine/build/helper";
 
 export class EasternUsAndCanadaUrbanizeAction extends UrbanizeAction {
   private readonly bag = injectState(BAG);
@@ -18,7 +18,9 @@ export class EasternUsAndCanadaUrbanizeAction extends UrbanizeAction {
 
   validate(data: UrbanizeData) {
     super.validate(data);
-    assert(this.helper.buildCount() === 0, { invalidInput: 'urbanization must be done before track builds' });
+    assert(this.helper.buildCount() === 0, {
+      invalidInput: "urbanization must be done before track builds",
+    });
   }
 
   process(data: UrbanizeData): boolean {

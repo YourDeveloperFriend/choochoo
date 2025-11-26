@@ -21,11 +21,17 @@ export function EasternUsAndCanadaRules() {
           then place them on two different cities.
         </li>
         <li>
-          <b>Urbanization:</b> after a town is urbanized, two cubes are drawn
-          from the bag and placed on the new city. If the new city is
-          immediately adjacent to other cities and there was already track
-          connecting the town to the city, this track is replaced with an
-          intercity connection between the new city and the adjacent city.
+          <p>
+            <b>Urbanization:</b> after a town is urbanized, two cubes are drawn
+            from the bag and placed on the new city. If the new city is
+            immediately adjacent to other cities and there was already track
+            connecting the town to the city, this track is replaced with an
+            intercity connection between the new city and the adjacent city.
+          </p>
+          <p>
+            Note: it is enforced that urbanization must be done first during the
+            build phase on this map.
+          </p>
         </li>
         <li>
           <p>
