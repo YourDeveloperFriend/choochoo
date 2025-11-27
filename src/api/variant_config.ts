@@ -3,6 +3,7 @@ import { GameKey } from "./game_key";
 
 const EmptyVariantConfig = z.object({
   gameKey: z.enum([
+    GameKey.PUERTO_RICO,
     GameKey.SOUTHERN_US,
     GameKey.FOUR_CORNERS,
     GameKey.BARBADOS,
