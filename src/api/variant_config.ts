@@ -3,7 +3,6 @@ import { GameKey } from "./game_key";
 
 const EmptyVariantConfig = z.object({
   gameKey: z.enum([
-    GameKey.PUERTO_RICO,
     GameKey.SOUTHERN_US,
     GameKey.FOUR_CORNERS,
     GameKey.BARBADOS,
@@ -65,10 +64,17 @@ export const CyprusVariantConfig = z.object({
 });
 export type CyprusVariantConfig = z.infer<typeof CyprusVariantConfig>;
 
+export const PuertoRicoVariantConfig = z.object({
+  gameKey: z.literal(GameKey.PUERTO_RICO),
+  difficulty: z.enum(['novicio', 'estudiante', 'versado', 'maestro', 'conquistador', 'dios']),
+});
+export type PuertoRicoVariantConfig = z.infer<typeof PuertoRicoVariantConfig>;
+
 export const VariantConfig = z.discriminatedUnion("gameKey", [
   EmptyVariantConfig,
   IrelandVariantConfig,
   ReversteamVariantConfig,
   CyprusVariantConfig,
+  PuertoRicoVariantConfig,
 ]);
 export type VariantConfig = z.infer<typeof VariantConfig>;
