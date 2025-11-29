@@ -16,7 +16,7 @@ export const CAPTURED_CUBES = new MapKey(
 export class FourCornersMoveAction extends MoveAction<MoveData> {
   private readonly captureCubes = injectState(CAPTURED_CUBES);
   protected readonly playerHelper = inject(PlayerHelper);
-  private readonly setSize = 3
+  private readonly setSize = 4
 
   private findSetOfFour(playerCubes: Good[]): {
     hasSet: boolean;

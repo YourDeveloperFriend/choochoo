@@ -68,7 +68,6 @@ export function PlayerStats() {
     sharesColumn,
     locoColumn,
     ...(gameKey === SwedenRecyclingMapSettings.key ? [garbageColumn] : []),
-    ...(gameKey === FourCornersMapSettings.key ? [capturedCubesColumn] : []),
     scoreColumn,
     ...(viewSettings.getPlayerStatColumns
       ? viewSettings.getPlayerStatColumns()
