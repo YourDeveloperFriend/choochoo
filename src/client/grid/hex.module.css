@@ -133,3 +133,7 @@
   stroke-width: 9;
   fill: none;
 }
+
+.location.canyon {
+  fill: #2b2b2b;  
+}

@@ -1,4 +1,5 @@
 import { SouthernUsMapSettings } from "./southern_us/settings";
+import { FourCornersMapSettings } from "./four_corners/settings";
 import { BarbadosMapSettings } from "./barbados/settings";
 import { GameKey } from "../api/game_key";
 import { MapSettings } from "../engine/game/map_settings";
@@ -48,6 +49,7 @@ export class MapRegistry {
 
   private constructor() {
     this.add(new SouthernUsMapSettings());
+    this.add(new FourCornersMapSettings());
     this.add(new BarbadosMapSettings());
     this.add(new TrislandMapSettings());
     this.add(new PortugalMapSettings());
