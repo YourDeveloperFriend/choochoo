@@ -33,7 +33,7 @@ export class ChesapeakeAndOhioMapSettings implements MapSettings {
   readonly minPlayers = 4;
   readonly maxPlayers = 6;
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.ALPHA;
+  readonly stage = ReleaseStage.BETA;
 
   getOverrides() {
     return [

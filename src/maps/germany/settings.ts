@@ -32,7 +32,7 @@ export class GermanyMapSettings implements MapSettings {
   readonly interCityConnections = interCityConnections(map, [
     { connects: ["Düsseldorf", "Essen"] },
   ]);
-  readonly stage = ReleaseStage.ALPHA;
+  readonly stage = ReleaseStage.BETA;
 
   getOverrides() {
     return [
