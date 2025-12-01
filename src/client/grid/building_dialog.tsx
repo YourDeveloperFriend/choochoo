@@ -138,7 +138,7 @@ export function BuildingDialog({
             {canUrbanize &&
               availableCities.map((city, index) => (
                 <div
-                  key={city.onRoll[0].group * 10 + city.onRoll[0].onRoll}
+                  key={index}
                   className={buildingOption}
                 >
                   <ModifiedSpace

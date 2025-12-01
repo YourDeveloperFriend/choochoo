@@ -19,9 +19,9 @@ export function AvailableCities() {
     <div>
       <h2>Available Cities</h2>
       <div className={styles.availableCityList}>
-        {cities.map((city) => (
+        {cities.map((city, idx) => (
           <AvailableCity
-            key={city.onRoll[0].group * 10 + city.onRoll[0].onRoll}
+            key={idx}
             city={city}
           />
         ))}

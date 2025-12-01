@@ -41,6 +41,7 @@ import { RustBeltExpressMapSettings } from "./rust_belt_express/settings";
 import { ChicagoSpeakeasyMapSettings } from "./chicago_speakeasy/settings";
 import { BelgiumMapSettings } from "./belgium/settings";
 import { EasternUsAndCanadaMapSettings } from "./eastern_us_and_canada/settings";
+import { DoubleBaseUsaMapSettings } from "./double_base_usa/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();
@@ -87,6 +88,7 @@ export class MapRegistry {
     this.add(new ChicagoSpeakeasyMapSettings());
     this.add(new BelgiumMapSettings());
     this.add(new EasternUsAndCanadaMapSettings());
+    this.add(new DoubleBaseUsaMapSettings());
   }
 
   values(): Iterable<MapSettings> {
