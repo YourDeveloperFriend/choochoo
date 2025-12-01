@@ -47,6 +47,9 @@ export enum Action {
 
   // Eastern US & Canada
   MARKETING = 23,
+
+  // Double Base USA
+  LOCOMOTIVE_2 = 24,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -102,6 +105,8 @@ export class ActionNamingProvider {
         return "Bump Off an Agent"
       case Action.MARKETING:
         return "Marketing";
+      case Action.LOCOMOTIVE_2:
+        return "Locomotive (single)";
       default:
         assertNever(action);
     }
@@ -129,7 +134,6 @@ export class ActionNamingProvider {
         return "Before the Move Goods step, remove a goods cube of your choice from the map.";
       case Action.WTE_PLANT_OPERATOR:
         return "After the Move Goods step, take all black cubes from the WTE Plant space. Each cube is worth 2 points.";
-
       case Action.LAST_BUILD:
         return "Go last during the Building step.";
       case Action.LAST_MOVE:
@@ -156,6 +160,8 @@ export class ActionNamingProvider {
         return "You may remove 1 black good from the map before 1 of your deliveries.";
       case Action.MARKETING:
         return "You can move through one city matching the good's color on both of your moves.";
+      case Action.LOCOMOTIVE_2:
+        return "Receive one bonus locomotive disc.";
       default:
         assertNever(action);
     }

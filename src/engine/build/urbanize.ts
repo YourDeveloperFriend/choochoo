@@ -13,6 +13,7 @@ import { SpaceType } from "../state/location_type";
 import { allDirections, Direction } from "../state/tile";
 import { BuilderHelper } from "./helper";
 import { BUILD_STATE } from "./state";
+import { goodToString } from "../state/good";
 
 export const UrbanizeData = z.object({
   cityIndex: z.number(),
@@ -83,7 +84,10 @@ export class UrbanizeAction implements ActionProcessor<UrbanizeData> {
       this.gridHelper.setRouteOwner(connection, this.currentPlayer().color);
     }
 
-    this.log.currentPlayer(`places city ${toLetter(city.onRoll[0])} in ${this.grid().displayName(data.coordinates)}`);
+    const cityDesc = city.onRoll.length > 0 ? `city ${toLetter(city.onRoll[0])}` :
+        (city.color instanceof Array ? `a ${goodToString(city.color[0])} city` : `a ${goodToString(city.color)} city`);
+
+    this.log.currentPlayer(`places ${cityDesc} in ${this.grid().displayName(data.coordinates)}`);
     return this.helper.isAtEndOfTurn();
   }
 }
