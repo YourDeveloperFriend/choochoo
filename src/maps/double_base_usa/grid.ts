@@ -23,6 +23,13 @@ export const DoubleBaseUsaMapData = z.object({
 });
 export type DoubleBaseUsaMapData = z.infer<typeof DoubleBaseUsaMapData>;
 
+function riverTown(name: string): LandData {
+  return {
+    ...RIVER,
+    townName: name,
+  };
+}
+
 function startingEastCostCity(name: string): CityData {
   return {
     ...city(name, undefined, undefined, 1),
@@ -36,6 +43,14 @@ function startingEastCostCity(name: string): CityData {
 function cubeTown(townName: string): LandData {
   return {
     ...town(townName),
+    goods: [],
+  };
+}
+
+function riverCubeTown(townName: string): LandData {
+  return {
+    ...RIVER,
+    townName: townName,
     goods: [],
   };
 }
@@ -134,7 +149,7 @@ export const map = grid([
     MOUNTAIN,
     MOUNTAIN,
     MOUNTAIN,
-    town("Salt Lake City"),
+    riverTown("Salt Lake City"),
     DARK_MOUNTAIN,
     MOUNTAIN,
     PLAIN,
@@ -294,7 +309,7 @@ export const map = grid([
     UNPASSABLE,
     PLAIN,
     PLAIN,
-    town("Duluth"),
+    riverTown("Duluth"),
     PLAIN,
     RIVER,
     RIVER,
@@ -315,9 +330,9 @@ export const map = grid([
     PLAIN,
     PLAIN,
     PLAIN,
-    cubeTown("St. Louis"),
+    riverCubeTown("St. Louis"),
     RIVER,
-    cubeTown("Memphis"),
+    riverCubeTown("Memphis"),
     PLAIN,
     PLAIN,
     city("New Orleans", PURPLE, black(2), 2),
@@ -327,7 +342,7 @@ export const map = grid([
     PLAIN,
     RIVER,
     RIVER,
-    cubeTown("Green Bay"),
+    riverCubeTown("Green Bay"),
     RIVER,
     city("Chicago", BLUE, white(3), 2),
     PLAIN,
@@ -357,7 +372,7 @@ export const map = grid([
     UNPASSABLE,
     UNPASSABLE,
     PLAIN,
-    cubeTown("Sault Ste. Marie"),
+    riverCubeTown("Sault Ste. Marie"),
     RIVER,
     RIVER,
     PLAIN,
@@ -375,7 +390,7 @@ export const map = grid([
     PLAIN,
     RIVER,
     RIVER,
-    cubeTown("Detroit"),
+    riverCubeTown("Detroit"),
     PLAIN,
     PLAIN,
     city("Cincinnati", RED, white(2), 2),
@@ -390,7 +405,7 @@ export const map = grid([
     UNPASSABLE,
     UNPASSABLE,
     PLAIN,
-    cubeTown("Toronto"),
+    riverCubeTown("Toronto"),
     RIVER,
     RIVER,
     PLAIN,
