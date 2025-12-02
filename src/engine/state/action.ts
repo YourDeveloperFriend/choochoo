@@ -49,7 +49,7 @@ export enum Action {
   MARKETING = 23,
 
   // Double Base USA
-  LOCOMOTIVE_2 = 24,
+  DOUBLE_BASE_LOCOMOTIVE = 24,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -105,7 +105,7 @@ export class ActionNamingProvider {
         return "Bump Off an Agent"
       case Action.MARKETING:
         return "Marketing";
-      case Action.LOCOMOTIVE_2:
+      case Action.DOUBLE_BASE_LOCOMOTIVE:
         return "Locomotive (single)";
       default:
         assertNever(action);
@@ -160,7 +160,7 @@ export class ActionNamingProvider {
         return "You may remove 1 black good from the map before 1 of your deliveries.";
       case Action.MARKETING:
         return "You can move through one city matching the good's color on both of your moves.";
-      case Action.LOCOMOTIVE_2:
+      case Action.DOUBLE_BASE_LOCOMOTIVE:
         return "Receive one bonus locomotive disc.";
       default:
         assertNever(action);

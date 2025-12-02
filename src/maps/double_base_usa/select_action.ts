@@ -30,14 +30,14 @@ export class DoubleBaseUsaSelectAction extends SelectAction {
 
     if (
       data.action === Action.LOCOMOTIVE ||
-      data.action === Action.LOCOMOTIVE_2
+      data.action === Action.DOUBLE_BASE_LOCOMOTIVE
     ) {
       let count: number;
       switch (data.action) {
         case Action.LOCOMOTIVE:
           count = 2;
           break;
-        case Action.LOCOMOTIVE_2:
+        case Action.DOUBLE_BASE_LOCOMOTIVE:
           count = 1;
           break;
         default:

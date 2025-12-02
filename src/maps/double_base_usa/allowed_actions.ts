@@ -9,7 +9,7 @@ export class DoubleBaseUsaAllowedActions extends AllowedActions {
   getActions(): ImmutableSet<Action> {
     let actions = super.getActions();
     if (this.playerCount() >= 6) {
-      actions = actions.add(Action.LOCOMOTIVE_2);
+      actions = actions.add(Action.DOUBLE_BASE_LOCOMOTIVE);
     }
     return actions;
   }
