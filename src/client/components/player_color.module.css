@@ -38,6 +38,11 @@
   --player-color: rgb(151, 75, 54);
 }
 
+.pink {
+  --player-color-text: white;
+  --player-color: rgb(255, 191, 201);
+}
+
 .unowned {
   --player-color-text: white;
   --player-color: grey;
