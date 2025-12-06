@@ -12,6 +12,7 @@ export enum PlayerColor {
   BLUE,
   BROWN,
   WHITE,
+  PINK,
 }
 
 export const PlayerColorZod = z.nativeEnum(PlayerColor);
@@ -45,7 +46,8 @@ export function playerColorToString(
   | "blue"
   | "brown"
   | "white"
-  | "grey" {
+  | "grey"
+  | "pink" {
   switch (playerColor) {
     case PlayerColor.RED:
       return "red";
@@ -63,6 +65,8 @@ export function playerColorToString(
       return "brown";
     case PlayerColor.WHITE:
       return "white";
+    case PlayerColor.PINK:
+      return "pink";
     case undefined:
       return "grey";
     default:
@@ -78,6 +82,7 @@ export const eligiblePlayerColors = [
   PlayerColor.BLACK,
   PlayerColor.BLUE,
   PlayerColor.BROWN,
+  PlayerColor.PINK,
 ];
 
 export const allPlayerColors = [...eligiblePlayerColors, PlayerColor.WHITE];
