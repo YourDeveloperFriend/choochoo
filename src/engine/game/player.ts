@@ -50,6 +50,7 @@ export class PlayerHelper {
   }
 
   getScore(player: PlayerData): Score {
+    console.log('getScore')
     if (player.outOfGame) {
       return ELIMINATED;
     }

@@ -11,6 +11,8 @@ import { PuertoRicoStarter } from "./starter";
 import { PuertoRicoActions, PuertoRicoSelectAction } from "./actions";
 import { PuertoRicoPhaseEngine } from "./phases";
 import { PuertoRicoMoveAction } from "./move";
+import { PuertoRicoSelectActionPhase, PuertoRicoSkipAction } from "./actions";
+import { PuertoRicoPlayerHelper } from "./player";
 
 export class PuertoRicoMapSettings implements MapSettings {
   readonly key = GameKey.PUERTO_RICO;
@@ -28,7 +30,10 @@ export class PuertoRicoMapSettings implements MapSettings {
       PuertoRicoActions,
       PuertoRicoPhaseEngine,
       PuertoRicoMoveAction,
-      PuertoRicoSelectAction
+      PuertoRicoSelectAction,
+      PuertoRicoSelectActionPhase,
+      PuertoRicoSkipAction,
+      PuertoRicoPlayerHelper,
     ];
   }
 

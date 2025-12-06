@@ -31,7 +31,6 @@ export class PuertoRicoStarter extends GameStarter {
     }
   }
 
-  // TO DO not sure I need this
   public getAvailableCities(): Array<[Good | Good[], CityGroup, OnRoll]> {
     return [];
   }
@@ -50,23 +49,7 @@ export class PuertoRicoStarter extends GameStarter {
     }
 
     return location;
-    // return super.drawCubesFor(bag, location, playerCount);
   }
 
-  // You can also use it in other methods
-  //   protected buildPlayer(playerId: number, color: PlayerColor): PlayerData {
-  //     const variant = this.gameMemory.getVariant(PuertoRicoVariantConfig.parse);
-
-  //     const startingMoney = variant.difficulty === 'novicio' ? 15 :
-  //                           variant.difficulty === 'dios' ? 5 : 10;
-
-  //     return {
-  //       playerId,
-  //       color,
-  //       income: 0,
-  //       shares: 2,
-  //       money: startingMoney,  // Adjust starting money based on difficulty
-  //       locomotive: 1,
-  //     };
-  //   }
+  
 }
