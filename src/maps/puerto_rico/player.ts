@@ -6,8 +6,10 @@ export class PuertoRicoPlayerHelper extends PlayerHelper {
   protected soloGoalScore(): Score {
     return [0];
   }
+  
+  getScoreFromIncome(player: PlayerData): number {
+    if (player.outOfGame) return 0;
 
-  calculateScore(player: PlayerData): number {
     const grid = this.grid();
     let blackCubes = 0;
 
@@ -18,8 +20,7 @@ export class PuertoRicoPlayerHelper extends PlayerHelper {
         ).length;
       }
     }
-
-    return super.calculateScore(player) - 10 * blackCubes;
+    return 3 * (player.income - blackCubes * 10);
   }
 
   getPlayersOrderedByScore(): PlayerData[][] {
