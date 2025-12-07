@@ -40,7 +40,6 @@ export class PuertoRicoStarter extends GameStarter {
   }
 
   protected drawCubesFor(bag: Good[], location: SpaceData): SpaceData {
-
     if (location.type !== SpaceType.CITY && location.townName != null) {
       return {
         ...location,
@@ -50,6 +49,4 @@ export class PuertoRicoStarter extends GameStarter {
 
     return location;
   }
-
-  
 }

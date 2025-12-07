@@ -11,12 +11,7 @@ export const map = grid([
   [PLAIN, PLAIN, MOUNTAIN, MOUNTAIN],
   [PLAIN, PLAIN, MOUNTAIN, MOUNTAIN],
   [PLAIN, town("Bayamon"), MOUNTAIN, town("Cayey"), PLAIN],
-  [
-    city("San Juan", [Good.RED, Good.BLACK]),
-    town("Caguas"),
-    MOUNTAIN,
-    PLAIN,
-  ],
+  [city("San Juan", [Good.RED, Good.BLACK]), town("Caguas"), MOUNTAIN, PLAIN],
   [PLAIN, PLAIN, MOUNTAIN, PLAIN],
   [PLAIN, PLAIN, town("Humacao")],
   [town("Luquillo"), PLAIN],

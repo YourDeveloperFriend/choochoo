@@ -1,9 +1,8 @@
 import { useCallback } from "react";
 import { DropdownProps, FormDropdown } from "semantic-ui-react";
-import { PuertoRicoVariantConfig } from "../../api/variant_config";  // Change this import
+import { PuertoRicoVariantConfig } from "../../api/variant_config";
 import { VariantConfigProps } from "../view_settings";
-
-type DifficultyLevel = 'novicio' | 'estudiante' | 'versado' | 'maestro' | 'conquistador' | 'dios';
+import { DIFFICULTY_OPTIONS, type DifficultyLevel } from "./difficulty_levels";
 
 export function PuertoRicoVariantEditor({
   config: untypedConfig,
@@ -24,14 +23,7 @@ export function PuertoRicoVariantEditor({
     <FormDropdown
       label="Difficulty Level"
       selection
-      options={[
-        { text: 'Novicio', value: 'novicio' },
-        { text: 'Estudiante', value: 'estudiante' },
-        { text: 'Versado', value: 'versado' },
-        { text: 'Maestro', value: 'maestro' },
-        { text: 'Conquistador', value: 'conquistador' },
-        { text: 'Dios', value: 'dios' },
-      ]}
+      options={DIFFICULTY_OPTIONS}
       value={config.difficulty}
       disabled={isPending}
       onChange={setDifficulty}

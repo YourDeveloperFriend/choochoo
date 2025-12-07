@@ -1,5 +1,6 @@
 import z from "zod";
 import { GameKey } from "./game_key";
+import { DIFFICULTY_LEVELS } from "../maps/puerto_rico/difficulty_levels";
 
 const EmptyVariantConfig = z.object({
   gameKey: z.enum([
@@ -64,7 +65,7 @@ export type CyprusVariantConfig = z.infer<typeof CyprusVariantConfig>;
 
 export const PuertoRicoVariantConfig = z.object({
   gameKey: z.literal(GameKey.PUERTO_RICO),
-  difficulty: z.enum(['novicio', 'estudiante', 'versado', 'maestro', 'conquistador', 'dios']),
+  difficulty: z.enum([...DIFFICULTY_LEVELS]),
 });
 export type PuertoRicoVariantConfig = z.infer<typeof PuertoRicoVariantConfig>;
 

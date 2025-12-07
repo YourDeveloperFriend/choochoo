@@ -25,8 +25,8 @@ export class PuertoRicoPlayerHelper extends PlayerHelper {
   getPlayersOrderedByScore(): PlayerData[][] {
     if (this.players().length === 1) {
       const [player] = this.players();
-      this.getScore(player); 
-      return [[player]]; 
+      this.getScore(player);
+      return [[player]];
     }
     return super.getPlayersOrderedByScore();
   }
