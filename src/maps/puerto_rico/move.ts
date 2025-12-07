@@ -7,7 +7,7 @@ export class PuertoRicoMoveAction extends MoveAction {
     if (action.good !== Good.RED) {
       return new Map();
     }
-    
+
     return super.calculateIncome(action);
   }
 }
