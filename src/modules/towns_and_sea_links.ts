@@ -34,6 +34,7 @@ function allowTownConnectionMixin(
 ): SimpleConstructor<Validator> {
   return class extends Ctor {
     protected connectionAllowed(
+        playerColor: PlayerColor,
         land: Land,
         exit: Direction,
       ): InvalidBuildReason | undefined {
@@ -42,7 +43,7 @@ function allowTownConnectionMixin(
             && this.isExitTowardsInterCity(land, exit)) {
           return undefined;
         }
-        return super.connectionAllowed(land, exit);
+        return super.connectionAllowed(playerColor, land, exit);
       }
     
       protected isExitTowardsSea(space: Land, exit: Direction): boolean {
