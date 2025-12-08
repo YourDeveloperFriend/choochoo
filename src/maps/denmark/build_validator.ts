@@ -97,6 +97,7 @@ export class DenmarkBuildValidator extends Validator {
   }
 
   protected connectionAllowed(
+    playerColor: PlayerColor,
     land: Land,
     exit: Direction,
   ): InvalidBuildReason | undefined {
@@ -105,12 +106,25 @@ export class DenmarkBuildValidator extends Validator {
     if (mapData?.ferryLinks !== undefined) {
       for (const ferryLink of mapData.ferryLinks) {
         if (exit === ferryLink.direction) {
-          return undefined;
+          const ferryCity = this.grid().getCityByName(ferryLink.city);
+          const connections = this.grid().connections.filter((connection) =>
+            arrayEqualsIgnoreOrder(connection.connects, [
+              land.coordinates,
+              ferryCity.coordinates,
+            ]),
+          );
+          if (
+            connections.some(
+              (connection) => connection.owner?.color === playerColor,
+            )
+          ) {
+            return undefined;
+          }
         }
       }
     }
 
-    return super.connectionAllowed(land, exit);
+    return super.connectionAllowed(playerColor, land, exit);
   }
 
   // Town discs should be considered unlimited in this map
