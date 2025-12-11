@@ -56,7 +56,7 @@ export class DoubleBaseUsaBuildPhase extends BuildPhase {
 
 export const SelectStartingCityData = z.object({
   coordinates: CoordinatesZod,
-  color: GoodZod,
+  color: GoodZod.optional(),
 });
 export type SelectStartingCityData = z.infer<typeof SelectStartingCityData>;
 
@@ -90,10 +90,13 @@ export class SelectStartingCityAction
       invalidInput:
         "cannot select a starting city already picked by another player",
     });
-    assert(
-      this.startingCityMarkers().some((marker) => marker === data.color),
-      { invalidInput: "must select an available starting city marker" },
-    );
+    if (city.name() !== 'Montreal') {
+      assert(data.color !== undefined, {invalidInput: "must select a color for the starting city"});
+      assert(
+          this.startingCityMarkers().some((marker) => marker === data.color),
+          {invalidInput: "must select an available starting city marker"},
+      );
+    }
   }
 
   process(data: SelectStartingCityData): boolean {
@@ -105,11 +108,13 @@ export class SelectStartingCityAction
         currentPlayer.color;
       if (!isMontreal) {
         assert(space.type === SpaceType.CITY);
+        assert(data.color !== undefined);
         space.color = data.color;
       }
     });
     if (!isMontreal) {
       this.startingCityMarkers.update((prior) => {
+        assert(data.color !== undefined);
         const index = prior.indexOf(data.color);
         assert(index !== -1);
         prior.splice(index, 1);

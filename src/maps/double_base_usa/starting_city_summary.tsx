@@ -93,15 +93,15 @@ function SelectStartingCitySummary() {
             ) => {
               const idx = data.value as number;
               setSelectedStartingCity(idx);
-              setData({ color: startingCityMarkers[idx] });
+              setData({ color: idx === -1 ? undefined : startingCityMarkers[idx] });
             }}
-            options={startingCityMarkers.map((marker, idx) => {
+            options={[{key: -1, value: -1, text: ""}].concat(startingCityMarkers.map((marker, idx) => {
               return {
                 key: idx,
                 value: idx,
                 text: goodToString(marker),
               };
-            })}
+            }))}
           />
         </FormGroup>
       </Form>
