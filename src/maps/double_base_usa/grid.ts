@@ -110,7 +110,7 @@ export const map = grid([
     PLAIN,
     LAND_GRANT_PLAIN,
     PLAIN,
-    town("Los Vegas"),
+    town("Las Vegas"),
     PLAIN,
     PLAIN,
   ],
