@@ -70,8 +70,14 @@ export function DoubleBaseUsaRules() {
             City. Cities that are not selected remain white and act as a
             colorless City for the remainder of the game. Players must build
             track from their selected Starting City and may connect to other
-            Starting Cities. Note: If Montreal is selected as a starting city, a
-            starting city marker is not used and it remains black.
+            Starting Cities.
+          </p>
+          <p>
+            Note: If Montreal is selected as a starting city, a starting city
+            marker is not used and it remains black. If you run out of starting
+            city markers (in an 8 player game) then the last player may select
+            either Montreal or the last remaining colorless city as their
+            starting city (and place no starting city marker).
           </p>
         </li>
         <li>

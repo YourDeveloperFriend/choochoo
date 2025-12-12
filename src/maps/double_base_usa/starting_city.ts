@@ -90,11 +90,16 @@ export class SelectStartingCityAction
       invalidInput:
         "cannot select a starting city already picked by another player",
     });
-    if (city.name() !== 'Montreal') {
-      assert(data.color !== undefined, {invalidInput: "must select a color for the starting city"});
+
+    const startingCityMarkers = this.startingCityMarkers();
+    if (startingCityMarkers.length === 0) {
+      assert(data.color === undefined, {
+        invalidInput: "no color should be selected for the final starting city",
+      });
+    } else {
       assert(
-          this.startingCityMarkers().some((marker) => marker === data.color),
-          {invalidInput: "must select an available starting city marker"},
+        startingCityMarkers.some((marker) => marker === data.color),
+        { invalidInput: "must select an available starting city marker" },
       );
     }
   }
@@ -106,13 +111,12 @@ export class SelectStartingCityAction
     this.gridHelper.update(data.coordinates, (space) => {
       (space.mapSpecific as DoubleBaseUsaMapData).startingPlayer =
         currentPlayer.color;
-      if (!isMontreal) {
+      if (!isMontreal && data.color !== undefined) {
         assert(space.type === SpaceType.CITY);
-        assert(data.color !== undefined);
         space.color = data.color;
       }
     });
-    if (!isMontreal) {
+    if (!isMontreal && data.color !== undefined) {
       this.startingCityMarkers.update((prior) => {
         assert(data.color !== undefined);
         const index = prior.indexOf(data.color);
