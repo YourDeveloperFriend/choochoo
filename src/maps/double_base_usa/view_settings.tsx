@@ -59,9 +59,7 @@ function useOnMapClick(on: OnClickRegister) {
   const selectStartingCityAction = useAction(SelectStartingCityAction);
   const productionAction = useAction(ProductionAction);
 
-  if (
-    selectStartingCityAction.canEmit
-  ) {
+  if (selectStartingCityAction.canEmit) {
     const color = selectStartingCityAction.data?.color;
     on(ClickTarget.CITY, (city) =>
       selectStartingCityAction.emit({

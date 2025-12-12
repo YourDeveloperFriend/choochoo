@@ -1,6 +1,9 @@
 import { goodToString } from "../../engine/state/good";
 import { useAction, useEmptyAction } from "../../client/services/action";
-import { useInjectedState } from "../../client/utils/injection_context";
+import {
+  useGrid,
+  useInjectedState,
+} from "../../client/utils/injection_context";
 import { Username } from "../../client/components/username";
 import * as React from "react";
 import { useState } from "react";
@@ -20,6 +23,8 @@ import {
   Icon,
 } from "semantic-ui-react";
 import { DoubleBaseUsaSpendLandGrantAction } from "./build";
+import { DoubleBaseUsaMapData } from "./grid";
+import { DropdownItemProps } from "semantic-ui-react/dist/commonjs/modules/Dropdown/DropdownItem";
 
 export function DoubleBaseUsaBuildPhaseSummary() {
   const selectStartingCityRequired = useInjectedState(
@@ -76,6 +81,17 @@ function SelectStartingCitySummary() {
     );
   }
 
+  const options: DropdownItemProps[] =
+    startingCityMarkers.length === 0
+      ? [{ key: -1, value: -1, text: "(colorless)" }]
+      : startingCityMarkers.map((marker, idx) => {
+          return {
+            key: idx,
+            value: idx,
+            text: goodToString(marker),
+          };
+        });
+
   return (
     <div>
       <p>
@@ -93,15 +109,11 @@ function SelectStartingCitySummary() {
             ) => {
               const idx = data.value as number;
               setSelectedStartingCity(idx);
-              setData({ color: idx === -1 ? undefined : startingCityMarkers[idx] });
+              setData({
+                color: idx === -1 ? undefined : startingCityMarkers[idx],
+              });
             }}
-            options={[{key: -1, value: -1, text: ""}].concat(startingCityMarkers.map((marker, idx) => {
-              return {
-                key: idx,
-                value: idx,
-                text: goodToString(marker),
-              };
-            }))}
+            options={options}
           />
         </FormGroup>
       </Form>
