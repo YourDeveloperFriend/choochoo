@@ -22,10 +22,7 @@ import {
   DoubleBaseUsaConnectCitiesAction,
   DoubleBaseUsaCostCalculator,
 } from "./build";
-import {
-  DoubleBaseUsaGoodsGrowthPhase,
-  DoubleBaseUsaSelectActionPhase,
-} from "./production";
+import { DoubleBaseUsaSelectActionPhase } from "./production";
 import {
   DoubleBaseUsaMoveAction,
   DoubleBaseUsaMoveHelper,
@@ -82,7 +79,6 @@ export class DoubleBaseUsaMapSettings implements MapSettings {
       DoubleBaseUsaRoundEngine,
       DoubleBaseUsaBuildPhase,
       DoubleBaseUsaUrbanizeAction,
-      DoubleBaseUsaGoodsGrowthPhase,
     ];
   }
 }
