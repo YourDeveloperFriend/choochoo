@@ -1,3 +1,6 @@
 .good {
   fill: var(--good-color);
 }
+.goodBackground {
+  fill: var(--good-background-color);
+}

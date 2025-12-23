@@ -315,13 +315,6 @@ export function HexGrid({
               size={size}
             />
           )}
-          <defs>
-            <filter id="cubeShadow" width={size / 3} height={size / 3}>
-              <feOffset in="SourceAlpha" dx={size / 15} dy={size / 15} />
-              <feGaussianBlur stdDeviation={size / 30} />
-              <feBlend in="SourceGraphic" in2="blurOut" />
-            </filter>
-          </defs>
           <g ref={ref}>
             {/* Rotating without a center moves it along the origin, but we rely on the viewBox calculation to make sure the view box fits the content. */}
             <Rotate rotation={rotation}>
@@ -331,12 +324,12 @@ export function HexGrid({
               {overlayLayer}
               {terrainHexes.afterOverlay}
               <InterCityConnectionsRender
-                  highlightedConnections={highlightedConnections}
-                  clickTargets={clickTargetsNormalized}
-                  onClick={onClickInterCity}
-                  size={size}
-                  connections={grid.connections}
-                  rotation={rotation}
+                highlightedConnections={highlightedConnections}
+                clickTargets={clickTargetsNormalized}
+                onClick={onClickInterCity}
+                size={size}
+                connections={grid.connections}
+                rotation={rotation}
               />
               {fullMapVersion && <SwedenProgressionGraphic />}
               {children}

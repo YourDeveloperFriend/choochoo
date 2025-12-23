@@ -1,23 +1,29 @@
 .black {
   --good-color: #444444;
+  --good-background-color: #282828;
 }
 
 .blue {
   --good-color: #00a2d3;
+  --good-background-color: #007ba0;
 }
 
 .purple {
   --good-color: #8d5a95;
+  --good-background-color: #5b3a60;
 }
 
 .red {
   --good-color: #d41e2d;
+  --good-background-color: #a01622;
 }
 
 .yellow {
   --good-color: #f5ac11;
+  --good-background-color: #c1880d;
 }
 
 .white {
   --good-color: #e9dcc9;
+  --good-background-color: #b5aa9b;
 }
