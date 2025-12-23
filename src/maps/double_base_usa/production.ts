@@ -13,8 +13,6 @@ import { SelectActionPhase } from "../../engine/select_action/phase";
 import { PHASE } from "../../engine/game/phase";
 import { Phase } from "../../engine/state/phase";
 import { Log } from "../../engine/game/log";
-import { GoodsGrowthPhase } from "../../engine/goods_growth/phase";
-import { PlayerColor } from "../../engine/state/player";
 
 const ProductionState = z.object({
   goods: GoodZod.array(),
@@ -96,11 +94,5 @@ export class ProductionAction implements ActionProcessor<ProductionData> {
     );
     this.productionState.set({ goods: [] });
     return true;
-  }
-}
-
-export class DoubleBaseUsaGoodsGrowthPhase extends GoodsGrowthPhase {
-  getPlayerOrder(): PlayerColor[] {
-    return [];
   }
 }
