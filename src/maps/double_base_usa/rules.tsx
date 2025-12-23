@@ -95,14 +95,18 @@ export function DoubleBaseUsaRules() {
               </p>
               <p>
                 During the Move Goods phase, Bonus Locomotive discs may be spent
-                to temporarily increase a player&apos;s Engine by 1 for each
-                disc used during a delivery. The discs may be combined on a
+                to temporarily increase a player&apos;s delivery length by 1 for
+                each disc used during a delivery. The discs may be combined on a
                 single delivery. The maximum delivery is the player&apos;s
                 Engine Level plus how many discs are used; this may exceed a
                 12-link delivery. To use your bonus loco discs this way, just
                 perform a delivery exceeding your loco value; if you have
                 sufficient bonus loco discs the move will be allowed and the
-                required number of loco discs will be automatically spent.
+                required number of loco discs will be automatically spent. Note
+                that each disc spent this way increases your delivery length by
+                just 1, regardless of what the next engine level would be on the
+                loco track; for example, if you a current engine level of 4 then
+                spending one loco disc allows you to make a 5-length delivery.
               </p>
               <p>
                 Bonus Locomotive discs may also be used to increase the Engine
