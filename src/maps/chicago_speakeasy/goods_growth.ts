@@ -6,13 +6,12 @@ export class ChicagoSpeakeasyGoodsGrowthPhase extends GoodsGrowthPhase {
   onEnd(): void {
     super.onEnd();
 
-    const cities = this.gridHelper.findAllCities();
     for (const cityGroup of [CityGroup.WHITE, CityGroup.BLACK]) {
       const dieRoll = this.random.rollDie();
       this.log.log(
         `${cityGroupToString(cityGroup)} rolled ${dieRoll} for an additional black cube.`,
       );
-      for (const city of cities) {
+      for (const city of this.gridHelper.findAllCities()) {
         for (const [_, { group, onRoll }] of city.onRoll().entries()) {
           if (group !== cityGroup) continue;
           if (onRoll !== dieRoll) continue;
