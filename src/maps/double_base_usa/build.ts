@@ -121,7 +121,7 @@ export class DoubleBaseUsaBuildValidator extends Validator {
       return "cannot build on unpassable terrain";
     }
     const newTileData = calculateTrackInfo(buildData);
-    const { preserved, newTracks } = this.partitionTracks(space, newTileData);
+    const { newTracks } = this.partitionTracks(space, newTileData);
     const currentPlayer = this.currentPlayer();
 
     // Assert contiguous
@@ -136,7 +136,6 @@ export class DoubleBaseUsaBuildValidator extends Validator {
         !this.connectsToExistingNetwork(
           currentPlayer.color,
           coordinates,
-          preserved,
           newTracks,
         )
       ) {
@@ -172,7 +171,6 @@ export class DoubleBaseUsaBuildValidator extends Validator {
   private connectsToExistingNetwork(
     player: PlayerColor,
     coordinates: Coordinates,
-    preserved: TrackInfo[],
     newTracks: TrackInfo[],
   ): boolean {
     const isTownTile = newTracks.some((track) =>
@@ -180,23 +178,8 @@ export class DoubleBaseUsaBuildValidator extends Validator {
     );
 
     if (isTownTile) {
-      // If the player was already connected into this town, then we're good
-      if (preserved.some((track) => track.owner === player)) {
-        return true;
-      }
-      // If any of the new track connects to this player's network, then we're good
-      for (const newTrack of newTracks) {
-        for (const exit of newTrack.exits) {
-          if (exit === TOWN) {
-            continue;
-          }
-          if (this.exitConnectsToExistingNetwork(player, coordinates, exit)) {
-            return true;
-          }
-        }
-      }
-      // No track in this town connects back to existing network
-      return false;
+      // Track coming from town tiles already need to connect to existing network, so just return true here
+      return true;
     }
 
     // Every new track must have some exit connecting back to existing network
