@@ -474,7 +474,7 @@ export function isGameHistory(game: GameApi): game is GameHistoryApi {
 }
 
 export function canEditGame(game: GameApi): boolean {
-  return !isGameHistory(game);
+  return game.status === GameStatus.Enum.ACTIVE && !isGameHistory(game);
 }
 
 interface UndoAction {
