@@ -17,6 +17,7 @@ import { Phase } from "../../engine/state/phase";
 import { Log } from "../../engine/game/log";
 import { GoodsGrowthPhase } from "../../engine/goods_growth/phase";
 import { PlayerColor } from "../../engine/state/player";
+import { ActionBundle } from "../../engine/game/phase_module";
 
 const ProductionState = z.object({
   goods: GoodZod.array(),
@@ -30,6 +31,7 @@ export const PRODUCTION_STATE = new Key("eucProductionState", {
 
 export class EasternUsAndCanadaSelectActionPhase extends SelectActionPhase {
   private readonly productionState = injectState(PRODUCTION_STATE);
+  private readonly currentPlayer = injectCurrentPlayer();
 
   configureActions(): void {
     super.configureActions();
@@ -42,6 +44,13 @@ export class EasternUsAndCanadaSelectActionPhase extends SelectActionPhase {
   onEnd() {
     this.productionState.delete();
     super.onEnd();
+  }
+  forcedAction(): ActionBundle<object> | undefined {
+    // If the current player has already selected an action (i.e. production) do not force an action
+    if (this.currentPlayer().selectedAction !== undefined) {
+      return undefined;
+    }
+    return super.forcedAction();
   }
 }
 
