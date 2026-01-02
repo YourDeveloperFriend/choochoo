@@ -36,7 +36,9 @@ export function GoodBlock({
 
   // Render 6 goods per row
   const xOffset = offset % maxGoodsPerRow;
-  const yOffset = Math.floor(offset / maxGoodsPerRow);
+  const row = Math.floor(offset / maxGoodsPerRow);
+  // Put the second row in the third-row position to limit overlap with the city numbers; third row goes in second row position
+  const yOffset = (row === 1 ? 2 : (row === 2 ? 1 : row));
 
   const rowSize =
     Math.floor(offset / maxGoodsPerRow) <
