@@ -66,13 +66,13 @@ export class ProductionAction implements ActionProcessor<ProductionData> {
   }
 
   process(data: ProductionData): boolean {
-    const city = this.findCity(data);
-    this.grid.update(city!.coordinates, (city) => {
+    const city = this.findCity(data)!;
+    this.grid.update(city.coordinates, (city) => {
       assert(city.type === SpaceType.CITY);
       const onRoll = this.findOnRoll(city.onRoll, data);
       onRoll!.goods[data.row] = data.good;
-      this.log.currentPlayer(`puts ${goodToString(data.good)} in ${city.name}`);
     });
+    this.log.currentPlayer(`puts ${goodToString(data.good)} in ${this.grid.displayName(city.coordinates)}`);
 
     this.turnState.update((state) => {
       state.goods.splice(state.goods.indexOf(data.good), 1);
