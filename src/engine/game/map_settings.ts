@@ -56,6 +56,8 @@ export interface MapSettings {
   readonly interCityConnections?: InterCityConnection[];
   readonly stage: ReleaseStage;
   readonly rotation?: Rotation;
+  // Development maps get an allowlist of user IDs who are allowed to create games for that map
+  readonly developmentAllowlist?: number[];
 
   getOverrides(): Array<SimpleConstructor<unknown>>;
   getModules?(): Array<Module>;

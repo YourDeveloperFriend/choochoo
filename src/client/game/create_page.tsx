@@ -49,7 +49,8 @@ export function CreateGamePage() {
           (map) =>
             environment.stage === "development" ||
             map.stage !== ReleaseStage.DEVELOPMENT ||
-            me?.role === UserRole.enum.ADMIN,
+            me?.role === UserRole.enum.ADMIN ||
+            (map.developmentAllowlist !== undefined && me !== undefined && map.developmentAllowlist.indexOf(me.id) !== -1)
         )
         .sort((a, b) => (a.name < b.name ? -1 : 1)),
     [],
