@@ -1,7 +1,6 @@
 import { goodToString } from "../../engine/state/good";
 import { useAction, useEmptyAction } from "../../client/services/action";
 import {
-  useGrid,
   useInjectedState,
 } from "../../client/utils/injection_context";
 import { Username } from "../../client/components/username";
@@ -23,7 +22,6 @@ import {
   Icon,
 } from "semantic-ui-react";
 import { DoubleBaseUsaSpendLandGrantAction } from "./build";
-import { DoubleBaseUsaMapData } from "./grid";
 import { DropdownItemProps } from "semantic-ui-react/dist/commonjs/modules/Dropdown/DropdownItem";
 
 export function DoubleBaseUsaBuildPhaseSummary() {

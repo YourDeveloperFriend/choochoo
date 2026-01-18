@@ -7,7 +7,7 @@ interface PlayerStatColumnProps {
   player: PlayerData;
 }
 
-export function CapturedCubesCell({ player }: PlayerStatColumnProps) {
+function CapturedCubesCell({ player }: PlayerStatColumnProps) {
   const capturedCubes = useInjectedState(CAPTURED_CUBES);
   const playerCubes = capturedCubes.get(player.color) || [];
 

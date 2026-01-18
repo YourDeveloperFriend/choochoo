@@ -44,6 +44,7 @@ import { ChicagoSpeakeasyViewSettings } from "./chicago_speakeasy/view_settings"
 import { BelgiumViewSettings } from "./belgium/view_settings";
 import { EasternUsAndCanadaViewSettings } from "./eastern_us_and_canada/view_settings";
 import { DoubleBaseUsaViewSettings } from "./double_base_usa/view_settings";
+import { ChicagoLViewSettings } from "./chicago-l/view_settings";
 
 export class ViewRegistry {
   static readonly singleton = new ViewRegistry();
@@ -93,6 +94,7 @@ export class ViewRegistry {
     this.add(new BelgiumViewSettings());
     this.add(new EasternUsAndCanadaViewSettings());
     this.add(new DoubleBaseUsaViewSettings());
+    this.add(new ChicagoLViewSettings());
   }
 
   values(): Iterable<MapViewSettings> {
