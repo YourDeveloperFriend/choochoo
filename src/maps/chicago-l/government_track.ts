@@ -167,7 +167,18 @@ export class ChicagoLBuildAction extends BuildAction {
             }
             const neighbor = getNeighbor(this.grid(), data.coordinates, dir);
             const mapData = neighbor?.getMapSpecific(ChicagoLMapData.parse);
-            return mapData && mapData.governmentStartingCity;
+            if (mapData && mapData.governmentStartingCity) {
+              return true;
+            }
+            if (neighbor instanceof City) {
+              for (const city of this.grid().getSameCities(neighbor)) {
+                const cityMapData = city.getMapSpecific(ChicagoLMapData.parse);
+                if (cityMapData && cityMapData.governmentStartingCity) {
+                  return true;
+                }
+              }
+            }
+            return false;
           },
           {
             invalidInput:
