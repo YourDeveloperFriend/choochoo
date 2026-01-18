@@ -11,6 +11,7 @@ import { GridHelper } from "../../engine/map/grid_helper";
 import { THE_LOOP_SAME_CITY } from "./grid";
 import { SpaceType } from "../../engine/state/location_type";
 import { Log } from "../../engine/game/log";
+import { BAG } from "../../engine/game/state";
 
 export class ChicagoLPhaseEngine extends PhaseEngine {
   phaseOrder(): Phase[] {
@@ -26,6 +27,7 @@ export class ChicagoLSharesPhase extends SharesPhase {
   private readonly log = inject(Log);
   private readonly currentRound = injectState(ROUND);
   private readonly theLoopDemand = injectState(THE_LOOP_DEMAND);
+  private readonly bag = injectState(BAG);
   private readonly gridHelper = inject(GridHelper);
 
   onStart(): void {
@@ -35,6 +37,7 @@ export class ChicagoLSharesPhase extends SharesPhase {
     this.theLoopDemand.update((demand) => {
       demand.splice(0, 1);
     });
+    this.bag.update((bag) => bag.push(nextLoopColor));
 
     for (const city of this.gridHelper.findAllCities()) {
       if (city.data.sameCity === THE_LOOP_SAME_CITY) {
