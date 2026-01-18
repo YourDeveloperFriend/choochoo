@@ -44,6 +44,7 @@ export enum GameKey {
   BELGIUM = "belgium",
   EASTERN_US_AND_CANADA = "eastern-us-and-canada",
   DOUBLE_BASE_USA = "double-base-usa",
+  CHICAGO_L = "chicago-l",
 }
 
 export const GameKeyZod = z.nativeEnum(GameKey);

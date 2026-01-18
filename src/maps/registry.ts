@@ -44,6 +44,7 @@ import { ChicagoSpeakeasyMapSettings } from "./chicago_speakeasy/settings";
 import { BelgiumMapSettings } from "./belgium/settings";
 import { EasternUsAndCanadaMapSettings } from "./eastern_us_and_canada/settings";
 import { DoubleBaseUsaMapSettings } from "./double_base_usa/settings";
+import {ChicagoLMapSettings} from "./chicago-l/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();
@@ -93,6 +94,7 @@ export class MapRegistry {
     this.add(new BelgiumMapSettings());
     this.add(new EasternUsAndCanadaMapSettings());
     this.add(new DoubleBaseUsaMapSettings());
+    this.add(new ChicagoLMapSettings());
   }
 
   values(): Iterable<MapSettings> {

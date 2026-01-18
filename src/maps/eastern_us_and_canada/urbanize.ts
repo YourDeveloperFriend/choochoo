@@ -10,7 +10,6 @@ import { TOWN } from "../../engine/map/track";
 import { allDirections, Direction } from "../../engine/state/tile";
 import { PlayerColor } from "../../engine/state/player";
 import { City } from "../../engine/map/city";
-import { BuilderHelper } from "../../engine/build/helper";
 
 export class EasternUsAndCanadaUrbanizeAction extends UrbanizeAction {
   private readonly bag = injectState(BAG);
