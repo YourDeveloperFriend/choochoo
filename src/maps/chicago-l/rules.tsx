@@ -94,8 +94,9 @@ export function ChicagoLRules() {
         </li>
         <li>
           <b>Government track starting location:</b> The starting location for
-          government track is chosen by a 2d6 die roll during setup. Check the
-          game log for which city was chosen.
+          government track is chosen by a 2d6 die roll during setup. This city
+          will be highlighted until the first government link has been built.
+          You can also check the game log for which city was chosen.
           <br />
           2: Midway, 3: Dempster-Skokie, 4: Linden, 5: Damen, 6: Addison, 7: The
           Loop, 8: Belmont, 9: Cottage Grove, 10: Cermak, 11: Forest Park, 12:
