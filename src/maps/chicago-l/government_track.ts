@@ -5,7 +5,6 @@ import { PHASE } from "../../engine/game/phase";
 import { PhaseDelegator } from "../../engine/game/phase_delegator";
 import { ActionBundle } from "../../engine/game/phase_module";
 import { ROUND } from "../../engine/game/round";
-import { injectInGamePlayers } from "../../engine/game/state";
 import { City } from "../../engine/map/city";
 import { calculateTrackInfo, Land } from "../../engine/map/location";
 import { isTownTile } from "../../engine/map/tile";
@@ -21,6 +20,7 @@ import { GOVERNMENT_COLOR } from "./starter";
 import { Coordinates } from "../../utils/coordinates";
 import { getOpposite } from "../../engine/map/direction";
 import { Grid } from "../../engine/map/grid";
+import { SpaceType } from "../../engine/state/location_type";
 
 export class ChicagoLPhaseDelegator extends PhaseDelegator {
   constructor() {
@@ -32,7 +32,6 @@ export class ChicagoLPhaseDelegator extends PhaseDelegator {
 export class ChicagoLGovernmentBuildPhase extends BaseBuildPhase {
   static readonly phase = Phase.GOVERNMENT_BUILD;
 
-  private readonly players = injectInGamePlayers();
   private readonly round = injectState(ROUND);
 
   configureActions() {
@@ -52,6 +51,19 @@ export class ChicagoLGovernmentBuildPhase extends BaseBuildPhase {
   onEndTurn(): void {
     super.onEndTurn();
     checkHasContiguousMasterNetwork(this.grid());
+
+    // Clear the starting city after the initial round of government building
+    if (this.round() === 1) {
+      for (const city of this.gridHelper.findAllCities()) {
+        const mapData = city.getMapSpecific(ChicagoLMapData.parse);
+        if (mapData?.governmentStartingCity) {
+          this.gridHelper.update(city.coordinates, (c) => {
+            assert(c.type === SpaceType.CITY);
+            delete c.mapSpecific.governmentStartingCity;
+          });
+        }
+      }
+    }
   }
 }
 

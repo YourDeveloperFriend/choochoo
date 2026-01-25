@@ -1,5 +1,5 @@
 import { MapViewSettings } from "../view_settings";
-import { ChicagoLTextures } from "./rivers";
+import { ChicagoLOverlayLayer, ChicagoLTextures } from "./rivers";
 import { ChicagoLMapSettings } from "./settings";
 import { ChicagoLRules } from "./rules";
 import { ClickTarget, OnClickRegister } from "../../client/grid/click_target";
@@ -19,6 +19,7 @@ export class ChicagoLViewSettings
   implements MapViewSettings
 {
   getTexturesLayer = ChicagoLTextures;
+  getOverlayLayer = ChicagoLOverlayLayer;
 
   getMapRules = ChicagoLRules;
 

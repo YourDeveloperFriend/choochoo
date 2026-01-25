@@ -1,7 +1,8 @@
 import { TexturesProps } from "../view_settings";
 import { ReactNode } from "react";
-import { coordinatesToCenter } from "../../utils/point";
+import { coordinatesToCenter, getCorners, polygon } from "../../utils/point";
 import { ChicagoLMapData } from "./grid";
+import { City } from "../../engine/map/city";
 
 function ChicagoLParkNamesLayer(props: TexturesProps) {
   const result: ReactNode[] = [];
@@ -84,4 +85,35 @@ export function ChicagoLTextures(props: TexturesProps) {
       />
     </>
   );
+}
+
+export function ChicagoLOverlayLayer(props: TexturesProps): ReactNode {
+  let startingCity: City | undefined;
+  for (const city of props.grid.cities()) {
+    if (
+      city.getMapSpecific(ChicagoLMapData.parse)?.governmentStartingCity ===
+      true
+    ) {
+      startingCity = city;
+      break;
+    }
+  }
+  if (!startingCity) {
+    return null;
+  }
+
+  const result: ReactNode[] = [];
+  for (const city of props.grid.getSameCities(startingCity)) {
+    const center = coordinatesToCenter(city.coordinates, props.size);
+    const corners = polygon(getCorners(center, props.size));
+    result.push(
+      <polygon
+        points={corners}
+        fill="none"
+        stroke="yellow"
+        strokeWidth={props.size * 0.15}
+      />,
+    );
+  }
+  return result;
 }
