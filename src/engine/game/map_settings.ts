@@ -42,6 +42,7 @@ export const KAOSKODY = 1;
 export const JACK = 17;
 export const GRIMIKU = 99;
 export const EMIL = 375;
+export const CORTEXBOMB = 387;
 
 export interface MapSettings {
   readonly key: GameKey;

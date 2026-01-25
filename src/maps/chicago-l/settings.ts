@@ -1,5 +1,6 @@
 import { GameKey } from "../../api/game_key";
 import {
+  CORTEXBOMB,
   JACK,
   MapSettings,
   ReleaseStage,
@@ -41,6 +42,7 @@ export class ChicagoLMapSettings implements MapSettings {
   readonly maxPlayers = 3;
   readonly startingGrid = map;
   readonly stage = ReleaseStage.DEVELOPMENT;
+  readonly developmentAllowlist = [JACK, CORTEXBOMB];
 
   getOverrides() {
     return [
