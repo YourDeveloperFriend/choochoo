@@ -138,7 +138,7 @@ const router = initServer().router(gameContract, {
         map.stage !== ReleaseStage.DEVELOPMENT ||
         isAdmin ||
         (map.developmentAllowlist !== undefined &&
-          map.developmentAllowlist.indexOf(userId) === -1),
+          map.developmentAllowlist.indexOf(userId) !== -1),
       { permissionDenied: true },
     );
     assert(map.stage !== ReleaseStage.DEVELOPMENT || body.unlisted, { invalidInput: "Development map games must be unlisted." });
