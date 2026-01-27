@@ -221,20 +221,23 @@ export class ChicagoLBuildAction extends BuildAction {
 }
 
 function checkHasContiguousMasterNetwork(grid: Grid): boolean {
-  // Locate the starting city, which will always be present in the master network
-  let startingCity: City | undefined;
+  // Locate any tile with track on it as the starting point to begin a DFS of connected track
+  let startingTrack: Land | undefined;
   for (const [_, space] of grid.entries()) {
-    const mapData = space.getMapSpecific(ChicagoLMapData.parse);
-    if (mapData && mapData.governmentStartingCity) {
-      assert(space instanceof City);
-      assert(startingCity === undefined);
-      startingCity = space;
+    if (space instanceof Land && space.getTrack().length > 0) {
+      startingTrack = space;
+      break;
     }
   }
-  assert(startingCity !== undefined);
+  assert(startingTrack !== undefined);
 
   const seenTrack: { [key: string]: boolean } = {};
-  exploreConnectedTrackFromCity(grid, startingCity, seenTrack);
+  exploreConnectedTrack(
+    grid,
+    startingTrack.coordinates,
+    startingTrack.getTrack()[0].getExits(),
+    seenTrack,
+  );
 
   // Now having explored everything, validate that all track on the grid is in the seenTrack map
   for (const [_, space] of grid.entries()) {
