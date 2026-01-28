@@ -12,8 +12,9 @@ import { SpaceType } from "../../engine/state/location_type";
 import { countExits } from "../../engine/map/location";
 
 export class BelgiumBuilderHelper extends BuilderHelper {
-  getMaxBuilds(): number {
-    return this.currentPlayer().selectedAction === Action.URBANIZATION ? 2 : 3;
+  isAtEndOfTurn(): boolean {
+    // Urbanization uses a build.
+    return this.buildsRemaining() === 0;
   }
 }
 

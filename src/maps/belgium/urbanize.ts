@@ -29,6 +29,11 @@ export class BelgiumUrbanizeAction extends UrbanizeAction {
       }
     }
 
+    // Urbanizing counts against your builds on this map
+    this.buildState.update((state) => {
+      state.buildCount!++;
+    });
+
     return super.process(data);
   }
 }
