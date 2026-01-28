@@ -41,7 +41,8 @@ export class ChicagoLGovernmentBuildPhase extends BaseBuildPhase {
   protected abandonDangling() {}
 
   getPlayerOrder(): PlayerColor[] {
-    return [super.getPlayerOrder()[0]];
+    // Government build goes to whoever has won the auction, not to whoever has first build
+    return [this.turnOrder()[0]];
   }
 
   forcedAction(): ActionBundle<object> | undefined {
