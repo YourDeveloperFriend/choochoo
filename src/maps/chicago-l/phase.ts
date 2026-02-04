@@ -11,7 +11,9 @@ import { GridHelper } from "../../engine/map/grid_helper";
 import { THE_LOOP_SAME_CITY } from "./grid";
 import { SpaceType } from "../../engine/state/location_type";
 import { Log } from "../../engine/game/log";
-import { BAG } from "../../engine/game/state";
+import { BAG, injectPlayerAction } from "../../engine/game/state";
+import { PlayerColor } from "../../engine/state/player";
+import { Action } from "../../engine/state/action";
 
 export class ChicagoLPhaseEngine extends PhaseEngine {
   phaseOrder(): Phase[] {
@@ -29,6 +31,7 @@ export class ChicagoLSharesPhase extends SharesPhase {
   private readonly theLoopDemand = injectState(THE_LOOP_DEMAND);
   private readonly bag = injectState(BAG);
   private readonly gridHelper = inject(GridHelper);
+  private readonly issueLastPlayer = injectPlayerAction(Action.ISSUE_LAST);
 
   onStart(): void {
     super.onStart();
@@ -50,5 +53,14 @@ export class ChicagoLSharesPhase extends SharesPhase {
     this.log.log(
       "The loop demand was changed to " + goodToString(nextLoopColor),
     );
+  }
+
+  getPlayerOrder(): PlayerColor[] {
+    const playerOrder = super.getPlayerOrder();
+    const issueLast = this.issueLastPlayer();
+    if (issueLast != null) {
+      return remove(playerOrder, issueLast.color).concat([issueLast.color]);
+    }
+    return playerOrder;
   }
 }

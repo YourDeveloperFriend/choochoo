@@ -50,6 +50,9 @@ export enum Action {
 
   // Double Base USA
   DOUBLE_BASE_LOCOMOTIVE = 24,
+
+  // Chicago-L
+  ISSUE_LAST = 25,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -107,6 +110,8 @@ export class ActionNamingProvider {
         return "Marketing";
       case Action.DOUBLE_BASE_LOCOMOTIVE:
         return "Locomotive (single)";
+      case Action.ISSUE_LAST:
+        return "Issue Last";
       default:
         assertNever(action);
     }
@@ -162,6 +167,8 @@ export class ActionNamingProvider {
         return "You can move through one city matching the good's color on both of your moves.";
       case Action.DOUBLE_BASE_LOCOMOTIVE:
         return "Receive one bonus locomotive disc.";
+      case Action.ISSUE_LAST:
+        return "Go last during the Issue Shares phase.";
       default:
         assertNever(action);
     }

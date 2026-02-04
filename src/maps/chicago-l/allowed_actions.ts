@@ -8,7 +8,8 @@ export class ChicagoLAllowedActions extends AllowedActions {
       set
         .delete(Action.PRODUCTION)
         .delete(Action.TURN_ORDER_PASS)
-        .add(Action.REPOPULATION);
+        .add(Action.REPOPULATION)
+        .add(Action.ISSUE_LAST);
     });
   }
 }
