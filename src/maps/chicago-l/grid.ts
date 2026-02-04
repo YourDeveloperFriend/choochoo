@@ -257,6 +257,6 @@ export const map = grid([
     WATER,
     park("Jackson Park"),
     PLAIN,
-    city("Cottaga Grova", RED, undefined, 3),
+    city("Cottage Grove", RED, undefined, 3),
   ],
 ]);
