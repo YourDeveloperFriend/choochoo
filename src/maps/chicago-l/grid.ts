@@ -154,7 +154,7 @@ export const map = grid([
     PLAIN,
     PLAIN,
     RIVER,
-    town("Medicai District"),
+    town("Medical District"),
     RIVER,
     town("Ashland"),
     PLAIN,
