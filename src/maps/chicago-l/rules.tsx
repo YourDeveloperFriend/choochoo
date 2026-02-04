@@ -89,6 +89,10 @@ export function ChicagoLRules() {
           track contributes to income; this happens at every other row.
         </li>
         <li>
+          <b>Issue Last:</b> this special action will cause the player who takes
+          it to go last in the next issue shares phase.
+        </li>
+        <li>
           <b>End Game Scoring:</b> Victory point calculation at the end of the
           game has changed to: ((income-shares) * 2) + track.
         </li>
