@@ -9,6 +9,10 @@ export function stage(): Stage {
   return Stage.parse(process.env.NODE_ENV);
 }
 
+export function postgresSsl(): boolean {
+  return process.env.POSTGRES_SSL === "true";
+}
+
 export function postgresUrl(): URL {
   assert(process.env.POSTGRES_URL != null, "must provide POSTGRES_URL");
 
