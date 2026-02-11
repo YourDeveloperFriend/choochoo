@@ -1,5 +1,6 @@
 import { URL } from "url";
 import { z } from "zod";
+import {readFileSync} from 'fs';
 import { assert } from "../../utils/validate";
 
 export const Stage = z.enum(["production", "development", "test"]);
@@ -12,7 +13,7 @@ export function stage(): Stage {
 export function postgresSsl(): ({ca: string}|undefined) {
   const ssl = process.env.POSTGRES_SSL;
   if (ssl == null || ssl == "") return undefined;
-  return {ca: ssl};
+  return {ca: readFileSync(ssl, 'utf-8')};
 }
 
 export function postgresUrl(): URL {
