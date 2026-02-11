@@ -9,8 +9,10 @@ export function stage(): Stage {
   return Stage.parse(process.env.NODE_ENV);
 }
 
-export function postgresSsl(): boolean {
-  return process.env.POSTGRES_SSL === "true";
+export function postgresSsl(): ({ca: string}|undefined) {
+  const ssl = process.env.POSTGRES_SSL;
+  if (ssl == null || ssl == "") return undefined;
+  return {ca: ssl};
 }
 
 export function postgresUrl(): URL {
