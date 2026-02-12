@@ -215,7 +215,7 @@ export const map = grid([
     RIVER,
     RIVER,
     PLAIN,
-    city("Addison", BLUE, undefined, 4),
+    city("Addison", BLUE, undefined, 3),
     PLAIN,
     PLAIN,
     THE_LOOP_NORTH,
@@ -257,6 +257,6 @@ export const map = grid([
     WATER,
     park("Jackson Park"),
     PLAIN,
-    city("Cottage Grove", RED, undefined, 3),
+    city("Cottage Grove", RED, undefined, 4),
   ],
 ]);
