@@ -17,11 +17,24 @@ export function postgresSsl(): ({ca: string}|undefined) {
 }
 
 export function postgresUrl(): URL {
-  assert(process.env.POSTGRES_URL != null, "must provide POSTGRES_URL");
-
-  const postgresUrl = new URL(process.env.POSTGRES_URL);
-  assert(postgresUrl != null, "must provide POSTGRES_URL in url format");
-  return postgresUrl;
+  if (process.env.POSTGRES_URL != null) {
+    
+    const postgresUrl = new URL(process.env.POSTGRES_URL);
+    assert(postgresUrl != null, "must provide POSTGRES_URL in url format");
+    return postgresUrl;
+  }
+  assert(process.env.POSTGRES_USER != null, "must provide POSTGRES_URL or POSTGRES_USER");
+  assert(process.env.POSTGRES_PASS != null, "must provide POSTGRES_URL or POSTGRES_PASS");
+  assert(process.env.POSTGRES_HOST != null, "must provide POSTGRES_URL or POSTGRES_HOST");
+  assert(process.env.POSTGRES_PORT != null, "must provide POSTGRES_URL or POSTGRES_PORT");
+  assert(process.env.POSTGRES_DATABASE != null, "must provide POSTGRES_URL or POSTGRES_DATABASE");
+  const url = new URL("postgres://user:pass@host:port/database");
+  url.username = process.env.POSTGRES_USER;
+  url.password = process.env.POSTGRES_PASS;
+  url.hostname = process.env.POSTGRES_HOST;
+  url.port = process.env.POSTGRES_PORT;
+  url.pathname = "/" + process.env.POSTGRES_DATABASE;
+  return url;
 }
 
 export function redisUrl(): URL | undefined {
