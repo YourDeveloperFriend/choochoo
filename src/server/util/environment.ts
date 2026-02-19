@@ -17,8 +17,7 @@ export function postgresSsl(): ({ca: string}|undefined) {
 }
 
 export function postgresUrl(): URL {
-  if (process.env.POSTGRES_URL != null) {
-    
+  if (process.env.POSTGRES_URL != null && process.env.POSTGRES_URL != '') {
     const postgresUrl = new URL(process.env.POSTGRES_URL);
     assert(postgresUrl != null, "must provide POSTGRES_URL in url format");
     return postgresUrl;
