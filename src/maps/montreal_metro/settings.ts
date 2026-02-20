@@ -22,6 +22,7 @@ import { MontrealMetroProfitHelper } from "./expenses";
 import { MontrealMetroMoveHelper } from "./government_engine_level";
 import {
   MontrealMetroBuildAction,
+  MontrealMetroBuildPhase,
   MontrealMetroPhaseDelegator,
 } from "./government_track";
 import { map } from "./grid";
@@ -58,6 +59,7 @@ export class MontrealMetroMapSettings implements MapSettings {
       MontrealMetroBuilderHelper,
       MontrealMetroUrbanizeAction,
       MontrealActionNamingProvider,
+      MontrealMetroBuildPhase,
     ];
   }
 }
