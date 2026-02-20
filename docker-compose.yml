@@ -55,7 +55,9 @@ services:
           path: ./src
           target: /app/src
         - action: rebuild
-          path: ./package*.json
+          path: ./package.json
+        - action: rebuild
+          path: ./package-lock.json
 
 volumes:
   postgres_data:
