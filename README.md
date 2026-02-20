@@ -22,6 +22,15 @@ docker-compose up --watch
 
 Visit http://localhost:3001 to see the application.
 
+#### Rebuilding Containers
+
+When you need to rebuild the Docker containers (after pulling updates, merging branches, or changing dependencies):
+
+```bash
+docker-compose down
+docker-compose up --build --watch
+```
+
 **Note:** 
 - If you encounter port conflicts, check for existing services with `lsof -i :PORT_NUMBER`
 
