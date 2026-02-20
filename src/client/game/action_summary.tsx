@@ -255,7 +255,7 @@ function DiscoProduction() {
   );
 }
 
-function SpecialActionSelector() {
+export function SpecialActionSelector() {
   const { canEmit, canEmitUserId } = useAction(ActionSelectionSelectAction);
   const { canEmit: canEmitSkip, isPending, emit } = useAction(SkipAction);
 
@@ -526,5 +526,5 @@ function GovernmentBuild() {
     );
   }
 
-  return <div>You can build {buildsRemaining} more government track.</div>;
+  return <div>You can build {buildsRemaining} more government track tile{buildsRemaining == 1 ? '' : 's'}.</div>;
 }

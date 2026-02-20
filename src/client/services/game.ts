@@ -61,6 +61,7 @@ function checkMatches(baseQuery: ListGamesApi, game: GameLiteApi): boolean {
 }
 
 export function useGameList(baseQuery: ListGamesApi) {
+  const me = useMe();
   const socket = useSocket();
   const tsrQueryClient = tsr.useQueryClient();
   const queryWithLimit: ListGamesApi = { pageSize: 20, ...baseQuery };
@@ -147,6 +148,11 @@ export function useGameList(baseQuery: ListGamesApi) {
         const present = pages.some((games) =>
           games.some((other) => other.id === game.id),
         );
+        // Do not add unlisted games to the UI
+        // FIXME: Ideally this should be excluded server-side, but since updates are broadcast to all sockets it's a bit tricky to control there
+        if (!present && game.unlisted && (me === undefined || game.playerIds.indexOf(me.id) === -1)) {
+          return pages;
+        }
 
         const matchesQuery = checkMatches(baseQuery, game);
 
@@ -474,7 +480,7 @@ export function isGameHistory(game: GameApi): game is GameHistoryApi {
 }
 
 export function canEditGame(game: GameApi): boolean {
-  return !isGameHistory(game);
+  return game.status === GameStatus.Enum.ACTIVE && !isGameHistory(game);
 }
 
 interface UndoAction {

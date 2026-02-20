@@ -1,6 +1,8 @@
 import { URL } from "url";
 import { z } from "zod";
+import {readFileSync} from 'fs';
 import { assert } from "../../utils/validate";
+import { isNotEmpty } from "../../utils/functions";
 
 export const Stage = z.enum(["production", "development", "test"]);
 export type Stage = z.infer<typeof Stage>;
@@ -9,12 +11,34 @@ export function stage(): Stage {
   return Stage.parse(process.env.NODE_ENV);
 }
 
-export function postgresUrl(): URL {
-  assert(process.env.POSTGRES_URL != null, "must provide POSTGRES_URL");
+export function postgresSsl(): ({ca: string}|undefined) {
+  const ssl = process.env.POSTGRES_SSL;
+  if (ssl == null || ssl == "") return undefined;
+  return {ca: readFileSync(ssl, 'utf-8')};
+}
 
-  const postgresUrl = new URL(process.env.POSTGRES_URL);
-  assert(postgresUrl != null, "must provide POSTGRES_URL in url format");
-  return postgresUrl;
+export function postgresUrl(): URL {
+  if (isNotEmpty(process.env.POSTGRES_URL)) {
+    const postgresUrl = new URL(process.env.POSTGRES_URL);
+    assert(postgresUrl != null, "must provide POSTGRES_URL in url format");
+    return postgresUrl;
+  }
+  assert(isNotEmpty(process.env.POSTGRES_PASS), "must provide POSTGRES_URL or POSTGRES_PASS");
+  const url = new URL("postgres://postgres:password@localhost:5432/aos");
+  url.password = process.env.POSTGRES_PASS;
+  if (isNotEmpty(process.env.POSTGRES_USER)) {
+    url.username = process.env.POSTGRES_USER;
+  }
+  if (isNotEmpty(process.env.POSTGRES_HOST)) {
+    url.hostname = process.env.POSTGRES_HOST;
+  }
+  if (isNotEmpty(process.env.POSTGRES_PORT)) {
+    url.port = process.env.POSTGRES_PORT;
+  }
+  if (isNotEmpty(process.env.POSTGRES_DATABASE)) {
+    url.pathname = "/" + process.env.POSTGRES_DATABASE;
+  }
+  return url;
 }
 
 export function redisUrl(): URL | undefined {

@@ -5,12 +5,14 @@ import { MapViewSettings } from "../view_settings";
 import { ACTIONS_REMAINING } from "./actions";
 import { TrislandRules } from "./rules";
 import { TrislandMapSettings } from "./settings";
+import { TrislandRivers } from "./rivers";
 
 export class TrislandViewSettings
   extends TrislandMapSettings
   implements MapViewSettings
 {
   getMapRules = TrislandRules;
+  getTexturesLayer = TrislandRivers;
 
   getActionCaption(action: Action): string[] | string | undefined {
     const actionsRemaining = useInjectedState(ACTIONS_REMAINING);

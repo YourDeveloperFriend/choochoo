@@ -34,10 +34,13 @@ import { Track as TrackSvg } from "./track";
 
 function cityColorStyles(space: City): string[] {
   const colors = space.goodColors();
+
   if (colors.length === 0) {
     return [styles.colorless];
   }
-  return colors.map((color) => goodStyle(color));
+  return colors
+    .filter((color) => color !== Good.WHITE)
+    .map((color) => goodStyle(color));
 }
 
 function landColorStyle(space: Land): string {
@@ -50,6 +53,10 @@ function landColorStyle(space: Land): string {
         return styles.light_river;
       case SpaceStyle.FJORD:
         return styles.fjord;
+      case SpaceStyle.CANYON:  
+        return styles.canyon;
+      case SpaceStyle.MOUNTAIN:
+        return styles.mountain;
       default:
         assertNever(style);
     }

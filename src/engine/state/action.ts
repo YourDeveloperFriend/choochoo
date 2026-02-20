@@ -41,6 +41,18 @@ export enum Action {
 
   // Scandinavia
   FERRY = 21,
+
+  // Chicago Speakeasy
+  BUMP_OFF = 22,
+
+  // Eastern US & Canada
+  MARKETING = 23,
+
+  // Double Base USA
+  DOUBLE_BASE_LOCOMOTIVE = 24,
+
+  // Chicago-L
+  ISSUE_LAST = 25,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -92,6 +104,14 @@ export class ActionNamingProvider {
         return "Protection";
       case Action.FERRY:
         return "Ferry";
+      case Action.BUMP_OFF:
+        return "Bump Off an Agent"
+      case Action.MARKETING:
+        return "Marketing";
+      case Action.DOUBLE_BASE_LOCOMOTIVE:
+        return "Locomotive (single)";
+      case Action.ISSUE_LAST:
+        return "Issue Last";
       default:
         assertNever(action);
     }
@@ -119,7 +139,6 @@ export class ActionNamingProvider {
         return "Before the Move Goods step, remove a goods cube of your choice from the map.";
       case Action.WTE_PLANT_OPERATOR:
         return "After the Move Goods step, take all black cubes from the WTE Plant space. Each cube is worth 2 points.";
-
       case Action.LAST_BUILD:
         return "Go last during the Building step.";
       case Action.LAST_MOVE:
@@ -142,6 +161,14 @@ export class ActionNamingProvider {
         return "Allows you to move black cubes from towns during the Move Goods step.";
       case Action.FERRY:
         return "Allows you to move one good across water. See rules for more information.";
+      case Action.BUMP_OFF:
+        return "You may remove 1 black good from the map before 1 of your deliveries.";
+      case Action.MARKETING:
+        return "You can move through one city matching the good's color on both of your moves.";
+      case Action.DOUBLE_BASE_LOCOMOTIVE:
+        return "Receive one bonus locomotive disc.";
+      case Action.ISSUE_LAST:
+        return "Go last during the Issue Shares phase.";
       default:
         assertNever(action);
     }

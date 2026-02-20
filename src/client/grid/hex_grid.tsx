@@ -34,7 +34,7 @@ import { useTypedCallback } from "../utils/hooks";
 import { ClickTarget } from "./click_target";
 import { getTerrainHexes } from "./hex";
 import * as styles from "./hex_grid.module.css";
-import { InterCityConnectionRender } from "./inter_city_connection";
+import { InterCityConnectionsRender } from "./inter_city_connection";
 
 interface HexGridProps {
   id?: string;
@@ -315,13 +315,6 @@ export function HexGrid({
               size={size}
             />
           )}
-          <defs>
-            <filter id="cubeShadow" width={size / 3} height={size / 3}>
-              <feOffset in="SourceAlpha" dx={size / 15} dy={size / 15} />
-              <feGaussianBlur stdDeviation={size / 30} />
-              <feBlend in="SourceGraphic" in2="blurOut" />
-            </filter>
-          </defs>
           <g ref={ref}>
             {/* Rotating without a center moves it along the origin, but we rely on the viewBox calculation to make sure the view box fits the content. */}
             <Rotate rotation={rotation}>
@@ -330,19 +323,14 @@ export function HexGrid({
               {terrainHexes.afterTextures}
               {overlayLayer}
               {terrainHexes.afterOverlay}
-              {grid.connections.map((connection, index) => (
-                <InterCityConnectionRender
-                  key={index}
-                  highlighted={highlightedConnections?.some(
-                    (c) => connection.id === c.id,
-                  )}
-                  clickTargets={clickTargetsNormalized}
-                  onClick={onClickInterCity}
-                  size={size}
-                  connection={connection}
-                  rotation={rotation}
-                />
-              ))}
+              <InterCityConnectionsRender
+                highlightedConnections={highlightedConnections}
+                clickTargets={clickTargetsNormalized}
+                onClick={onClickInterCity}
+                size={size}
+                connections={grid.connections}
+                rotation={rotation}
+              />
               {fullMapVersion && <SwedenProgressionGraphic />}
               {children}
               {spaceToConfirm && (

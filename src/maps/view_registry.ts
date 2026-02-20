@@ -1,3 +1,6 @@
+import { PuertoRicoViewSettings } from "./puerto_rico/view_settings";
+import { SouthernUsViewSettings } from "./southern_us/view_settings";
+import { FourCornersViewSettings } from "./four_corners/view_settings";
 import { BarbadosViewSettings } from "./barbados/view_settings";
 import { GameKey } from "../api/game_key";
 import { assert } from "../utils/validate";
@@ -37,12 +40,20 @@ import { MapViewSettings } from "./view_settings";
 import { CaliforniaGoldRushViewSettings } from "./ca-gold-rush/view_settings";
 import { UnionPacificExpressViewSettings } from "./union_pacific_express/view_settings";
 import { RustBeltExpressViewSettings } from "./rust_belt_express/view_settings";
+import { ChicagoSpeakeasyViewSettings } from "./chicago_speakeasy/view_settings";
+import { BelgiumViewSettings } from "./belgium/view_settings";
+import { EasternUsAndCanadaViewSettings } from "./eastern_us_and_canada/view_settings";
+import { DoubleBaseUsaViewSettings } from "./double_base_usa/view_settings";
+import { ChicagoLViewSettings } from "./chicago-l/view_settings";
 
 export class ViewRegistry {
   static readonly singleton = new ViewRegistry();
   private readonly maps = new Map<GameKey, MapViewSettings>();
 
   private constructor() {
+    this.add(new PuertoRicoViewSettings());
+    this.add(new SouthernUsViewSettings());
+    this.add(new FourCornersViewSettings());
     this.add(new BarbadosViewSettings());
     this.add(new TrislandViewSettings());
     this.add(new PortugalViewSettings());
@@ -79,6 +90,11 @@ export class ViewRegistry {
     this.add(new CaliforniaGoldRushViewSettings());
     this.add(new UnionPacificExpressViewSettings());
     this.add(new RustBeltExpressViewSettings());
+    this.add(new ChicagoSpeakeasyViewSettings());
+    this.add(new BelgiumViewSettings());
+    this.add(new EasternUsAndCanadaViewSettings());
+    this.add(new DoubleBaseUsaViewSettings());
+    this.add(new ChicagoLViewSettings());
   }
 
   values(): Iterable<MapViewSettings> {

@@ -47,7 +47,7 @@ export function Build() {
   return (
     <div>
       <p>
-        You can build {buildsRemaining} more track
+        You can build {buildsRemaining} more track tile{buildsRemaining == 1 ? '' : 's'}
         {canUrbanize && " and urbanize"}.
       </p>
       <Button icon labelPosition="left" color="green" onClick={emitPassClick}>

@@ -10,9 +10,10 @@ import { Land } from "../map/location";
 import { Action } from "../state/action";
 import { toLetter } from "../state/city_group";
 import { SpaceType } from "../state/location_type";
-import { allDirections } from "../state/tile";
+import { allDirections, Direction } from "../state/tile";
 import { BuilderHelper } from "./helper";
 import { BUILD_STATE } from "./state";
+import { goodToString } from "../state/good";
 
 export const UrbanizeData = z.object({
   cityIndex: z.number(),
@@ -46,17 +47,23 @@ export class UrbanizeAction implements ActionProcessor<UrbanizeData> {
   }
 
   process(data: UrbanizeData): boolean {
-    // Take ownership of connecting unowned track.
-    const location = this.gridHelper.lookup(data.coordinates) as Land;
+    const location = this.gridHelper.lookup(data.coordinates);
+    assert(location !== undefined);
 
-    const unownedConnections = allDirections.filter((direction) => {
-      const trackExiting = location.trackExiting(direction);
-      if (trackExiting != null) return false;
-      const connection = this.grid().getTrackConnection(data.coordinates, direction);
-      if (connection == null || connection.getOwner() != null) return false;
-      if (this.grid().getRoute(connection).some((track) => track.isClaimable())) return false;
-      return true;
-    });
+    // Take ownership of connecting unowned track.
+    let unownedConnections: Direction[];
+    if (location instanceof Land) {
+      unownedConnections = allDirections.filter((direction) => {
+        const trackExiting = location.trackExiting(direction);
+        if (trackExiting != null) return false;
+        const connection = this.grid().getTrackConnection(data.coordinates, direction);
+        if (connection == null || connection.getOwner() != null) return false;
+        if (this.grid().getRoute(connection).some((track) => track.isClaimable())) return false;
+        return true;
+      });
+    } else {
+      unownedConnections = [];
+    }
 
     this.buildState.update((state) => state.hasUrbanized = true);
     const city = this.availableCities()[data.cityIndex];
@@ -77,7 +84,10 @@ export class UrbanizeAction implements ActionProcessor<UrbanizeData> {
       this.gridHelper.setRouteOwner(connection, this.currentPlayer().color);
     }
 
-    this.log.currentPlayer(`places city ${toLetter(city.onRoll[0])} in ${this.grid().displayName(data.coordinates)}`);
+    const cityDesc = city.onRoll.length > 0 ? `city ${toLetter(city.onRoll[0])}` :
+        (city.color instanceof Array ? `a ${goodToString(city.color[0])} city` : `a ${goodToString(city.color)} city`);
+
+    this.log.currentPlayer(`places ${cityDesc} in ${this.grid().displayName(data.coordinates)}`);
     return this.helper.isAtEndOfTurn();
   }
 }

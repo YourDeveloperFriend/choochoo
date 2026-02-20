@@ -23,6 +23,8 @@ import {
   remainingPlayers,
   startGame,
 } from "./logic";
+import { MapRegistry } from "../../maps/registry";
+import { ReleaseStage } from "../../engine/game/map_settings";
 
 export const gameApp = express();
 
@@ -126,6 +128,21 @@ const router = initServer().router(gameContract, {
   async create({ body, req }) {
     const userId = req.session.userId;
     assert(userId != null, { permissionDenied: true });
+    const user = await assertRole(req);
+    const isAdmin = user.role === UserRole.enum.ADMIN;
+
+    const map = MapRegistry.singleton.get(body.gameKey);
+    assert(map != null, { invalidInput: true });
+    assert(
+      stage() === Stage.enum.development ||
+        map.stage !== ReleaseStage.DEVELOPMENT ||
+        isAdmin ||
+        (map.developmentAllowlist !== undefined &&
+          map.developmentAllowlist.indexOf(userId) !== -1),
+      { permissionDenied: true },
+    );
+    assert(map.stage !== ReleaseStage.DEVELOPMENT || body.unlisted, { invalidInput: "Development map games must be unlisted." });
+
     const playerIds = [userId];
     if (body.artificialStart) {
       assert(stage() === Stage.enum.development);
@@ -270,6 +287,10 @@ const router = initServer().router(gameContract, {
       const game = await GameDao.findByPk(gameId, { transaction });
       assert(game != null);
       assert(gameHistory != null);
+      assert(
+        game.status === GameStatus.Enum.ACTIVE,
+        "cannot undo an ended game",
+      );
       assert(
         game.version === gameHistory.previousGameVersion + 1,
         "can only undo one step",

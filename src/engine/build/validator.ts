@@ -25,8 +25,13 @@ export class Validator {
   protected readonly helper = inject(BuilderHelper);
   protected readonly grid = injectGrid();
 
-  tileMatchesTownType(coordinates: Coordinates, tileType: TileType) {
-    const space = this.grid().get(coordinates) as Land;
+  tileMatchesTownType(coordinates: Coordinates, tileType: TileType): InvalidBuildReason | undefined {
+    const space = this.grid().get(coordinates);
+    assert(space !== undefined);
+    if (space instanceof City) {
+      return 'cannot place track on a city';
+    }
+
     const thisIsTownTile = isTownTile(tileType);
     if (space.hasTown() !== thisIsTownTile) {
       if (thisIsTownTile) {
@@ -89,7 +94,7 @@ export class Validator {
     for (const track of [...newTracks, ...rerouted]) {
       for (const exit of track.exits) {
         if (exit === TOWN) continue;
-        const reason = this.connectionAllowed(space, exit);
+        const reason = this.connectionAllowed(buildData.playerColor, space, exit);
         if (reason) {
           return reason;
         }
@@ -119,7 +124,7 @@ export class Validator {
     }
   }
 
-  protected connectionAllowed(land: Land, exit: Direction): InvalidBuildReason|undefined {
+  protected connectionAllowed(playerColor: PlayerColor, land: Land, exit: Direction): InvalidBuildReason|undefined {
     const neighbor = this.grid().getNeighbor(land.coordinates, exit);
     if (!land.connectionAllowed(exit, neighbor)) {
       return 'cannot build towards an unpassable edge';
@@ -206,7 +211,8 @@ export class Validator {
 
   protected newTrackExtendsPrevious(playerColor: PlayerColor, space: Land, newTracks: TrackInfo[]): boolean {
     // if it's a town tile, only one of the track needs to be placeable
-    if (space.hasTown()) {
+    const hasTown = newTracks.some(track => track.exits.some(exit => exit === TOWN));
+    if (hasTown) {
       return newTracks.some((track) => this.newTrackConnectsToOwned(space, playerColor, track));
     }
     return newTracks.every((track) => this.newTrackConnectsToOwned(space, playerColor, track));

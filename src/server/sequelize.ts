@@ -7,13 +7,14 @@ import { GameDao } from "./game/dao";
 import { GameHistoryDao } from "./game/history_dao";
 import { LogDao } from "./messages/log_dao";
 import { UserDao } from "./user/dao";
-import { postgresUrl } from "./util/environment";
+import { postgresUrl, postgresSsl } from "./util/environment";
 
 export const sequelize = new Sequelize({
   dialect: PostgresDialect,
   url: postgresUrl().toString(),
   // logging: log,
   models: [GameDao, UserDao, LogDao, GameHistoryDao, FeedbackDao],
+  ssl: postgresSsl(),
 });
 
 let connection: Promise<void>;

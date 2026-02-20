@@ -5,7 +5,7 @@ import { GridData } from "../state/grid";
 import { InterCityConnection } from "../state/inter_city_connection";
 import { Ender, EndGameReason } from "./ender";
 import {
-  CheckAutoAction as CheckForcedAction,
+  CheckAutoAction,
   EndPhase,
   EndRound,
   EndTurn,
@@ -71,7 +71,7 @@ export class GameEngine {
   }
 
   private runLifecycle(): void {
-    const checkInfinite = infiniteLoopCheck(50);
+    const checkInfinite = infiniteLoopCheck(100);
     while (!this.hasEnded() && !(this.lifecycle() instanceof WaitForAction)) {
       checkInfinite(`${this.lifecycle()!.constructor.name}`);
       this.stepLifecycle();
@@ -109,7 +109,7 @@ export class GameEngine {
       } else {
         this.lifecycle.set(lifecycle.checkForcedAction());
       }
-    } else if (lifecycle instanceof CheckForcedAction) {
+    } else if (lifecycle instanceof CheckAutoAction) {
       const autoAction = this.delegator.get().forcedAction();
       if (autoAction != null) {
         this.lifecycle.set(

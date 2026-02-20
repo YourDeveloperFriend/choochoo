@@ -35,7 +35,8 @@ export function DenmarkRules() {
           However, goods cannot be moved across the sea link until track is laid
           from the town to the sea link. When a player does this, the track is
           unowned: it does not contribute to income during move goods and does
-          not count for points.
+          not count for points. A town may only be connected to a sea route if
+          the sea route has already been built by the same player.
         </li>
         <li>The maximum loco is 9.</li>
         <li>

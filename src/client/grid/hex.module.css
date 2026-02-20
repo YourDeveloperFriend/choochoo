@@ -124,8 +124,16 @@
   fill: none;
 }
 
+.lakePath {
+  fill: #009bb2;
+}
+
 .seaRoute {
   stroke: #ffffff;
   stroke-width: 9;
   fill: none;
+}
+
+.location.canyon {
+  fill: #2b2b2b;  
 }

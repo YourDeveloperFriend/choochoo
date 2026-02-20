@@ -63,9 +63,13 @@ export class GridHelper {
     });
   }
 
-  addInterCityConnection(connection: InterCityConnection): void {
+  addInterCityConnection(connection: Omit<InterCityConnection, 'id'>): void {
     this.interCityConnections.update((connections) => {
-      connections.push(connection);
+      const newConnection: InterCityConnection = {
+        ...connection,
+        id: String(connections.length + 1),
+      };
+      connections.push(newConnection);
     });
   }
 

@@ -1,6 +1,6 @@
 import z from "zod";
 import { BuildAction, BuildData } from "../../engine/build/build";
-import { BaseBuildPhase } from "../../engine/build/phase";
+import { BaseBuildPhase, BuildPhase } from "../../engine/build/phase";
 import { injectState } from "../../engine/framework/execution_context";
 import { Key } from "../../engine/framework/key";
 import { PHASE } from "../../engine/game/phase";
@@ -11,7 +11,7 @@ import { injectInGamePlayers } from "../../engine/game/state";
 import { City } from "../../engine/map/city";
 import { calculateTrackInfo, Land } from "../../engine/map/location";
 import { isTownTile } from "../../engine/map/tile";
-import { TOWN, TrackInfo } from "../../engine/map/track";
+import { Exit, TOWN } from "../../engine/map/track";
 import { Phase } from "../../engine/state/phase";
 import {
   PlayerColor,
@@ -20,8 +20,12 @@ import {
 } from "../../engine/state/player";
 import { allDirections, Direction } from "../../engine/state/tile";
 import { isNotNull } from "../../utils/functions";
-import { assert } from "../../utils/validate";
+import { assert, fail } from "../../utils/validate";
 import { GOVERNMENT_COLOR } from "./government_engine_level";
+import { Grid } from "../../engine/map/grid";
+import { Coordinates } from "../../utils/coordinates";
+import { getNeighbor } from "../moon/wrap_around";
+import { getOpposite } from "../../engine/map/direction";
 
 const GovernmentTrackState = PlayerColorZod.array();
 type GovernmentTrackState = z.infer<typeof GovernmentTrackState>;
@@ -69,6 +73,18 @@ export class MontrealMetroGovernmentBuildPhase extends BaseBuildPhase {
   forcedAction(): ActionBundle<object> | undefined {
     return undefined;
   }
+
+  onEndTurn(): void {
+    super.onEndTurn();
+    checkHasContiguousMasterNetwork(this.grid());
+  }
+}
+
+export class MontrealMetroBuildPhase extends BuildPhase {
+  onEndTurn(): void {
+    super.onEndTurn();
+    checkHasContiguousMasterNetwork(this.grid());
+  }
 }
 
 export class MontrealMetroBuildAction extends BuildAction {
@@ -84,40 +100,6 @@ export class MontrealMetroBuildAction extends BuildAction {
 
   private isGovtBuildPhase(): boolean {
     return this.phase() === MontrealMetroGovernmentBuildPhase.phase;
-  }
-
-  private isFirstBuildOfGame(): boolean {
-    return (
-      this.isGovtBuildPhase() &&
-      this.round() === 1 &&
-      this.buildState().buildCount! === 0
-    );
-  }
-
-  private isContiguousWithExistingTrack(data: BuildData): boolean {
-    const trackInfo = calculateTrackInfo(data);
-    const trackIsContiguous = (track: TrackInfo) =>
-      track.exits.some((exit) => {
-        if (exit === TOWN) return false;
-        if (this.grid().getTrackConnection(data.coordinates, exit) != null) {
-          return true;
-        }
-        const neighbor = this.grid().getNeighbor(data.coordinates, exit);
-        if (!(neighbor instanceof City)) {
-          return false;
-        }
-        return allDirections.some((direction) => {
-          return (
-            this.grid().getTrackConnection(neighbor.coordinates, direction) !=
-            null
-          );
-        });
-      });
-    if (isTownTile(data.tileType)) {
-      return trackInfo.some(trackIsContiguous);
-    } else {
-      return trackInfo.every(trackIsContiguous);
-    }
   }
 
   private isContinuingExistingLink(data: BuildData): boolean {
@@ -189,11 +171,6 @@ export class MontrealMetroBuildAction extends BuildAction {
   validate(data: BuildData): void {
     super.validate(data);
 
-    assert(
-      this.isFirstBuildOfGame() || this.isContiguousWithExistingTrack(data),
-      { invalidInput: "must be contiguous with existing track" },
-    );
-
     if (this.isGovtBuildPhase()) {
       this.validateGovtBuild(data);
     }
@@ -212,4 +189,127 @@ export class MontrealMetroBuildAction extends BuildAction {
       invalidInput: "cannot start a second link during the government build",
     });
   }
+}
+
+function checkHasContiguousMasterNetwork(grid: Grid): boolean {
+  // Locate any tile with track on it as the starting point to begin a DFS of connected track
+  let startingTrack: Land | undefined;
+  for (const [_, space] of grid.entries()) {
+    if (space instanceof Land && space.getTrack().length > 0) {
+      startingTrack = space;
+      break;
+    }
+  }
+  assert(startingTrack !== undefined);
+
+  const seenTrack: { [key: string]: boolean } = {};
+  exploreConnectedTrack(
+    grid,
+    startingTrack.coordinates,
+    startingTrack.getTrack()[0].getExits(),
+    seenTrack,
+  );
+
+  // Now having explored everything, validate that all track on the grid is in the seenTrack map
+  for (const [_, space] of grid.entries()) {
+    if (space instanceof Land) {
+      for (const track of space.getTrack()) {
+        const label = serializeTrack(track.coordinates, track.getExits());
+        if (!seenTrack[label]) {
+          fail({
+            invalidInput:
+              "All track must be connected to the master network at the end of the build.",
+          });
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
+function exploreConnectedTrackFromCity(
+  grid: Grid,
+  city: City,
+  seenTrack: { [key: string]: boolean },
+) {
+  const label = serializeTrack(city.coordinates, [TOWN, TOWN]);
+  if (seenTrack[label]) {
+    return;
+  }
+  seenTrack[label] = true;
+
+  for (const direction of allDirections) {
+    const track = grid.getTrackConnection(city.coordinates, direction);
+    if (track !== undefined) {
+      exploreConnectedTrack(
+        grid,
+        track.coordinates,
+        track.getExits(),
+        seenTrack,
+      );
+    }
+  }
+  for (const other of grid.getSameCities(city)) {
+    if (!other.coordinates.equals(city.coordinates)) {
+      exploreConnectedTrackFromCity(grid, other, seenTrack);
+    }
+  }
+}
+
+function exploreConnectedTrack(
+  grid: Grid,
+  coordinates: Coordinates,
+  track: [Exit, Exit],
+  seenTrack: { [key: string]: boolean },
+) {
+  const label = serializeTrack(coordinates, track);
+  if (seenTrack[label]) {
+    return;
+  }
+  seenTrack[label] = true;
+
+  for (const exit of track) {
+    if (exit === TOWN) {
+      const space = grid.get(coordinates);
+      assert(space instanceof Land);
+      for (const track of space.getTrack()) {
+        exploreConnectedTrack(
+          grid,
+          track.coordinates,
+          track.getExits(),
+          seenTrack,
+        );
+      }
+    } else {
+      const neighbor = getNeighbor(grid, coordinates, exit);
+      if (neighbor === undefined) {
+        continue;
+      }
+      if (neighbor instanceof City) {
+        exploreConnectedTrackFromCity(grid, neighbor, seenTrack);
+      } else {
+        const nextTrack = neighbor.trackExiting(getOpposite(exit));
+        if (nextTrack !== undefined) {
+          exploreConnectedTrack(
+            grid,
+            neighbor.coordinates,
+            nextTrack.getExits(),
+            seenTrack,
+          );
+        }
+      }
+    }
+  }
+}
+
+function serializeTrack(coordinates: Coordinates, track: [Exit, Exit]): string {
+  return (
+    coordinates.serialize() +
+    "|" +
+    track
+      .sort()
+      .map((exit) => exit.toString())
+      .join("|")
+  );
 }

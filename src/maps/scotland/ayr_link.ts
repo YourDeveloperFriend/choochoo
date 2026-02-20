@@ -14,7 +14,6 @@ export class ScotlandUrbanizeAction extends UrbanizeAction {
     const connectionOwner = this.getAyrConnectionOwner(data.coordinates);
     const result = super.process(data);
     this.gridHelper.addInterCityConnection({
-      id: String(this.grid().connections.length + 1),
       connects: [
         data.coordinates,
         data.coordinates.neighbor(Direction.TOP_RIGHT),

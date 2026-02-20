@@ -1,3 +1,6 @@
+import { PuertoRicoMapSettings } from "./puerto_rico/settings";
+import { SouthernUsMapSettings } from "./southern_us/settings";
+import { FourCornersMapSettings } from "./four_corners/settings";
 import { BarbadosMapSettings } from "./barbados/settings";
 import { GameKey } from "../api/game_key";
 import { MapSettings } from "../engine/game/map_settings";
@@ -37,12 +40,20 @@ import { TrislandMapSettings } from "./trisland/settings";
 import { CaliforniaGoldRushMapSettings } from "./ca-gold-rush/settings";
 import { UnionPacificExpressMapSettings } from "./union_pacific_express/settings";
 import { RustBeltExpressMapSettings } from "./rust_belt_express/settings";
+import { ChicagoSpeakeasyMapSettings } from "./chicago_speakeasy/settings";
+import { BelgiumMapSettings } from "./belgium/settings";
+import { EasternUsAndCanadaMapSettings } from "./eastern_us_and_canada/settings";
+import { DoubleBaseUsaMapSettings } from "./double_base_usa/settings";
+import {ChicagoLMapSettings} from "./chicago-l/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();
   private readonly maps = new Map<GameKey, MapSettings>();
 
   private constructor() {
+    this.add(new PuertoRicoMapSettings());
+    this.add(new SouthernUsMapSettings());
+    this.add(new FourCornersMapSettings());
     this.add(new BarbadosMapSettings());
     this.add(new TrislandMapSettings());
     this.add(new PortugalMapSettings());
@@ -79,6 +90,11 @@ export class MapRegistry {
     this.add(new CaliforniaGoldRushMapSettings());
     this.add(new UnionPacificExpressMapSettings());
     this.add(new RustBeltExpressMapSettings());
+    this.add(new ChicagoSpeakeasyMapSettings());
+    this.add(new BelgiumMapSettings());
+    this.add(new EasternUsAndCanadaMapSettings());
+    this.add(new DoubleBaseUsaMapSettings());
+    this.add(new ChicagoLMapSettings());
   }
 
   values(): Iterable<MapSettings> {

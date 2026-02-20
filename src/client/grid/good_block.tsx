@@ -31,11 +31,14 @@ export function GoodBlock({
   rotation,
 }: GoodBlockProps) {
   const goodSize = size / 3;
-  const maxGoodsPerRow = 6;
+  const maxGoodsPerRow = 5;
+  const goodSpacing = goodSize * 0.75;
 
   // Render 6 goods per row
   const xOffset = offset % maxGoodsPerRow;
-  const yOffset = Math.floor(offset / maxGoodsPerRow);
+  const row = Math.floor(offset / maxGoodsPerRow);
+  // Put the second row in the third-row position to limit overlap with the city numbers; third row goes in second row position
+  const yOffset = (row === 1 ? 2 : (row === 2 ? 1 : row));
 
   const rowSize =
     Math.floor(offset / maxGoodsPerRow) <
@@ -44,7 +47,9 @@ export function GoodBlock({
       : goodsCount % maxGoodsPerRow;
 
   const x =
-    center.x - (goodSize * (rowSize + 1)) / 2 / 2 + (xOffset * goodSize) / 2;
+    center.x -
+    (goodSpacing * (rowSize - 1) + goodSize) / 2 +
+    xOffset * goodSpacing;
   const y = center.y + yOffset * goodSize * 1.5 - size * 0.75;
   const stroke = highlighted
     ? good === Good.YELLOW
@@ -56,17 +61,22 @@ export function GoodBlock({
   const strokeWidth = highlighted ? 2 : 1;
   return (
     <Rotate rotation={rotation} center={center} reverse={true}>
-      <rect
-        fill="black"
-        width={goodSize}
-        height={goodSize}
-        x={x}
-        y={y}
-        strokeWidth={0}
+      <polygon
+        points={`${x},${y} ${x + goodSize},${y} ${x + goodSize * 1.3},${y + goodSize * 0.3} ${x + goodSize * 1.3},${y + goodSize * 1.3} ${x + goodSize * 0.3},${y + goodSize * 1.3} ${x},${y + goodSize}`}
+        className={`${styles.goodBackground} ${goodStyle(good)}`}
+        strokeWidth={strokeWidth}
+        stroke={stroke}
+      />
+      <line
+        x1={x + goodSize}
+        y1={y + goodSize}
+        x2={x + goodSize * 1.3}
+        y2={y + goodSize * 1.3}
+        strokeWidth={strokeWidth}
+        stroke={stroke}
       />
       <rect
         className={`${clickable ? hexGridStyles.clickable : ""} ${styles.good} ${goodStyle(good)}`}
-        filter={`url(#cubeShadow)`}
         data-coordinates={coordinates.serialize()}
         data-good={good}
         width={goodSize}

@@ -42,6 +42,7 @@ export const KAOSKODY = 1;
 export const JACK = 17;
 export const GRIMIKU = 99;
 export const EMIL = 375;
+export const CORTEXBOMB = 387;
 
 export interface MapSettings {
   readonly key: GameKey;
@@ -56,6 +57,8 @@ export interface MapSettings {
   readonly interCityConnections?: InterCityConnection[];
   readonly stage: ReleaseStage;
   readonly rotation?: Rotation;
+  // Development maps get an allowlist of user IDs who are allowed to create games for that map
+  readonly developmentAllowlist?: number[];
 
   getOverrides(): Array<SimpleConstructor<unknown>>;
   getModules?(): Array<Module>;

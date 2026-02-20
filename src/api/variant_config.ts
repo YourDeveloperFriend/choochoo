@@ -1,8 +1,11 @@
 import z from "zod";
 import { GameKey } from "./game_key";
+import { DIFFICULTY_LEVELS } from "../maps/puerto_rico/difficulty_levels";
 
 const EmptyVariantConfig = z.object({
   gameKey: z.enum([
+    GameKey.SOUTHERN_US,
+    GameKey.FOUR_CORNERS,
     GameKey.BARBADOS,
     GameKey.TRISLAND,
     GameKey.PORTUGAL,
@@ -36,6 +39,11 @@ const EmptyVariantConfig = z.object({
     GameKey.CALIFORNIA_GOLD_RUSH,
     GameKey.UNION_PACIFIC_EXPRESS,
     GameKey.RUST_BELT_EXPRESS,
+    GameKey.CHICAGO_SPEAKEASY,
+    GameKey.BELGIUM,
+    GameKey.EASTERN_US_AND_CANADA,
+    GameKey.DOUBLE_BASE_USA,
+    GameKey.CHICAGO_L,
   ]),
 });
 type EmptyVariantConfig = z.infer<typeof EmptyVariantConfig>;
@@ -58,10 +66,17 @@ export const CyprusVariantConfig = z.object({
 });
 export type CyprusVariantConfig = z.infer<typeof CyprusVariantConfig>;
 
+export const PuertoRicoVariantConfig = z.object({
+  gameKey: z.literal(GameKey.PUERTO_RICO),
+  difficulty: z.enum([...DIFFICULTY_LEVELS]),
+});
+export type PuertoRicoVariantConfig = z.infer<typeof PuertoRicoVariantConfig>;
+
 export const VariantConfig = z.discriminatedUnion("gameKey", [
   EmptyVariantConfig,
   IrelandVariantConfig,
   ReversteamVariantConfig,
   CyprusVariantConfig,
+  PuertoRicoVariantConfig,
 ]);
 export type VariantConfig = z.infer<typeof VariantConfig>;
