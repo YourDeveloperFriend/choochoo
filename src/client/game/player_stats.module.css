@@ -1,5 +1,11 @@
 .playerStats {
   overflow-y: auto;
+  width: 100%;
+}
+
+.playerStats table {
+  width: 100%;
+  table-layout: auto;
 }
 
 .tableRow td,
@@ -32,4 +38,143 @@
   color: var(--player-color);
   /* background-color: var(--player-color-text);
   border-radius: 50%; */
+}
+
+/* Chevron toggle button */
+.chevronBtn {
+  padding: 4px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.chevronBtn:hover {
+  background-color: #f3f4f6;
+}
+
+:global(.dark-mode) .chevronBtn:hover {
+  background-color: #333;
+}
+
+/* Player name cell */
+.playerCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.playerNameEliminated {
+  text-decoration: line-through;
+}
+
+.badgeEliminated {
+  font-size: 11px;
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+:global(.dark-mode) .badgeEliminated {
+  background-color: #3b1111;
+  color: #fca5a5;
+}
+
+/* Warning icons */
+:global(i.icon).warningRed {
+  color: #dc2626;
+  margin: 0;
+}
+
+:global(i.icon).warningAmber {
+  color: #f59e0b;
+  margin: 0;
+}
+
+/* Money column */
+.moneyDisplay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.moneyValue {
+  font-weight: 500;
+}
+
+.moneyNetPositive {
+  color: #16a34a;
+}
+
+.moneyNetNegative {
+  color: #dc2626;
+}
+
+/* Score column */
+.scoreCell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+:global(i.icon).infoIcon {
+  color: #9ca3af;
+  margin: 0;
+  cursor: help;
+}
+
+:global(i.icon).infoIcon:hover {
+  background-color: #f3f4f6;
+  border-radius: 4px;
+}
+
+:global(.dark-mode i.icon).infoIcon:hover {
+  background-color: #333;
+}
+
+/* Muted text for eliminated cells */
+.textMuted {
+  color: #9ca3af;
+}
+
+/* Eliminated row */
+.eliminatedRow {
+  opacity: 0.6;
+}
+
+/* Current player row */
+.currentPlayerRow {
+  background-color: #eff6ff;
+}
+
+:global(.dark-mode) .currentPlayerRow {
+  background-color: #1a2332;
+}
+
+/* Expanded row backgrounds */
+.expandedRow {
+  background-color: #f9fafb;
+}
+
+.expandedRowCurrent {
+  background-color: #eff6ff;
+}
+
+:global(.dark-mode) .expandedRow {
+  background-color: #1a1a1a;
+}
+
+:global(.dark-mode) .expandedRowCurrent {
+  background-color: #1a2332;
+}
+
+.expandedRowCell {
+  padding: 0 !important;
+  white-space: normal !important;
 }
