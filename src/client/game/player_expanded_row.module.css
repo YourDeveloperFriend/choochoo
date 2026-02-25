@@ -1,0 +1,459 @@
+/* Expanded row backgrounds */
+.expandedRow {
+  background-color: #f9fafb;
+}
+
+.expandedRowCurrent {
+  background-color: #eff6ff;
+}
+
+:global(.dark-mode) .expandedRow {
+  background-color: #1a1a1a;
+}
+
+:global(.dark-mode) .expandedRowCurrent {
+  background-color: #1a2332;
+}
+
+.expandedContent {
+  padding: 16px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Warning banners */
+.warningBanner {
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.warningBannerRed {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.warningBannerAmber {
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+}
+
+:global(.dark-mode) .warningBannerRed {
+  background-color: #3b1111;
+  border-color: #7f1d1d;
+}
+
+:global(.dark-mode) .warningBannerAmber {
+  background-color: #3b2e0a;
+  border-color: #78350f;
+}
+
+.warningBannerContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.warningBannerIcon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.warningBannerText {
+  font-size: 14px;
+}
+
+.warningTitleRed {
+  font-weight: 600;
+  color: #7f1d1d;
+  margin-bottom: 4px;
+}
+
+.warningBodyRed {
+  color: #991b1b;
+}
+
+.warningTitleAmber {
+  font-weight: 600;
+  color: #78350f;
+  margin-bottom: 4px;
+}
+
+.warningBodyAmber {
+  color: #92400e;
+}
+
+:global(.dark-mode) .warningTitleRed {
+  color: #fca5a5;
+}
+
+:global(.dark-mode) .warningBodyRed {
+  color: #fca5a5;
+}
+
+:global(.dark-mode) .warningTitleAmber {
+  color: #fcd34d;
+}
+
+:global(.dark-mode) .warningBodyAmber {
+  color: #fcd34d;
+}
+
+/* Two-column grid */
+.twoColumnGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .twoColumnGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Panel styles */
+.panelSection {
+  margin-bottom: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.panelTitle {
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+:global(.dark-mode) .panelTitle {
+  color: #d1d5db;
+}
+
+.panelCard {
+  background: white;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.dark-mode) .panelCard {
+  background: #2d2d2d;
+  border-color: #555;
+}
+
+.panelRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.panelRow:last-child {
+  margin-bottom: 0;
+}
+
+.panelLabel {
+  color: #6b7280;
+}
+
+:global(.dark-mode) .panelLabel {
+  color: #9ca3af;
+}
+
+.panelValue {
+  font-weight: 500;
+}
+
+.valuePositive {
+  color: #16a34a;
+}
+
+.valueNegative {
+  color: #dc2626;
+}
+
+.panelSubrow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #6b7280;
+  padding-left: 16px;
+  margin-bottom: 4px;
+}
+
+:global(.dark-mode) .panelSubrow {
+  color: #9ca3af;
+}
+
+.panelDivider {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 6px;
+  margin-top: 6px;
+}
+
+:global(.dark-mode) .panelDivider {
+  border-top-color: #555;
+}
+
+.panelHighlight {
+  background-color: #fffbeb;
+  margin-left: -12px;
+  margin-right: -12px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+:global(.dark-mode) .panelHighlight {
+  background-color: #3b2e0a;
+}
+
+.panelBold {
+  font-weight: 600;
+}
+
+/* Income Track */
+.trackLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+:global(.dark-mode) .trackLabel {
+  color: #9ca3af;
+}
+
+.trackLabels {
+  display: flex;
+  margin-bottom: 4px;
+}
+
+.trackLabelItem {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+:global(.dark-mode) .trackLabelItem {
+  color: #9ca3af;
+}
+
+.trackLabelDanger {
+  color: #dc2626;
+}
+
+.trackVisual {
+  position: relative;
+  height: 32px;
+  display: flex;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+:global(.dark-mode) .trackVisual {
+  border-color: #555;
+}
+
+.trackZone {
+  flex: 1;
+  border-right: 1px solid #d1d5db;
+}
+
+:global(.dark-mode) .trackZone {
+  border-right-color: #555;
+}
+
+.trackZone:last-of-type {
+  border-right: none;
+}
+
+.trackPip {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background-color: var(--player-color);
+}
+
+.trackCurrentValue {
+  text-align: center;
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 8px;
+}
+
+:global(.dark-mode) .trackCurrentValue {
+  color: #9ca3af;
+}
+
+.trackCurrentValue span {
+  font-weight: 500;
+}
+
+/* Bidding impact */
+.biddingSection {
+  margin-top: 12px;
+}
+
+.biddingHeader {
+  font-size: 12px;
+  color: #6b7280;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 8px;
+}
+
+:global(.dark-mode) .biddingHeader {
+  color: #9ca3af;
+  border-bottom-color: #555;
+}
+
+.biddingGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.biddingScenario {
+  text-align: center;
+}
+
+.biddingScenarioBordered {
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+}
+
+:global(.dark-mode) .biddingScenarioBordered {
+  border-left-color: #555;
+  border-right-color: #555;
+}
+
+.scenarioLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+:global(.dark-mode) .scenarioLabel {
+  color: #9ca3af;
+}
+
+.scenarioValue {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.scenarioDescription {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+:global(.dark-mode) .scenarioDescription {
+  color: #9ca3af;
+}
+
+.scenarioNeeds {
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 4px;
+}
+
+/* Eliminated player expanded */
+.eliminatedMessage {
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.eliminatedIconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #fee2e2;
+  margin-bottom: 12px;
+}
+
+:global(.dark-mode) .eliminatedIconWrapper {
+  background-color: #3b1111;
+}
+
+.eliminatedTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+:global(.dark-mode) .eliminatedTitle {
+  color: #f3f4f6;
+}
+
+.eliminatedDescription {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+:global(.dark-mode) .eliminatedDescription {
+  color: #9ca3af;
+}
+
+/* Score tooltip */
+.tooltipContent {
+  min-width: 240px;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.tooltipTitle {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.tooltipTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tooltipTable td {
+  padding: 3px 0;
+  font-size: 14px;
+}
+
+.tooltipLabel {
+  text-align: left;
+  padding-right: 16px;
+  white-space: nowrap;
+  color: inherit;
+}
+
+.tooltipValue {
+  text-align: right;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.tooltipTotalRow {
+  font-weight: 600;
+}
+
+.tooltipTotalRow td {
+  padding-top: 6px;
+  border-top: 1px solid rgba(128, 128, 128, 0.3);
+}
