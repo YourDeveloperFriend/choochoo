@@ -360,6 +360,7 @@ function ScoreCell({ player }: PlayerStatColumnProps) {
         trigger={<Icon name="info circle" size="small" className={styles.infoIcon} />}
         position="left center"
         size="small"
+        className="score-tooltip"
       />
     </div>
   );

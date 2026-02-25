@@ -178,3 +178,16 @@
   padding: 0 !important;
   white-space: normal !important;
 }
+
+/* Score tooltip dark mode — Popup renders in a portal so needs global selectors */
+:global(.dark-mode .ui.popup.score-tooltip) {
+  background: #1f1f1f;
+  color: #e5e7eb;
+  border-color: #444;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+:global(.dark-mode .ui.popup.score-tooltip::before) {
+  background: #1f1f1f !important;
+  box-shadow: 1px 1px 0 0 #444 !important;
+}
