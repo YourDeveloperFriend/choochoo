@@ -204,9 +204,20 @@ export function PlayerStats() {
                               : styles.expandedRow
                           }
                         >
+                          {/* Desktop expanded row cell: spans all desktop-visible columns */}
                           <td
                             colSpan={totalColSpan}
-                            className={styles.expandedRowCell}
+                            className={`${styles.expandedRowCell} ${styles.expanded}`}
+                          >
+                            <PlayerExpandedRow
+                              player={player}
+                              isCurrentPlayer={isCurrentPlayer}
+                            />
+                          </td>
+                          {/* Mobile expanded row cell: spans all mobile-visible columns (6) */}
+                          <td
+                            colSpan={6}
+                            className={`${styles.expandedRowCell} ${styles.collapsed}`}
                           >
                             <PlayerExpandedRow
                               player={player}
