@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { GameStatus } from "../../api/game";
 import { PlayerHelper } from "../../engine/game/player";
 import {
@@ -81,8 +81,8 @@ export function PlayerStats() {
       : []),
   ];
 
-  // Total columns: chevron + color indicator + player name + dynamic columns + collapsed stats (2) + login button
-  const totalColSpan = columns.length + 4;
+  // Total columns: chevron + color indicator + player name + collapsed cols (2) + expanded cols (columns.length) + login button
+  const totalColSpan = columns.length + 6;
 
   function toggleExpandedPlayer(color: PlayerColor) {
     setExpandedPlayer((prev) => (prev === color ? null : color));
@@ -128,8 +128,8 @@ export function PlayerStats() {
                     .join(" ");
 
                   return (
-                    <>
-                      <tr key={player.playerId} className={rowClasses}>
+                    <Fragment key={player.playerId}>
+                      <tr className={rowClasses}>
                         <td>
                           <button
                             className={styles.chevronBtn}
@@ -215,7 +215,7 @@ export function PlayerStats() {
                           </td>
                         </tr>
                       )}
-                    </>
+                    </Fragment>
                   );
                 })}
               </tbody>
