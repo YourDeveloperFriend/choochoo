@@ -15,6 +15,7 @@ import {
   useMe,
 } from "../services/me";
 import { isNetworkError } from "../services/network";
+import { useTabIndicator } from "../services/tab_indicator";
 import { Banner } from "./banner";
 import * as styles from "./layout.module.css";
 import { useTheme } from "./theme";
@@ -31,6 +32,9 @@ export function Layout() {
   const [enableAdminMode, setEnableAdminMode] = useEnableAdminMode();
   const isAdmin = useIsAdmin(true);
   const isAwaiting = useIsAwaitingPlayer();
+
+  // Update browser tab indicator with count of games awaiting user's turn
+  useTabIndicator();
 
   useEffect(() => {
     document.body.classList.toggle("dark-mode", isDarkMode);
