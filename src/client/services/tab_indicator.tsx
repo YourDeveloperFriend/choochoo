@@ -1,10 +1,12 @@
 import { useEffect, useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { tsr } from "./client";
+import { useJoinRoom, useSocket } from "./socket";
 import { useMe } from "./me";
 
 /**
  * Generates a favicon with a badge by compositing the original favicon image
- * with a numbered badge overlay using Canvas.
+ * with a badge overlay using Canvas when the count is greater than zero.
  */
 async function generateFaviconWithBadge(count: number): Promise<string> {
   if (count === 0) {
@@ -41,7 +43,7 @@ async function generateFaviconWithBadge(count: number): Promise<string> {
         ctx.beginPath();
         const hexCenterX = 8;
         const hexCenterY = 8;
-        const hexRadius = 16;
+        const hexRadius = 8;
         for (let i = 0; i < 6; i++) {
           const angle = (i * Math.PI) / 3; // 60 degrees between points
           const x = hexCenterX + hexRadius * Math.cos(angle);
@@ -68,24 +70,56 @@ async function generateFaviconWithBadge(count: number): Promise<string> {
 
     // Convert canvas to data URL
     return canvas.toDataURL("image/png");
-  } catch {
+  } catch (error) {
     // Fallback: return base favicon if compositing fails
+    if (process.env.NODE_ENV !== "production") {
+      // eslint-disable-next-line no-console
+      console.error(
+        "Failed to generate favicon with badge; using fallback favicon instead.",
+        error,
+      );
+    }
     return "/favicon.ico";
   }
 }
 
 /**
- * Fetches the count of active games where it's the user's turn.
- * Returns the count of games with status=ACTIVE and activePlayerId matching the current user.
+ * Monitors active games where it's the user's turn and updates the browser tab
+ * title and favicon badge accordingly. Integrates with WebSocket for real-time updates.
  */
-export function useTabIndicator(): number {
+export function useTabIndicator(): void {
   const me = useMe();
+  const socket = useSocket();
+  const queryClient = useQueryClient();
+
+  // Join home room to receive game list updates
+  useJoinRoom();
+
+  // Construct query with consistent pattern (sorted entries)
+  const query = useMemo(
+    () => ({
+      status: ["ACTIVE"] as ("LOBBY" | "ACTIVE" | "ENDED" | "ABANDONED")[],
+      userId: me?.id,
+    }),
+    [me?.id],
+  );
+
+  const queryKeyFromFilter = Object.entries(query)
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([key, value]) =>
+      Array.isArray(value)
+        ? `${key}:${value.join(",")}`
+        : `${key}:${value}`,
+    )
+    .join(",");
+
+  const queryKey = ["gameList", queryKeyFromFilter];
 
   // Query for active games only
   const { data } = tsr.games.list.useInfiniteQuery({
-    queryKey: ["gameList", `status:ACTIVE`, `userId:${me?.id}`],
-    queryData: () => ({
-      query: { status: ["ACTIVE"] as const, userId: me?.id },
+    queryKey,
+    queryData: ({ pageParam }) => ({
+      query: { ...query, pageCursor: pageParam },
     }),
     initialPageParam: undefined,
     getNextPageParam: () => undefined, // Only fetch first page
@@ -111,8 +145,12 @@ export function useTabIndicator(): number {
     }
 
     // Update favicon asynchronously
+    let cancelled = false;
+
     const updateFavicon = async () => {
       const faviconHref = await generateFaviconWithBadge(gameCount);
+
+      if (cancelled) return;
 
       const faviconLink = document.querySelector(
         'link[rel="icon"]',
@@ -130,7 +168,26 @@ export function useTabIndicator(): number {
     };
 
     updateFavicon();
+
+    return () => {
+      cancelled = true;
+    };
   }, [gameCount]);
 
-  return gameCount;
+  // WebSocket event listeners for real-time updates
+  useEffect(() => {
+    function handleGameUpdate() {
+      // Refetch query when game updates occur
+      queryClient.invalidateQueries({ queryKey });
+    }
+
+    socket.on("gameUpdateLite", handleGameUpdate);
+    socket.on("gameDestroy", handleGameUpdate);
+
+    return () => {
+      socket.off("gameUpdateLite", handleGameUpdate);
+      socket.off("gameDestroy", handleGameUpdate);
+    };
+  }, [queryKey, queryClient, socket]);
+
 }
