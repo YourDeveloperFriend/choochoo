@@ -377,11 +377,14 @@ function ScoreBreakdownPanel({ player }: { player: PlayerData }) {
 
 function BiddingImpactSection({ player }: { player: PlayerData }) {
   const phase = useInjectedState(PHASE);
-  const turnOrderState = usePhaseState(Phase.TURN_ORDER, TURN_ORDER_STATE);
-  const profitHelper = useInjected(ProfitHelper);
-
   const isAuctionPhase =
     phase === Phase.TURN_ORDER || phase === Phase.ST_LUCIA_TURN_ORDER;
+  
+  const turnOrderState = usePhaseState(
+    isAuctionPhase ? phase : Phase.TURN_ORDER,
+    TURN_ORDER_STATE
+  );
+  const profitHelper = useInjected(ProfitHelper);
 
   if (!isAuctionPhase || turnOrderState == null) return null;
 
