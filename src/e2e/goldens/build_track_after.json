@@ -7,8 +7,8 @@
   "name": "Test game",
   "status": "ACTIVE",
   "turnDuration": 1000,
-  "playerIds": [6, 5, 4, 3, 2, 1],
-  "activePlayerId": 3,
+  "playerIds": [1, 2, 3, 4, 5, 6],
+  "activePlayerId": 4,
   "config": {
     "maxPlayers": 6,
     "minPlayers": 6
@@ -2091,7 +2091,7 @@
           "selectedAction": 4
         },
         {
-          "playerId": 2,
+          "playerId": 5,
           "color": 7,
           "income": 2,
           "shares": 6,
@@ -2100,7 +2100,7 @@
           "selectedAction": 1
         },
         {
-          "playerId": 1,
+          "playerId": 2,
           "color": 5,
           "income": 1,
           "shares": 6,

@@ -72,6 +72,70 @@ function serialize({ q, r }: CoordinatesData): string {
   return `${q}|${r}`;
 }
 
+/**
+ * Normalizes player IDs in game data to canonical values (1, 2, 3, etc.)
+ * to make snapshots portable across different database states.
+ * Maps actual IDs to their ordinal position in the playerIds array.
+ */
+function normalizePlayerIds(gameData: any): void {
+  const actualPlayerIds = gameData.playerIds || [];
+
+  // Build mapping from actual IDs to canonical IDs (1, 2, 3, ...)
+  const idMap = new Map<number, number>();
+  actualPlayerIds.forEach((id: number, index: number) => {
+    idMap.set(id, index + 1);
+  });
+
+  // Normalize the playerIds array itself
+  gameData.playerIds = Array.from(
+    { length: actualPlayerIds.length },
+    (_, i) => i + 1,
+  );
+
+  // Normalize activePlayerId
+  if (
+    gameData.activePlayerId !== undefined &&
+    idMap.has(gameData.activePlayerId)
+  ) {
+    gameData.activePlayerId = idMap.get(gameData.activePlayerId);
+  }
+
+  // Normalize game data internal references
+  const gd = gameData.gameData?.gameData;
+  if (gd) {
+    // Normalize players array - map each player's playerId and all references to player metadata
+    if (gd.players && Array.isArray(gd.players)) {
+      gd.players.forEach((player: any) => {
+        if (player.playerId !== undefined && idMap.has(player.playerId)) {
+          player.playerId = idMap.get(player.playerId);
+        }
+      });
+    }
+
+    // Normalize turn order - color references stay the same, but ensure consistency
+    // (turn order uses colors, not IDs, so no direct normalization needed)
+
+    // Normalize any other ID references that might exist in the game state
+    // (This is recursive to handle nested structures)
+    const normalizeNestedIds = (obj: any): void => {
+      if (obj === null || typeof obj !== "object") return;
+
+      for (const key in obj) {
+        if (
+          key === "playerId" &&
+          typeof obj[key] === "number" &&
+          idMap.has(obj[key])
+        ) {
+          obj[key] = idMap.get(obj[key]);
+        } else if (typeof obj[key] === "object") {
+          normalizeNestedIds(obj[key]);
+        }
+      }
+    };
+    normalizeNestedIds(gd);
+  }
+}
+
 export async function compareGameData(game: GameDao, gameDataFile: string) {
   await game.reload();
   const actualGameDataValue = removeKeys(
@@ -91,6 +155,9 @@ export async function compareGameData(game: GameDao, gameDataFile: string) {
   // Remove undefined values
   const actualGameData = JSON.parse(JSON.stringify(actualGameDataValue));
 
+  // Normalize player IDs to canonical values for portable comparison
+  normalizePlayerIds(actualGameData);
+
   if (process.env.WRITE === "true") {
     await writeFile(
       resolve(__dirname, `../goldens/${gameDataFile}.json`),
@@ -99,6 +166,8 @@ export async function compareGameData(game: GameDao, gameDataFile: string) {
     );
   } else {
     const expectedGameData = await parseFile(gameDataFile);
+    // Also normalize expected data to handle any legacy golden files
+    normalizePlayerIds(expectedGameData);
     expect(actualGameData).toEqual(expectedGameData);
   }
 }
@@ -130,7 +199,10 @@ async function initializeGame(
 }
 
 export async function initializeUsers(): Promise<UserDao[]> {
-  const currentUsers = await UserDao.findAll({ limit: 6 });
+  const currentUsers = await UserDao.findAll({
+    limit: 6,
+    order: [["id", "ASC"]],
+  });
   if (currentUsers.length < 6) {
     const newUsers = await fakeUsers(
       new Set(currentUsers.map((u) => u.username)),

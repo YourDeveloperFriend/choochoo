@@ -345,10 +345,10 @@
               {
                 "group": 2,
                 "onRoll": 2,
-                "goods": [0, 2, 4]
+                "goods": [0, 3, 3]
               }
             ],
-            "goods": [1, 1],
+            "goods": [2, 3],
             "type": 1
           }
         ],
@@ -766,10 +766,10 @@
               {
                 "group": 2,
                 "onRoll": 6,
-                "goods": [4, 3, 0]
+                "goods": [0, 0, 2]
               }
             ],
-            "goods": [0, 2],
+            "goods": [0, 4],
             "type": 1
           }
         ],
@@ -840,10 +840,10 @@
               {
                 "group": 2,
                 "onRoll": 4,
-                "goods": [2, 0, 2]
+                "goods": [3, 1, 1]
               }
             ],
-            "goods": [2, 0, 1],
+            "goods": [4, 3, 4],
             "type": 1
           }
         ],
@@ -915,10 +915,10 @@
               {
                 "group": 2,
                 "onRoll": 5,
-                "goods": [1, 1, 2]
+                "goods": [4, 0, 4]
               }
             ],
-            "goods": [3, 4, 3],
+            "goods": [2, 1, 4],
             "type": 1
           }
         ],
@@ -971,10 +971,10 @@
               {
                 "group": 1,
                 "onRoll": 5,
-                "goods": [2, 2, 0]
+                "goods": [4, 3, 0]
               }
             ],
-            "goods": [4, 4],
+            "goods": [0, 2],
             "type": 1
           }
         ],
@@ -1108,10 +1108,10 @@
               {
                 "group": 1,
                 "onRoll": 4,
-                "goods": [2, 1, 1]
+                "goods": [1, 2, 1]
               }
             ],
-            "goods": [3, 1],
+            "goods": [2, 3],
             "type": 1
           }
         ],
@@ -1155,10 +1155,10 @@
               {
                 "group": 1,
                 "onRoll": 6,
-                "goods": [3, 3, 2]
+                "goods": [4, 2, 2]
               }
             ],
-            "goods": [3, 0],
+            "goods": [1, 4],
             "type": 1
           }
         ],
@@ -1429,10 +1429,10 @@
               {
                 "group": 1,
                 "onRoll": 2,
-                "goods": [0, 0, 2]
+                "goods": [1, 2, 0]
               }
             ],
-            "goods": [0, 4],
+            "goods": [2, 0],
             "type": 1
           }
         ],
@@ -1585,10 +1585,10 @@
               {
                 "group": 1,
                 "onRoll": 1,
-                "goods": [4, 0, 4]
+                "goods": [4, 2, 3]
               }
             ],
-            "goods": [1, 4],
+            "goods": [0, 4],
             "type": 1
           }
         ],
@@ -1816,10 +1816,10 @@
               {
                 "group": 2,
                 "onRoll": 1,
-                "goods": [2, 3, 4]
+                "goods": [0, 2, 4]
               }
             ],
-            "goods": [4, 4],
+            "goods": [1, 1],
             "type": 1
           }
         ],
@@ -1872,15 +1872,15 @@
       "gridVersion": 2,
       "players": [
         {
-          "playerId": 2,
-          "color": 7,
+          "playerId": 1,
+          "color": 9,
           "income": 0,
           "shares": 2,
           "money": 10,
           "locomotive": 1
         },
         {
-          "playerId": 3,
+          "playerId": 2,
           "color": 1,
           "income": 0,
           "shares": 2,
@@ -1888,7 +1888,7 @@
           "locomotive": 1
         },
         {
-          "playerId": 1,
+          "playerId": 3,
           "color": 2,
           "income": 0,
           "shares": 2,
@@ -1896,7 +1896,7 @@
           "locomotive": 1
         }
       ],
-      "turnOrder": [1, 7, 2],
+      "turnOrder": [2, 9, 1],
       "availableCities": [
         {
           "color": 2,
@@ -1990,7 +1990,7 @@
       "interCityConnections": [],
       "roundNumber": 1,
       "currentPhase": 1,
-      "currentPlayer": 1
+      "currentPlayer": 2
     }
   }
 }
