@@ -44,7 +44,7 @@ jobs:
             cd ~/choochoo
             npm i
             pm2 reload index
-            npm run migrate
+            pm2 start migrate
 
   deploy_client:
     needs: validate
