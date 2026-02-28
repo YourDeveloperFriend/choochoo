@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
-import { GameStatus } from "../../api/game";
+import { GameApi, GameStatus } from "../../api/game";
 import { UserRole } from "../../api/user";
 import { VariantConfig } from "../../api/variant_config";
 import { SerializedGameData } from "../../engine/framework/state";
@@ -77,7 +77,9 @@ function serialize({ q, r }: CoordinatesData): string {
  * to make snapshots portable across different database states.
  * Maps actual IDs to their ordinal position in the playerIds array.
  */
-function normalizePlayerIds(gameData: any): void {
+function normalizePlayerIds(
+  gameData: GameApi & { gameData?: SerializedGameData },
+): void {
   const actualPlayerIds = gameData.playerIds || [];
 
   // Build mapping from actual IDs to canonical IDs (1, 2, 3, ...)
@@ -97,7 +99,15 @@ function normalizePlayerIds(gameData: any): void {
     gameData.activePlayerId !== undefined &&
     idMap.has(gameData.activePlayerId)
   ) {
-    gameData.activePlayerId = idMap.get(gameData.activePlayerId);
+    gameData.activePlayerId = idMap.get(gameData.activePlayerId)!;
+  }
+
+  // Normalize undoPlayerId
+  if (
+    gameData.undoPlayerId !== undefined &&
+    idMap.has(gameData.undoPlayerId)
+  ) {
+    gameData.undoPlayerId = idMap.get(gameData.undoPlayerId)!;
   }
 
   // Normalize game data internal references
@@ -105,9 +115,9 @@ function normalizePlayerIds(gameData: any): void {
   if (gd) {
     // Normalize players array - map each player's playerId and all references to player metadata
     if (gd.players && Array.isArray(gd.players)) {
-      gd.players.forEach((player: any) => {
+      gd.players.forEach((player: MutablePlayerData) => {
         if (player.playerId !== undefined && idMap.has(player.playerId)) {
-          player.playerId = idMap.get(player.playerId);
+          player.playerId = idMap.get(player.playerId)!;
         }
       });
     }
@@ -117,6 +127,7 @@ function normalizePlayerIds(gameData: any): void {
 
     // Normalize any other ID references that might exist in the game state
     // (This is recursive to handle nested structures)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const normalizeNestedIds = (obj: any): void => {
       if (obj === null || typeof obj !== "object") return;
 
@@ -126,7 +137,7 @@ function normalizePlayerIds(gameData: any): void {
           typeof obj[key] === "number" &&
           idMap.has(obj[key])
         ) {
-          obj[key] = idMap.get(obj[key]);
+          obj[key] = idMap.get(obj[key])!;
         } else if (typeof obj[key] === "object") {
           normalizeNestedIds(obj[key]);
         }
@@ -161,11 +172,13 @@ export async function compareGameData(game: GameDao, gameDataFile: string) {
   if (process.env.WRITE === "true") {
     await writeFile(
       resolve(__dirname, `../goldens/${gameDataFile}.json`),
-      JSON.stringify(actualGameData, null, 2),
+      JSON.stringify(actualGameData, null, 2) + "\n",
       "utf-8",
     );
   } else {
-    const expectedGameData = await parseFile(gameDataFile);
+    const expectedGameData = (await parseFile(gameDataFile)) as GameApi & {
+      gameData?: SerializedGameData;
+    };
     // Also normalize expected data to handle any legacy golden files
     normalizePlayerIds(expectedGameData);
     expect(actualGameData).toEqual(expectedGameData);
