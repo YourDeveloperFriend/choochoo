@@ -19,15 +19,49 @@
   gap: 4px;
 }
 
-.row > *,
-.column > * {
+.row > * {
   flex: 1;
   text-align: center;
 }
 
+/* column children should not stretch vertically; columns are fixed-width stacks */
+.column > * {
+  flex: none;
+  text-align: center;
+}
+
+/* layout for the two groups: White and Black */
+.groupsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+  justify-items: center;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.groupHeader {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  text-align: center;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 .goodPlace {
-  aspect-ratio: 1 / 1;
-  background-color: var(--good-color);
+  width: 28px;
+  height: 28px;
+  display: block;
+  /* prefer the --good-color variable set by good classes, fall back to lightgrey */
+  background-color: var(--good-color, lightgrey);
 }
 
 .empty {
@@ -44,4 +78,83 @@
 
 .gapRight {
   margin-right: 8px;
+}
+
+.blackColumn {
+  background-color: #333;
+  padding: 12px 6px 12px 6px; 
+  border-radius: 4px;
+}
+
+.blackHeader {
+  background-color: #333;
+  color: white;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.headerCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 0;
+  height: 26px;
+}
+
+.letterCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 0;
+  height: 26px; 
+}
+
+/* keep header cell positioned naturally inside the black column so it has breathing room */
+.blackColumn > .headerCell {
+  margin-top: 0;
+}
+
+/* Ensure letter placeholders in black columns align with others */
+.blackColumn > .letterCell {
+  margin-top: 0;
+}
+
+/* layout wrappers for grouped columns (white / black) */
+.leftColumns,
+.rightColumns {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  flex: none; /* don't stretch to fill the row */
+  flex-wrap: nowrap;
+  padding-top: 10px; /* breathing room above the first row of header hexes */
+}
+
+.rightColumns {
+  margin-left: 8px;
+}
+
+/* make each column a fixed-size stack so groups line up */
+.column {
+  width: 52px; 
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+/* apply the same internal padding to white columns so header hexes have breathing room inside the white stacks */
+.leftColumns > .column {
+  padding: 12px 6px 12px 6px;
+  box-sizing: border-box;
+}
+
+/* placeholder used to reserve header space when there's no visible letter header */
+.headerPlaceholder {
+  width: 32px;
+  height: 29px;
+}
+.headerPlaceholderHidden {
+  visibility: hidden;
 }
