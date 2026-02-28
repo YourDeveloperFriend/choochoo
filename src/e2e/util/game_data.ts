@@ -112,8 +112,8 @@ function normalizePlayerIds(gameData: any): void {
       });
     }
 
-    // Normalize turn order - color references stay the same, but ensure consistency
-    // (turn order uses colors, not IDs, so no direct normalization needed)
+    // Note: turnOrder contains PlayerColor enum values (e.g., [2, 9, 1]), not player IDs.
+    // Colors are fixed per player and don't change with ID normalization, so no action needed here.
 
     // Normalize any other ID references that might exist in the game state
     // (This is recursive to handle nested structures)
