@@ -5,6 +5,7 @@ import { SelectCityAction } from "./production";
 import { IndiaSteamBrothersRivers } from "./rivers";
 import { IndiaSteamBrothersRules } from "./rules";
 import { IndiaSteamBrothersMapSettings } from "./settings";
+import { useMonsoonScenarios } from "./monsoon_scenarios";
 
 export class IndiaSteamBrothersViewSettings
   extends IndiaSteamBrothersMapSettings
@@ -14,6 +15,7 @@ export class IndiaSteamBrothersViewSettings
   getTexturesLayer = IndiaSteamBrothersRivers;
 
   useOnMapClick = useSelectCityOnClick;
+  useMonsoonScenarios = useMonsoonScenarios;
 }
 
 function useSelectCityOnClick(on: OnClickRegister) {
@@ -23,3 +25,5 @@ function useSelectCityOnClick(on: OnClickRegister) {
   }
   return isPending;
 }
+
+export { useMonsoonScenarios };

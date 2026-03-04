@@ -9,7 +9,8 @@ import { CaliforniaGoldRushMineAction } from "./mine_action";
 import { Good } from "../../engine/state/good";
 import { Space } from "../../engine/map/grid";
 import { Land } from "../../engine/map/location";
-import { useCurrentPlayer } from "../../client/utils/injection_context";
+import { useCurrentPlayer, useInjectedState } from "../../client/utils/injection_context";
+import { PlayerData } from "../../engine/state/player";
 import {
   getRowList,
   RowFactory,
@@ -17,6 +18,7 @@ import {
 } from "../../client/game/final_overview_row";
 import { insertAfter } from "../../utils/functions";
 import { GoldVps } from "./gold_vps";
+import { OwnedGold } from "./score";
 
 export class CaliforniaGoldRushViewSettings
   extends CaliforniaGoldRushMapSettings
@@ -36,10 +38,22 @@ export class CaliforniaGoldRushViewSettings
   }
 
   useOnMapClick = useMineGoldClick;
+  useScoreBreakdownItems = useCaliforniaGoldRushScoreBreakdown;
 
   getFinalOverviewRows(): RowFactory[] {
     return insertAfter(getRowList(), TrackVps, GoldVps);
   }
+}
+
+function useCaliforniaGoldRushScoreBreakdown(
+  player: PlayerData,
+): Array<{ label: string; value: number }> {
+  const ownedGold = useInjectedState(OwnedGold);
+  const count = ownedGold.get(player.color) ?? 0;
+  const points = count * 15;
+
+  if (points === 0) return [];
+  return [{ label: `Gold bonus (${count} gold × 15):`, value: points }];
 }
 
 function useMineGoldClick(on: OnClickRegister) {

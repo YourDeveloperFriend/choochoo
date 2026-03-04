@@ -9,6 +9,7 @@ import {
   useInjected,
   useInjectedState,
   usePhaseState,
+  useViewSettings,
 } from "../utils/injection_context";
 import { Icon } from "semantic-ui-react";
 
@@ -175,6 +176,7 @@ function WarningBanners({ player }: { player: PlayerData }) {
 
 function FinancialDetailsPanel({ player }: { player: PlayerData }) {
   const profitHelper = useInjected(ProfitHelper);
+  const viewSettings = useViewSettings();
   const income = profitHelper.getIncome(player);
   const expenses = profitHelper.getExpenses(player);
   const profit = profitHelper.getProfit(player);
@@ -182,6 +184,8 @@ function FinancialDetailsPanel({ player }: { player: PlayerData }) {
   const warning = getPlayerWarning(player);
 
   const netIncomeHighlight = warning.hasIncomeLoss || warning.hasEliminationRisk;
+  const customExpenseItems = viewSettings.useExpenseBreakdownItems?.(player) ?? [];
+  const monsoonScenarios = viewSettings.useMonsoonScenarios?.(player) ?? [];
 
   return (
     <div className={styles.panelSection}>
@@ -203,6 +207,7 @@ function FinancialDetailsPanel({ player }: { player: PlayerData }) {
             -{formatMoney(expenses)}
           </span>
         </div>
+        {/* TODO: Maps with zero expenses (Denmark) might benefit from an explanatory note instead of showing $0 items. Consider adding useExpenseBreakdownNote hook in future. */}
         <div className={styles.panelSubrow}>
           <span>• Locomotive maintenance:</span>
           <span>-{formatMoney(player.locomotive)}</span>
@@ -211,6 +216,12 @@ function FinancialDetailsPanel({ player }: { player: PlayerData }) {
           <span>• Share interest:</span>
           <span>-{formatMoney(player.shares)}</span>
         </div>
+        {customExpenseItems.map((item, index) => (
+          <div key={index} className={styles.panelSubrow}>
+            <span>• {item.label}</span>
+            <span>-{formatMoney(item.value)}</span>
+          </div>
+        ))}
         <div
           className={`${styles.panelRow} ${styles.panelDivider} ${netIncomeHighlight ? styles.panelHighlight : ""}`}
         >
@@ -231,6 +242,44 @@ function FinancialDetailsPanel({ player }: { player: PlayerData }) {
               : `${formatMoney(endOfTurnMoney)} (needs ${formatMoney(Math.abs(endOfTurnMoney))})`}
           </span>
         </div>
+        {monsoonScenarios.length > 0 && (
+          <>
+            <div className={styles.panelDivider} />
+            <div className={styles.panelSubsectionTitle}>
+              Monsoon Scenarios (next income phase):
+            </div>
+            <div className={styles.monsoonScenariosGrid}>
+              {monsoonScenarios.map((scenario, index) => {
+                const resultingMoney = endOfTurnMoney - scenario.cost;
+                return (
+                  <div key={index} className={styles.monsoonScenario}>
+                    <div className={styles.monsoonLabel}>
+                      {scenario.description}
+                    </div>
+                    <div
+                      className={`${styles.monsoonValue} ${resultingMoney >= 0 ? styles.valuePositive : styles.valueNegative}`}
+                    >
+                      {formatMoney(resultingMoney)}
+                    </div>
+                    <div className={styles.monsoonCost}>
+                      {scenario.cost === 0
+                        ? "No cost"
+                        : `Cost: ${formatMoney(scenario.cost)}`}
+                    </div>
+                    <div className={styles.monsoonProbability}>
+                      {scenario.probability}
+                    </div>
+                    {resultingMoney < 0 && (
+                      <div className={styles.monsoonNeeds}>
+                        Needs {formatMoney(Math.abs(resultingMoney))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -328,11 +377,23 @@ function LocoUpgradeImpactPanel({ player }: { player: PlayerData }) {
 
 function ScoreBreakdownPanel({ player }: { player: PlayerData }) {
   const playerHelper = useInjected(PlayerHelper);
+  const viewSettings = useViewSettings();
   const incomePoints = playerHelper.getScoreFromIncome(player);
   const sharePoints = playerHelper.getScoreFromShares(player);
   const trackPoints = playerHelper.getScoreFromTrack(player);
   const trackCount = playerHelper.countTrack(player.color);
   const totalScore = playerHelper.getScore(player)[0];
+
+  // Get multipliers from helper (handles maps with custom multipliers)
+  const incomeMultiplier = playerHelper.getIncomeMultiplier();
+  const sharesMultiplier = playerHelper.getSharesMultiplier();
+
+  const customScoreItems = viewSettings.useScoreBreakdownItems?.(player) ?? [];
+
+  // Hide score breakdown for maps with non-VP scoring (e.g., Detroit, Barbados)
+  if (viewSettings.hideScoreBreakdown) {
+    return null;
+  }
 
   return (
     <div className={styles.panelSection}>
@@ -340,7 +401,7 @@ function ScoreBreakdownPanel({ player }: { player: PlayerData }) {
       <div className={styles.panelCard}>
         <div className={styles.panelRow}>
           <span className={styles.panelLabel}>
-            Income points ({player.income} × 3):
+            Income points ({player.income} × {incomeMultiplier}):
           </span>
           <span className={`${styles.panelValue} ${styles.valuePositive}`}>
             +{incomePoints}
@@ -348,7 +409,7 @@ function ScoreBreakdownPanel({ player }: { player: PlayerData }) {
         </div>
         <div className={styles.panelRow}>
           <span className={styles.panelLabel}>
-            Share penalty ({player.shares} × -3):
+            Share penalty ({player.shares} × {sharesMultiplier}):
           </span>
           <span className={`${styles.panelValue} ${styles.valueNegative}`}>
             {sharePoints}
@@ -362,6 +423,19 @@ function ScoreBreakdownPanel({ player }: { player: PlayerData }) {
             +{trackPoints}
           </span>
         </div>
+        {/* TODO: Maps with complex formulas (Puerto Rico) could add breakdown items explaining adjustments (e.g., black cube income penalty). */}
+        {customScoreItems.map((item, index) => (
+          <div key={index} className={styles.panelRow}>
+            <span className={styles.panelLabel}>{item.label}</span>
+            <span
+              className={`${styles.panelValue} ${
+                item.value >= 0 ? styles.valuePositive : styles.valueNegative
+              }`}
+            >
+              {item.value >= 0 ? "+" : ""}{item.value}
+            </span>
+          </div>
+        ))}
         <div className={`${styles.panelRow} ${styles.panelDivider}`}>
           <span className={`${styles.panelLabel} ${styles.panelBold}`}>
             Total Score:
@@ -482,11 +556,22 @@ interface ScoreTooltipContentProps {
 
 export function ScoreTooltipContent({ player }: ScoreTooltipContentProps) {
   const playerHelper = useInjected(PlayerHelper);
+  const viewSettings = useViewSettings();
   const incomePoints = playerHelper.getScoreFromIncome(player);
   const sharePoints = playerHelper.getScoreFromShares(player);
   const trackPoints = playerHelper.getScoreFromTrack(player);
   const trackCount = playerHelper.countTrack(player.color);
   const totalScore = playerHelper.getScore(player)[0];
+
+  // Get multipliers from helper (handles maps with custom multipliers)
+  const incomeMultiplier = playerHelper.getIncomeMultiplier();
+  const sharesMultiplier = playerHelper.getSharesMultiplier();
+
+  if (viewSettings.hideScoreBreakdown) {
+    return null;
+  }
+
+  const customScoreItems = viewSettings.useScoreBreakdownItems?.(player) ?? [];
 
   return (
     <div className={styles.tooltipContent}>
@@ -494,17 +579,29 @@ export function ScoreTooltipContent({ player }: ScoreTooltipContentProps) {
       <table className={styles.tooltipTable}>
         <tbody>
           <tr>
-            <td className={styles.tooltipLabel}>Income points ({player.income} × 3):</td>
+            <td className={styles.tooltipLabel}>Income points ({player.income} × {incomeMultiplier}):</td>
             <td className={`${styles.tooltipValue} ${styles.valuePositive}`}>+{incomePoints}</td>
           </tr>
           <tr>
-            <td className={styles.tooltipLabel}>Share penalty ({player.shares} × -3):</td>
+            <td className={styles.tooltipLabel}>Share penalty ({player.shares} × {sharesMultiplier}):</td>
             <td className={`${styles.tooltipValue} ${styles.valueNegative}`}>{sharePoints}</td>
           </tr>
           <tr>
             <td className={styles.tooltipLabel}>Track points ({trackCount} sections × 1):</td>
             <td className={`${styles.tooltipValue} ${styles.valuePositive}`}>+{trackPoints}</td>
           </tr>
+          {customScoreItems.map((item, index) => (
+            <tr key={index}>
+              <td className={styles.tooltipLabel}>{item.label}</td>
+              <td
+                className={`${styles.tooltipValue} ${
+                  item.value >= 0 ? styles.valuePositive : styles.valueNegative
+                }`}
+              >
+                {item.value >= 0 ? "+" : ""}{item.value}
+              </td>
+            </tr>
+          ))}
           <tr className={styles.tooltipTotalRow}>
             <td className={styles.tooltipLabel}>Total:</td>
             <td className={styles.tooltipValue}>{totalScore}</td>

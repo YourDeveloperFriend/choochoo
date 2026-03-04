@@ -44,5 +44,15 @@ export interface MapViewSettings extends MapSettings {
     header: string;
     cell: ({ player }: { player: PlayerData }) => ReactNode;
   }>;
+  useExpenseBreakdownItems?: (
+    player: PlayerData,
+  ) => Array<{ label: string; value: number }>;
+  useScoreBreakdownItems?: (
+    player: PlayerData,
+  ) => Array<{ label: string; value: number }>;
+  hideScoreBreakdown?: boolean;
+  useMonsoonScenarios?: (
+    player: PlayerData,
+  ) => Array<{ description: string; cost: number; probability: string }>;
   useOnMapClick?: OnClickFunction;
 }

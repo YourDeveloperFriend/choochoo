@@ -7,4 +7,5 @@ export class BarbadosViewSettings
   implements MapViewSettings
 {
   getMapRules = BarbadosRules;
+  hideScoreBreakdown = true; // Barbados uses money-as-score for solo play, not VPs
 }

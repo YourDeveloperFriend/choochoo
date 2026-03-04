@@ -7,9 +7,11 @@ import {
   TotalVps,
   TrackVps,
 } from "../../client/game/final_overview_row";
-import { useInject } from "../../client/utils/injection_context";
+import { useInject, useInjectedState } from "../../client/utils/injection_context";
 import { injectInitialPlayerCount } from "../../engine/game/state";
+import { ROUND } from "../../engine/game/round";
 import { Action } from "../../engine/state/action";
+import { PlayerData } from "../../engine/state/player";
 import { insertBefore } from "../../utils/functions";
 import { getActionCaption } from "./action_caption";
 import { SoloPlacement } from "./final_solo_situation";
@@ -20,6 +22,8 @@ import { DetroitBankruptcyMapSettings } from "./settings";
 export class DetroitBankruptcyViewSettings extends DetroitBankruptcyMapSettings {
   getMapRules = DetroitRules;
   getActionCaption = getActionCaption;
+  hideScoreBreakdown = true; // Detroit uses survival-based tuple scoring, not VPs
+  useExpenseBreakdownItems = useDetroitExpenseBreakdown;
 
   getFinalOverviewRows(): RowFactory[] {
     const playerCount = useInject(() => injectInitialPlayerCount()(), []);
@@ -41,4 +45,11 @@ export class DetroitBankruptcyViewSettings extends DetroitBankruptcyMapSettings 
       return "Build an additional track during the Building step, and the cheapest build is free.";
     }
   }
+}
+
+function useDetroitExpenseBreakdown(
+  _player: PlayerData,
+): Array<{ label: string; value: number }> {
+  const round = useInjectedState(ROUND);
+  return [{ label: "Round expense:", value: round }];
 }

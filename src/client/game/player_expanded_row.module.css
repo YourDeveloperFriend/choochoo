@@ -132,6 +132,18 @@
   color: #d1d5db;
 }
 
+.panelSubsectionTitle {
+  font-weight: 600;
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 8px;
+  margin-bottom: 6px;
+}
+
+:global(.dark-mode) .panelSubsectionTitle {
+  color: #9ca3af;
+}
+
 .panelCard {
   background: white;
   padding: 12px 16px;
@@ -369,6 +381,69 @@
   font-size: 12px;
   color: #dc2626;
   margin-top: 4px;
+}
+
+/* Monsoon scenarios */
+.monsoonScenariosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.monsoonScenario {
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+:global(.dark-mode) .monsoonScenario {
+  border-color: #555;
+}
+
+.monsoonLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+:global(.dark-mode) .monsoonLabel {
+  color: #9ca3af;
+}
+
+.monsoonValue {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.monsoonCost {
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 2px;
+}
+
+:global(.dark-mode) .monsoonCost {
+  color: #9ca3af;
+}
+
+.monsoonProbability {
+  font-size: 11px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+:global(.dark-mode) .monsoonProbability {
+  color: #9ca3af;
+}
+
+.monsoonNeeds {
+  font-size: 11px;
+  color: #dc2626;
+  margin-top: 4px;
+  font-weight: 500;
 }
 
 /* Eliminated player expanded */
