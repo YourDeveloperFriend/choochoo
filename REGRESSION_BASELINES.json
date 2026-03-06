@@ -1,0 +1,90 @@
+{
+  "description": "MoveSearcher Algorithm - Comprehensive Regression Test Baselines. Both route counts AND actual routes are captured to ensure optimizations don't break the algorithm.",
+  "timestamp": "2026-03-05T21:20:00Z",
+  "approach": {
+    "overview": "Two-level regression verification",
+    "level1": "Route count - Must match exactly (74, 668, 1982)",
+    "level2": "Route content - Full routes exported to .routes.json files for detailed comparison",
+    "why": "Catches both algorithmic breaks (wrong count) AND subtle changes (different routes returned)"
+  },
+  "baselines": [
+    {
+      "fixture": "move_perf_2096.json",
+      "map": "madagascar",
+      "gameId": 2096,
+      "gameStatus": "ACTIVE",
+      "goods": 38,
+      "expectedRoutes": 74,
+      "routesFile": "src/e2e/goldens/move_perf_2096.routes.json",
+      "duration_ms": 13670,
+      "duration_pretty": "13.7s",
+      "routes_per_good": 1.95
+    },
+    {
+      "fixture": "move_perf_2026.json",
+      "map": "southern-us",
+      "gameId": 2026,
+      "gameStatus": "ACTIVE",
+      "goods": 38,
+      "expectedRoutes": 668,
+      "routesFile": "src/e2e/goldens/move_perf_2026.routes.json",
+      "duration_ms": 590436,
+      "duration_pretty": "9m 50s",
+      "routes_per_good": 17.6,
+      "note": "43x slower than Madagascar despite same good count - network complexity"
+    },
+    {
+      "fixture": "move_perf_716.json",
+      "map": "poland",
+      "gameId": 716,
+      "gameStatus": "ENDED",
+      "goods": 150,
+      "expectedRoutes": 1982,
+      "routesFile": "src/e2e/goldens/move_perf_716.routes.json",
+      "duration_ms": 1170609,
+      "duration_pretty": "19m 30s",
+      "routes_per_good": 13.2,
+      "note": "Most complex case - exponential route explosion on highly connected network"
+    }
+  ],
+  "usage": {
+    "description": "How to use these regression baselines",
+    "steps": [
+      "1. Run performance test with optimization: npx ts-node src/scripts/measure_move_search.ts <FIXTURE>",
+      "2. NEW .routes.json file will be generated automatically",
+      "3. Diff the new .routes.json against baseline:",
+      "   git diff src/e2e/goldens/move_perf_2096.routes.json",
+      "4. If routes changed, optimization may have broken the algorithm",
+      "5. Compare count first (faster), then full routes (comprehensive)"
+    ],
+    "example_level1_regression": {
+      "output": "[MoveSearch] Complete! Found 75 routes in 12000ms",
+      "check": "75 !== expectedRoutes (74) ✗ REGRESSION DETECTED",
+      "action": "STOP - Algorithm is broken. Revert changes."
+    },
+    "example_level2_regression": {
+      "scenario": "Count matches (74) but route content differs",
+      "detection": "git diff shows different endingStop coordinates or owner values",
+      "impact": "Algorithm may be finding same number but different routes",
+      "action": "INVESTIGATE - Check if optimization changed search order/logic"
+    }
+  },
+  "command_reference": {
+    "generate_baselines": "MOVE_SEARCH_DEBUG=true npx ts-node src/scripts/measure_move_search.ts src/e2e/goldens/move_perf_2096.json",
+    "compare_routes": "git diff src/e2e/goldens/move_perf_2096.routes.json",
+    "check_all_fixtures": [
+      "npx ts-node src/scripts/measure_move_search.ts src/e2e/goldens/move_perf_2096.json",
+      "npx ts-node src/scripts/measure_move_search.ts src/e2e/goldens/move_perf_2026.json",
+      "npx ts-node src/scripts/measure_move_search.ts src/e2e/goldens/move_perf_716.json"
+    ]
+  },
+  "notes": [
+    "Route counts MUST NEVER CHANGE - if they do, algorithm is broken",
+    "Route content should NOT change for the same algorithm logic",
+    "If both count and content match, optimization is safe (only timing improved)",
+    "If count matches but content differs, the algorithm logic may have changed subtly",
+    "Use full .routes.json files as ground truth in git diffs during development",
+    "These baselines should be committed to git with the fixture files",
+    "Add route validation to CI/CD to prevent regressions in production"
+  ]
+}

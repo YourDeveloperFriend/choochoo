@@ -1,5 +1,6 @@
 import { buildingTrack } from "./build_track_test";
 import { creatingGame } from "./create_game_test";
+import { movingGoods } from "./move_good_test";
 import { setUpServer } from "./util/server";
 import { setTestTimeout } from "./util/timeout";
 import { Driver, setUpWebDriver } from "./util/webdriver";
@@ -19,4 +20,5 @@ describe("e2e tests", () => {
 
   describe("Building track", () => buildingTrack(driver));
   describe("creating game", () => creatingGame(driver));
+  describe("moving goods", () => movingGoods(driver));
 });

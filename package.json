@@ -10,6 +10,7 @@
     "deploy-server": "./src/scripts/deploy_server.sh",
     "create-migration": "./src/scripts/create_migration.sh",
     "create-map": "ts-node ./src/scripts/create_map.ts",
+    "export-game-fixture": "ts-node ./src/scripts/export_game_fixture.ts",
     "package": "npm run build && mkdir ./builds && tar -cvzf ./builds/server.tar.gz ./bin",
     "lint": "eslint src/ && knip",
     "format": "prettier src --write",
