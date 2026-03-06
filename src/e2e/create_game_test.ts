@@ -38,6 +38,14 @@ export function creatingGame(driver: Driver) {
   async function createGame(creationUser: UserDao): Promise<GameDao> {
     await driver.goTo("/app/games/create", creationUser.id);
     await driver.waitForElement(By.name("name")).sendKeys("My Game");
+    await driver.waitForElement(By.xpath("//*[@data-change-map-button]"))
+      .click();
+    await driver.waitForElement(By.xpath("//*[@data-map-selector-dialog]"));
+    await driver.waitForElement(
+      By.xpath(
+        "//*[@data-map-row='germany']//*[@data-map-select-button]",
+      ),
+    ).click();
     await driver.waitForElement(By.xpath("//*[@data-auto-start]")).click();
     await driver.waitForElement(By.xpath("//*[@data-create-button]")).click();
     await driver.waitForElement(By.xpath("//*[@data-game-card]"));

@@ -3,6 +3,7 @@ import {
   JACK,
   MapSettings,
   ReleaseStage,
+  PlayerCountRating,
 } from "../../engine/game/map_settings";
 import { InstantProductionModule } from "../../modules/instant_production/module";
 import { TurnLengthModule } from "../../modules/turn_length";
@@ -26,6 +27,16 @@ export class LondonMapSettings implements MapSettings {
   readonly implementerId = JACK;
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.HIGHLY_RECOMMENDED,
+    4: PlayerCountRating.HIGHLY_RECOMMENDED,
+    5: PlayerCountRating.RECOMMENDED,
+    6: PlayerCountRating.RECOMMENDED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly interCityConnections = interCityConnections(map, [
     { connects: ["Bloomsbury", "Shoreditch"], cost: 4 },

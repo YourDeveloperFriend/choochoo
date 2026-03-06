@@ -3,6 +3,7 @@ import { inject } from "../../engine/framework/execution_context";
 import {
   JACK,
   MapSettings,
+  PlayerCountRating,
   ReleaseStage,
 } from "../../engine/game/map_settings";
 import { GoodsHelper } from "../../engine/goods_growth/helper";
@@ -28,6 +29,17 @@ export class GermanyMapSettings implements MapSettings {
   readonly implementerId = JACK;
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
+  readonly bestAt = "4-5";
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.MIXED,
+    4: PlayerCountRating.HIGHLY_RECOMMENDED,
+    5: PlayerCountRating.HIGHLY_RECOMMENDED,
+    6: PlayerCountRating.MIXED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly interCityConnections = interCityConnections(map, [
     { connects: ["Düsseldorf", "Essen"] },

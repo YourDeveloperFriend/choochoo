@@ -3,6 +3,7 @@ import {
   KAOSKODY,
   MapSettings,
   ReleaseStage,
+  PlayerCountRating,
 } from "../../engine/game/map_settings";
 import { CompleteLinkBuldModule } from "../../modules/complete_link_build";
 import { SoulTrainActionNamingProvider } from "./actions";
@@ -28,6 +29,16 @@ export class SoulTrainMapSettings implements MapSettings {
   readonly implementerId = KAOSKODY;
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.RECOMMENDED,
+    4: PlayerCountRating.HIGHLY_RECOMMENDED,
+    5: PlayerCountRating.RECOMMENDED,
+    6: PlayerCountRating.MIXED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.ALPHA;
 

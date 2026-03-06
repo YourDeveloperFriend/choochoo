@@ -3,6 +3,7 @@ import {
   JACK,
   MapSettings,
   ReleaseStage,
+  PlayerCountRating,
 } from "../../engine/game/map_settings";
 import { map } from "./grid";
 import { interCityConnections } from "../factory";
@@ -43,6 +44,16 @@ export class DoubleBaseUsaMapSettings implements MapSettings {
   readonly implementerId = JACK;
   readonly minPlayers = 4;
   readonly maxPlayers = 8;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.NOT_SUPPORTED,
+    4: PlayerCountRating.NOT_RECOMMENDED,
+    5: PlayerCountRating.NOT_RECOMMENDED,
+    6: PlayerCountRating.HIGHLY_RECOMMENDED,
+    7: PlayerCountRating.HIGHLY_RECOMMENDED,
+    8: PlayerCountRating.RECOMMENDED,
+  };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.ALPHA;
   readonly interCityConnections = interCityConnections(map, [

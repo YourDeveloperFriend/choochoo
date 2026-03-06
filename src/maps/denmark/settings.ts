@@ -4,6 +4,7 @@ import {
   MapSettings,
   ReleaseStage,
   Rotation,
+  PlayerCountRating,
 } from "../../engine/game/map_settings";
 import { Module } from "../../engine/module/module";
 import { Action } from "../../engine/state/action";
@@ -41,6 +42,16 @@ export class DenmarkMapSettings implements MapSettings {
   readonly implementerId = JACK;
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.HIGHLY_RECOMMENDED,
+    4: PlayerCountRating.NOT_RECOMMENDED,
+    5: PlayerCountRating.NOT_RECOMMENDED,
+    6: PlayerCountRating.NOT_RECOMMENDED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly interCityConnections = interCityConnections(map, [
     { connects: ["Hirtshals", "Europe"], cost: 4, center: [0, 17] },

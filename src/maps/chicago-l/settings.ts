@@ -3,6 +3,7 @@ import {
   CORTEXBOMB,
   JACK,
   MapSettings,
+  PlayerCountRating,
   ReleaseStage,
 } from "../../engine/game/map_settings";
 import { map } from "./grid";
@@ -40,6 +41,16 @@ export class ChicagoLMapSettings implements MapSettings {
   readonly implementerId = JACK;
   readonly minPlayers = 3;
   readonly maxPlayers = 3;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.RECOMMENDED,
+    4: PlayerCountRating.NOT_SUPPORTED,
+    5: PlayerCountRating.NOT_SUPPORTED,
+    6: PlayerCountRating.NOT_SUPPORTED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.DEVELOPMENT;
   readonly developmentAllowlist = [JACK, CORTEXBOMB];

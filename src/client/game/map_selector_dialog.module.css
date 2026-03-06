@@ -1,0 +1,58 @@
+.dialogContent {
+  padding: 1rem !important;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.filterSection {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.filterField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.visuallyHidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.mapTable :global(thead th) {
+  font-family: Roboto, sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.mapTable :global(tbody th) {
+  font-family: monospace;
+}
+
+.mapTable :global(tbody td) {
+  font-family: monospace;
+}
+
+.mapTable :global(tbody tr) {
+  cursor: pointer;
+}
+
+.ratingCell {
+  text-align: center !important;
+  font-family: monospace;
+  font-weight: bold;
+  min-width: 40px;
+}

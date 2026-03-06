@@ -7,3 +7,4 @@ builds
 buildmeta.*
 *.swp
 *.tsbuildinfo
+scripts/seed_map_ratings_from_csv.js

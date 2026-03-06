@@ -4,6 +4,7 @@ import {
   MapSettings,
   ReleaseStage,
   Rotation,
+  PlayerCountRating,
 } from "../../engine/game/map_settings";
 import { Module } from "../../engine/module/module";
 import { Action } from "../../engine/state/action";
@@ -24,6 +25,16 @@ export class NewEnglandMapSettings implements MapSettings {
   readonly implementerId = KAOSKODY;
   readonly minPlayers = 2;
   readonly maxPlayers = 2;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.HIGHLY_RECOMMENDED,
+    3: PlayerCountRating.NOT_SUPPORTED,
+    4: PlayerCountRating.NOT_SUPPORTED,
+    5: PlayerCountRating.NOT_SUPPORTED,
+    6: PlayerCountRating.NOT_SUPPORTED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.ALPHA;
   readonly rotation = Rotation.CLOCKWISE;

@@ -2,6 +2,7 @@ import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
+  PlayerCountRating,
   ReleaseStage,
 } from "../../engine/game/map_settings";
 import { ChesapeakeAndOhioActionNamingProvider } from "./actions";
@@ -32,6 +33,16 @@ export class ChesapeakeAndOhioMapSettings implements MapSettings {
   readonly implementerId = JACK;
   readonly minPlayers = 4;
   readonly maxPlayers = 6;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.NOT_SUPPORTED,
+    4: PlayerCountRating.NOT_RECOMMENDED,
+    5: PlayerCountRating.NOT_RECOMMENDED,
+    6: PlayerCountRating.HIGHLY_RECOMMENDED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.BETA;
 

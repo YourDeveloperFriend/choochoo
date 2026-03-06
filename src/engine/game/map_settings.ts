@@ -44,6 +44,15 @@ export const GRIMIKU = 99;
 export const EMIL = 375;
 export const CORTEXBOMB = 387;
 
+export enum PlayerCountRating {
+  NO_DATA = "?",
+  NOT_SUPPORTED = "--",
+  NOT_RECOMMENDED = "-",
+  RECOMMENDED = "+",
+  HIGHLY_RECOMMENDED = "++",
+  MIXED = "+-",
+}
+
 export interface MapSettings {
   readonly key: GameKey;
   readonly name: string;
@@ -53,6 +62,7 @@ export interface MapSettings {
   readonly maxPlayers: number;
   readonly bestAt?: string;
   readonly recommendedPlayerCount?: string;
+  readonly playerCountRatings?: Record<number, PlayerCountRating>;
   readonly startingGrid: GridData;
   readonly interCityConnections?: InterCityConnection[];
   readonly stage: ReleaseStage;

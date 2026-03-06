@@ -2,6 +2,7 @@ import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
+  PlayerCountRating,
   ReleaseStage,
 } from "../../engine/game/map_settings";
 import { map } from "./grid";
@@ -33,6 +34,17 @@ export class EasternUsAndCanadaMapSettings implements MapSettings {
   readonly implementerId = JACK;
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
+  readonly bestAt = "4-6";
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.RECOMMENDED,
+    4: PlayerCountRating.RECOMMENDED,
+    5: PlayerCountRating.RECOMMENDED,
+    6: PlayerCountRating.RECOMMENDED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.BETA;
   readonly interCityConnections = interCityConnections(map, [

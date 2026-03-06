@@ -3,6 +3,7 @@ import {
   KAOSKODY,
   MapSettings,
   ReleaseStage,
+  PlayerCountRating,
 } from "../../engine/game/map_settings";
 import { MontrealActionNamingProvider } from "./actions";
 import {
@@ -38,6 +39,16 @@ export class MontrealMetroMapSettings implements MapSettings {
   readonly implementerId = KAOSKODY;
   readonly minPlayers = 3;
   readonly maxPlayers = 3;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.HIGHLY_RECOMMENDED,
+    4: PlayerCountRating.NOT_SUPPORTED,
+    5: PlayerCountRating.NOT_SUPPORTED,
+    6: PlayerCountRating.NOT_SUPPORTED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.ALPHA;
 

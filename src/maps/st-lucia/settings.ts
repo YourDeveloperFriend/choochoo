@@ -3,6 +3,7 @@ import {
   KAOSKODY,
   MapSettings,
   ReleaseStage,
+  PlayerCountRating,
 } from "../../engine/game/map_settings";
 import { StLuciaActionNamingProvider } from "./actions";
 import { StLuciaAllowedActions } from "./allowed_actions";
@@ -21,6 +22,16 @@ export class StLuciaMapSettings implements MapSettings {
   readonly implementerId = KAOSKODY;
   readonly minPlayers = 2;
   readonly maxPlayers = 2;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.HIGHLY_RECOMMENDED,
+    3: PlayerCountRating.NOT_SUPPORTED,
+    4: PlayerCountRating.NOT_SUPPORTED,
+    5: PlayerCountRating.NOT_SUPPORTED,
+    6: PlayerCountRating.NOT_SUPPORTED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.BETA;
 

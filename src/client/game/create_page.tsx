@@ -4,7 +4,6 @@ import { useSearchParams } from "react-router-dom";
 import {
   Button,
   Container,
-  DropdownProps,
   Form,
   FormCheckbox,
   FormInput,
@@ -36,6 +35,7 @@ import {
   useTextInputState,
 } from "../utils/form_state";
 import { MapGridPreview, MapInfo } from "./map_info";
+import { MapSelectorDialog } from "./map_selector_dialog";
 
 export function CreateGamePage() {
   const me = useMe();
@@ -83,13 +83,13 @@ export function CreateGamePage() {
     (selectedMap.getInitialVariantConfig?.() ?? { gameKey }) as VariantConfig,
   );
   const isAdmin = useIsAdmin();
+  const [mapDialogOpen, setMapDialogOpen] = useState(false);
 
   const minPlayers = allowPlayerSelections ? minPlayersS : map.minPlayers;
   const maxPlayers = allowPlayerSelections ? maxPlayersS : map.maxPlayers;
 
   const setGameKey = useCallback(
-    (event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
-      const gameKey = data.value as GameKey;
+    (gameKey: GameKey) => {
       setGameKeyState(gameKey);
       const map = ViewRegistry.singleton.get(gameKey);
       if (typeof minPlayers === "number") {
@@ -189,25 +189,32 @@ export function CreateGamePage() {
             onChange={setName}
             onBlur={validateGameInternal}
           />
-          <FormSelect
-            options={maps.map((m) => ({
-              key: m.key,
-              value: m.key,
-              text:
-                m.name +
-                (m.stage !== ReleaseStage.PRODUCTION &&
-                  ` (${releaseStageToString(m.stage)})`),
-            }))}
-            required
-            name="map"
-            label="Map"
-            value={gameKey}
-            disabled={isPending}
-            onChange={setGameKey}
-            error={validationError?.gameKey}
-            autoWidth
-            placeholder="Map"
-            onBlur={validateGameInternal}
+          <Form.Field required error={validationError?.gameKey}>
+            <label>Map</label>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <span>
+                {map.name}
+                {map.stage !== ReleaseStage.PRODUCTION &&
+                  ` (${releaseStageToString(map.stage)})`}
+              </span>
+              <Button
+                type="button"
+                size="small"
+                disabled={isPending}
+                onClick={() => setMapDialogOpen(true)}
+                data-change-map-button
+              >
+                Change Map
+              </Button>
+            </div>
+          </Form.Field>
+
+          <MapSelectorDialog
+            open={mapDialogOpen}
+            onClose={() => setMapDialogOpen(false)}
+            onSelectMap={setGameKey}
+            initialSelection={gameKey}
+            availableMaps={maps}
           />
           <FormSelect
             options={allTurnDurations.map((duration) => ({

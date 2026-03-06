@@ -57,3 +57,11 @@ export SESSION_SECRET=foobar
 
 Apply database migrations with `npm run migrate`.
 You can then start up a server with `npm run dev`.
+
+## Ratings Data Attribution
+
+Map player-count ratings are derived from community-maintained sources:
+
+- BoardGameGeek discussion and source list: https://boardgamegeek.com/thread/2930352/article/41563109#41563109
+- Community spreadsheet: https://docs.google.com/spreadsheets/d/1zrBKRb3I3SJX2EvinB2U5D_wt0LPWMYAMf1FYeeq9fY/edit?gid=0#gid=0
+

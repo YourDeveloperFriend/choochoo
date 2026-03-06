@@ -3,6 +3,7 @@ import {
   KAOSKODY,
   MapSettings,
   ReleaseStage,
+  PlayerCountRating,
 } from "../../engine/game/map_settings";
 import { Module } from "../../engine/module/module";
 import { TurnLengthModule } from "../../modules/turn_length";
@@ -24,6 +25,16 @@ export class BarbadosMapSettings implements MapSettings {
   readonly implementerId = KAOSKODY;
   readonly minPlayers = 1;
   readonly maxPlayers = 1;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.HIGHLY_RECOMMENDED,
+    2: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.NOT_SUPPORTED,
+    4: PlayerCountRating.NOT_SUPPORTED,
+    5: PlayerCountRating.NOT_SUPPORTED,
+    6: PlayerCountRating.NOT_SUPPORTED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.ALPHA;
 

@@ -2,6 +2,7 @@ import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
+  PlayerCountRating,
   ReleaseStage,
 } from "../../engine/game/map_settings";
 import { IndiaSteamBrothersActionNamingProvider } from "./actions";
@@ -25,6 +26,16 @@ export class IndiaSteamBrothersMapSettings implements MapSettings {
   readonly implementerId = KAOSKODY;
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.RECOMMENDED,
+    4: PlayerCountRating.RECOMMENDED,
+    5: PlayerCountRating.RECOMMENDED,
+    6: PlayerCountRating.HIGHLY_RECOMMENDED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.ALPHA;
 
