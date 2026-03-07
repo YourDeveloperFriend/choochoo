@@ -1,0 +1,97 @@
+.filterControls {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  margin-bottom: 0.45rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.filterButton {
+  transition: all 0.2s ease;
+  font-weight: 500 !important;
+  border-radius: 4px !important;
+  font-size: 0.875rem !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  padding: 0.5rem 0.85rem !important;
+  width: auto;
+  text-align: center !important;
+}
+
+/* Active colors - green to indicate active/included filters */
+:global(.ui.toggle.button).filterButtonCHAT.active,
+:global(.ui.button).filterButtonCHAT.active,
+:global(.ui.toggle.button).filterButtonPLAYER_ACTION.active,
+:global(.ui.button).filterButtonPLAYER_ACTION.active,
+:global(.ui.toggle.button).filterButtonTURN_EVENT.active,
+:global(.ui.button).filterButtonTURN_EVENT.active,
+:global(.ui.toggle.button).filterButtonSYSTEM_EVENT.active,
+:global(.ui.button).filterButtonSYSTEM_EVENT.active {
+  background-color: #21ba45 !important;
+  color: #ffffff !important;
+  border: 1px solid #1a9234 !important;
+}
+
+.active {
+  background-color: #21ba45 !important;
+  color: #ffffff !important;
+  border: 1px solid #1a9234 !important;
+}
+
+/* Inactive state - WCAG compliant without opacity */
+.filterButton:not(:global(.active)) {
+  background: #d8d8d8 !important;
+  color: #4a4a4a !important;
+  border: 1px solid #b0b0b0 !important;
+}
+
+.filterButton:not(.active):hover {
+  background: #c8c8c8 !important;
+  color: #2e2e2e !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 900px) {
+  .filterControls {
+    gap: 0.35rem;
+  }
+
+  .filterButton {
+    width: auto;
+    text-align: center !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.85em;
+  }
+}
+
+/* Dark mode adjustments - green active state */
+:global(.dark-mode) :global(.ui.toggle.button).filterButtonCHAT.active,
+:global(.dark-mode) :global(.ui.button).filterButtonCHAT.active,
+:global(.dark-mode) :global(.ui.toggle.button).filterButtonPLAYER_ACTION.active,
+:global(.dark-mode) :global(.ui.button).filterButtonPLAYER_ACTION.active,
+:global(.dark-mode) :global(.ui.toggle.button).filterButtonTURN_EVENT.active,
+:global(.dark-mode) :global(.ui.button).filterButtonTURN_EVENT.active,
+:global(.dark-mode) :global(.ui.toggle.button).filterButtonSYSTEM_EVENT.active,
+:global(.dark-mode) :global(.ui.button).filterButtonSYSTEM_EVENT.active {
+  background-color: #21ba45 !important;
+  color: #ffffff !important;
+  border: 1px solid #484848 !important;
+}
+
+:global(.dark-mode) .active {
+  background-color: #21ba45 !important;
+  color: #ffffff !important;
+  border: 1px solid #484848 !important;
+}
+
+:global(.dark-mode) .filterButton:not(:global(.active)) {
+  background: #3a3a3a !important;
+  color: #b0b0b0 !important;
+  border: 1px solid #505050 !important;
+}
+
+:global(.dark-mode) .filterButton:not(.active):hover {
+  background: #454545 !important;
+  color: #d0d0d0 !important;
+}
