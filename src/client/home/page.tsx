@@ -47,7 +47,7 @@ export function HomePage() {
   return (
     <div>
       <Header as="h1">Choo Choo Games</Header>
-      <ChatLog />
+      <ChatLog showFilters={false} />
       <div style={{ marginTop: "1em", marginBottom: "1em" }}>
         <Button as={Link} primary to="/app/games/create" variant="contained">
           Create Game
