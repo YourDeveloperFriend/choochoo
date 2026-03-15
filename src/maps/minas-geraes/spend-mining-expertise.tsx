@@ -8,7 +8,10 @@ import {
   MenuItem,
 } from "semantic-ui-react";
 import { useEmptyAction } from "../../client/services/action";
-import { MiningToMoneyAction } from "./mining";
+import { MiningExpertise, MiningToMoneyAction } from "./mining";
+import { RowProps } from "../../client/game/final_overview_row";
+import { useInjectedState } from "../../client/utils/injection_context";
+import * as styles from "../../client/game/final_overview.module.css";
 
 export function SpendMiningExpertise() {
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -35,5 +38,17 @@ export function SpendMiningExpertise() {
         </AccordionContent>
       </MenuItem>
     </Accordion>
+  );
+}
+
+export function MiningExpertiseScoringRow({ players }: RowProps) {
+  const miningExpertise = useInjectedState(MiningExpertise);
+  return (
+    <tr>
+      <th className={styles.label}>Mining Expertise</th>
+      {players.map(({ player }) => (
+        <td key={player.playerId}>{miningExpertise.get(player.color)!}</td>
+      ))}
+    </tr>
   );
 }

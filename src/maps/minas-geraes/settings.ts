@@ -9,6 +9,7 @@ import { map } from "./grid";
 import { MinasGeraesStarter } from "./starter";
 import { MinasGeraesMoveAction } from "./delivery";
 import {
+  MinasGeraesActions,
   MinasGeraesSelectAction,
   MinasGeraesSelectActionPhase,
 } from "./action_selection";
@@ -51,6 +52,7 @@ export class MinasGeraesMapSettings implements MapSettings {
       MinasGeraesGoodsGrowthPhase,
       MinasGeraesPlayerHelper,
       MinasGeraesProductionAction,
+      MinasGeraesActions,
       MinasGeraesSharesPhase,
       MinasGeraesTurnOrderPhase,
       MinasGeraesBuildPhase,

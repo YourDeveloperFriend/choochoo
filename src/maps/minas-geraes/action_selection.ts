@@ -11,6 +11,14 @@ import { injectCurrentPlayer } from "../../engine/game/state";
 import { Key } from "../../engine/framework/key";
 import z from "zod";
 import { Log } from "../../engine/game/log";
+import { AllowedActions } from "../../engine/select_action/allowed_actions";
+import { ImmutableSet } from "../../utils/immutable";
+
+export class MinasGeraesActions extends AllowedActions {
+  getActions(): ImmutableSet<Action> {
+    return super.getActions().add(Action.GOLDSMITH);
+  }
+}
 
 export class MinasGeraesSelectActionPhase extends SelectActionPhase {
   private readonly actionMoney = injectState(ActionMoney);
@@ -59,6 +67,7 @@ export class MinasGeraesSelectAction extends SelectAction {
 
     const cost = this.actionMoney().get(action) || 0;
     if (cost > 0) {
+      this.log.currentPlayer("spends $" + cost + " to pick their action.");
       this.playerHelper.updateCurrentPlayer((player) => (player.money -= cost));
     }
     this.actionMoney.update((actionMoney) => actionMoney.set(action, cost + 1));

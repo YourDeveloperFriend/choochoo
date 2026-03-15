@@ -18,7 +18,7 @@ import { SpaceType } from "../../engine/state/location_type";
 export const MinasGeraesMapData = z.object({
   miningTown: z.boolean().optional(),
   ouroPretoCubeSource: z.boolean().optional(),
-  ouroPretoCubeCostDisplay: z.boolean().optional(),
+  ouroPretoCost: z.number().optional(),
 });
 export type MinasGeraesMapData = z.infer<typeof MinasGeraesMapData>;
 
@@ -155,7 +155,7 @@ export const map = grid([
     {
       ...OURO_PRETO,
       mapSpecific: {
-        ouroPretoCubeCostDisplay: true,
+        ouroPretoCost: 0,
       },
     },
     PLAIN,

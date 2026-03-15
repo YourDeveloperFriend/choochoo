@@ -6,6 +6,7 @@ import { inject, injectState } from "../../engine/framework/execution_context";
 import { assert } from "../../utils/validate";
 import { injectCurrentPlayer } from "../../engine/game/state";
 import { PlayerHelper } from "../../engine/game/player";
+import { Log } from "../../engine/game/log";
 
 export const MiningExpertise = new MapKey(
   "MiningExpertise",
@@ -18,6 +19,7 @@ export class MiningToMoneyAction extends EmptyActionProcessor {
   private readonly miningExpertise = injectState(MiningExpertise);
   private readonly currentPlayer = injectCurrentPlayer();
   private readonly playerHelper = inject(PlayerHelper);
+  private readonly log = inject(Log);
 
   validate(): void {
     super.validate();
@@ -38,6 +40,7 @@ export class MiningToMoneyAction extends EmptyActionProcessor {
     this.playerHelper.updateCurrentPlayer((player) => {
       player.money += 1;
     });
+    this.log.currentPlayer("converts 1 mining expertise into $1");
     return false;
   }
 }

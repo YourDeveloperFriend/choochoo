@@ -3,13 +3,9 @@ import { TexturesProps } from "../view_settings";
 import { ReactNode } from "react";
 import { coordinatesToCenter } from "../../utils/point";
 import { MinasGeraesMapData } from "./grid";
-import { useInjectedState } from "../../client/utils/injection_context";
-import { OuroPretoMoney } from "./starter";
 import { Rotate } from "../../client/components/rotation";
 
 export function MinasGeraesOverlayLayer(props: TexturesProps) {
-  const ouroPretoMoney = useInjectedState(OuroPretoMoney);
-
   const result: ReactNode[] = [];
   for (const [_, space] of props.grid.entries()) {
     const mapData = space.getMapSpecific(MinasGeraesMapData.parse);
@@ -24,7 +20,11 @@ export function MinasGeraesOverlayLayer(props: TexturesProps) {
         />,
       );
     }
-    if (mapData && mapData.ouroPretoCubeCostDisplay && ouroPretoMoney !== 0) {
+    if (
+      mapData &&
+      mapData.ouroPretoCost !== undefined &&
+      mapData.ouroPretoCost !== 0
+    ) {
       const center = coordinatesToCenter(space.coordinates, props.size);
       result.push(
         <Rotate rotation={props.rotation} center={center} reverse={true}>
@@ -36,7 +36,7 @@ export function MinasGeraesOverlayLayer(props: TexturesProps) {
             dominantBaseline="middle"
             textAnchor="middle"
           >
-            ${ouroPretoMoney}
+            ${mapData.ouroPretoCost}
           </text>
         </Rotate>,
       );

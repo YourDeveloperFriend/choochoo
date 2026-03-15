@@ -13,14 +13,12 @@ import { PlayerColor } from "../../engine/state/player";
 import { Coordinates } from "../../utils/coordinates";
 import { Grid } from "../../engine/map/grid";
 import { City } from "../../engine/map/city";
-import { OURO_PRETO_SAME_CITY } from "./grid";
-import { OuroPretoMoney } from "./starter";
+import { MinasGeraesMapData, OURO_PRETO_SAME_CITY } from "./grid";
 import { PlayerHelper } from "../../engine/game/player";
 
 export class MinasGeraesMoveAction extends MoveAction {
   private readonly miningExpertise = injectState(MiningExpertise);
   private readonly goldsmithVariant = injectState(GoldsmithVariant);
-  private readonly ouroPretoMoney = injectState(OuroPretoMoney);
   private readonly playerHelper = inject(PlayerHelper);
 
   validate(action: MoveData) {
@@ -41,9 +39,10 @@ export class MinasGeraesMoveAction extends MoveAction {
     }
 
     if (this.deliversViaOuroPreto(action)) {
-      const cost = this.ouroPretoMoney();
+      const cost = this.getOuroPretoCost();
       assert(this.currentPlayer().money >= cost, {
-        invalidInput: `You must have at least \$${cost}} to deliver via Ouro Preto.`,
+        invalidInput:
+          "You must have at least $" + cost + " to deliver via Ouro Preto.",
       });
     }
   }
@@ -56,6 +55,16 @@ export class MinasGeraesMoveAction extends MoveAction {
         MinasGeraesMoveAction.isOuroPreto(grid, stop.endingStop),
       )
     );
+  }
+
+  private getOuroPretoCost(): number {
+    for (const city of this.gridHelper.findAllCities()) {
+      const mapSpecific = city.getMapSpecific(MinasGeraesMapData.parse);
+      if (mapSpecific && mapSpecific.ouroPretoCost !== undefined) {
+        return mapSpecific.ouroPretoCost;
+      }
+    }
+    assert(false, "Could not find Ouro Preto");
   }
 
   private static isOuroPreto(grid: Grid, coordinates: Coordinates): boolean {
@@ -89,6 +98,9 @@ export class MinasGeraesMoveAction extends MoveAction {
     const result = super.process(action);
 
     if (action.good === Good.BLACK) {
+      this.log.currentPlayer(
+        "gains a mining expertise for delivering a black cube",
+      );
       const currentPlayer = this.currentPlayer().color;
       this.miningExpertise.update((state) => {
         state.set(currentPlayer, (state.get(currentPlayer) || 0) + 1);
@@ -99,18 +111,23 @@ export class MinasGeraesMoveAction extends MoveAction {
         this.currentPlayer().selectedAction !== Action.GOLDSMITH ||
         this.goldsmithVariant() !== GOLDSMITH_VARIANT_NO_MINING_EXPERTISE
       ) {
+        this.log.currentPlayer("spends a mining expertise to deliver gold");
         const currentPlayer = this.currentPlayer().color;
         this.miningExpertise.update((state) => {
           state.set(currentPlayer, (state.get(currentPlayer) || 0) - 1);
         });
+      } else {
+        this.log.currentPlayer(
+          "skips spending a mining expertise because of their Goldsmith selection",
+        );
       }
     }
     if (this.deliversViaOuroPreto(action)) {
-      const cost = this.ouroPretoMoney();
+      const cost = this.getOuroPretoCost();
       this.playerHelper.updateCurrentPlayer((player) => {
         player.money -= cost;
       });
-      this.log.currentPlayer(`Spends \$${cost} to deliver via Ouro Preto.`);
+      this.log.currentPlayer("spends $" + cost + " to deliver via Ouro Preto.");
     }
 
     return result;

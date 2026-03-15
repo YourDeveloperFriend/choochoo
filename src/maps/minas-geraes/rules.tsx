@@ -4,8 +4,8 @@ export function MinasGeraesRules() {
       <h1>Setup</h1>
       <p>
         The 2 hex sized city in the middle of the map is Ouro Preto (OP), the
-        capital of the state. It's a colorless city that counts as a stop and
-        provides cubes, but will never accept cubes as a final destination.
+        capital of the state. It&apos;s a colorless city that counts as a stop
+        and provides cubes, but will never accept cubes as a final destination.
       </p>
       <p>
         In this map black cities are mines and start with yellow cubes (gold).
@@ -73,7 +73,7 @@ export function MinasGeraesRules() {
       <h1>Moving Cubes</h1>
       <p>
         Gold cubes have bonus +1 income. To deliver each gold cube, you must
-        spend a point in the mining expertise track. If you don't have any
+        spend a point in the mining expertise track. If you don&apos;t have any
         mining expertise points left, you can’t deliver gold, unless you took
         the goldsmith special action and chose option a) to deliver gold without
         paying mining expertise.

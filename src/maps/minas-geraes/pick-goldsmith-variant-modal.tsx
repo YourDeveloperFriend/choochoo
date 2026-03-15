@@ -17,10 +17,8 @@ export function SpecialActionSelectorSummary() {
   );
 }
 
-export function PickGoldsmithVariantModal() {
-  const { emit, canEmit, isPending } = useAction(
-    MinasGeraesPickGoldsmithVariantAction,
-  );
+function PickGoldsmithVariantModal() {
+  const { emit, canEmit } = useAction(MinasGeraesPickGoldsmithVariantAction);
   if (!canEmit) {
     return <></>;
   }

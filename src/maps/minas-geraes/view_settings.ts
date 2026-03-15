@@ -3,11 +3,23 @@ import { MinasGeraesOverlayLayer, MinasGeraesRivers } from "./rivers";
 import { MinasGeraesRules } from "./rules";
 import { MinasGeraesMapSettings } from "./settings";
 import { MiningExpertiseCell } from "./player_stats";
-import { SpendMiningExpertise } from "./spend-mining-expertise";
+import {
+  MiningExpertiseScoringRow,
+  SpendMiningExpertise,
+} from "./spend-mining-expertise";
 import { Phase } from "../../engine/state/phase";
 import React from "react";
 import { SpecialActionSelectorSummary } from "./pick-goldsmith-variant-modal";
 import { RedrawProduction } from "./redraw_production";
+import { Action } from "../../engine/state/action";
+import { useInjectedState } from "../../client/utils/injection_context";
+import { ActionMoney } from "./starter";
+import {
+  getRowList,
+  RowFactory,
+  TrackVps,
+} from "../../client/game/final_overview_row";
+import { insertAfter } from "../../utils/functions";
 
 export class MinasGeraesViewSettings
   extends MinasGeraesMapSettings
@@ -29,6 +41,10 @@ export class MinasGeraesViewSettings
     ];
   }
 
+  getFinalOverviewRows(): RowFactory[] {
+    return insertAfter(getRowList(), TrackVps, MiningExpertiseScoringRow);
+  }
+
   getActionSummary(
     phase: Phase | undefined,
   ): (() => React.ReactNode) | undefined {
@@ -40,5 +56,13 @@ export class MinasGeraesViewSettings
     }
 
     return undefined;
+  }
+
+  getActionCaption(action: Action): string[] | string | undefined {
+    const actionCost = useInjectedState(ActionMoney).get(action);
+    if (actionCost === undefined || actionCost === 0) {
+      return undefined;
+    }
+    return "$" + actionCost;
   }
 }

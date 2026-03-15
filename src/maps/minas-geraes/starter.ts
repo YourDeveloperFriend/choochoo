@@ -3,7 +3,7 @@ import { Good } from "../../engine/state/good";
 import { injectState } from "../../engine/framework/execution_context";
 import { MiningExpertise } from "./mining";
 import { CityData } from "../../engine/state/space";
-import { Key, MapKey } from "../../engine/framework/key";
+import { MapKey } from "../../engine/framework/key";
 import z from "zod";
 import { Action, ActionZod } from "../../engine/state/action";
 import { GoldsmithVariant } from "./action_selection";
@@ -14,13 +14,10 @@ export const ActionMoney = new MapKey(
   z.number().parse,
 );
 
-export const OuroPretoMoney = new Key("OuroPretoMoney", z.number());
-
 export class MinasGeraesStarter extends GameStarter {
   private readonly miningExpertise = injectState(MiningExpertise);
   private readonly actionMoney = injectState(ActionMoney);
   private readonly goldsmithVariant = injectState(GoldsmithVariant);
-  private readonly ouroPretoMoney = injectState(OuroPretoMoney);
 
   protected onStartGame(): void {
     super.onStartGame();
@@ -36,7 +33,6 @@ export class MinasGeraesStarter extends GameStarter {
       ]),
     );
     this.goldsmithVariant.initState(-1);
-    this.ouroPretoMoney.initState(0);
   }
 
   protected getPlacedGoodsFor(
@@ -44,11 +40,6 @@ export class MinasGeraesStarter extends GameStarter {
     playerCount: number,
     location: CityData,
   ): Good[] {
-    const numCubes =
-      location.startingNumCubes ??
-      (location.startingNumCubesPerPlayer != null
-        ? location.startingNumCubesPerPlayer * playerCount
-        : 0);
     if (location.color === Good.BLACK) {
       // Draw 2 yellow from the bag
       return drawMatching(bag, 2, (good) => good === Good.YELLOW);
@@ -57,6 +48,9 @@ export class MinasGeraesStarter extends GameStarter {
       // Draw of any color for Ouro Preto
       return draw(playerCount, bag);
     }
+    if (location.mapSpecific?.ouroPretoCost !== undefined) {
+      return [];
+    }
     // Otherwise draw non-yellows
     return drawMatching(bag, 2, (good) => good !== Good.YELLOW);
   }
@@ -64,7 +58,7 @@ export class MinasGeraesStarter extends GameStarter {
   protected getGoodsGrowthGoodsFor(
     bag: Good[],
     cityColor: Good | Good[],
-    urbanized: boolean,
+    _urbanized: boolean,
   ): Array<undefined | Good> {
     if (cityColor === Good.BLACK) {
       return draw(2, bag);
@@ -78,7 +72,7 @@ function drawMatching<T>(
   count: number,
   pred: (elem: T) => boolean,
 ): T[] {
-  let drawn: T[] = [];
+  const drawn: T[] = [];
   for (let i = 0; i < arr.length; i++) {
     if (pred(arr[i])) {
       drawn.push(arr[i]);
