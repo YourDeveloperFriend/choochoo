@@ -53,6 +53,9 @@ export enum Action {
 
   // Chicago-L
   ISSUE_LAST = 25,
+
+  // Minas Geraes
+  GOLDSMITH = 26,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -112,6 +115,8 @@ export class ActionNamingProvider {
         return "Locomotive (single)";
       case Action.ISSUE_LAST:
         return "Issue Last";
+      case Action.GOLDSMITH:
+        return "Goldsmith";
       default:
         assertNever(action);
     }
@@ -169,6 +174,8 @@ export class ActionNamingProvider {
         return "Receive one bonus locomotive disc.";
       case Action.ISSUE_LAST:
         return "Go last during the Issue Shares phase.";
+      case Action.GOLDSMITH:
+        return "Deliver gold without spending mining expertise or increase income for gold deliveries.";
       default:
         assertNever(action);
     }
