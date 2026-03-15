@@ -2,18 +2,31 @@ import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
-  ReleaseStage, Rotation,
+  ReleaseStage,
+  Rotation,
 } from "../../engine/game/map_settings";
 import { map } from "./grid";
 import { MinasGeraesStarter } from "./starter";
-import {MinasGeraesMoveAction} from "./delivery";
-import {MinasGeraesSelectAction, MinasGeraesSelectActionPhase} from "./action_selection";
-import {MinasGeraesUrbanizeAction} from "./urbanize";
-import {MinasGeraesBuildCostCalculator} from "./build";
-import {Module} from "../../engine/module/module";
-import {TurnLengthModule} from "../../modules/turn_length";
-import {MinasGeraesPlayerHelper} from "./score";
-import {MinasGeraesGoodsGrowthPhase} from "./production";
+import { MinasGeraesMoveAction } from "./delivery";
+import {
+  MinasGeraesSelectAction,
+  MinasGeraesSelectActionPhase,
+} from "./action_selection";
+import { MinasGeraesUrbanizeAction } from "./urbanize";
+import { MinasGeraesBuildCostCalculator } from "./build";
+import { Module } from "../../engine/module/module";
+import { TurnLengthModule } from "../../modules/turn_length";
+import { MinasGeraesPlayerHelper } from "./score";
+import {
+  MinasGeraesGoodsGrowthPhase,
+  MinasGeraesProductionAction,
+} from "./production";
+import {
+  MinasGeraesBuildPhase,
+  MinasGeraesMovePhase,
+  MinasGeraesSharesPhase,
+  MinasGeraesTurnOrderPhase,
+} from "./phase";
 
 export class MinasGeraesMapSettings implements MapSettings {
   readonly key = GameKey.MINAS_GERAES;
@@ -23,7 +36,7 @@ export class MinasGeraesMapSettings implements MapSettings {
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.ALPHA
+  readonly stage = ReleaseStage.ALPHA;
   readonly developmentAllowlist = [JACK];
   readonly rotation = Rotation.COUNTER_CLOCKWISE;
 
@@ -37,12 +50,15 @@ export class MinasGeraesMapSettings implements MapSettings {
       MinasGeraesBuildCostCalculator,
       MinasGeraesGoodsGrowthPhase,
       MinasGeraesPlayerHelper,
+      MinasGeraesProductionAction,
+      MinasGeraesSharesPhase,
+      MinasGeraesTurnOrderPhase,
+      MinasGeraesBuildPhase,
+      MinasGeraesMovePhase,
     ];
   }
 
   getModules(): Array<Module> {
-    return [
-      new TurnLengthModule({add: -1}),
-    ];
+    return [new TurnLengthModule({ add: -1 })];
   }
 }

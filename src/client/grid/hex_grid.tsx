@@ -202,6 +202,7 @@ export function HexGrid({
       texturesLayer = mapSettings.getTexturesLayer({
         size,
         grid,
+        rotation,
         clickTargets,
       });
     }
@@ -209,6 +210,7 @@ export function HexGrid({
       overlayLayer = mapSettings.getOverlayLayer({
         size,
         grid,
+        rotation,
         clickTargets,
       });
     }
