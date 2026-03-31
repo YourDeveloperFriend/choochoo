@@ -25,7 +25,7 @@ export class ExpensesPhase extends PhaseModule {
         if (profit > 0) {
           this.log.player(player, `earns $${profit}`);
         } else {
-          this.log.player(player, `loses $${-profit}`);
+          this.log.player(player, `pays $${-profit} for expenses`);
         }
       } else {
         this.log.player(
