@@ -3,7 +3,7 @@ import {
   JACK,
   MapSettings,
   ReleaseStage,
-  Rotation,
+  Rotation, ZEZZO,
 } from "../../engine/game/map_settings";
 import { map } from "./grid";
 import { MinasGeraesStarter } from "./starter";
@@ -38,7 +38,7 @@ export class MinasGeraesMapSettings implements MapSettings {
   readonly maxPlayers = 6;
   readonly startingGrid = map;
   readonly stage = ReleaseStage.ALPHA;
-  readonly developmentAllowlist = [JACK];
+  readonly developmentAllowlist = [JACK, ZEZZO];
   readonly rotation = Rotation.COUNTER_CLOCKWISE;
 
   getOverrides() {
