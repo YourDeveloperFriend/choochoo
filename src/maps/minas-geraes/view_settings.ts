@@ -20,6 +20,9 @@ import {
   TrackVps,
 } from "../../client/game/final_overview_row";
 import { insertAfter } from "../../utils/functions";
+import { ClickTarget, OnClickRegister } from "../../client/grid/click_target";
+import { useAction } from "../../client/services/action";
+import { BuildAction } from "../../engine/build/build";
 
 export class MinasGeraesViewSettings
   extends MinasGeraesMapSettings
@@ -29,6 +32,8 @@ export class MinasGeraesViewSettings
   getOverlayLayer = MinasGeraesOverlayLayer;
 
   getMapRules = MinasGeraesRules;
+
+  useOnMapClick = useBuildOnClick;
 
   additionalSliders = [SpendMiningExpertise];
 
@@ -65,4 +70,13 @@ export class MinasGeraesViewSettings
     }
     return "$" + actionCost;
   }
+}
+
+function useBuildOnClick(on: OnClickRegister) {
+  const { canEmit, isPending, setData } = useAction(BuildAction);
+
+  if (canEmit) {
+    on(ClickTarget.CITY, (city) => setData({ coordinates: city.coordinates }));
+  }
+  return isPending;
 }

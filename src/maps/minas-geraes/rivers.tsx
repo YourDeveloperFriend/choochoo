@@ -16,6 +16,7 @@ export function MinasGeraesOverlayLayer(props: TexturesProps) {
           cx={center.x}
           cy={center.y}
           fill="black"
+          fillOpacity={0.5}
           r={props.size * 0.4}
         />,
       );

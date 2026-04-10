@@ -84,7 +84,7 @@ export class MinasGeraesGoodsGrowthPhase extends GoodsGrowthPhase {
     let increaseOpCost = false;
     this.gridHelper.update(ouroPreto.coordinates, (space) => {
       if (space.goods === undefined || space.goods.length === 0) {
-        const bag = this.bag();
+        const bag = [...this.bag()];
         space.goods = this.random.draw(this.playerCount(), bag, false);
         this.log.log(
           "New cubes are drawn for Oero Preto: " +
@@ -142,7 +142,7 @@ export class RedrawProductionAction extends EmptyActionProcessor {
   }
 
   process(): boolean {
-    const bag = this.bag();
+    const bag = [...this.bag()];
     let draw = this.goodsGrowthState().goods;
 
     // Find out how many we need to replace

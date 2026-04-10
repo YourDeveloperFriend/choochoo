@@ -6,6 +6,7 @@ import { assert } from "../../utils/validate";
 import { City } from "../../engine/map/city";
 import { Good } from "../../engine/state/good";
 import { MinasGeraesMapData } from "./grid";
+import { Land } from "../../engine/map/location";
 
 export class MinasGeraesUrbanizeAction extends UrbanizeAction {
   private readonly bag = injectState(BAG);
@@ -19,6 +20,10 @@ export class MinasGeraesUrbanizeAction extends UrbanizeAction {
 
     const city = this.availableCities()[data.cityIndex];
     if (city.color === Good.BLACK) {
+      assert(space instanceof Land && space.hasTown(), {
+        invalidInput:
+          "When urbanizing the non-yellow city, it must be placed on a mining town.",
+      });
       const mapSpecific = space.getMapSpecific(MinasGeraesMapData.parse);
       assert(mapSpecific !== undefined && !!mapSpecific.miningTown, {
         invalidInput: "Can only urbanize black city on mining towns.",
@@ -40,6 +45,10 @@ export class MinasGeraesUrbanizeAction extends UrbanizeAction {
         },
       );
     } else {
+      assert(space instanceof Land && space.hasTown(), {
+        invalidInput:
+          "When urbanizing the non-yellow city, it must be placed on a non-mining town.",
+      });
       const mapSpecific = space.getMapSpecific(MinasGeraesMapData.parse);
       assert(mapSpecific === undefined || !mapSpecific.miningTown, {
         invalidInput: "Non-black cities cannot be placed on mining towns.",
