@@ -44,8 +44,8 @@ import { ChicagoSpeakeasyMapSettings } from "./chicago_speakeasy/settings";
 import { BelgiumMapSettings } from "./belgium/settings";
 import { EasternUsAndCanadaMapSettings } from "./eastern_us_and_canada/settings";
 import { DoubleBaseUsaMapSettings } from "./double_base_usa/settings";
-import {ChicagoLMapSettings} from "./chicago-l/settings";
-import {MinasGeraesMapSettings} from "./minas-geraes/settings";
+import { ChicagoLMapSettings } from "./chicago-l/settings";
+import { MinasGeraesMapSettings } from "./minas-geraes/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();

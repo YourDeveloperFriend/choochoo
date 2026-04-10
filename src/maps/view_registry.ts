@@ -45,7 +45,7 @@ import { BelgiumViewSettings } from "./belgium/view_settings";
 import { EasternUsAndCanadaViewSettings } from "./eastern_us_and_canada/view_settings";
 import { DoubleBaseUsaViewSettings } from "./double_base_usa/view_settings";
 import { ChicagoLViewSettings } from "./chicago-l/view_settings";
-import {MinasGeraesViewSettings} from "./minas-geraes/view_settings";
+import { MinasGeraesViewSettings } from "./minas-geraes/view_settings";
 
 export class ViewRegistry {
   static readonly singleton = new ViewRegistry();
