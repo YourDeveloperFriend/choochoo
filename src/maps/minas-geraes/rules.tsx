@@ -10,12 +10,13 @@ export function MinasGeraesRules() {
       <p>
         In this map black cities are mines and start with yellow cubes (gold).
         Each non-black city starts with 2 random non-yellow cubes; their goods
-        growth chart are also set up with non-yellow cubes. The goods growth
-        chart for the new, non-black cities are also setup without yellow cubes.
-        The black cities also start with 2 random cubes, but can include yellow
-        cubes; their goods growth chart and the goods growth chart for new black
-        cities is set up the same way. Ouro Preto starts with a number of cubes
-        equal to the number of players; this can also include yellow cubes.
+        growth chart are also set up with non-yellow cubes. Black cities start
+        with 2 yellow cubes and their goods growth chart starts with 2 random
+        cubes, but can include yellow cubes. The goods growth chart for the new,
+        non-black cities are also setup without yellow cubes while the goods
+        growth chart for new black cities are setup with random cubes that can
+        include yellow. Ouro Preto starts with a number of cubes equal to the
+        number of players; this can also include yellow cubes.
       </p>
       <p>
         $1 is placed in the following action spaces: Locomotive, Urbanization

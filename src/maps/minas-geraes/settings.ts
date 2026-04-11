@@ -3,7 +3,8 @@ import {
   JACK,
   MapSettings,
   ReleaseStage,
-  Rotation, ZEZZO,
+  Rotation,
+  ZEZZO,
 } from "../../engine/game/map_settings";
 import { map } from "./grid";
 import { MinasGeraesStarter } from "./starter";
