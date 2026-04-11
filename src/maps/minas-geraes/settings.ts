@@ -37,7 +37,7 @@ export class MinasGeraesMapSettings implements MapSettings {
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.ALPHA;
+  readonly stage = ReleaseStage.DEVELOPMENT;
   readonly developmentAllowlist = [JACK, ZEZZO];
   readonly rotation = Rotation.COUNTER_CLOCKWISE;
 
