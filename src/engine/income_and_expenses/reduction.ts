@@ -32,7 +32,7 @@ export class IncomeReductionPhase extends PhaseModule {
 
   protected calculateIncomeReduction(income: number): number {
     if (income <= 10) return 0;
-    if (income >= 51) return 10;
+    if (income >= 50) return 10;
     return Math.floor((income - 1) / 10) * 2;
   }
 
