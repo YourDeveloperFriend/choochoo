@@ -327,9 +327,6 @@ export function MapSelectorDialog({
                     <Button
                       primary
                       size="mini"
-                      onKeyDown={(event) => {
-                        event.stopPropagation();
-                      }}
                       onClick={(event) => {
                         event.stopPropagation();
                         handleSelectMap(map.key);
