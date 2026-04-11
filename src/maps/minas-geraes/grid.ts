@@ -135,6 +135,7 @@ export const map = grid([
     PLAIN,
     PLAIN,
     RIVER,
+    PLAIN,
     town(""),
     PLAIN,
   ],
