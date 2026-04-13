@@ -16,6 +16,11 @@ export class BelgiumBuilderHelper extends BuilderHelper {
     // Urbanization uses a build.
     return this.buildsRemaining() === 0;
   }
+
+  getMaxBuilds(): number {
+    // Engineer does not provide an extra build in this map; it just allows building town tiles
+    return 3;
+  }
 }
 
 export class BelgiumBuildValidator extends Validator {
