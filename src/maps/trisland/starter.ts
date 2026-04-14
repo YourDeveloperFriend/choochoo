@@ -42,12 +42,4 @@ export class TrislandStarter extends GameStarter {
       [Good.BLACK, CityGroup.WHITE, 5],
     ];
   }
-
-  protected getGoodsGrowthGoodsFor(
-    bag: Good[],
-    _: Good | Good[],
-    __: boolean,
-  ): Good[] {
-    return draw(1, bag);
-  }
 }
