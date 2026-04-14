@@ -56,6 +56,13 @@ function moveActionMixin(
     );
     private readonly goodsHelper = inject(GoodsHelper);
 
+    validate(action: MoveData): void {
+      super.validate(action);
+      assert(this.instantProductionState().startCity === undefined, {
+        invalidInput: "cannot deliver while performing instant production"
+      });
+    }
+
     process(action: MoveData): boolean {
       super.process(action);
 
