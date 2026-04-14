@@ -39,52 +39,18 @@ export class ChicagoLStarter extends GameStarter {
     this.bag.set(bag);
     this.theLoopDemand.initState(loopDemandDraws);
 
-    const startingGovtCity = this.getStartingCityName(
-      this.random.rollDie() + this.random.rollDie(),
+    const cities = [...this.gridHelper.findAllCities()];
+    const startingCity = cities[this.random.random(cities.length)];
+    this.log.log(
+      "Government starting city selected as " +
+        this.gridHelper.displayName(startingCity.coordinates),
     );
-    for (const city of this.gridHelper.findAllCities()) {
-      if (city.name() === startingGovtCity) {
-        this.log.log(
-          "Government starting city selected as " +
-            this.gridHelper.displayName(city.coordinates),
-        );
-        this.gridHelper.update(city.coordinates, (city) => {
-          if (!city.mapSpecific) {
-            city.mapSpecific = {};
-          }
-          city.mapSpecific.governmentStartingCity = true;
-        });
+    this.gridHelper.update(startingCity.coordinates, (city) => {
+      if (!city.mapSpecific) {
+        city.mapSpecific = {};
       }
-    }
-  }
-
-  private getStartingCityName(dieRoll: number): string {
-    switch (dieRoll) {
-      case 2:
-        return "Midway";
-      case 3:
-        return "Dempster-Skokie";
-      case 4:
-        return "Linden";
-      case 5:
-        return "Damen";
-      case 6:
-        return "Addison";
-      case 7:
-        return "The Loop";
-      case 8:
-        return "Belmont";
-      case 9:
-        return "Cottage Grove";
-      case 10:
-        return "Cermak";
-      case 11:
-        return "Forest Park";
-      case 12:
-        return "O'Hare";
-      default:
-        fail("Invalid 2d6 die roll: " + dieRoll);
-    }
+      city.mapSpecific.governmentStartingCity = true;
+    });
   }
 
   protected numCubesForAvailableCity(): number {
