@@ -28,7 +28,7 @@ export class BuildCostCalculator {
     } else {
       const redirectCount = countRedirects(previousTileData, newTileType, orientation);
       if (redirectCount > 0) {
-        return redirectCount * this.getRedirectCost();
+        return redirectCount * this.getRedirectCost(previousTileData.tileType, newTileType);
       } else {
         return 2;
       }
@@ -43,7 +43,7 @@ export class BuildCostCalculator {
     return 3;
   }
 
-  protected getRedirectCost() {
+  protected getRedirectCost(_previousTileType: TileType, _newTileType: TileType): number {
     return 2;
   }
 

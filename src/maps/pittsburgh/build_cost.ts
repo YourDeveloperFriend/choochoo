@@ -33,7 +33,19 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
     return super.costOf(coordinates, newTileType, orientation);
   }
 
-  protected getRedirectCost(): number {
+  protected getRedirectCost(previousTileType: TileType, newTileType: TileType): number {
+    // Pittsburgh rules on the cost of redirecting is very particular based on the prior tile type and the new one
+    // In particular, redirecting a simple tile to another simple is still always just $4. *shrug*
+    if ((previousTileType === ComplexTileType.CURVE_TIGHT_1
+        || previousTileType === ComplexTileType.CURVE_TIGHT_2
+        || previousTileType === ComplexTileType.CROSSING_CURVES) && newTileType === ComplexTileType.BOW_AND_ARROW) {
+      return 10;
+    }
+    if ((previousTileType === ComplexTileType.CURVE_TIGHT_1
+        || previousTileType === ComplexTileType.CURVE_TIGHT_2) && newTileType === ComplexTileType.STRAIGHT_TIGHT) {
+      return 10;
+    }
+
     return 4;
   }
 
