@@ -1,7 +1,7 @@
 import { BuilderHelper } from "../../engine/build/helper";
 import { inject, injectState } from "../../engine/framework/execution_context";
 import { ROUND } from "../../engine/game/round";
-import { calculateTrackInfo } from "../../engine/map/location";
+import { calculateTrackInfo, partitionTracks } from "../../engine/map/location";
 import { Exit, TOWN, TrackInfo } from "../../engine/map/track";
 import { City } from "../../engine/map/city";
 import { allDirections } from "../../engine/state/tile";
@@ -64,7 +64,7 @@ export class EasternUsAndCanadaBuildValidator extends Validator {
       return "cannot build on unpassable terrain";
     }
     const newTileData = calculateTrackInfo(buildData);
-    const { newTracks } = this.partitionTracks(space, newTileData);
+    const { newTracks } = partitionTracks(space, newTileData);
 
     const currentPlayer = this.currentPlayer();
     if (isFirstBuild(currentPlayer.color, this.grid())) {

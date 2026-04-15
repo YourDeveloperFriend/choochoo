@@ -5,9 +5,9 @@ import { injectGrid } from "../game/state";
 import { City } from "../map/city";
 import { getOpposite } from "../map/direction";
 import { Grid } from "../map/grid";
-import { calculateTrackInfo, Land, usesTownDisc } from "../map/location";
+import { calculateTrackInfo, getOldTrack, Land, partitionTracks, usesTownDisc } from "../map/location";
 import { isTownTile } from "../map/tile";
-import { Exit, TOWN, Track, TrackInfo } from "../map/track";
+import { Exit, TOWN, TrackInfo } from "../map/track";
 import { PlayerColor } from "../state/player";
 import { Direction, TileType } from "../state/tile";
 import { BuilderHelper } from "./helper";
@@ -54,7 +54,7 @@ export class Validator {
 
     const newTileData = calculateTrackInfo(buildData);
 
-    const { preserved, rerouted, newTracks } = this.partitionTracks(space, newTileData);
+    const { preserved, rerouted, newTracks } = partitionTracks(space, newTileData);
 
     // Don't validate unmodified track because those are owned by other players.
     const trackToValidate = newTracks.concat(rerouted);
@@ -80,7 +80,7 @@ export class Validator {
     }
 
     for (const reroutedTrack of rerouted) {
-      const oldTrack = this.oldTrack(space, reroutedTrack)!;
+      const oldTrack = getOldTrack(space, reroutedTrack)!;
       const oldOwner = oldTrack.getOwner();
       if (oldOwner != null && oldOwner !== buildData.playerColor) {
         return `cannot reroute another player's track`;
@@ -178,37 +178,6 @@ export class Validator {
     return this.grid().getEnd(neighbor, getOpposite(exit));
   }
 
-  protected partitionTracks(space: Land, tracks: TrackInfo[]): Partitioned {
-    const preserved: TrackInfo[] = [];
-    const rerouted: TrackInfo[] = [];
-    const newTracks: TrackInfo[] = [];
-    for (const trackInfo of tracks) {
-      const oldTrack = this.oldTrack(space, trackInfo);
-      if (oldTrack == null) {
-        newTracks.push(trackInfo);
-        continue;
-      }
-      const reroutedExit = oldTrack.getExits().find((exit) => !trackInfo.exits.includes(exit));
-      if (reroutedExit != null) {
-        assert(reroutedExit !== TOWN, 'cannot reroute town');
-        rerouted.push(trackInfo);
-        continue;
-      }
-      preserved.push(trackInfo);
-    }
-    return { preserved, newTracks, rerouted };
-  }
-
-  private oldTrack(space: Land, newTrack: TrackInfo): Track | undefined {
-    const oldTrackList = space.getTrack().filter((track) => {
-      return newTrack.exits.some((exit) => exit !== TOWN && track.hasExit(exit));
-    });
-    if (oldTrackList.length > 1) {
-      throw new Error('rerouting multiple routes is technically possible, but unsupported');
-    }
-    return oldTrackList[0];
-  }
-
   protected newTrackExtendsPrevious(playerColor: PlayerColor, space: Land, newTracks: TrackInfo[]): boolean {
     // if it's a town tile, only one of the track needs to be placeable
     const hasTown = newTracks.some(track => track.exits.some(exit => exit === TOWN));
@@ -253,10 +222,4 @@ export class Validator {
       });
     });
   }
-}
-
-interface Partitioned {
-  preserved: TrackInfo[];
-  rerouted: TrackInfo[];
-  newTracks: TrackInfo[];
 }

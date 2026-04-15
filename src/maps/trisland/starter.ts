@@ -1,5 +1,5 @@
 import { injectState } from "../../engine/framework/execution_context";
-import { draw, GameStarter } from "../../engine/game/starter";
+import { GameStarter } from "../../engine/game/starter";
 import { Action } from "../../engine/state/action";
 import { CityGroup } from "../../engine/state/city_group";
 import { Good } from "../../engine/state/good";

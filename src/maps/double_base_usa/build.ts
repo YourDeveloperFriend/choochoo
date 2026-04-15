@@ -17,7 +17,7 @@ import {
   DoubleBaseUsaPlayerData,
   TranscontinentalBonusClaimed,
 } from "./starter";
-import { calculateTrackInfo, Land } from "../../engine/map/location";
+import { calculateTrackInfo, Land, partitionTracks } from "../../engine/map/location";
 import { Exit, TOWN, TrackInfo } from "../../engine/map/track";
 import { PlayerColor } from "../../engine/state/player";
 import { allDirections, Direction, TileType } from "../../engine/state/tile";
@@ -121,7 +121,7 @@ export class DoubleBaseUsaBuildValidator extends Validator {
       return "cannot build on unpassable terrain";
     }
     const newTileData = calculateTrackInfo(buildData);
-    const { newTracks } = this.partitionTracks(space, newTileData);
+    const { newTracks } = partitionTracks(space, newTileData);
     const currentPlayer = this.currentPlayer();
 
     // Assert contiguous

@@ -1,6 +1,6 @@
 import { Coordinates } from "../../utils/coordinates";
 import { deepEquals } from "../../utils/deep_equals";
-import { assertNever } from "../../utils/validate";
+import { assert, assertNever } from "../../utils/validate";
 import { Good } from "../state/good";
 import { SpaceStyle } from "../state/location_style";
 import { isUnpassable, LandData, LandType } from "../state/space";
@@ -154,6 +154,43 @@ export function calculateTrackInfo(tileData?: BaseTileData): TrackInfo[] {
     owner: tileData.owners?.[index],
     claimableCost: tileData.claimableCost?.[index],
   }));
+}
+
+interface Partitioned {
+  preserved: TrackInfo[];
+  rerouted: TrackInfo[];
+  newTracks: TrackInfo[];
+}
+
+export function partitionTracks(space: Land, tracks: TrackInfo[]): Partitioned {
+  const preserved: TrackInfo[] = [];
+  const rerouted: TrackInfo[] = [];
+  const newTracks: TrackInfo[] = [];
+  for (const trackInfo of tracks) {
+    const oldTrack = getOldTrack(space, trackInfo);
+    if (oldTrack == null) {
+      newTracks.push(trackInfo);
+      continue;
+    }
+    const reroutedExit = oldTrack.getExits().find((exit) => !trackInfo.exits.includes(exit));
+    if (reroutedExit != null) {
+      assert(reroutedExit !== TOWN, 'cannot reroute town');
+      rerouted.push(trackInfo);
+      continue;
+    }
+    preserved.push(trackInfo);
+  }
+  return { preserved, newTracks, rerouted };
+}
+
+export function getOldTrack(space: Land, newTrack: TrackInfo): Track | undefined {
+  const oldTrackList = space.getTrack().filter((track) => {
+    return newTrack.exits.some((exit) => exit !== TOWN && track.hasExit(exit));
+  });
+  if (oldTrackList.length > 1) {
+    throw new Error('rerouting multiple routes is technically possible, but unsupported');
+  }
+  return oldTrackList[0];
 }
 
 function rotateTrackInfoClockwise(trackInfo: TrackInfo): TrackInfo {

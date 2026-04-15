@@ -45,6 +45,7 @@ const EmptyVariantConfig = z.object({
     GameKey.DOUBLE_BASE_USA,
     GameKey.CHICAGO_L,
     GameKey.MINAS_GERAES,
+    GameKey.JAPAN,
   ]),
 });
 type EmptyVariantConfig = z.infer<typeof EmptyVariantConfig>;

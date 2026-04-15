@@ -7,6 +7,7 @@ export enum SpaceStyle {
   FJORD = 3,
   CANYON = 4,
   MOUNTAIN = 5,
+  WATER = 6,
 }
 
 export const SpaceStyleZod = z.nativeEnum(SpaceStyle);

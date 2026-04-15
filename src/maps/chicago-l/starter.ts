@@ -8,7 +8,6 @@ import { remove } from "../../utils/functions";
 import { inject, injectState } from "../../engine/framework/execution_context";
 import { Key, MapKey } from "../../engine/framework/key";
 import z from "zod";
-import { fail } from "../../utils/validate";
 import { Log } from "../../engine/game/log";
 import { Good, GoodZod } from "../../engine/state/good";
 
