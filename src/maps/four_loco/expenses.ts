@@ -1,11 +1,9 @@
 import { inject } from "../../engine/framework/execution_context";
-import { Log } from "../../engine/game/log";
 import { PlayerHelper } from "../../engine/game/player";
-import { injectPlayersByTurnOrder } from "../../engine/game/state";
 import { ExpensesPhase } from "../../engine/income_and_expenses/expenses";
 import { ProfitHelper } from "../../engine/income_and_expenses/helper";
-import { TakeSharesAction, TakeSharesData } from "../../engine/shares/take_shares";
 import { ShareHelper } from "../../engine/shares/share_helper";
+import { TakeSharesAction, TakeSharesData } from "../../engine/shares/take_shares";
 import { PlayerData } from "../../engine/state/player";
 
 const SHARE_COST = 3;
@@ -50,11 +48,8 @@ export class FourLocoTakeSharesAction extends TakeSharesAction {
  * After issuing the minimum required shares, the normal expense deduction runs.
  */
 export class FourLocoExpensesPhase extends ExpensesPhase {
-  private readonly profitHelper = inject(ProfitHelper);
-  private readonly log = inject(Log);
   private readonly playerHelper = inject(PlayerHelper);
   private readonly shareHelper = inject(ShareHelper);
-  private readonly players = injectPlayersByTurnOrder();
 
   onStart(): void {
     for (const player of this.players()) {
