@@ -1,13 +1,11 @@
 import { z } from "zod";
-import { inject, injectState } from "../../engine/framework/execution_context";
+import { injectState } from "../../engine/framework/execution_context";
 import { Key } from "../../engine/framework/key";
-import { ActionBundle } from "../../engine/game/phase_module";
 import { EmptyAction } from "../../engine/game/action";
 import { injectCurrentPlayer } from "../../engine/game/state";
 import { MoveAction, MoveData } from "../../engine/move/move";
 import { MovePhase } from "../../engine/move/phase";
 import { MovePassAction } from "../../engine/move/pass";
-import { MoveSearcher } from "../../engine/move/searcher";
 import { MoveValidator } from "../../engine/move/validator";
 import { PlayerColor, PlayerData } from "../../engine/state/player";
 import { assert } from "../../utils/validate";
@@ -36,8 +34,6 @@ export const FOUR_LOCO_PASS_STATE = new Key("fourLocoPassState", {
 
 export class FourLocoMovePhase extends MovePhase {
   private readonly fourLocoPassState = injectState(FOUR_LOCO_PASS_STATE);
-  private readonly moveSearcher = inject(MoveSearcher);
-  private readonly currentPlayer = injectCurrentPlayer();
 
   configureActions() {
     // Install our overridden pass and move actions; skip LocoAction
@@ -91,18 +87,6 @@ export class FourLocoMovePhase extends MovePhase {
     return undefined;
   }
 
-  /**
-   * Auto-pass when the current player has no valid 4-link deliveries.
-   * This avoids requiring players to manually click Pass when they're stuck.
-   */
-  forcedAction(): ActionBundle<object> | undefined {
-    const player = this.currentPlayer();
-    const validRoutes = this.moveSearcher.findAllRoutes(player);
-    if (validRoutes.length === 0) {
-      return { action: FourLocoMovePassAction, data: {} };
-    }
-    return undefined;
-  }
 }
 
 // ---------------------------------------------------------------------------
