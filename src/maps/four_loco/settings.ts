@@ -1,5 +1,6 @@
 import { GameKey } from "../../api/game_key";
 import {
+  CHAD_DESHON,
   KAOSKODY,
   MapSettings,
   PlayerCountRating,
@@ -8,14 +9,18 @@ import {
 import { Module } from "../../engine/module/module";
 import { TurnLengthModule } from "../../modules/turn_length";
 import { map } from "./grid";
-import { FourLocoAllowedActions } from "./actions";
+import { FourLocoAllowedActions, FourLocoLocoAction } from "./actions";
 import {
   FourLocoMoveAction,
   FourLocoMovePassAction,
   FourLocoMovePhase,
   FourLocoMoveValidator,
 } from "./deliver";
-import { FourLocoExpensesPhase, FourLocoProfitHelper } from "./expenses";
+import {
+  FourLocoExpensesPhase,
+  FourLocoProfitHelper,
+  FourLocoTakeSharesAction,
+} from "./expenses";
 import { FourLocoStarter } from "./starter";
 
 /**
@@ -25,11 +30,12 @@ import { FourLocoStarter } from "./starter";
  * - All players start at engine level 4 (no Locomotive action)
  * - Exactly 4 links required per delivery
  * - Players may only use their own track for deliveries
- * - Delivery phase is unlimited rounds until all players pass consecutively
- * - Each delivery always awards exactly 2 income (regardless of path ownership)
+ * - Delivery phase continues until all players pass consecutively
+ *   (once a player passes, they are out until someone delivers, resetting passes)
+ * - Each delivery always awards exactly 2 income
  * - Engine level does NOT count toward expenses
- * - Normal share phase: $5 per share (base game behavior)
- * - Forced shares during expense phase: $3 per share (instead of income loss)
+ * - All shares cost $3 (both voluntary share phase and forced emergency shares)
+ * - Forced shares issued when player cannot afford expenses (up to share limit)
  * - Turn count: 2p→10, 3p→8, 4p→7, 5p→6, 6p→5
  */
 export class FourLocoMapSettings implements MapSettings {
@@ -51,7 +57,7 @@ export class FourLocoMapSettings implements MapSettings {
   };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.DEVELOPMENT;
-  readonly developmentAllowlist = [KAOSKODY];
+  readonly developmentAllowlist = [KAOSKODY, CHAD_DESHON];
 
   getOverrides() {
     return [
@@ -60,8 +66,10 @@ export class FourLocoMapSettings implements MapSettings {
       FourLocoMoveAction,
       FourLocoMovePassAction,
       FourLocoMoveValidator,
+      FourLocoLocoAction,
       FourLocoProfitHelper,
       FourLocoExpensesPhase,
+      FourLocoTakeSharesAction,
       FourLocoAllowedActions,
     ];
   }
