@@ -8,15 +8,15 @@ import { MoveAction, MoveData } from "../../engine/move/move";
 import { MovePhase } from "../../engine/move/phase";
 import { MovePassAction } from "../../engine/move/pass";
 import { MoveSearcher } from "../../engine/move/searcher";
-import { MoveValidator, RouteInfo } from "../../engine/move/validator";
-import { Coordinates } from "../../utils/coordinates";
+import { MoveValidator } from "../../engine/move/validator";
 import { PlayerColor, PlayerData } from "../../engine/state/player";
 import { assert } from "../../utils/validate";
 
 // ---------------------------------------------------------------------------
-// State: track which players have passed consecutively in this delivery phase.
-// When a player makes a delivery, the list resets — everyone must pass again.
-// The phase ends only when ALL players appear in this list.
+// State: track which players have passed in this delivery phase.
+// When a player makes a delivery, the list resets — everyone must pass again
+// (but note: once a player passes, they are done until the next reset).
+// The phase ends only when ALL players appear in this list consecutively.
 // ---------------------------------------------------------------------------
 
 const FourLocoPassState = z.object({
@@ -31,7 +31,7 @@ export const FOUR_LOCO_PASS_STATE = new Key("fourLocoPassState", {
 // ---------------------------------------------------------------------------
 // FourLocoMovePhase
 // Overrides the delivery phase to allow unlimited rounds until all players
-// pass consecutively.
+// pass (once you pass, you are done unless the state is reset by a delivery).
 // ---------------------------------------------------------------------------
 
 export class FourLocoMovePhase extends MovePhase {
@@ -65,27 +65,30 @@ export class FourLocoMovePhase extends MovePhase {
   }
 
   /**
-   * After each turn the engine asks for the next player. We keep cycling
-   * through the full turn order until every player has passed consecutively
-   * (i.e., no delivery was made since the last reset of passedPlayers).
+   * After each turn, find the next player who has NOT yet passed.
+   * If all players have passed, the phase ends.
+   * When a delivery is made, passedPlayers resets, so everyone is eligible
+   * again.
    */
   findNextPlayer(currPlayer: PlayerColor): PlayerColor | undefined {
-    const next = super.findNextPlayer(currPlayer);
-    if (next != null) {
-      return next;
-    }
-
-    // We've reached the end of one cycle through turn order.
     const playerOrder = this.getPlayerOrder();
     const passed = this.fourLocoPassState().passedPlayers;
 
-    // If every player in the order appears in passedPlayers, we're done.
+    // If every player has passed consecutively, end the phase.
     if (playerOrder.every((p) => passed.includes(p))) {
       return undefined;
     }
 
-    // Otherwise continue with another round starting from the first player.
-    return playerOrder[0];
+    // Find the next player in order after currPlayer who hasn't passed.
+    const currIndex = playerOrder.indexOf(currPlayer);
+    for (let i = 1; i <= playerOrder.length; i++) {
+      const candidate = playerOrder[(currIndex + i) % playerOrder.length];
+      if (!passed.includes(candidate)) {
+        return candidate;
+      }
+    }
+
+    return undefined;
   }
 
   /**
@@ -100,36 +103,25 @@ export class FourLocoMovePhase extends MovePhase {
     }
     return undefined;
   }
-
-  /** Called by FourLocoMovePassAction to record this player's pass. */
-  recordPass(player: PlayerColor): void {
-    this.fourLocoPassState.update((state) => {
-      if (!state.passedPlayers.includes(player)) {
-        state.passedPlayers.push(player);
-      }
-    });
-  }
-
-  /** Called by FourLocoMoveAction after a successful delivery — resets pass tracking. */
-  recordDelivery(): void {
-    this.fourLocoPassState.update((state) => {
-      state.passedPlayers = [];
-    });
-  }
 }
 
 // ---------------------------------------------------------------------------
 // FourLocoMovePassAction
-// Records the current player's pass in the phase state.
+// Records the current player's pass in the shared state.
 // ---------------------------------------------------------------------------
 
 export class FourLocoMovePassAction extends MovePassAction {
-  private readonly phase = inject(FourLocoMovePhase);
+  private readonly fourLocoPassState = injectState(FOUR_LOCO_PASS_STATE);
   private readonly currentPlayer = injectCurrentPlayer();
 
   process(_: EmptyAction): boolean {
     const result = super.process(_);
-    this.phase.recordPass(this.currentPlayer().color);
+    const color = this.currentPlayer().color;
+    this.fourLocoPassState.update((state) => {
+      if (!state.passedPlayers.includes(color)) {
+        state.passedPlayers.push(color);
+      }
+    });
     return result;
   }
 }
@@ -137,11 +129,11 @@ export class FourLocoMovePassAction extends MovePassAction {
 // ---------------------------------------------------------------------------
 // FourLocoMoveAction
 // - Always awards exactly 2 income to the delivering player.
-// - Resets pass tracking after each delivery.
+// - Resets pass tracking after each delivery so everyone can deliver again.
 // ---------------------------------------------------------------------------
 
 export class FourLocoMoveAction extends MoveAction {
-  private readonly phase = inject(FourLocoMovePhase);
+  private readonly fourLocoPassState = injectState(FOUR_LOCO_PASS_STATE);
   private readonly currentPlayerState = injectCurrentPlayer();
 
   calculateIncome(_action: MoveData): Map<PlayerColor, number> {
@@ -151,7 +143,10 @@ export class FourLocoMoveAction extends MoveAction {
 
   process(action: MoveData): boolean {
     const result = super.process(action);
-    this.phase.recordDelivery();
+    // Reset pass tracking: a delivery was made, so everyone is eligible again.
+    this.fourLocoPassState.update((state) => {
+      state.passedPlayers = [];
+    });
     return result;
   }
 }
@@ -159,7 +154,7 @@ export class FourLocoMoveAction extends MoveAction {
 // ---------------------------------------------------------------------------
 // FourLocoMoveValidator
 // - Requires exactly 4 links per delivery.
-// - Only allows using the current player's own track.
+// - Only allows using the current player's own track (checked via step.owner).
 // ---------------------------------------------------------------------------
 
 export class FourLocoMoveValidator extends MoveValidator {
@@ -169,7 +164,6 @@ export class FourLocoMoveValidator extends MoveValidator {
     // Run base validation first (locomotive check, duplicate stops, etc.)
     super.validatePartial(player, action);
     // Allow partial paths up to 4 links so MoveSearcher can find valid routes.
-    // Exact length of 4 is enforced in validateEnd for complete deliveries.
     assert(action.path.length <= 4, {
       invalidInput: "4 Loco requires exactly 4 links per delivery",
     });
@@ -179,26 +173,13 @@ export class FourLocoMoveValidator extends MoveValidator {
     assert(action.path.length === 4, {
       invalidInput: "4 Loco requires exactly 4 links per delivery",
     });
-    super.validateEnd(action);
-  }
-
-  /**
-   * Override to restrict route discovery to tracks where EVERY tile
-   * belongs to the current player.  The base implementation only stores the
-   * *first* tile's owner in RouteInfo.owner, so multi-tile routes that span
-   * different players' tiles would be incorrectly allowed by a simple owner
-   * filter on RouteInfo.  Using grid.getRoute() we inspect the full tile set.
-   */
-  findRoutesFromLocation(fromCoordinates: Coordinates): RouteInfo[] {
-    const allRoutes = super.findRoutesFromLocation(fromCoordinates);
+    // Every step must be owned by the current player.
     const currentPlayerColor = this.currentPlayer().color;
-    const grid = this.grid();
-    return allRoutes.filter((route) => {
-      if (route.type !== "track") return false;
-      // Every physical tile in this route segment must be owned by the current player.
-      return grid
-        .getRoute(route.startingTrack)
-        .every((tile) => tile.getOwner() === currentPlayerColor);
-    });
+    for (const step of action.path) {
+      assert(step.owner === currentPlayerColor, {
+        invalidInput: "4 Loco requires using only your own track",
+      });
+    }
+    super.validateEnd(action);
   }
 }
