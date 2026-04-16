@@ -10,6 +10,7 @@ import {
   TileType,
 } from "../../engine/state/tile";
 import { Coordinates } from "../../utils/coordinates";
+import { assert } from "../../utils/validate";
 
 export class PittsburghBuilderHelper extends BuilderHelper {
   protected minimumBuildCost(): number {
@@ -33,19 +34,19 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
     return super.costOf(coordinates, newTileType, orientation);
   }
 
-  protected getRedirectCost(previousTileType: TileType, newTileType: TileType): number {
-    // Pittsburgh rules on the cost of redirecting is very particular based on the prior tile type and the new one
-    // In particular, redirecting a simple tile to another simple is still always just $4. *shrug*
-    if ((previousTileType === ComplexTileType.CURVE_TIGHT_1
-        || previousTileType === ComplexTileType.CURVE_TIGHT_2
-        || previousTileType === ComplexTileType.CROSSING_CURVES) && newTileType === ComplexTileType.BOW_AND_ARROW) {
+  protected getRedirectCost(
+    previousTileType: TileType,
+    newTileType: TileType,
+  ): number {
+    assert(!isTownTile(previousTileType));
+    assert(!isTownTile(newTileType));
+    // https://boardgamegeek.com/thread/250037/article/1900582#1900582
+    if (
+      this.getTileCost(previousTileType) !== 10 &&
+      this.getTileCost(newTileType) === 10
+    ) {
       return 10;
     }
-    if ((previousTileType === ComplexTileType.CURVE_TIGHT_1
-        || previousTileType === ComplexTileType.CURVE_TIGHT_2) && newTileType === ComplexTileType.STRAIGHT_TIGHT) {
-      return 10;
-    }
-
     return 4;
   }
 
