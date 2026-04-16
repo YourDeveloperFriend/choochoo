@@ -20,6 +20,6 @@ export class FourLocoAllowedActions extends AllowedActions {
  */
 export class FourLocoLocoAction extends LocoAction {
   validate(): void {
-    fail({ invalidArgument: "Locomotive action is not available on this map" });
+    fail({ invalidInput: "Locomotive action is not available on this map" });
   }
 }
