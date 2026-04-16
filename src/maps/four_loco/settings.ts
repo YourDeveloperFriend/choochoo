@@ -42,7 +42,7 @@ export class FourLocoMapSettings implements MapSettings {
   readonly key = GameKey.FOUR_LOCO;
   readonly name = "4 Loco";
   readonly designer = "Chad DeShon";
-  readonly implementerId = KAOSKODY;
+  readonly implementerId = CHAD_DESHON;
   readonly minPlayers = 2;
   readonly maxPlayers = 6;
   readonly playerCountRatings = {
