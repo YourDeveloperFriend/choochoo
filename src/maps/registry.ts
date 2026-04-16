@@ -47,6 +47,7 @@ import { DoubleBaseUsaMapSettings } from "./double_base_usa/settings";
 import { ChicagoLMapSettings } from "./chicago-l/settings";
 import { MinasGeraesMapSettings } from "./minas-geraes/settings";
 import { JapanMapSettings } from "./japan/settings";
+import { FourLocoMapSettings } from "./four_loco/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();
@@ -99,6 +100,7 @@ export class MapRegistry {
     this.add(new ChicagoLMapSettings());
     this.add(new MinasGeraesMapSettings());
     this.add(new JapanMapSettings());
+    this.add(new FourLocoMapSettings());
   }
 
   values(): Iterable<MapSettings> {
