@@ -44,6 +44,7 @@ export const GRIMIKU = 99;
 export const EMIL = 375;
 export const CORTEXBOMB = 387;
 export const ZEZZO = 164;
+export const CHAD_DESHON = 102;
 
 export enum PlayerCountRating {
   NO_DATA = "?",
