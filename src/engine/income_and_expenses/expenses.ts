@@ -10,10 +10,10 @@ import { ProfitHelper } from "./helper";
 export class ExpensesPhase extends PhaseModule {
   static readonly phase = Phase.EXPENSES;
 
-  private readonly profitHelper = inject(ProfitHelper);
-  private readonly log = inject(Log);
-  private readonly moneyManager = inject(MoneyManager);
-  private readonly players = injectPlayersByTurnOrder();
+  protected readonly profitHelper = inject(ProfitHelper);
+  protected readonly log = inject(Log);
+  protected readonly moneyManager = inject(MoneyManager);
+  protected readonly players = injectPlayersByTurnOrder();
 
   onStart(): void {
     for (const player of this.players()) {
