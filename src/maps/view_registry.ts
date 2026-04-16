@@ -47,6 +47,7 @@ import { DoubleBaseUsaViewSettings } from "./double_base_usa/view_settings";
 import { ChicagoLViewSettings } from "./chicago-l/view_settings";
 import { MinasGeraesViewSettings } from "./minas-geraes/view_settings";
 import { JapanViewSettings } from "./japan/view_settings";
+import { FourLocoViewSettings } from "./four_loco/view_settings";
 
 export class ViewRegistry {
   static readonly singleton = new ViewRegistry();
@@ -99,6 +100,7 @@ export class ViewRegistry {
     this.add(new ChicagoLViewSettings());
     this.add(new MinasGeraesViewSettings());
     this.add(new JapanViewSettings());
+    this.add(new FourLocoViewSettings());
   }
 
   values(): Iterable<MapViewSettings> {
