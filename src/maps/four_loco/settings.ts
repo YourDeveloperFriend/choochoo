@@ -1,0 +1,82 @@
+import { GameKey } from "../../api/game_key";
+import {
+  KAOSKODY,
+  MapSettings,
+  PlayerCountRating,
+  ReleaseStage,
+} from "../../engine/game/map_settings";
+import { Module } from "../../engine/module/module";
+import { TurnLengthModule } from "../../modules/turn_length";
+import { map } from "./grid";
+import { FourLocoAllowedActions } from "./actions";
+import {
+  FourLocoMoveAction,
+  FourLocoMovePassAction,
+  FourLocoMovePhase,
+  FourLocoMoveValidator,
+} from "./deliver";
+import { FourLocoExpensesPhase, FourLocoProfitHelper } from "./expenses";
+import { FourLocoStarter } from "./starter";
+
+/**
+ * 4 Loco Map Settings
+ *
+ * Custom rules:
+ * - All players start at engine level 4 (no Locomotive action)
+ * - Exactly 4 links required per delivery
+ * - Players may only use their own track for deliveries
+ * - Delivery phase is unlimited rounds until all players pass consecutively
+ * - Each delivery always awards exactly 2 income (regardless of path ownership)
+ * - Engine level does NOT count toward expenses
+ * - Normal share phase: $5 per share (base game behavior)
+ * - Forced shares during expense phase: $3 per share (instead of income loss)
+ * - Turn count: 2p→10, 3p→8, 4p→7, 5p→6, 6p→5
+ */
+export class FourLocoMapSettings implements MapSettings {
+  readonly key = GameKey.FOUR_LOCO;
+  readonly name = "4 Loco";
+  readonly designer = "Chad DeShon";
+  readonly implementerId = KAOSKODY;
+  readonly minPlayers = 2;
+  readonly maxPlayers = 6;
+  readonly playerCountRatings = {
+    1: PlayerCountRating.NOT_SUPPORTED,
+    2: PlayerCountRating.NOT_RECOMMENDED,
+    3: PlayerCountRating.RECOMMENDED,
+    4: PlayerCountRating.HIGHLY_RECOMMENDED,
+    5: PlayerCountRating.RECOMMENDED,
+    6: PlayerCountRating.NOT_RECOMMENDED,
+    7: PlayerCountRating.NOT_SUPPORTED,
+    8: PlayerCountRating.NOT_SUPPORTED,
+  };
+  readonly startingGrid = map;
+  readonly stage = ReleaseStage.DEVELOPMENT;
+  readonly developmentAllowlist = [KAOSKODY];
+
+  getOverrides() {
+    return [
+      FourLocoStarter,
+      FourLocoMovePhase,
+      FourLocoMoveAction,
+      FourLocoMovePassAction,
+      FourLocoMoveValidator,
+      FourLocoProfitHelper,
+      FourLocoExpensesPhase,
+      FourLocoAllowedActions,
+    ];
+  }
+
+  getModules(): Array<Module> {
+    return [
+      new TurnLengthModule({
+        function: (playerCount: number) => {
+          if (playerCount === 2) return 10;
+          if (playerCount === 3) return 8;
+          if (playerCount === 4) return 7;
+          if (playerCount === 5) return 6;
+          return 5; // 6+ players
+        },
+      }),
+    ];
+  }
+}
