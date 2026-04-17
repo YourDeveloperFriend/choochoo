@@ -54,7 +54,7 @@ export function LocoTrack() {
                 <EmptyCell />
                 <EmptyCell />
                 <EmptyCell />
-                <EmptyCell />
+                <LocoCell row={4} loco={6} players={getPlayers(4, 6)} />
                 <LocoCell row={4} loco={7} players={getPlayers(4, 7)} />
                 <TableCell style={{ borderBottom: "none", borderTop: "none" }}>
                   <span style={{ fontWeight: "bold" }}>(2)</span>

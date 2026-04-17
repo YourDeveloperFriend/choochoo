@@ -29,11 +29,11 @@ export class ChicagoLSelectAction extends SelectAction {
     this.govtEngineLevel.update((engineLevel) => {
       engineLevel.set(currentPlayer.color, currentGvtLoco + 1);
     });
-    // Moving from 3 to 4 also increases the loco value from 6 to 7
+    // Moving from 3 to 4 also increases the loco value by 1
     if (currentGvtLoco === 3) {
-      assert(currentPlayer.locomotive === 6);
+      assert(currentPlayer.locomotive === 5 || currentPlayer.locomotive === 6);
       this.helper.updateCurrentPlayer((player) => {
-        player.locomotive = 7;
+        player.locomotive += 1;
       });
     }
   }
@@ -47,8 +47,8 @@ export class ChicagoLSelectAction extends SelectAction {
       case 3:
         return 2;
       case 4:
-      case 5:
         return 3;
+      case 5:
       case 6:
       case 7:
         return 4;
