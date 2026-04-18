@@ -60,6 +60,10 @@ export class GameDao extends Model<
   @NotNull
   declare playerIds: number[];
 
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare ownerId: number;
+
   @Attribute(DataTypes.BOOLEAN)
   @NotNull
   declare unlisted: boolean;
@@ -173,6 +177,7 @@ function toLiteApi(game: GameApi | InferAttributes<GameDao>): GameLiteApi {
     status: game.status,
     turnDuration: game.turnDuration,
     playerIds: [...game.playerIds],
+    ownerId: game.ownerId,
     activePlayerId: game.activePlayerId ?? undefined,
     config: game.config,
     summary: toSummary(game),

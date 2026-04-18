@@ -119,6 +119,7 @@ async function initializeGame(
     concedingPlayers: [],
     activePlayerId: currentPlayer.id,
     playerIds: players.map((u) => u.id),
+    ownerId: players[0].id,
     variant: variantConfig,
     config: {
       minPlayers: players.length,

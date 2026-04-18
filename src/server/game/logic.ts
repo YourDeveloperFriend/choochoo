@@ -29,7 +29,7 @@ export async function startGame(
   assert(game.status === GameStatus.enum.LOBBY, {
     invalidInput: "cannot start a game that has already been started",
   });
-  assert(enforceOwner == null || game.playerIds[0] === enforceOwner, {
+  assert(enforceOwner == null || game.ownerId === enforceOwner, {
     invalidInput: "only the owner can start the game",
   });
   assert(

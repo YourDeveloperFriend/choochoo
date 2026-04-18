@@ -145,6 +145,7 @@ export const GameLiteApi = z.object({
   gameKey: GameKeyZod,
   name: z.string(),
   playerIds: z.array(z.number()),
+  ownerId: z.number(),
   status: GameStatus,
   activePlayerId: z.number().optional(),
   config: MapConfig,

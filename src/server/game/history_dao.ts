@@ -111,6 +111,7 @@ export class GameHistoryDao extends Model<
       gameKey: game.gameKey,
       name: game.name,
       playerIds: game.playerIds,
+      ownerId: game.ownerId,
       status: GameStatus.enum.ACTIVE,
       activePlayerId: this.userId ?? undefined,
       config: game.config,

@@ -8,6 +8,7 @@
   "status": "ACTIVE",
   "turnDuration": 1000,
   "playerIds": [6, 5, 4, 3, 2, 1],
+  "ownerId": 6,
   "activePlayerId": 3,
   "config": {
     "maxPlayers": 6,

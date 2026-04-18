@@ -359,9 +359,9 @@ export function useDeleteGame(game: GameLiteApi) {
   }, [confirm, game.id]);
 
   const canBeDeleted =
-    game.status === GameStatus.enum.LOBBY || game.playerIds.length === 1;
+    game.status === GameStatus.enum.LOBBY || (game.playerIds.length === 1 && game.playerIds[0] === me?.id);
 
-  const canPerform = isAdmin || (canBeDeleted && game.playerIds[0] === me?.id);
+  const canPerform = isAdmin || (canBeDeleted && game.ownerId === me?.id);
 
   return { canPerform, perform, isPending };
 }
@@ -407,7 +407,7 @@ export function useLeaveGame(game: GameLiteApi): GameAction {
     me != null &&
     game.status == GameStatus.enum.LOBBY &&
     game.playerIds.includes(me.id) &&
-    game.playerIds[0] !== me.id;
+    game.ownerId !== me.id;
 
   return { canPerform, perform, isPending };
 }
@@ -453,7 +453,7 @@ export function useStartGame(game: GameLiteApi) {
   const canPerform =
     me != null &&
     game.status == GameStatus.enum.LOBBY &&
-    game.playerIds[0] === me.id &&
+    game.ownerId === me.id &&
     game.playerIds.length >= game.config.minPlayers;
 
   return { canPerform, perform, isPending };
