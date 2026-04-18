@@ -406,8 +406,7 @@ export function useLeaveGame(game: GameLiteApi): GameAction {
   const canPerform =
     me != null &&
     game.status == GameStatus.enum.LOBBY &&
-    game.playerIds.includes(me.id) &&
-    game.ownerId !== me.id;
+    game.playerIds.includes(me.id);
 
   return { canPerform, perform, isPending };
 }

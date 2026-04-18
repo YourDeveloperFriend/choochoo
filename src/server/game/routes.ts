@@ -245,8 +245,6 @@ const router = initServer().router(gameContract, {
     assert(game.status === GameStatus.enum.LOBBY, "cannot leave started game");
     const index = game.playerIds.indexOf(userId);
     assert(index >= 0, { invalidInput: "cannot leave game you are not in" });
-    // Figure out what to do if the owner wants to leave
-    assert(index > 0, { invalidInput: "the owner cannot leave the game" });
 
     game.playerIds = game.playerIds
       .slice(0, index)
