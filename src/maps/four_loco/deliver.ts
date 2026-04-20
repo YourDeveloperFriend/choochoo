@@ -22,7 +22,7 @@ const FourLocoPassState = z.object({
 });
 type FourLocoPassState = z.infer<typeof FourLocoPassState>;
 
-export const FOUR_LOCO_PASS_STATE = new Key("fourLocoPassState", {
+const FOUR_LOCO_PASS_STATE = new Key("fourLocoPassState", {
   parse: FourLocoPassState.parse,
 });
 

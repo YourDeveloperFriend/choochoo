@@ -48,44 +48,71 @@ export function GoodBlock({
 
   const x =
     center.x -
-    (goodSpacing * (rowSize - 1) + goodSize) / 2 +
+    (goodSpacing * (rowSize - 1)) / 2 +
     xOffset * goodSpacing;
-  const y = center.y + yOffset * goodSize * 1.5 - size * 0.75;
+  const y = center.y + yOffset * goodSize * 1.5 - size * 0.75 + goodSize/2;
+
+  return <FloatingGoodBlock good={good} center={{x: x, y: y}} size={size} coordinates={coordinates} highlighted={highlighted} clickable={clickable} rotation={rotation} />
+}
+
+interface FloatingGoodBlockProps {
+  good: Good;
+  center: Point;
+  size: number;
+  coordinates?: Coordinates;
+  highlighted?: boolean;
+  clickable?: boolean;
+  rotation?: Rotation;
+}
+
+export function FloatingGoodBlock({
+                            center,
+                            size,
+                            good,
+                            coordinates,
+                            highlighted,
+                            clickable,
+                            rotation,
+                          }: FloatingGoodBlockProps) {
+  const goodSize = size / 3;
+  const x = center.x - goodSize/2;
+  const y = center.y - goodSize/2;
+
   const stroke = highlighted
-    ? good === Good.YELLOW
-      ? "lightgreen"
-      : "yellow"
-    : good === Good.BLACK
-      ? "grey"
-      : "black";
+      ? good === Good.YELLOW
+          ? "lightgreen"
+          : "yellow"
+      : good === Good.BLACK
+          ? "grey"
+          : "black";
   const strokeWidth = highlighted ? 2 : 1;
   return (
-    <Rotate rotation={rotation} center={center} reverse={true}>
-      <polygon
-        points={`${x},${y} ${x + goodSize},${y} ${x + goodSize * 1.3},${y + goodSize * 0.3} ${x + goodSize * 1.3},${y + goodSize * 1.3} ${x + goodSize * 0.3},${y + goodSize * 1.3} ${x},${y + goodSize}`}
-        className={`${styles.goodBackground} ${goodStyle(good)}`}
-        strokeWidth={strokeWidth}
-        stroke={stroke}
-      />
-      <line
-        x1={x + goodSize}
-        y1={y + goodSize}
-        x2={x + goodSize * 1.3}
-        y2={y + goodSize * 1.3}
-        strokeWidth={strokeWidth}
-        stroke={stroke}
-      />
-      <rect
-        className={`${clickable ? hexGridStyles.clickable : ""} ${styles.good} ${goodStyle(good)}`}
-        data-coordinates={coordinates.serialize()}
-        data-good={good}
-        width={goodSize}
-        height={goodSize}
-        x={x}
-        y={y}
-        strokeWidth={strokeWidth}
-        stroke={stroke}
-      />
-    </Rotate>
+      <Rotate rotation={rotation} center={center} reverse={true}>
+        <polygon
+            points={`${x},${y} ${x + goodSize},${y} ${x + goodSize * 1.3},${y + goodSize * 0.3} ${x + goodSize * 1.3},${y + goodSize * 1.3} ${x + goodSize * 0.3},${y + goodSize * 1.3} ${x},${y + goodSize}`}
+            className={`${styles.goodBackground} ${goodStyle(good)}`}
+            strokeWidth={strokeWidth}
+            stroke={stroke}
+        />
+        <line
+            x1={x + goodSize}
+            y1={y + goodSize}
+            x2={x + goodSize * 1.3}
+            y2={y + goodSize * 1.3}
+            strokeWidth={strokeWidth}
+            stroke={stroke}
+        />
+        <rect
+            className={`${clickable ? hexGridStyles.clickable : ""} ${styles.good} ${goodStyle(good)}`}
+            data-coordinates={coordinates?.serialize()}
+            data-good={good}
+            width={goodSize}
+            height={goodSize}
+            x={x}
+            y={y}
+            strokeWidth={strokeWidth}
+            stroke={stroke}
+        />
+      </Rotate>
   );
 }
