@@ -41,7 +41,6 @@ export function NorthernCaliforniaTexturesLayer(props: TexturesProps) {
         good={shipQueue[i]}
         center={{ x: x, y: y }}
         size={props.size}
-        rotation={props.rotation}
       />,
     );
   }

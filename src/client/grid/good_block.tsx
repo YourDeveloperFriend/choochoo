@@ -52,7 +52,9 @@ export function GoodBlock({
     xOffset * goodSpacing;
   const y = center.y + yOffset * goodSize * 1.5 - size * 0.75 + goodSize/2;
 
-  return <FloatingGoodBlock good={good} center={{x: x, y: y}} size={size} coordinates={coordinates} highlighted={highlighted} clickable={clickable} rotation={rotation} />
+  return <Rotate rotation={rotation} center={center} reverse={true}>
+    <FloatingGoodBlock good={good} center={{x: x, y: y}} size={size} coordinates={coordinates} highlighted={highlighted} clickable={clickable} />
+  </Rotate>
 }
 
 interface FloatingGoodBlockProps {
@@ -62,7 +64,6 @@ interface FloatingGoodBlockProps {
   coordinates?: Coordinates;
   highlighted?: boolean;
   clickable?: boolean;
-  rotation?: Rotation;
 }
 
 export function FloatingGoodBlock({
@@ -72,7 +73,6 @@ export function FloatingGoodBlock({
                             coordinates,
                             highlighted,
                             clickable,
-                            rotation,
                           }: FloatingGoodBlockProps) {
   const goodSize = size / 3;
   const x = center.x - goodSize/2;
@@ -86,8 +86,7 @@ export function FloatingGoodBlock({
           ? "grey"
           : "black";
   const strokeWidth = highlighted ? 2 : 1;
-  return (
-      <Rotate rotation={rotation} center={center} reverse={true}>
+  return <>
         <polygon
             points={`${x},${y} ${x + goodSize},${y} ${x + goodSize * 1.3},${y + goodSize * 0.3} ${x + goodSize * 1.3},${y + goodSize * 1.3} ${x + goodSize * 0.3},${y + goodSize * 1.3} ${x},${y + goodSize}`}
             className={`${styles.goodBackground} ${goodStyle(good)}`}
@@ -113,6 +112,5 @@ export function FloatingGoodBlock({
             strokeWidth={strokeWidth}
             stroke={stroke}
         />
-      </Rotate>
-  );
+      </>
 }
