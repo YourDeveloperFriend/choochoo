@@ -101,24 +101,62 @@ export class Driver {
     tileType: TileType,
     orientation: Direction,
   ) {
-    await this.findElementByDataAttributes({
+    // Ensure the main map SVG is loaded before attempting to interact
+    await this.waitForElement(
+      By.xpath("//*[name()='svg'][@data-hex-grid='main-map']"),
+    );
+
+    const mapHex = await this.findElementByDataAttributes({
       parent: By.xpath("//*[name()='svg'][@data-hex-grid='main-map']"),
       name: "polygon",
       dataAttributes: {
         coordinates: coordinates.serialize(),
       },
-    }).click();
+    });
 
-    await this.findElementByDataAttributes({
+    await this.driver.executeScript(
+      "arguments[0].scrollIntoView({ block: 'center', inline: 'center' });",
+      mapHex,
+    );
+
+    // Dispatch click event with pointer events for better React integration
+    await this.driver.executeScript(
+      `
+        const element = arguments[0];
+        element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+        element.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true }));
+        element.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true }));
+      `,
+      mapHex,
+    );
+
+    // Give React time to process the events and render the building options
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    await this.waitForElement(By.xpath("//*[@data-building-options]"), {
+      timeout: 3000,
+    });
+
+    const tileOption = await this.findElementByDataAttributes({
       parent: By.xpath("//*[@data-building-options]"),
       name: "div",
       dataAttributes: {
         "tile-type": tileType,
         orientation: orientation,
       },
-    })
-      .findElement(By.css("polygon"))
-      .click();
+    });
+    const tilePolygon = await tileOption.findElement(By.css("polygon"));
+
+    // Dispatch click events for tile selection
+    await this.driver.executeScript(
+      `
+        const element = arguments[0];
+        element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+        element.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true }));
+        element.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true }));
+      `,
+      tilePolygon,
+    );
 
     await this.waitForSuccess();
   }

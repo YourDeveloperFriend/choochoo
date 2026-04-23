@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
-import { GameStatus } from "../../api/game";
+import { GameApi, GameStatus } from "../../api/game";
 import { UserRole } from "../../api/user";
 import { VariantConfig } from "../../api/variant_config";
 import { SerializedGameData } from "../../engine/framework/state";
@@ -72,6 +72,81 @@ function serialize({ q, r }: CoordinatesData): string {
   return `${q}|${r}`;
 }
 
+/**
+ * Normalizes player IDs in game data to canonical values (1, 2, 3, etc.)
+ * to make snapshots portable across different database states.
+ * Maps actual IDs to their ordinal position in the playerIds array.
+ */
+function normalizePlayerIds(
+  gameData: GameApi & { gameData?: SerializedGameData },
+): void {
+  const actualPlayerIds = gameData.playerIds || [];
+
+  // Build mapping from actual IDs to canonical IDs (1, 2, 3, ...)
+  const idMap = new Map<number, number>();
+  actualPlayerIds.forEach((id: number, index: number) => {
+    idMap.set(id, index + 1);
+  });
+
+  // Normalize the playerIds array itself
+  gameData.playerIds = Array.from(
+    { length: actualPlayerIds.length },
+    (_, i) => i + 1,
+  );
+
+  // Normalize activePlayerId
+  if (
+    gameData.activePlayerId !== undefined &&
+    idMap.has(gameData.activePlayerId)
+  ) {
+    gameData.activePlayerId = idMap.get(gameData.activePlayerId)!;
+  }
+
+  // Normalize undoPlayerId
+  if (
+    gameData.undoPlayerId !== undefined &&
+    idMap.has(gameData.undoPlayerId)
+  ) {
+    gameData.undoPlayerId = idMap.get(gameData.undoPlayerId)!;
+  }
+
+  // Normalize game data internal references
+  const gd = gameData.gameData?.gameData;
+  if (gd) {
+    // Normalize players array - map each player's playerId and all references to player metadata
+    if (gd.players && Array.isArray(gd.players)) {
+      gd.players.forEach((player: MutablePlayerData) => {
+        if (player.playerId !== undefined && idMap.has(player.playerId)) {
+          player.playerId = idMap.get(player.playerId)!;
+        }
+      });
+    }
+
+    // Note: turnOrder contains PlayerColor enum values (e.g., [2, 9, 1]), not player IDs.
+    // Colors are fixed per player and don't change with ID normalization, so no action needed here.
+
+    // Normalize any other ID references that might exist in the game state
+    // (This is recursive to handle nested structures)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const normalizeNestedIds = (obj: any): void => {
+      if (obj === null || typeof obj !== "object") return;
+
+      for (const key in obj) {
+        if (
+          key === "playerId" &&
+          typeof obj[key] === "number" &&
+          idMap.has(obj[key])
+        ) {
+          obj[key] = idMap.get(obj[key])!;
+        } else if (typeof obj[key] === "object") {
+          normalizeNestedIds(obj[key]);
+        }
+      }
+    };
+    normalizeNestedIds(gd);
+  }
+}
+
 export async function compareGameData(game: GameDao, gameDataFile: string) {
   await game.reload();
   const actualGameDataValue = removeKeys(
@@ -91,14 +166,21 @@ export async function compareGameData(game: GameDao, gameDataFile: string) {
   // Remove undefined values
   const actualGameData = JSON.parse(JSON.stringify(actualGameDataValue));
 
+  // Normalize player IDs to canonical values for portable comparison
+  normalizePlayerIds(actualGameData);
+
   if (process.env.WRITE === "true") {
     await writeFile(
       resolve(__dirname, `../goldens/${gameDataFile}.json`),
-      JSON.stringify(actualGameData, null, 2),
+      JSON.stringify(actualGameData, null, 2) + "\n",
       "utf-8",
     );
   } else {
-    const expectedGameData = await parseFile(gameDataFile);
+    const expectedGameData = (await parseFile(gameDataFile)) as GameApi & {
+      gameData?: SerializedGameData;
+    };
+    // Also normalize expected data to handle any legacy golden files
+    normalizePlayerIds(expectedGameData);
     expect(actualGameData).toEqual(expectedGameData);
   }
 }
@@ -130,7 +212,10 @@ async function initializeGame(
 }
 
 export async function initializeUsers(): Promise<UserDao[]> {
-  const currentUsers = await UserDao.findAll({ limit: 6 });
+  const currentUsers = await UserDao.findAll({
+    limit: 6,
+    order: [["id", "ASC"]],
+  });
   if (currentUsers.length < 6) {
     const newUsers = await fakeUsers(
       new Set(currentUsers.map((u) => u.username)),
