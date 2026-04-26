@@ -5,7 +5,6 @@ import { ProductionAction } from "../../engine/goods_growth/production";
 import { SelectAction } from "../../engine/select_action/select";
 import { ViewRegistry } from "../../maps/view_registry";
 import { AutoActionForm } from "../auto_action/form";
-import { useAwaitingPlayer } from "../components/awaiting_player";
 import { Username } from "../components/username";
 import { GameMap } from "../grid/game_map";
 import { DeleteButton } from "../home/game_card";
@@ -51,8 +50,6 @@ function InternalActiveGame() {
   const game = useGame();
   const [searchParams] = useSearchParams();
   const undoOnly = searchParams.get("undoOnly") != null;
-
-  useAwaitingPlayer(game.activePlayerId);
 
   return (
     <div>

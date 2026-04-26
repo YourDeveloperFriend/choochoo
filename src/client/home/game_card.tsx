@@ -17,7 +17,6 @@ import {
 } from "../../api/game";
 import { ViewRegistry } from "../../maps/view_registry";
 import { assertNever } from "../../utils/validate";
-import { useAwaitingPlayer } from "../components/awaiting_player";
 import { Username, UsernameList } from "../components/username";
 import {
   useDeleteGame,
@@ -35,8 +34,6 @@ interface GameCardProps {
 
 export function GameCard({ game, hideStatus }: GameCardProps) {
   const me = useMe();
-
-  useAwaitingPlayer(game.activePlayerId);
 
   const variantString = ViewRegistry.singleton
     .get(game.gameKey)
