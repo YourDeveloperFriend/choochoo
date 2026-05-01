@@ -25,14 +25,14 @@ export class MoonMapSettings implements MapSettings {
   readonly designer = "Alban Viard";
   readonly implementerId = KAOSKODY;
   readonly minPlayers = 3;
-  readonly maxPlayers = 4;
+  readonly maxPlayers = 6;
   readonly playerCountRatings = {
     1: PlayerCountRating.NOT_SUPPORTED,
     2: PlayerCountRating.NOT_SUPPORTED,
     3: PlayerCountRating.RECOMMENDED,
     4: PlayerCountRating.RECOMMENDED,
-    5: PlayerCountRating.NOT_SUPPORTED,
-    6: PlayerCountRating.NOT_SUPPORTED,
+    5: PlayerCountRating.NOT_RECOMMENDED,
+    6: PlayerCountRating.NOT_RECOMMENDED,
     7: PlayerCountRating.NOT_SUPPORTED,
     8: PlayerCountRating.NOT_SUPPORTED,
   };
