@@ -58,12 +58,20 @@ export class MinasGeraesStarter extends GameStarter {
   protected getGoodsGrowthGoodsFor(
     bag: Good[],
     cityColor: Good | Good[],
-    _urbanized: boolean,
+    urbanized: boolean,
   ): Array<undefined | Good> {
+    let drawn: Good[];
     if (cityColor === Good.BLACK || (cityColor instanceof Array && cityColor.indexOf(Good.BLACK) !== -1)) {
-      return draw(2, bag);
+      drawn = draw(2, bag);
+    } else {
+      drawn = drawMatching(bag, 2, (good) => good !== Good.YELLOW);
     }
-    return drawMatching(bag, 2, (good) => good !== Good.YELLOW);
+    if (urbanized) {
+      return drawn;
+    } else {
+      // Put the 2 goods growth cubes at the top of the goods growth chart, not at the bottom
+      return [undefined, ...drawn];
+    }
   }
 }
 

@@ -112,7 +112,7 @@ export const map = grid([
   ],
   [
     MOUNTAIN,
-    PLAIN,
+    miningTown(""),
     MOUNTAIN,
     PLAIN,
     town(""),
@@ -121,6 +121,7 @@ export const map = grid([
     PLAIN,
     PLAIN,
     RIVER,
+    PLAIN,
     PLAIN,
     PLAIN,
   ],
