@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -13,7 +12,7 @@ import { JapanBuildCostCalculator, JapanBuildValidator } from "./build";
 import { JapanActionNamingProvider } from "./actions";
 
 export class JapanMapSettings implements MapSettings {
-  readonly key = GameKey.JAPAN;
+  readonly key = "japan";
   readonly name = "Japan";
   readonly designer = "Richard Irving";
   readonly implementerId = JACK;
@@ -46,3 +45,4 @@ export class JapanMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new JapanMapSettings();

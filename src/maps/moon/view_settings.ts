@@ -14,3 +14,4 @@ export class MoonViewSettings
 
   moveInterceptModal = MoonMoveInterceptorModal;
 }
+export const viewSettings = new MoonViewSettings();

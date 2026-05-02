@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -22,7 +21,7 @@ import {
 } from "./build";
 
 export class BelgiumMapSettings implements MapSettings {
-  readonly key = GameKey.BELGIUM;
+  readonly key = "belgium";
   readonly name = "Belgium";
   readonly designer = "John Bohrer";
   readonly implementerId = JACK;
@@ -61,3 +60,4 @@ export class BelgiumMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new BelgiumMapSettings();

@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -31,7 +30,7 @@ import {
 } from "./phase";
 
 export class MinasGeraesMapSettings implements MapSettings {
-  readonly key = GameKey.MINAS_GERAES;
+  readonly key = "minas-geraes";
   readonly name = "Minas Geraes";
   readonly designer = "Jose Silva";
   readonly implementerId = JACK;
@@ -65,3 +64,4 @@ export class MinasGeraesMapSettings implements MapSettings {
     return [new TurnLengthModule({ add: -1 })];
   }
 }
+export const mapSettings = new MinasGeraesMapSettings();

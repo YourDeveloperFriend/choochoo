@@ -14,3 +14,4 @@ export class DCMetroViewSettings
   moveInterceptModal = DCMetroMoveInterceptorModal;
   getTexturesLayer = DCMetroRivers;
 }
+export const viewSettings = new DCMetroViewSettings();

@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -16,7 +15,7 @@ import { SicilyRoundEngine } from "./game_end";
 import { map } from "./grid";
 
 export class SicilyMapSettings implements MapSettings {
-  readonly key = GameKey.SICILY;
+  readonly key = "sicily";
   readonly name = "Sicily";
   readonly designer = "John Bohrer";
   readonly implementerId = KAOSKODY;
@@ -46,3 +45,4 @@ export class SicilyMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new SicilyMapSettings();

@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -11,7 +10,7 @@ import { CaliforniaGoldRushMovePhase } from "./mine_action";
 import { CaliforniaGoldRushPlayerHelper } from "./score";
 
 export class CaliforniaGoldRushMapSettings implements MapSettings {
-  readonly key = GameKey.CALIFORNIA_GOLD_RUSH;
+  readonly key = "california-gold-rush";
   readonly name = "California Gold Rush";
   readonly designer = "Ted Alspach";
   readonly implementerId = JACK;
@@ -38,3 +37,4 @@ export class CaliforniaGoldRushMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new CaliforniaGoldRushMapSettings();

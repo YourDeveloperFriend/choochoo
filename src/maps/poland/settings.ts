@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   EMIL,
   MapSettings,
@@ -13,7 +12,7 @@ import { PolandGoodsGrowthPhase } from "./goods_growth";
 import { map } from "./grid";
 
 export class PolandMapSettings implements MapSettings {
-  readonly key = GameKey.POLAND;
+  readonly key = "poland";
   readonly name = "Poland";
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
@@ -41,3 +40,4 @@ export class PolandMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new PolandMapSettings();

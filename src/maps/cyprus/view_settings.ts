@@ -1,8 +1,7 @@
-import { GameKey } from "../../api/game_key";
 import { CyprusVariantConfig, VariantConfig } from "../../api/variant_config";
 import { MapViewSettings } from "../view_settings";
 import { CyprusRules } from "./rules";
-import { CyprusMapSettings } from "./settings";
+import { CYPRUS_GAME_KEY, CyprusMapSettings } from "./settings";
 import { CyprusVariantEditor } from "./variant_editor";
 
 export class CyprusViewSettings
@@ -12,7 +11,7 @@ export class CyprusViewSettings
   getMapRules = CyprusRules;
 
   getInitialVariantConfig(): VariantConfig {
-    return { gameKey: GameKey.CYPRUS, variant2020: true };
+    return { gameKey: CYPRUS_GAME_KEY, variant2020: true };
   }
   getVariantConfigEditor = CyprusVariantEditor;
 
@@ -20,3 +19,4 @@ export class CyprusViewSettings
     return [(variant as CyprusVariantConfig).variant2020 ? "2020" : "2012"];
   }
 }
+export const viewSettings = new CyprusViewSettings();

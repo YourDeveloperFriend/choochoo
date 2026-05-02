@@ -8,8 +8,10 @@ import {
 import { ReversteamMoveHelper } from "./accepts";
 import { map } from "./grid";
 
+export const REVERSTEAM_GAME_KEY: GameKey = "reversteam";
+
 export class ReversteamMapSettings implements MapSettings {
-  readonly key = GameKey.REVERSTEAM;
+  readonly key = REVERSTEAM_GAME_KEY;
   readonly name = "Reversteam";
   readonly designer = "Ted Alspach";
   readonly implementerId = KAOSKODY;
@@ -33,3 +35,5 @@ export class ReversteamMapSettings implements MapSettings {
     return [ReversteamMoveHelper];
   }
 }
+
+export const mapSettings = new ReversteamMapSettings();

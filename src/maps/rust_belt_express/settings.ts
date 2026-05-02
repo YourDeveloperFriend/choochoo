@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -27,7 +26,7 @@ import { interCityConnections } from "../factory";
 import { RustBeltExpressActionNamingProvider } from "./actions";
 
 export class RustBeltExpressMapSettings implements MapSettings {
-  readonly key = GameKey.RUST_BELT_EXPRESS;
+  readonly key = "rust-belt-express";
   readonly name = "Rust Belt Express";
   readonly designer = "Kevin McCurdy";
   readonly implementerId = JACK;
@@ -84,3 +83,4 @@ export class RustBeltExpressMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new RustBeltExpressMapSettings();

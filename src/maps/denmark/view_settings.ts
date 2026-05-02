@@ -18,3 +18,4 @@ export class DenmarkViewSettings
     }
   }
 }
+export const viewSettings = new DenmarkViewSettings();

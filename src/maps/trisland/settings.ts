@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -20,7 +19,7 @@ import { map } from "./grid";
 import { TrislandStarter } from "./starter";
 
 export class TrislandMapSettings implements MapSettings {
-  readonly key = GameKey.TRISLAND;
+  readonly key = "trisland";
   readonly name = "Trisland";
   readonly designer = "Ted Alspach";
   readonly implementerId = KAOSKODY;
@@ -59,3 +58,4 @@ export class TrislandMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new TrislandMapSettings();

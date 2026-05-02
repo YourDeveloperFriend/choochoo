@@ -8,3 +8,5 @@ export class TTTCAMEL_CASEViewSettings
 {
   getMapRules = TTTCAMEL_CASERules;
 }
+
+export const viewSettings = new TTTCAMEL_CASEViewSettings();

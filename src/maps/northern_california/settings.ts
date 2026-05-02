@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -16,7 +15,7 @@ import { ClaimRequiresUrbanizeModule } from "../../modules/claim_requires_urbani
 import { Module } from "../../engine/module/module";
 
 export class NorthernCaliforniaMapSettings implements MapSettings {
-  readonly key = GameKey.NORTHERN_CALIFORNIA;
+  readonly key = "northern-california";
   readonly name = "Northern California";
   readonly designer = "Ted Alspach";
   readonly implementerId = JACK;
@@ -47,3 +46,4 @@ export class NorthernCaliforniaMapSettings implements MapSettings {
     return [new ClaimRequiresUrbanizeModule()];
   }
 }
+export const mapSettings = new NorthernCaliforniaMapSettings();

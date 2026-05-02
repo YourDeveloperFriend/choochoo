@@ -7,9 +7,10 @@ import { setInjectionContext } from "../engine/framework/execution_context";
 import { InjectionContext } from "../engine/framework/inject";
 import { Key } from "../engine/framework/key";
 import { InjectedState, StateStore } from "../engine/framework/state";
-import { ReversteamMapSettings } from "../maps/reversteam/settings";
-
-import { GameKey } from "../api/game_key";
+import {
+  REVERSTEAM_GAME_KEY,
+  ReversteamMapSettings,
+} from "../maps/reversteam/settings";
 import { GameMemory } from "../engine/game/game_memory";
 import { resettable } from "./resettable";
 
@@ -28,8 +29,8 @@ export class InjectionHelper {
 
       helper.spyOn(GameMemory, "getGame").and.returnValue({
         id: 1,
-        gameKey: GameKey.REVERSTEAM,
-        variant: { gameKey: GameKey.REVERSTEAM, baseRules: true },
+        gameKey: REVERSTEAM_GAME_KEY,
+        variant: { gameKey: REVERSTEAM_GAME_KEY, baseRules: true },
       });
     });
 

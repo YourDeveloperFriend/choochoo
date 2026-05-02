@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   CHAD_DESHON,
   KAOSKODY,
@@ -39,7 +38,7 @@ import { FourLocoStarter } from "./starter";
  * - Turn count: 2p→10, 3p→8, 4p→7, 5p→6, 6p→5
  */
 export class FourLocoMapSettings implements MapSettings {
-  readonly key = GameKey.FOUR_LOCO;
+  readonly key = "four-loco";
   readonly name = "4 Loco";
   readonly designer = "Chad DeShon";
   readonly implementerId = CHAD_DESHON;
@@ -88,3 +87,4 @@ export class FourLocoMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new FourLocoMapSettings();

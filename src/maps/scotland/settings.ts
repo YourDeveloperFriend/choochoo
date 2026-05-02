@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   GRIMIKU,
   MapSettings,
@@ -15,7 +14,7 @@ import { map } from "./grid";
 import { ScotlandPhaseEngine, ScotlandRoundEngine } from "./turn_order";
 
 export class ScotlandMapSettings implements MapSettings {
-  readonly key = GameKey.SCOTLAND;
+  readonly key = "scotland";
   readonly name = "Scotland";
   readonly designer = "Kevin Duffy";
   readonly implementerId = GRIMIKU;
@@ -54,3 +53,4 @@ class ScotlandGoodsGrowthPhase extends GoodsGrowthPhase {
     return 4;
   }
 }
+export const mapSettings = new ScotlandMapSettings();

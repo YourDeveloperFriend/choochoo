@@ -8,3 +8,4 @@ export class JamaicaViewSettings
 {
   getMapRules = JamaicaRules;
 }
+export const viewSettings = new JamaicaViewSettings();

@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -20,7 +19,7 @@ import { MoonStarter } from "./starter";
 import { getNeighbor } from "./wrap_around";
 
 export class MoonMapSettings implements MapSettings {
-  readonly key = GameKey.MOON;
+  readonly key = "moon";
   readonly name = "Moon";
   readonly designer = "Alban Viard";
   readonly implementerId = KAOSKODY;
@@ -57,3 +56,4 @@ export class MoonMapSettings implements MapSettings {
 
   getNeighbor = getNeighbor;
 }
+export const mapSettings = new MoonMapSettings();

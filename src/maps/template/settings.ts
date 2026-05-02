@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -7,7 +6,7 @@ import {
 import { map } from "./grid";
 
 export class TTTCAMEL_CASEMapSettings implements MapSettings {
-  readonly key = GameKey.REVERSTEAM;
+  readonly key = "TTT_GAME_KEY";
   readonly name = "TTTNAME";
   readonly designer = "TTTDESIGNER";
   readonly implementerId = KAOSKODY;
@@ -32,3 +31,5 @@ export class TTTCAMEL_CASEMapSettings implements MapSettings {
     return [];
   }
 }
+
+export const mapSettings = new TTTCAMEL_CASEMapSettings();

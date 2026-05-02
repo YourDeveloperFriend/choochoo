@@ -10,3 +10,4 @@ export class GermanyViewSettings
   getMapRules = GermanyRules;
   getTexturesLayer = GermanyRivers;
 }
+export const viewSettings = new GermanyViewSettings();

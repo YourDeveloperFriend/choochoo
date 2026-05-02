@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -38,7 +37,7 @@ import { DoubleBaseUsaBuildPhase } from "./starting_city";
 import { DoubleBaseUsaUrbanizeAction } from "./urbanize";
 
 export class DoubleBaseUsaMapSettings implements MapSettings {
-  readonly key = GameKey.DOUBLE_BASE_USA;
+  readonly key = "double-base-usa";
   readonly name = "Double Base USA";
   readonly designer = "Kevin McCurdy";
   readonly implementerId = JACK;
@@ -97,3 +96,4 @@ export class DoubleBaseUsaMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new DoubleBaseUsaMapSettings();

@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   EMIL,
   MapSettings,
@@ -8,7 +7,7 @@ import {
 import { map } from "./grid";
 
 export class BalkanMapSettings implements MapSettings {
-  readonly key = GameKey.BALKAN;
+  readonly key = "balkan";
   readonly name = "Balkan";
   readonly minPlayers = 3;
   readonly maxPlayers = 4;
@@ -31,3 +30,4 @@ export class BalkanMapSettings implements MapSettings {
     return [];
   }
 }
+export const mapSettings = new BalkanMapSettings();

@@ -8,3 +8,4 @@ export class PittsburghViewSettings
 {
   getMapRules = PittsburghRules;
 }
+export const viewSettings = new PittsburghViewSettings();

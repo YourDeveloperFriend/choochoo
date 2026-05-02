@@ -10,3 +10,4 @@ export class SouthernUsViewSettings
   getMapRules = SouthernUsRules;
   getTexturesLayer = SouthernUSRivers;
 }
+export const viewSettings = new SouthernUsViewSettings();

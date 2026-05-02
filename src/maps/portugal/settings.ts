@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -19,7 +18,7 @@ import {
 } from "./lisboa";
 
 export class PortugalMapSettings implements MapSettings {
-  readonly key = GameKey.PORTUGAL;
+  readonly key = "portugal";
   readonly name = "Portugal";
   readonly designer = "Vital Lacerda";
   readonly implementerId = KAOSKODY;
@@ -108,3 +107,4 @@ export class PortugalMapSettings implements MapSettings {
     return [new OneClaimLimitModule(), new TownsAndSeaLinksModule()];
   }
 }
+export const mapSettings = new PortugalMapSettings();

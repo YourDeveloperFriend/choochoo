@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -35,7 +34,7 @@ import { DenmarkStarter } from "./starter";
 import { DenmarkBuilderHelper } from "./builder_helper";
 
 export class DenmarkMapSettings implements MapSettings {
-  static readonly key = GameKey.DENMARK;
+  static readonly key = "denmark";
   readonly key = DenmarkMapSettings.key;
   readonly name = "Denmark";
   readonly designer = "J. C. Lawrence";
@@ -126,3 +125,4 @@ export class DenmarkMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new DenmarkMapSettings();

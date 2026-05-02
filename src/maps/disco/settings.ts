@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -21,7 +20,7 @@ import { DiscoStarter } from "./starter";
 import { DiscoActionNamingProvider } from "./actions";
 
 export class DiscoInfernoMapSettings implements MapSettings {
-  static readonly key = GameKey.DISCO_INFERNO;
+  static readonly key = "disco-inferno";
   readonly key = DiscoInfernoMapSettings.key;
   readonly name = "Disco Inferno";
   readonly designer = "Ted Alspach";
@@ -55,3 +54,4 @@ export class DiscoInfernoMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new DiscoInfernoMapSettings();

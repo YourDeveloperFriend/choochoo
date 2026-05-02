@@ -10,3 +10,4 @@ export class JapanViewSettings
   getMapRules = JapanRules;
   getTexturesLayer = JapanRivers;
 }
+export const viewSettings = new JapanViewSettings();

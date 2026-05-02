@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   EMIL,
   MapSettings,
@@ -12,7 +11,7 @@ import { SouthernUSIncomeReductionPhase } from "./income";
 import { SouthernUSStarter } from "./starter";
 
 export class SouthernUsMapSettings implements MapSettings {
-  readonly key = GameKey.SOUTHERN_US;
+  readonly key = "southern-us";
   readonly name = "Southern US";
   readonly designer = "John Bohrer";
   readonly implementerId = EMIL;
@@ -41,3 +40,4 @@ export class SouthernUsMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new SouthernUsMapSettings();

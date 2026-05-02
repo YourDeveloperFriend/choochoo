@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -13,7 +12,7 @@ import { JamaicaGoodsGrowthPhase, JamaicaProductionAction } from "./production";
 import { JamaicaStarter } from "./pure_cubes";
 
 export class JamaicaMapSettings implements MapSettings {
-  readonly key = GameKey.JAMAICA;
+  readonly key = "jamaica";
   readonly name = "Jamaica";
   readonly designer = "Ted Alspach";
   readonly implementerId = KAOSKODY;
@@ -44,3 +43,4 @@ export class JamaicaMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new JamaicaMapSettings();

@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   EMIL,
   MapSettings,
@@ -10,7 +9,7 @@ import { FourCornersGameStarter } from "./starter";
 import { FourCornersMoveAction } from "./move";
 
 export class FourCornersMapSettings implements MapSettings {
-  static readonly key = GameKey.FOUR_CORNERS;
+  static readonly key = "four-corners";
   readonly key = FourCornersMapSettings.key;
   readonly name = "Four Corners";
   readonly designer = "Ted Alspach";
@@ -34,3 +33,4 @@ export class FourCornersMapSettings implements MapSettings {
     return [FourCornersGameStarter, FourCornersMoveAction];
   }
 }
+export const mapSettings = new FourCornersMapSettings();

@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -18,7 +17,7 @@ import {
 } from "./heavy_lifting";
 
 export class HeavyCardboardMapSettings implements MapSettings {
-  readonly key = GameKey.HEAVY_CARDBOARD;
+  readonly key = "heavy-cardboard";
   readonly name = "Heavy Cardboard";
   readonly designer = "Kevin M";
   readonly implementerId = KAOSKODY;
@@ -48,3 +47,4 @@ export class HeavyCardboardMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new HeavyCardboardMapSettings();

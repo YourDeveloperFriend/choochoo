@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import { inject } from "../../engine/framework/execution_context";
 import {
   JACK,
@@ -22,7 +21,7 @@ import { GermanyMoveHelper } from "./move";
 import { GermanyStarter } from "./starter";
 
 export class GermanyMapSettings implements MapSettings {
-  static readonly key = GameKey.GERMANY;
+  static readonly key = "germany";
   readonly key = GermanyMapSettings.key;
   readonly name = "Germany";
   readonly designer = "John Bohrer";
@@ -76,3 +75,4 @@ class GermanyGoodsGrowth extends GoodsGrowthPhase {
     this.log.log(`A ${goodToString(newGood)} good is added to Berlin (J9)`);
   }
 }
+export const mapSettings = new GermanyMapSettings();

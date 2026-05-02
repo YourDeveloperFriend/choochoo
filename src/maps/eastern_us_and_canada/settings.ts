@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -28,7 +27,7 @@ import {
 } from "./build";
 
 export class EasternUsAndCanadaMapSettings implements MapSettings {
-  readonly key = GameKey.EASTERN_US_AND_CANADA;
+  readonly key = "eastern-us-and-canada";
   readonly name = "Eastern US & Canada";
   readonly designer = "John Bohrer";
   readonly implementerId = JACK;
@@ -72,3 +71,4 @@ export class EasternUsAndCanadaMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new EasternUsAndCanadaMapSettings();

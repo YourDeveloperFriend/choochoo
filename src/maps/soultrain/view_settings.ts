@@ -20,3 +20,4 @@ function usePlaceOnClick(on: OnClickRegister) {
   }
   return isPending;
 }
+export const viewSettings = new SoulTrainViewSettings();

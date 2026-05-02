@@ -18,7 +18,7 @@ const CAMEL_CASE = /TTTCAMEL_CASE/g;
 const NAME = /TTTNAME/g;
 const DESIGNER = /TTTDESIGNER/g;
 const IMPLEMENTER = /KAOSKODY/g;
-const GAME_KEY_NAME = /GameKey.REVERSTEAM/g;
+const GAME_KEY_PLACEHOLDER = /TTT_GAME_KEY/g;
 const MIN_PLAYERS = /readonly minPlayers = \d;/g;
 const MAX_PLAYERS = /readonly maxPlayers = \d;/g;
 
@@ -40,7 +40,6 @@ async function createMap({
     .split("_")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join("");
-  const constantCase = snakeCase.toUpperCase();
 
   const dirName = resolve(__dirname, `../maps/${snakeCase}`);
   const templateDir = resolve(__dirname, `../maps/template`);
@@ -53,13 +52,7 @@ async function createMap({
     }
   }
   const files = await readdir(templateDir);
-  await Promise.all([
-    updateMapRegistry(),
-    updateViewRegistry(),
-    addGameKey(),
-    addVariantConfig(),
-    ...files.map(transformFile),
-  ]);
+  await Promise.all(files.map(transformFile));
 
   async function transformFile(filename: string) {
     const contents = await readFile(resolve(templateDir, filename), "utf8");
@@ -68,54 +61,10 @@ async function createMap({
       .replace(NAME, name)
       .replace(DESIGNER, designer)
       .replace(IMPLEMENTER, implementer)
-      .replace(GAME_KEY_NAME, `GameKey.${constantCase}`)
+      .replace(GAME_KEY_PLACEHOLDER, gameKey)
       .replace(MIN_PLAYERS, `readonly minPlayers = ${minPlayers};`)
       .replace(MAX_PLAYERS, `readonly maxPlayers = ${maxPlayers};`);
     await writeFile(resolve(dirName, filename), newContents, "utf8");
-  }
-
-  async function updateMapRegistry() {
-    const file = resolve(__dirname, "../maps/registry.ts");
-    const contents = await readFile(file, "utf8");
-    const newContents =
-      `import { ${upperCamelCase}MapSettings } from "./${snakeCase}/settings";\n` +
-      contents.replace(
-        "    this.add(",
-        `    this.add(new ${upperCamelCase}MapSettings());\n    this.add(`,
-      );
-    await writeFile(file, newContents);
-  }
-
-  async function updateViewRegistry() {
-    const file = resolve(__dirname, "../maps/view_registry.ts");
-    const contents = await readFile(file, "utf8");
-    const newContents =
-      `import { ${upperCamelCase}ViewSettings } from "./${snakeCase}/view_settings";\n` +
-      contents.replace(
-        "    this.add(",
-        `    this.add(new ${upperCamelCase}ViewSettings());\n    this.add(`,
-      );
-    await writeFile(file, newContents);
-  }
-
-  async function addGameKey() {
-    const file = resolve(__dirname, "../api/game_key.ts");
-    const contents = await readFile(file, "utf8");
-    const newContents = contents.replace(
-      "enum GameKey {",
-      `enum GameKey {\n  ${constantCase} = "${gameKey}",`,
-    );
-    await writeFile(file, newContents);
-  }
-
-  async function addVariantConfig() {
-    const file = resolve(__dirname, "../api/variant_config.ts");
-    const contents = await readFile(file, "utf8");
-    const newContents = contents.replace(
-      "gameKey: z.enum([",
-      `gameKey: z.enum([\n    GameKey.${constantCase},`,
-    );
-    await writeFile(file, newContents);
   }
 }
 

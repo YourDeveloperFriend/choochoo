@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -29,7 +28,7 @@ import { DetroitGoodsGrowthPhase } from "./solo";
 import { DetroitStarter } from "./starter";
 
 export class DetroitBankruptcyMapSettings implements MapSettings {
-  static readonly key = GameKey.DETROIT;
+  static readonly key = "detroit-bankruptcy";
   readonly key = DetroitBankruptcyMapSettings.key;
   readonly name = "Detroit Bankruptcy";
   readonly designer = "Chad Deshon";
@@ -72,3 +71,4 @@ export class DetroitBankruptcyMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new DetroitBankruptcyMapSettings();

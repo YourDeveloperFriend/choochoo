@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -14,7 +13,7 @@ import { map } from "./grid";
 import { PittsburghRoundEngine } from "./shorter_game";
 
 export class PittsburghMapSettings implements MapSettings {
-  readonly key = GameKey.PITTSBURGH;
+  readonly key = "pittsburgh";
   readonly name = "Pittsburgh";
   readonly designer = "John Bohrer";
   readonly implementerId = KAOSKODY;
@@ -43,3 +42,4 @@ export class PittsburghMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new PittsburghMapSettings();

@@ -13,3 +13,4 @@ export class BalkanViewSettings
     return <p>No changes from base game.</p>;
   }
 }
+export const viewSettings = new BalkanViewSettings();

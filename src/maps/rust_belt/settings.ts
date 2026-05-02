@@ -7,8 +7,10 @@ import {
 } from "../../engine/game/map_settings";
 import { map } from "./grid";
 
+export const RUST_BELT_GAME_KEY: GameKey = "rust-belt";
+
 export class RustBeltMapSettings implements MapSettings {
-  readonly key = GameKey.RUST_BELT;
+  readonly key = RUST_BELT_GAME_KEY;
   readonly name = "Rust Belt";
   readonly designer = "John Bohrer";
   readonly implementerId = KAOSKODY;
@@ -32,3 +34,4 @@ export class RustBeltMapSettings implements MapSettings {
     return [];
   }
 }
+export const mapSettings = new RustBeltMapSettings();
