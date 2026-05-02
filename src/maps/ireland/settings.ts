@@ -15,8 +15,10 @@ import { IrelandAllowedActions, IrelandSelectAction } from "./select_action";
 import { IrelandRoundEngine } from "./shortened_round";
 import { IrelandStarter } from "./starter";
 
+export const IRELAND_GAME_KEY: GameKey = "ireland";
+
 export class IrelandMapSettings implements MapSettings {
-  static readonly key = GameKey.IRELAND;
+  static readonly key = IRELAND_GAME_KEY;
   readonly key = IrelandMapSettings.key;
   readonly name = "Ireland";
   readonly designer = "Martin Wallace";
@@ -54,3 +56,5 @@ export class IrelandMapSettings implements MapSettings {
     ];
   }
 }
+
+export const mapSettings = new IrelandMapSettings();

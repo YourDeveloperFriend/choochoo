@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -16,7 +15,7 @@ import { SwedenPlayerHelper } from "./score";
 import { SwedenStarter } from "./starter";
 
 export class SwedenRecyclingMapSettings implements MapSettings {
-  static readonly key = GameKey.SWEDEN;
+  static readonly key = "SwedenRecycling";
   readonly key = SwedenRecyclingMapSettings.key;
   readonly name = "Sweden Recycling";
   readonly designer = "Chad Krizen";
@@ -47,3 +46,4 @@ export class SwedenRecyclingMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new SwedenRecyclingMapSettings();

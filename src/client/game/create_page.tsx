@@ -17,6 +17,7 @@ import {
   turnDurationToString,
 } from "../../api/game";
 import { GameKey } from "../../api/game_key";
+import { RUST_BELT_GAME_KEY } from "../../maps/rust_belt/settings";
 import { UserRole } from "../../api/user";
 import { VariantConfig } from "../../api/variant_config";
 import {
@@ -40,7 +41,7 @@ import { MapSelectorDialog } from "./map_selector_dialog";
 export function CreateGamePage() {
   const me = useMe();
   const initialMapValue =
-    (useSearchParams()[0].get("map") as GameKey) ?? GameKey.RUST_BELT;
+    (useSearchParams()[0].get("map") as GameKey) ?? RUST_BELT_GAME_KEY;
   const maps = useMemo(
     () =>
       [...ViewRegistry.singleton.values()]

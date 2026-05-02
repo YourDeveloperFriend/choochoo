@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -15,7 +14,7 @@ import { AlabamaRailwaysMoveInterceptor } from "./move_interceptor";
 import { AlabamaRailwaysStarter } from "./starter";
 
 export class AlabamaRailwaysMapSettings implements MapSettings {
-  readonly key = GameKey.ALABAMA_RAILWAYS;
+  readonly key = "alabama-railways";
   readonly name = "Alabama Railways";
   readonly designer = "Ted Alspach";
   readonly implementerId = KAOSKODY;
@@ -52,3 +51,4 @@ export class AlabamaRailwaysMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new AlabamaRailwaysMapSettings();

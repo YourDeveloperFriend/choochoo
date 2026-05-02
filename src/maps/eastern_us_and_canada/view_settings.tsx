@@ -36,3 +36,4 @@ function useOnMapClick(on: OnClickRegister) {
   }
   return isPending;
 }
+export const viewSettings = new EasternUsAndCanadaViewSettings();

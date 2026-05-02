@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -26,7 +25,7 @@ import { ChesapeakeAndOhioUrbanizeAction } from "./urbanize";
 import { ChesapeakeAndOhioMoveInterceptor } from "./move_interceptor";
 
 export class ChesapeakeAndOhioMapSettings implements MapSettings {
-  static readonly key = GameKey.CHESAPEAKE_AND_OHIO;
+  static readonly key = "chesapeake-and-ohio";
   readonly key = ChesapeakeAndOhioMapSettings.key;
   readonly name = "Chesapeake & Ohio";
   readonly designer = "David Fair";
@@ -65,3 +64,4 @@ export class ChesapeakeAndOhioMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new ChesapeakeAndOhioMapSettings();

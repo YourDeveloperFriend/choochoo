@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -33,7 +32,7 @@ import { MontrealAllowedActions } from "./select_action/allowed_actions";
 import { MontrealSelectAction } from "./select_action/montreal_select_action";
 
 export class MontrealMetroMapSettings implements MapSettings {
-  readonly key = GameKey.MONTREAL_METRO;
+  readonly key = "montreal-metro";
   readonly name = "Montréal Métro";
   readonly designer = "Michael Webb";
   readonly implementerId = KAOSKODY;
@@ -74,3 +73,4 @@ export class MontrealMetroMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new MontrealMetroMapSettings();

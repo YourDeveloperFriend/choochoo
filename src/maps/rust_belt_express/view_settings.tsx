@@ -8,3 +8,4 @@ export class RustBeltExpressViewSettings
 {
   getMapRules = RustBeltExpressRules;
 }
+export const viewSettings = new RustBeltExpressViewSettings();

@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -19,7 +18,7 @@ import {
 } from "./production";
 
 export class IndiaSteamBrothersMapSettings implements MapSettings {
-  static readonly key = GameKey.INDIA_STEAM_BROTHERS;
+  static readonly key = "india";
   readonly key = IndiaSteamBrothersMapSettings.key;
   readonly name = "India";
   readonly designer = "Steam Brothers";
@@ -51,3 +50,4 @@ export class IndiaSteamBrothersMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new IndiaSteamBrothersMapSettings();

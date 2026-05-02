@@ -13,3 +13,4 @@ export class PortugalViewSettings
 
   getTexturesLayer = PortugalRivers;
 }
+export const viewSettings = new PortugalViewSettings();

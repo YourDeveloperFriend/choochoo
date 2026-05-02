@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -19,7 +18,7 @@ import { BarbadosStarter } from "./setup";
 import { BarbadosTakeSharesAction } from "./shares";
 
 export class BarbadosMapSettings implements MapSettings {
-  readonly key = GameKey.BARBADOS;
+  readonly key = "barbados";
   readonly name = "Barbados";
   readonly designer = "Ted Alspach";
   readonly implementerId = KAOSKODY;
@@ -55,3 +54,4 @@ export class BarbadosMapSettings implements MapSettings {
     return [new TurnLengthModule({ turnLength: 10 })];
   }
 }
+export const mapSettings = new BarbadosMapSettings();

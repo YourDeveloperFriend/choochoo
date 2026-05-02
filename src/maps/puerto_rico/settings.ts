@@ -15,8 +15,10 @@ import { PuertoRicoMoveAction } from "./move";
 import { PuertoRicoSelectActionPhase, PuertoRicoSkipAction } from "./actions";
 import { PuertoRicoPlayerHelper } from "./player";
 
+export const PUERTO_RICO_GAME_KEY: GameKey = "puerto-rico";
+
 export class PuertoRicoMapSettings implements MapSettings {
-  readonly key = GameKey.PUERTO_RICO;
+  readonly key = PUERTO_RICO_GAME_KEY;
   readonly name = "Puerto Rico";
   readonly designer = "Ted Alspach";
   readonly implementerId = EMIL;
@@ -52,3 +54,5 @@ export class PuertoRicoMapSettings implements MapSettings {
     return [new TurnLengthModule({ turnLength: 10 })];
   }
 }
+
+export const mapSettings = new PuertoRicoMapSettings();

@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -20,7 +19,7 @@ import { LondonStarter } from "./starter";
 import { LondonUrbanizeAction } from "./urbanize";
 
 export class LondonMapSettings implements MapSettings {
-  static readonly key = GameKey.LONDON;
+  static readonly key = "london";
   readonly key = LondonMapSettings.key;
   readonly name = "London";
   readonly designer = "J. C. Lawrence";
@@ -62,3 +61,4 @@ export class LondonMapSettings implements MapSettings {
     return [new TurnLengthModule({ add: -1 }), new InstantProductionModule()];
   }
 }
+export const mapSettings = new LondonMapSettings();

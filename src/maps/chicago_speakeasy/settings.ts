@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -18,7 +17,7 @@ import {
 } from "./bump_off";
 
 export class ChicagoSpeakeasyMapSettings implements MapSettings {
-  readonly key = GameKey.CHICAGO_SPEAKEASY;
+  readonly key = "chicago-speakeasy";
   readonly name = "Chicago Speakeasy";
   readonly designer = "Ashley Miller";
   readonly implementerId = JACK;
@@ -48,3 +47,4 @@ export class ChicagoSpeakeasyMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new ChicagoSpeakeasyMapSettings();

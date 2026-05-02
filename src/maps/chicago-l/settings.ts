@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   CORTEXBOMB,
   JACK,
@@ -35,7 +34,7 @@ import {
 import { ChicagoLRoundEngine } from "./rounds";
 
 export class ChicagoLMapSettings implements MapSettings {
-  readonly key = GameKey.CHICAGO_L;
+  readonly key = "chicago-l";
   readonly name = "Chicago L";
   readonly designer = "Michael Webb";
   readonly implementerId = JACK;
@@ -84,3 +83,4 @@ export class ChicagoLMapSettings implements MapSettings {
     return [new EngineerFreeBuildModule()];
   }
 }
+export const mapSettings = new ChicagoLMapSettings();

@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -19,7 +18,7 @@ import { NewEnglandPlayerHelper } from "./score";
 import { NewEnglandRoundEngine, NewEnglandStarter } from "./turn_order";
 
 export class NewEnglandMapSettings implements MapSettings {
-  readonly key = GameKey.NEW_ENGLAND;
+  readonly key = "new-england";
   readonly name = "New England";
   readonly designer = "John Bohrer";
   readonly implementerId = KAOSKODY;
@@ -58,3 +57,4 @@ export class NewEnglandMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new NewEnglandMapSettings();

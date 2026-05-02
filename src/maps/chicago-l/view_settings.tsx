@@ -66,3 +66,4 @@ function GovernmentLocoCell({ player }: { player: PlayerData }) {
     </>
   );
 }
+export const viewSettings = new ChicagoLViewSettings();

@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -13,7 +12,7 @@ import { DcMoveInterceptor } from "./move_interceptor";
 import { DCSelectAction, DCSelectActionPhase } from "./production";
 
 export class DCMetroMapSettings implements MapSettings {
-  readonly key = GameKey.DC_METRO;
+  readonly key = "dc-metro";
   readonly name = "D.C. Metro";
   readonly designer = "Dylan D. Phillips";
   readonly implementerId = KAOSKODY;
@@ -50,3 +49,4 @@ export class DCMetroMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new DCMetroMapSettings();

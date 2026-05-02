@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -21,7 +20,7 @@ import { map } from "./grid";
 import { ScandinaviaBuildPhase, ScandinaviaClaimAction } from "./claim_once";
 
 export class ScandinaviaMapSettings implements MapSettings {
-  readonly key = GameKey.SCANDINAVIA;
+  readonly key = "scandinavia";
   readonly name = "Scandinavia";
   readonly designer = "Martin Wallace";
   readonly implementerId = KAOSKODY;
@@ -60,3 +59,4 @@ export class ScandinaviaMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new ScandinaviaMapSettings();

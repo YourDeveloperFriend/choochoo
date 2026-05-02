@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -14,7 +13,7 @@ import { AustraliaStarter } from "./starter";
 import { AustraliaActionNamingProvider } from "./actions";
 
 export class AustraliaMapSettings implements MapSettings {
-  readonly key = GameKey.AUSTRALIA;
+  readonly key = "australia";
   readonly name = "Australia";
   readonly designer = "Ted Alspach";
   readonly implementerId = KAOSKODY;
@@ -45,3 +44,4 @@ export class AustraliaMapSettings implements MapSettings {
     return [new EngineerFreeBuildModule(), new UrbanizationUsesBuildModule()];
   }
 }
+export const mapSettings = new AustraliaMapSettings();

@@ -29,3 +29,4 @@ function useRepopulateOnClick(on: OnClickRegister) {
   }
   return isPending;
 }
+export const viewSettings = new MontrealMetroViewSettings();

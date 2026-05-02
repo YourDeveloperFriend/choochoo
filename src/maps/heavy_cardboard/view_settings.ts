@@ -11,3 +11,4 @@ export class HeavyCardboardViewSettings
   getTexturesLayer = HeavyCardboardRivers;
   getOverlayLayer = HeavyCardboardOverlayLayer;
 }
+export const viewSettings = new HeavyCardboardViewSettings();

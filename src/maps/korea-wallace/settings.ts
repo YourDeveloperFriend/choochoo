@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -13,7 +12,7 @@ import { KoreaWallaceStarter } from "./starter";
 import { KoreaWallaceUrbanizeAction } from "./urbanize";
 
 export class KoreaWallaceMapSettings implements MapSettings {
-  static readonly key = GameKey.KOREA_WALLACE;
+  static readonly key = "korea";
   readonly key = KoreaWallaceMapSettings.key;
   readonly name = "Korea";
   readonly designer = "Martin Wallace";
@@ -46,3 +45,4 @@ export class KoreaWallaceMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new KoreaWallaceMapSettings();

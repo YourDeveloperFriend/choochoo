@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import { IrelandVariantConfig, VariantConfig } from "../../api/variant_config";
 import { ClickTarget, OnClickRegister } from "../../client/grid/click_target";
 import { useAction } from "../../client/services/action";
@@ -6,7 +5,7 @@ import { MapViewSettings } from "../view_settings";
 import { DeurbanizeAction } from "./deurbanization";
 import { IrelandRivers } from "./rivers";
 import { IrelandRules } from "./rules";
-import { IrelandMapSettings } from "./settings";
+import { IRELAND_GAME_KEY, IrelandMapSettings } from "./settings";
 import { IrelandVariantEditor } from "./variant_editor";
 
 export class IrelandViewSettings
@@ -14,7 +13,7 @@ export class IrelandViewSettings
   implements MapViewSettings
 {
   getInitialVariantConfig(): VariantConfig {
-    return { gameKey: GameKey.IRELAND, locoVariant: false };
+    return { gameKey: IRELAND_GAME_KEY, locoVariant: false };
   }
   getVariantConfigEditor = IrelandVariantEditor;
 
@@ -39,3 +38,4 @@ function useDeurbanizeOnClick(on: OnClickRegister) {
   }
   return isPending;
 }
+export const viewSettings = new IrelandViewSettings();

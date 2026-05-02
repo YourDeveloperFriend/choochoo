@@ -21,3 +21,4 @@ function useBuildOnClick(on: OnClickRegister) {
   }
   return isPending;
 }
+export const viewSettings = new BelgiumViewSettings();

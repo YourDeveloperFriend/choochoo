@@ -11,3 +11,4 @@ export class ScandinaviaViewSettings
 
   getTexturesLayer = ScandinaviaRivers;
 }
+export const viewSettings = new ScandinaviaViewSettings();

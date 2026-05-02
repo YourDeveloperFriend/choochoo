@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -23,7 +22,7 @@ import {
 import { SoulTrainStarter } from "./starter";
 
 export class SoulTrainMapSettings implements MapSettings {
-  readonly key = GameKey.SOUL_TRAIN;
+  readonly key = "soul-train";
   readonly name = "Soul Train";
   readonly designer = "Ted Alspach";
   readonly implementerId = KAOSKODY;
@@ -62,3 +61,4 @@ export class SoulTrainMapSettings implements MapSettings {
     return [new CompleteLinkBuldModule()];
   }
 }
+export const mapSettings = new SoulTrainMapSettings();

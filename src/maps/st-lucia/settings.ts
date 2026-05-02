@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -16,7 +15,7 @@ import { map } from "./grid";
 import { StLuciaStarter } from "./starter";
 
 export class StLuciaMapSettings implements MapSettings {
-  readonly key = GameKey.ST_LUCIA;
+  readonly key = "st-lucia";
   readonly name = "St. Lucia";
   readonly designer = "Ted Alspach";
   readonly implementerId = KAOSKODY;
@@ -46,3 +45,4 @@ export class StLuciaMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new StLuciaMapSettings();

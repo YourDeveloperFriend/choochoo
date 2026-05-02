@@ -42,3 +42,4 @@ export class DetroitBankruptcyViewSettings extends DetroitBankruptcyMapSettings 
     }
   }
 }
+export const viewSettings = new DetroitBankruptcyViewSettings();

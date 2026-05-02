@@ -12,3 +12,4 @@ export class RustBeltViewSettings
     return <p>No changes from base game.</p>;
   }
 }
+export const viewSettings = new RustBeltViewSettings();

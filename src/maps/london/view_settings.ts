@@ -18,3 +18,4 @@ export class LondonViewSettings
     }
   }
 }
+export const viewSettings = new LondonViewSettings();

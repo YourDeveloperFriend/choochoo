@@ -8,3 +8,4 @@ export class SicilyViewSettings
 {
   getMapRules = SicilyRules;
 }
+export const viewSettings = new SicilyViewSettings();

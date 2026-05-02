@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import { SimpleConstructor } from "../../engine/framework/dependency_stack";
 import {
   KAOSKODY,
@@ -28,7 +27,7 @@ import {
 } from "./turn_order";
 
 export class MadagascarMapSettings implements MapSettings {
-  static readonly key = GameKey.MADAGASCAR;
+  static readonly key = "madagascar";
   readonly key = MadagascarMapSettings.key;
   readonly name = "Madagascar";
   readonly designer = "Alban Viard";
@@ -67,3 +66,4 @@ export class MadagascarMapSettings implements MapSettings {
     ];
   }
 }
+export const mapSettings = new MadagascarMapSettings();

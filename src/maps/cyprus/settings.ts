@@ -11,8 +11,10 @@ import { CyprusMoveAction } from "./move_goods";
 import { CyprusCostCalculator, ShortBuild } from "./short_build";
 import { CyprusStarter } from "./starter";
 
+export const CYPRUS_GAME_KEY: GameKey = "cyprus";
+
 export class CyprusMapSettings implements MapSettings {
-  static readonly key = GameKey.CYPRUS;
+  static readonly key = CYPRUS_GAME_KEY;
   readonly key = CyprusMapSettings.key;
   readonly name = "Cyprus";
   readonly designer = "Alban Viard";
@@ -42,3 +44,5 @@ export class CyprusMapSettings implements MapSettings {
     ];
   }
 }
+
+export const mapSettings = new CyprusMapSettings();

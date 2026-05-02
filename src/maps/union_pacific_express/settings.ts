@@ -1,4 +1,3 @@
-import { GameKey } from "../../api/game_key";
 import {
   JACK,
   MapSettings,
@@ -24,7 +23,7 @@ import {
 import { UnionPacificExpressStarter } from "./starter";
 
 export class UnionPacificExpressMapSettings implements MapSettings {
-  readonly key = GameKey.UNION_PACIFIC_EXPRESS;
+  readonly key = "union-pacific-express";
   readonly name = "Union Pacific Express";
   readonly designer = "Kevin McCurdy";
   readonly implementerId = JACK;
@@ -64,3 +63,4 @@ export class UnionPacificExpressMapSettings implements MapSettings {
     return [new TurnLengthModule({ turnLength: 6 })];
   }
 }
+export const mapSettings = new UnionPacificExpressMapSettings();
