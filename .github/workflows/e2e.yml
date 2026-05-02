@@ -1,18 +1,12 @@
-name: Test
+name: E2E Tests
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
-  run-tests:
-    name: Run tests
+  run-e2e:
+    name: Run E2E tests
     runs-on: ubuntu-latest
-    # container: node:20-bookworm-slim
 
     permissions:
       contents: read
@@ -31,7 +25,6 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          # Maps tcp port 5432 on service container to the host
           - 5432:5432
 
     steps:
@@ -42,39 +35,31 @@ jobs:
       - run: sudo apt-get install unzip
 
       - name: Set up Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 25
 
-      # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
         run: npm ci
 
-      - name: Running tests
-        run: npm test
-
       - name: Set up Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           java-version: "21"
           distribution: "temurin"
 
-      # - uses: browser-actions/setup-chrome@v1
-      #   with:
-      #     install-chromedriver: true
-      #     install-dependencies: true
-      #     chrome-version: 139
+      - name: Build
+        run: npm run build
 
-      - run: npm run build
-      - run: npm run migrate-testdb-direct
+      - name: Run migrations
+        run: npm run migrate-testdb-direct
         env:
           POSTGRES_URL: "postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres"
           NODE_ENV: "test"
 
-      - name: Run e2e tests
+      - name: Run E2E tests
         run: ./src/scripts/deflake.sh "npm run e2e-test"
         env:
-          # User, port, and db seem to be hardcoded
           POSTGRES_URL: "postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres"
           NODE_ENV: "test"
           PORT: 3001
