@@ -1,0 +1,1043 @@
+{
+  "fixture": "move_perf_2096.json",
+  "totalRoutes": 74,
+  "generatedAt": "2026-03-05T22:45:43.167Z",
+  "routes": [
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "black: 1",
+        "blue: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Antsirahe (H11)|Black|Vatomandry (N9)|black: 1,blue: 1|Antananarivo (J9)|5,Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "black: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|2"
+      ],
+      "signature": "Antsirahe (H11)|Black|Vatomandry (N9)|black: 1,yellow: 1|Antananarivo (J9)|5,Vatomandry (N9)|2"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "blue: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|2"
+      ],
+      "signature": "Antsirahe (H11)|Black|Vatomandry (N9)|blue: 1,yellow: 1|Antananarivo (J9)|6,Vatomandry (N9)|2"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "blue: 2"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Antsirahe (H11)|Black|Vatomandry (N9)|blue: 2|Antananarivo (J9)|6,Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "blue: 2"
+      ],
+      "path": [
+        "Mahanoro (M12)|6",
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Antsirahe (H11)|Black|Vatomandry (N9)|blue: 2|Mahanoro (M12)|6,Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "black: 1",
+        "blue: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|2",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Mahanoro (M12)|black: 1,blue: 1,yellow: 1|Antananarivo (J9)|5,Vatomandry (N9)|2,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "black: 1",
+        "blue: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|2",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Mahanoro (M12)|black: 1,blue: 1,yellow: 1|Antananarivo (J9)|5,Vatomandry (N9)|2,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "black: 1",
+        "blue: 2"
+      ],
+      "path": [
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|6",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Mahanoro (M12)|black: 1,blue: 2|Antananarivo (J9)|5,Vatomandry (N9)|6,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "black: 1",
+        "blue: 2"
+      ],
+      "path": [
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|6",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Mahanoro (M12)|black: 1,blue: 2|Antananarivo (J9)|5,Vatomandry (N9)|6,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 1"
+      ],
+      "path": [
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Mahanoro (M12)|blue: 1|Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 1"
+      ],
+      "path": [
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Mahanoro (M12)|blue: 1|Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 2",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|2",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Mahanoro (M12)|blue: 2,yellow: 1|Antananarivo (J9)|6,Vatomandry (N9)|2,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 2",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|2",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Mahanoro (M12)|blue: 2,yellow: 1|Antananarivo (J9)|6,Vatomandry (N9)|2,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 3"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|6",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Mahanoro (M12)|blue: 3|Antananarivo (J9)|6,Vatomandry (N9)|6,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 3"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|6",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Mahanoro (M12)|blue: 3|Antananarivo (J9)|6,Vatomandry (N9)|6,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "black: 1",
+        "blue: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|2",
+        "Toamasina (P7)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Toamasina (P7)|black: 1,blue: 1,yellow: 1|Antananarivo (J9)|5,Vatomandry (N9)|2,Toamasina (P7)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "black: 1",
+        "blue: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|2",
+        "Toamasina (P7)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Toamasina (P7)|black: 1,blue: 1,yellow: 1|Antananarivo (J9)|5,Vatomandry (N9)|2,Toamasina (P7)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "black: 1",
+        "blue: 2"
+      ],
+      "path": [
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|6",
+        "Toamasina (P7)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Toamasina (P7)|black: 1,blue: 2|Antananarivo (J9)|5,Vatomandry (N9)|6,Toamasina (P7)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "black: 1",
+        "blue: 2"
+      ],
+      "path": [
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|6",
+        "Toamasina (P7)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Toamasina (P7)|black: 1,blue: 2|Antananarivo (J9)|5,Vatomandry (N9)|6,Toamasina (P7)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "blue: 2",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|2",
+        "Toamasina (P7)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Toamasina (P7)|blue: 2,yellow: 1|Antananarivo (J9)|6,Vatomandry (N9)|2,Toamasina (P7)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "blue: 2",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|2",
+        "Toamasina (P7)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Toamasina (P7)|blue: 2,yellow: 1|Antananarivo (J9)|6,Vatomandry (N9)|2,Toamasina (P7)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "blue: 3"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|6",
+        "Toamasina (P7)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Toamasina (P7)|blue: 3|Antananarivo (J9)|6,Vatomandry (N9)|6,Toamasina (P7)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "blue: 3"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|6",
+        "Toamasina (P7)|6"
+      ],
+      "signature": "Antsirahe (H11)|Blue|Toamasina (P7)|blue: 3|Antananarivo (J9)|6,Vatomandry (N9)|6,Toamasina (P7)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Red",
+      "destinationCity": "Antananarivo (J9)",
+      "income": [
+        "black: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|5"
+      ],
+      "signature": "Antsirahe (H11)|Red|Antananarivo (J9)|black: 1|Antananarivo (J9)|5"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Red",
+      "destinationCity": "Antananarivo (J9)",
+      "income": [
+        "blue: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|6"
+      ],
+      "signature": "Antsirahe (H11)|Red|Antananarivo (J9)|blue: 1|Antananarivo (J9)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Red",
+      "destinationCity": "Antananarivo (J9)",
+      "income": [
+        "blue: 2",
+        "yellow: 1"
+      ],
+      "path": [
+        "Mahanoro (M12)|6",
+        "Vatomandry (N9)|6",
+        "Antananarivo (J9)|2"
+      ],
+      "signature": "Antsirahe (H11)|Red|Antananarivo (J9)|blue: 2,yellow: 1|Mahanoro (M12)|6,Vatomandry (N9)|6,Antananarivo (J9)|2"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Red",
+      "destinationCity": "Antananarivo (J9)",
+      "income": [
+        "blue: 3"
+      ],
+      "path": [
+        "Mahanoro (M12)|6",
+        "Vatomandry (N9)|6",
+        "Antananarivo (J9)|6"
+      ],
+      "signature": "Antsirahe (H11)|Red|Antananarivo (J9)|blue: 3|Mahanoro (M12)|6,Vatomandry (N9)|6,Antananarivo (J9)|6"
+    },
+    {
+      "startingCity": "Antsirahe (H11)",
+      "good": "Red",
+      "destinationCity": "Fianarantsoa (G14)",
+      "income": [
+        "black: 1"
+      ],
+      "path": [
+        "Fianarantsoa (G14)|5"
+      ],
+      "signature": "Antsirahe (H11)|Red|Fianarantsoa (G14)|black: 1|Fianarantsoa (G14)|5"
+    },
+    {
+      "startingCity": "Antsiranana (K0)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "green: 2"
+      ],
+      "path": [
+        "Sambava (P3)|3",
+        "Toamasina (P7)|3"
+      ],
+      "signature": "Antsiranana (K0)|Blue|Toamasina (P7)|green: 2|Sambava (P3)|3,Toamasina (P7)|3"
+    },
+    {
+      "startingCity": "Fianarantsoa (G14)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "black: 1",
+        "blue: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antsirahe (H11)|5",
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|2"
+      ],
+      "signature": "Fianarantsoa (G14)|Black|Vatomandry (N9)|black: 1,blue: 1,yellow: 1|Antsirahe (H11)|5,Antananarivo (J9)|6,Vatomandry (N9)|2"
+    },
+    {
+      "startingCity": "Fianarantsoa (G14)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "black: 1",
+        "blue: 2"
+      ],
+      "path": [
+        "Antsirahe (H11)|5",
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Fianarantsoa (G14)|Black|Vatomandry (N9)|black: 1,blue: 2|Antsirahe (H11)|5,Antananarivo (J9)|6,Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Fianarantsoa (G14)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "black: 1",
+        "blue: 2"
+      ],
+      "path": [
+        "Antsirahe (H11)|5",
+        "Mahanoro (M12)|6",
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Fianarantsoa (G14)|Black|Vatomandry (N9)|black: 1,blue: 2|Antsirahe (H11)|5,Mahanoro (M12)|6,Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Fianarantsoa (G14)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "black: 2",
+        "blue: 1"
+      ],
+      "path": [
+        "Antsirahe (H11)|5",
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Fianarantsoa (G14)|Black|Vatomandry (N9)|black: 2,blue: 1|Antsirahe (H11)|5,Antananarivo (J9)|5,Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Fianarantsoa (G14)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "black: 2",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antsirahe (H11)|5",
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|2"
+      ],
+      "signature": "Fianarantsoa (G14)|Black|Vatomandry (N9)|black: 2,yellow: 1|Antsirahe (H11)|5,Antananarivo (J9)|5,Vatomandry (N9)|2"
+    },
+    {
+      "startingCity": "Fianarantsoa (G14)",
+      "good": "Yellow",
+      "destinationCity": "Manakara (L15)",
+      "income": [
+        "black: 2",
+        "blue: 1"
+      ],
+      "path": [
+        "Antsirahe (H11)|5",
+        "Mahanoro (M12)|6",
+        "Manakara (L15)|5"
+      ],
+      "signature": "Fianarantsoa (G14)|Yellow|Manakara (L15)|black: 2,blue: 1|Antsirahe (H11)|5,Mahanoro (M12)|6,Manakara (L15)|5"
+    },
+    {
+      "startingCity": "Fianarantsoa (G14)",
+      "good": "Yellow",
+      "destinationCity": "Manakara (L15)",
+      "income": [
+        "black: 2"
+      ],
+      "path": [
+        "Ihosy (I16)|5",
+        "Manakara (L15)|5"
+      ],
+      "signature": "Fianarantsoa (G14)|Yellow|Manakara (L15)|black: 2|Ihosy (I16)|5,Manakara (L15)|5"
+    },
+    {
+      "startingCity": "Mahajanga (G4)",
+      "good": "Red",
+      "destinationCity": "Antananarivo (J9)",
+      "income": [
+        "yellow: 2"
+      ],
+      "path": [
+        "Kandreho (H7)|2",
+        "Antananarivo (J9)|2"
+      ],
+      "signature": "Mahajanga (G4)|Red|Antananarivo (J9)|yellow: 2|Kandreho (H7)|2,Antananarivo (J9)|2"
+    },
+    {
+      "startingCity": "Mahajanga (G4)",
+      "good": "Red",
+      "destinationCity": "Antananarivo (J9)",
+      "income": [
+        "yellow: 2"
+      ],
+      "path": [
+        "Kandreho (H7)|2",
+        "Antananarivo (J9)|2"
+      ],
+      "signature": "Mahajanga (G4)|Red|Antananarivo (J9)|yellow: 2|Kandreho (H7)|2,Antananarivo (J9)|2"
+    },
+    {
+      "startingCity": "Mahajanga (G4)",
+      "good": "Red",
+      "destinationCity": "Antananarivo (J9)",
+      "income": [
+        "yellow: 2"
+      ],
+      "path": [
+        "Kandreho (H7)|2",
+        "Antananarivo (J9)|2"
+      ],
+      "signature": "Mahajanga (G4)|Red|Antananarivo (J9)|yellow: 2|Kandreho (H7)|2,Antananarivo (J9)|2"
+    },
+    {
+      "startingCity": "Mahanoro (M12)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "black: 1",
+        "blue: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antsirahe (H11)|6",
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|2"
+      ],
+      "signature": "Mahanoro (M12)|Black|Vatomandry (N9)|black: 1,blue: 1,yellow: 1|Antsirahe (H11)|6,Antananarivo (J9)|5,Vatomandry (N9)|2"
+    },
+    {
+      "startingCity": "Mahanoro (M12)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "black: 1",
+        "blue: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antsirahe (H11)|6",
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|2"
+      ],
+      "signature": "Mahanoro (M12)|Black|Vatomandry (N9)|black: 1,blue: 1,yellow: 1|Antsirahe (H11)|6,Antananarivo (J9)|5,Vatomandry (N9)|2"
+    },
+    {
+      "startingCity": "Mahanoro (M12)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "black: 1",
+        "blue: 2"
+      ],
+      "path": [
+        "Antsirahe (H11)|6",
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Mahanoro (M12)|Black|Vatomandry (N9)|black: 1,blue: 2|Antsirahe (H11)|6,Antananarivo (J9)|5,Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Mahanoro (M12)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "black: 1",
+        "blue: 2"
+      ],
+      "path": [
+        "Antsirahe (H11)|6",
+        "Antananarivo (J9)|5",
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Mahanoro (M12)|Black|Vatomandry (N9)|black: 1,blue: 2|Antsirahe (H11)|6,Antananarivo (J9)|5,Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Mahanoro (M12)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "blue: 1"
+      ],
+      "path": [
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Mahanoro (M12)|Black|Vatomandry (N9)|blue: 1|Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Mahanoro (M12)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "blue: 1"
+      ],
+      "path": [
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Mahanoro (M12)|Black|Vatomandry (N9)|blue: 1|Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Mahanoro (M12)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "blue: 2",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antsirahe (H11)|6",
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|2"
+      ],
+      "signature": "Mahanoro (M12)|Black|Vatomandry (N9)|blue: 2,yellow: 1|Antsirahe (H11)|6,Antananarivo (J9)|6,Vatomandry (N9)|2"
+    },
+    {
+      "startingCity": "Mahanoro (M12)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "blue: 2",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antsirahe (H11)|6",
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|2"
+      ],
+      "signature": "Mahanoro (M12)|Black|Vatomandry (N9)|blue: 2,yellow: 1|Antsirahe (H11)|6,Antananarivo (J9)|6,Vatomandry (N9)|2"
+    },
+    {
+      "startingCity": "Mahanoro (M12)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "blue: 3"
+      ],
+      "path": [
+        "Antsirahe (H11)|6",
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Mahanoro (M12)|Black|Vatomandry (N9)|blue: 3|Antsirahe (H11)|6,Antananarivo (J9)|6,Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Mahanoro (M12)",
+      "good": "Black",
+      "destinationCity": "Vatomandry (N9)",
+      "income": [
+        "blue: 3"
+      ],
+      "path": [
+        "Antsirahe (H11)|6",
+        "Antananarivo (J9)|6",
+        "Vatomandry (N9)|6"
+      ],
+      "signature": "Mahanoro (M12)|Black|Vatomandry (N9)|blue: 3|Antsirahe (H11)|6,Antananarivo (J9)|6,Vatomandry (N9)|6"
+    },
+    {
+      "startingCity": "Mahanoro (M12)",
+      "good": "Purple",
+      "destinationCity": "Tolanaro (K18)",
+      "income": [
+        "black: 3"
+      ],
+      "path": [
+        "Manakara (L15)|5",
+        "Ihosy (I16)|5",
+        "Tolanaro (K18)|5"
+      ],
+      "signature": "Mahanoro (M12)|Purple|Tolanaro (K18)|black: 3|Manakara (L15)|5,Ihosy (I16)|5,Tolanaro (K18)|5"
+    },
+    {
+      "startingCity": "Manakara (L15)",
+      "good": "Purple",
+      "destinationCity": "Tolanaro (K18)",
+      "income": [
+        "black: 2"
+      ],
+      "path": [
+        "Ihosy (I16)|5",
+        "Tolanaro (K18)|5"
+      ],
+      "signature": "Manakara (L15)|Purple|Tolanaro (K18)|black: 2|Ihosy (I16)|5,Tolanaro (K18)|5"
+    },
+    {
+      "startingCity": "Morombe (A14)",
+      "good": "Yellow",
+      "destinationCity": "Toliara (B17)",
+      "income": [
+        "yellow: 1"
+      ],
+      "path": [
+        "Toliara (B17)|2"
+      ],
+      "signature": "Morombe (A14)|Yellow|Toliara (B17)|yellow: 1|Toliara (B17)|2"
+    },
+    {
+      "startingCity": "Sambava (P3)",
+      "good": "Blue",
+      "destinationCity": "Antsiranana (K0)",
+      "income": [
+        "green: 1"
+      ],
+      "path": [
+        "Antsiranana (K0)|3"
+      ],
+      "signature": "Sambava (P3)|Blue|Antsiranana (K0)|green: 1|Antsiranana (K0)|3"
+    },
+    {
+      "startingCity": "Sambava (P3)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "green: 1"
+      ],
+      "path": [
+        "Toamasina (P7)|3"
+      ],
+      "signature": "Sambava (P3)|Blue|Toamasina (P7)|green: 1|Toamasina (P7)|3"
+    },
+    {
+      "startingCity": "Soalala (A6)",
+      "good": "Yellow",
+      "destinationCity": "Mahajanga (G4)",
+      "income": [
+        "yellow: 2"
+      ],
+      "path": [
+        "Marovday (E6)|2",
+        "Mahajanga (G4)|2"
+      ],
+      "signature": "Soalala (A6)|Yellow|Mahajanga (G4)|yellow: 2|Marovday (E6)|2,Mahajanga (G4)|2"
+    },
+    {
+      "startingCity": "Toamasina (P7)",
+      "good": "Red",
+      "destinationCity": "Antananarivo (J9)",
+      "income": [
+        "blue: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Vatomandry (N9)|6",
+        "Antananarivo (J9)|2"
+      ],
+      "signature": "Toamasina (P7)|Red|Antananarivo (J9)|blue: 1,yellow: 1|Vatomandry (N9)|6,Antananarivo (J9)|2"
+    },
+    {
+      "startingCity": "Toamasina (P7)",
+      "good": "Red",
+      "destinationCity": "Antananarivo (J9)",
+      "income": [
+        "blue: 2"
+      ],
+      "path": [
+        "Vatomandry (N9)|6",
+        "Antananarivo (J9)|6"
+      ],
+      "signature": "Toamasina (P7)|Red|Antananarivo (J9)|blue: 2|Vatomandry (N9)|6,Antananarivo (J9)|6"
+    },
+    {
+      "startingCity": "Toamasina (P7)",
+      "good": "Red",
+      "destinationCity": "Antsirahe (H11)",
+      "income": [
+        "blue: 3"
+      ],
+      "path": [
+        "Vatomandry (N9)|6",
+        "Mahanoro (M12)|6",
+        "Antsirahe (H11)|6"
+      ],
+      "signature": "Toamasina (P7)|Red|Antsirahe (H11)|blue: 3|Vatomandry (N9)|6,Mahanoro (M12)|6,Antsirahe (H11)|6"
+    },
+    {
+      "startingCity": "Toamasina (P7)",
+      "good": "Yellow",
+      "destinationCity": "Manakara (L15)",
+      "income": [
+        "black: 1",
+        "blue: 2"
+      ],
+      "path": [
+        "Vatomandry (N9)|6",
+        "Mahanoro (M12)|6",
+        "Manakara (L15)|5"
+      ],
+      "signature": "Toamasina (P7)|Yellow|Manakara (L15)|black: 1,blue: 2|Vatomandry (N9)|6,Mahanoro (M12)|6,Manakara (L15)|5"
+    },
+    {
+      "startingCity": "Toamasina (P7)",
+      "good": "Yellow",
+      "destinationCity": "Sambava (P3)",
+      "income": [
+        "green: 1"
+      ],
+      "path": [
+        "Sambava (P3)|3"
+      ],
+      "signature": "Toamasina (P7)|Yellow|Sambava (P3)|green: 1|Sambava (P3)|3"
+    },
+    {
+      "startingCity": "Tolanaro (K18)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "black: 3"
+      ],
+      "path": [
+        "Ihosy (I16)|5",
+        "Manakara (L15)|5",
+        "Mahanoro (M12)|5"
+      ],
+      "signature": "Tolanaro (K18)|Blue|Mahanoro (M12)|black: 3|Ihosy (I16)|5,Manakara (L15)|5,Mahanoro (M12)|5"
+    },
+    {
+      "startingCity": "Tolanaro (K18)",
+      "good": "Yellow",
+      "destinationCity": "Manakara (L15)",
+      "income": [
+        "black: 2"
+      ],
+      "path": [
+        "Ihosy (I16)|5",
+        "Manakara (L15)|5"
+      ],
+      "signature": "Tolanaro (K18)|Yellow|Manakara (L15)|black: 2|Ihosy (I16)|5,Manakara (L15)|5"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "black: 1",
+        "blue: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|2",
+        "Antsirahe (H11)|5",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Mahanoro (M12)|black: 1,blue: 1,yellow: 1|Antananarivo (J9)|2,Antsirahe (H11)|5,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "black: 1",
+        "blue: 1",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|2",
+        "Antsirahe (H11)|5",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Mahanoro (M12)|black: 1,blue: 1,yellow: 1|Antananarivo (J9)|2,Antsirahe (H11)|5,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "black: 1",
+        "blue: 2"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Antsirahe (H11)|5",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Mahanoro (M12)|black: 1,blue: 2|Antananarivo (J9)|6,Antsirahe (H11)|5,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "black: 1",
+        "blue: 2"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Antsirahe (H11)|5",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Mahanoro (M12)|black: 1,blue: 2|Antananarivo (J9)|6,Antsirahe (H11)|5,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 1"
+      ],
+      "path": [
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Mahanoro (M12)|blue: 1|Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 1"
+      ],
+      "path": [
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Mahanoro (M12)|blue: 1|Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 2",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|2",
+        "Antsirahe (H11)|6",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Mahanoro (M12)|blue: 2,yellow: 1|Antananarivo (J9)|2,Antsirahe (H11)|6,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 2",
+        "yellow: 1"
+      ],
+      "path": [
+        "Antananarivo (J9)|2",
+        "Antsirahe (H11)|6",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Mahanoro (M12)|blue: 2,yellow: 1|Antananarivo (J9)|2,Antsirahe (H11)|6,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 3"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Antsirahe (H11)|6",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Mahanoro (M12)|blue: 3|Antananarivo (J9)|6,Antsirahe (H11)|6,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Mahanoro (M12)",
+      "income": [
+        "blue: 3"
+      ],
+      "path": [
+        "Antananarivo (J9)|6",
+        "Antsirahe (H11)|6",
+        "Mahanoro (M12)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Mahanoro (M12)|blue: 3|Antananarivo (J9)|6,Antsirahe (H11)|6,Mahanoro (M12)|6"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "blue: 1"
+      ],
+      "path": [
+        "Toamasina (P7)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Toamasina (P7)|blue: 1|Toamasina (P7)|6"
+    },
+    {
+      "startingCity": "Vatomandry (N9)",
+      "good": "Blue",
+      "destinationCity": "Toamasina (P7)",
+      "income": [
+        "blue: 1"
+      ],
+      "path": [
+        "Toamasina (P7)|6"
+      ],
+      "signature": "Vatomandry (N9)|Blue|Toamasina (P7)|blue: 1|Toamasina (P7)|6"
+    }
+  ]
+}

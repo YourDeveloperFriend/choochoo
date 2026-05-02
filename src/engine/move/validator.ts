@@ -23,24 +23,16 @@ export class MoveValidator {
     this.validateEnd(action);
   }
 
-  validateEnd(action: MoveData): void {
-    if (action.path.length === 0) {
-      throw new InvalidInputError("must move over at least one route");
-    }
-
-    const endingLocation = this.grid().get(peek(action.path).endingStop);
-
-    if (!(endingLocation instanceof City)) {
-      throw new InvalidInputError(
-        `${goodToString(action.good)} good cannot be delivered to non city`,
-      );
-    }
-    assert(this.moveHelper.canDeliverTo(endingLocation, action.good), {
-      invalidInput: `${goodToString(action.good)} good cannot be delivered to ${endingLocation.goodColors().map(goodToString).join("/")} city`,
-    });
+  // Lightweight validation for incremental path building during search
+  // Skips O(n²) route validation since searcher builds from valid routes
+  validatePartialForSearch(player: PlayerData, action: MoveData): void {
+    this.validatePartialCore(player, action);
+    // Skip the O(n²) route validation - searcher builds from valid routes
   }
 
-  validatePartial(player: PlayerData, action: MoveData): void {
+  // Shared validation logic for partial paths (used by both validatePartial and validatePartialForSearch)
+  // This validates constraints: locomotive limits, city/good existence, no duplicate stops, path through valid locations
+  private validatePartialCore(player: PlayerData, action: MoveData): void {
     const grid = this.grid();
     if (!this.moveHelper.isWithinLocomotive(player, action)) {
       throw new InvalidInputError(
@@ -57,22 +49,25 @@ export class MoveValidator {
 
     // Cannot visit the same stop twice
     const allCoordinates = [action.startingCity].concat(
-      [...action.path.values()].map((v) => v.endingStop),
+      action.path.map((v) => v.endingStop),
     );
-    for (const [index, oneCoordinate] of allCoordinates.entries()) {
-      const oneCity = this.grid().get(oneCoordinate);
-      for (let i = index + 1; i < allCoordinates.length; i++) {
-        const twoCity = this.grid().get(allCoordinates[i]);
-        if (oneCity instanceof City && twoCity instanceof City) {
-          assert(!oneCity.isSameCity(twoCity), {
-            invalidInput: "Cannot visit the same city twice",
-          });
-        }
-      }
-    }
     assert(allCoordinates.length === new Set(allCoordinates).size, {
       invalidInput: "cannot stop at the same city twice",
     });
+
+    // Check for duplicate cities by logical identity (sameCity key)
+    // Prevents visiting the same logical city via different coordinate hexes
+    const seenCityKeys = new Set<string | number>();
+    for (const coordinate of allCoordinates) {
+      const location = grid.get(coordinate);
+      if (location instanceof City) {
+        const cityKey = location.data.sameCity ?? coordinate.serialize();
+        assert(!seenCityKeys.has(cityKey), {
+          invalidInput: "Cannot visit the same city twice",
+        });
+        seenCityKeys.add(cityKey);
+      }
+    }
 
     // Validate that the route passes through cities and towns
     for (const step of action.path.slice(0, action.path.length - 1)) {
@@ -94,9 +89,33 @@ export class MoveValidator {
         );
       }
     }
+  }
+
+  validateEnd(action: MoveData): void {
+    if (action.path.length === 0) {
+      throw new InvalidInputError("must move over at least one route");
+    }
+
+    const endingLocation = this.grid().get(peek(action.path).endingStop);
+
+    if (!(endingLocation instanceof City)) {
+      throw new InvalidInputError(
+        `${goodToString(action.good)} good cannot be delivered to non city`,
+      );
+    }
+    assert(this.moveHelper.canDeliverTo(endingLocation, action.good), {
+      invalidInput: `${goodToString(action.good)} good cannot be delivered to ${endingLocation.goodColors().map(goodToString).join("/")} city`,
+    });
+  }
+
+  validatePartial(player: PlayerData, action: MoveData): void {
+    this.validatePartialCore(player, action);
+
+    const grid = this.grid();
+    const startingCity = grid.get(action.startingCity);
 
     // Validate that the route is valid
-    let fromCity: City | Land = startingCity;
+    let fromCity: City | Land = startingCity!;
     for (const step of action.path) {
       const routes = [
         ...this.findRoutesToLocation(
