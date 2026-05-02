@@ -1,56 +1,6 @@
 import z from "zod";
-import { GameKey } from "./game_key";
+import { GameKey, GameKeyZod } from "./game_key";
 import { DIFFICULTY_LEVELS } from "../maps/puerto_rico/difficulty_levels";
-
-const EmptyVariantConfig = z.object({
-  gameKey: z.enum([
-    GameKey.SOUTHERN_US,
-    GameKey.FOUR_CORNERS,
-    GameKey.BARBADOS,
-    GameKey.TRISLAND,
-    GameKey.PORTUGAL,
-    GameKey.AUSTRALIA,
-    GameKey.DC_METRO,
-    GameKey.BALKAN,
-    GameKey.POLAND,
-    GameKey.SCANDINAVIA,
-    GameKey.NEW_ENGLAND,
-    GameKey.SCOTLAND,
-    GameKey.ALABAMA_RAILWAYS,
-    GameKey.SICILY,
-    GameKey.DENMARK,
-    GameKey.DETROIT,
-    GameKey.GERMANY,
-    GameKey.LONDON,
-    GameKey.MOON,
-    GameKey.INDIA_STEAM_BROTHERS,
-    GameKey.KOREA_WALLACE,
-    GameKey.MADAGASCAR,
-    GameKey.MONTREAL_METRO,
-    GameKey.HEAVY_CARDBOARD,
-    GameKey.RUST_BELT,
-    GameKey.JAMAICA,
-    GameKey.PITTSBURGH,
-    GameKey.SWEDEN,
-    GameKey.DISCO_INFERNO,
-    GameKey.SOUL_TRAIN,
-    GameKey.ST_LUCIA,
-    GameKey.CHESAPEAKE_AND_OHIO,
-    GameKey.CALIFORNIA_GOLD_RUSH,
-    GameKey.UNION_PACIFIC_EXPRESS,
-    GameKey.RUST_BELT_EXPRESS,
-    GameKey.CHICAGO_SPEAKEASY,
-    GameKey.BELGIUM,
-    GameKey.EASTERN_US_AND_CANADA,
-    GameKey.DOUBLE_BASE_USA,
-    GameKey.CHICAGO_L,
-    GameKey.MINAS_GERAES,
-    GameKey.JAPAN,
-    GameKey.FOUR_LOCO,
-    GameKey.NORTHERN_CALIFORNIA,
-  ]),
-});
-type EmptyVariantConfig = z.infer<typeof EmptyVariantConfig>;
 
 export const IrelandVariantConfig = z.object({
   gameKey: z.literal(GameKey.IRELAND),
@@ -76,11 +26,11 @@ export const PuertoRicoVariantConfig = z.object({
 });
 export type PuertoRicoVariantConfig = z.infer<typeof PuertoRicoVariantConfig>;
 
-export const VariantConfig = z.discriminatedUnion("gameKey", [
-  EmptyVariantConfig,
+export const VariantConfig = z.union([
   IrelandVariantConfig,
   ReversteamVariantConfig,
   CyprusVariantConfig,
   PuertoRicoVariantConfig,
+  z.object({ gameKey: GameKeyZod }),
 ]);
 export type VariantConfig = z.infer<typeof VariantConfig>;
