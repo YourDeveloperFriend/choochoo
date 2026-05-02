@@ -6,6 +6,7 @@ export default {
     "!src/e2e/*",
     "!src/prober/*",
   ],
+  jsLoader: "require",
   env: {
     stopSpecOnExpectationFailure: false,
     random: true,

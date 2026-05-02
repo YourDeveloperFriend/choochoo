@@ -1,6 +1,6 @@
 import { PlayerColor } from "../../engine/state/player";
 
-export interface Container {
+interface Container {
   type: "user" | "game";
   id: number;
 }

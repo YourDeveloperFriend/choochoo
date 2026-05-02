@@ -1,0 +1,82 @@
+name: Checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 25
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 25
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npx prettier src --check
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 25
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+
+      - name: Build
+        run: npm run build
