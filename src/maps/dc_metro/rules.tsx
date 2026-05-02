@@ -20,8 +20,7 @@ export function DCMetroRules() {
         </li>
         <li>
           <b>National Airport: </b>receives all goods from the dark side of the
-          goods growth table, in addition to the white 1 (this is not
-          rendered).
+          goods growth table, in addition to the white 1 (this is not rendered).
         </li>
         <li>
           <b>Game Length:</b> 9 turns for 3 players, 8 turns for 2 players.

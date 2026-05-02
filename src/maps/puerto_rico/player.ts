@@ -6,7 +6,7 @@ export class PuertoRicoPlayerHelper extends PlayerHelper {
   protected soloGoalScore(): Score {
     return [0];
   }
-  
+
   getScoreFromIncome(player: PlayerData): number {
     if (player.outOfGame) return 0;
 

@@ -180,7 +180,9 @@ export function MapSelectorDialog({
             />
           </div>
           <div className={filterField}>
-            <label htmlFor="map-selector-player-count-filter">Player count</label>
+            <label htmlFor="map-selector-player-count-filter">
+              Player count
+            </label>
             <Input
               id="map-selector-player-count-filter"
               type="number"
@@ -192,7 +194,9 @@ export function MapSelectorDialog({
               value={playerCountFilter ?? ""}
               aria-describedby={`${ratingsGuideId} ${resultsStatusId}`}
               onChange={(e) => {
-                const parsedCount = e.target.value ? parseInt(e.target.value, 10) : null;
+                const parsedCount = e.target.value
+                  ? parseInt(e.target.value, 10)
+                  : null;
                 setPlayerCountFilter(
                   parsedCount !== null && Number.isNaN(parsedCount)
                     ? null
@@ -206,9 +210,9 @@ export function MapSelectorDialog({
         </div>
 
         <p id={ratingsGuideId}>
-          Ratings guide: ? = no data, -- = not supported, - = not recommended,
-          + = recommended, ++ = highly recommended, +- = mixed. These are map
-          selection aids and not cross-map quality rankings. Source: {" "}
+          Ratings guide: ? = no data, -- = not supported, - = not recommended, +
+          = recommended, ++ = highly recommended, +- = mixed. These are map
+          selection aids and not cross-map quality rankings. Source:{" "}
           <a
             href="https://boardgamegeek.com/thread/2930352/article/41563109#41563109"
             target="_blank"
@@ -219,13 +223,15 @@ export function MapSelectorDialog({
           .
         </p>
         <p id={resultsStatusId} aria-live="polite">
-          Showing {filteredMaps.length} map{filteredMaps.length === 1 ? "" : "s"}.
+          Showing {filteredMaps.length} map
+          {filteredMaps.length === 1 ? "" : "s"}.
         </p>
 
         <div className={tableContainer}>
           <Table celled compact sortable className={mapTable}>
             <caption className={visuallyHidden}>
-              Map list with ratings for 1 through 8 players and an action to select a map.
+              Map list with ratings for 1 through 8 players and an action to
+              select a map.
             </caption>
             <TableHeader>
               <TableRow>
@@ -257,10 +263,14 @@ export function MapSelectorDialog({
               {filteredMaps.map((map) => (
                 <TableRow
                   key={map.key}
-                  active={map.key === initialSelection || map.key === hoveredRowKey}
+                  active={
+                    map.key === initialSelection || map.key === hoveredRowKey
+                  }
                   data-map-row={map.key}
                   onClick={() => handleSelectMap(map.key)}
-                  onKeyDown={(event: React.KeyboardEvent<HTMLTableRowElement>) => {
+                  onKeyDown={(
+                    event: React.KeyboardEvent<HTMLTableRowElement>,
+                  ) => {
                     if (event.currentTarget !== event.target) {
                       return;
                     }
@@ -303,7 +313,9 @@ export function MapSelectorDialog({
                         className={ratingCell}
                         {...ratingCellState}
                         active={hoveredRowKey === map.key}
-                        onMouseEnter={() => handleCellMouseEnter(map.key, column)}
+                        onMouseEnter={() =>
+                          handleCellMouseEnter(map.key, column)
+                        }
                         onMouseLeave={clearHoveredCell}
                       >
                         {rating}

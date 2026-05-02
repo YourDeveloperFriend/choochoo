@@ -157,10 +157,7 @@ export function PlayerStats() {
                         </td>
                         <td className={styles.collapsed}>
                           {columns.map((column) => (
-                            <div
-                              key={column.header}
-                              className={styles.inplace}
-                            >
+                            <div key={column.header} className={styles.inplace}>
                               {column.header}:
                             </div>
                           ))}
@@ -181,10 +178,7 @@ export function PlayerStats() {
                         {columns.map((column) => {
                           const Cell = column.cell;
                           return (
-                            <td
-                              key={column.header}
-                              className={styles.expanded}
-                            >
+                            <td key={column.header} className={styles.expanded}>
                               <Cell player={player} />
                             </td>
                           );
@@ -257,7 +251,11 @@ function PlayerNameCell({ player }: PlayerStatColumnProps) {
         <Popup
           content="At risk of elimination — expenses exceed cash and would reduce income below $0"
           trigger={
-            <Icon name="warning sign" size="small" className={styles.warningRed} />
+            <Icon
+              name="warning sign"
+              size="small"
+              className={styles.warningRed}
+            />
           }
           position="bottom center"
           size="small"
@@ -267,7 +265,11 @@ function PlayerNameCell({ player }: PlayerStatColumnProps) {
         <Popup
           content="Cannot fully pay expenses — will lose income"
           trigger={
-            <Icon name="warning sign" size="small" className={styles.warningAmber} />
+            <Icon
+              name="warning sign"
+              size="small"
+              className={styles.warningAmber}
+            />
           }
           position="bottom center"
           size="small"
@@ -368,7 +370,9 @@ function ScoreCell({ player }: PlayerStatColumnProps) {
       <span>{helper.getScore(player)[0]}</span>
       <Popup
         content={<ScoreTooltipContent player={player} />}
-        trigger={<Icon name="info circle" size="small" className={styles.infoIcon} />}
+        trigger={
+          <Icon name="info circle" size="small" className={styles.infoIcon} />
+        }
         position="left center"
         size="small"
         className="score-tooltip"

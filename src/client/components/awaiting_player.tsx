@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useEffect, useMemo } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { GamePageCursor } from "../../api/game";
 import { tsr } from "../services/client";

@@ -4,9 +4,9 @@ export function SouthernUsRules() {
       <p>Same as base game with the following changes:</p>
       <ul>
         <li>
-          <b>Setup:</b> Each town starts with a white cube (representing cotton).
-          Atlanta starts with 4 goods, Charleston, Svannah, Mobile, New Orleans
-          starts with 3, every other city starts with 1.
+          <b>Setup:</b> Each town starts with a white cube (representing
+          cotton). Atlanta starts with 4 goods, Charleston, Svannah, Mobile, New
+          Orleans starts with 3, every other city starts with 1.
         </li>
         <li>
           <b>Actions:</b> When a town with a cotton good is urbanized, the

@@ -13,7 +13,9 @@ export interface PlayerColorContainer {
 
 export type ParsedMessagePart = string | Container | PlayerColorContainer;
 
-export function moveColorChipBeforeUser(parts: ParsedMessagePart[]): ParsedMessagePart[] {
+export function moveColorChipBeforeUser(
+  parts: ParsedMessagePart[],
+): ParsedMessagePart[] {
   const reordered: ParsedMessagePart[] = [];
 
   for (let index = 0; index < parts.length; index++) {

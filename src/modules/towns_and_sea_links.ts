@@ -22,7 +22,7 @@ export class TownsAndSeaLinksModule extends Module {
 }
 
 function skipCityValidationMixin(
-  Ctor: SimpleConstructor<ConnectCitiesAction>
+  Ctor: SimpleConstructor<ConnectCitiesAction>,
 ): SimpleConstructor<ConnectCitiesAction> {
   return class extends Ctor {
     protected validateUrbanizedCities(): void {}
@@ -30,66 +30,71 @@ function skipCityValidationMixin(
 }
 
 function allowTownConnectionMixin(
-  Ctor: SimpleConstructor<Validator>
+  Ctor: SimpleConstructor<Validator>,
 ): SimpleConstructor<Validator> {
   return class extends Ctor {
     protected connectionAllowed(
-        playerColor: PlayerColor,
-        land: Land,
-        exit: Direction,
-      ): InvalidBuildReason | undefined {
-        if (this.isExitTowardsSea(land, exit)
-            && land.hasTown()
-            && this.isExitTowardsInterCity(land, exit)) {
-          return undefined;
-        }
-        return super.connectionAllowed(playerColor, land, exit);
+      playerColor: PlayerColor,
+      land: Land,
+      exit: Direction,
+    ): InvalidBuildReason | undefined {
+      if (
+        this.isExitTowardsSea(land, exit) &&
+        land.hasTown() &&
+        this.isExitTowardsInterCity(land, exit)
+      ) {
+        return undefined;
       }
-    
-      protected isExitTowardsSea(space: Land, exit: Direction): boolean {
-        const neighbor = this.grid().getNeighbor(space.coordinates, exit)?.data.type;
-        if (neighbor === SpaceType.WATER) {return true}
-        return false ;
-      }
+      return super.connectionAllowed(playerColor, land, exit);
+    }
 
-      protected isExitTowardsInterCity(space: Land, exit: Direction): boolean {
-        return this.grid().connections.some(connection =>
-          connection.connects.some(c => c.equals(space.coordinates)) 
-          && Array.isArray(connection.connectedTownExits)
-          && connection.connectedTownExits.includes(exit)
-        );
+    protected isExitTowardsSea(space: Land, exit: Direction): boolean {
+      const neighbor = this.grid().getNeighbor(space.coordinates, exit)?.data
+        .type;
+      if (neighbor === SpaceType.WATER) {
+        return true;
       }
-  }
+      return false;
+    }
+
+    protected isExitTowardsInterCity(space: Land, exit: Direction): boolean {
+      return this.grid().connections.some(
+        (connection) =>
+          connection.connects.some((c) => c.equals(space.coordinates)) &&
+          Array.isArray(connection.connectedTownExits) &&
+          connection.connectedTownExits.includes(exit),
+      );
+    }
+  };
 }
 
 function allowGoodsMovementMixin(
-  Ctor: SimpleConstructor<MoveValidator>
+  Ctor: SimpleConstructor<MoveValidator>,
 ): SimpleConstructor<MoveValidator> {
   return class extends Ctor {
     protected getAdditionalRoutesFromLand(location: Land): RouteInfo[] {
-        const grid = this.grid();
-        return grid.connections
-          .filter((connection) =>
-            connection.connects.some((c) => c.equals(location.coordinates)),
-          )
-          .filter((connection) => connection.owner != null)
-          .flatMap((connection) => {
-            const otherEnd = grid.get(
-              connection.connects.find((c) => !location.coordinates.equals(c))!,
-            );
-            if (!(otherEnd instanceof City)) {
-              return [];
-            }
-              return [
-                {
-                  type: "connection",
-                  destination: otherEnd.coordinates,
-                  connection: connection as OwnedInterCityConnection,
-                  owner: connection.owner!.color,
-                },
-              ];
-
-          });
+      const grid = this.grid();
+      return grid.connections
+        .filter((connection) =>
+          connection.connects.some((c) => c.equals(location.coordinates)),
+        )
+        .filter((connection) => connection.owner != null)
+        .flatMap((connection) => {
+          const otherEnd = grid.get(
+            connection.connects.find((c) => !location.coordinates.equals(c))!,
+          );
+          if (!(otherEnd instanceof City)) {
+            return [];
+          }
+          return [
+            {
+              type: "connection",
+              destination: otherEnd.coordinates,
+              connection: connection as OwnedInterCityConnection,
+              owner: connection.owner!.color,
+            },
+          ];
+        });
     }
 
     protected getAdditionalRoutesFromCity(originCity: City): RouteInfo[] {
@@ -106,7 +111,7 @@ function allowGoodsMovementMixin(
           if (
             otherEnd != null &&
             !(otherEnd instanceof City) &&
-            otherEnd.hasTown() 
+            otherEnd.hasTown()
           ) {
             return [
               {
@@ -120,43 +125,49 @@ function allowGoodsMovementMixin(
           return [];
         });
     }
-  }
+  };
 }
 
 function noSeaRouteDanglersMixin(
-  Ctor: SimpleConstructor<BuildPhase>
+  Ctor: SimpleConstructor<BuildPhase>,
 ): SimpleConstructor<BuildPhase> {
   return class extends Ctor {
-      getDanglersAsInfo(color?: PlayerColor): DanglerInfo[] {
-        const ownedConnectionsWithSeaRoutes = this.grid().connections
-          .filter(connection =>
-            Array.isArray(connection.connectedTownExits) &&
-            connection.owner != undefined
+    getDanglersAsInfo(color?: PlayerColor): DanglerInfo[] {
+      const ownedConnectionsWithSeaRoutes = this.grid().connections.filter(
+        (connection) =>
+          Array.isArray(connection.connectedTownExits) &&
+          connection.owner != undefined,
+      );
+
+      return this.grid()
+        .getDanglers(color)
+        .filter((track) => {
+          const matchingConnection = ownedConnectionsWithSeaRoutes.find(
+            (conn) =>
+              conn.connects.some(
+                (coord) =>
+                  coord.q === track.coordinates.q &&
+                  coord.r === track.coordinates.r,
+              ),
           );
 
-        return this.grid()
-          .getDanglers(color)
-          .filter(track => {
-            const matchingConnection = ownedConnectionsWithSeaRoutes.find(conn =>
-              conn.connects.some(coord =>
-                coord.q === track.coordinates.q 
-                && coord.r === track.coordinates.r
-              )
-            );
+          if (!matchingConnection) return true;
 
-            if (!matchingConnection) return true;
+          const immovableExit = this.grid().getImmovableExitReference(track);
+          const isMatchingExit =
+            matchingConnection.connectedTownExits?.includes(immovableExit) ??
+            false;
 
-            const immovableExit = this.grid().getImmovableExitReference(track);
-            const isMatchingExit = matchingConnection.connectedTownExits?.includes(immovableExit) ?? false;
-
-            if (isMatchingExit) { return false }
-            return true;
-          })
-          .map(track => ({
-            coordinates: track.coordinates,
-            immovableExit: this.grid().getImmovableExitReference(track),
-            length: this.grid().getRoute(track).length,
-          }));
-      }
+          if (isMatchingExit) {
+            return false;
+          }
+          return true;
+        })
+        .map((track) => ({
+          coordinates: track.coordinates,
+          immovableExit: this.grid().getImmovableExitReference(track),
+          length: this.grid().getRoute(track).length,
+        }));
+    }
   };
 }

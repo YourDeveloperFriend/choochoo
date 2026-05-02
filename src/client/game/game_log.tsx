@@ -78,7 +78,11 @@ interface ChatLogProps {
   showFilters?: boolean;
 }
 
-export function ChatLog({ gameId, userColorLookup = {}, showFilters = true }: ChatLogProps) {
+export function ChatLog({
+  gameId,
+  userColorLookup = {},
+  showFilters = true,
+}: ChatLogProps) {
   const { messages, isLoading, fetchNextPage, hasNextPage } =
     useMessages(gameId);
   const [newMessage, setNewMessage, setNewMessageRaw] = useTextInputState("");
@@ -87,7 +91,7 @@ export function ChatLog({ gameId, userColorLookup = {}, showFilters = true }: Ch
 
   // Filter state with localStorage persistence
   const [storedFilters, setStoredFilters] = useLocalStorage<MessageType[]>(
-    `chat-filters-${gameId ?? 'home'}`,
+    `chat-filters-${gameId ?? "home"}`,
   );
   const [activeFilters, setActiveFilters] = useState<Set<MessageType>>(() => {
     if (storedFilters && storedFilters.length > 0) {
@@ -123,18 +127,15 @@ export function ChatLog({ gameId, userColorLookup = {}, showFilters = true }: Ch
   // Filter messages by active types
   // If no filters are active, show all messages
   // If showFilters is false, always show all messages (bypass filtering)
-  const filteredMessages = useMemo(
-    () => {
-      if (!showFilters || activeFilters.size === 0) {
-        return messages;
-      }
-      return messages.filter((message) => {
-        const type = detectMessageType(message);
-        return activeFilters.has(type);
-      });
-    },
-    [messages, activeFilters, showFilters],
-  );
+  const filteredMessages = useMemo(() => {
+    if (!showFilters || activeFilters.size === 0) {
+      return messages;
+    }
+    return messages.filter((message) => {
+      const type = detectMessageType(message);
+      return activeFilters.has(type);
+    });
+  }, [messages, activeFilters, showFilters]);
 
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
@@ -186,7 +187,8 @@ export function ChatLog({ gameId, userColorLookup = {}, showFilters = true }: Ch
 }
 
 const USER_MESSAGE_PARSER = /<@(user|game)-(\d+)>/g;
-const PLAYER_COLOR_PARSER = /\((red|yellow|green|purple|black|blue|brown|white|pink)\)/gi;
+const PLAYER_COLOR_PARSER =
+  /\((red|yellow|green|purple|black|blue|brown|white|pink)\)/gi;
 const ACTOR_PREFIX_PARSER = /^\s*<@user-(\d+)>\s*(?:\([^)]+\))?/;
 
 const PLAYER_COLOR_LOOKUP: Record<string, PlayerColor> = {
@@ -228,11 +230,15 @@ function isActorPrefixedLogMessage(message: string): boolean {
   return ACTOR_PREFIX_PARSER.test(message);
 }
 
-function isWhitespaceOnlyPart(part: ParsedMessagePart | undefined): part is string {
+function isWhitespaceOnlyPart(
+  part: ParsedMessagePart | undefined,
+): part is string {
   return typeof part === "string" && /^\s*$/.test(part);
 }
 
-function stripLeadingActorColorToken(parts: ParsedMessagePart[]): ParsedMessagePart[] {
+function stripLeadingActorColorToken(
+  parts: ParsedMessagePart[],
+): ParsedMessagePart[] {
   let startIndex = 0;
 
   while (startIndex < parts.length && isWhitespaceOnlyPart(parts[startIndex])) {
@@ -274,8 +280,11 @@ function LogMessage({
     const parts: ParsedMessagePart[] = [];
     let lastIndex = 0;
     for (const match of message.matchAll(USER_MESSAGE_PARSER)) {
-      parts.push(...parseColorsInText(message.substring(lastIndex, match.index)));
-      const referenceType: "user" | "game" = match[1] === "user" ? "user" : "game";
+      parts.push(
+        ...parseColorsInText(message.substring(lastIndex, match.index)),
+      );
+      const referenceType: "user" | "game" =
+        match[1] === "user" ? "user" : "game";
       parts.push({ type: referenceType, id: Number(match[2]) });
       lastIndex = match.index + match[0].length;
     }
@@ -301,7 +310,8 @@ function LogMessage({
         const nextIsWhitespace =
           typeof nextPart === "string" && /^\s+$/.test(nextPart);
         const hasAdjacentColorToken =
-          (typeof previousPart !== "string" && previousPart?.type === "playerColor") ||
+          (typeof previousPart !== "string" &&
+            previousPart?.type === "playerColor") ||
           (typeof nextPart !== "string" && nextPart?.type === "playerColor") ||
           (previousIsWhitespace &&
             typeof previousPreviousPart !== "string" &&
@@ -309,12 +319,14 @@ function LogMessage({
           (nextIsWhitespace &&
             typeof nextNextPart !== "string" &&
             nextNextPart?.type === "playerColor");
-        
+
         const mentionClasses = cx(
-          isUserMention && messageType === MessageType.CHAT && styles.userMention,
-          isMentionedUser && styles.mentionedUser
+          isUserMention &&
+            messageType === MessageType.CHAT &&
+            styles.userMention,
+          isMentionedUser && styles.mentionedUser,
         );
-        
+
         return (
           <span key={index} className={mentionClasses || undefined}>
             {typeof part === "string" ? (
@@ -461,14 +473,15 @@ function LogMessages({
   );
 
   const hasMessages = messages.length > 0;
-  const hasFilteredOutMessages = allMessages && allMessages.length > messages.length;
+  const hasFilteredOutMessages =
+    allMessages && allMessages.length > messages.length;
 
   // Track actor for alternating background grouping - memoized to ensure consistent grouping
   const messageGrouping = useMemo(() => {
     const grouping: number[] = [];
     let previousActor: number | null = null;
     let currentActorGroup = 0;
-    
+
     messages.forEach((log) => {
       const currentActor = getMessageActor(log);
       if (currentActor !== null && currentActor !== previousActor) {
@@ -477,7 +490,7 @@ function LogMessages({
       }
       grouping.push(currentActorGroup);
     });
-    
+
     return grouping;
   }, [messages]);
 
@@ -511,9 +524,11 @@ function LogMessages({
               containsMentionOfUser(log.message, currentUserId);
             const typeClassName = MessageType[messageType];
             const previousLog = index > 0 ? messages[index - 1] : undefined;
-            const nextLog = index < messages.length - 1 ? messages[index + 1] : undefined;
+            const nextLog =
+              index < messages.length - 1 ? messages[index + 1] : undefined;
             const currentActor = getMessageActor(log);
-            const previousActor = previousLog != null ? getMessageActor(previousLog) : null;
+            const previousActor =
+              previousLog != null ? getMessageActor(previousLog) : null;
             const nextActor = nextLog != null ? getMessageActor(nextLog) : null;
             const isChatMessage = messageType === MessageType.CHAT;
             const isPlayerActionStyleMessage =
@@ -521,25 +536,19 @@ function LogMessages({
 
             const previousIsSameCollapsibleKind =
               previousLog != null &&
-              (
-                (isChatMessage && detectMessageType(previousLog) === MessageType.CHAT) ||
-                (
-                  isPlayerActionStyleMessage &&
+              ((isChatMessage &&
+                detectMessageType(previousLog) === MessageType.CHAT) ||
+                (isPlayerActionStyleMessage &&
                   detectMessageType(previousLog) !== MessageType.CHAT &&
-                  isActorPrefixedLogMessage(previousLog.message)
-                )
-              );
+                  isActorPrefixedLogMessage(previousLog.message)));
 
             const nextIsSameCollapsibleKind =
               nextLog != null &&
-              (
-                (isChatMessage && detectMessageType(nextLog) === MessageType.CHAT) ||
-                (
-                  isPlayerActionStyleMessage &&
+              ((isChatMessage &&
+                detectMessageType(nextLog) === MessageType.CHAT) ||
+                (isPlayerActionStyleMessage &&
                   detectMessageType(nextLog) !== MessageType.CHAT &&
-                  isActorPrefixedLogMessage(nextLog.message)
-                )
-              );
+                  isActorPrefixedLogMessage(nextLog.message)));
 
             const shouldCollapseActor =
               !isNewDay &&
@@ -550,9 +559,7 @@ function LogMessages({
               previousActor === currentActor;
 
             const shouldCollapseAuthor =
-              shouldCollapseActor &&
-              isChatMessage &&
-              log.userId != null;
+              shouldCollapseActor && isChatMessage && log.userId != null;
 
             const nextIsContinuation =
               nextLog != null &&
@@ -621,7 +628,11 @@ function LogMessages({
                         <Username userId={log.userId} useLink={true} />
                       </span>
                       <span
-                        className={shouldCollapseAuthor ? styles.usernamePlaceholder : undefined}
+                        className={
+                          shouldCollapseAuthor
+                            ? styles.usernamePlaceholder
+                            : undefined
+                        }
                         aria-hidden={shouldCollapseAuthor}
                       >
                         :
@@ -635,8 +646,7 @@ function LogMessages({
                       userColorLookup={userColorLookup}
                       messageType={messageType}
                       collapseLeadingActorMention={
-                        shouldCollapseActor &&
-                        isPlayerActionStyleMessage
+                        shouldCollapseActor && isPlayerActionStyleMessage
                       }
                     />
                   </span>
@@ -646,7 +656,8 @@ function LogMessages({
           })
         ) : hasFilteredOutMessages ? (
           <div className={styles.emptyState}>
-            No messages match current filters. Enable more filters to see messages.
+            No messages match current filters. Enable more filters to see
+            messages.
           </div>
         ) : null}
       </div>

@@ -17,7 +17,11 @@ import {
   DoubleBaseUsaPlayerData,
   TranscontinentalBonusClaimed,
 } from "./starter";
-import { calculateTrackInfo, Land, partitionTracks } from "../../engine/map/location";
+import {
+  calculateTrackInfo,
+  Land,
+  partitionTracks,
+} from "../../engine/map/location";
 import { Exit, TOWN, TrackInfo } from "../../engine/map/track";
 import { PlayerColor } from "../../engine/state/player";
 import { allDirections, Direction, TileType } from "../../engine/state/tile";

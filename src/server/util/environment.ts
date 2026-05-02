@@ -1,6 +1,6 @@
 import { URL } from "url";
 import { z } from "zod";
-import {readFileSync} from 'fs';
+import { readFileSync } from "fs";
 import { assert } from "../../utils/validate";
 import { isNotEmpty } from "../../utils/functions";
 
@@ -11,10 +11,10 @@ export function stage(): Stage {
   return Stage.parse(process.env.NODE_ENV);
 }
 
-export function postgresSsl(): ({ca: string}|undefined) {
+export function postgresSsl(): { ca: string } | undefined {
   const ssl = process.env.POSTGRES_SSL;
   if (ssl == null || ssl == "") return undefined;
-  return {ca: readFileSync(ssl, 'utf-8')};
+  return { ca: readFileSync(ssl, "utf-8") };
 }
 
 export function postgresUrl(): URL {
@@ -23,7 +23,10 @@ export function postgresUrl(): URL {
     assert(postgresUrl != null, "must provide POSTGRES_URL in url format");
     return postgresUrl;
   }
-  assert(isNotEmpty(process.env.POSTGRES_PASS), "must provide POSTGRES_URL or POSTGRES_PASS");
+  assert(
+    isNotEmpty(process.env.POSTGRES_PASS),
+    "must provide POSTGRES_URL or POSTGRES_PASS",
+  );
   const url = new URL("postgres://postgres:password@localhost:5432/aos");
   url.password = process.env.POSTGRES_PASS;
   if (isNotEmpty(process.env.POSTGRES_USER)) {

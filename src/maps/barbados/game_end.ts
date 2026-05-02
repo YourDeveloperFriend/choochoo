@@ -5,7 +5,10 @@ import { PlayerData } from "../../engine/state/player";
 export class BarbadosGameEnd extends Ender {
   protected onEndGame(): void {
     const lostMoney = this.playerHelper.getSoloPlayer().shares * 5;
-    this.log.player(this.playerHelper.getSoloPlayer(), `You pay $${lostMoney} for your shares.`);
+    this.log.player(
+      this.playerHelper.getSoloPlayer(),
+      `You pay $${lostMoney} for your shares.`,
+    );
     this.playerHelper.update(
       this.playerHelper.getSoloPlayer().color,
       (playerData) => {

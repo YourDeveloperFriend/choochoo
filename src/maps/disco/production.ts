@@ -101,7 +101,7 @@ export class ProductionAction implements ActionProcessor<ProductionData> {
   }
 
   process(data: ProductionData): boolean {
-    const goods = this.goodsGrowthState().goods.map(goodToString).join(', ');
+    const goods = this.goodsGrowthState().goods.map(goodToString).join(", ");
     const locationName = this.gridHelper.displayName(data.coordinates);
     this.log.currentPlayer(`places ${goods} in ${locationName}`);
     this.gridHelper.update(data.coordinates, (city) => {

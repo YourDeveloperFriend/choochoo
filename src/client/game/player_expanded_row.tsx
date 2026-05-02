@@ -76,9 +76,7 @@ interface PlayerExpandedRowProps {
   isCurrentPlayer: boolean;
 }
 
-export function PlayerExpandedRow({
-  player,
-}: PlayerExpandedRowProps) {
+export function PlayerExpandedRow({ player }: PlayerExpandedRowProps) {
   if (player.outOfGame) {
     return <EliminatedExpandedView />;
   }
@@ -90,9 +88,7 @@ export function PlayerExpandedRow({
         <div>
           <FinancialDetailsPanel player={player} />
           <IncomeTrackVisualization player={player} />
-          {player.locomotive < 6 && (
-            <LocoUpgradeImpactPanel player={player} />
-          )}
+          {player.locomotive < 6 && <LocoUpgradeImpactPanel player={player} />}
         </div>
         <div>
           <ScoreBreakdownPanel player={player} />
@@ -109,9 +105,7 @@ function WarningBanners({ player }: { player: PlayerData }) {
 
   if (warning.hasEliminationRisk) {
     return (
-      <div
-        className={`${styles.warningBanner} ${styles.warningBannerRed}`}
-      >
+      <div className={`${styles.warningBanner} ${styles.warningBannerRed}`}>
         <div className={styles.warningBannerContent}>
           <Icon
             name="warning sign"
@@ -119,9 +113,7 @@ function WarningBanners({ player }: { player: PlayerData }) {
             style={{ color: "#dc2626" }}
           />
           <div className={styles.warningBannerText}>
-            <div className={styles.warningTitleRed}>
-              ⚠️ Elimination Risk
-            </div>
+            <div className={styles.warningTitleRed}>⚠️ Elimination Risk</div>
             <div className={styles.warningBodyRed}>
               Cannot fully pay {formatMoney(expenses)} in expenses with{" "}
               {formatMoney(player.money)} cash. Income would drop below $0.
@@ -140,9 +132,7 @@ function WarningBanners({ player }: { player: PlayerData }) {
 
   if (warning.hasIncomeLoss) {
     return (
-      <div
-        className={`${styles.warningBanner} ${styles.warningBannerAmber}`}
-      >
+      <div className={`${styles.warningBanner} ${styles.warningBannerAmber}`}>
         <div className={styles.warningBannerContent}>
           <Icon
             name="warning sign"
@@ -181,7 +171,8 @@ function FinancialDetailsPanel({ player }: { player: PlayerData }) {
   const endOfTurnMoney = player.money + profit;
   const warning = getPlayerWarning(player);
 
-  const netIncomeHighlight = warning.hasIncomeLoss || warning.hasEliminationRisk;
+  const netIncomeHighlight =
+    warning.hasIncomeLoss || warning.hasEliminationRisk;
 
   return (
     <div className={styles.panelSection}>
@@ -379,10 +370,10 @@ function BiddingImpactSection({ player }: { player: PlayerData }) {
   const phase = useInjectedState(PHASE);
   const isAuctionPhase =
     phase === Phase.TURN_ORDER || phase === Phase.ST_LUCIA_TURN_ORDER;
-  
+
   const turnOrderState = usePhaseState(
     isAuctionPhase ? phase : Phase.TURN_ORDER,
-    TURN_ORDER_STATE
+    TURN_ORDER_STATE,
   );
   const profitHelper = useInjected(ProfitHelper);
 
@@ -494,16 +485,28 @@ export function ScoreTooltipContent({ player }: ScoreTooltipContentProps) {
       <table className={styles.tooltipTable}>
         <tbody>
           <tr>
-            <td className={styles.tooltipLabel}>Income points ({player.income} × 3):</td>
-            <td className={`${styles.tooltipValue} ${styles.valuePositive}`}>+{incomePoints}</td>
+            <td className={styles.tooltipLabel}>
+              Income points ({player.income} × 3):
+            </td>
+            <td className={`${styles.tooltipValue} ${styles.valuePositive}`}>
+              +{incomePoints}
+            </td>
           </tr>
           <tr>
-            <td className={styles.tooltipLabel}>Share penalty ({player.shares} × -3):</td>
-            <td className={`${styles.tooltipValue} ${styles.valueNegative}`}>{sharePoints}</td>
+            <td className={styles.tooltipLabel}>
+              Share penalty ({player.shares} × -3):
+            </td>
+            <td className={`${styles.tooltipValue} ${styles.valueNegative}`}>
+              {sharePoints}
+            </td>
           </tr>
           <tr>
-            <td className={styles.tooltipLabel}>Track points ({trackCount} sections × 1):</td>
-            <td className={`${styles.tooltipValue} ${styles.valuePositive}`}>+{trackPoints}</td>
+            <td className={styles.tooltipLabel}>
+              Track points ({trackCount} sections × 1):
+            </td>
+            <td className={`${styles.tooltipValue} ${styles.valuePositive}`}>
+              +{trackPoints}
+            </td>
           </tr>
           <tr className={styles.tooltipTotalRow}>
             <td className={styles.tooltipLabel}>Total:</td>

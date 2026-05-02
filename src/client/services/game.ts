@@ -150,7 +150,11 @@ export function useGameList(baseQuery: ListGamesApi) {
         );
         // Do not add unlisted games to the UI
         // FIXME: Ideally this should be excluded server-side, but since updates are broadcast to all sockets it's a bit tricky to control there
-        if (!present && game.unlisted && (me === undefined || game.playerIds.indexOf(me.id) === -1)) {
+        if (
+          !present &&
+          game.unlisted &&
+          (me === undefined || game.playerIds.indexOf(me.id) === -1)
+        ) {
           return pages;
         }
 
@@ -359,7 +363,8 @@ export function useDeleteGame(game: GameLiteApi) {
   }, [confirm, game.id]);
 
   const canBeDeleted =
-    game.status === GameStatus.enum.LOBBY || (game.playerIds.length === 1 && game.playerIds[0] === me?.id);
+    game.status === GameStatus.enum.LOBBY ||
+    (game.playerIds.length === 1 && game.playerIds[0] === me?.id);
 
   const canPerform = isAdmin || (canBeDeleted && game.ownerId === me?.id);
 

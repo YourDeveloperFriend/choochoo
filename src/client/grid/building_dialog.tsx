@@ -109,9 +109,7 @@ export function BuildingDialog({
   });
 
   const canUrbanize =
-    canEmitUrbanize &&
-    space != null &&
-    eligibleCities.length > 0;
+    canEmitUrbanize && space != null && eligibleCities.length > 0;
   const hasBuildingOptions = canUrbanize || eligible.length > 0;
 
   const isOpen = coordinates != null && (hasBuildingOptions || isAdmin);
@@ -142,11 +140,8 @@ export function BuildingDialog({
           )}
           <div className={buildingDialogContainer} data-building-options>
             {canUrbanize &&
-              eligibleCities.map(cityIdx => (
-                <div
-                  key={cityIdx}
-                  className={buildingOption}
-                >
+              eligibleCities.map((cityIdx) => (
+                <div key={cityIdx} className={buildingOption}>
                   <ModifiedSpace
                     space={space!}
                     settings={settings}
@@ -366,12 +361,16 @@ function* getAllEligibleBuilds(
   }
 }
 
-function canUrbanizeSpace(action: Memoized<UrbanizeAction>, coordinates: Coordinates|undefined, cityIndex: number): boolean {
+function canUrbanizeSpace(
+  action: Memoized<UrbanizeAction>,
+  coordinates: Coordinates | undefined,
+  cityIndex: number,
+): boolean {
   if (!coordinates) {
     return false;
   }
   try {
-    action.value.validate({coordinates: coordinates, cityIndex: cityIndex});
+    action.value.validate({ coordinates: coordinates, cityIndex: cityIndex });
     return true;
   } catch (_: unknown) {
     return false;

@@ -40,7 +40,11 @@ export class MinasGeraesStarter extends GameStarter {
     playerCount: number,
     location: CityData,
   ): Good[] {
-    if (location.color === Good.BLACK || (location.color instanceof Array && location.color.indexOf(Good.BLACK) !== -1)) {
+    if (
+      location.color === Good.BLACK ||
+      (location.color instanceof Array &&
+        location.color.indexOf(Good.BLACK) !== -1)
+    ) {
       // Draw 2 yellow from the bag
       return drawMatching(bag, 2, (good) => good === Good.YELLOW);
     }
@@ -61,7 +65,10 @@ export class MinasGeraesStarter extends GameStarter {
     urbanized: boolean,
   ): Array<undefined | Good> {
     let drawn: Good[];
-    if (cityColor === Good.BLACK || (cityColor instanceof Array && cityColor.indexOf(Good.BLACK) !== -1)) {
+    if (
+      cityColor === Good.BLACK ||
+      (cityColor instanceof Array && cityColor.indexOf(Good.BLACK) !== -1)
+    ) {
       drawn = draw(2, bag);
     } else {
       drawn = drawMatching(bag, 2, (good) => good !== Good.YELLOW);

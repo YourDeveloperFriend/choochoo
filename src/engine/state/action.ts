@@ -108,7 +108,7 @@ export class ActionNamingProvider {
       case Action.FERRY:
         return "Ferry";
       case Action.BUMP_OFF:
-        return "Bump Off an Agent"
+        return "Bump Off an Agent";
       case Action.MARKETING:
         return "Marketing";
       case Action.DOUBLE_BASE_LOCOMOTIVE:

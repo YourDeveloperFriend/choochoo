@@ -16,11 +16,10 @@ import {
   white,
 } from "../factory";
 
-const CANYON : LandData = {
+const CANYON: LandData = {
   type: SpaceType.UNPASSABLE,
   style: SpaceStyle.CANYON,
 };
-
 
 export const map = grid<SpaceData>([
   [UNPASSABLE, ...duplicate(4, PLAIN), RIVER, ...duplicate(9, PLAIN)],

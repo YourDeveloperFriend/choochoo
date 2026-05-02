@@ -10,7 +10,7 @@ import { map } from "./grid";
 import { JapanMoveHelper, JapanSelectAction } from "./locomotive";
 import { JapanBuilderHelper, JapanUrbanizeAction } from "./urbanize";
 import { JapanBuildCostCalculator, JapanBuildValidator } from "./build";
-import {JapanActionNamingProvider} from "./actions";
+import { JapanActionNamingProvider } from "./actions";
 
 export class JapanMapSettings implements MapSettings {
   readonly key = GameKey.JAPAN;

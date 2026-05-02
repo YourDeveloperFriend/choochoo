@@ -11,7 +11,7 @@ export function SouthernUSRivers() {
         className={styles.riverPath}
         d="m 423.5,2123.5 C 427.447538,2122.9117 411.651753,1996.3171 420.977999,1877.6093"
       />
-    <path
+      <path
         className={styles.riverPath}
         d="m 844.5,2239.5 C 821.447538,2162.9117 874.651753,1995.3171 837.977999,1878.6093"
       />

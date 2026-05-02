@@ -33,7 +33,13 @@ describe("moveColorChipBeforeUser", () => {
   });
 
   it("moves player color before user when a whitespace token sits in between", () => {
-    const input: ParsedMessagePart[] = ["prefix ", user631, " ", redChip, " joined"];
+    const input: ParsedMessagePart[] = [
+      "prefix ",
+      user631,
+      " ",
+      redChip,
+      " joined",
+    ];
 
     expect(moveColorChipBeforeUser(input)).toEqual([
       "prefix ",

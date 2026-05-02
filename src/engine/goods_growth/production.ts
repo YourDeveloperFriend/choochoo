@@ -72,7 +72,9 @@ export class ProductionAction implements ActionProcessor<ProductionData> {
       const onRoll = this.findOnRoll(city.onRoll, data);
       onRoll!.goods[data.row] = data.good;
     });
-    this.log.currentPlayer(`puts ${goodToString(data.good)} in ${this.grid.displayName(city.coordinates)}`);
+    this.log.currentPlayer(
+      `puts ${goodToString(data.good)} in ${this.grid.displayName(city.coordinates)}`,
+    );
 
     this.turnState.update((state) => {
       state.goods.splice(state.goods.indexOf(data.good), 1);

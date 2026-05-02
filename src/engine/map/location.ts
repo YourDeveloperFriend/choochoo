@@ -172,9 +172,11 @@ export function partitionTracks(space: Land, tracks: TrackInfo[]): Partitioned {
       newTracks.push(trackInfo);
       continue;
     }
-    const reroutedExit = oldTrack.getExits().find((exit) => !trackInfo.exits.includes(exit));
+    const reroutedExit = oldTrack
+      .getExits()
+      .find((exit) => !trackInfo.exits.includes(exit));
     if (reroutedExit != null) {
-      assert(reroutedExit !== TOWN, 'cannot reroute town');
+      assert(reroutedExit !== TOWN, "cannot reroute town");
       rerouted.push(trackInfo);
       continue;
     }
@@ -183,12 +185,17 @@ export function partitionTracks(space: Land, tracks: TrackInfo[]): Partitioned {
   return { preserved, newTracks, rerouted };
 }
 
-export function getOldTrack(space: Land, newTrack: TrackInfo): Track | undefined {
+export function getOldTrack(
+  space: Land,
+  newTrack: TrackInfo,
+): Track | undefined {
   const oldTrackList = space.getTrack().filter((track) => {
     return newTrack.exits.some((exit) => exit !== TOWN && track.hasExit(exit));
   });
   if (oldTrackList.length > 1) {
-    throw new Error('rerouting multiple routes is technically possible, but unsupported');
+    throw new Error(
+      "rerouting multiple routes is technically possible, but unsupported",
+    );
   }
   return oldTrackList[0];
 }

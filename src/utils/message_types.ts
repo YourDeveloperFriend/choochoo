@@ -47,13 +47,13 @@ const TURN_EVENT_KEYWORDS = [
 
 /**
  * Detects the type of a message based on its content and metadata.
- * 
+ *
  * Detection logic:
  * 1. If userId present → CHAT (user-sent message)
  * 2. If contains player action format → PLAYER_ACTION
  * 3. If contains turn/round keywords → TURN_EVENT
  * 4. Otherwise → SYSTEM_EVENT
- * 
+ *
  * @param message The message to analyze
  * @returns The detected message type
  */
@@ -82,7 +82,7 @@ export function detectMessageType(message: MessageApi): MessageType {
 /**
  * Checks if a message mentions a specific user.
  * Only checks for already-parsed mention format: <@user-{userId}>
- * 
+ *
  * @param messageText The message text to check
  * @param userId The user ID to look for, or undefined if no user logged in
  * @returns True if the message mentions the specified user
@@ -115,12 +115,12 @@ export function getAllMessageTypes(): MessageType[] {
 /**
  * Extracts the "actor" (user ID) responsible for a message.
  * Used for visual grouping of consecutive messages by the same actor.
- * 
+ *
  * Extraction logic:
  * 1. Chat messages → userId
  * 2. Player actions → parse userId from <@user-123> at start
  * 3. Turn/system events → null (no specific actor)
- * 
+ *
  * @param message The message to analyze
  * @returns The user ID of the actor, or null if no specific actor
  */

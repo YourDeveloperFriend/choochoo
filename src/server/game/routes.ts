@@ -160,7 +160,9 @@ const router = initServer().router(gameContract, {
           map.developmentAllowlist.indexOf(userId) !== -1),
       { permissionDenied: true },
     );
-    assert(map.stage !== ReleaseStage.DEVELOPMENT || body.unlisted, { invalidInput: "Development map games must be unlisted." });
+    assert(map.stage !== ReleaseStage.DEVELOPMENT || body.unlisted, {
+      invalidInput: "Development map games must be unlisted.",
+    });
 
     const playerIds = [userId];
     if (body.artificialStart) {

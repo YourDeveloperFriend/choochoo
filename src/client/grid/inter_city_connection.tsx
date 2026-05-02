@@ -1,6 +1,9 @@
 import { ReactNode, useCallback, useMemo } from "react";
 import { Rotation } from "../../engine/game/map_settings";
-import { InterCityConnection, OwnedInterCityConnection } from "../../engine/state/inter_city_connection";
+import {
+  InterCityConnection,
+  OwnedInterCityConnection,
+} from "../../engine/state/inter_city_connection";
 import {
   coordinatesToCenter,
   directionToRad,
@@ -32,7 +35,6 @@ export function InterCityConnectionsRender({
   highlightedConnections,
   onClick,
 }: InterCityConnectionsRenderProps) {
-
   // Group connections by common location
   const processed = new Set<string>();
   const result: ReactNode[] = [];
@@ -43,22 +45,29 @@ export function InterCityConnectionsRender({
 
     const colocated = [connection];
     for (const other of connections) {
-      if (other.id !== connection.id && arrayEqualsIgnoreOrder(other.connects, connection.connects)) {
+      if (
+        other.id !== connection.id &&
+        arrayEqualsIgnoreOrder(other.connects, connection.connects)
+      ) {
         colocated.push(other);
       }
     }
     for (const [index, connection] of colocated.entries()) {
-      result.push(<InterCityConnectionRender
+      result.push(
+        <InterCityConnectionRender
           key={connection.id}
           connection={connection}
-          highlighted={highlightedConnections?.some(c => connection.id === c.id)}
+          highlighted={highlightedConnections?.some(
+            (c) => connection.id === c.id,
+          )}
           clickTargets={clickTargets}
           onClick={onClick}
           size={size}
           rotation={rotation}
           stackPosition={index}
           stackSize={colocated.length}
-        />);
+        />,
+      );
       processed.add(connection.id);
     }
   }
@@ -103,10 +112,18 @@ function InterCityConnectionRender({
       return coordinatesToCenter(connection.center, size);
     } else {
       const center = coordinatesToCenter(first, size);
-      const centerOnEdge = movePointInDirection(center, size, first.getDirection(second));
-      const stackLength = (stackSize-1) * size / 6;
-      const positionOnEdge = stackPosition * size/6 - stackLength/2;
-      return movePointInRadDirection(centerOnEdge, positionOnEdge, directionToRad(first.getDirection(second)) + Math.PI / 2)
+      const centerOnEdge = movePointInDirection(
+        center,
+        size,
+        first.getDirection(second),
+      );
+      const stackLength = ((stackSize - 1) * size) / 6;
+      const positionOnEdge = (stackPosition * size) / 6 - stackLength / 2;
+      return movePointInRadDirection(
+        centerOnEdge,
+        positionOnEdge,
+        directionToRad(first.getDirection(second)) + Math.PI / 2,
+      );
     }
   }, [first, second, size, connection.center, stackPosition, stackSize]);
 

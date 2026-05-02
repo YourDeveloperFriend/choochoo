@@ -31,14 +31,14 @@ export function App() {
           <ThemeProvider>
             <DialogsProvider>
               <QueryClientProvider client={queryClient}>
-                  <tsr.ReactQueryProvider>
-                    <AdminModeProvider>
-                      <AwaitingContextProvider>
-                        <Router />
-                      </AwaitingContextProvider>
-                    </AdminModeProvider>
-                  </tsr.ReactQueryProvider>
-                </QueryClientProvider>
+                <tsr.ReactQueryProvider>
+                  <AdminModeProvider>
+                    <AwaitingContextProvider>
+                      <Router />
+                    </AwaitingContextProvider>
+                  </AdminModeProvider>
+                </tsr.ReactQueryProvider>
+              </QueryClientProvider>
             </DialogsProvider>
           </ThemeProvider>
         </SocketContextProvider>

@@ -1,8 +1,8 @@
 import { Entry, Primitive } from "./types";
 import { assert } from "./validate";
 
-export function isNotEmpty(str: string|undefined|null): str is string {
-  return str != null && str != '';
+export function isNotEmpty(str: string | undefined | null): str is string {
+  return str != null && str != "";
 }
 
 export function capitalizeFirstLetter(str: string) {

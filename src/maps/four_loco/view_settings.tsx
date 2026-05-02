@@ -9,8 +9,11 @@ import { MapViewSettings } from "../view_settings";
 import { FourLocoMapSettings } from "./settings";
 
 function FourLocoMoveGoods() {
-  const { emit: emitPass, canEmit, canEmitUserId } =
-    useEmptyAction(MovePassAction);
+  const {
+    emit: emitPass,
+    canEmit,
+    canEmitUserId,
+  } = useEmptyAction(MovePassAction);
 
   if (canEmitUserId == null) {
     return <></>;

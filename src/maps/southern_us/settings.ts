@@ -6,9 +6,7 @@ import {
   ReleaseStage,
 } from "../../engine/game/map_settings";
 import { map } from "./grid";
-import {
-  SouthernUSMoveAction,
-} from "./move";
+import { SouthernUSMoveAction } from "./move";
 import { SouthernUSGoodsGrowthPhase } from "./goods_growth";
 import { SouthernUSIncomeReductionPhase } from "./income";
 import { SouthernUSStarter } from "./starter";
@@ -39,7 +37,7 @@ export class SouthernUsMapSettings implements MapSettings {
       SouthernUSMoveAction,
       SouthernUSGoodsGrowthPhase,
       SouthernUSIncomeReductionPhase,
-      SouthernUSStarter
+      SouthernUSStarter,
     ];
   }
 }

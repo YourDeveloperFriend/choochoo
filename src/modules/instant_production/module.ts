@@ -59,7 +59,7 @@ function moveActionMixin(
     validate(action: MoveData): void {
       super.validate(action);
       assert(this.instantProductionState().startCity === undefined, {
-        invalidInput: "cannot deliver while performing instant production"
+        invalidInput: "cannot deliver while performing instant production",
       });
     }
 

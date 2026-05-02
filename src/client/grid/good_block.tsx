@@ -38,7 +38,7 @@ export function GoodBlock({
   const xOffset = offset % maxGoodsPerRow;
   const row = Math.floor(offset / maxGoodsPerRow);
   // Put the second row in the third-row position to limit overlap with the city numbers; third row goes in second row position
-  const yOffset = (row === 1 ? 2 : (row === 2 ? 1 : row));
+  const yOffset = row === 1 ? 2 : row === 2 ? 1 : row;
 
   const rowSize =
     Math.floor(offset / maxGoodsPerRow) <
@@ -47,14 +47,21 @@ export function GoodBlock({
       : goodsCount % maxGoodsPerRow;
 
   const x =
-    center.x -
-    (goodSpacing * (rowSize - 1)) / 2 +
-    xOffset * goodSpacing;
-  const y = center.y + yOffset * goodSize * 1.5 - size * 0.75 + goodSize/2;
+    center.x - (goodSpacing * (rowSize - 1)) / 2 + xOffset * goodSpacing;
+  const y = center.y + yOffset * goodSize * 1.5 - size * 0.75 + goodSize / 2;
 
-  return <Rotate rotation={rotation} center={center} reverse={true}>
-    <FloatingGoodBlock good={good} center={{x: x, y: y}} size={size} coordinates={coordinates} highlighted={highlighted} clickable={clickable} />
-  </Rotate>
+  return (
+    <Rotate rotation={rotation} center={center} reverse={true}>
+      <FloatingGoodBlock
+        good={good}
+        center={{ x: x, y: y }}
+        size={size}
+        coordinates={coordinates}
+        highlighted={highlighted}
+        clickable={clickable}
+      />
+    </Rotate>
+  );
 }
 
 interface FloatingGoodBlockProps {
@@ -67,50 +74,52 @@ interface FloatingGoodBlockProps {
 }
 
 export function FloatingGoodBlock({
-                            center,
-                            size,
-                            good,
-                            coordinates,
-                            highlighted,
-                            clickable,
-                          }: FloatingGoodBlockProps) {
+  center,
+  size,
+  good,
+  coordinates,
+  highlighted,
+  clickable,
+}: FloatingGoodBlockProps) {
   const goodSize = size / 3;
-  const x = center.x - goodSize/2;
-  const y = center.y - goodSize/2;
+  const x = center.x - goodSize / 2;
+  const y = center.y - goodSize / 2;
 
   const stroke = highlighted
-      ? good === Good.YELLOW
-          ? "lightgreen"
-          : "yellow"
-      : good === Good.BLACK
-          ? "grey"
-          : "black";
+    ? good === Good.YELLOW
+      ? "lightgreen"
+      : "yellow"
+    : good === Good.BLACK
+      ? "grey"
+      : "black";
   const strokeWidth = highlighted ? 2 : 1;
-  return <>
-        <polygon
-            points={`${x},${y} ${x + goodSize},${y} ${x + goodSize * 1.3},${y + goodSize * 0.3} ${x + goodSize * 1.3},${y + goodSize * 1.3} ${x + goodSize * 0.3},${y + goodSize * 1.3} ${x},${y + goodSize}`}
-            className={`${styles.goodBackground} ${goodStyle(good)}`}
-            strokeWidth={strokeWidth}
-            stroke={stroke}
-        />
-        <line
-            x1={x + goodSize}
-            y1={y + goodSize}
-            x2={x + goodSize * 1.3}
-            y2={y + goodSize * 1.3}
-            strokeWidth={strokeWidth}
-            stroke={stroke}
-        />
-        <rect
-            className={`${clickable ? hexGridStyles.clickable : ""} ${styles.good} ${goodStyle(good)}`}
-            data-coordinates={coordinates?.serialize()}
-            data-good={good}
-            width={goodSize}
-            height={goodSize}
-            x={x}
-            y={y}
-            strokeWidth={strokeWidth}
-            stroke={stroke}
-        />
-      </>
+  return (
+    <>
+      <polygon
+        points={`${x},${y} ${x + goodSize},${y} ${x + goodSize * 1.3},${y + goodSize * 0.3} ${x + goodSize * 1.3},${y + goodSize * 1.3} ${x + goodSize * 0.3},${y + goodSize * 1.3} ${x},${y + goodSize}`}
+        className={`${styles.goodBackground} ${goodStyle(good)}`}
+        strokeWidth={strokeWidth}
+        stroke={stroke}
+      />
+      <line
+        x1={x + goodSize}
+        y1={y + goodSize}
+        x2={x + goodSize * 1.3}
+        y2={y + goodSize * 1.3}
+        strokeWidth={strokeWidth}
+        stroke={stroke}
+      />
+      <rect
+        className={`${clickable ? hexGridStyles.clickable : ""} ${styles.good} ${goodStyle(good)}`}
+        data-coordinates={coordinates?.serialize()}
+        data-good={good}
+        width={goodSize}
+        height={goodSize}
+        x={x}
+        y={y}
+        strokeWidth={strokeWidth}
+        stroke={stroke}
+      />
+    </>
+  );
 }

@@ -98,7 +98,8 @@ export function ChicagoLRules() {
         </li>
         <li>
           <b>Government track starting location:</b> The starting location for
-          government track is chosen randomly among the city spaces on the board.
+          government track is chosen randomly among the city spaces on the
+          board.
         </li>
       </ul>
     </div>

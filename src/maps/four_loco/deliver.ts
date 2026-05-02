@@ -86,7 +86,6 @@ export class FourLocoMovePhase extends MovePhase {
 
     return undefined;
   }
-
 }
 
 // ---------------------------------------------------------------------------

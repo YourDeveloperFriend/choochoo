@@ -16,7 +16,7 @@ export class TTTCAMEL_CASEMapSettings implements MapSettings {
   // Optional: Add brief description of what player counts work best
   // readonly bestAt = "4-5";
   // Optional: Define per-player-count ratings for map selector
-  // Rating symbols: ? (no data), -- (not supported), - (not recommended), 
+  // Rating symbols: ? (no data), -- (not supported), - (not recommended),
   //                 + (recommended), ++ (highly recommended), +- (mixed)
   // Reference: https://boardgamegeek.com/thread/2930352/article/41563109
   // readonly playerCountRatings = {

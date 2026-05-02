@@ -20,10 +20,7 @@ export function AvailableCities() {
       <h2>Available Cities</h2>
       <div className={styles.availableCityList}>
         {cities.map((city, idx) => (
-          <AvailableCity
-            key={idx}
-            city={city}
-          />
+          <AvailableCity key={idx} city={city} />
         ))}
       </div>
     </div>

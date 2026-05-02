@@ -3,7 +3,10 @@ import { PlayerHelper } from "../../engine/game/player";
 import { ExpensesPhase } from "../../engine/income_and_expenses/expenses";
 import { ProfitHelper } from "../../engine/income_and_expenses/helper";
 import { ShareHelper } from "../../engine/shares/share_helper";
-import { TakeSharesAction, TakeSharesData } from "../../engine/shares/take_shares";
+import {
+  TakeSharesAction,
+  TakeSharesData,
+} from "../../engine/shares/take_shares";
 import { PlayerData } from "../../engine/state/player";
 
 const SHARE_COST = 3;

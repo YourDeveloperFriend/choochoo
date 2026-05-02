@@ -526,5 +526,10 @@ function GovernmentBuild() {
     );
   }
 
-  return <div>You can build {buildsRemaining} more government track tile{buildsRemaining == 1 ? '' : 's'}.</div>;
+  return (
+    <div>
+      You can build {buildsRemaining} more government track tile
+      {buildsRemaining == 1 ? "" : "s"}.
+    </div>
+  );
 }

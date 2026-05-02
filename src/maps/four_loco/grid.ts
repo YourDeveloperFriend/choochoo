@@ -25,7 +25,18 @@ export const map = grid([
     PLAIN,
   ],
   // Row 1
-  [PLAIN, PLAIN, PLAIN, PLAIN, PLAIN, PLAIN, town("Amp"), PLAIN, PLAIN, UNPASSABLE],
+  [
+    PLAIN,
+    PLAIN,
+    PLAIN,
+    PLAIN,
+    PLAIN,
+    PLAIN,
+    town("Amp"),
+    PLAIN,
+    PLAIN,
+    UNPASSABLE,
+  ],
   // Row 2
   [
     PLAIN,

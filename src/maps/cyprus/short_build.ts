@@ -23,7 +23,10 @@ export class CyprusCostCalculator extends BuildCostCalculator {
     return super.getCostOfLandType(type);
   }
 
-  protected getRedirectCost(previousTileType: TileType, newTileType: TileType): number {
+  protected getRedirectCost(
+    previousTileType: TileType,
+    newTileType: TileType,
+  ): number {
     if (this.gameMemory.getVariant(CyprusVariantConfig.parse).variant2020) {
       return 3;
     }

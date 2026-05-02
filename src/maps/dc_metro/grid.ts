@@ -15,7 +15,7 @@ import {
 
 export const map = startsLowerGrid<SpaceData>([
   [
-  city("East Falls Church", BLUE, white(2), 4),
+    city("East Falls Church", BLUE, white(2), 4),
     MOUNTAIN,
     PLAIN,
     PLAIN,
@@ -37,7 +37,14 @@ export const map = startsLowerGrid<SpaceData>([
   ],
   [...duplicate(6, RIVER)],
   [RIVER, town("Foggy Bottom"), RIVER, RIVER, RIVER, RIVER, PLAIN],
-  [PLAIN, PLAIN, PLAIN, city("L'Enfant Plaza", YELLOW, white(3), 4), PLAIN, RIVER],
+  [
+    PLAIN,
+    PLAIN,
+    PLAIN,
+    city("L'Enfant Plaza", YELLOW, white(3), 4),
+    PLAIN,
+    RIVER,
+  ],
   [
     PLAIN,
     PLAIN,

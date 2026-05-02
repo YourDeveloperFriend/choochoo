@@ -20,10 +20,10 @@ export function DiscoInfernoRules() {
         </li>
         <li>
           <b>Chain Reaction:</b> lets you deliver more than one good if you have
-          locomotive points remaining after your delivery. The new good must start
-          where the old good was delivered. [Controls] confirm the first delivery,
-          then you will be given the chance to do more deliveries if you still have
-          moves left.
+          locomotive points remaining after your delivery. The new good must
+          start where the old good was delivered. [Controls] confirm the first
+          delivery, then you will be given the chance to do more deliveries if
+          you still have moves left.
         </li>
         <li>
           <b>Burn baby burn:</b> when a city runs out of cubes, it becomes

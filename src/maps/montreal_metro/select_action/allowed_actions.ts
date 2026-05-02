@@ -5,7 +5,10 @@ import { Action } from "../../../engine/state/action";
 export class MontrealAllowedActions extends AllowedActions {
   getActions(): ImmutableSet<Action> {
     return super.getActions().withMutations((set) => {
-      set.delete(Action.PRODUCTION).delete(Action.TURN_ORDER_PASS).add(Action.REPOPULATION);
+      set
+        .delete(Action.PRODUCTION)
+        .delete(Action.TURN_ORDER_PASS)
+        .add(Action.REPOPULATION);
     });
   }
 }

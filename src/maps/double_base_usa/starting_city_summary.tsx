@@ -1,8 +1,6 @@
 import { goodToString } from "../../engine/state/good";
 import { useAction, useEmptyAction } from "../../client/services/action";
-import {
-  useInjectedState,
-} from "../../client/utils/injection_context";
+import { useInjectedState } from "../../client/utils/injection_context";
 import { Username } from "../../client/components/username";
 import * as React from "react";
 import { useState } from "react";
