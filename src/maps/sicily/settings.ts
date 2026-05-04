@@ -45,4 +45,3 @@ export class SicilyMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new SicilyMapSettings();

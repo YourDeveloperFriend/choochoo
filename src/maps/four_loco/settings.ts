@@ -87,4 +87,3 @@ export class FourLocoMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new FourLocoMapSettings();

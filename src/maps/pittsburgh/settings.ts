@@ -42,4 +42,3 @@ export class PittsburghMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new PittsburghMapSettings();

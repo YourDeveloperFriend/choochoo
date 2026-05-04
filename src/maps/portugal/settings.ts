@@ -107,4 +107,3 @@ export class PortugalMapSettings implements MapSettings {
     return [new OneClaimLimitModule(), new TownsAndSeaLinksModule()];
   }
 }
-export const mapSettings = new PortugalMapSettings();

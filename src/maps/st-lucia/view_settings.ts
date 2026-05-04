@@ -11,4 +11,3 @@ export class StLuciaViewSettings
 
   getMapRules = StLuciaRules;
 }
-export const viewSettings = new StLuciaViewSettings();

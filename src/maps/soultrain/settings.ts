@@ -61,4 +61,3 @@ export class SoulTrainMapSettings implements MapSettings {
     return [new CompleteLinkBuldModule()];
   }
 }
-export const mapSettings = new SoulTrainMapSettings();

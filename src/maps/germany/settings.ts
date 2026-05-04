@@ -75,4 +75,3 @@ class GermanyGoodsGrowth extends GoodsGrowthPhase {
     this.log.log(`A ${goodToString(newGood)} good is added to Berlin (J9)`);
   }
 }
-export const mapSettings = new GermanyMapSettings();

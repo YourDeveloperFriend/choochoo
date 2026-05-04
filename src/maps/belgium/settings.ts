@@ -60,4 +60,3 @@ export class BelgiumMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new BelgiumMapSettings();

@@ -43,4 +43,3 @@ export class JamaicaMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new JamaicaMapSettings();

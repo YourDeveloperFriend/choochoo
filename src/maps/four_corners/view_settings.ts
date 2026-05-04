@@ -15,4 +15,3 @@ export class FourCornersViewSettings
     return [capturedCubesColumn];
   }
 }
-export const viewSettings = new FourCornersViewSettings();

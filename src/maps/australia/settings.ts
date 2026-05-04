@@ -44,4 +44,3 @@ export class AustraliaMapSettings implements MapSettings {
     return [new EngineerFreeBuildModule(), new UrbanizationUsesBuildModule()];
   }
 }
-export const mapSettings = new AustraliaMapSettings();

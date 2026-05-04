@@ -10,4 +10,3 @@ export class ScotlandViewSettings
   getMapRules = ScotlandRules;
   getTexturesLayer = ScotlandRivers;
 }
-export const viewSettings = new ScotlandViewSettings();

@@ -54,5 +54,3 @@ export class PuertoRicoMapSettings implements MapSettings {
     return [new TurnLengthModule({ turnLength: 10 })];
   }
 }
-
-export const mapSettings = new PuertoRicoMapSettings();

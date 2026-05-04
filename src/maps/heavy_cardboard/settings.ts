@@ -47,4 +47,3 @@ export class HeavyCardboardMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new HeavyCardboardMapSettings();

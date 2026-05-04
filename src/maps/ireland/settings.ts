@@ -56,5 +56,3 @@ export class IrelandMapSettings implements MapSettings {
     ];
   }
 }
-
-export const mapSettings = new IrelandMapSettings();

@@ -50,4 +50,3 @@ export class IndiaSteamBrothersMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new IndiaSteamBrothersMapSettings();

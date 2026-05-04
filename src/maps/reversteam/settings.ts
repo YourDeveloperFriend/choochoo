@@ -35,5 +35,3 @@ export class ReversteamMapSettings implements MapSettings {
     return [ReversteamMoveHelper];
   }
 }
-
-export const mapSettings = new ReversteamMapSettings();

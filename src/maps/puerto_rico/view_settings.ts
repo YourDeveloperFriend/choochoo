@@ -24,4 +24,3 @@ export class PuertoRicoViewSettings
     return [difficulty.charAt(0).toUpperCase() + difficulty.slice(1)];
   }
 }
-export const viewSettings = new PuertoRicoViewSettings();

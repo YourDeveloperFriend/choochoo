@@ -56,4 +56,3 @@ export class MoonMapSettings implements MapSettings {
 
   getNeighbor = getNeighbor;
 }
-export const mapSettings = new MoonMapSettings();

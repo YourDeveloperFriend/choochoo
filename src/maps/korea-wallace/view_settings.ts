@@ -8,4 +8,3 @@ export class KoreaWallaceViewSettings
 {
   getMapRules = KoreaWallaceRules;
 }
-export const viewSettings = new KoreaWallaceViewSettings();

@@ -26,4 +26,3 @@ export class TrislandViewSettings
       );
   }
 }
-export const viewSettings = new TrislandViewSettings();

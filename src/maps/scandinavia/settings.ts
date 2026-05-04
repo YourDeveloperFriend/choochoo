@@ -59,4 +59,3 @@ export class ScandinaviaMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new ScandinaviaMapSettings();

@@ -64,4 +64,3 @@ export class MinasGeraesMapSettings implements MapSettings {
     return [new TurnLengthModule({ add: -1 })];
   }
 }
-export const mapSettings = new MinasGeraesMapSettings();

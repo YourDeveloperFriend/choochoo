@@ -44,5 +44,3 @@ export class CyprusMapSettings implements MapSettings {
     ];
   }
 }
-
-export const mapSettings = new CyprusMapSettings();

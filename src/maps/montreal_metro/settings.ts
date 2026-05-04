@@ -73,4 +73,3 @@ export class MontrealMetroMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new MontrealMetroMapSettings();

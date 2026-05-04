@@ -8,4 +8,3 @@ export class BarbadosViewSettings
 {
   getMapRules = BarbadosRules;
 }
-export const viewSettings = new BarbadosViewSettings();

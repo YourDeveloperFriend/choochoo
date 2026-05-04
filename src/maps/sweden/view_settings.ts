@@ -19,4 +19,3 @@ export class SwedenRecyclingViewSettings
     return insertAfter(getRowList(), TrackVps, GarbageVps);
   }
 }
-export const viewSettings = new SwedenRecyclingViewSettings();

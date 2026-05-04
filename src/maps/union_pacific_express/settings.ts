@@ -63,4 +63,3 @@ export class UnionPacificExpressMapSettings implements MapSettings {
     return [new TurnLengthModule({ turnLength: 6 })];
   }
 }
-export const mapSettings = new UnionPacificExpressMapSettings();

@@ -40,4 +40,3 @@ function useDiscoProduction(on: OnClickRegister) {
   }
   return isPending;
 }
-export const viewSettings = new DiscoInfernoViewSettings();

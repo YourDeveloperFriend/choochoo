@@ -62,4 +62,3 @@ function useMineGoldClick(on: OnClickRegister) {
   }
   return isPending;
 }
-export const viewSettings = new CaliforniaGoldRushViewSettings();

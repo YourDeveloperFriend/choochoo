@@ -40,4 +40,3 @@ export class PolandMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new PolandMapSettings();

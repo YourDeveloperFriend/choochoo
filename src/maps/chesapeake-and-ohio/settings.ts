@@ -64,4 +64,3 @@ export class ChesapeakeAndOhioMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new ChesapeakeAndOhioMapSettings();

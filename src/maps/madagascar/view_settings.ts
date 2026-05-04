@@ -11,4 +11,3 @@ export class MadagascarViewSettings
 
   getActionCaption = getActionCaption;
 }
-export const viewSettings = new MadagascarViewSettings();
