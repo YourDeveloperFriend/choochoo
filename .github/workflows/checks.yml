@@ -98,7 +98,8 @@ jobs:
         run: npm run generate
 
       - name: Check for uncommitted changes
-        run: git diff --exit-code
+        run: |
+          git diff --exit-code || (echo "Generated files are out of date. Run 'npm run generate' and commit the result." && exit 1)
 
   build:
     name: Build
