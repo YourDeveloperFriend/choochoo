@@ -19,4 +19,3 @@ export class CyprusViewSettings
     return [(variant as CyprusVariantConfig).variant2020 ? "2020" : "2012"];
   }
 }
-export const viewSettings = new CyprusViewSettings();

@@ -66,4 +66,3 @@ export class MadagascarMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new MadagascarMapSettings();

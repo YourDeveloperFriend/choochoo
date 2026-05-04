@@ -8,4 +8,3 @@ export class UnionPacificExpressViewSettings
 {
   getMapRules = UnionPacificExpressRules;
 }
-export const viewSettings = new UnionPacificExpressViewSettings();

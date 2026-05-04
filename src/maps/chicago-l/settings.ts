@@ -83,4 +83,3 @@ export class ChicagoLMapSettings implements MapSettings {
     return [new EngineerFreeBuildModule()];
   }
 }
-export const mapSettings = new ChicagoLMapSettings();

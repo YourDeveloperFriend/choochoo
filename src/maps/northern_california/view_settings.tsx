@@ -10,4 +10,3 @@ export class NorthernCaliforniaViewSettings
   getMapRules = NorthernCaliforniaRules;
   getTexturesLayer = NorthernCaliforniaTexturesLayer;
 }
-export const viewSettings = new NorthernCaliforniaViewSettings();

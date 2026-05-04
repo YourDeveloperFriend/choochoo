@@ -8,4 +8,3 @@ export class NewEnglandViewSettings
 {
   getMapRules = NewEnglandRules;
 }
-export const viewSettings = new NewEnglandViewSettings();

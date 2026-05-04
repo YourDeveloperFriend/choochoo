@@ -37,4 +37,3 @@ export class CaliforniaGoldRushMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new CaliforniaGoldRushMapSettings();

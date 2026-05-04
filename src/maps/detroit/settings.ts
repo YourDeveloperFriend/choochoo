@@ -71,4 +71,3 @@ export class DetroitBankruptcyMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new DetroitBankruptcyMapSettings();

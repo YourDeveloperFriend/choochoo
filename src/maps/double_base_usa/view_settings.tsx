@@ -81,4 +81,3 @@ function useOnMapClick(on: OnClickRegister) {
 
   return selectStartingCityAction.isPending || productionAction.isPending;
 }
-export const viewSettings = new DoubleBaseUsaViewSettings();

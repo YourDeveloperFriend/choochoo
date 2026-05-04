@@ -46,4 +46,3 @@ export class SwedenRecyclingMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new SwedenRecyclingMapSettings();

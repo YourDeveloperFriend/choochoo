@@ -63,4 +63,3 @@ export class FourLocoViewSettings
     return undefined;
   }
 }
-export const viewSettings = new FourLocoViewSettings();

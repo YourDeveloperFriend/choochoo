@@ -58,4 +58,3 @@ export class TrislandMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new TrislandMapSettings();

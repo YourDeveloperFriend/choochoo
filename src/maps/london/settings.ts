@@ -61,4 +61,3 @@ export class LondonMapSettings implements MapSettings {
     return [new TurnLengthModule({ add: -1 }), new InstantProductionModule()];
   }
 }
-export const mapSettings = new LondonMapSettings();

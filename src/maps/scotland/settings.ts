@@ -53,4 +53,3 @@ class ScotlandGoodsGrowthPhase extends GoodsGrowthPhase {
     return 4;
   }
 }
-export const mapSettings = new ScotlandMapSettings();

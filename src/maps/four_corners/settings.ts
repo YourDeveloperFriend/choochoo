@@ -33,4 +33,3 @@ export class FourCornersMapSettings implements MapSettings {
     return [FourCornersGameStarter, FourCornersMoveAction];
   }
 }
-export const mapSettings = new FourCornersMapSettings();

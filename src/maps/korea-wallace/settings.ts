@@ -45,4 +45,3 @@ export class KoreaWallaceMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new KoreaWallaceMapSettings();

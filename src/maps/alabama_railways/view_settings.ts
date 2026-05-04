@@ -14,4 +14,3 @@ export class AlabamaRailwaysViewSettings
 
   moveInterceptModal = AlabamaRailwaysMoveInterceptorModal;
 }
-export const viewSettings = new AlabamaRailwaysViewSettings();

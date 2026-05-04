@@ -1,6 +1,7 @@
 import { mkdir, readdir, readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
 import { parseArgs } from "util";
+import { generateRegistries } from "./generate_registries";
 
 const { values: argsUnparsed } = parseArgs({
   args: process.argv.slice(2),
@@ -53,6 +54,7 @@ async function createMap({
   }
   const files = await readdir(templateDir);
   await Promise.all(files.map(transformFile));
+  generateRegistries();
 
   async function transformFile(filename: string) {
     const contents = await readFile(resolve(templateDir, filename), "utf8");

@@ -125,4 +125,3 @@ export class DenmarkMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new DenmarkMapSettings();

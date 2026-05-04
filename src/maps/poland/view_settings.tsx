@@ -27,4 +27,3 @@ function usePolandProduction(on: OnClickRegister) {
   }
   return isPending;
 }
-export const viewSettings = new PolandViewSettings();

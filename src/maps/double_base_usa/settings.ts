@@ -96,4 +96,3 @@ export class DoubleBaseUsaMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new DoubleBaseUsaMapSettings();

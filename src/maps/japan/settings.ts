@@ -45,4 +45,3 @@ export class JapanMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new JapanMapSettings();

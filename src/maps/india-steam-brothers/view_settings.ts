@@ -23,4 +23,3 @@ function useSelectCityOnClick(on: OnClickRegister) {
   }
   return isPending;
 }
-export const viewSettings = new IndiaSteamBrothersViewSettings();

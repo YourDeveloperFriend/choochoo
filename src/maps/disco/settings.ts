@@ -54,4 +54,3 @@ export class DiscoInfernoMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new DiscoInfernoMapSettings();

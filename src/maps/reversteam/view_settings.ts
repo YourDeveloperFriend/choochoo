@@ -27,4 +27,3 @@ export class ReversteamViewSettings
     }
   }
 }
-export const viewSettings = new ReversteamViewSettings();

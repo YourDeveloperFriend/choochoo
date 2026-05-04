@@ -30,4 +30,3 @@ export class BalkanMapSettings implements MapSettings {
     return [];
   }
 }
-export const mapSettings = new BalkanMapSettings();

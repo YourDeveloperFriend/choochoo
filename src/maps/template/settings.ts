@@ -31,5 +31,3 @@ export class TTTCAMEL_CASEMapSettings implements MapSettings {
     return [];
   }
 }
-
-export const mapSettings = new TTTCAMEL_CASEMapSettings();

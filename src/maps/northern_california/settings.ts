@@ -46,4 +46,3 @@ export class NorthernCaliforniaMapSettings implements MapSettings {
     return [new ClaimRequiresUrbanizeModule()];
   }
 }
-export const mapSettings = new NorthernCaliforniaMapSettings();

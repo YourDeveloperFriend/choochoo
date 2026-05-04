@@ -83,4 +83,3 @@ export class RustBeltExpressMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new RustBeltExpressMapSettings();

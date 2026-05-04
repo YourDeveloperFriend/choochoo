@@ -45,4 +45,3 @@ export class StLuciaMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new StLuciaMapSettings();

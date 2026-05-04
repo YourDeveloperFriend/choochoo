@@ -8,4 +8,3 @@ export class AustraliaViewSettings
 {
   getMapRules = AustraliaRules;
 }
-export const viewSettings = new AustraliaViewSettings();

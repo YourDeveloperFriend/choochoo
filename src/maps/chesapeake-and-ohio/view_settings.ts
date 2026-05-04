@@ -39,4 +39,3 @@ function useFactoryClick(on: OnClickRegister) {
   }
   return isPending;
 }
-export const viewSettings = new ChesapeakeAndOhioViewSettings();

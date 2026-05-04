@@ -34,4 +34,3 @@ export class RustBeltMapSettings implements MapSettings {
     return [];
   }
 }
-export const mapSettings = new RustBeltMapSettings();

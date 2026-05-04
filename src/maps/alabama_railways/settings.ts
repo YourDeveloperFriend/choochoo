@@ -51,4 +51,3 @@ export class AlabamaRailwaysMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new AlabamaRailwaysMapSettings();

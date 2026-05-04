@@ -47,4 +47,3 @@ export class ChicagoSpeakeasyMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new ChicagoSpeakeasyMapSettings();

@@ -49,4 +49,3 @@ export class DCMetroMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new DCMetroMapSettings();

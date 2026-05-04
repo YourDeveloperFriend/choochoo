@@ -57,4 +57,3 @@ export class NewEnglandMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new NewEnglandMapSettings();

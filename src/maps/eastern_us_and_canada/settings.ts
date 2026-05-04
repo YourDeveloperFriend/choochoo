@@ -71,4 +71,3 @@ export class EasternUsAndCanadaMapSettings implements MapSettings {
     ];
   }
 }
-export const mapSettings = new EasternUsAndCanadaMapSettings();
