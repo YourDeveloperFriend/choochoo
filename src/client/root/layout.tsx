@@ -61,6 +61,11 @@ export function Layout() {
               Login
             </Menu.Item>
           )}
+          {me != null && (
+            <Menu.Item as={Link} to="/app/info" name="Info">
+              Info
+            </Menu.Item>
+          )}
 
           {isAdmin && (
             <Dropdown item icon="settings" simple direction="left">

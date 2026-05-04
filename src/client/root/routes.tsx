@@ -6,6 +6,7 @@ import { Pallet } from "../components/pallet";
 import { CreateGamePage } from "../game/create_page";
 import { GamePage } from "../game/page";
 import { HomePage } from "../home/page";
+import { InfoPage } from "../info/page";
 import { ActivatePage } from "../user/activate";
 import { ForgotPassword } from "../user/forgot_password";
 import { LinkDiscordPage } from "../user/link_discord";
@@ -111,6 +112,14 @@ export function Router() {
               element: (
                 <LoginRequired>
                   <LinkDiscordPage />
+                </LoginRequired>
+              ),
+            },
+            {
+              path: "/app/info",
+              element: (
+                <LoginRequired>
+                  <InfoPage />
                 </LoginRequired>
               ),
             },
