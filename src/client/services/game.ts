@@ -606,7 +606,9 @@ export function useAbandon() {
 
   const abandon = useCallback(() => {
     confirm(
-      "Are you sure you want to abandon the game? This will hurt your reputation.",
+      game.degenerate
+        ? "Are you sure you want to abandon the game? Since this game is already in a degenerate state, your reputation will not be affected."
+        : "Are you sure you want to abandon the game? This will hurt your reputation.",
     ).then((result) => {
       if (!result) return;
       mutate(
@@ -630,7 +632,7 @@ export function useKick() {
 
   const kick = useCallback(() => {
     confirm(
-      "Are you sure you want to kick the current player? This will hurt their reputation.",
+      "Are you sure you want to kick the current player? This will eliminate them from the game and hurt their reputation.",
     ).then((result) => {
       if (!result) return;
       mutate(

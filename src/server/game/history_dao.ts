@@ -118,6 +118,7 @@ export class GameHistoryDao extends Model<
       actionName: this.actionName!,
       variant: game.variant,
       unlisted: game.unlisted,
+      degenerate: game.degenerate,
       undoPlayerId: undefined,
     };
     historyApi.summary = toSummary(historyApi);

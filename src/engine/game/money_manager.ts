@@ -70,6 +70,18 @@ export class MoneyManager {
     return false;
   }
 
+  forceOutOfGameKeepTurnOrder(playerColor: PlayerColor): void {
+    this.playerHelper.update(playerColor, (player) => {
+      player.outOfGame = true;
+    });
+    this.removeOwnershipMarkers(playerColor);
+  }
+
+  forceOutOfGame(playerColor: PlayerColor): void {
+    this.forceOutOfGameKeepTurnOrder(playerColor);
+    this.removeFromTurnOrder(playerColor);
+  }
+
   protected outOfGame(player: PlayerData) {
     this.removeFromTurnOrder(player.color);
     this.removeOwnershipMarkers(player.color);
@@ -77,7 +89,10 @@ export class MoneyManager {
 
   protected removeFromTurnOrder(player: PlayerColor): void {
     this.order.update((order) => {
-      order.splice(order.indexOf(player), 1);
+      const index = order.indexOf(player);
+      if (index >= 0) {
+        order.splice(index, 1);
+      }
     });
   }
 

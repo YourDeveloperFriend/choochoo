@@ -8,7 +8,7 @@ import { assertNever } from "../utils/validate";
 import { GameKey, GameKeyZod } from "./game_key";
 import { VariantConfig } from "./variant_config";
 
-export const GameStatus = z.enum(["LOBBY", "ACTIVE", "ENDED", "ABANDONED"]);
+export const GameStatus = z.enum(["LOBBY", "ACTIVE", "ENDED"]);
 
 export const MapConfig = z.object({
   minPlayers: TextInputNumber,
@@ -30,8 +30,6 @@ export function gameStatusToString(game: GameLiteApi): string {
       return "In progress";
     case GameStatus.enum.ENDED:
       return "Ended";
-    case GameStatus.enum.ABANDONED:
-      return "Abandoned";
     default:
       assertNever(game.status);
   }
@@ -160,6 +158,7 @@ export const GameLiteApi = z.object({
   turnDuration: TurnDurationZod.or(z.number()),
   summary: z.string().optional(),
   unlisted: z.boolean(),
+  degenerate: z.boolean(),
 });
 export type GameLiteApi = z.infer<typeof GameLiteApi>;
 

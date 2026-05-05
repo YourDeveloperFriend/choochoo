@@ -3,6 +3,8 @@ import { assert, assertNever } from "../../utils/validate";
 import { inject, injectState } from "../framework/execution_context";
 import { GridData } from "../state/grid";
 import { InterCityConnection } from "../state/inter_city_connection";
+import { Phase } from "../state/phase";
+import { PlayerColor } from "../state/player";
 import { Ender, EndGameReason } from "./ender";
 import {
   CheckAutoAction,
@@ -16,7 +18,9 @@ import {
   StartTurn,
   WaitForAction,
 } from "./lifecycle";
+import { Log } from "./log";
 import { Memory } from "./memory";
+import { MoneyManager } from "./money_manager";
 import { PHASE, PhaseEngine } from "./phase";
 import { PhaseDelegator } from "./phase_delegator";
 import { PlayerHelper } from "./player";
@@ -35,6 +39,8 @@ export class GameEngine {
   private readonly phaseEngine = inject(PhaseEngine);
   private readonly phase = injectState(PHASE);
   private readonly turn = inject(TurnEngine);
+  private readonly moneyManager = inject(MoneyManager);
+  private readonly log = inject(Log);
   private readonly lifecycle = inject(Memory).remember<
     LifecycleStage | undefined
   >(undefined);
@@ -70,7 +76,7 @@ export class GameEngine {
       : undefined;
   }
 
-  private runLifecycle(): void {
+  protected runLifecycle(): void {
     const checkInfinite = infiniteLoopCheck(100);
     while (!this.hasEnded() && !(this.lifecycle() instanceof WaitForAction)) {
       checkInfinite(`${this.lifecycle()!.constructor.name}`);
@@ -156,6 +162,54 @@ export class GameEngine {
     } else {
       assertNever(lifecycle);
     }
+  }
+
+  eliminateActivePlayer(logMessage: string): void {
+    const playerColor = this.currentPlayer();
+    this.log.log(logMessage);
+
+    if (this.phase() === Phase.TURN_ORDER) {
+      if (this.doEliminate(playerColor)) return;
+      this.lifecycle.set(
+        new CheckAutoAction(this.round(), this.phase(), playerColor),
+      );
+      this.runLifecycle();
+      return;
+    }
+
+    const playerOrder = this.delegator.get().getPlayerOrder();
+    const playerIndex = playerOrder.indexOf(playerColor);
+    const nextPlayer: PlayerColor | undefined =
+      playerIndex >= 0 ? playerOrder[playerIndex + 1] : undefined;
+
+    this.turn.end();
+    if (this.doEliminate(playerColor)) return;
+
+    if (nextPlayer != null) {
+      this.lifecycle.set(new StartTurn(this.round(), this.phase(), nextPlayer));
+    } else {
+      this.lifecycle.set(new EndPhase(this.round(), this.phase()));
+    }
+    this.runLifecycle();
+  }
+
+  eliminateNonActivePlayer(playerColor: PlayerColor, logMessage: string): void {
+    this.log.log(logMessage);
+    this.doEliminate(playerColor);
+  }
+
+  private doEliminate(playerColor: PlayerColor): boolean {
+    if (this.phase() === Phase.TURN_ORDER) {
+      this.moneyManager.forceOutOfGameKeepTurnOrder(playerColor);
+    } else {
+      this.moneyManager.forceOutOfGame(playerColor);
+    }
+    const endReason = this.shouldGameEndPrematurely();
+    if (endReason != null) {
+      this.end(endReason);
+      return true;
+    }
+    return false;
   }
 
   end(endGameReason: EndGameReason): void {
