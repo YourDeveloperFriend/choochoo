@@ -34,6 +34,7 @@ export const UserApi = z.object({
   id: z.number(),
   username: z.string(),
   abandons: z.number(),
+  karma: z.number(),
 });
 export type UserApi = z.infer<typeof UserApi>;
 

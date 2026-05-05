@@ -150,6 +150,11 @@ const router = initServer().router(gameContract, {
     const user = await assertRole(req);
     const isAdmin = user.role === UserRole.enum.ADMIN;
 
+    assert(
+      body.minKarma <= user.karma - 5,
+      { invalidInput: "minKarma cannot exceed your karma minus 5" },
+    );
+
     const map = MapRegistry.singleton.get(body.gameKey);
     assert(map != null, { invalidInput: true });
     assert(
@@ -190,6 +195,7 @@ const router = initServer().router(gameContract, {
       unlisted: body.unlisted,
       autoStart: body.autoStart,
       degenerate: false,
+      minKarma: body.minKarma,
     });
     return { status: 201, body: { game: game.toApi() } };
   },
@@ -223,8 +229,8 @@ const router = initServer().router(gameContract, {
   },
 
   async join({ params, req }) {
-    const userId = req.session.userId;
-    assert(userId != null, { permissionDenied: true });
+    const user = await assertRole(req);
+    const userId = user.id;
 
     const game = await GameDao.findByPk(params.gameId);
     assert(game != null);
@@ -232,6 +238,9 @@ const router = initServer().router(gameContract, {
     assert(!game.playerIds.includes(userId), { invalidInput: true });
     assert(game.playerIds.length < game.toLiteApi().config.maxPlayers, {
       invalidInput: "game full",
+    });
+    assert(user.karma >= game.minKarma, {
+      invalidInput: "karma too low to join this game",
     });
 
     game.playerIds = [...game.playerIds, userId];

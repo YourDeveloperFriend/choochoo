@@ -72,6 +72,10 @@ export class GameDao extends Model<
   @NotNull
   declare degenerate: boolean;
 
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare minKarma: number;
+
   @Attribute(DataTypes.BOOLEAN)
   @NotNull
   declare autoStart: boolean;
@@ -187,6 +191,7 @@ function toLiteApi(game: GameApi | InferAttributes<GameDao>): GameLiteApi {
     summary: toSummary(game),
     unlisted: game.unlisted,
     degenerate: game.degenerate,
+    minKarma: game.minKarma,
   };
 }
 

@@ -55,6 +55,7 @@ function numPlayersMessage(gameKey: GameKey): string {
 export const CreateGameApi = z
   .object({
     gameKey: GameKeyZod,
+    minKarma: z.coerce.number().int().min(0).default(0),
     name: z
       .string()
       .trim()
@@ -159,6 +160,7 @@ export const GameLiteApi = z.object({
   summary: z.string().optional(),
   unlisted: z.boolean(),
   degenerate: z.boolean(),
+  minKarma: z.number(),
 });
 export type GameLiteApi = z.infer<typeof GameLiteApi>;
 

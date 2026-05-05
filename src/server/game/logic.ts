@@ -1,4 +1,4 @@
-import { InstanceUpdateOptions, TransactionNestMode } from "@sequelize/core";
+import { InstanceUpdateOptions, Transaction, TransactionNestMode } from "@sequelize/core";
 import { GameApi, GameStatus } from "../../api/game";
 import { EngineDelegator } from "../../engine/framework/engine";
 import {
@@ -149,10 +149,20 @@ export async function performAction(
         game.setAutoActionForUser(mutation.playerId, autoAction);
       }
 
+      const karmaRecipients = hasEnded
+        ? game.degenerate
+          ? EngineDelegator.singleton.remainingPlayers({
+              ...game.toLimitedGame(),
+              gameData,
+            })
+          : game.playerIds
+        : [];
+
       const [newGame, newGameHistory] = await Promise.all([
         game.save({ transaction }),
         gameHistory.save({ transaction }),
         LogDao.createForGame(game.id, game.version - 1, logs),
+        awardCompletionKarma(karmaRecipients, transaction),
       ]);
 
       log(
@@ -185,6 +195,17 @@ async function notifyTurnUnlessAutoAction(game: GameDao): Promise<void> {
   if (!hasAutoAction) {
     return notifyTurn(game);
   }
+}
+
+async function awardCompletionKarma(
+  playerIds: number[],
+  transaction: Transaction,
+): Promise<void> {
+  if (playerIds.length <= 1) return;
+  await sequelize.query(
+    `UPDATE "Users" SET "karma" = LEAST(100, "karma" + 1) WHERE "id" = ANY(:playerIds)`,
+    { replacements: { playerIds }, transaction },
+  );
 }
 
 export async function abandonGame(
@@ -239,6 +260,7 @@ export async function abandonGame(
     user = await UserDao.findByPk(userId);
     assert(user != null);
     user.abandons++;
+    user.karma = Math.max(0, user.karma - 10);
   }
 
   await sequelize.transaction(
@@ -248,6 +270,12 @@ export async function abandonGame(
         game.save({ transaction }),
         ...(user != null ? [user.save({ transaction })] : []),
         LogDao.createForGame(game.id, game.version - 1, logs, transaction),
+        hasEnded
+          ? awardCompletionKarma(
+              game.playerIds.filter((id) => id !== userId),
+              transaction,
+            )
+          : undefined,
       ]);
     },
   );
