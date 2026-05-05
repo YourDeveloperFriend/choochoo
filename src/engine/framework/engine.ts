@@ -21,7 +21,7 @@ import { inject, injectState, setInjectionContext } from "./execution_context";
 import { InjectionContext } from "./inject";
 import { StateStore } from "./state";
 
-interface GameState {
+export interface GameState {
   activePlayerId?: number;
   hasEnded: boolean;
   gameData: string;
@@ -29,6 +29,7 @@ interface GameState {
   logs: string[];
   autoActionMutations: AutoActionMutationConfig[];
   seed: string | undefined;
+  remainingPlayerIds: number[];
 }
 
 export class EngineDelegator {
@@ -221,6 +222,9 @@ export class EngineProcessor {
       logs: this.log.dump(),
       autoActionMutations: this.autoActionManager.getMutations(),
       seed: this.random.getSeed(),
+      remainingPlayerIds: this.playerHelper
+        .getRemainingPlayers()
+        .map((p) => p.playerId),
     };
   }
 }
