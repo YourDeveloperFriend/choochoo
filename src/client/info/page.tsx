@@ -42,15 +42,18 @@ export function InfoPage() {
             game.
           </li>
           <li>
-            You can choose to abandon a game, which causes it to end
-            immediately. This counts as an abandoned game which negatively
-            impacts your karma score.
+            A player can choose to abandon a game. This causes the player to be
+            treated as bankrupt and the remaining players can continue.
+            Abandoning the game negatively impacts your karma score (see below).
+            Because there are situations where a single player abandoning a game
+            leaves it in a state not worth continuing, other players have the
+            option to abandon the game without it impacting their karma.
           </li>
           <li>
             If another player has exceeded the allowed length of time to take
             their turn, any player at the table can kick that player from the
-            table. The immediately ends the game and counts as an abandoned game
-            for the kicked player, negatively impacts their karma score.
+            table. This has the same effect as if the player had chosen to
+            abandon the game as described above.
           </li>
         </ul>
       </p>
