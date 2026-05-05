@@ -127,6 +127,7 @@ async function initializeGame(
     },
     unlisted: false,
     autoStart: false,
+    degenerate: false,
   });
 }
 

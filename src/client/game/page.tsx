@@ -24,7 +24,6 @@ export function GamePage() {
       );
     case GameStatus.enum.ACTIVE:
     case GameStatus.enum.ENDED:
-    case GameStatus.enum.ABANDONED:
       return (
         <PartialActionProvider>
           <ActiveGame />

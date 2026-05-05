@@ -47,6 +47,9 @@ export class TurnOrderPhase extends PhaseModule {
   }
 
   forcedAction(): ActionBundle<object> | undefined {
+    if (this.currentPlayer().outOfGame) {
+      return { action: PassAction, data: {} };
+    }
     const canAffordBid = this.currentPlayer().money >= this.helper.getMinBid();
     if (!canAffordBid && !this.helper.canUseTurnOrderPass()) {
       return { action: PassAction, data: {} };
@@ -59,7 +62,11 @@ export class TurnOrderPhase extends PhaseModule {
     const remainingBidders = this.helper.remainingBiddersOrder();
     assert(remainingBidders.length === 1, "expected exactly one bidder");
     this.helper.pass(this.playerHelper.getPlayer(remainingBidders[0]));
-    this.currentOrder.set(this.turnOrderState().nextTurnOrder);
+    this.currentOrder.set(
+      this.turnOrderState().nextTurnOrder.filter(
+        (color) => !this.playerHelper.getPlayer(color).outOfGame,
+      ),
+    );
     this.turnOrderState.delete();
   }
 

@@ -67,8 +67,9 @@ export function GameOptions() {
                 </Button>
               </div>
               <p>
-                Abandoning the game causes the game to end in an abandoned
-                state, and it will hurt your reputation to do so.
+                {game.degenerate
+                  ? "Abandoning the game will eliminate you from play. Since this game is already in a degenerate state, your reputation will not be affected."
+                  : "Abandoning the game will eliminate you from play, and it will hurt your reputation to do so."}
               </p>
             </div>
             <div className={styles.row}>
@@ -83,15 +84,14 @@ export function GameOptions() {
               {kickTimeRemaining == null ? (
                 <p>
                   You can kick the current player because they took too long to
-                  play. This will end the game in an abandoned state, and hurt
-                  the reputation of the player being kicked.
+                  play. This will eliminate them from the game and hurt their
+                  reputation.
                 </p>
               ) : (
                 <p>
                   The current player has {kickTimeRemaining} remaining. Once
-                  that time is up, you can kick the current player. This will
-                  end the game in an abandoned state and hurt the reputation of
-                  the current player.
+                  that time is up, you can kick the current player, eliminating
+                  them from the game and hurting their reputation.
                 </p>
               )}
             </div>

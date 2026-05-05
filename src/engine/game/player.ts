@@ -153,6 +153,10 @@ export class PlayerHelper {
     return this.players().find(({ color }) => color === playerColor)!;
   }
 
+  getPlayerByPlayerId(playerId: number): PlayerData | undefined {
+    return this.players().find((p) => p.playerId === playerId);
+  }
+
   getSoloPlayer(): PlayerData {
     assert(this.players().length === 1);
     return this.players()[0];

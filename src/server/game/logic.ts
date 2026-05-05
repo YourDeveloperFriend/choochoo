@@ -196,28 +196,71 @@ export async function abandonGame(
   assert(game.status === GameStatus.enum.ACTIVE, {
     invalidInput: "Can only abandon an active game",
   });
-  game.status = GameStatus.enum.ABANDONED;
-  game.activePlayerId = null;
+
+  const logMessage = kicked
+    ? `<@user-${userId}> ran out of time and was kicked from the game.`
+    : `<@user-${userId}> abandoned the game.`;
+
+  const isActivePlayer = game.activePlayerId === userId;
+  const { gameData, logs, activePlayerId, hasEnded, autoActionMutations } =
+    EngineDelegator.singleton.forceEliminatePlayer(
+      game.toLimitedGame(),
+      userId,
+      isActivePlayer,
+      logMessage,
+    );
+
+  const wasAlreadyDegenerate = game.degenerate;
+  const previousActivePlayerId = game.activePlayerId;
+
+  game.gameData = gameData;
+  game.degenerate = true;
   game.undoPlayerId = null;
-  const user = await UserDao.findByPk(userId);
-  assert(user != null);
-  user.abandons++;
-  await sequelize.transaction(async (transaction) => {
-    await Promise.all([
-      game.save({ transaction }),
-      user.save({ transaction }),
-      LogDao.createForGame(
-        game.id,
-        game.version,
-        [
-          kicked
-            ? `<@user-${userId}> ran out of time and was kicked from the game.`
-            : `<@user-${userId}> abandoned the game.`,
-        ],
-        transaction,
-      ),
-    ]);
-  });
+  game.version = game.version + 1;
+
+  for (const mutation of autoActionMutations) {
+    const autoAction = game.getAutoActionForUser(mutation.playerId);
+    mutation.mutation(autoAction);
+    game.setAutoActionForUser(mutation.playerId, autoAction);
+  }
+
+  if (hasEnded) {
+    game.status = GameStatus.enum.ENDED;
+    game.activePlayerId = null;
+  } else {
+    game.activePlayerId = activePlayerId ?? null;
+    if (activePlayerId != null && activePlayerId !== previousActivePlayerId) {
+      game.turnStartTime = new Date();
+    }
+  }
+
+  let user: UserDao | null = null;
+  if (!wasAlreadyDegenerate || kicked) {
+    user = await UserDao.findByPk(userId);
+    assert(user != null);
+    user.abandons++;
+  }
+
+  await sequelize.transaction(
+    { nestMode: TransactionNestMode.separate },
+    async (transaction) => {
+      await Promise.all([
+        game.save({ transaction }),
+        ...(user != null ? [user.save({ transaction })] : []),
+        LogDao.createForGame(game.id, game.version - 1, logs, transaction),
+      ]);
+    },
+  );
+
+  if (
+    !hasEnded &&
+    activePlayerId != null &&
+    activePlayerId !== previousActivePlayerId
+  ) {
+    notifyTurn(game).catch((e) => {
+      logError("Failed during processAsync", e);
+    });
+  }
 }
 
 async function checkForAutoAction(

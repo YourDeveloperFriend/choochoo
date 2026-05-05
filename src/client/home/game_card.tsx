@@ -98,8 +98,6 @@ function gameStatusToStyle(status: GameStatus): string {
   switch (status) {
     case GameStatus.enum.LOBBY:
       return styles.lobby;
-    case GameStatus.enum.ABANDONED:
-      return styles.abandoned;
     case GameStatus.enum.ENDED:
       return styles.ended;
     case GameStatus.enum.ACTIVE:

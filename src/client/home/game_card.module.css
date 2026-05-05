@@ -38,12 +38,10 @@
   background-color: darkblue;
 }
 
-.abandoned,
 .ended {
   background-color: lightgrey;
 }
 
-:global(.dark-mode) .abandoned,
 :global(.dark-mode) .ended {
   background-color: darkgrey;
 }

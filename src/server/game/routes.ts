@@ -189,6 +189,7 @@ const router = initServer().router(gameContract, {
       },
       unlisted: body.unlisted,
       autoStart: body.autoStart,
+      degenerate: false,
     });
     return { status: 201, body: { game: game.toApi() } };
   },

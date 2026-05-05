@@ -70,6 +70,10 @@ export class GameDao extends Model<
 
   @Attribute(DataTypes.BOOLEAN)
   @NotNull
+  declare degenerate: boolean;
+
+  @Attribute(DataTypes.BOOLEAN)
+  @NotNull
   declare autoStart: boolean;
 
   @Attribute(DataTypes.INTEGER)
@@ -182,6 +186,7 @@ function toLiteApi(game: GameApi | InferAttributes<GameDao>): GameLiteApi {
     config: game.config,
     summary: toSummary(game),
     unlisted: game.unlisted,
+    degenerate: game.degenerate,
   };
 }
 
@@ -198,8 +203,6 @@ export function toSummary(
       return EngineDelegator.singleton.readSummary(toLimitedGame(game));
     case GameStatus.enum.ENDED:
       return "Ended";
-    case GameStatus.enum.ABANDONED:
-      return "Abandoned";
     default:
       assertNever(game.status);
   }

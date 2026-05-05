@@ -70,6 +70,20 @@ export class EngineDelegator {
   remainingPlayers(game: LimitedGame): number[] {
     return this.getEngine(game.gameKey).remainingPlayers(game);
   }
+
+  forceEliminatePlayer(
+    game: LimitedGame,
+    playerId: number,
+    isActivePlayer: boolean,
+    logMessage: string,
+  ): GameState {
+    return this.getEngine(game.gameKey).forceEliminatePlayer({
+      game,
+      playerId,
+      isActivePlayer,
+      logMessage,
+    });
+  }
 }
 
 interface StartProps {
@@ -125,6 +139,31 @@ export class EngineProcessor {
     return this.process(game, () => {
       this.random.setSeed(seed);
       this.gameEngine.processAction(actionName, actionData);
+      return this.getGameState();
+    });
+  }
+
+  forceEliminatePlayer({
+    game,
+    playerId,
+    isActivePlayer,
+    logMessage,
+  }: {
+    game: LimitedGame;
+    playerId: number;
+    isActivePlayer: boolean;
+    logMessage: string;
+  }): GameState {
+    return this.process(game, () => {
+      const player = this.playerHelper.getPlayerByPlayerId(playerId);
+      assert(player != null, `Player not found: ${playerId}`);
+
+      if (isActivePlayer) {
+        this.gameEngine.eliminateActivePlayer(logMessage);
+      } else {
+        this.gameEngine.eliminateNonActivePlayer(player.color, logMessage);
+      }
+
       return this.getGameState();
     });
   }
