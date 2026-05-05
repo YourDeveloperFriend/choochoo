@@ -7,10 +7,8 @@ import { setInjectionContext } from "../engine/framework/execution_context";
 import { InjectionContext } from "../engine/framework/inject";
 import { Key } from "../engine/framework/key";
 import { InjectedState, StateStore } from "../engine/framework/state";
-import {
-  REVERSTEAM_GAME_KEY,
-  ReversteamMapSettings,
-} from "../maps/reversteam/settings";
+import { REVERSTEAM_GAME_KEY } from "../maps/reversteam/key";
+import { ReversteamMapSettings } from "../maps/reversteam/settings";
 import { GameMemory } from "../engine/game/game_memory";
 import { resettable } from "./resettable";
 

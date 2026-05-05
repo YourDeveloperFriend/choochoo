@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { REVERSTEAM_GAME_KEY } from "../../maps/reversteam/settings";
+import { REVERSTEAM_GAME_KEY } from "../../maps/reversteam/key";
 import { Land } from "../../engine/map/location";
 import { SpaceType } from "../../engine/state/location_type";
 import { allPlayerColors } from "../../engine/state/player";
