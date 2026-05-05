@@ -1,5 +1,6 @@
 import {
   InstanceUpdateOptions,
+  Op,
   Transaction,
   TransactionNestMode,
 } from "@sequelize/core";
@@ -112,7 +113,6 @@ export async function performAction(
         reversible,
         seed,
         autoActionMutations,
-        remainingPlayerIds,
       } = EngineDelegator.singleton.processAction(game.gameKey, {
         game: game.toLimitedGame(),
         actionName,
@@ -149,7 +149,6 @@ export async function performAction(
             reversible,
             seed,
             autoActionMutations,
-            remainingPlayerIds,
           },
           game.activePlayerId,
           reversible ? playerId : null,
@@ -224,7 +223,7 @@ async function persistEngineResult(
     game.save({ transaction }),
     LogDao.createForGame(game.id, game.version - 1, result.logs, transaction),
     awardCompletionKarma(
-      result.hasEnded ? result.remainingPlayerIds : [],
+      result.hasEnded && !game.degenerate ? game.playerIds : [],
       transaction,
     ),
   ]);
@@ -236,9 +235,15 @@ async function awardCompletionKarma(
   transaction: Transaction,
 ): Promise<void> {
   if (playerIds.length <= 1) return;
-  await sequelize.query(
-    `UPDATE "Users" SET "karma" = LEAST(100, "karma" + 1) WHERE "id" = ANY(:playerIds)`,
-    { replacements: { playerIds }, transaction },
+  const users = await UserDao.findAll({
+    where: { id: { [Op.in]: playerIds } },
+    transaction,
+  });
+  await Promise.all(
+    users.map((user) => {
+      user.karma = Math.min(100, user.karma + 1);
+      return user.save({ transaction });
+    }),
   );
 }
 

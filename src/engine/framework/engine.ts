@@ -29,7 +29,6 @@ export interface GameState {
   logs: string[];
   autoActionMutations: AutoActionMutationConfig[];
   seed: string | undefined;
-  remainingPlayerIds: number[];
 }
 
 export class EngineDelegator {
@@ -222,9 +221,6 @@ export class EngineProcessor {
       logs: this.log.dump(),
       autoActionMutations: this.autoActionManager.getMutations(),
       seed: this.random.getSeed(),
-      remainingPlayerIds: this.playerHelper
-        .getRemainingPlayers()
-        .map((p) => p.playerId),
     };
   }
 }
