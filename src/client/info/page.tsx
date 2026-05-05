@@ -59,7 +59,8 @@ export function InfoPage() {
         <ul>
           <li>You start at 75 karma.</li>
           <li>
-            You gain one karma for every (multiplayer) game you complete, to a maximum of 100.
+            You gain one karma for every (multiplayer) game you complete, to a
+            maximum of 100.
           </li>
           <li>
             You lose 10 karma for every game you abandon (whether voluntary or
@@ -69,8 +70,9 @@ export function InfoPage() {
       </p>
       <p>
         You can set restrictions for tables you create. You can set the minimum
-        required karma no higher than your own, minus 5. For example, if you have 100 karma,
-        you can make sure that only players with 95 or more can join your game!
+        required karma no higher than your own, minus 5. For example, if you
+        have 100 karma, you can make sure that only players with 95 or more can
+        join your game!
       </p>
       <p>
         Pay attention to the turn duration of tables when you join them to make

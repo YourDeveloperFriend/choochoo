@@ -150,10 +150,9 @@ const router = initServer().router(gameContract, {
     const user = await assertRole(req);
     const isAdmin = user.role === UserRole.enum.ADMIN;
 
-    assert(
-      body.minKarma <= user.karma - 5,
-      { invalidInput: "minKarma cannot exceed your karma minus 5" },
-    );
+    assert(body.minKarma <= user.karma - 5, {
+      invalidInput: "minKarma cannot exceed your karma minus 5",
+    });
 
     const map = MapRegistry.singleton.get(body.gameKey);
     assert(map != null, { invalidInput: true });

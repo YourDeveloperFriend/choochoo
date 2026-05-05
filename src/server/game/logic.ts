@@ -1,4 +1,8 @@
-import { InstanceUpdateOptions, Transaction, TransactionNestMode } from "@sequelize/core";
+import {
+  InstanceUpdateOptions,
+  Transaction,
+  TransactionNestMode,
+} from "@sequelize/core";
 import { GameApi, GameStatus } from "../../api/game";
 import { EngineDelegator } from "../../engine/framework/engine";
 import {
