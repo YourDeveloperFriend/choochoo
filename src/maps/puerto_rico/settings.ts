@@ -1,4 +1,4 @@
-import { GameKey } from "../../api/game_key";
+import { PUERTO_RICO_GAME_KEY } from "./key";
 import {
   EMIL,
   MapSettings,
@@ -14,8 +14,6 @@ import { PuertoRicoPhaseEngine } from "./phases";
 import { PuertoRicoMoveAction } from "./move";
 import { PuertoRicoSelectActionPhase, PuertoRicoSkipAction } from "./actions";
 import { PuertoRicoPlayerHelper } from "./player";
-
-export const PUERTO_RICO_GAME_KEY: GameKey = "puerto-rico";
 
 export class PuertoRicoMapSettings implements MapSettings {
   readonly key = PUERTO_RICO_GAME_KEY;

@@ -11,7 +11,7 @@ import { MoveHelper } from "../../engine/move/helper";
 import { ActionNamingProvider } from "../../engine/state/action";
 import { PlayerColor, PlayerData } from "../../engine/state/player";
 import { countryName } from "../../maps/cyprus/roles";
-import { CYPRUS_GAME_KEY } from "../../maps/cyprus/settings";
+import { CYPRUS_GAME_KEY } from "../../maps/cyprus/key";
 import { Incinerator } from "../../maps/sweden/incinerator";
 import { SwedenRecyclingMapSettings } from "../../maps/sweden/settings";
 import { getPlayerColorCss } from "../components/player_color";

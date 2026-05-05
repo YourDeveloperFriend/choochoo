@@ -1,10 +1,10 @@
 import z from "zod";
 import { GameKeyZod } from "./game_key";
+import { IRELAND_GAME_KEY } from "../maps/ireland/key";
+import { REVERSTEAM_GAME_KEY } from "../maps/reversteam/key";
+import { CYPRUS_GAME_KEY } from "../maps/cyprus/key";
+import { PUERTO_RICO_GAME_KEY } from "../maps/puerto_rico/key";
 import { DIFFICULTY_LEVELS } from "../maps/puerto_rico/difficulty_levels";
-import { IRELAND_GAME_KEY } from "../maps/ireland/settings";
-import { REVERSTEAM_GAME_KEY } from "../maps/reversteam/settings";
-import { CYPRUS_GAME_KEY } from "../maps/cyprus/settings";
-import { PUERTO_RICO_GAME_KEY } from "../maps/puerto_rico/settings";
 
 export const IrelandVariantConfig = z.object({
   gameKey: z.literal(IRELAND_GAME_KEY),

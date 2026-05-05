@@ -1,4 +1,4 @@
-import { GameKey } from "../../api/game_key";
+import { IRELAND_GAME_KEY } from "./key";
 import {
   KAOSKODY,
   MapSettings,
@@ -14,8 +14,6 @@ import { IrelandLocoAction, IrelandMoveHelper } from "./locomotive_action";
 import { IrelandAllowedActions, IrelandSelectAction } from "./select_action";
 import { IrelandRoundEngine } from "./shortened_round";
 import { IrelandStarter } from "./starter";
-
-export const IRELAND_GAME_KEY: GameKey = "ireland";
 
 export class IrelandMapSettings implements MapSettings {
   static readonly key = IRELAND_GAME_KEY;

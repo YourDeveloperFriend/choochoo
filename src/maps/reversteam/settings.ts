@@ -1,4 +1,4 @@
-import { GameKey } from "../../api/game_key";
+import { REVERSTEAM_GAME_KEY } from "./key";
 import {
   KAOSKODY,
   MapSettings,
@@ -7,8 +7,6 @@ import {
 } from "../../engine/game/map_settings";
 import { ReversteamMoveHelper } from "./accepts";
 import { map } from "./grid";
-
-export const REVERSTEAM_GAME_KEY: GameKey = "reversteam";
 
 export class ReversteamMapSettings implements MapSettings {
   readonly key = REVERSTEAM_GAME_KEY;

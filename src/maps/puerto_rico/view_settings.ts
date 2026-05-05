@@ -4,7 +4,8 @@ import {
 } from "../../api/variant_config";
 import { MapViewSettings } from "../view_settings";
 import { PuertoRicoRules } from "./rules";
-import { PUERTO_RICO_GAME_KEY, PuertoRicoMapSettings } from "./settings";
+import { PUERTO_RICO_GAME_KEY } from "./key";
+import { PuertoRicoMapSettings } from "./settings";
 import { PuertoRicoVariantEditor } from "./variant_editor";
 
 export class PuertoRicoViewSettings

@@ -5,7 +5,8 @@ import { MapViewSettings } from "../view_settings";
 import { DeurbanizeAction } from "./deurbanization";
 import { IrelandRivers } from "./rivers";
 import { IrelandRules } from "./rules";
-import { IRELAND_GAME_KEY, IrelandMapSettings } from "./settings";
+import { IRELAND_GAME_KEY } from "./key";
+import { IrelandMapSettings } from "./settings";
 import { IrelandVariantEditor } from "./variant_editor";
 
 export class IrelandViewSettings

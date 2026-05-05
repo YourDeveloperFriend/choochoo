@@ -1,7 +1,8 @@
 import { CyprusVariantConfig, VariantConfig } from "../../api/variant_config";
 import { MapViewSettings } from "../view_settings";
 import { CyprusRules } from "./rules";
-import { CYPRUS_GAME_KEY, CyprusMapSettings } from "./settings";
+import { CYPRUS_GAME_KEY } from "./key";
+import { CyprusMapSettings } from "./settings";
 import { CyprusVariantEditor } from "./variant_editor";
 
 export class CyprusViewSettings

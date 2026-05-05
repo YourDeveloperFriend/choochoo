@@ -5,7 +5,8 @@ import {
 import { MapViewSettings } from "../view_settings";
 import { ReversteamRivers } from "./rivers";
 import { ReversteamRules } from "./rules";
-import { REVERSTEAM_GAME_KEY, ReversteamMapSettings } from "./settings";
+import { REVERSTEAM_GAME_KEY } from "./key";
+import { ReversteamMapSettings } from "./settings";
 import { ReversteamVariantEditor } from "./variant_editor";
 
 export class ReversteamViewSettings

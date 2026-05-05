@@ -1,4 +1,4 @@
-import { GameKey } from "../../api/game_key";
+import { CYPRUS_GAME_KEY } from "./key";
 import {
   KAOSKODY,
   MapSettings,
@@ -10,8 +10,6 @@ import { CyprusAllowedActions } from "./limitted_selection";
 import { CyprusMoveAction } from "./move_goods";
 import { CyprusCostCalculator, ShortBuild } from "./short_build";
 import { CyprusStarter } from "./starter";
-
-export const CYPRUS_GAME_KEY: GameKey = "cyprus";
 
 export class CyprusMapSettings implements MapSettings {
   static readonly key = CYPRUS_GAME_KEY;

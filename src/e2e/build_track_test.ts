@@ -1,4 +1,4 @@
-import { REVERSTEAM_GAME_KEY } from "../maps/reversteam/settings";
+import { REVERSTEAM_GAME_KEY } from "../maps/reversteam/key";
 import { Direction, SimpleTileType, TownTileType } from "../engine/state/tile";
 import { Coordinates } from "../utils/coordinates";
 import { compareGameData, setUpGameEnvironment } from "./util/game_data";
