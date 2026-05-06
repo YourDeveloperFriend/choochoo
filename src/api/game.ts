@@ -73,9 +73,16 @@ export const CreateGameApi = z
     autoStart: z.boolean(),
   })
   .and(MapConfig)
-  .refine((data) => data.gameKey === data.variant.gameKey, {
-    message: "Game key does not match",
-  })
+  .refine(
+    (data) => {
+      const { variantConfig } = MapRegistry.singleton.get(data.gameKey);
+      if (variantConfig == null) {
+        return Object.keys(data.variant).length === 0;
+      }
+      return variantConfig.safeParse(data.variant).success;
+    },
+    { message: "Invalid variant config", path: ["variant"] },
+  )
   .refine((data) => data.minPlayers <= data.maxPlayers, {
     message: "Cannot be less than min players",
     path: ["maxPlayers"],

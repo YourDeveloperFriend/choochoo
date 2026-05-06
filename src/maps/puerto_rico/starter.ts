@@ -1,6 +1,6 @@
 import { inject } from "../../engine/framework/execution_context";
 import { GameMemory } from "../../engine/game/game_memory";
-import { PuertoRicoVariantConfig } from "../../api/variant_config";
+import { PuertoRicoVariantConfig } from "./variant_config";
 import { GameStarter, draw } from "../../engine/game/starter";
 import { Good } from "../../engine/state/good";
 import { duplicate } from "../../utils/functions";

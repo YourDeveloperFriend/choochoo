@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useCallback } from "react";
-import { ReversteamVariantConfig } from "../../api/variant_config";
+import { ReversteamVariantConfig } from "./variant_config";
 import { VariantConfigProps } from "../view_settings";
 import { CheckboxProps, FormCheckbox } from "semantic-ui-react";
 

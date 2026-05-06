@@ -1,4 +1,3 @@
-import { PUERTO_RICO_GAME_KEY } from "./key";
 import {
   EMIL,
   MapSettings,
@@ -14,9 +13,10 @@ import { PuertoRicoPhaseEngine } from "./phases";
 import { PuertoRicoMoveAction } from "./move";
 import { PuertoRicoSelectActionPhase, PuertoRicoSkipAction } from "./actions";
 import { PuertoRicoPlayerHelper } from "./player";
+import { PuertoRicoVariantConfig } from "./variant_config";
 
 export class PuertoRicoMapSettings implements MapSettings {
-  readonly key = PUERTO_RICO_GAME_KEY;
+  readonly key = "puerto-rico";
   readonly name = "Puerto Rico";
   readonly designer = "Ted Alspach";
   readonly implementerId = EMIL;
@@ -34,6 +34,7 @@ export class PuertoRicoMapSettings implements MapSettings {
   };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.DEVELOPMENT;
+  readonly variantConfig = PuertoRicoVariantConfig;
 
   getOverrides() {
     return [

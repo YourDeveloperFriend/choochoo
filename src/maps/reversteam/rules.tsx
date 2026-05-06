@@ -1,4 +1,4 @@
-import { ReversteamVariantConfig } from "../../api/variant_config";
+import { ReversteamVariantConfig } from "./variant_config";
 import { RulesProps } from "../view_settings";
 
 export function ReversteamRules({ variant }: RulesProps) {

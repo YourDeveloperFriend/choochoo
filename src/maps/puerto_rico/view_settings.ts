@@ -1,10 +1,7 @@
-import {
-  PuertoRicoVariantConfig,
-  VariantConfig,
-} from "../../api/variant_config";
+import { VariantConfig } from "../../api/variant_config";
+import { PuertoRicoVariantConfig } from "./variant_config";
 import { MapViewSettings } from "../view_settings";
 import { PuertoRicoRules } from "./rules";
-import { PUERTO_RICO_GAME_KEY } from "./key";
 import { PuertoRicoMapSettings } from "./settings";
 import { PuertoRicoVariantEditor } from "./variant_editor";
 
@@ -15,7 +12,7 @@ export class PuertoRicoViewSettings
   getMapRules = PuertoRicoRules;
 
   getInitialVariantConfig(): VariantConfig {
-    return { gameKey: PUERTO_RICO_GAME_KEY, difficulty: "versado" };
+    return { difficulty: "versado" };
   }
 
   getVariantConfigEditor = PuertoRicoVariantEditor;
