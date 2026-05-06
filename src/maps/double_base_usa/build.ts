@@ -42,6 +42,7 @@ import { ImmutableMap } from "../../utils/immutable";
 import { LAND_GRANT_BUILD_STATE } from "./starting_city";
 import { EmptyActionProcessor } from "../../engine/game/action";
 import { Log } from "../../engine/game/log";
+import { getOpposite } from "../../engine/map/direction";
 
 export const URBANIZE_COUNT = new Key("UrbanizeCount", z.number());
 
@@ -211,9 +212,33 @@ export class DoubleBaseUsaBuildValidator extends Validator {
     if (neighbor instanceof City) {
       return isCityInExistingNetwork(player, neighbor, this.grid());
     }
-    return (
-      this.grid().getTrackConnection(coordinates, exit)?.getOwner() === player
-    );
+    const neighborTrack = this.grid().getTrackConnection(coordinates, exit);
+    if (!neighborTrack) {
+      return false;
+    }
+    if (neighborTrack.getOwner() === player) {
+      return true;
+    }
+    if (neighborTrack.getOwner() === undefined) {
+      // If connecting to a dangler, check if that dangler traces back to the existing network
+      const end = this.grid().getEnd(neighborTrack, getOpposite(exit));
+      // If it is a town, check that some existing track on the town tile belongs to the player
+      if (end[1] === TOWN) {
+        const townSpace = this.grid().get(end[0]);
+        assert(townSpace instanceof Land);
+        return townSpace
+          .getTrack()
+          .some((track) => track.getOwner() === player);
+      } else {
+        // Otherwise can connect if this leads back to a city in the network
+        const endCity = this.grid().getNeighbor(end[0], end[1]);
+        return (
+          endCity instanceof City &&
+          isCityInExistingNetwork(player, endCity, this.grid())
+        );
+      }
+    }
+    return false;
   }
 }
 
