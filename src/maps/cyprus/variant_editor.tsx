@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { CheckboxProps, FormCheckbox } from "semantic-ui-react";
-import { CyprusVariantConfig } from "../../api/variant_config";
+import { CyprusVariantConfig } from "./variant_config";
 import { VariantConfigProps } from "../view_settings";
 
 export function CyprusVariantEditor({

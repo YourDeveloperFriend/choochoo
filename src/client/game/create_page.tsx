@@ -83,7 +83,7 @@ export function CreateGamePage() {
   const { validateGame, createGame, validationError, isPending } =
     useCreateGame();
   const [variant, setVariant] = useState(
-    (selectedMap.getInitialVariantConfig?.() ?? { gameKey }) as VariantConfig,
+    (selectedMap.getInitialVariantConfig?.() ?? {}) as VariantConfig,
   );
   const isAdmin = useIsAdmin();
   const [mapDialogOpen, setMapDialogOpen] = useState(false);
@@ -101,9 +101,7 @@ export function CreateGamePage() {
       if (typeof maxPlayers === "number") {
         setMaxPlayersRaw(Math.min(maxPlayers, map.maxPlayers));
       }
-      setVariant(
-        (map.getInitialVariantConfig?.() ?? { gameKey }) as VariantConfig,
-      );
+      setVariant((map.getInitialVariantConfig?.() ?? {}) as VariantConfig);
     },
     [
       setVariant,

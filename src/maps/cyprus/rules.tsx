@@ -1,4 +1,4 @@
-import { CyprusVariantConfig } from "../../api/variant_config";
+import { CyprusVariantConfig } from "./variant_config";
 import { RulesProps } from "../view_settings";
 
 export function CyprusRules({ variant }: RulesProps) {

@@ -1,7 +1,7 @@
 import { Action, ActionNamingProvider } from "../../engine/state/action";
 import { inject } from "../../engine/framework/execution_context";
 import { GameMemory } from "../../engine/game/game_memory";
-import { IrelandVariantConfig } from "../../api/variant_config";
+import { IrelandVariantConfig } from "./variant_config";
 
 export class IrelandActionNamingProvider extends ActionNamingProvider {
   private readonly gameMemory = inject(GameMemory);

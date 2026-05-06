@@ -1,4 +1,3 @@
-import { IRELAND_GAME_KEY } from "./key";
 import {
   KAOSKODY,
   MapSettings,
@@ -14,9 +13,10 @@ import { IrelandLocoAction, IrelandMoveHelper } from "./locomotive_action";
 import { IrelandAllowedActions, IrelandSelectAction } from "./select_action";
 import { IrelandRoundEngine } from "./shortened_round";
 import { IrelandStarter } from "./starter";
+import { IrelandVariantConfig } from "./variant_config";
 
 export class IrelandMapSettings implements MapSettings {
-  static readonly key = IRELAND_GAME_KEY;
+  static readonly key = "ireland";
   readonly key = IrelandMapSettings.key;
   readonly name = "Ireland";
   readonly designer = "Martin Wallace";
@@ -36,6 +36,7 @@ export class IrelandMapSettings implements MapSettings {
   readonly startingGrid = map;
   readonly stage = ReleaseStage.BETA;
   readonly rotation = Rotation.CLOCKWISE;
+  readonly variantConfig = IrelandVariantConfig;
 
   getOverrides() {
     return [

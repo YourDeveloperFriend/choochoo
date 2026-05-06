@@ -1,3 +1,4 @@
+import { ZodTypeAny } from "zod";
 import { GameKey } from "../../api/game_key";
 import { Coordinates } from "../../utils/coordinates";
 import { assertNever } from "../../utils/validate";
@@ -71,6 +72,8 @@ export interface MapSettings {
   readonly rotation?: Rotation;
   // Development maps get an allowlist of user IDs who are allowed to create games for that map
   readonly developmentAllowlist?: number[];
+
+  readonly variantConfig?: ZodTypeAny;
 
   getOverrides(): Array<SimpleConstructor<unknown>>;
   getModules?(): Array<Module>;

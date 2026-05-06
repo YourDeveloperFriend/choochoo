@@ -1,6 +1,7 @@
 import { readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
 import { GameStatus } from "../../api/game";
+import { GameKey } from "../../api/game_key";
 import { UserRole } from "../../api/user";
 import { VariantConfig } from "../../api/variant_config";
 import { SerializedGameData } from "../../engine/framework/state";
@@ -16,6 +17,7 @@ interface GameEnvironment {
 }
 
 export function setUpGameEnvironment(
+  gameKey: GameKey,
   variantConfig: VariantConfig,
   gameDataFile: string,
 ): GameEnvironment {
@@ -41,6 +43,7 @@ export function setUpGameEnvironment(
     }
 
     gameEnvironment.game = await initializeGame(
+      gameKey,
       variantConfig,
       gameData,
       gameEnvironment.activePlayer,
@@ -104,6 +107,7 @@ export async function compareGameData(game: GameDao, gameDataFile: string) {
 }
 
 async function initializeGame(
+  gameKey: GameKey,
   variantConfig: VariantConfig,
   gameData: SerializedGameData,
   currentPlayer: UserDao,
@@ -111,7 +115,7 @@ async function initializeGame(
 ): Promise<GameDao> {
   return GameDao.create({
     version: 1,
-    gameKey: variantConfig.gameKey,
+    gameKey,
     gameData: JSON.stringify(gameData),
     name: "Test game",
     status: GameStatus.enum.ACTIVE,

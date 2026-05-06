@@ -1,4 +1,4 @@
-import { ReversteamVariantConfig } from "../../api/variant_config";
+import { ReversteamVariantConfig } from "./variant_config";
 import { inject } from "../../engine/framework/execution_context";
 import { GameMemory } from "../../engine/game/game_memory";
 import { City } from "../../engine/map/city";

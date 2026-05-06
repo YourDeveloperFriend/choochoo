@@ -1,4 +1,4 @@
-import { REVERSTEAM_GAME_KEY } from "./key";
+import { GameKey } from "../../api/game_key";
 import {
   KAOSKODY,
   MapSettings,
@@ -7,6 +7,9 @@ import {
 } from "../../engine/game/map_settings";
 import { ReversteamMoveHelper } from "./accepts";
 import { map } from "./grid";
+import { ReversteamVariantConfig } from "./variant_config";
+
+export const REVERSTEAM_GAME_KEY: GameKey = "reversteam";
 
 export class ReversteamMapSettings implements MapSettings {
   readonly key = REVERSTEAM_GAME_KEY;
@@ -28,6 +31,7 @@ export class ReversteamMapSettings implements MapSettings {
   };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.BETA;
+  readonly variantConfig = ReversteamVariantConfig;
 
   getOverrides() {
     return [ReversteamMoveHelper];

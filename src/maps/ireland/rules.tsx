@@ -1,4 +1,4 @@
-import { IrelandVariantConfig } from "../../api/variant_config";
+import { IrelandVariantConfig } from "./variant_config";
 import { RulesProps } from "../view_settings";
 
 export function IrelandRules({ variant: untyped }: RulesProps) {

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { DropdownProps, FormDropdown } from "semantic-ui-react";
-import { PuertoRicoVariantConfig } from "../../api/variant_config";
+import { PuertoRicoVariantConfig } from "./variant_config";
 import { VariantConfigProps } from "../view_settings";
 import { DIFFICULTY_OPTIONS, type DifficultyLevel } from "./difficulty_levels";
 

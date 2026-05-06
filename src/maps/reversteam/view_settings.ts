@@ -1,11 +1,8 @@
-import {
-  ReversteamVariantConfig,
-  VariantConfig,
-} from "../../api/variant_config";
+import { VariantConfig } from "../../api/variant_config";
+import { ReversteamVariantConfig } from "./variant_config";
 import { MapViewSettings } from "../view_settings";
 import { ReversteamRivers } from "./rivers";
 import { ReversteamRules } from "./rules";
-import { REVERSTEAM_GAME_KEY } from "./key";
 import { ReversteamMapSettings } from "./settings";
 import { ReversteamVariantEditor } from "./variant_editor";
 
@@ -16,7 +13,7 @@ export class ReversteamViewSettings
   getTexturesLayer = ReversteamRivers;
 
   getInitialVariantConfig(): VariantConfig {
-    return { gameKey: REVERSTEAM_GAME_KEY, baseRules: false };
+    return { baseRules: false };
   }
   getVariantConfigEditor = ReversteamVariantEditor;
 

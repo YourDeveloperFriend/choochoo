@@ -1,4 +1,4 @@
-import { CyprusVariantConfig } from "../../api/variant_config";
+import { CyprusVariantConfig } from "./variant_config";
 import { BuildCostCalculator } from "../../engine/build/cost";
 import { BuilderHelper } from "../../engine/build/helper";
 import { inject } from "../../engine/framework/execution_context";

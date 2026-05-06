@@ -1,11 +1,11 @@
-import { IrelandVariantConfig, VariantConfig } from "../../api/variant_config";
+import { VariantConfig } from "../../api/variant_config";
+import { IrelandVariantConfig } from "./variant_config";
 import { ClickTarget, OnClickRegister } from "../../client/grid/click_target";
 import { useAction } from "../../client/services/action";
 import { MapViewSettings } from "../view_settings";
 import { DeurbanizeAction } from "./deurbanization";
 import { IrelandRivers } from "./rivers";
 import { IrelandRules } from "./rules";
-import { IRELAND_GAME_KEY } from "./key";
 import { IrelandMapSettings } from "./settings";
 import { IrelandVariantEditor } from "./variant_editor";
 
@@ -14,7 +14,7 @@ export class IrelandViewSettings
   implements MapViewSettings
 {
   getInitialVariantConfig(): VariantConfig {
-    return { gameKey: IRELAND_GAME_KEY, locoVariant: false };
+    return { locoVariant: false };
   }
   getVariantConfigEditor = IrelandVariantEditor;
 

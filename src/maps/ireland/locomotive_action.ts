@@ -1,4 +1,4 @@
-import { IrelandVariantConfig } from "../../api/variant_config";
+import { IrelandVariantConfig } from "./variant_config";
 import { inject, injectState } from "../../engine/framework/execution_context";
 import { GameMemory } from "../../engine/game/game_memory";
 import { PHASE } from "../../engine/game/phase";
