@@ -1,6 +1,5 @@
 import { useAction } from "../../../client/services/action";
-import { useInject } from "../../../client/utils/injection_context";
-import { injectState } from "../../../engine/framework/execution_context";
+import { useInjectedState } from "../../../client/utils/injection_context";
 import * as React from "react";
 import { useCallback } from "react";
 import { Good, goodToString } from "../../../engine/state/good";
@@ -11,7 +10,7 @@ import {
   SpecialActionSelector,
 } from "../../../client/game/action_summary";
 import { RepopulateAction } from "./repopulate";
-import { REPOPULATION } from "./state";
+import { REPOPULATION_BOX } from "../starter";
 
 export function ChicagoLSelectAction() {
   return (
@@ -24,11 +23,7 @@ export function ChicagoLSelectAction() {
 
 function Repopulate() {
   const { canEmit, canEmitUserId, data, setData } = useAction(RepopulateAction);
-  const repopulateData = useInject(() => {
-    const state = injectState(REPOPULATION);
-    return state.isInitialized() ? [...new Set(state())] : undefined;
-  }, []);
-
+  const repopulateData = useInjectedState(REPOPULATION_BOX);
   const selectGood = useCallback((good: Good) => setData({ good }), [setData]);
 
   if (canEmitUserId == null) {

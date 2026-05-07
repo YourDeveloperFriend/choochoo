@@ -15,7 +15,7 @@ import {
   useInject,
   useInjectedState,
 } from "../../client/utils/injection_context";
-import { THE_LOOP_DEMAND } from "./starter";
+import { REPOPULATION_BOX, THE_LOOP_DEMAND } from "./starter";
 import { iterate } from "../../utils/functions";
 import { Good } from "../../engine/state/good";
 import { goodStyle } from "../../client/grid/good";
@@ -67,6 +67,39 @@ export function LoopDemandChart() {
                   ))}
                   {loopDemand.map((good, idx) => (
                     <TableCell key={currentRound + idx}>
+                      <GoodBlock good={good} />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
+        </AccordionContent>
+      </MenuItem>
+    </Accordion>
+  );
+}
+
+export function RepopulationBoxSlider() {
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const repopulationBox = useInjectedState(REPOPULATION_BOX);
+
+  return (
+    <Accordion fluid as={Menu} vertical>
+      <MenuItem>
+        <AccordionTitle
+          active={expanded}
+          index={0}
+          onClick={() => setExpanded(!expanded)}
+          content="Repopulation Box"
+        />
+        <AccordionContent active={expanded}>
+          <div>
+            <Table celled compact unstackable fixed>
+              <TableBody>
+                <TableRow>
+                  {repopulationBox.map((good, idx) => (
+                    <TableCell key={idx}>
                       <GoodBlock good={good} />
                     </TableCell>
                   ))}
