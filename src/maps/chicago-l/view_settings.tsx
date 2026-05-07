@@ -12,7 +12,7 @@ import { PlayerData } from "../../engine/state/player";
 import { useInjectedState } from "../../client/utils/injection_context";
 import { GOVERNMENT_ENGINE_LEVEL } from "./starter";
 import { LocoTrack } from "./loco_track";
-import { LoopDemandChart } from "./loop_demand_chart";
+import { LoopDemandChart, RepopulationBoxSlider } from "./loop_demand_chart";
 
 export class ChicagoLViewSettings
   extends ChicagoLMapSettings
@@ -25,7 +25,7 @@ export class ChicagoLViewSettings
 
   useOnMapClick = useRepopulateOnClick;
 
-  additionalSliders = [LoopDemandChart, LocoTrack];
+  additionalSliders = [LoopDemandChart, RepopulationBoxSlider, LocoTrack];
 
   getPlayerStatColumns() {
     return [

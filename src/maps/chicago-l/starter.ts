@@ -22,10 +22,15 @@ export const THE_LOOP_DEMAND = new Key(
   "CHICAGOL_THE_LOOP_DEMAND",
   GoodZod.array(),
 );
+export const REPOPULATION_BOX = new Key(
+  "CHICAGOL_REPOPULATION_BOX",
+  GoodZod.array(),
+);
 
 export class ChicagoLStarter extends GameStarter {
   private readonly govtEngineLevel = injectState(GOVERNMENT_ENGINE_LEVEL);
   private readonly theLoopDemand = injectState(THE_LOOP_DEMAND);
+  private readonly repopulationBox = injectState(REPOPULATION_BOX);
   private readonly log = inject(Log);
 
   onStartGame(): void {
@@ -35,8 +40,10 @@ export class ChicagoLStarter extends GameStarter {
 
     const bag = [...this.bag()];
     const loopDemandDraws: Good[] = this.random.draw(9, bag, true);
+    const repopulationBox: Good[] = this.random.draw(1, bag, true);
     this.bag.set(bag);
     this.theLoopDemand.initState(loopDemandDraws);
+    this.repopulationBox.initState(repopulationBox);
 
     const cities = [...this.gridHelper.findAllCities()];
     const startingCity = cities[this.random.random(cities.length)];

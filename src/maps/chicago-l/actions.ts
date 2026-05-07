@@ -8,6 +8,8 @@ export class ChicagoLActionNamingProvider extends ActionNamingProvider {
       return "Your most expensive build is free.";
     } else if (action === Action.URBANIZATION) {
       return "Place a new city on any town during the build step. This uses one your builds.";
+    } else if (action === Action.REPOPULATION) {
+      return "Immediately place one of the cubes from the repopulation box on any city.";
     }
     return super.getActionDescription(action);
   }
