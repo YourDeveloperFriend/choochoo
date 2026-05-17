@@ -107,8 +107,14 @@ export const up: Migration = async ({ context: queryInterface }) => {
 
     await queryInterface.addColumn("Games", "minKarma", {
       type: DataTypes.INTEGER,
+      allowNull: true,
+    });
+
+    await queryInterface.sequelize.query(`UPDATE "Games" SET "minKarma" = 0`);
+
+    await queryInterface.changeColumn("Games", "minKarma", {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0,
     });
   });
 };
