@@ -287,7 +287,7 @@ export function useGame(): GameApi {
 
 type CreateGameInputApi = WithFormNumber<
   CreateGameApi,
-  "minPlayers" | "maxPlayers"
+  "minPlayers" | "maxPlayers" | "minKarma"
 >;
 
 export function useCreateGame(): {

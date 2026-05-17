@@ -67,6 +67,7 @@ function MeProfile({ me }: { me: MyUserApi }) {
         <p>Username: {me.username}</p>
         <p>Email: {me.email}</p>
         <p># Abandons: {me.abandons}</p>
+        <p>Karma: {me.karma}</p>
       </Segment>
       <UpdatePassword />
       <PreferredColors />

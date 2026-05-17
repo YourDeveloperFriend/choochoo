@@ -132,6 +132,7 @@ async function initializeGame(
     unlisted: false,
     autoStart: false,
     degenerate: false,
+    minKarma: 0,
   });
 }
 
@@ -158,6 +159,7 @@ function fakeUsers(existingUsers: Set<string>): Promise<UserDao[]> {
         password: "",
         preferredColors: [],
         abandons: 0,
+        karma: 75,
       })),
   );
 }

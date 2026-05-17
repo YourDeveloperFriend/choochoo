@@ -21,7 +21,7 @@ import { inject, injectState, setInjectionContext } from "./execution_context";
 import { InjectionContext } from "./inject";
 import { StateStore } from "./state";
 
-interface GameState {
+export interface GameState {
   activePlayerId?: number;
   hasEnded: boolean;
   gameData: string;

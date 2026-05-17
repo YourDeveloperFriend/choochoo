@@ -1,6 +1,11 @@
-import { InstanceUpdateOptions, TransactionNestMode } from "@sequelize/core";
+import {
+  InstanceUpdateOptions,
+  Op,
+  Transaction,
+  TransactionNestMode,
+} from "@sequelize/core";
 import { GameApi, GameStatus } from "../../api/game";
-import { EngineDelegator } from "../../engine/framework/engine";
+import { EngineDelegator, GameState } from "../../engine/framework/engine";
 import {
   AUTO_ACTION_NAME,
   AutoAction,
@@ -133,30 +138,27 @@ export async function performAction(
       });
 
       const playerChanged = game.activePlayerId !== activePlayerId;
-
-      if (activePlayerId != null && activePlayerId != game.activePlayerId) {
-        game.turnStartTime = new Date();
-      }
-      game.version = game.version + 1;
-      game.gameData = gameData;
-      game.activePlayerId = activePlayerId ?? null;
-      game.status = hasEnded ? GameStatus.enum.ENDED : GameStatus.enum.ACTIVE;
-      game.undoPlayerId = reversible ? playerId : null;
-
-      for (const mutation of autoActionMutations) {
-        const autoAction = game.getAutoActionForUser(mutation.playerId);
-        mutation.mutation(autoAction);
-        game.setAutoActionForUser(mutation.playerId, autoAction);
-      }
-
-      const [newGame, newGameHistory] = await Promise.all([
-        game.save({ transaction }),
+      const [newGame] = await Promise.all([
+        persistEngineResult(
+          game,
+          {
+            gameData,
+            logs,
+            activePlayerId,
+            hasEnded,
+            reversible,
+            seed,
+            autoActionMutations,
+          },
+          game.activePlayerId,
+          reversible ? playerId : null,
+          transaction,
+        ),
         gameHistory.save({ transaction }),
-        LogDao.createForGame(game.id, game.version - 1, logs),
       ]);
 
       log(
-        `Game action id=${newGameHistory.id} reversible=${reversible} actionName=${actionName}`,
+        `Game action id=${gameHistory.id} reversible=${reversible} actionName=${actionName}`,
       );
 
       transaction.afterCommit(() => {
@@ -187,6 +189,64 @@ async function notifyTurnUnlessAutoAction(game: GameDao): Promise<void> {
   }
 }
 
+async function persistEngineResult(
+  game: GameDao,
+  result: GameState,
+  previousActivePlayerId: number | null,
+  undoPlayerId: number | null,
+  transaction: Transaction,
+): Promise<GameDao> {
+  game.version = game.version + 1;
+  game.gameData = result.gameData;
+  game.undoPlayerId = undoPlayerId;
+
+  for (const mutation of result.autoActionMutations) {
+    const autoAction = game.getAutoActionForUser(mutation.playerId);
+    mutation.mutation(autoAction);
+    game.setAutoActionForUser(mutation.playerId, autoAction);
+  }
+
+  if (result.hasEnded) {
+    game.status = GameStatus.enum.ENDED;
+    game.activePlayerId = null;
+  } else {
+    game.activePlayerId = result.activePlayerId ?? null;
+    if (
+      result.activePlayerId != null &&
+      result.activePlayerId !== previousActivePlayerId
+    ) {
+      game.turnStartTime = new Date();
+    }
+  }
+
+  const [newGame] = await Promise.all([
+    game.save({ transaction }),
+    LogDao.createForGame(game.id, game.version - 1, result.logs, transaction),
+    awardCompletionKarma(
+      result.hasEnded && !game.degenerate ? game.playerIds : [],
+      transaction,
+    ),
+  ]);
+  return newGame;
+}
+
+async function awardCompletionKarma(
+  playerIds: number[],
+  transaction: Transaction,
+): Promise<void> {
+  if (playerIds.length <= 1) return;
+  const users = await UserDao.findAll({
+    where: { id: { [Op.in]: playerIds } },
+    transaction,
+  });
+  await Promise.all(
+    users.map((user) => {
+      user.karma = Math.min(100, user.karma + 1);
+      return user.save({ transaction });
+    }),
+  );
+}
+
 export async function abandonGame(
   game: GameDao,
   userId: number,
@@ -202,60 +262,46 @@ export async function abandonGame(
     : `<@user-${userId}> abandoned the game.`;
 
   const isActivePlayer = game.activePlayerId === userId;
-  const { gameData, logs, activePlayerId, hasEnded, autoActionMutations } =
-    EngineDelegator.singleton.forceEliminatePlayer(
-      game.toLimitedGame(),
-      userId,
-      isActivePlayer,
-      logMessage,
-    );
+  const engineResult = EngineDelegator.singleton.forceEliminatePlayer(
+    game.toLimitedGame(),
+    userId,
+    isActivePlayer,
+    logMessage,
+  );
 
   const wasAlreadyDegenerate = game.degenerate;
   const previousActivePlayerId = game.activePlayerId;
 
-  game.gameData = gameData;
   game.degenerate = true;
-  game.undoPlayerId = null;
-  game.version = game.version + 1;
-
-  for (const mutation of autoActionMutations) {
-    const autoAction = game.getAutoActionForUser(mutation.playerId);
-    mutation.mutation(autoAction);
-    game.setAutoActionForUser(mutation.playerId, autoAction);
-  }
-
-  if (hasEnded) {
-    game.status = GameStatus.enum.ENDED;
-    game.activePlayerId = null;
-  } else {
-    game.activePlayerId = activePlayerId ?? null;
-    if (activePlayerId != null && activePlayerId !== previousActivePlayerId) {
-      game.turnStartTime = new Date();
-    }
-  }
 
   let user: UserDao | null = null;
   if (!wasAlreadyDegenerate || kicked) {
     user = await UserDao.findByPk(userId);
     assert(user != null);
     user.abandons++;
+    user.karma = Math.max(0, user.karma - 10);
   }
 
   await sequelize.transaction(
     { nestMode: TransactionNestMode.separate },
     async (transaction) => {
       await Promise.all([
-        game.save({ transaction }),
-        ...(user != null ? [user.save({ transaction })] : []),
-        LogDao.createForGame(game.id, game.version - 1, logs, transaction),
+        persistEngineResult(
+          game,
+          engineResult,
+          previousActivePlayerId,
+          null,
+          transaction,
+        ),
+        user?.save({ transaction }),
       ]);
     },
   );
 
   if (
-    !hasEnded &&
-    activePlayerId != null &&
-    activePlayerId !== previousActivePlayerId
+    !engineResult.hasEnded &&
+    engineResult.activePlayerId != null &&
+    engineResult.activePlayerId !== previousActivePlayerId
   ) {
     notifyTurn(game).catch((e) => {
       logError("Failed during processAsync", e);

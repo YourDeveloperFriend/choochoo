@@ -71,6 +71,10 @@ export class UserDao extends Model<
   @NotNull
   declare abandons: number;
 
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare karma: number;
+
   @Version
   @NotNull
   declare internalVersion: CreationOptional<number>;
@@ -117,6 +121,7 @@ export class UserDao extends Model<
       id: user.id,
       username: user.username,
       abandons: user.abandons,
+      karma: user.karma,
     };
   }
 
@@ -182,6 +187,7 @@ export class UserDao extends Model<
         username: user.username,
         email: user.email,
         abandons: 0,
+        karma: 75,
         password,
         role: UserRole.enum.ACTIVATE_EMAIL,
         notificationPreferences: {

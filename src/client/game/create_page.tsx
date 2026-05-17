@@ -71,6 +71,7 @@ export function CreateGamePage() {
     return ViewRegistry.singleton.get(gameKey);
   }, [gameKey]);
 
+  const [minKarmaS, setMinKarma] = useNumberInputState(0);
   const [artificialStart, setArtificialStart] = useSemanticUiCheckboxState();
   const [unlisted, setUnlisted] = useSemanticUiCheckboxState();
   const [autoStart, setAutoStart] = useSemanticUiCheckboxState(true);
@@ -125,6 +126,7 @@ export function CreateGamePage() {
         maxPlayers,
         unlisted,
         autoStart,
+        minKarma: minKarmaS,
         variant: variant as VariantConfig,
       });
     },
@@ -138,6 +140,7 @@ export function CreateGamePage() {
       createGame,
       minPlayers,
       maxPlayers,
+      minKarmaS,
       turnDuration,
       variant,
     ],
@@ -153,6 +156,7 @@ export function CreateGamePage() {
       turnDuration,
       unlisted,
       autoStart,
+      minKarma: minKarmaS,
       variant: variant as VariantConfig,
     });
   }, [
@@ -164,6 +168,7 @@ export function CreateGamePage() {
     variant,
     unlisted,
     autoStart,
+    minKarmaS,
     turnDuration,
   ]);
 
@@ -268,6 +273,17 @@ export function CreateGamePage() {
               error={validationError?.artificialStart}
             />
           )}
+
+          <FormInput
+            label={`Minimum karma (0–${me != null ? Math.max(0, me.karma - 5) : 0})`}
+            type="number"
+            min={0}
+            max={me != null ? Math.max(0, me.karma - 5) : 0}
+            value={minKarmaS}
+            error={validationError?.minKarma}
+            onChange={setMinKarma}
+            onBlur={validateGameInternal}
+          />
 
           <FormCheckbox
             toggle
