@@ -133,6 +133,8 @@ async function initializeGame(
     autoStart: false,
     degenerate: false,
     minKarma: 0,
+    gameHoursStart: 0,
+    gameHoursDuration: 24,
   });
 }
 

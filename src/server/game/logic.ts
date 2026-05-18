@@ -5,6 +5,11 @@ import {
   TransactionNestMode,
 } from "@sequelize/core";
 import { GameApi, GameStatus } from "../../api/game";
+import {
+  activeTimeElapsedForGame,
+  initialFlexTime,
+  storedFlexTime,
+} from "../../utils/active_time";
 import { EngineDelegator, GameState } from "../../engine/framework/engine";
 import {
   AUTO_ACTION_NAME,
@@ -60,6 +65,10 @@ export async function startGame(
   game.gameData = gameData;
   game.status = GameStatus.enum.ACTIVE;
   game.activePlayerId = activePlayerId ?? null;
+
+  game.playerFlexTime = Object.fromEntries(
+    game.playerIds.map((id) => [id, initialFlexTime(game.turnDuration)]),
+  );
 
   const gameHistory = GameHistoryDao.build({
     previousGameVersion: game.version - 1,
@@ -204,6 +213,27 @@ async function persistEngineResult(
     const autoAction = game.getAutoActionForUser(mutation.playerId);
     mutation.mutation(autoAction);
     game.setAutoActionForUser(mutation.playerId, autoAction);
+  }
+
+  if (
+    previousActivePlayerId != null &&
+    result.activePlayerId !== previousActivePlayerId &&
+    game.turnStartTime != null
+  ) {
+    const overTime = Math.max(
+      0,
+      activeTimeElapsedForGame(game) - game.turnDuration,
+    );
+    if (overTime > 0) {
+      game.playerFlexTime = {
+        ...game.playerFlexTime,
+        [previousActivePlayerId]: Math.max(
+          0,
+          storedFlexTime(game, previousActivePlayerId) - overTime,
+        ),
+      };
+      game.changed("playerFlexTime", true);
+    }
   }
 
   if (result.hasEnded) {
