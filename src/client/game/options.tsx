@@ -3,23 +3,70 @@ import {
   AccordionContent,
   AccordionTitle,
   Button,
+  Header,
   Menu,
   MenuItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
 } from "semantic-ui-react";
 import { GameStatus } from "../../api/game";
-import { UsernameList } from "../components/username";
+import { Username, UsernameList } from "../components/username";
 import { useAbandon, useConcede, useGame, useKick } from "../services/game";
 import { useMe } from "../services/me";
 import * as styles from "./options.module.css";
 import { useState } from "react";
 import { GameNotesButton } from "./game_notes";
+import { playerFlexRemaining } from "../../utils/active_time";
+import { formatMillisecondDuration } from "../../utils/functions";
+
+function FlexTimeTable() {
+  const game = useGame();
+  const now = new Date();
+
+  return (
+    <div>
+      <Header as="h2">Flex Time Remaining</Header>
+      <Table compact size="small">
+        <TableHeader>
+          <TableRow>
+            <TableHeaderCell>Player</TableHeaderCell>
+            <TableHeaderCell>Flex Time Remaining</TableHeaderCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {game.playerIds.map((playerId) => (
+            <TableRow key={playerId}>
+              <TableCell>
+                <Username userId={playerId} />
+              </TableCell>
+              <TableCell>
+                {formatMillisecondDuration(
+                  playerFlexRemaining(game, playerId, now),
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
 
 export function GameOptions() {
   const game = useGame();
   const me = useMe();
   const { concede, hasConceded, isPending: isConcedePending } = useConcede();
   const { abandon, isPending: isAbandonPending } = useAbandon();
-  const { kick, isPending: isKickPending, kickTimeRemaining } = useKick();
+  const {
+    kick,
+    isPending: isKickPending,
+    kickTimeRemaining,
+    kickFlexTimeRemaining,
+  } = useKick();
   const [expanded, setExpanded] = useState<boolean>(false);
 
   if (
@@ -76,22 +123,30 @@ export function GameOptions() {
               <div className={styles.buttonContainer}>
                 <Button
                   onClick={kick}
-                  disabled={kickTimeRemaining != null || isKickPending}
+                  disabled={
+                    kickTimeRemaining != null ||
+                    kickFlexTimeRemaining != null ||
+                    isKickPending
+                  }
                 >
                   Kick current player
                 </Button>
               </div>
-              {kickTimeRemaining == null ? (
+              {kickTimeRemaining != null ? (
+                <p>
+                  The current player has {kickTimeRemaining} of turn time
+                  remaining. Once that expires, their flex time will be used.
+                </p>
+              ) : kickFlexTimeRemaining != null ? (
+                <p>
+                  The current player is using flex time: {kickFlexTimeRemaining}{" "}
+                  remaining. Once that expires, you can kick them.
+                </p>
+              ) : (
                 <p>
                   You can kick the current player because they took too long to
                   play. This will eliminate them from the game and hurt their
                   reputation.
-                </p>
-              ) : (
-                <p>
-                  The current player has {kickTimeRemaining} remaining. Once
-                  that time is up, you can kick the current player, eliminating
-                  them from the game and hurting their reputation.
                 </p>
               )}
             </div>
@@ -101,6 +156,7 @@ export function GameOptions() {
               </div>
               <p>Add notes for yourself for when you return to this game.</p>
             </div>
+            <FlexTimeTable />
           </div>
         </AccordionContent>
       </MenuItem>

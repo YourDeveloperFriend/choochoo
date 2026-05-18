@@ -67,6 +67,8 @@ export const CreateGameApi = z
       ),
     variant: VariantConfig,
     turnDuration: z.number(),
+    gameHoursStart: z.number().int().min(0).max(23),
+    gameHoursDuration: z.number().int().min(1).max(24),
     artificialStart: z.boolean(),
     unlisted: z.boolean(),
     autoStart: z.boolean(),
@@ -111,6 +113,9 @@ export enum TurnDuration {
   FIVE_MINUTES = 5 * minutes,
   TEN_MINUTES = 10 * minutes,
   ONE_HOUR = 60 * minutes,
+  THREE_HOURS = 3 * 60 * minutes,
+  SIX_HOURS = 6 * 60 * minutes,
+  NINE_HOURS = 9 * 60 * minutes,
   HALF_DAY = 12 * 60 * minutes,
   ONE_DAY = 24 * 60 * minutes,
   TEN_DAYS = 10 * 24 * 60 * minutes,
@@ -120,12 +125,32 @@ export const allTurnDurations = [
   TurnDuration.FIVE_MINUTES,
   TurnDuration.TEN_MINUTES,
   TurnDuration.ONE_HOUR,
+  TurnDuration.THREE_HOURS,
+  TurnDuration.SIX_HOURS,
+  TurnDuration.NINE_HOURS,
   TurnDuration.HALF_DAY,
   TurnDuration.ONE_DAY,
   TurnDuration.TEN_DAYS,
 ];
 
 const TurnDurationZod = z.nativeEnum(TurnDuration);
+
+export function activeHoursToString(
+  gameHoursStart: number,
+  gameHoursDuration: number,
+): string {
+  if (gameHoursDuration >= 24) return "All day";
+  const offsetMinutes = new Date().getTimezoneOffset();
+  const localStart =
+    (((gameHoursStart - Math.round(offsetMinutes / 60)) % 24) + 24) % 24;
+  const localEnd = (localStart + gameHoursDuration) % 24;
+  const fmt = (h: number) => {
+    const d = new Date();
+    d.setHours(h, 0, 0, 0);
+    return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  };
+  return `${fmt(localStart)}–${fmt(localEnd)}`;
+}
 
 export function turnDurationToString(duration: number): string {
   switch (duration) {
@@ -135,6 +160,12 @@ export function turnDurationToString(duration: number): string {
       return "Ten minutes";
     case TurnDuration.ONE_HOUR:
       return "One hour";
+    case TurnDuration.THREE_HOURS:
+      return "Three hours";
+    case TurnDuration.SIX_HOURS:
+      return "Six hours";
+    case TurnDuration.NINE_HOURS:
+      return "Nine hours";
     case TurnDuration.HALF_DAY:
       return "Half day";
     case TurnDuration.ONE_DAY:
@@ -157,6 +188,8 @@ export const GameLiteApi = z.object({
   config: MapConfig,
   variant: VariantConfig,
   turnDuration: TurnDurationZod.or(z.number()),
+  gameHoursStart: z.number(),
+  gameHoursDuration: z.number(),
   summary: z.string().optional(),
   unlisted: z.boolean(),
   degenerate: z.boolean(),
@@ -170,6 +203,7 @@ export const GameApi = GameLiteApi.extend({
   concedingPlayers: z.number().array(),
   gameData: z.string().optional(),
   undoPlayerId: z.number().optional(),
+  playerFlexTime: z.record(z.string(), z.number()).optional(),
 });
 export type GameApi = z.infer<typeof GameApi>;
 

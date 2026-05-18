@@ -120,6 +120,8 @@ export class GameHistoryDao extends Model<
       unlisted: game.unlisted,
       degenerate: game.degenerate,
       minKarma: game.minKarma,
+      gameHoursStart: game.gameHoursStart,
+      gameHoursDuration: game.gameHoursDuration,
       undoPlayerId: undefined,
     };
     historyApi.summary = toSummary(historyApi);

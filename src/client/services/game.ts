@@ -16,6 +16,10 @@ import {
   formatMillisecondDuration,
   peek,
 } from "../../utils/functions";
+import {
+  activeTimeElapsedForGame,
+  playerFlexRemaining,
+} from "../../utils/active_time";
 import { pageCursorToString } from "../../utils/page_cursor";
 import { Entry, WithFormNumber } from "../../utils/types";
 import { assert, assertNever } from "../../utils/validate";
@@ -644,10 +648,22 @@ export function useKick() {
     });
   }, [game.id]);
 
-  const timeRemaining =
-    game.turnDuration - (Date.now() - new Date(game.turnStartTime!).getTime());
-  const kickTimeRemaining =
-    timeRemaining > 0 ? formatMillisecondDuration(timeRemaining) : undefined;
+  const now = new Date();
+  const activeElapsed = activeTimeElapsedForGame(game, now);
+  const turnTimeRemaining = game.turnDuration - activeElapsed;
+  const flexTimeRemaining =
+    turnTimeRemaining <= 0 && game.activePlayerId != null
+      ? playerFlexRemaining(game, game.activePlayerId, now)
+      : undefined;
 
-  return { kick, kickTimeRemaining, isPending };
+  const kickTimeRemaining =
+    turnTimeRemaining > 0
+      ? formatMillisecondDuration(turnTimeRemaining)
+      : undefined;
+  const kickFlexTimeRemaining =
+    flexTimeRemaining != null && flexTimeRemaining > 0
+      ? formatMillisecondDuration(flexTimeRemaining)
+      : undefined;
+
+  return { kick, kickTimeRemaining, kickFlexTimeRemaining, isPending };
 }

@@ -63,6 +63,9 @@ export function CreateGamePage() {
   const [turnDuration, setTurnDuration] = useSemanticSelectState(
     TurnDuration.ONE_DAY,
   );
+  const [gameHoursStartLocal, setGameHoursStartLocal] =
+    useSemanticSelectState(9);
+  const [gameHoursEndLocal, setGameHoursEndLocal] = useSemanticSelectState(21);
 
   const map = ViewRegistry.singleton.get(gameKey);
   const allowPlayerSelections = map.minPlayers !== map.maxPlayers;
@@ -114,6 +117,27 @@ export function CreateGamePage() {
     ],
   );
 
+  const localToUtcHour = (localHour: number) => {
+    const offset = Math.round(new Date().getTimezoneOffset() / 60);
+    return (((localHour + offset) % 24) + 24) % 24;
+  };
+
+  const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const allLocalHours = Array.from({ length: 24 }, (_, h) => {
+    const d = new Date();
+    d.setHours(h, 0, 0, 0);
+    return {
+      key: h,
+      value: h,
+      text: d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }),
+    };
+  });
+
+  const gameHoursDuration =
+    ((gameHoursEndLocal as number) - (gameHoursStartLocal as number) + 24) %
+      24 || 24;
+
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
@@ -122,6 +146,8 @@ export function CreateGamePage() {
         gameKey,
         artificialStart,
         turnDuration,
+        gameHoursStart: localToUtcHour(gameHoursStartLocal as number),
+        gameHoursDuration,
         minPlayers,
         maxPlayers,
         unlisted,
@@ -142,6 +168,8 @@ export function CreateGamePage() {
       maxPlayers,
       minKarmaS,
       turnDuration,
+      gameHoursStartLocal,
+      gameHoursEndLocal,
       variant,
     ],
   );
@@ -154,6 +182,8 @@ export function CreateGamePage() {
       minPlayers,
       maxPlayers,
       turnDuration,
+      gameHoursStart: localToUtcHour(gameHoursStartLocal as number),
+      gameHoursDuration,
       unlisted,
       autoStart,
       minKarma: minKarmaS,
@@ -170,6 +200,8 @@ export function CreateGamePage() {
     autoStart,
     minKarmaS,
     turnDuration,
+    gameHoursStartLocal,
+    gameHoursEndLocal,
   ]);
 
   const Editor = selectedMap.getVariantConfigEditor;
@@ -240,6 +272,33 @@ export function CreateGamePage() {
             placeholder="Turn Duration"
             onBlur={validateGameInternal}
           />
+          {(turnDuration as number) < TurnDuration.ONE_DAY && (
+            <Form.Group inline>
+              <label>
+                Active hours{" "}
+                <span style={{ fontWeight: "normal", color: "#666" }}>
+                  ({detectedTimezone})
+                </span>
+              </label>
+              <FormSelect
+                options={allLocalHours}
+                value={gameHoursStartLocal}
+                disabled={isPending}
+                onChange={setGameHoursStartLocal}
+                error={validationError?.gameHoursStart}
+                onBlur={validateGameInternal}
+              />
+              <label>to</label>
+              <FormSelect
+                options={allLocalHours}
+                value={gameHoursEndLocal}
+                disabled={isPending}
+                onChange={setGameHoursEndLocal}
+                error={validationError?.gameHoursDuration}
+                onBlur={validateGameInternal}
+              />
+            </Form.Group>
+          )}
           <FormInput
             required
             label={allowPlayerSelections ? "Min Players" : "Num Players"}
