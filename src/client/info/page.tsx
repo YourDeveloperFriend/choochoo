@@ -50,9 +50,9 @@ export function InfoPage() {
             option to abandon the game without it impacting their karma.
           </li>
           <li>
-            If another player has exceeded the allowed length of time to take
-            their turn, any player at the table can kick that player from the
-            table. This has the same effect as if the player had chosen to
+            If another player has exceeded both their turn time and their flex
+            time (see below), any player at the table can kick that player from
+            the table. This has the same effect as if the player had chosen to
             abandon the game as described above.
           </li>
         </ul>
@@ -77,12 +77,29 @@ export function InfoPage() {
         have 100 karma, you can make sure that only players with 95 or more can
         join your game!
       </p>
+      <Header as="h2">Turn Time, Flex Time, and Active Hours</Header>
       <p>
-        Pay attention to the turn duration of tables when you join them to make
-        sure you are able to play games in the expected length of time. Failure
-        to do say can result in you getting kicked from the table which will
-        impact your karma and may prevent you from joining games in the future
-        if done too often!
+        Each table has a <b>turn duration</b> — the amount of time a player is
+        expected to take their turn. Beyond that, every player starts with a
+        pool of <b>flex time</b> equal to three times the turn duration. Flex
+        time is shared across the whole game: once you exceed your turn duration
+        on any turn, the extra time is drawn from your flex pool. Only after
+        both your turn time and all of your flex time are exhausted can other
+        players kick you.
+      </p>
+      <p>
+        Tables can also be configured with <b>active hours</b> — a daily window
+        during which the turn timer and flex timer actually count down. Outside
+        of that window, both clocks are paused. This lets you create a table
+        with a short turn timer (e.g. 3 hours) without penalizing players for
+        the hours they&apos;re asleep or unavailable each day.
+      </p>
+      <p>
+        Pay attention to the turn duration and active hours of tables when you
+        join them to make sure you are able to play in the expected time frame.
+        Running out of flex time can result in you getting kicked from the
+        table, which will impact your karma and may prevent you from joining
+        games in the future if it happens too often.
       </p>
     </Container>
   );

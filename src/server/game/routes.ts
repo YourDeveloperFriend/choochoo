@@ -1,6 +1,11 @@
 import { createExpressEndpoints, initServer } from "@ts-rest/express";
 import express from "express";
-import { gameContract, GameStatus, ListGamesApi } from "../../api/game";
+import {
+  gameContract,
+  GameStatus,
+  ListGamesApi,
+  TurnDuration,
+} from "../../api/game";
 import { assert } from "../../utils/validate";
 import { GameDao } from "./dao";
 
@@ -8,6 +13,10 @@ import { Op, WhereOptions } from "@sequelize/core";
 import { UserRole } from "../../api/user";
 import { EngineDelegator } from "../../engine/framework/engine";
 import { peek, remove } from "../../utils/functions";
+import {
+  activeTimeElapsedForGame,
+  storedFlexTime,
+} from "../../utils/active_time";
 import { pageCursorToString, parsePageCursor } from "../../utils/page_cursor";
 import { LogDao } from "../messages/log_dao";
 import { sequelize } from "../sequelize";
@@ -114,6 +123,8 @@ const router = initServer().router(gameContract, {
         "playerIds",
         "ownerId",
         "turnDuration",
+        "gameHoursStart",
+        "gameHoursDuration",
         "unlisted",
         "autoStart",
       ],
@@ -150,7 +161,10 @@ const router = initServer().router(gameContract, {
     const user = await assertRole(req);
     const isAdmin = user.role === UserRole.enum.ADMIN;
 
-    assert(body.minKarma <= user.karma - 5, {
+    assert(0 <= body.minKarma && body.minKarma <= 100, {
+      invalidInput: "minKarma must be between 0 and 100",
+    });
+    assert(body.minKarma <= Math.max(0, user.karma - 5), {
       invalidInput: "minKarma cannot exceed your karma minus 5",
     });
 
@@ -183,6 +197,9 @@ const router = initServer().router(gameContract, {
       name: body.name,
       status: GameStatus.enum.LOBBY,
       turnDuration: body.turnDuration,
+      gameHoursStart: body.gameHoursStart,
+      gameHoursDuration:
+        body.turnDuration >= TurnDuration.ONE_DAY ? 24 : body.gameHoursDuration,
       concedingPlayers: [],
       playerIds,
       ownerId: userId,
@@ -549,14 +566,20 @@ const router = initServer().router(gameContract, {
       invalidInput: "Can only kick an active game",
     });
     assert(game.activePlayerId != null);
-    assert(
-      game.turnStartTime != null &&
-        game.turnStartTime.getTime() + game.turnDuration < Date.now(),
-      { invalidInput: "cannot kick until kick duration has passed" },
-    );
+    assert(game.turnStartTime != null && canKickPlayer(game), {
+      invalidInput: "cannot kick until kick duration has passed",
+    });
     await abandonGame(game, game.activePlayerId, /* kicked= */ true);
     return { status: 200, body: { game: game.toApi() } };
   },
 });
 
 createExpressEndpoints(gameContract, router, gameApp);
+
+function canKickPlayer(game: GameDao): boolean {
+  if (game.activePlayerId == null) return false;
+  const elapsed = activeTimeElapsedForGame(game);
+  if (elapsed < game.turnDuration) return false;
+  const overTime = elapsed - game.turnDuration;
+  return overTime >= storedFlexTime(game, game.activePlayerId);
+}

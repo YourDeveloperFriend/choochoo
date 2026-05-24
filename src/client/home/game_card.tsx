@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -7,12 +7,15 @@ import {
   CardDescription,
   CardHeader,
   CardMeta,
+  Confirm,
   Icon,
 } from "semantic-ui-react";
 import {
+  activeHoursToString,
   GameLiteApi,
   GameStatus,
   gameStatusToString,
+  TurnDuration,
   turnDurationToString,
 } from "../../api/game";
 import { ViewRegistry } from "../../maps/view_registry";
@@ -68,7 +71,18 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
             {game.status === GameStatus.enum.LOBBY && (
               <p>Seats: {seats(game)}</p>
             )}
-            <p>Turn Length: {turnDurationToString(game.turnDuration)}</p>
+            <p>
+              Turn Length: {turnDurationToString(game.turnDuration)}
+              {game.turnDuration < TurnDuration.ONE_DAY && (
+                <>
+                  ,{" "}
+                  {activeHoursToString(
+                    game.gameHoursStart,
+                    game.gameHoursDuration,
+                  )}
+                </>
+              )}
+            </p>
             {variantString != null && (
               <p>Variants: {variantString.join(", ")}</p>
             )}
@@ -132,16 +146,55 @@ function LeaveButton({ game }: GameButtonProps) {
   );
 }
 
+function hasUnusualActiveHours(game: GameLiteApi): boolean {
+  if (game.turnDuration >= TurnDuration.ONE_DAY) return false;
+  if (game.gameHoursDuration >= 24) return true;
+  const offsetMinutes = new Date().getTimezoneOffset();
+  const localStart =
+    (((game.gameHoursStart - Math.round(offsetMinutes / 60)) % 24) + 24) % 24;
+  const localEnd = (localStart + game.gameHoursDuration) % 24;
+  return localEnd < localStart || localStart < 6;
+}
+
 function JoinButton({ game }: GameButtonProps) {
   const { canPerform, perform, isPending } = useJoinGame(game);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   if (!canPerform) {
     return <></>;
   }
 
+  const needsConfirmation = hasUnusualActiveHours(game);
+
+  const handleClick = () => {
+    if (needsConfirmation) {
+      setConfirmOpen(true);
+    } else {
+      perform();
+    }
+  };
+
   return (
-    <Button primary disabled={isPending} onClick={perform} data-join-button>
-      Join
-    </Button>
+    <>
+      <Button
+        primary
+        disabled={isPending}
+        onClick={handleClick}
+        data-join-button
+      >
+        Join
+      </Button>
+      <Confirm
+        open={confirmOpen}
+        header="Different Time Zone?"
+        content={`This game's active hours (${activeHoursToString(game.gameHoursStart, game.gameHoursDuration)}) may have been set for a different time zone. Make sure you can take turns during these hours before joining.`}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={() => {
+          setConfirmOpen(false);
+          perform();
+        }}
+      />
+    </>
   );
 }
 

@@ -84,8 +84,19 @@ export class GameDao extends Model<
   @NotNull
   declare turnDuration: number;
 
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare gameHoursStart: number;
+
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare gameHoursDuration: number;
+
   @Attribute({ type: DataTypes.DATE, allowNull: true })
   declare turnStartTime?: CreationOptional<Date | null>;
+
+  @Attribute(DataTypes.JSONB)
+  declare playerFlexTime: { [userId: number]: number } | null;
 
   @Attribute(DataTypes.ARRAY(DataTypes.INTEGER))
   @NotNull
@@ -173,6 +184,11 @@ export function toApi(game: InferAttributes<GameDao> | GameApi): GameApi {
     turnStartTime: game.turnStartTime?.toString() ?? undefined,
     gameData: game.gameData ?? undefined,
     undoPlayerId: game.undoPlayerId ?? undefined,
+    playerFlexTime: game.playerFlexTime
+      ? Object.fromEntries(
+          Object.entries(game.playerFlexTime).map(([k, v]) => [k, Number(v)]),
+        )
+      : undefined,
   };
 }
 
@@ -184,6 +200,8 @@ function toLiteApi(game: GameApi | InferAttributes<GameDao>): GameLiteApi {
     name: game.name,
     status: game.status,
     turnDuration: game.turnDuration,
+    gameHoursStart: game.gameHoursStart,
+    gameHoursDuration: game.gameHoursDuration,
     playerIds: [...game.playerIds],
     ownerId: game.ownerId,
     activePlayerId: game.activePlayerId ?? undefined,
