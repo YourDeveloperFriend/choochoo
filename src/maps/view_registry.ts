@@ -33,6 +33,7 @@ import { MinasGeraesViewSettings } from "./minas-geraes/view_settings";
 import { MontrealMetroViewSettings } from "./montreal_metro/view_settings";
 import { MoonViewSettings } from "./moon/view_settings";
 import { NewEnglandViewSettings } from "./new_england/view_settings";
+import { NewHampshireViewSettings } from "./new_hampshire/view_settings";
 import { NorthernCaliforniaViewSettings } from "./northern_california/view_settings";
 import { PittsburghViewSettings } from "./pittsburgh/view_settings";
 import { PolandViewSettings } from "./poland/view_settings";
@@ -88,6 +89,7 @@ export class ViewRegistry {
     this.add(new MontrealMetroViewSettings());
     this.add(new MoonViewSettings());
     this.add(new NewEnglandViewSettings());
+    this.add(new NewHampshireViewSettings());
     this.add(new NorthernCaliforniaViewSettings());
     this.add(new PittsburghViewSettings());
     this.add(new PolandViewSettings());
