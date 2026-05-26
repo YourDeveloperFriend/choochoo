@@ -56,6 +56,9 @@ export enum Action {
 
   // Minas Geraes
   GOLDSMITH = 26,
+
+  // Central New England
+  SMUGGLE = 27,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -117,6 +120,8 @@ export class ActionNamingProvider {
         return "Issue Last";
       case Action.GOLDSMITH:
         return "Goldsmith";
+      case Action.SMUGGLE:
+        return "Smuggle";
       default:
         assertNever(action);
     }
@@ -176,6 +181,8 @@ export class ActionNamingProvider {
         return "Go last during the Issue Shares phase.";
       case Action.GOLDSMITH:
         return "Deliver gold without spending mining expertise or increase income for gold deliveries.";
+      case Action.SMUGGLE:
+        return "You may make both of your deliveries within a single state.";
       default:
         assertNever(action);
     }

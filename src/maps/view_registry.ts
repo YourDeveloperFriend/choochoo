@@ -8,6 +8,7 @@ import { BalkanViewSettings } from "./balkan/view_settings";
 import { BarbadosViewSettings } from "./barbados/view_settings";
 import { BelgiumViewSettings } from "./belgium/view_settings";
 import { CaliforniaGoldRushViewSettings } from "./ca-gold-rush/view_settings";
+import { CentralNewEnglandViewSettings } from "./central_new_england/view_settings";
 import { ChesapeakeAndOhioViewSettings } from "./chesapeake-and-ohio/view_settings";
 import { ChicagoLViewSettings } from "./chicago-l/view_settings";
 import { ChicagoSpeakeasyViewSettings } from "./chicago_speakeasy/view_settings";
@@ -64,6 +65,7 @@ export class ViewRegistry {
     this.add(new BarbadosViewSettings());
     this.add(new BelgiumViewSettings());
     this.add(new CaliforniaGoldRushViewSettings());
+    this.add(new CentralNewEnglandViewSettings());
     this.add(new ChesapeakeAndOhioViewSettings());
     this.add(new ChicagoLViewSettings());
     this.add(new ChicagoSpeakeasyViewSettings());
