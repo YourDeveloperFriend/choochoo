@@ -50,6 +50,7 @@ import { StLuciaMapSettings } from "./st-lucia/settings";
 import { SwedenRecyclingMapSettings } from "./sweden/settings";
 import { TrislandMapSettings } from "./trisland/settings";
 import { UnionPacificExpressMapSettings } from "./union_pacific_express/settings";
+import { VermontMapSettings } from "./vermont/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();
@@ -104,6 +105,7 @@ export class MapRegistry {
     this.add(new SwedenRecyclingMapSettings());
     this.add(new TrislandMapSettings());
     this.add(new UnionPacificExpressMapSettings());
+    this.add(new VermontMapSettings());
   }
 
   values(): Iterable<MapSettings> {
