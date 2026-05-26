@@ -555,7 +555,12 @@ interface EdgeBoundaryProps {
   color?: string;
 }
 
-function EdgeBoundary({ center, size, direction, color }: EdgeBoundaryProps) {
+export function EdgeBoundary({
+  center,
+  size,
+  direction,
+  color,
+}: EdgeBoundaryProps) {
   const [corner1, corner2] = useMemo(
     () => edgeCorners(center, size, direction),
     [center.x, center.y, size, direction],

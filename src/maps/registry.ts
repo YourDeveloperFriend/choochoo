@@ -8,6 +8,7 @@ import { BalkanMapSettings } from "./balkan/settings";
 import { BarbadosMapSettings } from "./barbados/settings";
 import { BelgiumMapSettings } from "./belgium/settings";
 import { CaliforniaGoldRushMapSettings } from "./ca-gold-rush/settings";
+import { CentralNewEnglandMapSettings } from "./central_new_england/settings";
 import { ChesapeakeAndOhioMapSettings } from "./chesapeake-and-ohio/settings";
 import { ChicagoLMapSettings } from "./chicago-l/settings";
 import { ChicagoSpeakeasyMapSettings } from "./chicago_speakeasy/settings";
@@ -64,6 +65,7 @@ export class MapRegistry {
     this.add(new BarbadosMapSettings());
     this.add(new BelgiumMapSettings());
     this.add(new CaliforniaGoldRushMapSettings());
+    this.add(new CentralNewEnglandMapSettings());
     this.add(new ChesapeakeAndOhioMapSettings());
     this.add(new ChicagoLMapSettings());
     this.add(new ChicagoSpeakeasyMapSettings());
