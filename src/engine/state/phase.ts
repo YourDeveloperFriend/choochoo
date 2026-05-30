@@ -30,6 +30,9 @@ export enum Phase {
 
   // Montreal Metro
   GOVERNMENT_BUILD = 16,
+
+  // Mexico
+  MEXICO_ROLE_SELECTION = 17,
 }
 
 export const PhaseZod = z.nativeEnum(Phase);
@@ -66,6 +69,8 @@ export function getPhaseString(phase: Phase): string {
       return "Earth to Heaven";
     case Phase.GOVERNMENT_BUILD:
       return "Government build";
+    case Phase.MEXICO_ROLE_SELECTION:
+      return "Role selection";
     default:
       assertNever(phase);
   }

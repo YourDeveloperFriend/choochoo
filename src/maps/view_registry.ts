@@ -30,6 +30,7 @@ import { JapanViewSettings } from "./japan/view_settings";
 import { KoreaWallaceViewSettings } from "./korea-wallace/view_settings";
 import { LondonViewSettings } from "./london/view_settings";
 import { MadagascarViewSettings } from "./madagascar/view_settings";
+import { MexicoViewSettings } from "./mexico/view_settings";
 import { MinasGeraesViewSettings } from "./minas-geraes/view_settings";
 import { MontrealMetroViewSettings } from "./montreal_metro/view_settings";
 import { MoonViewSettings } from "./moon/view_settings";
@@ -87,6 +88,7 @@ export class ViewRegistry {
     this.add(new KoreaWallaceViewSettings());
     this.add(new LondonViewSettings());
     this.add(new MadagascarViewSettings());
+    this.add(new MexicoViewSettings());
     this.add(new MinasGeraesViewSettings());
     this.add(new MontrealMetroViewSettings());
     this.add(new MoonViewSettings());

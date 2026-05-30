@@ -53,14 +53,28 @@ export class TurnOrderHelper {
     return this.turnOrder().filter((p) => !ignoring.has(p));
   }
 
+  protected computeBidCost(
+    previousBid: number,
+    playerOrder: number,
+    numPlayers: number,
+    _player: PlayerData,
+  ): number {
+    const costMultiplier =
+      playerOrder === numPlayers ? 0 : playerOrder <= 2 ? 1 : 0.5;
+    return Math.ceil(previousBid * costMultiplier);
+  }
+
   pass(player: PlayerData): void {
     const previousState = this.turnOrderState();
     const previousBid = previousState.previousBids[player.color] ?? 0;
     const numPlayers = this.turnOrder().length;
     const playerOrder = numPlayers - previousState.nextTurnOrder.length;
-    const costMultiplier =
-      playerOrder === numPlayers ? 0 : playerOrder <= 2 ? 1 : 0.5;
-    const cost = Math.ceil(previousBid * costMultiplier);
+    const cost = this.computeBidCost(
+      previousBid,
+      playerOrder,
+      numPlayers,
+      player,
+    );
 
     if (cost === 0) {
       this.log.player(player, `becomes player ${playerOrder} for free`);
