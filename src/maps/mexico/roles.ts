@@ -44,6 +44,10 @@ export class MexicoRoleHelper {
   }
 
   initRoles(statePlayerId: number): void {
-    this.roleState.set({ statePlayerId });
+    if (this.roleState.isInitialized()) {
+      this.roleState.set({ statePlayerId });
+    } else {
+      this.roleState.initState({ statePlayerId });
+    }
   }
 }
