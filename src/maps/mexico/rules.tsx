@@ -51,8 +51,9 @@ export function MexicoRules() {
         </ul>
       </p>
       <p>
-        If neither of you succeeds, succeeds, that player wins. If both of you
-        succeed, the player with more victory points wins.
+        If neither of you succeeds, you both lose. If only one of you succeeds,
+        that player wins. If both of you succeed, the player with more victory
+        points wins.
       </p>
       <h1>Play</h1>
       <p>The game lasts 9 rounds.</p>
