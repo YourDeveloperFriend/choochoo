@@ -118,6 +118,8 @@ export enum TurnDuration {
   NINE_HOURS = 9 * 60 * minutes,
   HALF_DAY = 12 * 60 * minutes,
   ONE_DAY = 24 * 60 * minutes,
+  TWO_DAYS = 2 * 24 * 60 * minutes,
+  THREE_DAYS = 3 * 24 * 60 * minutes,
   TEN_DAYS = 10 * 24 * 60 * minutes,
 }
 
@@ -130,6 +132,8 @@ export const allTurnDurations = [
   TurnDuration.NINE_HOURS,
   TurnDuration.HALF_DAY,
   TurnDuration.ONE_DAY,
+  TurnDuration.TWO_DAYS,
+  TurnDuration.THREE_DAYS,
   TurnDuration.TEN_DAYS,
 ];
 
@@ -170,6 +174,10 @@ export function turnDurationToString(duration: number): string {
       return "Half day";
     case TurnDuration.ONE_DAY:
       return "One day";
+    case TurnDuration.TWO_DAYS:
+      return "Two days";
+    case TurnDuration.THREE_DAYS:
+      return "Three days";
     case TurnDuration.TEN_DAYS:
       return "Ten days";
     default:
