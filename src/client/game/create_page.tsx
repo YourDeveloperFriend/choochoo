@@ -122,7 +122,11 @@ export function CreateGamePage() {
     return (((localHour + offset) % 24) + 24) % 24;
   };
 
-  const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const detectedTimezone =
+    new Intl.DateTimeFormat([], { timeZoneName: "short" })
+      .formatToParts(new Date())
+      .find((p) => p.type === "timeZoneName")?.value ??
+    Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const allLocalHours = Array.from({ length: 24 }, (_, h) => {
     const d = new Date();
