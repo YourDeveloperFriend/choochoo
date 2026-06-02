@@ -153,7 +153,13 @@ export function activeHoursToString(
     d.setHours(h, 0, 0, 0);
     return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
   };
-  return `${fmt(localStart)}–${fmt(localEnd)}`;
+  const tzParts = new Intl.DateTimeFormat([], {
+    timeZoneName: "short",
+  }).formatToParts(new Date());
+  const tzName =
+    tzParts.find((p) => p.type === "timeZoneName")?.value ??
+    `UTC${offsetMinutes <= 0 ? "+" : "-"}${Math.abs(Math.round(offsetMinutes / 60))}`;
+  return `${fmt(localStart)}–${fmt(localEnd)} ${tzName}`;
 }
 
 export function turnDurationToString(duration: number): string {
