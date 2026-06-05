@@ -59,7 +59,7 @@ export class MexicoPickRoleAction implements ActionProcessor<PickRoleData> {
 }
 
 class MexicoRoleSelectionPhase extends PhaseModule {
-  static readonly phase = Phase.MEXICO_ROLE_SELECTION;
+  static readonly phase = Phase.ROLE_SELECTION;
 
   private readonly round = injectState(ROUND);
   private readonly random = inject(Random);
@@ -89,6 +89,6 @@ export class MexicoPhaseDelegator extends PhaseDelegator {
 
 export class MexicoPhaseEngine extends PhaseEngine {
   phaseOrder(): Phase[] {
-    return [Phase.MEXICO_ROLE_SELECTION, ...super.phaseOrder()];
+    return [Phase.ROLE_SELECTION, ...super.phaseOrder()];
   }
 }
