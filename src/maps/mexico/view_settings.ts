@@ -59,7 +59,7 @@ export class MexicoViewSettings
     phase: Phase | undefined,
   ): (() => React.ReactNode) | undefined {
     switch (phase) {
-      case Phase.MEXICO_ROLE_SELECTION:
+      case Phase.ROLE_SELECTION:
         return MexicoRoleSelectionSummary;
       case Phase.GOODS_GROWTH:
         return MexicoProductionSummary;
