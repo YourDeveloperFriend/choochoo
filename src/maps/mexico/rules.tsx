@@ -70,7 +70,8 @@ export function MexicoRules() {
       <p>
         If the State player wins the auction, they pay 100% of the winning bid.
         If the Cartel player wins the auction, they pay 50% of the winning bid,
-        rounded down.
+        rounded down. Note that the Cartel is still limited to a maximum bid of
+        their cash on hand, even though they will only pay half of it.
       </p>
       <h1>Build Track</h1>
       <p>The State can build 0-3 track; the Cartel can build 0-2.</p>
@@ -131,6 +132,30 @@ export function MexicoRules() {
         <li>
           If neither red goods nor black goods remain on the map, use the base
           game victory point computations to see who won.
+        </li>
+      </ul>
+
+      <h1>Variants</h1>
+      <ul>
+        <li>
+          <b>Deterministic Disabled Actions:</b> Rather than choosing two
+          special actions to be disabled each round at random, it is the two
+          special actions chosen in the previous round that will be made
+          unavailable in the next one. On the first round, all special actions
+          are available.
+        </li>
+        <li>
+          <b>Red &amp; Black Production:</b> Rather than drawing random cubes
+          from the bag for production, you always choose a red and black cube
+          from the bag (it should not be possible to run out) and place them
+          both on the chosen city. It is still optional whether or not to do the
+          production action at allYou .
+        </li>
+        <li>
+          <b>Production For All:</b> Production is returned as a special action
+          that can be chosen, rather than the Cartel player always getting it in
+          addition to the their chosen action. This can optionally be combined
+          with &quot;Red &amp; Black Production&quot; variant.
         </li>
       </ul>
     </div>
