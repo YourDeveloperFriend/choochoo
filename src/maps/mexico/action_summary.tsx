@@ -95,6 +95,24 @@ export function MexicoProductionSummary() {
     );
   }
 
+  // R&B variant: player clicks a city to place black and red
+  if (placeAction.canEmit && (drawnGoods ?? []).length === 0) {
+    return (
+      <div>
+        <p>
+          Click a city on the map to place a black and red good there, or pass.
+        </p>
+        <Button
+          disabled={passAction.isPending}
+          loading={passAction.isPending}
+          onClick={() => passAction.emit()}
+        >
+          Pass
+        </Button>
+      </div>
+    );
+  }
+
   // Goods have been drawn — player must place one on a city
   if (placeAction.canEmit) {
     return (

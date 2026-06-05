@@ -1,9 +1,11 @@
 import z from "zod";
-import { injectState } from "../../engine/framework/execution_context";
+import { inject, injectState } from "../../engine/framework/execution_context";
+import { GameMemory } from "../../engine/game/game_memory";
 import { Key } from "../../engine/framework/key";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
 import { Action, ActionZod } from "../../engine/state/action";
 import { ImmutableSet } from "../../utils/immutable";
+import { MexicoVariantConfig } from "./variant_config";
 
 const MexicoDisabledActionsZod = z.object({
   actions: z.array(ActionZod),
@@ -15,12 +17,17 @@ export const MEXICO_DISABLED_ACTIONS = new Key("mexicoDisabledActions", {
 
 export class MexicoAllowedActions extends AllowedActions {
   private readonly disabledActions = injectState(MEXICO_DISABLED_ACTIONS);
+  private readonly gameMemory = inject(GameMemory);
 
   getActions(): ImmutableSet<Action> {
-    return super
-      .getActions()
-      .delete(Action.PRODUCTION)
-      .delete(Action.TURN_ORDER_PASS);
+    const { productionForAll } = this.gameMemory.getVariant(
+      MexicoVariantConfig.parse,
+    );
+    let actions = super.getActions().delete(Action.TURN_ORDER_PASS);
+    if (!productionForAll) {
+      actions = actions.delete(Action.PRODUCTION);
+    }
+    return actions;
   }
 
   getDisabledActionReason(action: Action): string | undefined {

@@ -14,6 +14,8 @@ import { MexicoGoodsGrowthPhase } from "./goods_growth";
 import { MexicoRoundEngine } from "./round";
 import { MexicoStarter } from "./starter";
 import { MexicoPhaseDelegator, MexicoPhaseEngine } from "./role_selection";
+import { MexicoVariantConfig } from "./variant_config";
+import { MexicoActionNamingProvider } from "./actions";
 
 export class MexicoMapSettings implements MapSettings {
   readonly key = "mexico";
@@ -34,6 +36,7 @@ export class MexicoMapSettings implements MapSettings {
   };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.ALPHA;
+  readonly variantConfig = MexicoVariantConfig;
 
   getOverrides() {
     return [
@@ -48,6 +51,7 @@ export class MexicoMapSettings implements MapSettings {
       MexicoGoodsGrowthPhase,
       MexicoPhaseDelegator,
       MexicoPhaseEngine,
+      MexicoActionNamingProvider,
     ];
   }
 }

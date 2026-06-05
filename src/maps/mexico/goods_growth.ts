@@ -4,6 +4,7 @@ import {
   ActionProcessor,
   EmptyActionProcessor,
 } from "../../engine/game/action";
+import { GameMemory } from "../../engine/game/game_memory";
 import { Log } from "../../engine/game/log";
 import { BAG, injectGrid } from "../../engine/game/state";
 import { GoodsGrowthPhase } from "../../engine/goods_growth/phase";
@@ -13,12 +14,13 @@ import { City } from "../../engine/map/city";
 import { ROUND } from "../../engine/game/round";
 import { Key } from "../../engine/framework/key";
 import { CityGroup } from "../../engine/state/city_group";
-import { GoodZod, goodToString } from "../../engine/state/good";
+import { Good, GoodZod, goodToString } from "../../engine/state/good";
 import { SpaceType } from "../../engine/state/location_type";
 import { CoordinatesZod } from "../../utils/coordinates";
 import { PlayerColor } from "../../engine/state/player";
 import { assert } from "../../utils/validate";
 import { MexicoRoleHelper } from "./roles";
+import { MexicoVariantConfig } from "./variant_config";
 
 export const MEXICO_PRODUCTION_GOODS = new Key("mexicoProductionGoods", {
   parse: z.array(GoodZod).parse,
@@ -47,8 +49,13 @@ export class MexicoProductionDrawAction extends EmptyActionProcessor {
   private readonly bag = injectState(BAG);
   private readonly helper = inject(GoodsHelper);
   private readonly log = inject(Log);
+  private readonly gameMemory = inject(GameMemory);
 
   canEmit(): boolean {
+    if (
+      this.gameMemory.getVariant(MexicoVariantConfig.parse).redBlackProduction
+    )
+      return false;
     return this.productionGoods().length === 0 && this.bag().length > 0;
   }
 
@@ -62,7 +69,7 @@ export class MexicoProductionDrawAction extends EmptyActionProcessor {
 
 const PlaceProductionData = z.object({
   coordinates: CoordinatesZod,
-  good: GoodZod,
+  good: GoodZod.optional(),
 });
 type PlaceProductionData = z.infer<typeof PlaceProductionData>;
 
@@ -73,18 +80,30 @@ export class MexicoProductionPlaceAction
   readonly assertInput = PlaceProductionData.parse;
 
   private readonly productionGoods = injectState(MEXICO_PRODUCTION_GOODS);
+  private readonly bag = injectState(BAG);
   private readonly grid = injectGrid();
   private readonly gridHelper = inject(GridHelper);
   private readonly log = inject(Log);
+  private readonly gameMemory = inject(GameMemory);
+
+  private isRedBlack(): boolean {
+    return !!this.gameMemory.getVariant(MexicoVariantConfig.parse)
+      .redBlackProduction;
+  }
 
   canEmit(): boolean {
-    return this.productionGoods().length > 0;
+    return this.isRedBlack()
+      ? this.productionGoods().length === 0
+      : this.productionGoods().length > 0;
   }
 
   validate({ coordinates, good }: PlaceProductionData): void {
-    assert(this.productionGoods().includes(good), {
-      invalidInput: "must place one of the drawn goods",
-    });
+    if (!this.isRedBlack()) {
+      assert(good != null, { invalidInput: "must select a good to place" });
+      assert(this.productionGoods().includes(good!), {
+        invalidInput: "must place one of the drawn goods",
+      });
+    }
     assert(this.grid().get(coordinates) instanceof City, {
       invalidInput: "must place on a city",
     });
@@ -93,14 +112,44 @@ export class MexicoProductionPlaceAction
   process({ coordinates, good }: PlaceProductionData): boolean {
     const city = this.grid().get(coordinates);
     assert(city instanceof City);
-    this.gridHelper.update(coordinates, (space) => {
-      assert(space.type === SpaceType.CITY);
-      space.goods.push(good);
-    });
-    this.log.currentPlayer(`places a ${goodToString(good)} in ${city.name()}`);
-    this.productionGoods.update((box) => {
-      box.splice(box.indexOf(good), 1);
-    });
+
+    if (this.isRedBlack()) {
+      const goods: Good[] = [];
+      this.bag.update((bag) => {
+        const blackIdx = bag.findIndex((g) => g === Good.BLACK);
+        if (blackIdx >= 0) {
+          bag.splice(blackIdx, 1);
+          goods.push(Good.BLACK);
+        }
+        const redIdx = bag.findIndex((g) => g === Good.RED);
+        if (redIdx >= 0) {
+          bag.splice(redIdx, 1);
+          goods.push(Good.RED);
+        }
+      });
+      if (goods.length > 0) {
+        this.gridHelper.update(coordinates, (space) => {
+          assert(space.type === SpaceType.CITY);
+          space.goods.push(...goods);
+        });
+        this.log.currentPlayer(
+          `places ${goods.map(goodToString).join(" and ")} in ${city.name()}`,
+        );
+      }
+    } else {
+      assert(good != null);
+      this.gridHelper.update(coordinates, (space) => {
+        assert(space.type === SpaceType.CITY);
+        space.goods.push(good);
+      });
+      this.log.currentPlayer(
+        `places a ${goodToString(good)} in ${city.name()}`,
+      );
+      this.productionGoods.update((box) => {
+        box.splice(box.indexOf(good), 1);
+      });
+    }
+
     return true;
   }
 }
@@ -109,6 +158,7 @@ export class MexicoGoodsGrowthPhase extends GoodsGrowthPhase {
   private readonly round = injectState(ROUND);
   private readonly roles = inject(MexicoRoleHelper);
   private readonly productionGoods = injectState(MEXICO_PRODUCTION_GOODS);
+  private readonly gameMemory = inject(GameMemory);
 
   configureActions(): void {
     this.installAction(MexicoProductionPassAction);
@@ -118,6 +168,12 @@ export class MexicoGoodsGrowthPhase extends GoodsGrowthPhase {
 
   getPlayerOrder(): PlayerColor[] {
     if (this.round() >= 9) return [];
+    if (
+      this.gameMemory.getVariant(MexicoVariantConfig.parse).productionForAll
+    ) {
+      const producer = this.productionPlayer();
+      return producer != null ? [producer.color] : [];
+    }
     return [this.roles.getCartelColor()];
   }
 
