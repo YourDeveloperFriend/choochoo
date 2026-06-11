@@ -75,9 +75,9 @@ export class PlayerHelper {
     if (this.players().length === 1) {
       const [player] = this.players();
       if (this.beatSoloGoal()) {
-        return [[], [player]];
+        return [[player]];
       }
-      return [[player]];
+      return [[], [player]];
     }
     const scores = this.players()
       .map((player) => ({ player, score: this.getScore(player) }))
