@@ -48,6 +48,10 @@ import {
   buildingDialogContainer,
   buildingOption,
   dialogContent,
+  sidePanel,
+  sidePanelClose,
+  sidePanelContent,
+  sidePanelHeader,
 } from "./building_dialog.module.css";
 import { ClickTarget } from "./click_target";
 import { HexGrid } from "./hex_grid";
@@ -57,6 +61,8 @@ interface BuildingProps {
   settings: MapViewSettings;
   coordinates?: Coordinates;
 }
+
+const SIDE_PANEL_KEY = "buildingDialogSidePanel";
 
 export function BuildingDialog({
   coordinates,
@@ -73,6 +79,9 @@ export function BuildingDialog({
   const availableCities = useInjectedState(AVAILABLE_CITIES);
   const grid = useInjected(GridHelper);
   const [showReasons, setShowReasons] = useState(false);
+  const [useSidePanel, setUseSidePanel] = useState(
+    () => localStorage.getItem(SIDE_PANEL_KEY) === "true",
+  );
   const [direction, rotate] = useReducer(
     (prev: Direction, _: object) => rotateDirectionClockwise(prev),
     Direction.TOP,
@@ -101,6 +110,14 @@ export function BuildingDialog({
     [space, emitUrbanize],
   );
 
+  const toggleMode = useCallback(() => {
+    setUseSidePanel((prev) => {
+      const next = !prev;
+      localStorage.setItem(SIDE_PANEL_KEY, String(next));
+      return next;
+    });
+  }, []);
+
   const eligibleCities: number[] = [];
   availableCities.forEach((_, idx) => {
     if (canUrbanizeSpace(urbanizeAction, coordinates, idx)) {
@@ -121,56 +138,87 @@ export function BuildingDialog({
     }
   }, [coordinates, hasBuildingOptions, cancelBuild]);
 
-  return (
+  const innerContent = (
     <>
-      <Modal closeIcon open={isOpen} onClose={cancelBuild}>
-        <ModalHeader>Select a tile to place</ModalHeader>
-        <ModalContent className={dialogContent}>
-          <p>
-            <Checkbox
-              label="Show failure reasons"
-              checked={showReasons}
-              onChange={(e, data) => setShowReasons(!!data.checked)}
+      <p
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Checkbox
+          label="Show failure reasons"
+          checked={showReasons}
+          onChange={(_e, data) => setShowReasons(!!data.checked)}
+        />
+        {!useSidePanel && (
+          <Button size="small" onClick={toggleMode}>
+            Dock
+          </Button>
+        )}
+      </p>
+      {showReasons && (
+        <Button primary onClick={rotate}>
+          Rotate
+        </Button>
+      )}
+      <div className={buildingDialogContainer} data-building-options>
+        {canUrbanize &&
+          eligibleCities.map((cityIdx) => (
+            <div key={cityIdx} className={buildingOption}>
+              <ModifiedSpace
+                space={space!}
+                settings={settings}
+                asCity={availableCities[cityIdx]}
+                onClick={() => selectAvailableCity(cityIdx)}
+              />
+            </div>
+          ))}
+        {eligible.map((build, index) => (
+          <div
+            key={index}
+            className={buildingOption}
+            data-tile-type={build.tile.tileType}
+            data-orientation={build.tile.orientation}
+          >
+            <ModifiedSpace
+              space={space!}
+              settings={settings}
+              tile={build.tile}
+              onClick={() => build.reason == null && onSelect(build.action)}
             />
-          </p>
-          {showReasons && (
-            <Button primary onClick={rotate}>
-              Rotate
-            </Button>
-          )}
-          <div className={buildingDialogContainer} data-building-options>
-            {canUrbanize &&
-              eligibleCities.map((cityIdx) => (
-                <div key={cityIdx} className={buildingOption}>
-                  <ModifiedSpace
-                    space={space!}
-                    settings={settings}
-                    asCity={availableCities[cityIdx]}
-                    onClick={() => selectAvailableCity(cityIdx)}
-                  />
-                </div>
-              ))}
-            {eligible.map((build, index) => (
-              <div
-                key={index}
-                className={buildingOption}
-                data-tile-type={build.tile.tileType}
-                data-orientation={build.tile.orientation}
-              >
-                <ModifiedSpace
-                  space={space!}
-                  settings={settings}
-                  tile={build.tile}
-                  onClick={() => build.reason == null && onSelect(build.action)}
-                />
-                <div style={{ textAlign: "center" }}>${build.cost}</div>
-                {build.reason}
-              </div>
-            ))}
+            <div style={{ textAlign: "center" }}>${build.cost}</div>
+            {build.reason}
           </div>
-        </ModalContent>
-      </Modal>
+        ))}
+      </div>
     </>
+  );
+
+  if (useSidePanel) {
+    if (!isOpen) return null;
+    return (
+      <div className={sidePanel}>
+        <div className={sidePanelHeader}>
+          <Button size="small" onClick={toggleMode}>
+            Float
+          </Button>
+          <span>Select a tile to place</span>
+          <button className={sidePanelClose} onClick={cancelBuild}>
+            ✕
+          </button>
+        </div>
+        <div className={sidePanelContent}>{innerContent}</div>
+      </div>
+    );
+  }
+
+  return (
+    <Modal closeIcon open={isOpen} onClose={cancelBuild}>
+      <ModalHeader>Select a tile to place</ModalHeader>
+      <ModalContent className={dialogContent}>{innerContent}</ModalContent>
+    </Modal>
   );
 }
 
