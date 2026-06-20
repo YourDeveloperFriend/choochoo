@@ -72,10 +72,11 @@ export class BuildAction implements ActionProcessor<BuildData> {
 
   process(data: BuildData): boolean {
     const coordinates = data.coordinates;
-    this.moneyManager.addMoneyForCurrentPlayer(-this.totalCostOf(data));
+    const totalCost = this.totalCostOf(data);
+    this.moneyManager.addMoneyForCurrentPlayer(-totalCost);
     this.discountManager.applyDiscount(data, this.originalCostOf(data));
     const newTile = this.newTile(data);
-    this.log.currentPlayer(`builds a ${getTileTypeString(data.tileType)} at ${this.grid().displayName(data.coordinates)}`);
+    this.log.currentPlayer(`builds a ${getTileTypeString(data.tileType)} at ${this.grid().displayName(data.coordinates)} for $${totalCost}`);
     this.gridHelper.update(coordinates, (hex) => {
       assert(hex.type !== SpaceType.CITY);
       hex.tile = newTile;

@@ -163,6 +163,7 @@ export function BuildingDialog({
                   tile={build.tile}
                   onClick={() => build.reason == null && onSelect(build.action)}
                 />
+                <div style={{ textAlign: "center" }}>${build.cost}</div>
                 {build.reason}
               </div>
             ))}
@@ -288,6 +289,7 @@ export function ModifiedSpace({
 interface EligibleBuild {
   action: BuildData;
   tile: TileData;
+  cost: number;
   reason?: string;
 }
 
@@ -351,11 +353,12 @@ function* getAllEligibleBuilds(
     for (const orientation of directions) {
       const action = { orientation, tileType, coordinates };
       const tile = { orientation, tileType, owners: [] };
+      const cost = actionProcessor.totalCostOf(action);
       try {
         actionProcessor.validate(action);
-        yield { action, tile };
+        yield { action, tile, cost };
       } catch (e: unknown) {
-        yield { action, tile, reason: (e as Error).message };
+        yield { action, tile, cost, reason: (e as Error).message };
       }
     }
   }
