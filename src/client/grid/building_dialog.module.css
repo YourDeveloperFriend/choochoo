@@ -14,3 +14,55 @@
   flex-direction: column;
   align-content: center;
 }
+
+.sidePanel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: white;
+  box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.sidePanelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  border-bottom: 1px solid #ddd;
+  background: #f4f4f4;
+  font-size: 1.1em;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.sidePanelContent {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidePanelContent .buildingDialogContainer {
+  flex-wrap: nowrap;
+}
+
+.sidePanelClose {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 2px 6px;
+  line-height: 1;
+}
+
+.sidePanelClose:hover {
+  background: #e0e0e0;
+  border-radius: 4px;
+}

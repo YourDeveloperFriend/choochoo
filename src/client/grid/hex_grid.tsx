@@ -239,7 +239,7 @@ export function HexGrid({
     if (!deepEquals(newViewBox, internalViewBox)) {
       setViewBox(newViewBox);
     }
-  }, [ref, internalViewBox]);
+  }, [ref, spaces, internalViewBox]);
 
   const viewBox = useMemo(
     () => ({
