@@ -145,6 +145,22 @@ body.dark-mode .ui.modal > .header {
   color: black;
 }
 
+body.dark-mode .ui.secondary.button {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5) inset;
+}
+body.dark-mode .ui.secondary.button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8) inset;
+}
+body.dark-mode .ui.secondary.button:disabled {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) inset;
+}
+
 /**
  * Disable double-tap to zoom on mobile devices 
  * https://www.reddit.com/r/incremental_games/comments/1b3n60d/easy_disable_doubletap_zoom_on_mobile_browser/
