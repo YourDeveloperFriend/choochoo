@@ -95,6 +95,7 @@ export function ActionSummary() {
       return <StLuciaTurnOrder />;
     case Phase.GOVERNMENT_BUILD:
       return <GovernmentBuild />;
+    case Phase.STALINIST_LOCOMOTIVE:
     case Phase.ROLE_SELECTION:
     case Phase.GOODS_GROWTH:
     case Phase.INCOME:
