@@ -50,6 +50,7 @@ import { SicilyMapSettings } from "./sicily/settings";
 import { SoulTrainMapSettings } from "./soultrain/settings";
 import { SouthernUsMapSettings } from "./southern_us/settings";
 import { StLuciaMapSettings } from "./st-lucia/settings";
+import { StalinistRussiaMapSettings } from "./stalinist_russia/settings";
 import { SwedenRecyclingMapSettings } from "./sweden/settings";
 import { TrislandMapSettings } from "./trisland/settings";
 import { UnionPacificExpressMapSettings } from "./union_pacific_express/settings";
@@ -108,6 +109,7 @@ export class MapRegistry {
     this.add(new SoulTrainMapSettings());
     this.add(new SouthernUsMapSettings());
     this.add(new StLuciaMapSettings());
+    this.add(new StalinistRussiaMapSettings());
     this.add(new SwedenRecyclingMapSettings());
     this.add(new TrislandMapSettings());
     this.add(new UnionPacificExpressMapSettings());

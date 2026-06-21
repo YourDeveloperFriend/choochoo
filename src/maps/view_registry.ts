@@ -50,6 +50,7 @@ import { SicilyViewSettings } from "./sicily/view_settings";
 import { SoulTrainViewSettings } from "./soultrain/view_settings";
 import { SouthernUsViewSettings } from "./southern_us/view_settings";
 import { StLuciaViewSettings } from "./st-lucia/view_settings";
+import { StalinistRussiaViewSettings } from "./stalinist_russia/view_settings";
 import { SwedenRecyclingViewSettings } from "./sweden/view_settings";
 import { TrislandViewSettings } from "./trisland/view_settings";
 import { UnionPacificExpressViewSettings } from "./union_pacific_express/view_settings";
@@ -108,6 +109,7 @@ export class ViewRegistry {
     this.add(new SoulTrainViewSettings());
     this.add(new SouthernUsViewSettings());
     this.add(new StLuciaViewSettings());
+    this.add(new StalinistRussiaViewSettings());
     this.add(new SwedenRecyclingViewSettings());
     this.add(new TrislandViewSettings());
     this.add(new UnionPacificExpressViewSettings());

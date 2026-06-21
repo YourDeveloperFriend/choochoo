@@ -59,6 +59,9 @@ export enum Action {
 
   // Central New England
   SMUGGLE = 27,
+
+  // Stalinist Russia
+  POLITBURO_DIRECTIVE = 28,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -122,6 +125,8 @@ export class ActionNamingProvider {
         return "Goldsmith";
       case Action.SMUGGLE:
         return "Smuggle";
+      case Action.POLITBURO_DIRECTIVE:
+        return "Politburo Directive";
       default:
         assertNever(action);
     }
@@ -183,6 +188,8 @@ export class ActionNamingProvider {
         return "Deliver gold without spending mining expertise or increase income for gold deliveries.";
       case Action.SMUGGLE:
         return "You may make both of your deliveries within a single state.";
+      case Action.POLITBURO_DIRECTIVE:
+        return "For one of your deliveries, you may start from Moscow.";
       default:
         assertNever(action);
     }
