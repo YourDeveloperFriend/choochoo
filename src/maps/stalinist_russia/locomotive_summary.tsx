@@ -50,7 +50,11 @@ export function StalinistRussiaLocomotiveSummary() {
     );
   }
 
-  const currentBox = locoTrack.get(currentPlayer.color)?.box ?? 0;
+  const currentPosition = locoTrack.get(currentPlayer.color) ?? {
+    box: 0,
+    row: LocoRow.MANY,
+  };
+  const currentBox = currentPosition.box;
   const money = currentPlayer.money;
 
   const occupiedSingleBoxes = new Set<number>();
@@ -63,7 +67,8 @@ export function StalinistRussiaLocomotiveSummary() {
   const boxes = Array.from({ length: MAX_LOCO_BOX + 1 }, (_, box) => box);
 
   function isAvailable(box: number, row: LocoRow): boolean {
-    if (box <= currentBox) return false;
+    if (box < 1) return false;
+    if (box === currentBox && row === currentPosition.row) return false;
     if (box > round) return false;
     if (money < costToAdvanceInto(box)) return false;
     if (row === LocoRow.SINGLE && occupiedSingleBoxes.has(box)) return false;

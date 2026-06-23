@@ -17,7 +17,6 @@ import {
 import { Action } from "../../engine/state/action";
 import { Phase } from "../../engine/state/phase";
 import { PlayerColor } from "../../engine/state/player";
-import { StalinistRussiaLocoHelper } from "./loco_helper";
 import { LOCO_TRACK } from "./state";
 import {
   costToAdvanceInto,
@@ -33,7 +32,6 @@ export class StalinistRussiaLocomotivePhase extends PhaseModule {
   private readonly locoPlayer = injectPlayerAction(Action.LOCOMOTIVE);
   private readonly currentPlayer = injectCurrentPlayer();
   private readonly round = injectState(ROUND);
-  private readonly locoHelper = inject(StalinistRussiaLocoHelper);
 
   configureActions(): void {
     this.installAction(LocoAdvanceAction);
@@ -51,12 +49,11 @@ export class StalinistRussiaLocomotivePhase extends PhaseModule {
 
   forcedAction(): ActionBundle<object> | undefined {
     const player = this.currentPlayer();
-    const { box } = this.locoHelper.getPosition(player.color);
-    const targetBox = box + 1;
+    // Any box from 1 to the current round is available on the MANY row (no
+    // occupancy restriction). The cheapest is box 1, so the player can advance
+    // iff they can afford at least box 1.
     const canAdvance =
-      box < MAX_LOCO_BOX &&
-      targetBox <= this.round() &&
-      player.money >= costToAdvanceInto(targetBox);
+      this.round() >= 1 && player.money >= costToAdvanceInto(1);
     if (!canAdvance) {
       return { action: LocoSkipAction, data: {} };
     }
@@ -76,7 +73,6 @@ export class LocoAdvanceAction implements ActionProcessor<LocoAdvanceData> {
   private readonly currentPlayer = injectCurrentPlayer();
   private readonly round = injectState(ROUND);
   private readonly locoTrack = injectState(LOCO_TRACK);
-  private readonly locoHelper = inject(StalinistRussiaLocoHelper);
   private readonly moneyManager = inject(MoneyManager);
   private readonly log = inject(Log);
 
@@ -88,12 +84,20 @@ export class LocoAdvanceAction implements ActionProcessor<LocoAdvanceData> {
 
   validate({ targetBox, row }: LocoAdvanceData): void {
     const player = this.currentPlayer();
-    const { box } = this.locoHelper.getPosition(player.color);
+    const currentPosition = this.locoTrack().get(player.color) ?? {
+      box: 0,
+      row: LocoRow.MANY,
+    };
 
-    // A player may advance any number of boxes forward on the track.
-    assert(targetBox > box, {
-      invalidInput: "must advance forward on the locomotive track",
+    assert(targetBox >= 1, {
+      invalidInput: "cannot advance to box 0",
     });
+    assert(
+      !(targetBox === currentPosition.box && row === currentPosition.row),
+      {
+        invalidInput: "cannot stay in the same position",
+      },
+    );
     assert(targetBox <= MAX_LOCO_BOX, {
       invalidInput: "beyond the end of the locomotive track",
     });
