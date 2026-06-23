@@ -12,7 +12,8 @@ export function StalinistRussiaRules() {
       <ul>
         <li>
           <b>Engineer:</b> Is only available at five players, but otherwise
-          functions normally.
+          functions normally, giving the player who takes it 4 builds instead of
+          3.
         </li>
         <li>
           <b>Politburo Directive:</b> When you have selected this action, as one
@@ -47,6 +48,12 @@ export function StalinistRussiaRules() {
         expenses during the income and expenses phase.
       </p>
       <h2>Building</h2>
+      <p>
+        At 4 players, every player has 4 builds during the build phase and (as
+        noted above) the Engineer special action is not available. At 5 players,
+        every player has 3 builds and the Engineer special action is available
+        and acts normally.
+      </p>
       <p>
         Towns with rivers do cost an extra $1 on top of the usual cost. The
         player who is last in turn order (who received Stalin&apos;s Disfavor

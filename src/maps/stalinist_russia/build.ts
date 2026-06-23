@@ -1,10 +1,15 @@
 import { Coordinates } from "../../utils/coordinates";
 import { injectState } from "../../engine/framework/execution_context";
-import { injectCurrentPlayer, TURN_ORDER } from "../../engine/game/state";
+import {
+  injectCurrentPlayer,
+  injectInitialPlayerCount,
+  TURN_ORDER,
+} from "../../engine/game/state";
 import { BuildCostCalculator } from "../../engine/build/cost";
 import { SpaceType } from "../../engine/state/location_type";
 import { LandType } from "../../engine/state/space";
 import { Direction, TileType } from "../../engine/state/tile";
+import { BuilderHelper } from "../../engine/build/helper";
 
 export class StalinistRussiaBuildCostCalculator extends BuildCostCalculator {
   private readonly currentPlayer = injectCurrentPlayer();
@@ -34,5 +39,16 @@ export class StalinistRussiaBuildCostCalculator extends BuildCostCalculator {
       return super.getCostOfLandTypeForTown(type) + 1;
     }
     return super.getCostOfLandTypeForTown(type);
+  }
+}
+
+export class StalinistRussiaBuilderHelper extends BuilderHelper {
+  private readonly playerCount = injectInitialPlayerCount();
+
+  getMaxBuilds(): number {
+    if (this.playerCount() !== 5) {
+      return 4;
+    }
+    return super.getMaxBuilds();
   }
 }
