@@ -12,7 +12,10 @@ import {
   StalinistRussiaAllowedActions,
   StalinistRussiaSelectAction,
 } from "./actions";
-import { StalinistRussiaBuildCostCalculator } from "./build";
+import {
+  StalinistRussiaBuildCostCalculator,
+  StalinistRussiaBuilderHelper,
+} from "./build";
 import {
   StalinistRussiaPlayerHelper,
   StalinistRussiaTurnOrderHelper,
@@ -63,6 +66,7 @@ export class StalinistRussiaMapSettings implements MapSettings {
       StalinistRussiaMoveValidator,
       StalinistRussiaMoveAction,
       StalinistRussiaMovePhase,
+      StalinistRussiaBuilderHelper,
     ];
   }
 
