@@ -1,3 +1,5 @@
+import { mkdir, writeFile } from "fs/promises";
+import { resolve } from "path";
 import {
   Browser,
   Builder,
@@ -94,6 +96,42 @@ export class Driver {
     const url = new URL(urlStr);
 
     return url.pathname;
+  }
+
+  async saveScreenshot(name: string): Promise<string> {
+    const image = await this.driver.takeScreenshot();
+    const artifactsDir = resolve(__dirname, "../artifacts/screenshots");
+    await mkdir(artifactsDir, { recursive: true });
+
+    const safeName = name
+      .toLowerCase()
+      .replace(/[^a-z0-9-_]+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+    const path = resolve(artifactsDir, `${safeName}.png`);
+    await writeFile(path, image, "base64");
+    return path;
+  }
+
+  async saveElementScreenshot(name: string, by: By): Promise<string> {
+    const element = await this.waitForElement(by);
+    await this.driver.executeScript(
+      "arguments[0].scrollIntoView({ block: 'center', inline: 'center' });",
+      element,
+    );
+    const image = await element.takeScreenshot();
+
+    const artifactsDir = resolve(__dirname, "../artifacts/screenshots");
+    await mkdir(artifactsDir, { recursive: true });
+
+    const safeName = name
+      .toLowerCase()
+      .replace(/[^a-z0-9-_]+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+    const path = resolve(artifactsDir, `${safeName}.png`);
+    await writeFile(path, image, "base64");
+    return path;
   }
 
   async buildTrack(

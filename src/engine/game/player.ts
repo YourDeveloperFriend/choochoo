@@ -112,14 +112,22 @@ export class PlayerHelper {
     );
   }
 
+  getIncomeMultiplier(): number {
+    return 3;
+  }
+
+  getSharesMultiplier(): number {
+    return -3;
+  }
+
   getScoreFromIncome(player: PlayerData): number {
     if (player.outOfGame) return 0;
-    return 3 * player.income;
+    return this.getIncomeMultiplier() * player.income;
   }
 
   getScoreFromShares(player: PlayerData): number {
     if (player.outOfGame) return 0;
-    return -3 * player.shares;
+    return this.getSharesMultiplier() * player.shares;
   }
 
   getScoreFromTrack(player: PlayerData): number {
