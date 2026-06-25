@@ -1,3 +1,10 @@
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+
+require.extensions[".css"] = () => {};
+require.extensions[".svg"] = () => {};
+
 export default {
   spec_dir: "",
   spec_files: [
