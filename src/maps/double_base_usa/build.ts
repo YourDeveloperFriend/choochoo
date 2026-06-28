@@ -131,10 +131,16 @@ export class DoubleBaseUsaBuildValidator extends Validator {
 
     // Assert contiguous
     if (isFirstBuild(currentPlayer.color, grid)) {
-      if (
-        !this.isBuildToStartingCity(currentPlayer.color, coordinates, newTracks)
-      ) {
-        return "first build must connect to your starting city";
+      for (const newTrack of newTracks) {
+        if (
+          !this.isBuildToStartingCity(
+            currentPlayer.color,
+            coordinates,
+            newTrack,
+          )
+        ) {
+          return "all track of first build must connect to your starting city";
+        }
       }
     } else {
       if (
@@ -152,21 +158,19 @@ export class DoubleBaseUsaBuildValidator extends Validator {
   private isBuildToStartingCity(
     player: PlayerColor,
     coordinates: Coordinates,
-    newTracks: TrackInfo[],
+    newTrack: TrackInfo,
   ): boolean {
-    for (const newTrack of newTracks) {
-      for (const exit of newTrack.exits) {
-        if (exit === TOWN) {
-          continue;
-        }
-        const neighbor = this.grid().getNeighbor(coordinates, exit);
-        if (neighbor instanceof City) {
-          if (
-            neighbor.getMapSpecific(DoubleBaseUsaMapData.parse)
-              ?.startingPlayer === player
-          ) {
-            return true;
-          }
+    for (const exit of newTrack.exits) {
+      if (exit === TOWN) {
+        continue;
+      }
+      const neighbor = this.grid().getNeighbor(coordinates, exit);
+      if (neighbor instanceof City) {
+        if (
+          neighbor.getMapSpecific(DoubleBaseUsaMapData.parse)
+            ?.startingPlayer === player
+        ) {
+          return true;
         }
       }
     }
