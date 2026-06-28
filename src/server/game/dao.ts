@@ -102,6 +102,10 @@ export class GameDao extends Model<
   @NotNull
   declare concedingPlayers: number[];
 
+  @Attribute(DataTypes.ARRAY(DataTypes.INTEGER))
+  @NotNull
+  declare abandonedPlayerIds: number[];
+
   @Attribute(DataTypes.JSONB)
   declare config: MapConfig;
 

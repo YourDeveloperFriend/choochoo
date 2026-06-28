@@ -303,6 +303,8 @@ export async function abandonGame(
   const previousActivePlayerId = game.activePlayerId;
 
   game.degenerate = true;
+  game.abandonedPlayerIds = [...game.abandonedPlayerIds, userId];
+  game.changed("abandonedPlayerIds", true);
 
   let user: UserDao | null = null;
   if (!wasAlreadyDegenerate || kicked) {

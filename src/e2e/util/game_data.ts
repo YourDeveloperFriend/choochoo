@@ -121,6 +121,7 @@ async function initializeGame(
     status: GameStatus.enum.ACTIVE,
     turnDuration: 1000,
     concedingPlayers: [],
+    abandonedPlayerIds: [],
     activePlayerId: currentPlayer.id,
     playerIds: players.map((u) => u.id),
     ownerId: players[0].id,

@@ -69,6 +69,9 @@ const router = initServer().router(gameContract, {
               { ownerId: userId },
             ],
           },
+          {
+            [Op.not]: { abandonedPlayerIds: { [Op.contains]: [userId] } },
+          },
           where,
         ],
       };
@@ -201,6 +204,7 @@ const router = initServer().router(gameContract, {
       gameHoursDuration:
         body.turnDuration >= TurnDuration.ONE_DAY ? 24 : body.gameHoursDuration,
       concedingPlayers: [],
+      abandonedPlayerIds: [],
       playerIds,
       ownerId: userId,
       variant: body.variant,
