@@ -13,9 +13,13 @@ import { tsr } from "../services/client";
 import { handleError } from "../services/network";
 import { Notes } from "../../api/notes";
 
+function getNotesQueryKey(gameId: number) {
+  return ["notes", gameId];
+}
+
 function useNotes(gameId: number): Notes {
   const { data } = tsr.notes.get.useSuspenseQuery({
-    queryKey: ["notes", gameId],
+    queryKey: getNotesQueryKey(gameId),
     queryData: { params: { gameId } },
   });
 
@@ -23,6 +27,7 @@ function useNotes(gameId: number): Notes {
 }
 
 function useSetNotes(gameId: number, onSuccess: () => void) {
+  const tsrQueryClient = tsr.useQueryClient();
   const { mutate, error, isPending } = tsr.notes.set.useMutation();
   const validationError = handleError(isPending, error);
 
@@ -31,11 +36,17 @@ function useSetNotes(gameId: number, onSuccess: () => void) {
       mutate(
         { params: { gameId }, body: body },
         {
-          onSuccess: () => onSuccess(),
+          onSuccess: () => {
+            tsrQueryClient.notes.get.setQueryData(
+              getNotesQueryKey(gameId),
+              (r) => r && { ...r, status: 200, body },
+            );
+            onSuccess();
+          },
         },
       );
     },
-    [mutate, gameId],
+    [mutate, gameId, tsrQueryClient],
   );
 
   return { setNotes, isPending, validationError };
@@ -47,6 +58,11 @@ export function GameNotesButton() {
   const [open, setOpen] = useState<boolean>(!!notes.notes);
   const [notesDraft, setNotesDraft] = useState<string>(notes.notes);
   const { setNotes, isPending } = useSetNotes(game.id, () => setOpen(false));
+
+  const openWithLatestNotes = useCallback(() => {
+    setNotesDraft(notes.notes);
+    setOpen(true);
+  }, [notes.notes]);
 
   return (
     <>
@@ -75,7 +91,7 @@ export function GameNotesButton() {
           </Button>
         </ModalActions>
       </Modal>
-      <Button onClick={() => setOpen(true)}>Game Notes</Button>
+      <Button onClick={openWithLatestNotes}>Game Notes</Button>
     </>
   );
 }
