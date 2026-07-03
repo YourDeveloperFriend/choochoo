@@ -92,6 +92,7 @@ export const map = grid<SpaceData>([
     UNPASSABLE,
     UNPASSABLE,
     UNPASSABLE,
+    MOUNTAIN,
     town("Lafayette"),
     PLAIN,
     PLAIN,
