@@ -8,6 +8,8 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableHeader,
+  TableHeaderCell,
   TableRow,
 } from "semantic-ui-react";
 import { getPlayerColorCss } from "../../client/components/player_color";
@@ -43,25 +45,25 @@ export function DisfavorTrack() {
         />
         <AccordionContent active={expanded}>
           <Table celled compact unstackable size="small">
-            <TableBody>
+            <TableHeader>
               <TableRow>
-                <TableCell>Points</TableCell>
-                {positions.map((position) => (
-                  <TableCell key={position} textAlign="center">
+                <TableHeaderCell>Points</TableHeaderCell>
+                <TableHeaderCell>Players</TableHeaderCell>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {positions.map((position) => (
+                <TableRow key={position}>
+                  <TableCell textAlign="center">
                     {DISFAVOR_VALUES[position]}
                   </TableCell>
-                ))}
-              </TableRow>
-              <TableRow>
-                <TableCell>Players</TableCell>
-                {positions.map((position) => (
-                  <TableCell key={position} textAlign="center">
+                  <TableCell textAlign="center">
                     {playersAt(position).map((color) => (
                       <PlayerBlock key={color} color={color} />
                     ))}
                   </TableCell>
-                ))}
-              </TableRow>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </AccordionContent>

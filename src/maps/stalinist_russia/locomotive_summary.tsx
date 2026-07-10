@@ -3,6 +3,8 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableHeader,
+  TableHeaderCell,
   TableRow,
 } from "semantic-ui-react";
 import { Username } from "../../client/components/username";
@@ -75,23 +77,18 @@ export function StalinistRussiaLocomotiveSummary() {
     return true;
   }
 
-  function renderRow(row: LocoRow, label: string) {
+  function renderCell(box: number, row: LocoRow) {
     return (
-      <TableRow>
-        <TableCell>{label}</TableCell>
-        {boxes.map((box) => (
-          <TableCell key={box} textAlign="center">
-            <Button
-              size="mini"
-              primary={row === LocoRow.SINGLE}
-              disabled={isPending || !isAvailable(box, row)}
-              onClick={() => emitAdvance({ targetBox: box, row })}
-            >
-              {describeBox(box, row)}
-            </Button>
-          </TableCell>
-        ))}
-      </TableRow>
+      <TableCell textAlign="center">
+        <Button
+          size="mini"
+          primary={row === LocoRow.SINGLE}
+          disabled={isPending || !isAvailable(box, row)}
+          onClick={() => emitAdvance({ targetBox: box, row })}
+        >
+          {describeBox(box, row)}
+        </Button>
+      </TableCell>
     );
   }
 
@@ -99,25 +96,25 @@ export function StalinistRussiaLocomotiveSummary() {
     <div>
       <p>You may advance on the locomotive track, or pass.</p>
       <Table celled compact unstackable size="small">
-        <TableBody>
+        <TableHeader>
           <TableRow>
-            <TableCell>Round</TableCell>
-            {boxes.map((box) => (
-              <TableCell key={box} textAlign="center">
-                {box}
-              </TableCell>
-            ))}
+            <TableHeaderCell>Round</TableHeaderCell>
+            <TableHeaderCell>Cost</TableHeaderCell>
+            <TableHeaderCell>Many players</TableHeaderCell>
+            <TableHeaderCell>Single player</TableHeaderCell>
           </TableRow>
-          <TableRow>
-            <TableCell>Cost</TableCell>
-            {boxes.map((box) => (
-              <TableCell key={box} textAlign="center">
+        </TableHeader>
+        <TableBody>
+          {boxes.map((box) => (
+            <TableRow key={box}>
+              <TableCell textAlign="center">{box}</TableCell>
+              <TableCell textAlign="center">
                 {box === 0 ? "—" : `$${costToAdvanceInto(box)}`}
               </TableCell>
-            ))}
-          </TableRow>
-          {renderRow(LocoRow.MANY, "Many players")}
-          {renderRow(LocoRow.SINGLE, "Single player")}
+              {renderCell(box, LocoRow.MANY)}
+              {renderCell(box, LocoRow.SINGLE)}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
       <Button negative disabled={isPending} onClick={emitSkip}>
