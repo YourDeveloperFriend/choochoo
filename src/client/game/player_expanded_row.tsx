@@ -319,40 +319,24 @@ function LocoUpgradeImpactPanel({ player }: { player: PlayerData }) {
 
 function ScoreBreakdownPanel({ player }: { player: PlayerData }) {
   const playerHelper = useInjected(PlayerHelper);
-  const incomePoints = playerHelper.getScoreFromIncome(player);
-  const sharePoints = playerHelper.getScoreFromShares(player);
-  const trackPoints = playerHelper.getScoreFromTrack(player);
-  const trackCount = playerHelper.countTrack(player.color);
+  const breakdown = playerHelper.getScoreBreakdown(player);
   const totalScore = playerHelper.getScore(player)[0];
 
   return (
     <div className={styles.panelSection}>
       <div className={styles.panelTitle}>Score Breakdown</div>
       <div className={styles.panelCard}>
-        <div className={styles.panelRow}>
-          <span className={styles.panelLabel}>
-            Income points ({player.income} × 3):
-          </span>
-          <span className={`${styles.panelValue} ${styles.valuePositive}`}>
-            +{incomePoints}
-          </span>
-        </div>
-        <div className={styles.panelRow}>
-          <span className={styles.panelLabel}>
-            Share penalty ({player.shares} × -3):
-          </span>
-          <span className={`${styles.panelValue} ${styles.valueNegative}`}>
-            {sharePoints}
-          </span>
-        </div>
-        <div className={styles.panelRow}>
-          <span className={styles.panelLabel}>
-            Track points ({trackCount} sections × 1):
-          </span>
-          <span className={`${styles.panelValue} ${styles.valuePositive}`}>
-            +{trackPoints}
-          </span>
-        </div>
+        {[...breakdown].map(([label, points]) => (
+          <div className={styles.panelRow} key={label}>
+            <span className={styles.panelLabel}>{label}:</span>
+            <span
+              className={`${styles.panelValue} ${points >= 0 ? styles.valuePositive : styles.valueNegative}`}
+            >
+              {points >= 0 ? "+" : ""}
+              {points}
+            </span>
+          </div>
+        ))}
         <div className={`${styles.panelRow} ${styles.panelDivider}`}>
           <span className={`${styles.panelLabel} ${styles.panelBold}`}>
             Total Score:
@@ -473,10 +457,7 @@ interface ScoreTooltipContentProps {
 
 export function ScoreTooltipContent({ player }: ScoreTooltipContentProps) {
   const playerHelper = useInjected(PlayerHelper);
-  const incomePoints = playerHelper.getScoreFromIncome(player);
-  const sharePoints = playerHelper.getScoreFromShares(player);
-  const trackPoints = playerHelper.getScoreFromTrack(player);
-  const trackCount = playerHelper.countTrack(player.color);
+  const breakdown = playerHelper.getScoreBreakdown(player);
   const totalScore = playerHelper.getScore(player)[0];
 
   return (
@@ -484,30 +465,17 @@ export function ScoreTooltipContent({ player }: ScoreTooltipContentProps) {
       <div className={styles.tooltipTitle}>Score Breakdown</div>
       <table className={styles.tooltipTable}>
         <tbody>
-          <tr>
-            <td className={styles.tooltipLabel}>
-              Income points ({player.income} × 3):
-            </td>
-            <td className={`${styles.tooltipValue} ${styles.valuePositive}`}>
-              +{incomePoints}
-            </td>
-          </tr>
-          <tr>
-            <td className={styles.tooltipLabel}>
-              Share penalty ({player.shares} × -3):
-            </td>
-            <td className={`${styles.tooltipValue} ${styles.valueNegative}`}>
-              {sharePoints}
-            </td>
-          </tr>
-          <tr>
-            <td className={styles.tooltipLabel}>
-              Track points ({trackCount} sections × 1):
-            </td>
-            <td className={`${styles.tooltipValue} ${styles.valuePositive}`}>
-              +{trackPoints}
-            </td>
-          </tr>
+          {[...breakdown].map(([label, points]) => (
+            <tr key={label}>
+              <td className={styles.tooltipLabel}>{label}:</td>
+              <td
+                className={`${styles.tooltipValue} ${points >= 0 ? styles.valuePositive : styles.valueNegative}`}
+              >
+                {points >= 0 ? "+" : ""}
+                {points}
+              </td>
+            </tr>
+          ))}
           <tr className={styles.tooltipTotalRow}>
             <td className={styles.tooltipLabel}>Total:</td>
             <td className={styles.tooltipValue}>{totalScore}</td>

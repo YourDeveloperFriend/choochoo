@@ -1,5 +1,5 @@
 import { injectState } from "../../engine/framework/execution_context";
-import { PlayerHelper } from "../../engine/game/player";
+import { PlayerHelper, ScoreBreakdownKey } from "../../engine/game/player";
 import { PlayerColor, PlayerData } from "../../engine/state/player";
 import { TurnOrderHelper } from "../../engine/turn_order/helper";
 import { DISFAVOR_TRACK, DISFAVOR_VALUES, MAX_DISFAVOR } from "./state";
@@ -25,8 +25,10 @@ export class StalinistRussiaTurnOrderHelper extends TurnOrderHelper {
 export class StalinistRussiaPlayerHelper extends PlayerHelper {
   private readonly disfavorTrack = injectState(DISFAVOR_TRACK);
 
-  protected calculateScore(player: PlayerData): number {
-    return super.calculateScore(player) + this.getScoreFromDisfavor(player);
+  getScoreBreakdown(player: PlayerData): Map<ScoreBreakdownKey, number> {
+    const breakdown = super.getScoreBreakdown(player);
+    breakdown.set("Disfavor", this.getScoreFromDisfavor(player));
+    return breakdown;
   }
 
   getScoreFromDisfavor(player: PlayerData): number {

@@ -1,5 +1,9 @@
 import { Ender } from "../../engine/game/ender";
-import { PlayerHelper, Score } from "../../engine/game/player";
+import {
+  PlayerHelper,
+  Score,
+  ScoreBreakdownKey,
+} from "../../engine/game/player";
 import { PlayerData } from "../../engine/state/player";
 
 export class BarbadosGameEnd extends Ender {
@@ -23,8 +27,16 @@ export class BarbadosGameEnd extends Ender {
 }
 
 export class BarbadosPlayerHelper extends PlayerHelper {
-  getScore(player: PlayerData): Score {
-    return [player.money - player.shares * 5];
+  protected isEliminatedForScoring(): boolean {
+    return false;
+  }
+
+  protected getScoreTiebreakers(): number[] {
+    return [];
+  }
+
+  getScoreBreakdown(player: PlayerData): Map<ScoreBreakdownKey, number> {
+    return new Map([["Net worth", player.money - player.shares * 5]]);
   }
 
   protected soloGoalScore(): Score {

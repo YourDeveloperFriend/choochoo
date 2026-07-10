@@ -1,13 +1,12 @@
-import { PlayerHelper, Score } from "../../engine/game/player";
+import { PlayerHelper, ScoreBreakdownKey } from "../../engine/game/player";
 import { PlayerData } from "../../engine/state/player";
 
 export class NewEnglandPlayerHelper extends PlayerHelper {
-  getScore(player: PlayerData): Score {
-    const score = super.getScore(player);
-    if (!Array.isArray(score)) {
-      return score;
+  getScoreBreakdown(player: PlayerData): Map<ScoreBreakdownKey, number> {
+    const breakdown = super.getScoreBreakdown(player);
+    if (!player.outOfGame) {
+      breakdown.set("Money bonus", Math.floor(player.money / 20));
     }
-    score[0] += Math.floor(player.money / 20);
-    return score;
+    return breakdown;
   }
 }
