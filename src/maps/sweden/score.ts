@@ -1,15 +1,15 @@
 import { inject } from "../../engine/framework/execution_context";
-import { PlayerHelper } from "../../engine/game/player";
+import { PlayerHelper, ScoreBreakdownKey } from "../../engine/game/player";
 import { PlayerData } from "../../engine/state/player";
 import { Incinerator } from "./incinerator";
 
 export class SwedenPlayerHelper extends PlayerHelper {
   private readonly incinerator = inject(Incinerator);
 
-  calculateScore(playerData: PlayerData): number {
-    return (
-      super.calculateScore(playerData) + this.getScoreFromGarbage(playerData)
-    );
+  getScoreBreakdown(playerData: PlayerData): Map<ScoreBreakdownKey, number> {
+    const breakdown = super.getScoreBreakdown(playerData);
+    breakdown.set("Garbage bonus", this.getScoreFromGarbage(playerData));
+    return breakdown;
   }
 
   getScoreFromGarbage(playerData: PlayerData): number {

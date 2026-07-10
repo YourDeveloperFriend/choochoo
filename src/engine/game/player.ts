@@ -49,11 +49,41 @@ export class PlayerHelper {
     return this.players().length === 1;
   }
 
+  /**
+   * Not meant to be overridden. Sums `getScoreBreakdown()` into the primary score and
+   * appends `getScoreTiebreakers()`; override those instead to change scoring for a map.
+   */
   getScore(player: PlayerData): Score {
-    if (player.outOfGame) {
+    if (this.isEliminatedForScoring(player)) {
       return ELIMINATED;
     }
-    return [this.calculateScore(player), 0];
+    let total = 0;
+    for (const value of this.getScoreBreakdown(player).values()) {
+      total += value;
+    }
+    return [total, ...this.getScoreTiebreakers(player)];
+  }
+
+  protected isEliminatedForScoring(player: PlayerData): boolean {
+    return player.outOfGame === true;
+  }
+
+  /** Extra values appended after the primary score total, for tie-breaking purposes. */
+  protected getScoreTiebreakers(_player: PlayerData): number[] {
+    return [0];
+  }
+
+  /**
+   * Returns every named contribution to this player's score, keyed by a human-readable
+   * label. `getScore()` sums these values to compute the primary score total, so override
+   * this method (not `getScore()`) to change what contributes to a map's scoring.
+   */
+  getScoreBreakdown(player: PlayerData): Map<ScoreBreakdownKey, number> {
+    return new Map([
+      ["Income points", this.getScoreFromIncome(player)],
+      ["Share penalty", this.getScoreFromShares(player)],
+      ["Track points", this.getScoreFromTrack(player)],
+    ]);
   }
 
   beatSoloGoal(): boolean {
@@ -102,14 +132,6 @@ export class PlayerHelper {
 
   protected soloGoalScore(): Score {
     fail("not implemented");
-  }
-
-  protected calculateScore(player: PlayerData): number {
-    return (
-      this.getScoreFromIncome(player) +
-      this.getScoreFromShares(player) +
-      this.getScoreFromTrack(player)
-    );
   }
 
   getScoreFromIncome(player: PlayerData): number {
@@ -170,6 +192,10 @@ type Eliminated = typeof ELIMINATED;
 // The earlier the number in the array, the more important it is for scoring purposes.
 // If two scores have the same values, then it's a tie. Ties are possible for a lot of games.
 export type Score = Eliminated | number[];
+
+// A human-readable label identifying one contribution to a player's score, e.g.
+// "Income points". Used as the key in getScoreBreakdown()'s result.
+export type ScoreBreakdownKey = string;
 
 function isEliminated(score: Score): score is Eliminated {
   return score === ELIMINATED;

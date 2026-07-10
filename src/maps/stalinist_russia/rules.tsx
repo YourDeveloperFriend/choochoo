@@ -5,10 +5,8 @@ export function StalinistRussiaRules() {
       <p>
         When you pass and this makes you last player, you advance on the
         Stalin&apos;s disfavor track which will give you negative points at the
-        end of the game. (Note that the live score display in the player
-        overview table includes this.) Additionally, every single build during
-        the build phase costs one extra dollar; see the build phase section
-        below.
+        end of the game. Additionally, every single build during the build phase
+        costs one extra dollar; see the build phase section below.
       </p>
       <h2>Special Actions</h2>
       <ul>

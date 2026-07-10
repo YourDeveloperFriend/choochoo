@@ -3,7 +3,11 @@ import { injectState } from "../../engine/framework/execution_context";
 import { MapKey } from "../../engine/framework/key";
 import { MoneyManager } from "../../engine/game/money_manager";
 import { PHASE } from "../../engine/game/phase";
-import { PlayerHelper, Score } from "../../engine/game/player";
+import {
+  PlayerHelper,
+  Score,
+  ScoreBreakdownKey,
+} from "../../engine/game/player";
 import { ROUND, RoundEngine } from "../../engine/game/round";
 import { Phase } from "../../engine/state/phase";
 import { PlayerColorZod, PlayerData } from "../../engine/state/player";
@@ -19,8 +23,16 @@ export class DetroitPlayerHelper extends PlayerHelper {
   private readonly currentRound = injectState(ROUND);
   private readonly phase = injectState(PHASE);
 
-  getScore(player: PlayerData): Score {
-    return [this.getRoundsLasted(player), player.income];
+  protected isEliminatedForScoring(): boolean {
+    return false;
+  }
+
+  protected getScoreTiebreakers(player: PlayerData): number[] {
+    return [player.income];
+  }
+
+  getScoreBreakdown(player: PlayerData): Map<ScoreBreakdownKey, number> {
+    return new Map([["Rounds lasted", this.getRoundsLasted(player)]]);
   }
 
   protected outOfGameScoreIsLosing(): boolean {
