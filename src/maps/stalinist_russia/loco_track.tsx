@@ -8,6 +8,8 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableHeader,
+  TableHeaderCell,
   TableRow,
 } from "semantic-ui-react";
 import { getPlayerColorCss } from "../../client/components/player_color";
@@ -38,20 +40,15 @@ export function LocoTrack() {
     return result;
   };
 
-  const renderRow = (row: LocoRow, label: string) => (
-    <TableRow>
-      <TableCell>{label}</TableCell>
-      {boxes.map((box) => (
-        <TableCell key={box} textAlign="center">
-          <div>{describeBox(box, row)}</div>
-          <div>
-            {playersAt(box, row).map((color) => (
-              <PlayerBlock key={color} color={color} />
-            ))}
-          </div>
-        </TableCell>
-      ))}
-    </TableRow>
+  const renderCell = (box: number, row: LocoRow) => (
+    <TableCell textAlign="center">
+      <div>{describeBox(box, row)}</div>
+      <div>
+        {playersAt(box, row).map((color) => (
+          <PlayerBlock key={color} color={color} />
+        ))}
+      </div>
+    </TableCell>
   );
 
   return (
@@ -65,25 +62,25 @@ export function LocoTrack() {
         />
         <AccordionContent active={expanded}>
           <Table celled compact unstackable size="small">
-            <TableBody>
+            <TableHeader>
               <TableRow>
-                <TableCell>Round</TableCell>
-                {boxes.map((box) => (
-                  <TableCell key={box} textAlign="center">
-                    {box}
-                  </TableCell>
-                ))}
+                <TableHeaderCell>Round</TableHeaderCell>
+                <TableHeaderCell>Cost</TableHeaderCell>
+                <TableHeaderCell>Many players</TableHeaderCell>
+                <TableHeaderCell>Single player</TableHeaderCell>
               </TableRow>
-              <TableRow>
-                <TableCell>Cost</TableCell>
-                {boxes.map((box) => (
-                  <TableCell key={box} textAlign="center">
+            </TableHeader>
+            <TableBody>
+              {boxes.map((box) => (
+                <TableRow key={box}>
+                  <TableCell textAlign="center">{box}</TableCell>
+                  <TableCell textAlign="center">
                     {box === 0 ? "—" : `$${costToAdvanceInto(box)}`}
                   </TableCell>
-                ))}
-              </TableRow>
-              {renderRow(LocoRow.MANY, "Many players")}
-              {renderRow(LocoRow.SINGLE, "Single player")}
+                  {renderCell(box, LocoRow.MANY)}
+                  {renderCell(box, LocoRow.SINGLE)}
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </AccordionContent>
