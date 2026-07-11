@@ -79,7 +79,7 @@ export const map = grid<SpaceData>([
     UNPASSABLE,
     UNPASSABLE,
     UNPASSABLE,
-    city("Den Haag", RED, [white(5), white(5)], 2),
+    city("Den Haag", RED, [white(5), white(6)], 2),
     POLDER,
     town("Zoetermeer"),
     PLAIN,
