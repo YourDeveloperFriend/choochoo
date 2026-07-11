@@ -1,0 +1,7 @@
+.polder {
+  fill: #24796e;
+}
+
+:global(.dark-mode) .polder {
+  fill: #095d52;
+}
