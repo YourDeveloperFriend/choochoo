@@ -23,6 +23,7 @@ import { FourCornersViewSettings } from "./four_corners/view_settings";
 import { FourLocoViewSettings } from "./four_loco/view_settings";
 import { GermanyViewSettings } from "./germany/view_settings";
 import { HeavyCardboardViewSettings } from "./heavy_cardboard/view_settings";
+import { HollandViewSettings } from "./holland/view_settings";
 import { IndiaSteamBrothersViewSettings } from "./india-steam-brothers/view_settings";
 import { IrelandViewSettings } from "./ireland/view_settings";
 import { JamaicaViewSettings } from "./jamaica/view_settings";
@@ -82,6 +83,7 @@ export class ViewRegistry {
     this.add(new FourLocoViewSettings());
     this.add(new GermanyViewSettings());
     this.add(new HeavyCardboardViewSettings());
+    this.add(new HollandViewSettings());
     this.add(new IndiaSteamBrothersViewSettings());
     this.add(new IrelandViewSettings());
     this.add(new JamaicaViewSettings());
