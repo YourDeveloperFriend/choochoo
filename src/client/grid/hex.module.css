@@ -14,22 +14,6 @@
   fill: #4a6c32;
 }
 
-.location.light_plain {
-  fill: #afe18e;
-}
-
-:global(.dark-mode) .location.light_plain {
-  fill: #5f8a40;
-}
-
-.location.fjord {
-  fill: #88d4ad;
-}
-
-:global(.dark-mode) .location.fjord {
-  fill: #6fad8e;
-}
-
 .location.fire {
   fill: #d66f34;
 }
@@ -44,14 +28,6 @@
 
 :global(.dark-mode) .location.river {
   fill: #466133;
-}
-
-.location.light_river {
-  fill: #a5d486;
-}
-
-:global(.dark-mode) .location.light_river {
-  fill: #58803b;
 }
 
 .location.water {
@@ -136,8 +112,4 @@
   stroke: #ffffff;
   stroke-width: 9;
   fill: none;
-}
-
-.location.canyon {
-  fill: #2b2b2b;
 }

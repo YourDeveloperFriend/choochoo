@@ -12,17 +12,19 @@ import {
   white,
 } from "../factory";
 import { BLUE, PURPLE, RED, YELLOW } from "../../engine/state/good";
-import { SpaceStyle } from "../../engine/state/location_style";
 import { LandData } from "../../engine/state/space";
 import { Direction } from "../../engine/state/tile";
 
+// Denmark-specific style key, styled via DenmarkViewSettings.getLandStyles().
+export const FJORD_STYLE = "fjord";
+
 const FJORD = {
   ...MOUNTAIN,
-  style: SpaceStyle.FJORD,
+  style: FJORD_STYLE,
 };
 
 function fjordTown(townName: string): LandData {
-  return { ...MOUNTAIN, townName: townName, style: SpaceStyle.FJORD };
+  return { ...MOUNTAIN, townName: townName, style: FJORD_STYLE };
 }
 function hillTown(townName: string): LandData {
   return { ...HILL, townName: townName };

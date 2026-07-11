@@ -12,7 +12,6 @@ import {
 } from "../factory";
 import z from "zod";
 import { Direction, DirectionZod } from "../../engine/state/tile";
-import { SpaceStyle } from "../../engine/state/location_style";
 import { LandData } from "../../engine/state/space";
 
 export const JapanMapData = z.object({
@@ -21,9 +20,12 @@ export const JapanMapData = z.object({
 });
 export type JapanMapData = z.infer<typeof JapanMapData>;
 
+// Japan-specific style key, styled via JapanViewSettings.getLandStyles().
+export const WATER_CROSSING_STYLE = "water";
+
 const WATER_CROSSING = {
   ...PLAIN,
-  style: SpaceStyle.WATER,
+  style: WATER_CROSSING_STYLE,
   mapSpecific: {
     waterCrossing: true,
   },

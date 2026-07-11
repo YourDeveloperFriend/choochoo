@@ -1,11 +1,13 @@
 import { BLUE, PURPLE, RED } from "../../engine/state/good";
 import { city, grid, PLAIN, RIVER, town, UNPASSABLE, WATER } from "../factory";
-import { SpaceStyle } from "../../engine/state/location_style";
 import { CityData, LandData } from "../../engine/state/space";
 import z from "zod";
 import { SpaceType } from "../../engine/state/location_type";
 
 export const THE_LOOP_SAME_CITY = 1;
+
+// Chicago-L-specific style key, styled via ChicagoLViewSettings.getLandStyles().
+export const PARK_STYLE = "mountain";
 
 export const ChicagoLMapData = z.object({
   parkName: z.string().optional(),
@@ -16,7 +18,7 @@ export type ChicagoLMapData = z.infer<typeof ChicagoLMapData>;
 const park = (name: string): LandData => {
   return {
     ...WATER,
-    style: SpaceStyle.MOUNTAIN,
+    style: PARK_STYLE,
     mapSpecific: {
       parkName: name,
     },

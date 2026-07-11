@@ -7,10 +7,11 @@ import { isTownTile } from "../../engine/map/tile";
 import { Track, TrackInfo } from "../../engine/map/track";
 import { CityGroup } from "../../engine/state/city_group";
 import { Good } from "../../engine/state/good";
-import { SpaceStyle } from "../../engine/state/location_style";
 import { SpaceType } from "../../engine/state/location_type";
 import { Direction } from "../../engine/state/tile";
+import { GameKey } from "../../api/game_key";
 import { CyprusMapData } from "../../maps/cyprus/map_data";
+import { ViewRegistry } from "../../maps/view_registry";
 import { Coordinates } from "../../utils/coordinates";
 import {
   coordinatesToCenter,
@@ -20,9 +21,9 @@ import {
   Point,
   polygon,
 } from "../../utils/point";
-import { assertNever } from "../../utils/validate";
+import { assert, assertNever } from "../../utils/validate";
+import { MapViewSettings } from "../../maps/view_settings";
 import { Rotate } from "../components/rotation";
-import { useGameKey } from "../utils/injection_context";
 import { ClickTarget } from "./click_target";
 import { goodStyle } from "./good";
 import { GoodBlock } from "./good_block";
@@ -43,25 +44,15 @@ function cityColorStyles(space: City): string[] {
     .map((color) => goodStyle(color));
 }
 
-function landColorStyle(space: Land): string {
+function landColorStyle(space: Land, viewSettings: MapViewSettings): string {
   const style = space.getSpaceStyle();
   if (style !== undefined) {
-    switch (style) {
-      case SpaceStyle.LIGHT_PLAIN:
-        return styles.light_plain;
-      case SpaceStyle.LIGHT_RIVER:
-        return styles.light_river;
-      case SpaceStyle.FJORD:
-        return styles.fjord;
-      case SpaceStyle.CANYON:
-        return styles.canyon;
-      case SpaceStyle.MOUNTAIN:
-        return styles.mountain;
-      case SpaceStyle.WATER:
-        return styles.water;
-      default:
-        assertNever(style);
-    }
+    const resolvedStyle = viewSettings.getLandStyles?.()[style];
+    assert(
+      resolvedStyle !== undefined,
+      `unknown land style "${style}" for map ${viewSettings.key}`,
+    );
+    return resolvedStyle;
   }
 
   const type = space.getLandType();
@@ -107,6 +98,7 @@ interface TerrainHexProps {
   rotation?: Rotation;
   selectedGood?: { good: Good; coordinates: Coordinates };
   highlightedTrack?: Track[];
+  gameKey: GameKey;
 }
 
 // The size of the inner part of city hexes, relative to the full size of the hex
@@ -133,7 +125,13 @@ export function getTerrainHexes(props: TerrainHexProps): TerrainHexes {
   };
 }
 
-function LowerTerrainHex({ space, size, clickTargets }: TerrainHexProps) {
+function LowerTerrainHex({
+  space,
+  size,
+  clickTargets,
+  gameKey,
+}: TerrainHexProps) {
+  const viewSettings = ViewRegistry.singleton.get(gameKey);
   const coordinates = space.coordinates;
   const center = useMemo(
     () => coordinatesToCenter(coordinates, size),
@@ -164,7 +162,7 @@ function LowerTerrainHex({ space, size, clickTargets }: TerrainHexProps) {
     isClickableCity || isClickableTown || isClickableBuild || isClaimableTrack;
 
   if (space instanceof Land) {
-    const hexColor = landColorStyle(space);
+    const hexColor = landColorStyle(space, viewSettings);
 
     return (
       <>
@@ -191,8 +189,7 @@ function LowerTerrainHex({ space, size, clickTargets }: TerrainHexProps) {
   }
 }
 
-function BorderBoundaries({ space, size }: TerrainHexProps) {
-  const gameKey = useGameKey();
+function BorderBoundaries({ space, size, gameKey }: TerrainHexProps) {
   const center = useMemo(
     () => coordinatesToCenter(space.coordinates, size),
     [space.coordinates, size],

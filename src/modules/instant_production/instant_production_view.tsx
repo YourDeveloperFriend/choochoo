@@ -162,10 +162,11 @@ export function InstantProductionMoveGoodsActionSummary() {
 }
 
 function CityInfo({ city }: { city: City }) {
-  const mapSettings = MapRegistry.singleton.get(useGameKey());
+  const gameKey = useGameKey();
+  const mapSettings = MapRegistry.singleton.get(gameKey);
   const grid = useMemo(() => {
     return Grid.fromSpaces(mapSettings, [city], []);
   }, [mapSettings]);
 
-  return <HexGrid grid={grid} />;
+  return <HexGrid grid={grid} gameKey={gameKey} />;
 }

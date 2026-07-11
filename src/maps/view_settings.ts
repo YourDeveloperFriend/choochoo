@@ -46,4 +46,9 @@ export interface MapViewSettings extends MapSettings {
     cell: ({ player }: { player: PlayerData }) => ReactNode;
   }>;
   useOnMapClick?: OnClickFunction;
+
+  // Map-specific land space styles, keyed by the string stored in a land
+  // space's `style` field. Lets a map bring its own CSS module for styling
+  // unique to it, instead of adding shared enum values/CSS for a single map.
+  getLandStyles?(): Record<string, string>;
 }

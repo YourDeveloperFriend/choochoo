@@ -28,7 +28,8 @@ export function AvailableCities() {
 }
 
 function AvailableCity({ city }: { city: MutableAvailableCity }) {
-  const mapSettings = MapRegistry.singleton.get(useGameKey());
+  const gameKey = useGameKey();
+  const mapSettings = MapRegistry.singleton.get(gameKey);
   const grid = useMemo(() => {
     const newCity = new City(Coordinates.from({ q: 0, r: 0 }), {
       type: SpaceType.CITY,
@@ -43,7 +44,7 @@ function AvailableCity({ city }: { city: MutableAvailableCity }) {
 
   return (
     <div>
-      <HexGrid grid={grid} />
+      <HexGrid grid={grid} gameKey={gameKey} />
     </div>
   );
 }

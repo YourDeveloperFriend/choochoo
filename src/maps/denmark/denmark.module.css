@@ -1,0 +1,7 @@
+.fjord {
+  fill: #88d4ad;
+}
+
+:global(.dark-mode) .fjord {
+  fill: #6fad8e;
+}
