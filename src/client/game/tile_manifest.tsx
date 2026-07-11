@@ -53,7 +53,8 @@ function TileInfo({
   tileType: TileType;
   info: TileManifestEntry;
 }) {
-  const mapSettings = MapRegistry.singleton.get(useGameKey());
+  const gameKey = useGameKey();
+  const mapSettings = MapRegistry.singleton.get(gameKey);
   const grid = useMemo(() => {
     const tile = new Land(Coordinates.from({ q: 0, r: 0 }), {
       type: SpaceType.PLAIN,
@@ -70,7 +71,7 @@ function TileInfo({
 
   return (
     <div className={styles.tileContainer}>
-      <HexGrid grid={grid} />
+      <HexGrid grid={grid} gameKey={gameKey} />
       <div>
         {info.remaining}{" "}
         {towns > 0 && isComplexTile(tileType) ? (

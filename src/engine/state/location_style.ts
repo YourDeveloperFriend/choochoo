@@ -1,13 +1,6 @@
 import z from "zod";
 
-export enum SpaceStyle {
-  // Don't change these numbers! They are stored in the DB like this.
-  LIGHT_PLAIN = 1,
-  LIGHT_RIVER = 2,
-  FJORD = 3,
-  CANYON = 4,
-  MOUNTAIN = 5,
-  WATER = 6,
-}
-
-export const SpaceStyleZod = z.nativeEnum(SpaceStyle);
+// Land spaces may carry any string style key, declared and resolved by the
+// owning map's MapViewSettings.getLandStyles() — there is no shared enum, so
+// a map is free to add new styles without touching shared code.
+export const SpaceStyleZod = z.string();

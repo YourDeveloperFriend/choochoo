@@ -9,15 +9,19 @@ import {
   white,
 } from "../factory";
 import { BLUE, PURPLE, RED, YELLOW } from "../../engine/state/good";
-import { SpaceStyle } from "../../engine/state/location_style";
+
+// London-specific land styles, styled via LondonViewSettings.getLandStyles()
+// and london.module.css rather than the shared SpaceStyle enum/hex.module.css.
+export const LIGHT_PLAIN = "light_plain";
+export const LIGHT_RIVER = "light_river";
 
 const CENTRAL_LONDON_PLAIN = {
   ...PLAIN,
-  style: SpaceStyle.LIGHT_PLAIN,
+  style: LIGHT_PLAIN,
 };
 const CENTRAL_LONDON_RIVER = {
   ...RIVER,
-  style: SpaceStyle.LIGHT_RIVER,
+  style: LIGHT_RIVER,
 };
 
 export const map = grid([
@@ -154,7 +158,7 @@ export const map = grid([
     CENTRAL_LONDON_PLAIN,
     city("Waterloo", [RED], black(2), 3),
     CENTRAL_LONDON_RIVER,
-    { ...PLAIN, townName: "Brixton", style: SpaceStyle.LIGHT_PLAIN },
+    { ...PLAIN, townName: "Brixton", style: LIGHT_PLAIN },
     PLAIN,
     town("Streatham"),
     PLAIN,
@@ -178,7 +182,7 @@ export const map = grid([
     PLAIN,
     RIVER,
     CENTRAL_LONDON_RIVER,
-    { ...PLAIN, townName: "Deptford", style: SpaceStyle.LIGHT_PLAIN },
+    { ...PLAIN, townName: "Deptford", style: LIGHT_PLAIN },
     PLAIN,
     town("Forest Hill"),
     PLAIN,

@@ -50,7 +50,7 @@ interface HexGridProps {
   selectedGood?: { good: Good; coordinates: Coordinates };
   clickTargets?: Set<ClickTarget>;
   fullMapVersion?: boolean;
-  gameKey?: GameKey;
+  gameKey: GameKey;
   children?: ReactNode;
 }
 
@@ -166,6 +166,7 @@ export function HexGrid({
           highlightedTrack: highlightedTrackInSpace,
           rotation,
           selectedGood,
+          gameKey,
         }),
       [
         isHighlighted,
@@ -177,6 +178,7 @@ export function HexGrid({
         rotation,
         highlightedTrackSerialized,
         selectedGood,
+        gameKey,
       ],
     );
 

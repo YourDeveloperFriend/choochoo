@@ -1,7 +1,6 @@
 import { SpaceData, LandData } from "../../engine/state/space";
 import { Good } from "../../engine/state/good";
 import { duplicate } from "../../utils/functions";
-import { SpaceStyle } from "../../engine/state/location_style";
 import { SpaceType } from "../../engine/state/location_type";
 
 import {
@@ -16,9 +15,13 @@ import {
   white,
 } from "../factory";
 
+// Four-Corners-specific style key, styled via
+// FourCornersViewSettings.getLandStyles().
+export const CANYON_STYLE = "canyon";
+
 const CANYON: LandData = {
   type: SpaceType.UNPASSABLE,
-  style: SpaceStyle.CANYON,
+  style: CANYON_STYLE,
 };
 
 export const map = grid<SpaceData>([

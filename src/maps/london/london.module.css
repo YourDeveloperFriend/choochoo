@@ -1,0 +1,15 @@
+.light_plain {
+  fill: #afe18e;
+}
+
+:global(.dark-mode) .light_plain {
+  fill: #5f8a40;
+}
+
+.light_river {
+  fill: #a5d486;
+}
+
+:global(.dark-mode) .light_river {
+  fill: #58803b;
+}

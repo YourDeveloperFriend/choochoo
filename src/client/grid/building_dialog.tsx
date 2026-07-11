@@ -327,6 +327,7 @@ export function ModifiedSpace({
   return (
     <HexGrid
       grid={grid}
+      gameKey={settings.key}
       rotation={settings.rotation}
       onClick={onClick}
       clickTargets={clickTargets}

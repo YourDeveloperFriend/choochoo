@@ -2,7 +2,6 @@ import { Coordinates } from "../../utils/coordinates";
 import { deepEquals } from "../../utils/deep_equals";
 import { assert, assertNever } from "../../utils/validate";
 import { Good } from "../state/good";
-import { SpaceStyle } from "../state/location_style";
 import { isUnpassable, LandData, LandType } from "../state/space";
 import {
   allDirections,
@@ -78,7 +77,7 @@ export class Land {
     return isUnpassable(this.getLandType());
   }
 
-  getSpaceStyle(): SpaceStyle | undefined {
+  getSpaceStyle(): string | undefined {
     return this.data.style;
   }
 

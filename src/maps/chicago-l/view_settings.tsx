@@ -1,5 +1,7 @@
 import { MapViewSettings } from "../view_settings";
+import * as hexStyles from "../../client/grid/hex.module.css";
 import { ChicagoLOverlayLayer, ChicagoLTextures } from "./rivers";
+import { PARK_STYLE } from "./grid";
 import { ChicagoLMapSettings } from "./settings";
 import { ChicagoLRules } from "./rules";
 import { ClickTarget, OnClickRegister } from "../../client/grid/click_target";
@@ -22,6 +24,10 @@ export class ChicagoLViewSettings
   getOverlayLayer = ChicagoLOverlayLayer;
 
   getMapRules = ChicagoLRules;
+
+  getLandStyles = () => ({
+    [PARK_STYLE]: hexStyles.mountain,
+  });
 
   useOnMapClick = useRepopulateOnClick;
 
