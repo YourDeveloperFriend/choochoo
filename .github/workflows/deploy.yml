@@ -34,6 +34,10 @@ jobs:
           REMOTE_HOST: api.choochoo.games
           REMOTE_USER: ec2-user
           TARGET: "/home/ec2-user/choochoo/"
+          SCRIPT_BEFORE_REQUIRED: true
+          SCRIPT_BEFORE: |
+            pm2 flush
+            npm cache clean --force
           SCRIPT_AFTER_REQUIRED: true
           SCRIPT_AFTER: |
             cd ~/choochoo
