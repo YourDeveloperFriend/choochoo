@@ -106,6 +106,13 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
     if (!this.containsStraight(newTileType)) {
       return 3;
     }
+
+  // Can be removed once straight-before-and-after complex-upgrade cost bug is resolved.
+  // Necessary to preserve existing costs.
+  protected getComplexUpgradeCost(
+    _: SimpleTileType,
+    __: ComplexTileType
+  ) {
     return 4;
   }
 
