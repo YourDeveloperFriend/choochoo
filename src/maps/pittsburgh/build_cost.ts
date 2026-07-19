@@ -2,15 +2,22 @@ import { Map } from "immutable";
 import { BuildCostCalculator } from "../../engine/build/cost";
 import { BuilderHelper } from "../../engine/build/helper";
 import { Land } from "../../engine/map/location";
-import { isTownTile } from "../../engine/map/tile";
+import {
+  isTownTile,
+  isComplexTile,
+  isSimpleTile,
+} from "../../engine/map/tile";
 import {
   ComplexTileType,
   Direction,
   SimpleTileType,
+  TileData,
   TileType,
+  TownTileType
 } from "../../engine/state/tile";
+import { LandType } from "../../engine/state/space";
 import { Coordinates } from "../../utils/coordinates";
-import { assert } from "../../utils/validate";
+import { assert, assertNever } from "../../utils/validate";
 
 export class PittsburghBuilderHelper extends BuilderHelper {
   protected minimumBuildCost(): number {
@@ -22,16 +29,65 @@ export class PittsburghBuilderHelper extends BuilderHelper {
   }
 }
 
+/**
+ * NOTE: track-costing logic for this map is split across two locations,
+ * and both need to be checked when reasoning about or modifying costs:
+ *
+ *   1. costOf() (override)         — entry point; delegates to overrideCost()
+ *      and falls back to super.costOf() when overrideCost() returns undefined.
+ *   2. overrideCost() (this class) — custom pricing rules specific
+ *      to this map (first-tile complex pricing, simple->complex transitions,
+ *      complex->complex redirects). Returns undefined for any case it
+ *      doesn't own, deferring to super.
+ *
+ * KNOWN ISSUE (as of 2026-07-18): overrideCost() currently has two
+ * paths that both defer to super (the isSimpleToSimple guard,
+ * and the fallthrough at the bottom of the function), and not yet
+ * confirmed whether these represent the same underlying case or two
+ * genuinely different ones. Needs a pass to verify before relying on this
+ * structure further.
+ */ 
 export class PittsburghFunkyBuilding extends BuildCostCalculator {
   costOf(
     coordinates: Coordinates,
     newTileType: TileType,
     orientation: Direction,
   ): number {
-    if (isTownTile(newTileType)) {
-      return 0;
+    const location = this.grid().get(coordinates);
+    assert(location instanceof Land, 'cannot calculate cost of track in non-buildable location');
+    const previousTileData = location.getTileData();
+
+    const overrideCost = this.overrideCost(previousTileData, newTileType);
+    return overrideCost ?? super.costOf(coordinates, newTileType, orientation);
+  }
+
+  private overrideCost(
+    previousTileData: TileData | undefined,
+    newTileType: TileType
+  ) : number | undefined {
+    // fallback to superclass/overrides in these cases
+    const isFirstTile = previousTileData == null;
+    if (isFirstTile) {
+      return undefined;
     }
-    return super.costOf(coordinates, newTileType, orientation);
+    if (
+      isTownTile(previousTileData.tileType) ||
+      isTownTile(newTileType)
+    ) {
+      return undefined;
+    }
+    if (this.isSimpleToSimple(previousTileData.tileType, newTileType)) {
+      return undefined;
+    }
+
+    if (isComplexTile(newTileType)) {
+      return this.costForComplexUpgrade(
+        this.containsStraight(previousTileData.tileType),
+        this.containsStraight(newTileType)
+      );
+    }
+
+    return undefined;
   }
 
   protected getRedirectCost(
@@ -42,10 +98,13 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
     assert(!isTownTile(newTileType));
     // https://boardgamegeek.com/thread/250037/article/1900582#1900582
     if (
-      this.getTileCost(previousTileType) !== 10 &&
-      this.getTileCost(newTileType) === 10
+      !this.containsStraight(previousTileType) &&
+      this.containsStraight(newTileType)
     ) {
       return 10;
+    }
+    if (!this.containsStraight(newTileType)) {
+      return 3;
     }
     return 4;
   }
@@ -58,16 +117,18 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
     return 0;
   }
 
+  protected getTownTileCost(_: TownTileType): number {
+    return 0;
+  }
+
+  protected getCostOfLandTypeForTown(_: LandType): number {
+    return 0;
+  }
+
   protected getComplexUpgradeCost(
-    oldTileType: SimpleTileType,
-    newTileType: ComplexTileType,
+    _: SimpleTileType,
+    __: ComplexTileType,
   ) {
-    if (
-      this.getTileCost(oldTileType) !== 10 &&
-      this.getTileCost(newTileType) === 10
-    ) {
-      return 10;
-    }
     return 4;
   }
 
@@ -88,6 +149,45 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
       case ComplexTileType.CURVE_TIGHT_1:
       case ComplexTileType.CURVE_TIGHT_2:
         return 4;
+    }
+  }
+
+  private costForComplexUpgrade(
+    previousTileStraight: boolean,
+    newTileStraight: boolean
+  ): number | undefined {
+    if (!previousTileStraight && !newTileStraight) return 4;
+    if (!previousTileStraight && newTileStraight) return 10;
+    if (previousTileStraight && !newTileStraight) return 4;
+
+    // straightBefore && straightAfter
+    return undefined;
+  }
+
+  private isSimpleToSimple(previousTileType: TileType, newTileType: TileType): boolean {
+    return isSimpleTile(newTileType) &&
+      isSimpleTile(previousTileType);
+  }
+
+  private containsStraight(tileType: SimpleTileType  | ComplexTileType ): boolean {
+    switch (tileType) {
+        // CONTAINS STRAIGHT TRACK
+        case SimpleTileType.STRAIGHT:
+        case ComplexTileType.X:
+        case ComplexTileType.BOW_AND_ARROW:
+        case ComplexTileType.STRAIGHT_TIGHT:
+          return true;
+
+        // CONTAINS NO STRAIGHT TRACK
+        case SimpleTileType.CURVE:
+        case SimpleTileType.TIGHT:
+        case ComplexTileType.CROSSING_CURVES:
+        case ComplexTileType.COEXISTING_CURVES:
+        case ComplexTileType.CURVE_TIGHT_1:
+        case ComplexTileType.CURVE_TIGHT_2:
+          return false;
+        default:
+          assertNever(tileType);
     }
   }
 }
