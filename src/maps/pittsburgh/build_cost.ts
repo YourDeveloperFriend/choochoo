@@ -29,24 +29,26 @@ export class PittsburghBuilderHelper extends BuilderHelper {
   }
 }
 
-/**
- * NOTE: track-costing logic for this map is split across two locations,
- * and both need to be checked when reasoning about or modifying costs:
- *
- *   1. costOf() (override)         — entry point; delegates to overrideCost()
- *      and falls back to super.costOf() when overrideCost() returns undefined.
- *   2. overrideCost() (this class) — custom pricing rules specific
- *      to this map (first-tile complex pricing, simple->complex transitions,
- *      complex->complex redirects). Returns undefined for any case it
- *      doesn't own, deferring to super.
- *
- * KNOWN ISSUE (as of 2026-07-18): overrideCost() currently has two
- * paths that both defer to super (the isSimpleToSimple guard,
- * and the fallthrough at the bottom of the function), and not yet
- * confirmed whether these represent the same underlying case or two
- * genuinely different ones. Needs a pass to verify before relying on this
- * structure further.
- */ 
+// 
+// NOTE: track-cost logic is split between the engine's native costOf() function
+// and our custom override to accomodate Pittsburgh's costing peculiarities.
+// 
+// Cases handled by super's costOf():
+//   - is first tile placed in a hex (town, simple, or complex)
+//   - is a town->town upgrade
+//   - is a simple->simple redirect
+//   - simple->complex and complex->complex upgrades where 
+//       straight-before-and-after track is involved
+// 
+// Cases handled by overridden costOf():
+//   - simple->complex and complex->complex upgrades (excluding 
+//       cases where straight-before-and-after track are involved)
+// 
+// KNOWN BUG: Simple->complex and complex->complex upgrades are not costed properly
+// in cases where straight-before-and-after track are involved. They fallback to
+// engine's native costOf() fuction, where cost is based on number of redirects.
+// Bug not addressed in this PR.
+// 
 export class PittsburghFunkyBuilding extends BuildCostCalculator {
   costOf(
     coordinates: Coordinates,
@@ -57,29 +59,35 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
     assert(location instanceof Land, 'cannot calculate cost of track in non-buildable location');
     const previousTileData = location.getTileData();
 
-    const overrideCost = this.overrideCost(previousTileData, newTileType);
-    return overrideCost ?? super.costOf(coordinates, newTileType, orientation);
+    const overriddenCost = this.overrideCost(previousTileData, newTileType);
+    return overriddenCost ?? super.costOf(coordinates, newTileType, orientation);
   }
 
   private overrideCost(
     previousTileData: TileData | undefined,
     newTileType: TileType
   ) : number | undefined {
-    // fallback to superclass/overrides in these cases
     const isFirstTile = previousTileData == null;
     if (isFirstTile) {
+      // Defers first tile pricing to super
       return undefined;
     }
     if (
       isTownTile(previousTileData.tileType) ||
       isTownTile(newTileType)
     ) {
+      // Defers town tile upgrade pricing to super
       return undefined;
     }
-    if (this.isSimpleToSimple(previousTileData.tileType, newTileType)) {
+    if (
+      isSimpleTile(previousTileData.tileType) &&
+      isSimpleTile(newTileType)
+    ) {
+      // Defers simple tile redirect pricing to super
       return undefined;
     }
 
+    // Checking for simple->complex or complex->complex tile upgrades.
     if (isComplexTile(newTileType)) {
       return this.costForComplexUpgrade(
         this.containsStraight(previousTileData.tileType),
@@ -87,25 +95,33 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
       );
     }
 
+    // Defers to engine to handle impossible track upgrades
+    // (ie complex->simple upgrade)
     return undefined;
   }
 
+  // Currently receives BOTH (simple->simple redirects) AND (simple->complex and
+  // complex->complex cases from overrideCost()).
+  // Once that's fixed to handle complex cases itself, this function should go back
+  // to simple->simple only.
+  // This exists to preserve existing erroneous costs.
   protected getRedirectCost(
     previousTileType: TileType,
     newTileType: TileType,
   ): number {
     assert(!isTownTile(previousTileType));
     assert(!isTownTile(newTileType));
-    // https://boardgamegeek.com/thread/250037/article/1900582#1900582
+    // Can be removed once straight-before-and-after complex-upgrade cost bug is resolved.
     if (
-      !this.containsStraight(previousTileType) &&
+      this.containsStraight(previousTileType) &&
       this.containsStraight(newTileType)
     ) {
-      return 10;
+      return 4;
     }
-    if (!this.containsStraight(newTileType)) {
-      return 3;
-    }
+
+    // https://boardgamegeek.com/thread/250037/article/1900582#1900582
+    return this.containsStraight(newTileType) ? 10 : 3;
+  }
 
   // Can be removed once straight-before-and-after complex-upgrade cost bug is resolved.
   // Necessary to preserve existing costs.
@@ -132,13 +148,6 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
     return 0;
   }
 
-  protected getComplexUpgradeCost(
-    _: SimpleTileType,
-    __: ComplexTileType,
-  ) {
-    return 4;
-  }
-
   protected getTileCost(tileType: SimpleTileType | ComplexTileType): number {
     switch (tileType) {
       case SimpleTileType.STRAIGHT:
@@ -163,17 +172,19 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
     previousTileStraight: boolean,
     newTileStraight: boolean
   ): number | undefined {
-    if (!previousTileStraight && !newTileStraight) return 4;
-    if (!previousTileStraight && newTileStraight) return 10;
-    if (previousTileStraight && !newTileStraight) return 4;
+    if (!previousTileStraight && !newTileStraight) { 
+      return 4;
+    }
+    if (!previousTileStraight && newTileStraight) {
+      return 10;
+    }
+    if (previousTileStraight && !newTileStraight) {
+      return 4;
+    }
 
-    // straightBefore && straightAfter
+    // previousTileStraight && newTileStraight
+    // Straight-before-and-after complex-upgrade cost bug can be resolved here
     return undefined;
-  }
-
-  private isSimpleToSimple(previousTileType: TileType, newTileType: TileType): boolean {
-    return isSimpleTile(newTileType) &&
-      isSimpleTile(previousTileType);
   }
 
   private containsStraight(tileType: SimpleTileType  | ComplexTileType ): boolean {
