@@ -1,16 +1,23 @@
 import { Map } from "immutable";
-import { BuildCostCalculator } from "../../engine/build/cost";
+import { BuildCostCalculator, countRedirects } from "../../engine/build/cost";
 import { BuilderHelper } from "../../engine/build/helper";
 import { Land } from "../../engine/map/location";
-import { isTownTile } from "../../engine/map/tile";
+import {
+  isTownTile,
+  isComplexTile,
+  isSimpleTile,
+} from "../../engine/map/tile";
 import {
   ComplexTileType,
   Direction,
   SimpleTileType,
+  TileData,
   TileType,
+  TownTileType
 } from "../../engine/state/tile";
+import { LandType } from "../../engine/state/space";
 import { Coordinates } from "../../utils/coordinates";
-import { assert } from "../../utils/validate";
+import { assert, assertNever } from "../../utils/validate";
 
 export class PittsburghBuilderHelper extends BuilderHelper {
   protected minimumBuildCost(): number {
@@ -21,17 +28,106 @@ export class PittsburghBuilderHelper extends BuilderHelper {
     return super.startingManifest().delete(ComplexTileType.X);
   }
 }
-
 export class PittsburghFunkyBuilding extends BuildCostCalculator {
   costOf(
     coordinates: Coordinates,
     newTileType: TileType,
     orientation: Direction,
   ): number {
-    if (isTownTile(newTileType)) {
-      return 0;
+    const location = this.grid().get(coordinates);
+    assert(location instanceof Land, 'cannot calculate cost of track in non-buildable location');
+    const previousTileData = location.getTileData();
+
+    if (!this.isComplexUpgrade(previousTileData, newTileType)) {
+      return super.costOf(coordinates, newTileType, orientation);
     }
-    return super.costOf(coordinates, newTileType, orientation);
+
+    assert(!isTownTile(previousTileData.tileType));
+    assert(!isTownTile(newTileType));
+    const previousTileContainsStraight = this.containsStraight(previousTileData.tileType);
+    const newTileContainsStraight = this.containsStraight(newTileType);
+    if (!(previousTileContainsStraight && newTileContainsStraight)) {
+      return this.costForUnambiguousUpgrade(previousTileContainsStraight, newTileContainsStraight);
+    }
+
+    const isPreviousTileSimple = isSimpleTile(previousTileData.tileType);
+    const redirects = countRedirects(previousTileData, newTileType, orientation);
+    return this.costForAmbiguousUpgrade(isPreviousTileSimple, redirects);
+  }
+
+  private costForAmbiguousUpgrade(
+    isPreviousTileSimple: boolean,
+    redirects: number
+  ): number {
+    const tileComplexity = isPreviousTileSimple ? "simple" : "complex";
+    if (isPreviousTileSimple) {
+      switch(redirects) {
+        case 0: 
+          return 4;
+        case 1:
+          return 10;
+        default:
+          assert(false, {
+            invalidInput: `unsupported number of redirects ${redirects} for ${tileComplexity} track`,
+          });
+      }
+    }
+    switch(redirects) {
+      case 0:
+      case 1: 
+        return 4;
+      case 2:
+        return 10;
+      default:
+        assert(false, {
+          invalidInput: `unsupported number of redirects ${redirects} for ${tileComplexity} track`,
+        });
+    }
+  }
+
+  private costForUnambiguousUpgrade(
+    previousTileContainsStraight: boolean,
+    newTileContainsStraight: boolean
+  ): number {
+    const containsNoStraight = !previousTileContainsStraight && !newTileContainsStraight;
+    if (containsNoStraight) { 
+      return 4;
+    }
+    const removedStraight = previousTileContainsStraight && !newTileContainsStraight;
+    if (removedStraight) {
+      return 4;
+    }
+    const introducedStraight = !previousTileContainsStraight && newTileContainsStraight;
+    if (introducedStraight) {
+      return 10;
+    }
+    assert(false, {
+      invalidInput: "this function will not accept straight->straight upgrades (aka ambiguous upgrades)"
+    });
+  }
+
+  private isComplexUpgrade(
+    previousTileData: TileData | undefined,
+    newTileType: TileType
+  ): previousTileData is TileData {
+    const isFirstTile = previousTileData == null;
+    if (isFirstTile) {
+      return false;
+    }
+    const isTownUpgrade = isTownTile(previousTileData.tileType) && isTownTile(newTileType)
+    if (isTownUpgrade) {
+      return false;
+    }
+    const isSimpleRedirect = isSimpleTile(previousTileData.tileType) && isSimpleTile(newTileType)
+    if (isSimpleRedirect) {
+      return false;
+    }
+    const isComplexToSimpleRedirect = isComplexTile(previousTileData.tileType) && isSimpleTile(newTileType)
+    if (isComplexToSimpleRedirect) {
+      return false;
+    }
+
+    return true;
   }
 
   protected getRedirectCost(
@@ -40,14 +136,9 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
   ): number {
     assert(!isTownTile(previousTileType));
     assert(!isTownTile(newTileType));
+
     // https://boardgamegeek.com/thread/250037/article/1900582#1900582
-    if (
-      this.getTileCost(previousTileType) !== 10 &&
-      this.getTileCost(newTileType) === 10
-    ) {
-      return 10;
-    }
-    return 4;
+    return this.containsStraight(newTileType) ? 10 : 3;
   }
 
   protected getTerrainCost(_: Land): number {
@@ -58,17 +149,12 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
     return 0;
   }
 
-  protected getComplexUpgradeCost(
-    oldTileType: SimpleTileType,
-    newTileType: ComplexTileType,
-  ) {
-    if (
-      this.getTileCost(oldTileType) !== 10 &&
-      this.getTileCost(newTileType) === 10
-    ) {
-      return 10;
-    }
-    return 4;
+  protected getTownTileCost(_: TownTileType): number {
+    return 0;
+  }
+
+  protected getCostOfLandTypeForTown(_: LandType): number {
+    return 0;
   }
 
   protected getTileCost(tileType: SimpleTileType | ComplexTileType): number {
@@ -88,6 +174,28 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
       case ComplexTileType.CURVE_TIGHT_1:
       case ComplexTileType.CURVE_TIGHT_2:
         return 4;
+    }
+  }
+
+  private containsStraight(tileType: SimpleTileType  | ComplexTileType ): boolean {
+    switch (tileType) {
+        // CONTAINS STRAIGHT TRACK
+        case SimpleTileType.STRAIGHT:
+        case ComplexTileType.X:
+        case ComplexTileType.BOW_AND_ARROW:
+        case ComplexTileType.STRAIGHT_TIGHT:
+          return true;
+
+        // CONTAINS NO STRAIGHT TRACK
+        case SimpleTileType.CURVE:
+        case SimpleTileType.TIGHT:
+        case ComplexTileType.CROSSING_CURVES:
+        case ComplexTileType.COEXISTING_CURVES:
+        case ComplexTileType.CURVE_TIGHT_1:
+        case ComplexTileType.CURVE_TIGHT_2:
+          return false;
+        default:
+          assertNever(tileType);
     }
   }
 }
