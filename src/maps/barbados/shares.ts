@@ -1,12 +1,7 @@
-import {
-  TakeSharesAction,
-  TakeSharesData,
-} from "../../engine/shares/take_shares";
-import { assert } from "../../utils/validate";
+import { ShareHelper } from "../../engine/shares/share_helper";
 
-export class BarbadosTakeSharesAction extends TakeSharesAction {
-  validate(data: TakeSharesData): void {
-    super.validate(data);
-    assert(data.numShares <= 1, "Cannot take more than 1 share a turn");
+export class BarbadosShareHelper extends ShareHelper {
+  getSharesTheyCanTake(): number {
+    return Math.min(super.getSharesTheyCanTake(), 1);
   }
 }

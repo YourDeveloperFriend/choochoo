@@ -15,7 +15,7 @@ import { BarbadosGameEnd, BarbadosPlayerHelper } from "./game_end";
 import { map } from "./grid";
 import { BarbadosGoodsGrowthPhase } from "./growth";
 import { BarbadosStarter } from "./setup";
-import { BarbadosTakeSharesAction } from "./shares";
+import { BarbadosShareHelper } from "./shares";
 
 export class BarbadosMapSettings implements MapSettings {
   readonly key = "barbados";
@@ -40,7 +40,7 @@ export class BarbadosMapSettings implements MapSettings {
   getOverrides() {
     return [
       BarbadosStarter,
-      BarbadosTakeSharesAction,
+      BarbadosShareHelper,
       BarbadosSelectAction,
       BarbadosActions,
       BarbadosSelectActionPhase,
