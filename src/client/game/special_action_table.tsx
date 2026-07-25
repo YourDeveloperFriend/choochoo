@@ -1,15 +1,20 @@
 import { useCallback } from "react";
 import { GameStatus } from "../../api/game";
-import { injectPlayerAction } from "../../engine/game/state";
+import { AVAILABLE_CITIES, injectPlayerAction } from "../../engine/game/state";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
 import { SelectAction as ActionSelectionSelectAction } from "../../engine/select_action/select";
 import { Action, ActionNamingProvider } from "../../engine/state/action";
 import { ViewRegistry } from "../../maps/view_registry";
+import { useConfirm } from "../components/confirm";
 import { MaybeTooltip } from "../components/maybe_tooltip";
 import { Username } from "../components/username";
 import { useAction } from "../services/action";
 import { useGame } from "../services/game";
-import { useInject, useInjected } from "../utils/injection_context";
+import {
+  useInject,
+  useInjected,
+  useInjectedState,
+} from "../utils/injection_context";
 import { PlayerCircle } from "./bidding_info";
 import * as styles from "./special_action_table.module.css";
 
@@ -36,6 +41,8 @@ function SpecialAction({ action }: { action: Action }) {
   const allowed = useInjected(AllowedActions);
   const player = useInject(() => injectPlayerAction(action)(), [action]);
   const actionNamingProvider = useInjected(ActionNamingProvider);
+  const availableCities = useInjectedState(AVAILABLE_CITIES);
+  const confirm = useConfirm();
 
   const isClickable = canEmit && player == null && !isPending;
   const disabledReason =
@@ -44,10 +51,18 @@ function SpecialAction({ action }: { action: Action }) {
       : undefined;
   const isEmittable = isClickable && disabledReason == null;
 
-  const chooseAction = useCallback(
-    () => isEmittable && emit({ action }),
-    [emit, isEmittable, action],
-  );
+  const chooseAction = useCallback(() => {
+    if (!isEmittable) return;
+    if (action === Action.URBANIZATION && availableCities.length === 0) {
+      confirm(
+        "There are no more available new cities, are you sure you want to select Urbanization?",
+      ).then((confirmed) => {
+        if (confirmed) emit({ action });
+      });
+      return;
+    }
+    emit({ action });
+  }, [emit, isEmittable, action, availableCities, confirm]);
 
   const className = [
     styles.specialAction,
