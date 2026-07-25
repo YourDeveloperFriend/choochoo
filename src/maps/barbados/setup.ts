@@ -21,7 +21,7 @@ export class BarbadosStarter extends GameStarter {
   getAvailableCities(): Array<[Good | Good[], CityGroup, OnRoll]> {
     return super
       .getAvailableCities()
-      .filter(([, , group]) => group !== CityGroup.BLACK);
+      .filter((availableCity) => availableCity[1] !== CityGroup.BLACK);
   }
 
   protected getGoodsGrowthGoodsFor(
