@@ -114,11 +114,11 @@ describe(PittsburghFunkyBuilding.name, () => {
         expect(calculateCost({ from: SimpleTileType.TIGHT, to: SimpleTileType.STRAIGHT })).toBe(10);
     });
 
-    it('to non-straight (costs $3)', () => {
-        expect(calculateCost({ from: SimpleTileType.STRAIGHT, to: SimpleTileType.CURVE })).toBe(3);
-        expect(calculateCost({ from: SimpleTileType.STRAIGHT, to: SimpleTileType.TIGHT })).toBe(3);
-        expect(calculateCost({ from: SimpleTileType.TIGHT, to: SimpleTileType.CURVE })).toBe(3);
-        expect(calculateCost({ from: SimpleTileType.CURVE, to: SimpleTileType.TIGHT })).toBe(3);
+    it('to non-straight (costs $4)', () => {
+        expect(calculateCost({ from: SimpleTileType.STRAIGHT, to: SimpleTileType.CURVE })).toBe(4);
+        expect(calculateCost({ from: SimpleTileType.STRAIGHT, to: SimpleTileType.TIGHT })).toBe(4);
+        expect(calculateCost({ from: SimpleTileType.TIGHT, to: SimpleTileType.CURVE })).toBe(4);
+        expect(calculateCost({ from: SimpleTileType.CURVE, to: SimpleTileType.TIGHT })).toBe(4);
     });
   });
 

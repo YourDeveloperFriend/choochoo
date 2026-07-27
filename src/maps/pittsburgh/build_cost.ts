@@ -138,7 +138,7 @@ export class PittsburghFunkyBuilding extends BuildCostCalculator {
     assert(!isTownTile(newTileType));
 
     // https://boardgamegeek.com/thread/250037/article/1900582#1900582
-    return this.containsStraight(newTileType) ? 10 : 3;
+    return this.containsStraight(newTileType) ? 10 : 4;
   }
 
   protected getTerrainCost(_: Land): number {
