@@ -40,10 +40,9 @@ export class ChicagoLStarter extends GameStarter {
 
     const bag = [...this.bag()];
     const loopDemandDraws: Good[] = this.random.draw(9, bag, true);
-    const repopulationBox: Good[] = this.random.draw(1, bag, true);
     this.bag.set(bag);
     this.theLoopDemand.initState(loopDemandDraws);
-    this.repopulationBox.initState(repopulationBox);
+    this.repopulationBox.initState([]);
 
     const cities = [...this.gridHelper.findAllCities()];
     const startingCity = cities[this.random.random(cities.length)];

@@ -37,28 +37,17 @@ export class ChicagoLSharesPhase extends SharesPhase {
   onStart(): void {
     super.onStart();
 
-    let priorLoopColor: Good | undefined;
-    for (const city of this.gridHelper.findAllCities()) {
-      if (city.data.sameCity === THE_LOOP_SAME_CITY) {
-        if (city.goodColors().length > 0) {
-          priorLoopColor = city.goodColors()[0];
-          break;
-        }
-      }
-    }
-    if (priorLoopColor !== undefined) {
-      this.repopulationBox.update((prior) => prior.push(priorLoopColor));
-      this.log.log(
-        "A " +
-          goodToString(priorLoopColor) +
-          " cube was added to the repopulation box.",
-      );
-    }
-
     const nextLoopColor: Good = this.theLoopDemand()[0];
     this.theLoopDemand.update((demand) => {
       demand.splice(0, 1);
     });
+
+    this.repopulationBox.update((prior) => prior.push(nextLoopColor));
+    this.log.log(
+      "A " +
+        goodToString(nextLoopColor) +
+        " cube was added to the repopulation box.",
+    );
 
     for (const city of this.gridHelper.findAllCities()) {
       if (city.data.sameCity === THE_LOOP_SAME_CITY) {
