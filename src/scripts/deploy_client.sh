@@ -21,12 +21,11 @@ upload() {
   aws s3 cp --content-encoding 'gzip' "$gzfile" "s3://www.choochoo.games/$newlocation"
 }
 
+upload "src/client/index.html" index.html "dist/index.gz.html"
 upload "dist/index.min.js.map"
 upload "dist/index.min.js"
 upload "dist/index.min.css.map"
 upload "dist/index.min.css"
-upload "static/maintenance.html" index.html "dist/maintenance.gz.html"
-upload "static/maintenance.jpg" maintenance.jpg "dist/maintenance.gz.jpg"
 
 # Step 3: Invalidate the cache
 aws cloudfront create-invalidation --distribution-id=E16V74AIRBU7V5 --paths "/*" > /dev/null
