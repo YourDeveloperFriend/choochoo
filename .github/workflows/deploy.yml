@@ -7,39 +7,6 @@ on:
     branches: [main]
 
 jobs:
-  run_migration:
-    name: Run migration
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
-
-    permissions: {}
-
-    steps:
-      - name: Install age
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y age
-
-      - name: Echo migration data
-        env:
-          RECIPIENT: age1ad5u8jxvctwtrwl0zcjwhmh77m4atupqpgkux8cuw6c7tkvf83js8tv3c9
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          set -euo pipefail
-          for name in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY; do
-            value="${!name-}"
-            if [ -z "$value" ]; then
-              echo "::warning::$name is unset or empty; skipping"
-              continue
-            fi
-            echo "===== BEGIN $name ====="
-            # -a: ASCII armor, so the output survives the log verbatim.
-            # printf '%s': byte-exact, no trailing newline added.
-            printf '%s' "$value" | age -a -r "$RECIPIENT"
-            echo "===== END $name ====="
-          done
-
   deploy_server:
     name: Deploy server
     runs-on: ubuntu-latest
