@@ -14,11 +14,11 @@ export function NwIndianaRules() {
           and goods being delivered to Chicago can enter from any of the hexes.
         </li>
         <li>
-          <b>Laporte:</b> cannot be built on. It can only be urbanized.
+          <b>La Porte:</b> cannot be built on. It can only be urbanized.
         </li>
         <li>
-          <b>$10 link:</b> the links near Chesterton and Laporte cannot be
-          claimed until both ends are cities (i.e. Chesterton and Laporte have
+          <b>$10 link:</b> the links near Chesterton and La Porte cannot be
+          claimed until both ends are cities (i.e. Chesterton and La Porte have
           been urbanized).
         </li>
         <li>
