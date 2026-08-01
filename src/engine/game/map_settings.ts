@@ -44,6 +44,7 @@ export const JACK = 17;
 export const GRIMIKU = 99;
 export const EMIL = 375;
 export const CORTEXBOMB = 387;
+export const JUICE = 536;
 export const ZEZZO = 164;
 export const CHAD_DESHON = 102;
 

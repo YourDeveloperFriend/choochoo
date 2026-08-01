@@ -38,6 +38,7 @@ import { MoonMapSettings } from "./moon/settings";
 import { NewEnglandMapSettings } from "./new_england/settings";
 import { NewHampshireMapSettings } from "./new_hampshire/settings";
 import { NorthernCaliforniaMapSettings } from "./northern_california/settings";
+import { NwIndianaMapSettings } from "./nw_indiana/settings";
 import { PittsburghMapSettings } from "./pittsburgh/settings";
 import { PolandMapSettings } from "./poland/settings";
 import { PortugalMapSettings } from "./portugal/settings";
@@ -98,6 +99,7 @@ export class MapRegistry {
     this.add(new NewEnglandMapSettings());
     this.add(new NewHampshireMapSettings());
     this.add(new NorthernCaliforniaMapSettings());
+    this.add(new NwIndianaMapSettings());
     this.add(new PittsburghMapSettings());
     this.add(new PolandMapSettings());
     this.add(new PortugalMapSettings());
