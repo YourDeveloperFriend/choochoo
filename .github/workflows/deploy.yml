@@ -5,6 +5,7 @@ on:
     workflows: ["Checks"]
     types: [completed]
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   run_migration:
