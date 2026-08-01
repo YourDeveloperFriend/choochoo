@@ -314,7 +314,7 @@ function CityHex({
 
   const [hexColor, alternateColor] = cityColorStyles(city);
 
-  const cityGroup: CityGroup = city.onRoll()[0]?.group ?? CityGroup.WHITE;
+  const cityGroup: CityGroup = city.group();
   // Determine the "outer fill" color, which is the thick border around cities indicating its goods-growth group color.
   const outerFill = (() => {
     if (cityGroup == CityGroup.WHITE) return "#ffffff";

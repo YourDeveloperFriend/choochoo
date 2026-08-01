@@ -1,4 +1,5 @@
 import { Coordinates } from "../../utils/coordinates";
+import { CityGroup } from "../state/city_group";
 import { Good } from "../state/good";
 import { OnRollData } from "../state/roll";
 import { CityData } from "../state/space";
@@ -45,6 +46,10 @@ export class City {
 
   onRoll(): OnRollData[] {
     return this.data.onRoll;
+  }
+
+  group(): CityGroup {
+    return this.data.onRoll[0]?.group ?? this.data.group ?? CityGroup.WHITE;
   }
 
   canExit(_: Direction): boolean {
