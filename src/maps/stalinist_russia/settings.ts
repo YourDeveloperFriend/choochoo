@@ -1,5 +1,4 @@
 import {
-  CORTEXBOMB,
   JACK,
   MapSettings,
   PlayerCountRating,
@@ -49,8 +48,7 @@ export class StalinistRussiaMapSettings implements MapSettings {
     8: PlayerCountRating.NOT_SUPPORTED,
   };
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.DEVELOPMENT;
-  readonly developmentAllowlist = [JACK, CORTEXBOMB];
+  readonly stage = ReleaseStage.BETA;
 
   getOverrides() {
     return [
