@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { Immutable } from "../../utils/immutable";
+import { CityGroup } from "./city_group";
 import { Good, GoodZod } from "./good";
 import { SpaceStyleZod } from "./location_style";
 import { SpaceType, SpaceTypeZod } from "./location_type";
@@ -13,6 +14,9 @@ export const MutableCityData = z.object({
   goods: z.array(z.nativeEnum(Good)),
   urbanized: z.boolean().optional(),
   onRoll: z.array(OnRollData),
+  // The goods-growth group color, for cities that display a group color but have no on-roll.
+  // Ignored when onRoll is non-empty, and defaults to WHITE.
+  group: z.nativeEnum(CityGroup).optional(),
   mapSpecific: z.any().optional(),
   sameCity: z.number().optional(),
   startingNumCubes: z.number().optional(),

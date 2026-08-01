@@ -4,6 +4,7 @@ import { BLUE, PURPLE, RED, YELLOW } from "../../engine/state/good";
 import { SpaceType } from "../../engine/state/location_type";
 import { startFrom } from "../tile_factory";
 import { BOTTOM_LEFT, TOP, TOP_LEFT } from "../../engine/state/tile";
+import { CityGroup } from "../../engine/state/city_group";
 
 export const CHICAGO_SAME_CITY = 1;
 
@@ -14,6 +15,7 @@ const CHICAGO_SIDE: CityData = {
   name: "",
   goods: [],
   onRoll: [],
+  group: CityGroup.BLACK,
   startingNumCubes: 0,
 };
 const CHICAGO_CENTER: CityData = {
