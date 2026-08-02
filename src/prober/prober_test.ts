@@ -1,10 +1,9 @@
 import { By } from "selenium-webdriver";
-import { setTestTimeout } from "../e2e/util/timeout";
-import { setUpWebDriver } from "../e2e/util/webdriver";
+import { describe, it } from "vitest";
+import { setUpWebDriver } from "../testing/webdriver";
 import { loginBypass } from "../server/util/environment";
 
 describe("prober test", () => {
-  setTestTimeout(60000);
   const driver = setUpWebDriver(
     "https://www.choochoo.games",
     "https://api.choochoo.games",

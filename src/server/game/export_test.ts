@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { ExportableGame, ExportableHistory, toGameExport } from "./export";
 
 /**

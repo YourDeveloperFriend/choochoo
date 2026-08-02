@@ -1,4 +1,4 @@
-import 'jasmine';
+import { describe, expect, it } from "vitest";
 import { InjectionHelper } from '../../testing/injection_helper';
 import { Coordinates } from '../../utils/coordinates';
 import { GRID, INTER_CITY_CONNECTIONS } from '../game/state';

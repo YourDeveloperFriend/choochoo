@@ -1,4 +1,4 @@
-import "jasmine";
+import { describe, expect, it } from "vitest";
 import { PlayerColor } from "../../engine/state/player";
 import {
   moveColorChipBeforeUser,

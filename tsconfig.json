@@ -102,5 +102,8 @@
     "compilerOptions": {
       "module": "nodenext"
     }
-  }
+  },
+  // Vitest loads its own config directly; it lives outside of rootDir, so it is
+  // not part of the compiled program.
+  "exclude": ["vitest.config.mts", "vitest.prober.config.mts"]
 }

@@ -1,3 +1,5 @@
+import { afterEach, beforeEach } from "vitest";
+
 import { assert } from "../utils/validate";
 
 export function resettable<T>(getter: () => T): () => T {

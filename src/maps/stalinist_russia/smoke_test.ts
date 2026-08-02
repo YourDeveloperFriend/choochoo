@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { EngineDelegator } from "../../engine/framework/engine";
 import { LimitedGame } from "../../engine/game/game_memory";
 import { PlayerUser } from "../../engine/game/starter";
