@@ -85,6 +85,24 @@ describe("every registered map", () => {
         expect(snapshot.phase).toBeDefined();
       });
 
+      it("declares a non-trivial starting grid", () => {
+        // Empty or placeholder grids are invalid. The smallest real map is
+        // Jamaica at 34 spaces, so a floor of 10 leaves room for a genuinely
+        // small map while still catching a stub.
+        expect(settings.startingGrid.size).toBeGreaterThan(10);
+      });
+
+      it("has somewhere to deliver to", () => {
+        const snapshot = snapshotGame(start());
+        const destinations = snapshot.spaces.filter(
+          (space) => space.kind === "city" || space.kind === "town",
+        );
+
+        // Deliberately counts cities OR towns: St Lucia is a towns-only map
+        // with no cities at all, and Belgium has no towns.
+        expect(destinations.length).toBeGreaterThanOrEqual(2);
+      });
+
       it("satisfies the engine invariants at start", () => {
         expect(checkSnapshot(snapshotGame(start()))).toEqual([]);
       });
