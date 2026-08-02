@@ -4,7 +4,6 @@ import { MapViewSettings } from "./view_settings";
 import { assert } from "../utils/validate";
 import { AlabamaRailwaysViewSettings } from "./alabama_railways/view_settings";
 import { AustraliaViewSettings } from "./australia/view_settings";
-import { BalkanViewSettings } from "./balkan/view_settings";
 import { BarbadosViewSettings } from "./barbados/view_settings";
 import { BelgiumViewSettings } from "./belgium/view_settings";
 import { CaliforniaGoldRushViewSettings } from "./ca-gold-rush/view_settings";
@@ -65,7 +64,6 @@ export class ViewRegistry {
   private constructor() {
     this.add(new AlabamaRailwaysViewSettings());
     this.add(new AustraliaViewSettings());
-    this.add(new BalkanViewSettings());
     this.add(new BarbadosViewSettings());
     this.add(new BelgiumViewSettings());
     this.add(new CaliforniaGoldRushViewSettings());

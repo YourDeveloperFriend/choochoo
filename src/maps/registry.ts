@@ -4,7 +4,6 @@ import { MapSettings } from "../engine/game/map_settings";
 import { assert } from "../utils/validate";
 import { AlabamaRailwaysMapSettings } from "./alabama_railways/settings";
 import { AustraliaMapSettings } from "./australia/settings";
-import { BalkanMapSettings } from "./balkan/settings";
 import { BarbadosMapSettings } from "./barbados/settings";
 import { BelgiumMapSettings } from "./belgium/settings";
 import { CaliforniaGoldRushMapSettings } from "./ca-gold-rush/settings";
@@ -65,7 +64,6 @@ export class MapRegistry {
   private constructor() {
     this.add(new AlabamaRailwaysMapSettings());
     this.add(new AustraliaMapSettings());
-    this.add(new BalkanMapSettings());
     this.add(new BarbadosMapSettings());
     this.add(new BelgiumMapSettings());
     this.add(new CaliforniaGoldRushMapSettings());
