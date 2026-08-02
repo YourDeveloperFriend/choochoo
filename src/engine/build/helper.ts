@@ -102,7 +102,7 @@ export class BuilderHelper {
         townTiles.set(tile, (townTiles.get(tile) ?? 0) + 1);
         continue;
       }
-      const entry = manifest.get(tile)!;
+      const entry = entryFor(manifest, tile);
       manifest.set(tile, {
         remaining: entry.remaining - 1,
         remainingIgnoringTowns: entry.remainingIgnoringTowns - 1,
@@ -113,11 +113,11 @@ export class BuilderHelper {
       const options = this.getTileOptions(tile);
       let i = count;
       while (i > 0) {
-        const newType = options.find((type) => manifest.get(type)!.remaining > 0);
+        const newType = options.find((type) => entryFor(manifest, type).remaining > 0);
         // If we can't find an available one, then oh well, just pick one and we'll mark it as negative.
         if (newType == null) {
           const newType2 = options[0];
-          const entry = manifest.get(newType2)!;
+          const entry = entryFor(manifest, newType2);
           manifest.set(newType2, {
             ...entry,
             remaining: entry.remaining - count,
@@ -125,7 +125,7 @@ export class BuilderHelper {
           break;
         }
 
-        const entry = manifest.get(newType)!;
+        const entry = entryFor(manifest, newType);
         manifest.set(newType, {
           ...entry,
           remaining: Math.max(entry.remaining - i, 0),
@@ -190,4 +190,24 @@ export interface TileManifestEntry {
 
 function toManifestEntry(count: number): TileManifestEntry {
   return {remaining: count, remainingIgnoringTowns: count};
+}
+
+/**
+ * The manifest entry for a tile type, treating an absent one as out of stock.
+ *
+ * A map may drop a tile type from its manifest entirely -- Pittsburgh removes
+ * ComplexTileType.X -- which means it stocks none of them. Reading the entry
+ * directly then dereferenced undefined and threw a TypeError, which surfaced as
+ * a 500 rather than the validation error callers expect. Note this is reachable
+ * in ordinary play and not only by asking for the removed tile directly:
+ * TownTileType.X resolves through getTileOptions to ComplexTileType.X, so
+ * building a town X tile on Pittsburgh hit it too.
+ *
+ * A zero count makes the tile unavailable, which every caller already handles.
+ */
+function entryFor(
+  manifest: Map<TileType, TileManifestEntry>,
+  tile: TileType,
+): TileManifestEntry {
+  return manifest.get(tile) ?? { remaining: 0, remainingIgnoringTowns: 0 };
 }
