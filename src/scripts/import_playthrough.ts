@@ -4,7 +4,11 @@ import { join, resolve } from "path";
 // whichever side loads first wins. See src/testing/setup.ts.
 import "../maps/registry";
 import { MapRegistry } from "../maps/registry";
-import { Playthrough, replayPlaythrough } from "../testing/harness/playthrough";
+import {
+  Playthrough,
+  prepareForReplay,
+  replayPlaythrough,
+} from "../testing/harness/playthrough";
 
 /**
  * Turns a game exported from production into a committed regression test.
@@ -67,7 +71,11 @@ function main(): void {
     );
   }
 
-  const result = replayPlaythrough(playthrough);
+  const prepared = prepareForReplay(playthrough, (message) =>
+    // eslint-disable-next-line no-console
+    console.log(message),
+  );
+  const result = replayPlaythrough(prepared);
   if (result.failure != null) {
     throw new Error(
       `game ${playthrough.id} does not replay against the current engine, so ` +
@@ -90,7 +98,7 @@ function main(): void {
     }
   }
 
-  writeFileSync(fixture, JSON.stringify(playthrough) + "\n");
+  writeFileSync(fixture, JSON.stringify(prepared) + "\n");
   writeFileSync(transcript, result.transcript);
   // One test file per recording, so vitest can spread a growing corpus across
   // workers instead of replaying them serially in one file.
@@ -102,6 +110,12 @@ function main(): void {
 
   /* eslint-disable no-console */
   console.log(`imported game ${playthrough.id} (${playthrough.gameKey})`);
+  console.log(
+    `  replayed from: ${prepared.replayFrom}` +
+      (prepared.playerColorRelabel != null
+        ? ` (${prepared.playerColorRelabel})`
+        : ""),
+  );
   console.log(`  ${result.actionsApplied} actions replayed`);
   console.log(
     `  reached the end of the game: ${result.endedNaturally ? "yes" : "no"}`,
