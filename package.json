@@ -20,6 +20,7 @@
     "test": "vitest run",
     "e2e": "playwright test",
     "e2e-server": "./src/scripts/e2e_server.sh",
+    "playthrough:import": "ts-node ./src/scripts/import_playthrough.ts",
     "test-watch": "vitest",
     "prober": "playwright test --config playwright.prober.config.ts",
     "knip": "knip"
