@@ -174,18 +174,22 @@ describe("Referee", () => {
     );
   });
 
-  it("rejects a round counter going backwards", () => {
+  it("accepts a round counter going backwards", () => {
+    // Soul Train restarts round numbering at 1 when Hell empties and Heaven
+    // opens, so a round going down is a legal move on some maps rather than
+    // engine corruption. Asserted rather than merely absent, so re-adding the
+    // check fails here instead of only on that one map's recording.
     const initial = startedSnapshot("rounds");
     initial.round = 4;
     const referee = new Referee(initial);
 
     const snapshot = corrupt(initial, (s) => {
-      s.round = 3;
+      s.round = 1;
     });
 
-    expect(() => referee.check(snapshot, "a bad action")).toThrow(
-      /never goes backwards/,
-    );
+    expect(() =>
+      referee.check(snapshot, "an earth-to-heaven round"),
+    ).not.toThrow();
   });
 
   it("names the failing step in the error message", () => {
