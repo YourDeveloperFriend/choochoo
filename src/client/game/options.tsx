@@ -4,6 +4,7 @@ import {
   AccordionTitle,
   Button,
   Header,
+  Icon,
   Menu,
   MenuItem,
   Table,
@@ -14,9 +15,11 @@ import {
   TableRow,
 } from "semantic-ui-react";
 import { GameStatus } from "../../api/game";
+import { injectAllPlayersUnsafe } from "../../engine/game/state";
 import { Username, UsernameList } from "../components/username";
 import { useAbandon, useConcede, useGame, useKick } from "../services/game";
 import { useMe } from "../services/me";
+import { useInject } from "../utils/injection_context";
 import * as styles from "./options.module.css";
 import { useState } from "react";
 import { GameNotesButton } from "./game_notes";
@@ -52,6 +55,53 @@ function FlexTimeTable() {
           ))}
         </TableBody>
       </Table>
+    </div>
+  );
+}
+
+export function ConcedeBanner() {
+  const game = useGame();
+  const me = useMe();
+  const { hasConceded } = useConcede();
+  const remainingPlayers = useInject(
+    () => injectAllPlayersUnsafe()().filter((player) => !player.outOfGame),
+    [],
+  );
+
+  if (
+    game.status !== GameStatus.enum.ACTIVE ||
+    game.concedingPlayers.length === 0 ||
+    me == null ||
+    !game.playerIds.includes(me.id)
+  ) {
+    return <></>;
+  }
+
+  const conceding = remainingPlayers
+    .map((player) => player.playerId)
+    .filter((playerId) => game.concedingPlayers.includes(playerId));
+
+  if (conceding.length === 0) {
+    return <></>;
+  }
+
+  return (
+    <div className={styles.concedeBanner}>
+      <Icon name="flag outline" className={styles.concedeBannerIcon} />
+      <div>
+        <div className={styles.concedeBannerTitle}>
+          {conceding.length} of {remainingPlayers.length} players voted to
+          concede
+        </div>
+        <div>
+          <UsernameList userIds={conceding} /> voted to concede this game. If
+          everyone agrees, it&apos;ll end with the current lead player winning.{" "}
+          {hasConceded
+            ? "You have voted to concede. You can undo your vote"
+            : "You can cast your vote"}{" "}
+          under Game Options at the bottom of this page.
+        </div>
+      </div>
     </div>
   );
 }
