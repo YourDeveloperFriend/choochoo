@@ -15,6 +15,12 @@ export default defineConfig({
     setupFiles: ["src/testing/setup.ts"],
     // A recording is replayed once in a beforeAll and shared by its assertions,
     // so the time goes on the hook rather than the tests.
-    hookTimeout: 300_000,
+    //
+    // Generous on purpose. The longest recording -- central-new-england, seven
+    // players and 364 actions -- takes around two minutes on its own, and rather
+    // longer sharing a machine with the other fifty-three, because the referee
+    // rebuilds a snapshot after every action. At 300s it passed alone and timed
+    // out under load, which is the worst way for this to fail.
+    hookTimeout: 900_000,
   },
 });
