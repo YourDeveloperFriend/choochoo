@@ -1,0 +1,45 @@
+game 2667 / denmark / 3 players / 303 actions
+round 1 end
+     black   $6    income=-2   shares=0   loco=1  score=-3/0
+     purple  $2    income=-4   shares=0   loco=2  score=-10/0
+     yellow  $6    income=-5   shares=0   loco=2  score=-12/0
+round 2 end
+     yellow  $4    income=0    shares=0   loco=2  score=8/0
+     black   $5    income=-6   shares=0   loco=3  score=-12/0
+     purple  $5    income=-8   shares=0   loco=3  score=-18/0
+round 3 end
+     yellow  $3    income=-2   shares=0   loco=4  score=5/0
+     black   $1    income=-2   shares=0   loco=3  score=3/0
+     purple  $3    income=-3   shares=0   loco=3  score=-2/0
+round 4 end
+     yellow  $7    income=2    shares=0   loco=4  score=20/0
+     black   $5    income=0    shares=0   loco=3  score=16/0
+     purple  $9    income=0    shares=0   loco=3  score=10/0
+round 5 end
+     yellow  $12   income=4    shares=0   loco=4  score=31/0
+     purple  $12   income=3    shares=0   loco=3  score=21/0
+     black   $11   income=0    shares=0   loco=4  score=19/0
+round 6 end
+     black   $10   income=5    shares=0   loco=4  score=38/0
+     yellow  $12   income=3    shares=0   loco=5  score=32/0
+     purple  $11   income=1    shares=0   loco=5  score=18/0
+round 7 end
+     black   $17   income=9    shares=0   loco=4  score=53/0
+     yellow  $13   income=6    shares=0   loco=5  score=44/0
+     purple  $11   income=6    shares=0   loco=5  score=36/0
+round 8 end
+     yellow  $18   income=10   shares=0   loco=5  score=59/0
+     black   $14   income=5    shares=0   loco=6  score=44/0
+     purple  $15   income=6    shares=0   loco=6  score=39/0
+round 9 end
+     yellow  $29   income=14   shares=0   loco=5  score=74/0
+     black   $19   income=9    shares=0   loco=6  score=60/0
+     purple  $23   income=10   shares=0   loco=6  score=54/0
+round 10 end
+     yellow  $27   income=17   shares=0   loco=5  score=85/0
+     black   $31   income=11   shares=0   loco=6  score=68/0
+     purple  $37   income=12   shares=0   loco=6  score=64/0
+final standings
+  1. yellow  $27   income=17   shares=0   loco=5  score=85/0
+  2. black   $31   income=11   shares=0   loco=6  score=68/0
+  3. purple  $37   income=12   shares=0   loco=6  score=64/0
