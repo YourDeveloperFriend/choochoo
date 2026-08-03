@@ -4,6 +4,7 @@ import { EngineDelegator, GameState } from "../../engine/framework/engine";
 import { inject, injectState } from "../../engine/framework/execution_context";
 import { LimitedGame } from "../../engine/game/game_memory";
 import { PHASE } from "../../engine/game/phase";
+import { ROUND } from "../../engine/game/round";
 import { PhaseDelegator } from "../../engine/game/phase_delegator";
 import { CURRENT_PLAYER, TURN_ORDER } from "../../engine/game/state";
 import { ActionConstructor } from "../../engine/game/phase_module";
@@ -153,7 +154,7 @@ export class TestGame {
   }
 
   get round(): number {
-    return this.snapshot().round!;
+    return this.read(({ round }) => round);
   }
 
   get phase(): Phase {
@@ -177,6 +178,7 @@ export class TestGame {
     return readGame(this.readable, () =>
       fn({
         phase: injectState(PHASE)(),
+        round: injectState(ROUND)(),
         currentPlayer: injectState(CURRENT_PLAYER)(),
         turnOrder: [...injectState(TURN_ORDER).getOr([])],
       }),
@@ -300,6 +302,7 @@ export class TestGame {
 
 interface EngineView {
   phase: Phase;
+  round: number;
   currentPlayer: PlayerColor;
   turnOrder: PlayerColor[];
 }

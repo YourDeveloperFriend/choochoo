@@ -99,6 +99,27 @@ describe("snapshotGame", () => {
   });
 });
 
+describe("snapshotGame scoring", () => {
+  it("renders an eliminated player without crashing", () => {
+    // getScore returns `number[] | "Eliminated"`. The eliminated case is a
+    // string, so a `typeof === "object"` test falls through to .join() and
+    // throws -- which took out the first bot run that bankrupted anybody.
+    const game = startedGame("eliminated");
+    const state = JSON.parse(game.gameData);
+    state.gameData.players[0].outOfGame = true;
+    const withElimination = {
+      gameKey: RUST_BELT_GAME_KEY,
+      gameData: JSON.stringify(state),
+    };
+
+    expect(() => snapshotGame(withElimination)).not.toThrow();
+    const snapshot = snapshotGame(withElimination);
+    const eliminated = snapshot.players.find((player) => player.outOfGame);
+    expect(eliminated).toBeDefined();
+    expect(eliminated!.score).toBe("Eliminated");
+  });
+});
+
 describe("formatSnapshot", () => {
   it("renders stable, readable text", () => {
     const snapshot = snapshotGame(startedGame("format"));
