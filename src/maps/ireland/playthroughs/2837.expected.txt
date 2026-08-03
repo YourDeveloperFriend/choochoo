@@ -1,0 +1,41 @@
+game 2837 / ireland / 4 players / 234 actions
+round 1 end
+     yellow  $6    income=2    shares=3   loco=2  score=0/0
+     purple  $1    income=2    shares=4   loco=2  score=-1/0
+     black   $1    income=2    shares=4   loco=1  score=-3/0
+     red     $1    income=1    shares=3   loco=2  score=-3/0
+round 2 end
+     yellow  $0    income=5    shares=4   loco=3  score=11/0
+     purple  $0    income=4    shares=7   loco=3  score=-1/0
+     red     $0    income=2    shares=5   loco=3  score=-2/0
+     black   $0    income=3    shares=7   loco=2  score=-8/0
+round 3 end
+     yellow  $5    income=9    shares=6   loco=3  score=21/0
+     black   $0    income=6    shares=10  loco=2  score=-3/0
+     purple  $0    income=4    shares=10  loco=4  score=-5/0
+     red     $0    income=2    shares=8   loco=4  score=-8/0
+round 4 end
+     yellow  $4    income=11   shares=7   loco=4  score=27/0
+     purple  $0    income=10   shares=13  loco=4  score=6/0
+     black   $3    income=9    shares=13  loco=3  score=0/0
+     red     $0    income=3    shares=10  loco=5  score=-9/0
+round 5 end
+     yellow  $6    income=17   shares=9   loco=4  score=45/0
+     black   $3    income=15   shares=14  loco=3  score=18/0
+     purple  $0    income=11   shares=15  loco=5  score=5/0
+     red     $0    income=8    shares=12  loco=5  score=2/0
+round 6 end
+     yellow  $7    income=18   shares=10  loco=5  score=48/0
+     red     $1    income=16   shares=13  loco=5  score=25/0
+     black   $5    income=17   shares=15  loco=3  score=23/0
+     purple  $0    income=11   shares=15  loco=6  score=3/0
+round 7 end
+     yellow  $13   income=22   shares=11  loco=5  score=60/0
+     black   $10   income=20   shares=15  loco=3  score=32/0
+     red     $3    income=19   shares=15  loco=6  score=28/0
+     purple  $1    income=18   shares=15  loco=6  score=24/0
+final standings
+  1. yellow  $13   income=22   shares=11  loco=5  score=60/0
+  2. black   $10   income=20   shares=15  loco=3  score=32/0
+  3. red     $3    income=19   shares=15  loco=6  score=28/0
+  4. purple  $1    income=18   shares=15  loco=6  score=24/0
