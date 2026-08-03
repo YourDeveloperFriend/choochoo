@@ -23,9 +23,13 @@ export function describePlaythrough(directory: string, name: string): void {
     // Replayed once and shared: running it per assertion doubled the cost for no
     // extra coverage.
     let result: ReturnType<typeof replayPlaythrough>;
+    // No timeout argument on purpose: one here would override hookTimeout from
+    // vitest.playthroughs.config.mts, which is where the limit belongs -- how long
+    // a replay may take depends on how many of them are sharing the machine, not
+    // on this file.
     beforeAll(() => {
       result = replayPlaythrough(playthrough);
-    }, 300_000);
+    });
 
     it("replays every recorded action", () => {
       // Checked before the transcript: an action that stopped applying is a
