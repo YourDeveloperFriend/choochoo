@@ -1,4 +1,4 @@
-import { Map as ImmutableMap } from "immutable";
+import { OrderedMap } from "immutable";
 import { BLACK, WHITE } from "../engine/state/city_group";
 import { Good } from "../engine/state/good";
 import { GridData } from "../engine/state/grid";
@@ -98,17 +98,17 @@ export function customCity(city: Omit<CityData, "type">): CityData {
 
 export function startsLowerGrid<T>(
   array: Array<Array<T | undefined>>,
-): ImmutableMap<Coordinates, T> {
+): OrderedMap<Coordinates, T> {
   return grid(array, true);
 }
 
 export function grid<T>(
   array: Array<Array<T | undefined>>,
   startsLower = false,
-): ImmutableMap<Coordinates, T> {
+): OrderedMap<Coordinates, T> {
   const newArray = offset(array, startsLower);
 
-  return ImmutableMap<Coordinates, T>().withMutations((grid) => {
+  return OrderedMap<Coordinates, T>().withMutations((grid) => {
     for (const [q, row] of newArray.entries()) {
       for (const [r, value] of row.entries()) {
         if (value == null) continue;

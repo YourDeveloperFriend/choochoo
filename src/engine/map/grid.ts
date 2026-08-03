@@ -1,4 +1,4 @@
-import { Map as ImmutableMap } from "immutable";
+import { OrderedMap } from "immutable";
 import { z } from "zod";
 import { Coordinates, CoordinatesZod } from "../../utils/coordinates";
 import { deepEquals } from "../../utils/deep_equals";
@@ -27,7 +27,7 @@ export class Grid {
 
   private constructor(
     private readonly mapSettings: MapSettings,
-    private readonly grid: ImmutableMap<Coordinates, Space>,
+    private readonly grid: OrderedMap<Coordinates, Space>,
     readonly connections: InterCityConnection[],
   ) {
     const doubleHeights = [...this.keys()].map((coord) =>
@@ -299,10 +299,7 @@ export class Grid {
     gridData: GridData,
     connections: InterCityConnection[],
   ): Grid {
-    return new Grid(mapSettings, ImmutableMap(), []).merge(
-      gridData,
-      connections,
-    );
+    return new Grid(mapSettings, OrderedMap(), []).merge(gridData, connections);
   }
 
   static fromSpaces(
@@ -312,7 +309,7 @@ export class Grid {
   ): Grid {
     return new Grid(
       mapSettings,
-      ImmutableMap(spaces.map((s) => [s.coordinates, s])),
+      OrderedMap(spaces.map((s) => [s.coordinates, s])),
       connections,
     );
   }
