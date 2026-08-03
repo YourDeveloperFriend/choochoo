@@ -222,9 +222,9 @@ function phaseName(phase: Phase): string {
 
 function describeScore(playerHelper: PlayerHelper, player: PlayerData): string {
   const score = playerHelper.getScore(player);
-  return typeof score === "object" && !Array.isArray(score)
-    ? "eliminated"
-    : (score as number[]).join("/");
+  // Score is `number[] | "Eliminated"` -- the eliminated case is a string, not
+  // an object, so it has to be tested for directly.
+  return Array.isArray(score) ? score.join("/") : String(score);
 }
 
 function sortRecord(record: Record<string, number>): Record<string, number> {

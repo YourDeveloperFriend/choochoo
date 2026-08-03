@@ -87,14 +87,33 @@ describe("checkSnapshot", () => {
     expect(invariantsFor(snapshot)).toContain("turn order has no duplicates");
   });
 
-  it("catches track owned by a player who is not in the game", () => {
+  it("catches track owned by something that is not a player color", () => {
     const snapshot = corrupt(startedSnapshot(), (s) => {
-      s.spaces[0].track = ["brown:N-S"];
+      s.spaces[0].track = ["gremlin:N-S"];
     });
 
     expect(invariantsFor(snapshot)).toContain(
-      "track is only owned by players in the game",
+      "track owners are known player colors",
     );
+  });
+
+  it("allows track owned by a color no player holds, as government track is", () => {
+    // Montreal Metro and Chicago L have the government build track owned by
+    // GOVERNMENT_COLOR regardless of who is playing, so a track owner that is
+    // not one of the players is legitimate.
+    const started = startedSnapshot();
+    const dealt = new Set(started.players.map((player) => player.color));
+    const neverDealt = ["purple", "brown", "pink", "white"].find(
+      (color) => !dealt.has(color),
+    )!;
+    const snapshot = corrupt(started, (s) => {
+      s.spaces[0].track = [`${neverDealt}:N-S`];
+    });
+
+    // Asserts on the whole result rather than violations matching a name:
+    // filtering by name let this pass against the older, stricter invariant,
+    // which reported the same problem under a different label.
+    expect(checkSnapshot(snapshot)).toEqual([]);
   });
 
   it("accepts unowned and claimable track", () => {

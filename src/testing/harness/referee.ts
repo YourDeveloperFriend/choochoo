@@ -150,17 +150,22 @@ export function checkSnapshot(snapshot: GameSnapshot): Violation[] {
     });
   }
 
+  // Deliberately checks that the owner is a *known colour*, not that it belongs
+  // to a player in this game: Montreal Metro and Chicago L have the government
+  // build track owned by GOVERNMENT_COLOR (PlayerColor.PURPLE), which is a real
+  // colour but not a dealt player. An earlier draft asserted membership and
+  // false-positived on both maps.
   for (const space of snapshot.spaces) {
     for (const segment of space.track ?? []) {
       const owner = segment.split(":")[0];
       if (
         owner !== "unowned" &&
         owner !== "claimable" &&
-        !colors.includes(owner)
+        !KNOWN_COLORS.has(owner)
       ) {
         violations.push({
-          invariant: "track is only owned by players in the game",
-          detail: `${space.label} has track owned by ${owner}`,
+          invariant: "track owners are known player colors",
+          detail: `${space.label} has track owned by "${owner}"`,
         });
       }
     }
