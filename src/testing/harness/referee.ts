@@ -190,19 +190,22 @@ interface Baseline {
 
 /**
  * Checks invariants across a sequence of states from one game, catching drift
- * that a single snapshot can't reveal (players appearing or vanishing, the round
- * counter going backwards).
+ * that a single snapshot can't reveal, such as players appearing or vanishing.
+ *
+ * Note what is deliberately not checked here: that the round counter only ever
+ * climbs. Soul Train restarts numbering at 1 when Hell empties and Heaven opens,
+ * so monotonic rounds is a property of most maps rather than of the engine. The
+ * transcript records each round boundary anyway, so a round that moved when it
+ * should not have still shows up there.
  */
 export class Referee {
   private readonly baseline: Baseline;
-  private highestRound: number;
 
   constructor(initial: GameSnapshot) {
     this.baseline = {
       colors: initial.players.map((p) => p.color),
       playerCount: initial.players.length,
     };
-    this.highestRound = initial.round ?? 1;
     this.check(initial, "initial state");
   }
 
@@ -238,16 +241,6 @@ export class Referee {
         invariant: "player colors never change",
         detail: `missing: [${missing.join(", ")}], unexpected: [${added.join(", ")}]`,
       });
-    }
-
-    if (snapshot.round != null) {
-      if (snapshot.round < this.highestRound) {
-        violations.push({
-          invariant: "the round counter never goes backwards",
-          detail: `was ${this.highestRound}, now ${snapshot.round}`,
-        });
-      }
-      this.highestRound = Math.max(this.highestRound, snapshot.round);
     }
 
     return violations;

@@ -23,7 +23,8 @@
     "playthrough:import": "ts-node ./src/scripts/import_playthrough.ts",
     "test-watch": "vitest",
     "prober": "playwright test --config playwright.prober.config.ts",
-    "knip": "knip"
+    "knip": "knip",
+    "playthrough:collect": "ts-node ./src/scripts/collect_playthroughs.ts"
   },
   "files": [
     "./dist",
