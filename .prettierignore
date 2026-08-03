@@ -1,3 +1,6 @@
 # Ignore artifacts:
 build
 coverage
+
+# Recorded games, written by npm run playthrough:import.
+src/maps/*/playthroughs/*.json

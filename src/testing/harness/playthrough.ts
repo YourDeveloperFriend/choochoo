@@ -4,7 +4,13 @@ import { inject, injectState } from "../../engine/framework/execution_context";
 import { PlayerHelper } from "../../engine/game/player";
 import { ROUND } from "../../engine/game/round";
 import { PlayerColor, playerColorToString } from "../../engine/state/player";
+import { TURN_ORDER } from "../../engine/game/state";
 import { readGame } from "./read_game";
+import {
+  buildPlayerColorRelabel,
+  describePlayerColorRelabel,
+  relabelPlayerColorsIn,
+} from "./player_color_relabel";
 import { TestGame } from "./test_game";
 
 /**
@@ -37,14 +43,30 @@ export interface Playthrough {
   playerIds: number[];
   startSeed: string | null;
   /**
-   * The state just after setup.
+   * How the opening is reconstructed.
    *
-   * Replay resumes from here rather than re-deriving it from the seed. Games
-   * recorded before setup became reproducible cannot be re-derived at all, and
-   * even for newer ones this keeps the recording testing the game that was
-   * actually played rather than whatever the current map layout would deal.
+   * "seed" is the intended form: the game is started afresh from startSeed and
+   * playerIds, which asserts that setting a game up really is reproducible from
+   * its seed. The actions have been relabelled onto whatever colours the seed
+   * deals, since which player holds which colour is not reproducible -- colour
+   * preferences are read from the users at start time and recorded nowhere --
+   * but players are interchangeable, so the game is the same under a renaming.
+   *
+   * "state" is for games recorded before setup became reproducible, whose
+   * openings cannot be re-derived at all. Such a recording carries startState.
    */
-  startState: string;
+  replayFrom: "seed" | "state";
+  /**
+   * The state just after setup. Only present when replayFrom is "state".
+   */
+  startState?: string;
+  /**
+   * The player-colour mapping applied to the actions, for the record.
+   *
+   * Only meaningful when replayFrom is "seed". Purely descriptive: the actions
+   * are already relabelled.
+   */
+  playerColorRelabel?: string;
   actions: Array<{
     version: number;
     actionName: string;
@@ -89,16 +111,26 @@ function readPlayers(game: TestGame, playthrough: Playthrough): PlayerLine[] {
       const helper = inject(PlayerHelper);
       // Ordered by score so the final block doubles as the standings. Ties share
       // a place, which getPlayersOrderedByScore already groups for us.
+      // Players tied on score are ordered by colour, not by the engine's
+      // internal player array. That array's order is not meaningful and is not
+      // preserved when a recording is relabelled, so leaving it to decide would
+      // make a tie render differently run to run.
       return helper.getPlayersOrderedByScore().flatMap((tied) =>
-        tied.map((player) => ({
-          color: player.color,
-          money: player.money,
-          income: player.income,
-          shares: player.shares,
-          locomotive: player.locomotive,
-          score: describeScore(helper.getScore(player)),
-          outOfGame: player.outOfGame === true,
-        })),
+        [...tied]
+          .sort((a, b) =>
+            playerColorToString(a.color) < playerColorToString(b.color)
+              ? -1
+              : 1,
+          )
+          .map((player) => ({
+            color: player.color,
+            money: player.money,
+            income: player.income,
+            shares: player.shares,
+            locomotive: player.locomotive,
+            score: describeScore(helper.getScore(player)),
+            outOfGame: player.outOfGame === true,
+          })),
       );
     },
   );
@@ -146,12 +178,116 @@ function renderPlayers(players: PlayerLine[], numbered: boolean): string[] {
   });
 }
 
-/** Replays a recording and renders its transcript. */
-export function replayPlaythrough(playthrough: Playthrough): PlaythroughResult {
-  const game = TestGame.fromState(playthrough.gameKey, playthrough.startState, {
+/**
+ * Chooses how a recording will be replayed, preferring the seed.
+ *
+ * Replaying from the seed is the point: it makes every recording a standing
+ * check that setting up a game is reproducible from its seed alone, so no part
+ * of the opening has to be carried around. What the seed does not fix is which
+ * player holds which colour -- preferences are read from the users at start time
+ * and recorded nowhere -- so the actions are relabelled onto the colours the seed
+ * deals. Players are interchangeable, so that is the same game renamed.
+ *
+ * A game recorded before setup became reproducible keeps its recorded opening
+ * instead. Those cannot be re-derived at all, and are expected to dwindle.
+ */
+export function prepareForReplay(
+  playthrough: Playthrough,
+  note: (message: string) => void = () => {},
+): Playthrough {
+  if (playthrough.startSeed == null || playthrough.startState == null) {
+    return { ...playthrough, replayFrom: "state" };
+  }
+
+  const fresh = TestGame.fromSeed(playthrough.gameKey, {
+    seed: playthrough.startSeed,
+    players: playthrough.playerIds.length,
+    variant: playthrough.variant,
+  });
+
+  const recordedBoard = boardOf(playthrough.gameKey, playthrough.startState);
+  const replayedBoard = boardOf(playthrough.gameKey, fresh.gameData);
+  if (recordedBoard !== replayedBoard) {
+    note(
+      `  note: this game's opening cannot be re-derived from its seed, so the\n` +
+        `        recorded opening is kept. Expected for games played before the\n` +
+        `        engine's setup became reproducible.`,
+    );
+    return { ...playthrough, replayFrom: "state" };
+  }
+
+  const relabel = buildPlayerColorRelabel(
+    turnOrderOf(playthrough.gameKey, playthrough.startState),
+    turnOrderOf(playthrough.gameKey, fresh.gameData),
+  );
+  const description = describePlayerColorRelabel(
+    turnOrderOf(playthrough.gameKey, playthrough.startState),
+    turnOrderOf(playthrough.gameKey, fresh.gameData),
+  );
+
+  return {
+    ...playthrough,
+    replayFrom: "seed",
+    startState: undefined,
+    playerColorRelabel: description,
+    actions: playthrough.actions.map((action) => ({
+      ...action,
+      actionData: relabelPlayerColorsIn(
+        action.actionName,
+        action.actionData,
+        relabel,
+      ),
+    })),
+  };
+}
+
+const BOARD_KEYS = ["grid", "bag", "availableCities", "interCityConnections"];
+
+function boardOf(_gameKey: string, gameData: string): string {
+  const state = JSON.parse(gameData).gameData as Record<string, unknown>;
+  return JSON.stringify(BOARD_KEYS.map((key) => state[key]));
+}
+
+function turnOrderOf(gameKey: string, gameData: string): PlayerColor[] {
+  return readGame({ gameKey, gameData }, () => [
+    ...injectState(TURN_ORDER).getOr([]),
+  ]);
+}
+
+/**
+ * Reconstructs the opening of a recorded game.
+ *
+ * From the seed where the recording supports it, which makes every replay a
+ * check that setup is still reproducible; otherwise from the recorded state.
+ */
+function openPlaythrough(playthrough: Playthrough): TestGame {
+  if (playthrough.replayFrom === "seed") {
+    if (playthrough.startSeed == null) {
+      throw new Error(
+        `recording ${playthrough.id} claims to replay from its seed but has none`,
+      );
+    }
+    return TestGame.fromSeed(playthrough.gameKey, {
+      seed: playthrough.startSeed,
+      players: playthrough.playerIds.length,
+      variant: playthrough.variant,
+    });
+  }
+
+  if (playthrough.startState == null) {
+    throw new Error(
+      `recording ${playthrough.id} replays from a recorded state but has none`,
+    );
+  }
+  return TestGame.fromState(playthrough.gameKey, playthrough.startState, {
     variant: playthrough.variant,
     seed: playthrough.startSeed ?? undefined,
   });
+}
+
+/** Replays a recording and renders its transcript. */
+export function replayPlaythrough(playthrough: Playthrough): PlaythroughResult {
+  const game = openPlaythrough(playthrough);
 
   const lines: string[] = [
     `game ${playthrough.id} / ${playthrough.gameKey} / ${playthrough.playerIds.length} players / ${playthrough.actions.length} actions`,

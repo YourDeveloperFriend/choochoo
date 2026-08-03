@@ -114,6 +114,24 @@ export class TestGame {
   }
 
   /**
+   * Starts a fresh game from a seed, dealing colours however the seed does.
+   *
+   * Used to replay a recording without carrying its opening: no colour
+   * preferences are supplied, so the assignment is whatever the seed produces,
+   * and the recording's actions are relabelled onto it.
+   */
+  static fromSeed(
+    gameKey: GameKey,
+    options: { seed: string; players: number; variant?: VariantConfig },
+  ): TestGame {
+    return TestGame.start(gameKey, {
+      seed: options.seed,
+      players: options.players,
+      variant: options.variant,
+    });
+  }
+
+  /**
    * Resumes from a serialized state rather than starting a fresh game.
    *
    * Used to replay a recorded game. Its opening is taken from the recording

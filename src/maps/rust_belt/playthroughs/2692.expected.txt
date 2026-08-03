@@ -1,25 +1,25 @@
 game 2692 / rust-belt / 5 players / 258 actions
 round 1 end
-     pink    $0    income=2    shares=4   loco=2  score=0/0
      brown   $6    income=2    shares=3   loco=1  score=0/0
-     yellow  $2    income=2    shares=4   loco=2  score=-3/0
+     pink    $0    income=2    shares=4   loco=2  score=0/0
      purple  $1    income=1    shares=3   loco=3  score=-3/0
+     yellow  $2    income=2    shares=4   loco=2  score=-3/0
      red     $3    income=0    shares=4   loco=2  score=-9/0
 round 2 end
-     yellow  $1    income=5    shares=6   loco=2  score=3/0
-     purple  $1    income=5    shares=6   loco=3  score=3/0
      brown   $7    income=4    shares=5   loco=1  score=3/0
+     purple  $1    income=5    shares=6   loco=3  score=3/0
+     yellow  $1    income=5    shares=6   loco=2  score=3/0
      pink    $0    income=5    shares=8   loco=3  score=0/0
      red     $0    income=-4   shares=7   loco=4  score=Eliminated OUT
 round 3 end
      purple  $0    income=9    shares=8   loco=3  score=13/0
      yellow  $2    income=10   shares=9   loco=3  score=12/0
-     pink    $2    income=9    shares=11  loco=4  score=7/0
      brown   $2    income=5    shares=6   loco=2  score=7/0
+     pink    $2    income=9    shares=11  loco=4  score=7/0
      red     $0    income=-4   shares=7   loco=4  score=Eliminated OUT
 round 4 end
-     yellow  $4    income=12   shares=11  loco=4  score=16/0
      brown   $3    income=10   shares=9   loco=3  score=16/0
+     yellow  $4    income=12   shares=11  loco=4  score=16/0
      pink    $0    income=12   shares=13  loco=5  score=14/0
      purple  $6    income=11   shares=11  loco=4  score=13/0
      red     $0    income=-4   shares=7   loco=4  score=Eliminated OUT
@@ -32,8 +32,8 @@ round 5 end
 round 6 end
      brown   $7    income=22   shares=14  loco=5  score=43/0
      pink    $4    income=20   shares=14  loco=6  score=39/0
-     yellow  $3    income=17   shares=14  loco=6  score=26/0
      purple  $2    income=17   shares=15  loco=5  score=26/0
+     yellow  $3    income=17   shares=14  loco=6  score=26/0
      red     $0    income=-4   shares=7   loco=4  score=Eliminated OUT
 round 7 end
      brown   $11   income=26   shares=14  loco=5  score=57/0
