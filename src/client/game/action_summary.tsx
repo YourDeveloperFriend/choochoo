@@ -46,6 +46,7 @@ import {
 import { Build } from "./build_action_summary";
 import { ManualGoodsGrowth } from "./india-steam-brothers/goods_growth";
 import { MoveGoods } from "./move_goods_action_summary";
+import { ProductionSummary } from "./production_summary";
 
 const PASS_ACTION = "Pass" as const;
 type PassActionString = typeof PASS_ACTION;
@@ -87,6 +88,8 @@ export function ActionSummary() {
       return <Deurbanization />;
     case Phase.MANUAL_GOODS_GROWTH:
       return <ManualGoodsGrowth />;
+    case Phase.GOODS_GROWTH:
+      return <ProductionSummary />;
     case Phase.DISCO_INFERNO_PRODUCTION:
       return <DiscoProduction />;
     case Phase.EARTH_TO_HEAVEN:
@@ -97,7 +100,6 @@ export function ActionSummary() {
       return <GovernmentBuild />;
     case Phase.STALINIST_LOCOMOTIVE:
     case Phase.ROLE_SELECTION:
-    case Phase.GOODS_GROWTH:
     case Phase.INCOME:
     case Phase.EXPENSES:
     case Phase.INCOME_REDUCTION:
