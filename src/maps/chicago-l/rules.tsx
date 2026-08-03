@@ -31,10 +31,10 @@ export function ChicagoLRules() {
           <b>Loop Demand:</b> The Loop demand track has a space for one cube
           each Turn that will be randomly drawn during setup. Each Turn, the
           next cube from this track will be removed, The Loop will be changed to
-          this color, and the cube will be moved into the repopulation box. The
-          Loop should be treated as a single hex; goods not matching the color
-          of The Loop may pass through it, optionally exiting from a different
-          hex than the one they entered.
+          this color, and a cube of The Loop&apos;s prior color will get moved
+          into the repopulation box. should be treated as a single hex; goods
+          not matching the color of The Loop may pass through it, optionally
+          exiting from a different hex than the one they entered.
         </li>
         <li>
           Deliveries to The Loop give the current player a bonus $3. This is
@@ -70,9 +70,10 @@ export function ChicagoLRules() {
         </li>
         <li>
           <b>Repopulation action:</b> immediately place one of the cubes from
-          the repopulation box into any city. As mentioned above, at the
-          beginning of each round a cube gets moved from the Loop track to the
-          repopulation box.
+          the repopulation box into any city. The repopulation box starts with 1
+          random cube. As mentioned above, each turn (after the first) a cube
+          gets added to the repopulation box matching the previous color of The
+          Loop.
         </li>
         <li>
           <b>Engineer:</b> allows you to place one of your builds (the most
