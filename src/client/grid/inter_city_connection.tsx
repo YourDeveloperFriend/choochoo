@@ -144,8 +144,13 @@ function InterCityConnectionRender({
         r={size / 3}
         fill="black"
       />
+      {/* The data attributes are for the map specs: several maps build their own
+          rules on these connections, and the circle is otherwise an SVG shape
+          with a hashed class and nothing stable to select. */}
       <circle
         onClick={internalOnClick}
+        data-inter-city-connection={connection.id}
+        data-connection-owned={connection.owner != null ? "" : undefined}
         cx={connectionCenter.x}
         cy={connectionCenter.y}
         r={size / 3}

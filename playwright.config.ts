@@ -22,10 +22,17 @@ const PORT = Number(process.env.PORT ?? 3001);
 const BASE_URL = process.env.E2E_BASE_URL ?? `http://localhost:${PORT}`;
 
 export default defineConfig({
-  testDir: "src/e2e",
+  testDir: "src",
   // Deliberately not *_test.ts: vitest claims that suffix, and a file picked up
   // by the wrong runner fails in confusing ways.
-  testMatch: "**/*_spec.ts",
+  //
+  // Two places, matched explicitly rather than by a single src-wide glob, which
+  // would also drag in the prober -- that drives production and has its own
+  // config:
+  //   e2e/     specs for the app itself
+  //   maps/    specs for one map's own UI, kept beside the map they belong to,
+  //            so whoever implements a map writes them where they are working
+  testMatch: ["e2e/**/*_spec.ts", "maps/**/*_spec.ts"],
 
   // Retries stand in for the old deflake.sh, which re-ran the whole suite up to
   // three times and passed if any run passed. Retrying the failing test is

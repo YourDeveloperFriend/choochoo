@@ -11,9 +11,7 @@ import { GameApi, GameStatus } from "../../api/game";
  * imported into a spec silently writes nulls.
  */
 
-// Not exported: the specs only ever receive these from seedUsers, and an
-// exported type nothing imports is noise.
-interface SeededUser {
+export interface SeededUser {
   id: number;
   username: string;
 }
