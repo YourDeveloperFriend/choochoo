@@ -105,5 +105,9 @@
   },
   // Vitest loads its own config directly; it lives outside of rootDir, so it is
   // not part of the compiled program.
-  "exclude": ["vitest.config.mts", "vitest.prober.config.mts"]
+  "exclude": [
+    "vitest.config.mts",
+    "vitest.prober.config.mts",
+    "playwright.config.ts"
+  ]
 }
