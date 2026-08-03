@@ -8,6 +8,7 @@ import { log, logError } from "../utils/functions";
 import { devApp } from "./dev/routes";
 import { feedbackApp } from "./feedback/routes";
 import { autoActionApp } from "./game/auto_action_routes";
+import { gameExportApp } from "./game/export_routes";
 import { gameHistoryApp } from "./game/history_routes";
 import { notesApp } from "./game/notes_routes";
 import { gameApp } from "./game/routes";
@@ -51,6 +52,7 @@ export async function runApp(): Promise<() => Promise<void>> {
   app.use(enforceRoleMiddleware());
   app.use("/api", gameApp);
   app.use("/api", gameHistoryApp);
+  app.use("/api", gameExportApp);
   app.use("/api", messageApp);
   app.use("/api", feedbackApp);
   app.use("/api", notesApp);
