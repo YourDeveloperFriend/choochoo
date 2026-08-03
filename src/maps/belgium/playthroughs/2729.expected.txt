@@ -1,0 +1,28 @@
+game 2729 / belgium / 2 players / 111 actions
+round 1 end
+     green   $6    income=4    shares=3   loco=2  score=8/0
+     purple  $7    income=2    shares=3   loco=1  score=0/0
+round 2 end
+     green   $0    income=7    shares=4   loco=3  score=21/0
+     purple  $2    income=6    shares=3   loco=2  score=15/0
+round 3 end
+     green   $9    income=13   shares=6   loco=4  score=35/0
+     purple  $5    income=10   shares=4   loco=2  score=27/0
+round 4 end
+     green   $13   income=18   shares=6   loco=4  score=54/0
+     purple  $9    income=13   shares=4   loco=3  score=38/0
+round 5 end
+     green   $24   income=24   shares=6   loco=5  score=74/0
+     purple  $12   income=16   shares=4   loco=3  score=52/0
+round 6 end
+     green   $39   income=28   shares=6   loco=5  score=91/0
+     purple  $18   income=17   shares=4   loco=5  score=58/0
+round 7 end
+     green   $59   income=34   shares=6   loco=6  score=113/0
+     purple  $29   income=23   shares=4   loco=5  score=79/0
+round 8 end
+     green   $86   income=38   shares=6   loco=6  score=127/0
+     purple  $46   income=29   shares=4   loco=6  score=100/0
+final standings
+  1. green   $86   income=38   shares=6   loco=6  score=127/0
+  2. purple  $46   income=29   shares=4   loco=6  score=100/0

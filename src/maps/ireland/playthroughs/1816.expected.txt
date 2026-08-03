@@ -1,0 +1,41 @@
+game 1816 / ireland / 4 players / 223 actions
+round 1 end
+     black   $8    income=2    shares=4   loco=2  score=-1/0
+     purple  $5    income=2    shares=5   loco=2  score=-5/0
+     red     $1    income=1    shares=5   loco=2  score=-8/0
+     brown   $0    income=1    shares=5   loco=2  score=-9/0
+round 2 end
+     black   $2    income=5    shares=5   loco=3  score=10/0
+     purple  $4    income=5    shares=7   loco=2  score=1/0
+     brown   $2    income=5    shares=8   loco=2  score=-2/0
+     red     $1    income=4    shares=9   loco=3  score=-7/0
+round 3 end
+     black   $3    income=10   shares=8   loco=4  score=19/0
+     brown   $2    income=9    shares=10  loco=2  score=7/0
+     purple  $0    income=7    shares=9   loco=3  score=7/0
+     red     $0    income=8    shares=11  loco=4  score=1/0
+round 4 end
+     black   $5    income=16   shares=10  loco=4  score=34/0
+     purple  $3    income=11   shares=11  loco=3  score=16/0
+     red     $6    income=16   shares=15  loco=4  score=15/0
+     brown   $1    income=11   shares=12  loco=2  score=11/0
+round 5 end
+     black   $5    income=18   shares=11  loco=5  score=41/0
+     purple  $3    income=17   shares=13  loco=3  score=32/0
+     red     $0    income=18   shares=15  loco=5  score=23/0
+     brown   $1    income=12   shares=14  loco=3  score=12/0
+round 6 end
+     black   $21   income=26   shares=14  loco=5  score=60/0
+     purple  $6    income=17   shares=15  loco=4  score=28/0
+     red     $3    income=20   shares=15  loco=6  score=27/0
+     brown   $0    income=14   shares=15  loco=4  score=16/0
+round 7 end
+     black   $24   income=30   shares=14  loco=5  score=76/0
+     purple  $6    income=22   shares=15  loco=5  score=47/0
+     red     $11   income=25   shares=15  loco=6  score=42/0
+     brown   $1    income=18   shares=15  loco=4  score=28/0
+final standings
+  1. black   $24   income=30   shares=14  loco=5  score=76/0
+  2. purple  $6    income=22   shares=15  loco=5  score=47/0
+  3. red     $11   income=25   shares=15  loco=6  score=42/0
+  4. brown   $1    income=18   shares=15  loco=4  score=28/0

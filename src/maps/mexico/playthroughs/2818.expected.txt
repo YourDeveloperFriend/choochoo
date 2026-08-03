@@ -1,0 +1,31 @@
+game 2818 / mexico / 2 players / 156 actions
+round 1 end
+     blue    $9    income=3    shares=3   loco=2  score=2/0
+     purple  $7    income=2    shares=3   loco=1  score=0/0
+round 2 end
+     blue    $11   income=8    shares=4   loco=3  score=16/0
+     purple  $4    income=4    shares=4   loco=2  score=5/0
+round 3 end
+     blue    $15   income=12   shares=5   loco=3  score=29/0
+     purple  $3    income=8    shares=5   loco=3  score=17/0
+round 4 end
+     blue    $17   income=13   shares=5   loco=4  score=34/0
+     purple  $6    income=11   shares=6   loco=3  score=25/0
+round 5 end
+     blue    $23   income=17   shares=5   loco=4  score=49/0
+     purple  $7    income=13   shares=7   loco=5  score=31/0
+round 6 end
+     blue    $35   income=23   shares=5   loco=5  score=69/0
+     purple  $2    income=12   shares=7   loco=6  score=31/0
+round 7 end
+     blue    $45   income=24   shares=5   loco=6  score=76/0
+     purple  $14   income=18   shares=10  loco=6  score=46/0
+round 8 end
+     blue    $64   income=30   shares=5   loco=6  score=97/0
+     purple  $22   income=26   shares=10  loco=6  score=73/0
+round 9 end
+     blue    $86   income=32   shares=5   loco=6  score=105/0
+     purple  $33   income=29   shares=10  loco=6  score=Eliminated OUT
+final standings
+  1. blue    $86   income=32   shares=5   loco=6  score=105/0
+  2. purple  $33   income=29   shares=10  loco=6  score=Eliminated OUT

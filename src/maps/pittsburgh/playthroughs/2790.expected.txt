@@ -1,0 +1,37 @@
+game 2790 / pittsburgh / 3 players / 193 actions
+round 1 end
+     brown   $8    income=2    shares=5   loco=2  score=-3/0
+     green   $9    income=2    shares=5   loco=1  score=-5/0
+     purple  $0    income=0    shares=4   loco=3  score=-9/0
+round 2 end
+     green   $3    income=5    shares=7   loco=1  score=2/0
+     brown   $4    income=4    shares=8   loco=3  score=-2/0
+     purple  $0    income=4    shares=8   loco=3  score=-6/0
+round 3 end
+     green   $1    income=9    shares=9   loco=1  score=11/0
+     brown   $0    income=9    shares=11  loco=4  score=7/0
+     purple  $1    income=7    shares=11  loco=4  score=-1/0
+round 4 end
+     brown   $4    income=15   shares=13  loco=4  score=25/0
+     green   $0    income=9    shares=11  loco=2  score=7/0
+     purple  $0    income=10   shares=14  loco=6  score=0/0
+round 5 end
+     brown   $6    income=21   shares=15  loco=5  score=39/0
+     green   $1    income=13   shares=13  loco=2  score=15/0
+     purple  $0    income=14   shares=15  loco=6  score=9/0
+round 6 end
+     brown   $9    income=26   shares=15  loco=6  score=56/0
+     green   $6    income=17   shares=14  loco=2  score=25/0
+     purple  $0    income=17   shares=15  loco=6  score=16/0
+round 7 end
+     brown   $20   income=32   shares=15  loco=6  score=76/0
+     green   $10   income=21   shares=14  loco=3  score=36/0
+     purple  $3    income=20   shares=15  loco=6  score=25/0
+round 8 end
+     brown   $25   income=35   shares=15  loco=6  score=88/0
+     green   $14   income=26   shares=14  loco=4  score=51/0
+     purple  $9    income=23   shares=15  loco=6  score=34/0
+final standings
+  1. brown   $25   income=35   shares=15  loco=6  score=88/0
+  2. green   $14   income=26   shares=14  loco=4  score=51/0
+  3. purple  $9    income=23   shares=15  loco=6  score=34/0

@@ -1,0 +1,31 @@
+game 2827 / mexico / 2 players / 171 actions
+round 1 end
+     purple  $6    income=2    shares=3   loco=2  score=0/0
+     yellow  $6    income=3    shares=4   loco=2  score=0/0
+round 2 end
+     purple  $5    income=6    shares=4   loco=2  score=11/0
+     yellow  $2    income=6    shares=5   loco=3  score=10/0
+round 3 end
+     yellow  $1    income=10   shares=6   loco=4  score=22/0
+     purple  $8    income=9    shares=5   loco=3  score=19/0
+round 4 end
+     purple  $8    income=13   shares=6   loco=3  score=30/0
+     yellow  $4    income=10   shares=8   loco=5  score=19/0
+round 5 end
+     purple  $11   income=17   shares=6   loco=3  score=46/0
+     yellow  $7    income=18   shares=9   loco=6  score=43/0
+round 6 end
+     purple  $18   income=18   shares=6   loco=3  score=49/0
+     yellow  $12   income=18   shares=10  loco=6  score=40/0
+round 7 end
+     purple  $22   income=20   shares=6   loco=4  score=60/0
+     yellow  $10   income=18   shares=10  loco=6  score=45/0
+round 8 end
+     purple  $30   income=23   shares=6   loco=4  score=71/0
+     yellow  $12   income=20   shares=10  loco=6  score=51/0
+round 9 end
+     purple  $38   income=25   shares=6   loco=5  score=81/0
+     yellow  $14   income=24   shares=10  loco=6  score=68/0
+final standings
+  1. purple  $38   income=25   shares=6   loco=5  score=81/0
+  2. yellow  $14   income=24   shares=10  loco=6  score=68/0

@@ -1,0 +1,50 @@
+game 2797 / heavy-cardboard / 6 players / 267 actions
+round 1 end
+     blue    $2    income=4    shares=4   loco=2  score=4/0
+     red     $5    income=2    shares=3   loco=2  score=1/0
+     black   $5    income=2    shares=4   loco=2  score=-2/0
+     purple  $4    income=2    shares=4   loco=2  score=-3/0
+     brown   $2    income=0    shares=4   loco=2  score=-8/0
+     green   $4    income=0    shares=5   loco=2  score=-10/0
+round 2 end
+     blue    $2    income=7    shares=6   loco=3  score=10/0
+     red     $0    income=4    shares=5   loco=3  score=5/0
+     black   $0    income=4    shares=6   loco=3  score=2/0
+     brown   $1    income=6    shares=8   loco=3  score=1/0
+     purple  $0    income=3    shares=6   loco=3  score=-3/0
+     green   $0    income=-2   shares=8   loco=3  score=Eliminated OUT
+round 3 end
+     blue    $3    income=9    shares=8   loco=4  score=14/0
+     red     $2    income=8    shares=8   loco=4  score=11/0
+     black   $0    income=9    shares=9   loco=4  score=10/0
+     purple  $2    income=9    shares=9   loco=3  score=9/0
+     brown   $0    income=7    shares=11  loco=3  score=-1/0
+     green   $0    income=-2   shares=8   loco=3  score=Eliminated OUT
+round 4 end
+     purple  $5    income=15   shares=10  loco=3  score=26/0
+     blue    $5    income=15   shares=10  loco=5  score=25/0
+     red     $6    income=14   shares=11  loco=4  score=23/0
+     black   $9    income=14   shares=12  loco=4  score=18/0
+     brown   $0    income=9    shares=14  loco=4  score=0/0
+     green   $0    income=-2   shares=8   loco=3  score=Eliminated OUT
+round 5 end
+     red     $6    income=18   shares=12  loco=4  score=36/0
+     purple  $8    income=19   shares=12  loco=4  score=35/0
+     black   $6    income=18   shares=12  loco=4  score=33/0
+     blue    $7    income=18   shares=11  loco=5  score=33/0
+     brown   $0    income=8    shares=15  loco=5  score=-6/0
+     green   $0    income=-2   shares=8   loco=3  score=Eliminated OUT
+round 6 end
+     red     $11   income=24   shares=14  loco=5  score=51/0
+     blue    $16   income=23   shares=11  loco=5  score=49/0
+     purple  $11   income=22   shares=12  loco=4  score=44/0
+     black   $12   income=20   shares=12  loco=4  score=40/0
+     brown   $0    income=16   shares=15  loco=5  score=17/0
+     green   $0    income=-2   shares=8   loco=3  score=Eliminated OUT
+final standings
+  1. red     $11   income=24   shares=14  loco=5  score=51/0
+  2. blue    $16   income=23   shares=11  loco=5  score=49/0
+  3. purple  $11   income=22   shares=12  loco=4  score=44/0
+  4. black   $12   income=20   shares=12  loco=4  score=40/0
+  5. brown   $0    income=16   shares=15  loco=5  score=17/0
+  6. green   $0    income=-2   shares=8   loco=3  score=Eliminated OUT

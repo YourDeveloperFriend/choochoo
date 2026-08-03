@@ -1,0 +1,37 @@
+game 2787 / trisland / 3 players / 200 actions
+round 1 end
+     purple  $1    income=4    shares=3   loco=2  score=6/0
+     pink    $0    income=2    shares=3   loco=2  score=2/0
+     yellow  $1    income=2    shares=4   loco=2  score=-3/0
+round 2 end
+     pink    $0    income=6    shares=5   loco=2  score=11/0
+     yellow  $2    income=8    shares=6   loco=3  score=11/0
+     purple  $2    income=5    shares=5   loco=3  score=6/0
+round 3 end
+     yellow  $4    income=14   shares=8   loco=4  score=26/0
+     pink    $2    income=10   shares=7   loco=2  score=20/0
+     purple  $1    income=9    shares=7   loco=4  score=17/0
+round 4 end
+     yellow  $5    income=17   shares=9   loco=5  score=37/0
+     purple  $5    income=15   shares=8   loco=4  score=33/0
+     pink    $4    income=12   shares=9   loco=4  score=23/0
+round 5 end
+     yellow  $12   income=22   shares=11  loco=5  score=49/0
+     purple  $10   income=19   shares=9   loco=4  score=45/0
+     pink    $7    income=18   shares=11  loco=5  score=38/0
+round 6 end
+     yellow  $15   income=26   shares=11  loco=5  score=64/0
+     purple  $15   income=23   shares=9   loco=5  score=60/0
+     pink    $11   income=23   shares=12  loco=5  score=54/0
+round 7 end
+     purple  $26   income=26   shares=9   loco=5  score=72/0
+     yellow  $14   income=25   shares=11  loco=6  score=66/0
+     pink    $15   income=25   shares=12  loco=5  score=63/0
+round 8 end
+     yellow  $24   income=30   shares=11  loco=6  score=82/0
+     purple  $29   income=27   shares=9   loco=5  score=78/0
+     pink    $20   income=28   shares=12  loco=5  score=71/0
+final standings
+  1. yellow  $24   income=30   shares=11  loco=6  score=82/0
+  2. purple  $29   income=27   shares=9   loco=5  score=78/0
+  3. pink    $20   income=28   shares=12  loco=5  score=71/0

@@ -1,0 +1,41 @@
+game 3004 / scandinavia / 3 players / 236 actions
+round 1 end
+     green   $0    income=2    shares=3   loco=2  score=0/0
+     brown   $9    income=2    shares=4   loco=2  score=-3/0
+     yellow  $1    income=1    shares=4   loco=3  score=-6/0
+round 2 end
+     brown   $5    income=6    shares=5   loco=3  score=9/0
+     green   $0    income=4    shares=6   loco=3  score=0/0
+     yellow  $0    income=3    shares=7   loco=4  score=-6/0
+round 3 end
+     brown   $2    income=10   shares=7   loco=4  score=21/0
+     green   $2    income=8    shares=10  loco=4  score=5/0
+     yellow  $4    income=9    shares=10  loco=4  score=5/0
+round 4 end
+     brown   $6    income=16   shares=9   loco=5  score=36/0
+     yellow  $1    income=14   shares=12  loco=4  score=19/0
+     green   $6    income=14   shares=13  loco=4  score=16/0
+round 5 end
+     brown   $14   income=23   shares=11  loco=5  score=54/0
+     green   $6    income=20   shares=14  loco=5  score=35/0
+     yellow  $4    income=16   shares=14  loco=5  score=22/0
+round 6 end
+     brown   $23   income=26   shares=11  loco=5  score=66/0
+     green   $11   income=26   shares=14  loco=5  score=57/0
+     yellow  $9    income=24   shares=15  loco=6  score=47/0
+round 7 end
+     brown   $30   income=30   shares=11  loco=5  score=81/0
+     green   $21   income=30   shares=14  loco=6  score=70/0
+     yellow  $12   income=27   shares=15  loco=6  score=59/0
+round 8 end
+     brown   $42   income=34   shares=11  loco=5  score=92/0
+     green   $28   income=33   shares=14  loco=6  score=82/0
+     yellow  $19   income=33   shares=15  loco=6  score=80/0
+round 9 end
+     brown   $34   income=36   shares=11  loco=5  score=101/0
+     yellow  $28   income=37   shares=15  loco=6  score=96/0
+     green   $42   income=34   shares=14  loco=6  score=88/0
+final standings
+  1. brown   $34   income=36   shares=11  loco=5  score=101/0
+  2. yellow  $28   income=37   shares=15  loco=6  score=96/0
+  3. green   $42   income=34   shares=14  loco=6  score=88/0

@@ -1,0 +1,36 @@
+game 2756 / union-pacific-express / 4 players / 191 actions
+round 1 end
+     purple  $7    income=2    shares=4   loco=2  score=-3/0
+     red     $4    income=2    shares=5   loco=3  score=-5/0
+     yellow  $2    income=1    shares=4   loco=2  score=-6/0
+     black   $3    income=0    shares=4   loco=2  score=-7/0
+round 2 end
+     red     $1    income=9    shares=7   loco=4  score=15/0
+     purple  $0    income=4    shares=6   loco=2  score=0/0
+     yellow  $0    income=1    shares=6   loco=2  score=-9/0
+     black   $0    income=1    shares=7   loco=2  score=-13/0
+round 3 end
+     red     $3    income=14   shares=10  loco=4  score=23/0
+     purple  $0    income=9    shares=9   loco=3  score=9/0
+     yellow  $0    income=2    shares=9   loco=3  score=-10/0
+     black   $1    income=4    shares=11  loco=3  score=-13/0
+round 4 end
+     red     $3    income=17   shares=12  loco=5  score=28/0
+     purple  $3    income=11   shares=12  loco=4  score=9/0
+     black   $4    income=10   shares=15  loco=4  score=-6/0
+     yellow  $0    income=-1   shares=11  loco=3  score=Eliminated OUT
+round 5 end
+     red     $9    income=24   shares=13  loco=6  score=46/0
+     purple  $3    income=18   shares=14  loco=4  score=25/0
+     black   $1    income=14   shares=15  loco=4  score=6/0
+     yellow  $0    income=-1   shares=11  loco=3  score=Eliminated OUT
+round 6 end
+     red     $20   income=31   shares=13  loco=6  score=65/0
+     purple  $0    income=16   shares=15  loco=5  score=16/0
+     black   $0    income=16   shares=15  loco=4  score=12/0
+     yellow  $0    income=-1   shares=11  loco=3  score=Eliminated OUT
+final standings
+  1. red     $20   income=31   shares=13  loco=6  score=65/0
+  2. purple  $0    income=16   shares=15  loco=5  score=16/0
+  3. black   $0    income=16   shares=15  loco=4  score=12/0
+  4. yellow  $0    income=-1   shares=11  loco=3  score=Eliminated OUT

@@ -1,0 +1,49 @@
+game 2824 / germany / 5 players / 300 actions
+round 1 end
+     brown   $0    income=2    shares=3   loco=2  score=1/0
+     red     $0    income=2    shares=3   loco=2  score=0/0
+     purple  $6    income=2    shares=4   loco=2  score=-2/0
+     blue    $14   income=2    shares=5   loco=2  score=-6/0
+     yellow  $1    income=1    shares=4   loco=3  score=-6/0
+round 2 end
+     brown   $1    income=8    shares=6   loco=3  score=13/0
+     purple  $0    income=6    shares=6   loco=2  score=8/0
+     blue    $3    income=5    shares=5   loco=3  score=6/0
+     red     $2    income=5    shares=6   loco=3  score=3/0
+     yellow  $1    income=4    shares=7   loco=4  score=-3/0
+round 3 end
+     brown   $0    income=9    shares=8   loco=4  score=13/0
+     red     $6    income=9    shares=8   loco=3  score=12/0
+     yellow  $4    income=10   shares=9   loco=4  score=12/0
+     purple  $0    income=9    shares=9   loco=4  score=10/0
+     blue    $2    income=8    shares=8   loco=4  score=9/0
+round 4 end
+     yellow  $6    income=17   shares=11  loco=4  score=29/0
+     red     $3    income=15   shares=11  loco=4  score=24/0
+     purple  $4    income=15   shares=12  loco=4  score=21/0
+     brown   $5    income=14   shares=12  loco=4  score=18/0
+     blue    $11   income=13   shares=11  loco=4  score=17/0
+round 5 end
+     yellow  $11   income=22   shares=13  loco=5  score=40/0
+     red     $10   income=19   shares=14  loco=4  score=31/0
+     purple  $10   income=19   shares=14  loco=4  score=30/0
+     blue    $10   income=15   shares=12  loco=5  score=23/0
+     brown   $0    income=16   shares=14  loco=5  score=20/0
+round 6 end
+     yellow  $15   income=26   shares=14  loco=6  score=51/0
+     red     $13   income=23   shares=14  loco=4  score=46/0
+     brown   $9    income=24   shares=14  loco=5  score=44/0
+     blue    $13   income=20   shares=13  loco=5  score=37/0
+     purple  $5    income=20   shares=15  loco=5  score=30/0
+round 7 end
+     yellow  $22   income=32   shares=14  loco=6  score=72/0
+     brown   $17   income=28   shares=14  loco=5  score=58/0
+     red     $18   income=26   shares=14  loco=4  score=58/0
+     blue    $14   income=24   shares=13  loco=5  score=52/0
+     purple  $10   income=25   shares=15  loco=6  score=45/0
+final standings
+  1. yellow  $22   income=32   shares=14  loco=6  score=72/0
+  2. brown   $17   income=28   shares=14  loco=5  score=58/0
+  3. red     $18   income=26   shares=14  loco=4  score=58/0
+  4. blue    $14   income=24   shares=13  loco=5  score=52/0
+  5. purple  $10   income=25   shares=15  loco=6  score=45/0
