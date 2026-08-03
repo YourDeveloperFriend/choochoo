@@ -22,8 +22,14 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      # Retries are configured in playwright.prober.config.ts, which replaced
+      # deflake.sh: re-running only the failing test is quicker than re-running
+      # everything, and leaves the flake visible in the report.
       - name: Running prober
-        run: ./src/scripts/deflake.sh "npm run prober"
+        run: npm run prober
         env:
           LOGIN_KEY: ${{ secrets.LOGIN_KEY }}
           LOGIN_IDS: ${{ secrets.LOGIN_IDS }}
