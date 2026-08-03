@@ -64,7 +64,6 @@ function InternalActiveGame() {
         <SwitchToActive />
         <SwitchToUndo />
         {!undoOnly && <ActionSummary />}
-        {!undoOnly && canEmitProduction && <GoodsTable />}
         {!undoOnly && <BiddingInfo />}
         {!undoOnly && canEmitSelectAction && <SpecialActionTable />}
         <AutoActionForm />

@@ -1,28 +1,20 @@
-import { useCallback, useMemo } from "react";
-import { Button, Icon } from "semantic-ui-react";
+import { useMemo } from "react";
 import { PHASE } from "../../engine/game/phase";
 import { GameStarter } from "../../engine/game/starter";
 import { AVAILABLE_CITIES } from "../../engine/game/state";
-import { PassAction } from "../../engine/goods_growth/pass";
-import { ProductionAction } from "../../engine/goods_growth/production";
-import { GOODS_GROWTH_STATE } from "../../engine/goods_growth/state";
 import { CityGroup } from "../../engine/state/city_group";
-import { Good, goodToString } from "../../engine/state/good";
+import { Good } from "../../engine/state/good";
 import { Phase } from "../../engine/state/phase";
 import { OnRoll } from "../../engine/state/roll";
 import { SwedenRecyclingMapSettings } from "../../maps/sweden/settings";
 import { iterate } from "../../utils/functions";
 import { ImmutableMap } from "../../utils/immutable";
-import { assert } from "../../utils/validate";
-import { Username } from "../components/username";
 import { goodStyle } from "../grid/good";
-import { useAction, useEmptyAction } from "../services/action";
-import { useGame, useGameVersionState } from "../services/game";
+import { useGame } from "../services/game";
 import {
   useGrid,
   useInjected,
   useInjectedState,
-  usePhaseState,
 } from "../utils/injection_context";
 import * as styles from "./goods_table.module.css";
 
@@ -36,11 +28,30 @@ function getMaxGoods(
   return Math.max(...goodArrays.map((goods) => goods.length));
 }
 
-export function GoodsTable() {
+/** One slot of the goods display. */
+export interface GoodsSlot {
+  urbanized: boolean;
+  cityGroup: CityGroup;
+  onRoll: OnRoll;
+  row: number;
+}
+
+interface GoodsTableProps {
+  /** Called when a clickable slot is clicked. Absent means display only. */
+  onClickSlot?(slot: GoodsSlot): void;
+  /**
+   * Which slots respond to a click, given what is currently in them. Absent
+   * means none of them do. Placing a drawn good targets empty slots; an action
+   * that takes goods off the display targets full ones.
+   */
+  isSlotClickable?(slot: GoodsSlot, good: Good | undefined): boolean;
+}
+
+export function GoodsTable({
+  onClickSlot,
+  isSlotClickable,
+}: GoodsTableProps = {}) {
   const gameKey = useGame().gameKey;
-  const [manuallySelectedGood, setSelectedGood] = useGameVersionState<
-    Good | undefined
-  >(undefined);
   const grid = useGrid();
   const phase = useInjectedState(PHASE);
   const starter = useInjected(GameStarter);
@@ -81,30 +92,6 @@ export function GoodsTable() {
     [cities],
   );
 
-  const { emit, canEmit } = useAction(ProductionAction);
-  const productionState = usePhaseState(Phase.GOODS_GROWTH, GOODS_GROWTH_STATE);
-
-  const good = manuallySelectedGood ?? productionState?.goods[0];
-
-  const onClick = useCallback(
-    (urbanized: boolean, cityGroup: CityGroup, onRoll: OnRoll, row: number) => {
-      if (!canEmit) return;
-      assert(good != null);
-      emit({ urbanized, onRoll, cityGroup, good, row });
-    },
-    [canEmit, emit, good],
-  );
-
-  const toggleSelectedGood = useCallback(() => {
-    assert(productionState != null);
-    assert(good != null);
-    setSelectedGood(
-      productionState.goods[
-        (productionState.goods.indexOf(good) + 1) % productionState.goods.length
-      ],
-    );
-  }, [good, productionState]);
-
   const hasUrbanizedCities =
     cities.urbanizedCities.get(CityGroup.WHITE)!.length +
       cities.urbanizedCities.get(CityGroup.BLACK)!.length >
@@ -120,10 +107,18 @@ export function GoodsTable() {
     return <></>;
   }
 
+  function slotProps(slot: GoodsSlot, good: Good | undefined) {
+    const clickable = isSlotClickable?.(slot, good) ?? false;
+    return {
+      good,
+      clickable,
+      onClick: clickable ? () => onClickSlot?.(slot) : undefined,
+    };
+  }
+
   return (
     <div>
       <h2>Goods Growth Table</h2>
-      <PlaceGood good={good} toggleSelectedGood={toggleSelectedGood} />
       <div className={styles.goodsContainer}>
         <div className={styles.row}>
           <div>White</div>
@@ -143,42 +138,33 @@ export function GoodsTable() {
                 key={i}
               >
                 <div>{onRoll}</div>
-                {iterate(maxRegularGoods, (goodIndex) => (
-                  <GoodBlock
-                    key={goodIndex}
-                    good={city?.[maxRegularGoods - 1 - goodIndex] ?? undefined}
-                    canSelect={canEmit}
-                    onClick={() =>
-                      onClick(
-                        false,
-                        cityGroup,
-                        onRoll,
-                        maxRegularGoods - 1 - goodIndex,
-                      )
-                    }
-                  />
-                ))}
-                {hasUrbanizedCities && <div>{urbanizedCity && letter}</div>}
-                {hasUrbanizedCities &&
-                  iterate(maxUrbanizedGoods, (goodIndex) => (
+                {iterate(maxRegularGoods, (goodIndex) => {
+                  const row = maxRegularGoods - 1 - goodIndex;
+                  return (
                     <GoodBlock
                       key={goodIndex}
-                      good={
-                        urbanizedCity?.[maxUrbanizedGoods - 1 - goodIndex] ??
-                        undefined
-                      }
-                      canSelect={canEmit}
-                      emptySpace={urbanizedCity == null}
-                      onClick={() =>
-                        onClick(
-                          true,
-                          cityGroup,
-                          onRoll,
-                          maxUrbanizedGoods - 1 - goodIndex,
-                        )
-                      }
+                      {...slotProps(
+                        { urbanized: false, cityGroup, onRoll, row },
+                        city?.[row] ?? undefined,
+                      )}
                     />
-                  ))}
+                  );
+                })}
+                {hasUrbanizedCities && <div>{urbanizedCity && letter}</div>}
+                {hasUrbanizedCities &&
+                  iterate(maxUrbanizedGoods, (goodIndex) => {
+                    const row = maxUrbanizedGoods - 1 - goodIndex;
+                    return (
+                      <GoodBlock
+                        key={goodIndex}
+                        emptySpace={urbanizedCity == null}
+                        {...slotProps(
+                          { urbanized: true, cityGroup, onRoll, row },
+                          urbanizedCity?.[row] ?? undefined,
+                        )}
+                      />
+                    );
+                  })}
               </div>
             );
           })}
@@ -188,53 +174,10 @@ export function GoodsTable() {
   );
 }
 
-function PlaceGood({
-  good,
-  toggleSelectedGood,
-}: {
-  good?: Good;
-  toggleSelectedGood(): void;
-}) {
-  const { canEmit, canEmitUserId } = useAction(ProductionAction);
-  const { emit: emitPass } = useEmptyAction(PassAction);
-  const state = usePhaseState(Phase.GOODS_GROWTH, GOODS_GROWTH_STATE);
-  if (canEmitUserId == null) {
-    return <></>;
-  }
-
-  return (
-    <div>
-      <p>
-        {canEmit ? "You" : <Username userId={canEmitUserId} />} drew{" "}
-        {state!.goods.map(goodToString).join(", ")}
-      </p>
-      {canEmit && (
-        <div>
-          <p>Select where to place {goodToString(good!)}.</p>
-          {state!.goods.length > 1 && (
-            <Button
-              icon
-              labelPosition="left"
-              color="teal"
-              onClick={toggleSelectedGood}
-            >
-              <Icon name="arrows alternate horizontal" />
-              Switch selected good
-            </Button>
-          )}
-          <Button negative onClick={emitPass}>
-            Pass
-          </Button>
-        </div>
-      )}
-    </div>
-  );
-}
-
 interface GoodBlockProps {
   onClick?: () => void;
   good?: Good;
-  canSelect?: boolean;
+  clickable?: boolean;
   emptySpace?: boolean;
   className?: string;
 }
@@ -242,20 +185,21 @@ interface GoodBlockProps {
 export function GoodBlock({
   onClick,
   good,
-  canSelect,
+  clickable,
   emptySpace,
   className,
 }: GoodBlockProps) {
+  const showAsClickable = clickable && !emptySpace;
   const classNames = [
     styles.goodPlace,
     !emptySpace ? styles.good : "",
     good != null ? goodStyle(good) : styles.empty,
-    canSelect && !emptySpace && good == null ? styles.clickableGood : "",
+    showAsClickable ? styles.clickableGood : "",
     className ?? "",
   ];
   return (
     <div
-      onClick={canSelect ? onClick : undefined}
+      onClick={showAsClickable ? onClick : undefined}
       className={classNames.join(" ")}
     />
   );
