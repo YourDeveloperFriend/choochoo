@@ -138,6 +138,28 @@ async function post(
 }
 
 /**
+ * Submits one action as whoever this context is signed in as.
+ *
+ * For setting a position up. A spec that wants to test the UI of some mid-game
+ * moment should not have to click its way there through phases that have their own
+ * specs already -- but it does need the position to be one the engine really
+ * produces, which is why this goes through the ordinary action endpoint and not
+ * around it.
+ */
+export async function performAction(
+  request: APIRequestContext,
+  gameId: number,
+  actionName: string,
+  actionData: unknown,
+): Promise<void> {
+  await post(request, `/api/games/${gameId}/action`, {
+    actionName,
+    actionData,
+    confirmed: true,
+  });
+}
+
+/**
  * Creates a two-player game and starts it on a fixed seed.
  *
  * Built through the API rather than the UI on purpose: the create-game flow has

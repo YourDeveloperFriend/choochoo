@@ -1,5 +1,11 @@
 import { Locator, Page, expect } from "@playwright/test";
-import { fetchGame, loginAs, SeededUser, waitForVersionAfter } from "./app";
+import {
+  fetchGame,
+  loginAs,
+  performAction,
+  SeededUser,
+  waitForVersionAfter,
+} from "./app";
 
 /**
  * Driving a game through the browser.
@@ -24,7 +30,7 @@ async function waitForGamePage(page: Page): Promise<void> {
 }
 
 /** Signs in as whoever the server says is to move, and opens the game. */
-async function openAsActivePlayer(
+export async function openAsActivePlayer(
   page: Page,
   users: SeededUser[],
   gameId: number,
@@ -207,4 +213,40 @@ export async function buildFirstLegalTile(
   throw new Error(
     `tried every one of the ${count} hexes and the server accepted no build`,
   );
+}
+
+/**
+ * Applies a scripted list of actions, each as whoever is to move.
+ *
+ * How a map spec reaches a position deep enough to be interesting without
+ * clicking through phases that already have their own specs. The script is short
+ * on purpose -- it is found once, by searching seeds for a game that arrives
+ * somewhere useful in as few moves as possible -- and it runs through the real
+ * action endpoint, so the position is one the engine genuinely produces.
+ */
+export async function applyScript(
+  page: Page,
+  users: SeededUser[],
+  gameId: number,
+  script: Array<{ actionName: string; actionData: unknown }>,
+): Promise<void> {
+  for (const [index, action] of script.entries()) {
+    const before = await fetchGame(page.request, gameId);
+    const active = users.find((user) => user.id === before.activePlayerId);
+    if (active == null) {
+      throw new Error(
+        `nobody seeded is to move at script step ${index} (${action.actionName})`,
+      );
+    }
+    // Signs in rather than posting blind: the endpoint checks the caller is the
+    // active player, so a script that has drifted fails here with the step named.
+    await loginAs(page, active);
+    await performAction(
+      page.request,
+      gameId,
+      action.actionName,
+      action.actionData,
+    );
+    await waitForVersionAfter(page.request, gameId, before.version);
+  }
 }
