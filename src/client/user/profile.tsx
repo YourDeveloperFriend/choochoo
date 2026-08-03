@@ -46,6 +46,7 @@ import {
 } from "../utils/form_state";
 import { useTypedMemo } from "../utils/hooks";
 import { DiscordNotificationSettings } from "./discord";
+import { NotificationHelp } from "./notification_help";
 import { PreferredColors } from "./preferred_colors";
 import { UpdatePassword } from "./update_password";
 
@@ -276,6 +277,7 @@ function InternalNotificationSettings({
   return (
     <Segment>
       <Header as="h2">Notification Preferences</Header>
+      <NotificationHelp />
       <DiscordNotificationSettings preferences={preferences} />
       <br />
       <Form onSubmit={onSubmit}>
