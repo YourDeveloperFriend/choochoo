@@ -103,10 +103,11 @@
       "module": "nodenext"
     }
   },
-  // Vitest loads its own config directly; it lives outside of rootDir, so it is
-  // not part of the compiled program.
+  // Vitest and Playwright load their own configs directly; they live outside of
+  // rootDir, so they are not part of the compiled program.
   "exclude": [
     "vitest.config.mts",
+    "vitest.playthroughs.config.mts",
     "playwright.config.ts",
     "playwright.prober.config.ts"
   ]
