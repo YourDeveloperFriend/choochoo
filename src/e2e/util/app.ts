@@ -11,9 +11,7 @@ import { GameApi, GameStatus } from "../../api/game";
  * imported into a spec silently writes nulls.
  */
 
-// Not exported: the specs only ever receive these from seedUsers, and an
-// exported type nothing imports is noise.
-interface SeededUser {
+export interface SeededUser {
   id: number;
   username: string;
 }
@@ -137,6 +135,28 @@ async function post(
     `POST ${path} failed (${response.status()}): ${await response.text()}`,
   ).toBe(true);
   return response as unknown as Response;
+}
+
+/**
+ * Submits one action as whoever this context is signed in as.
+ *
+ * For setting a position up. A spec that wants to test the UI of some mid-game
+ * moment should not have to click its way there through phases that have their own
+ * specs already -- but it does need the position to be one the engine really
+ * produces, which is why this goes through the ordinary action endpoint and not
+ * around it.
+ */
+export async function performAction(
+  request: APIRequestContext,
+  gameId: number,
+  actionName: string,
+  actionData: unknown,
+): Promise<void> {
+  await post(request, `/api/games/${gameId}/action`, {
+    actionName,
+    actionData,
+    confirmed: true,
+  });
 }
 
 /**

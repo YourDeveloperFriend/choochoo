@@ -72,6 +72,7 @@ export function InstantProductionMoveGoodsActionSummary() {
                   key={idx}
                   className={`${styles.cityOption} ${selectedCity && option.coordinates.equals(selectedCity) ? styles.selected : ""}`}
                   onClick={() => setSelectedCity(option.coordinates)}
+                  data-city-option={option.coordinates.serialize()}
                 >
                   <div>{option.name()}</div>
                   <CityInfo city={option} />
@@ -112,6 +113,7 @@ export function InstantProductionMoveGoodsActionSummary() {
                   key={idx}
                   className={`${styles.cityOption} ${selectedCity && option.coordinates.equals(selectedCity) ? styles.selected : ""}`}
                   onClick={() => setSelectedCity(option.coordinates)}
+                  data-city-option={option.coordinates.serialize()}
                 >
                   <div>{option.name()}</div>
                   <CityInfo city={option} />
@@ -128,8 +130,11 @@ export function InstantProductionMoveGoodsActionSummary() {
       );
     }
 
+    // data-instant-production marks the modal for the map specs that cover it;
+    // the two city cards carry data-city-option. Both are otherwise divs with
+    // hashed CSS module classes and nothing stable to select.
     return (
-      <div>
+      <div data-instant-production>
         <Modal closeIcon open={open} onClose={() => setOpen(false)}>
           <Header>Perform Instant Production</Header>
           <ModalContent>{content}</ModalContent>
