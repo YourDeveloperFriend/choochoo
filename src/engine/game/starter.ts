@@ -120,10 +120,18 @@ export class GameStarter {
     const shuffledColors = new Set(
       this.random.shuffle(this.eligiblePlayerColors()),
     );
-    const map = partition(playerUsers, (u) => u.preferredColors != null);
-    const playersShuffled = this.random
-      .shuffle(map.get(true) ?? [])
-      .concat(map.get(false) ?? []);
+    // Shuffle every player, then order those with a colour preference first.
+    //
+    // Shuffling only the players who expressed a preference consumed a number
+    // of random values that varied with how many had one. The seeded generator
+    // is a stream, so that shifted every later draw, and setup stopped being
+    // reproducible from the seed alone. Shuffling the whole list consumes
+    // exactly one value per player however many have preferences.
+    const map = partition(
+      this.random.shuffle(playerUsers),
+      (u) => u.preferredColors != null,
+    );
+    const playersShuffled = (map.get(true) ?? []).concat(map.get(false) ?? []);
 
     const players: PlayerData[] = [];
     for (const playerUser of playersShuffled) {
