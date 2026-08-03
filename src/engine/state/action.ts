@@ -62,6 +62,9 @@ export enum Action {
 
   // Stalinist Russia
   POLITBURO_DIRECTIVE = 28,
+
+  // O'ahu
+  TOURIST_TRAP = 29,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -127,6 +130,8 @@ export class ActionNamingProvider {
         return "Smuggle";
       case Action.POLITBURO_DIRECTIVE:
         return "Politburo Directive";
+      case Action.TOURIST_TRAP:
+        return "Tourist Trap";
       default:
         assertNever(action);
     }
@@ -190,6 +195,8 @@ export class ActionNamingProvider {
         return "You may make both of your deliveries within a single state.";
       case Action.POLITBURO_DIRECTIVE:
         return "For one of your deliveries, you may start from Moscow.";
+      case Action.TOURIST_TRAP:
+        return "Immediately, every other player gives you $1 (if able).";
       default:
         assertNever(action);
     }
