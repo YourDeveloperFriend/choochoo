@@ -38,6 +38,7 @@ import { NewEnglandViewSettings } from "./new_england/view_settings";
 import { NewHampshireViewSettings } from "./new_hampshire/view_settings";
 import { NorthernCaliforniaViewSettings } from "./northern_california/view_settings";
 import { NwIndianaViewSettings } from "./nw_indiana/view_settings";
+import { OahuViewSettings } from "./oahu/view_settings";
 import { PittsburghViewSettings } from "./pittsburgh/view_settings";
 import { PolandViewSettings } from "./poland/view_settings";
 import { PortugalViewSettings } from "./portugal/view_settings";
@@ -98,6 +99,7 @@ export class ViewRegistry {
     this.add(new NewHampshireViewSettings());
     this.add(new NorthernCaliforniaViewSettings());
     this.add(new NwIndianaViewSettings());
+    this.add(new OahuViewSettings());
     this.add(new PittsburghViewSettings());
     this.add(new PolandViewSettings());
     this.add(new PortugalViewSettings());
