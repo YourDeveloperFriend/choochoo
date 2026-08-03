@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { EngineDelegator } from "../framework/engine";
 import { PlayerUser } from "./starter";
 import { PlayerColor } from "../state/player";

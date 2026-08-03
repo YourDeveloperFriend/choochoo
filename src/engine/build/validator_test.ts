@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { city, plain, town } from "../../testing/factory";
 import { InjectionHelper } from "../../testing/injection_helper";
 import { resettable } from "../../testing/resettable";
@@ -126,7 +127,7 @@ describe('BuildValidator', () => {
   });
 
   it("cannot build an unavailable tile", () => {
-    injector.spyOn(BuilderHelper, 'tileAvailableInManifest').and.returnValue(false);
+    injector.spyOn(BuilderHelper, 'tileAvailableInManifest').mockReturnValue(false);
     const build: BuildInfo = {
       playerColor: PlayerColor.BLUE,
       tileType: SimpleTileType.STRAIGHT,

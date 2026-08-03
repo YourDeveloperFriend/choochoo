@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { setInjectionContext } from "../framework/execution_context";
 import { InjectionContext } from "../framework/inject";
 import { StateStore } from "../framework/state";
