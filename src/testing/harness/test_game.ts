@@ -86,6 +86,7 @@ function toPlayerUsers(
  */
 export class TestGame {
   private state: GameState;
+  private latestSnapshot: GameSnapshot | undefined;
   private readonly referee: Referee;
   private readonly allLogs: string[];
   private logsFromLastAction: string[];
@@ -110,6 +111,58 @@ export class TestGame {
       seed: options.seed ?? `test-${gameKey}`,
     });
     return new TestGame(gameKey, variant, state);
+  }
+
+  /**
+   * Resumes from a serialized state rather than starting a fresh game.
+   *
+   * Used to replay a recorded game. Its opening is taken from the recording
+   * rather than re-derived from the seed, so the replay is faithful even to a
+   * game played before the engine's setup became reproducible -- and stays
+   * faithful if a map's layout is edited later, which would otherwise silently
+   * change what the recording is testing.
+   */
+  static fromState(
+    gameKey: GameKey,
+    gameData: string,
+    options: { variant?: VariantConfig; seed?: string } = {},
+  ): TestGame {
+    const variant = options.variant ?? {};
+    return new TestGame(gameKey, variant, {
+      gameData,
+      hasEnded: false,
+      logs: [],
+      reversible: false,
+      autoActionMutations: [],
+      seed: options.seed,
+      activePlayerId: undefined,
+    });
+  }
+
+  /**
+   * Emits an action by name, as the server receives it.
+   *
+   * Recorded games carry action names as strings, so a replay cannot go through
+   * the typed ActionConstructor path. Everything else -- validation, the
+   * referee -- is identical.
+   */
+  emitRaw(actionName: string, actionData: unknown, seed?: string): this {
+    const before = this.summary;
+    this.state = EngineDelegator.singleton.processAction(this.gameKey, {
+      game: this.limited,
+      actionName,
+      actionData,
+      seed: seed ?? this.state.seed ?? undefined,
+    });
+    this.actionCount++;
+    this.latestSnapshot = undefined;
+    this.logsFromLastAction = [...this.state.logs];
+    this.allLogs.push(...this.state.logs);
+    this.referee.check(
+      this.snapshot(),
+      `${actionName} #${this.actionCount} (during "${before}")`,
+    );
+    return this;
   }
 
   private get readable(): ReadableGame {
@@ -186,7 +239,19 @@ export class TestGame {
   }
 
   snapshot(): GameSnapshot {
-    return snapshotGame(this.readable);
+    this.latestSnapshot ??= snapshotGame(this.readable);
+    return this.latestSnapshot;
+  }
+
+  /**
+   * The snapshot as of the last action, without recomputing it.
+   *
+   * The referee builds one after every action anyway, and building one walks the
+   * grid and traces every player's routes, so a caller that wants the round or a
+   * player's money should reuse it rather than read the state again.
+   */
+  get lastSnapshot(): GameSnapshot {
+    return this.snapshot();
   }
 
   player(color: PlayerColor): PlayerSnapshot {
@@ -268,6 +333,7 @@ export class TestGame {
     });
 
     this.actionCount++;
+    this.latestSnapshot = undefined;
     this.logsFromLastAction = [...this.state.logs];
     this.allLogs.push(...this.state.logs);
 
