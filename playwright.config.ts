@@ -31,6 +31,12 @@ export default defineConfig({
   // three times and passed if any run passed. Retrying the failing test is
   // strictly better: it is faster, and it reports which test was flaky instead
   // of hiding it.
+  // Well above Playwright's 30s default. A spec that plays a game's opening logs
+  // in as several players in turn and waits for the server between moves, so the
+  // default expires mid-test and reports whichever locator happened to be waiting
+  // rather than the real problem.
+  timeout: 120_000,
+
   retries: process.env.CI ? 2 : 0,
   // The specs share one database, so they are not safe to run against each other.
   workers: 1,

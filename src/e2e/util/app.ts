@@ -115,3 +115,88 @@ export async function deleteGame(
     headers: { "xsrf-token": xsrfToken },
   });
 }
+
+/** The XSRF token for this context's session, which every non-GET needs. */
+async function xsrfToken(request: APIRequestContext): Promise<string> {
+  const response = await request.get("/api/xsrf");
+  const body = (await response.json()) as { xsrfToken: string };
+  return body.xsrfToken;
+}
+
+async function post(
+  request: APIRequestContext,
+  path: string,
+  data: unknown,
+): Promise<Response> {
+  const response = await request.post(path, {
+    data,
+    headers: { "xsrf-token": await xsrfToken(request) },
+  });
+  expect(
+    response.ok(),
+    `POST ${path} failed (${response.status()}): ${await response.text()}`,
+  ).toBe(true);
+  return response as unknown as Response;
+}
+
+/**
+ * Creates a two-player game and starts it on a fixed seed.
+ *
+ * Built through the API rather than the UI on purpose: the create-game flow has
+ * its own spec, and repeating it here would mean a change to that form breaking
+ * two specs for one reason.
+ *
+ * Auto-start is off so the seed can be supplied explicitly, which keeps the board
+ * the same from run to run.
+ */
+export async function createStartedGame(
+  page: Page,
+  users: SeededUser[],
+  options: { gameKey: string; name: string; seed: string },
+): Promise<GameApi> {
+  const api = page.request;
+  const [owner, ...others] = users;
+
+  await loginAs(page, owner);
+  await post(api, "/api/games/", {
+    gameKey: options.gameKey,
+    name: options.name,
+    minPlayers: users.length,
+    maxPlayers: users.length,
+    variant: {},
+    turnDuration: 24 * 60 * 60 * 1000,
+    gameHoursStart: 0,
+    gameHoursDuration: 24,
+    minKarma: 0,
+    artificialStart: false,
+    unlisted: true,
+    autoStart: false,
+  });
+
+  const game = await waitForGameNamed(api, options.name);
+
+  for (const other of others) {
+    await loginAs(page, other);
+    await post(api, `/api/games/${game.id}/join`, {});
+  }
+
+  await loginAs(page, owner);
+  await post(api, `/api/games/${game.id}/start`, { seed: options.seed });
+
+  return waitForStatus(api, game.id, GameStatus.enum.ACTIVE);
+}
+
+/** Waits for the game's version to move past `version`, i.e. for an action to land. */
+export async function waitForVersionAfter(
+  request: APIRequestContext,
+  gameId: number,
+  version: number,
+): Promise<GameApi> {
+  await expect
+    .poll(async () => (await fetchGame(request, gameId)).version, {
+      timeout: 30_000,
+      message: `game ${gameId} never advanced past version ${version}`,
+    })
+    .toBeGreaterThan(version);
+  return fetchGame(request, gameId);
+}

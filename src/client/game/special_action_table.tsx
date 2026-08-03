@@ -75,7 +75,14 @@ function SpecialAction({ action }: { action: Action }) {
 
   return (
     <MaybeTooltip tooltip={disabledReason}>
-      <div className={className} onClick={chooseAction}>
+      {/* Named for the end-to-end specs: the card is a div with a hashed CSS
+          module class, so there is otherwise nothing stable to click. */}
+      <div
+        className={className}
+        onClick={chooseAction}
+        data-special-action={action}
+        data-selectable={isEmittable ? "" : undefined}
+      >
         <div className={styles.name}>
           {actionNamingProvider.getActionString(action)}
         </div>
