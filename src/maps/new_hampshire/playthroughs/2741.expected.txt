@@ -1,0 +1,46 @@
+game 2741 / new-hampshire / 4 players / 290 actions
+round 1 end
+     red     $5    income=4    shares=4   loco=2  score=5/0
+     purple  $2    income=2    shares=3   loco=2  score=2/0
+     blue    $4    income=2    shares=3   loco=2  score=0/0
+     green   $8    income=2    shares=4   loco=2  score=-2/0
+round 2 end
+     green   $7    income=6    shares=6   loco=3  score=8/0
+     red     $1    income=6    shares=6   loco=3  score=8/0
+     blue    $4    income=5    shares=5   loco=3  score=6/0
+     purple  $11   income=5    shares=7   loco=3  score=2/0
+round 3 end
+     green   $6    income=10   shares=8   loco=4  score=19/0
+     blue    $8    income=10   shares=7   loco=3  score=18/0
+     purple  $1    income=11   shares=8   loco=4  score=17/0
+     red     $0    income=9    shares=9   loco=4  score=8/0
+round 4 end
+     blue    $6    income=15   shares=8   loco=4  score=34/0
+     green   $11   income=16   shares=10  loco=4  score=34/0
+     red     $6    income=15   shares=11  loco=4  score=23/0
+     purple  $0    income=11   shares=10  loco=5  score=14/0
+round 5 end
+     green   $14   income=22   shares=11  loco=5  score=52/0
+     red     $5    income=18   shares=12  loco=5  score=34/0
+     blue    $4    income=15   shares=10  loco=5  score=31/0
+     purple  $6    income=17   shares=12  loco=5  score=30/0
+round 6 end
+     green   $21   income=27   shares=11  loco=6  score=71/0
+     red     $10   income=24   shares=13  loco=5  score=55/0
+     blue    $9    income=21   shares=11  loco=5  score=49/0
+     purple  $11   income=23   shares=13  loco=5  score=47/0
+round 7 end
+     green   $24   income=33   shares=11  loco=6  score=92/0
+     red     $20   income=28   shares=14  loco=5  score=68/0
+     blue    $15   income=26   shares=11  loco=6  score=63/0
+     purple  $10   income=25   shares=13  loco=6  score=57/0
+round 8 end
+     green   $32   income=36   shares=11  loco=6  score=105/0
+     red     $24   income=33   shares=14  loco=6  score=85/0
+     purple  $22   income=31   shares=13  loco=6  score=78/0
+     blue    $21   income=27   shares=11  loco=6  score=69/0
+final standings
+  1. green   $32   income=36   shares=11  loco=6  score=105/0
+  2. red     $24   income=33   shares=14  loco=6  score=85/0
+  3. purple  $22   income=31   shares=13  loco=6  score=78/0
+  4. blue    $21   income=27   shares=11  loco=6  score=69/0

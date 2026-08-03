@@ -1,0 +1,28 @@
+game 2657 / new-england / 2 players / 135 actions
+round 1 end
+     white   $6    income=6    shares=2   loco=2  score=15/0
+     black   $3    income=3    shares=2   loco=2  score=6/0
+round 2 end
+     black   $5    income=10   shares=3   loco=4  score=27/0
+     white   $8    income=9    shares=3   loco=3  score=25/0
+round 3 end
+     black   $18   income=21   shares=4   loco=5  score=59/0
+     white   $14   income=16   shares=3   loco=3  score=49/0
+round 4 end
+     black   $28   income=25   shares=4   loco=6  score=77/0
+     white   $23   income=22   shares=3   loco=5  score=71/0
+round 5 end
+     black   $50   income=35   shares=4   loco=6  score=112/0
+     white   $47   income=33   shares=3   loco=6  score=108/0
+round 6 end
+     black   $82   income=43   shares=4   loco=6  score=143/0
+     white   $82   income=40   shares=3   loco=6  score=134/0
+round 7 end
+     black   $124  income=53   shares=4   loco=6  score=177/0
+     white   $125  income=46   shares=3   loco=6  score=156/0
+round 8 end
+     black   $174  income=62   shares=4   loco=6  score=210/0
+     white   $177  income=51   shares=3   loco=6  score=173/0
+final standings
+  1. black   $174  income=62   shares=4   loco=6  score=210/0
+  2. white   $177  income=51   shares=3   loco=6  score=173/0

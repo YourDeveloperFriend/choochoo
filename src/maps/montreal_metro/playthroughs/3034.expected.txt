@@ -1,0 +1,41 @@
+game 3034 / montreal-metro / 3 players / 255 actions
+round 1 end
+     pink    $0    income=1    shares=2   loco=2  score=2/0
+     brown   $3    income=2    shares=3   loco=2  score=-1/0
+     yellow  $5    income=2    shares=4   loco=2  score=-1/0
+round 2 end
+     yellow  $2    income=5    shares=6   loco=3  score=5/0
+     brown   $0    income=5    shares=6   loco=3  score=4/0
+     pink    $5    income=4    shares=5   loco=3  score=4/0
+round 3 end
+     pink    $0    income=8    shares=7   loco=4  score=11/0
+     brown   $4    income=9    shares=9   loco=4  score=10/0
+     yellow  $5    income=9    shares=9   loco=4  score=9/0
+round 4 end
+     brown   $3    income=15   shares=11  loco=4  score=24/0
+     pink    $0    income=11   shares=8   loco=5  score=19/0
+     yellow  $0    income=12   shares=11  loco=5  score=17/0
+round 5 end
+     yellow  $1    income=18   shares=13  loco=5  score=34/0
+     brown   $8    income=17   shares=13  loco=5  score=27/0
+     pink    $3    income=15   shares=11  loco=6  score=24/0
+round 6 end
+     pink    $13   income=23   shares=14  loco=6  score=42/0
+     brown   $20   income=23   shares=17  loco=5  score=37/0
+     yellow  $3    income=20   shares=15  loco=6  score=35/0
+round 7 end
+     pink    $16   income=28   shares=16  loco=6  score=54/0
+     yellow  $9    income=25   shares=15  loco=6  score=52/0
+     brown   $17   income=25   shares=17  loco=6  score=46/0
+round 8 end
+     pink    $22   income=34   shares=16  loco=6  score=74/0
+     yellow  $14   income=30   shares=15  loco=6  score=69/0
+     brown   $19   income=31   shares=17  loco=6  score=67/0
+round 9 end
+     pink    $22   income=38   shares=16  loco=6  score=89/0
+     yellow  $23   income=34   shares=15  loco=6  score=84/0
+     brown   $22   income=35   shares=17  loco=6  score=82/0
+final standings
+  1. pink    $22   income=38   shares=16  loco=6  score=89/0
+  2. yellow  $23   income=34   shares=15  loco=6  score=84/0
+  3. brown   $22   income=35   shares=17  loco=6  score=82/0

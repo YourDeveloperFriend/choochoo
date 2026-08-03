@@ -1,0 +1,49 @@
+game 2851 / disco-inferno / 5 players / 328 actions
+round 1 end
+     brown   $5    income=4    shares=3   loco=2  score=7/0
+     blue    $3    income=2    shares=2   loco=2  score=5/0
+     purple  $1    income=2    shares=2   loco=2  score=4/0
+     red     $0    income=2    shares=2   loco=2  score=3/0
+     yellow  $3    income=1    shares=2   loco=2  score=0/0
+round 2 end
+     brown   $2    income=8    shares=5   loco=2  score=17/0
+     blue    $4    income=8    shares=5   loco=3  score=16/0
+     purple  $0    income=5    shares=4   loco=3  score=10/0
+     red     $3    income=5    shares=5   loco=3  score=7/0
+     yellow  $1    income=4    shares=4   loco=3  score=6/0
+round 3 end
+     yellow  $1    income=10   shares=6   loco=3  score=21/0
+     blue    $3    income=10   shares=8   loco=5  score=17/0
+     brown   $1    income=9    shares=7   loco=3  score=17/0
+     red     $2    income=9    shares=7   loco=4  score=17/0
+     purple  $0    income=7    shares=6   loco=4  score=13/0
+round 4 end
+     blue    $5    income=18   shares=10  loco=5  score=38/0
+     red     $8    income=17   shares=9   loco=5  score=36/0
+     brown   $5    income=13   shares=9   loco=3  score=27/0
+     purple  $3    income=12   shares=8   loco=4  score=25/0
+     yellow  $4    income=12   shares=8   loco=4  score=24/0
+round 5 end
+     red     $18   income=23   shares=11  loco=5  score=49/0
+     yellow  $8    income=18   shares=9   loco=4  score=41/0
+     blue    $7    income=18   shares=12  loco=6  score=37/0
+     brown   $8    income=17   shares=11  loco=4  score=35/0
+     purple  $5    income=15   shares=10  loco=5  score=33/0
+round 6 end
+     red     $18   income=28   shares=11  loco=6  score=67/0
+     yellow  $22   income=23   shares=9   loco=4  score=56/0
+     blue    $11   income=25   shares=15  loco=6  score=54/0
+     purple  $10   income=20   shares=11  loco=5  score=47/0
+     brown   $4    income=17   shares=12  loco=5  score=36/0
+round 7 end
+     red     $34   income=36   shares=11  loco=6  score=96/0
+     yellow  $19   income=26   shares=9   loco=5  score=68/0
+     purple  $15   income=25   shares=11  loco=5  score=64/0
+     blue    $13   income=27   shares=15  loco=6  score=61/0
+     brown   $9    income=21   shares=12  loco=5  score=46/0
+final standings
+  1. red     $34   income=36   shares=11  loco=6  score=96/0
+  2. yellow  $19   income=26   shares=9   loco=5  score=68/0
+  3. purple  $15   income=25   shares=11  loco=5  score=64/0
+  4. blue    $13   income=27   shares=15  loco=6  score=61/0
+  5. brown   $9    income=21   shares=12  loco=5  score=46/0

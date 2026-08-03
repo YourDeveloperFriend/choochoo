@@ -1,0 +1,49 @@
+game 2455 / chicago-speakeasy / 5 players / 261 actions
+round 1 end
+     yellow  $3    income=4    shares=3   loco=2  score=9/0
+     black   $1    income=2    shares=4   loco=2  score=-3/0
+     pink    $4    income=1    shares=4   loco=2  score=-4/0
+     blue    $6    income=0    shares=4   loco=2  score=-8/0
+     brown   $5    income=1    shares=5   loco=3  score=-9/0
+round 2 end
+     yellow  $0    income=4    shares=5   loco=3  score=6/0
+     pink    $2    income=6    shares=7   loco=3  score=5/0
+     black   $0    income=5    shares=7   loco=3  score=1/0
+     brown   $1    income=3    shares=6   loco=3  score=-5/0
+     blue    $0    income=-2   shares=5   loco=3  score=Eliminated OUT
+round 3 end
+     yellow  $1    income=10   shares=7   loco=3  score=21/0
+     black   $0    income=11   shares=9   loco=4  score=15/0
+     pink    $9    income=10   shares=10  loco=3  score=11/0
+     brown   $0    income=7    shares=7   loco=3  score=6/0
+     blue    $0    income=-2   shares=5   loco=3  score=Eliminated OUT
+round 4 end
+     yellow  $3    income=14   shares=9   loco=4  score=30/0
+     black   $7    income=17   shares=12  loco=4  score=27/0
+     pink    $0    income=9    shares=10  loco=4  score=12/0
+     brown   $1    income=9    shares=8   loco=3  score=10/0
+     blue    $0    income=-2   shares=5   loco=3  score=Eliminated OUT
+round 5 end
+     yellow  $4    income=17   shares=11  loco=6  score=36/0
+     black   $6    income=18   shares=13  loco=5  score=30/0
+     pink    $3    income=15   shares=13  loco=4  score=22/0
+     brown   $0    income=7    shares=9   loco=4  score=4/0
+     blue    $0    income=-2   shares=5   loco=3  score=Eliminated OUT
+round 6 end
+     yellow  $11   income=23   shares=12  loco=6  score=54/0
+     black   $11   income=24   shares=13  loco=5  score=49/0
+     pink    $9    income=18   shares=15  loco=5  score=25/0
+     brown   $0    income=0    shares=11  loco=5  score=-21/0
+     blue    $0    income=-2   shares=5   loco=3  score=Eliminated OUT
+round 7 end
+     yellow  $18   income=27   shares=12  loco=6  score=70/0
+     black   $19   income=25   shares=13  loco=5  score=54/0
+     pink    $9    income=26   shares=15  loco=6  score=49/0
+     blue    $0    income=-2   shares=5   loco=3  score=Eliminated OUT
+     brown   $0    income=-12  shares=13  loco=6  score=Eliminated OUT
+final standings
+  1. yellow  $18   income=27   shares=12  loco=6  score=70/0
+  2. black   $19   income=25   shares=13  loco=5  score=54/0
+  3. pink    $9    income=26   shares=15  loco=6  score=49/0
+  4. blue    $0    income=-2   shares=5   loco=3  score=Eliminated OUT
+  5. brown   $0    income=-12  shares=13  loco=6  score=Eliminated OUT

@@ -1,0 +1,28 @@
+game 2771 / scotland / 2 players / 138 actions
+round 1 end
+     green   $3    income=2    shares=4   loco=2  score=0/0
+     blue    $5    income=2    shares=4   loco=1  score=-3/0
+round 2 end
+     green   $0    income=7    shares=6   loco=3  score=13/0
+     blue    $4    income=4    shares=6   loco=2  score=0/0
+round 3 end
+     green   $0    income=9    shares=8   loco=4  score=16/0
+     blue    $5    income=7    shares=8   loco=2  score=3/0
+round 4 end
+     green   $3    income=14   shares=11  loco=5  score=27/0
+     blue    $2    income=10   shares=10  loco=3  score=10/0
+round 5 end
+     green   $1    income=16   shares=13  loco=6  score=29/0
+     blue    $5    income=15   shares=12  loco=3  score=21/0
+round 6 end
+     green   $6    income=22   shares=15  loco=6  score=44/0
+     blue    $9    income=19   shares=12  loco=3  score=33/0
+round 7 end
+     green   $11   income=26   shares=15  loco=6  score=57/0
+     blue    $11   income=22   shares=12  loco=4  score=44/0
+round 8 end
+     green   $18   income=29   shares=15  loco=6  score=65/0
+     blue    $16   income=26   shares=12  loco=4  score=55/0
+final standings
+  1. green   $18   income=29   shares=15  loco=6  score=65/0
+  2. blue    $16   income=26   shares=12  loco=4  score=55/0

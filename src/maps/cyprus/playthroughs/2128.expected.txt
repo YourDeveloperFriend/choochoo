@@ -1,0 +1,45 @@
+game 2128 / cyprus / 3 players / 251 actions
+round 1 end
+     green   $3    income=2    shares=4   loco=2  score=-2/0
+     blue    $7    income=2    shares=4   loco=2  score=-4/0
+     red     $11   income=1    shares=4   loco=2  score=-7/0
+round 2 end
+     green   $7    income=6    shares=6   loco=2  score=6/0
+     blue    $3    income=5    shares=6   loco=3  score=1/0
+     red     $2    income=2    shares=5   loco=3  score=-5/0
+round 3 end
+     blue    $7    income=10   shares=8   loco=4  score=12/0
+     green   $4    income=8    shares=8   loco=2  score=8/0
+     red     $2    income=5    shares=8   loco=4  score=-5/0
+round 4 end
+     blue    $5    income=16   shares=9   loco=5  score=29/0
+     green   $1    income=10   shares=10  loco=2  score=12/0
+     red     $7    income=11   shares=10  loco=4  score=9/0
+round 5 end
+     blue    $11   income=21   shares=11  loco=5  score=40/0
+     red     $11   income=16   shares=11  loco=4  score=24/0
+     green   $0    income=12   shares=12  loco=3  score=14/0
+round 6 end
+     blue    $17   income=25   shares=11  loco=6  score=54/0
+     green   $3    income=16   shares=12  loco=3  score=26/0
+     red     $14   income=17   shares=12  loco=5  score=26/0
+round 7 end
+     blue    $21   income=29   shares=11  loco=6  score=70/0
+     red     $11   income=21   shares=12  loco=5  score=40/0
+     green   $8    income=17   shares=13  loco=4  score=28/0
+round 8 end
+     blue    $31   income=31   shares=11  loco=6  score=78/0
+     red     $13   income=25   shares=12  loco=6  score=54/0
+     green   $12   income=21   shares=13  loco=4  score=42/0
+round 9 end
+     blue    $34   income=34   shares=11  loco=6  score=93/0
+     red     $18   income=28   shares=12  loco=6  score=66/0
+     green   $19   income=25   shares=13  loco=4  score=52/0
+round 10 end
+     blue    $46   income=36   shares=11  loco=6  score=99/0
+     red     $29   income=31   shares=12  loco=6  score=74/0
+     green   $30   income=28   shares=13  loco=5  score=63/0
+final standings
+  1. blue    $46   income=36   shares=11  loco=6  score=99/0
+  2. red     $29   income=31   shares=12  loco=6  score=74/0
+  3. green   $30   income=28   shares=13  loco=5  score=63/0

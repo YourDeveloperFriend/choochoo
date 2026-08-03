@@ -1,0 +1,46 @@
+game 2850 / chesapeake-and-ohio / 4 players / 340 actions
+round 1 end
+     red     $2    income=2    shares=3   loco=2  score=3/0
+     brown   $1    income=3    shares=4   loco=2  score=1/0
+     blue    $4    income=2    shares=4   loco=3  score=-2/0
+     black   $7    income=2    shares=4   loco=2  score=-3/0
+round 2 end
+     blue    $0    income=8    shares=6   loco=3  score=12/0
+     black   $2    income=7    shares=5   loco=3  score=11/0
+     brown   $0    income=8    shares=7   loco=3  score=10/0
+     red     $4    income=6    shares=5   loco=2  score=10/0
+round 3 end
+     brown   $8    income=18   shares=12  loco=3  score=28/0
+     blue    $8    income=14   shares=9   loco=3  score=25/0
+     red     $9    income=12   shares=7   loco=3  score=22/0
+     black   $7    income=9    shares=8   loco=4  score=11/0
+round 4 end
+     red     $9    income=18   shares=8   loco=3  score=41/0
+     blue    $19   income=18   shares=11  loco=3  score=34/0
+     brown   $9    income=22   shares=14  loco=4  score=34/0
+     black   $3    income=15   shares=10  loco=4  score=25/0
+round 5 end
+     red     $14   income=23   shares=9   loco=4  score=57/0
+     brown   $15   income=30   shares=14  loco=4  score=56/0
+     blue    $9    income=21   shares=11  loco=4  score=46/0
+     black   $6    income=18   shares=12  loco=5  score=31/0
+round 6 end
+     brown   $25   income=40   shares=14  loco=5  score=86/0
+     red     $25   income=30   shares=9   loco=4  score=76/0
+     blue    $15   income=25   shares=12  loco=5  score=58/0
+     black   $10   income=26   shares=14  loco=5  score=50/0
+round 7 end
+     brown   $37   income=49   shares=14  loco=6  score=116/0
+     red     $39   income=35   shares=9   loco=4  score=94/0
+     blue    $19   income=31   shares=12  loco=5  score=76/0
+     black   $16   income=30   shares=14  loco=5  score=67/0
+round 8 end
+     brown   $73   income=57   shares=14  loco=6  score=143/0
+     red     $44   income=38   shares=9   loco=4  score=106/0
+     blue    $28   income=35   shares=12  loco=5  score=93/0
+     black   $24   income=37   shares=14  loco=6  score=90/0
+final standings
+  1. brown   $73   income=57   shares=14  loco=6  score=143/0
+  2. red     $44   income=38   shares=9   loco=4  score=106/0
+  3. blue    $28   income=35   shares=12  loco=5  score=93/0
+  4. black   $24   income=37   shares=14  loco=6  score=90/0

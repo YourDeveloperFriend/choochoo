@@ -1,0 +1,46 @@
+game 2951 / japan / 4 players / 276 actions
+round 1 end
+     brown   $7    income=4    shares=4   loco=1  score=4/0
+     black   $4    income=2    shares=3   loco=2  score=2/0
+     green   $1    income=2    shares=3   loco=2  score=1/0
+     yellow  $8    income=2    shares=4   loco=2  score=-4/0
+round 2 end
+     black   $3    income=8    shares=6   loco=2  score=14/0
+     brown   $0    income=6    shares=5   loco=2  score=11/0
+     green   $0    income=3    shares=5   loco=3  score=2/0
+     yellow  $5    income=5    shares=6   loco=3  score=1/0
+round 3 end
+     brown   $4    income=9    shares=7   loco=3  score=16/0
+     black   $0    income=10   shares=9   loco=3  score=15/0
+     yellow  $1    income=9    shares=7   loco=4  score=13/0
+     green   $1    income=8    shares=9   loco=4  score=9/0
+round 4 end
+     yellow  $4    income=15   shares=9   loco=4  score=30/0
+     brown   $3    income=11   shares=8   loco=4  score=21/0
+     green   $2    income=13   shares=10  loco=4  score=21/0
+     black   $0    income=12   shares=11  loco=4  score=17/0
+round 5 end
+     brown   $6    income=17   shares=9   loco=4  score=39/0
+     green   $7    income=18   shares=11  loco=4  score=37/0
+     yellow  $6    income=18   shares=11  loco=5  score=35/0
+     black   $1    income=15   shares=14  loco=5  score=19/0
+round 6 end
+     brown   $14   income=23   shares=11  loco=4  score=56/0
+     green   $11   income=22   shares=11  loco=4  score=52/0
+     yellow  $8    income=19   shares=12  loco=6  score=36/0
+     black   $6    income=21   shares=15  loco=5  score=35/0
+round 7 end
+     brown   $20   income=26   shares=11  loco=4  score=66/0
+     green   $22   income=26   shares=12  loco=4  score=64/0
+     yellow  $11   income=25   shares=13  loco=6  score=53/0
+     black   $9    income=25   shares=15  loco=5  score=51/0
+round 8 end
+     yellow  $18   income=31   shares=13  loco=6  score=74/0
+     brown   $19   income=28   shares=11  loco=4  score=72/0
+     green   $20   income=30   shares=12  loco=4  score=70/0
+     black   $15   income=28   shares=15  loco=5  score=63/0
+final standings
+  1. yellow  $18   income=31   shares=13  loco=6  score=74/0
+  2. brown   $19   income=28   shares=11  loco=4  score=72/0
+  3. green   $20   income=30   shares=12  loco=4  score=70/0
+  4. black   $15   income=28   shares=15  loco=5  score=63/0

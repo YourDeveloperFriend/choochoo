@@ -1,0 +1,46 @@
+game 2451 / australia / 4 players / 262 actions
+round 1 end
+     green   $2    income=2    shares=4   loco=2  score=-1/0
+     yellow  $4    income=2    shares=4   loco=2  score=-3/0
+     black   $3    income=2    shares=4   loco=1  score=-4/0
+     blue    $1    income=0    shares=5   loco=3  score=-12/0
+round 2 end
+     blue    $6    income=10   shares=8   loco=3  score=14/0
+     yellow  $0    income=6    shares=6   loco=2  score=6/0
+     green   $0    income=5    shares=7   loco=3  score=1/0
+     black   $0    income=4    shares=6   loco=2  score=-2/0
+round 3 end
+     blue    $10   income=13   shares=10  loco=3  score=19/0
+     yellow  $0    income=10   shares=9   loco=3  score=11/0
+     green   $1    income=9    shares=10  loco=4  score=9/0
+     black   $5    income=8    shares=9   loco=2  score=4/0
+round 4 end
+     blue    $5    income=15   shares=11  loco=4  score=24/0
+     yellow  $5    income=12   shares=12  loco=4  score=12/0
+     green   $0    income=10   shares=13  loco=5  score=6/0
+     black   $0    income=10   shares=12  loco=4  score=4/0
+round 5 end
+     blue    $11   income=24   shares=13  loco=5  score=47/0
+     black   $4    income=18   shares=12  loco=4  score=28/0
+     yellow  $3    income=17   shares=13  loco=4  score=26/0
+     green   $4    income=13   shares=15  loco=6  score=6/0
+round 6 end
+     blue    $14   income=28   shares=14  loco=6  score=58/0
+     yellow  $7    income=21   shares=15  loco=4  score=38/0
+     black   $12   income=20   shares=12  loco=4  score=34/0
+     green   $9    income=22   shares=15  loco=6  score=31/0
+round 7 end
+     blue    $24   income=32   shares=14  loco=6  score=71/0
+     black   $13   income=26   shares=12  loco=5  score=55/0
+     yellow  $12   income=24   shares=15  loco=4  score=48/0
+     green   $19   income=25   shares=15  loco=6  score=40/0
+round 8 end
+     blue    $36   income=39   shares=14  loco=6  score=95/0
+     black   $29   income=28   shares=12  loco=5  score=61/0
+     yellow  $16   income=27   shares=15  loco=5  score=59/0
+     green   $20   income=27   shares=15  loco=6  score=48/0
+final standings
+  1. blue    $36   income=39   shares=14  loco=6  score=95/0
+  2. black   $29   income=28   shares=12  loco=5  score=61/0
+  3. yellow  $16   income=27   shares=15  loco=5  score=59/0
+  4. green   $20   income=27   shares=15  loco=6  score=48/0

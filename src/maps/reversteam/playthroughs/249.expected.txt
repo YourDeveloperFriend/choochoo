@@ -1,0 +1,45 @@
+game 249 / reversteam / 3 players / 268 actions
+round 1 end
+     green   $3    income=2    shares=3   loco=2  score=0/0
+     red     $3    income=2    shares=4   loco=3  score=-2/0
+     yellow  $9    income=1    shares=4   loco=2  score=-6/0
+round 2 end
+     red     $0    income=6    shares=6   loco=3  score=7/0
+     yellow  $7    income=4    shares=6   loco=2  score=1/0
+     green   $0    income=1    shares=5   loco=4  score=-6/0
+round 3 end
+     red     $1    income=12   shares=9   loco=4  score=19/0
+     green   $3    income=8    shares=8   loco=4  score=9/0
+     yellow  $0    income=5    shares=8   loco=3  score=1/0
+round 4 end
+     red     $5    income=18   shares=11  loco=4  score=30/0
+     green   $5    income=14   shares=10  loco=4  score=26/0
+     yellow  $4    income=11   shares=11  loco=4  score=11/0
+round 5 end
+     green   $10   income=20   shares=12  loco=5  score=41/0
+     red     $6    income=17   shares=12  loco=5  score=27/0
+     yellow  $1    income=16   shares=13  loco=4  score=23/0
+round 6 end
+     green   $15   income=26   shares=13  loco=5  score=59/0
+     red     $8    income=22   shares=13  loco=6  score=42/0
+     yellow  $4    income=18   shares=15  loco=5  score=26/0
+round 7 end
+     green   $22   income=32   shares=13  loco=6  score=78/0
+     red     $16   income=29   shares=13  loco=6  score=66/0
+     yellow  $2    income=19   shares=15  loco=6  score=31/0
+round 8 end
+     green   $27   income=35   shares=13  loco=6  score=92/0
+     red     $25   income=34   shares=13  loco=6  score=83/0
+     yellow  $11   income=26   shares=15  loco=6  score=52/0
+round 9 end
+     green   $32   income=39   shares=13  loco=6  score=105/0
+     red     $33   income=37   shares=13  loco=6  score=94/0
+     yellow  $20   income=30   shares=15  loco=6  score=67/0
+round 10 end
+     green   $45   income=40   shares=13  loco=6  score=111/0
+     red     $33   income=40   shares=13  loco=6  score=105/0
+     yellow  $32   income=33   shares=15  loco=6  score=79/0
+final standings
+  1. green   $45   income=40   shares=13  loco=6  score=111/0
+  2. red     $33   income=40   shares=13  loco=6  score=105/0
+  3. yellow  $32   income=33   shares=15  loco=6  score=79/0

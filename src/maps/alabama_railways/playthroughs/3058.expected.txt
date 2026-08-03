@@ -1,0 +1,28 @@
+game 3058 / alabama-railways / 2 players / 129 actions
+round 1 end
+     black   $0    income=0    shares=3   loco=2  score=-6/0
+     green   $9    income=0    shares=5   loco=3  score=-10/0
+round 2 end
+     green   $3    income=4    shares=7   loco=3  score=0/0
+     black   $1    income=2    shares=6   loco=3  score=-7/0
+round 3 end
+     green   $0    income=7    shares=9   loco=3  score=7/0
+     black   $1    income=7    shares=8   loco=4  score=4/0
+round 4 end
+     green   $0    income=9    shares=11  loco=4  score=10/0
+     black   $2    income=9    shares=9   loco=4  score=8/0
+round 5 end
+     green   $4    income=13   shares=12  loco=4  score=19/0
+     black   $0    income=12   shares=11  loco=5  score=13/0
+round 6 end
+     green   $4    income=17   shares=12  loco=5  score=31/0
+     black   $4    income=18   shares=13  loco=5  score=28/0
+round 7 end
+     green   $9    income=21   shares=12  loco=6  score=43/0
+     black   $9    income=22   shares=14  loco=5  score=40/0
+round 8 end
+     green   $15   income=24   shares=12  loco=6  score=54/0
+     black   $19   income=26   shares=14  loco=6  score=52/0
+final standings
+  1. green   $15   income=24   shares=12  loco=6  score=54/0
+  2. black   $19   income=26   shares=14  loco=6  score=52/0

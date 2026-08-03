@@ -1,0 +1,45 @@
+game 2970 / holland / 3 players / 259 actions
+round 1 end
+     green   $4    income=2    shares=4   loco=2  score=-2/0
+     yellow  $1    income=0    shares=3   loco=3  score=-4/0
+     brown   $1    income=0    shares=3   loco=2  score=-6/0
+round 2 end
+     green   $3    income=5    shares=7   loco=3  score=1/0
+     yellow  $1    income=4    shares=6   loco=4  score=1/0
+     brown   $2    income=1    shares=6   loco=3  score=-9/0
+round 3 end
+     yellow  $2    income=10   shares=9   loco=5  score=14/0
+     green   $4    income=9    shares=10  loco=4  score=8/0
+     brown   $0    income=5    shares=10  loco=4  score=-3/0
+round 4 end
+     green   $11   income=15   shares=13  loco=4  score=20/0
+     brown   $3    income=12   shares=13  loco=5  score=11/0
+     yellow  $5    income=10   shares=12  loco=6  score=8/0
+round 5 end
+     green   $12   income=19   shares=14  loco=5  score=32/0
+     yellow  $3    income=18   shares=14  loco=6  score=30/0
+     brown   $1    income=18   shares=14  loco=5  score=29/0
+round 6 end
+     green   $12   income=25   shares=14  loco=5  score=54/0
+     brown   $8    income=24   shares=15  loco=6  score=46/0
+     yellow  $6    income=23   shares=15  loco=6  score=44/0
+round 7 end
+     green   $24   income=33   shares=14  loco=6  score=81/0
+     brown   $14   income=28   shares=15  loco=6  score=62/0
+     yellow  $14   income=28   shares=15  loco=6  score=61/0
+round 8 end
+     green   $37   income=38   shares=14  loco=6  score=99/0
+     yellow  $22   income=33   shares=15  loco=6  score=81/0
+     brown   $24   income=33   shares=15  loco=6  score=80/0
+round 9 end
+     green   $44   income=40   shares=14  loco=6  score=110/0
+     brown   $40   income=37   shares=15  loco=6  score=96/0
+     yellow  $26   income=36   shares=15  loco=6  score=93/0
+round 10 end
+     green   $41   income=42   shares=14  loco=6  score=119/0
+     yellow  $44   income=41   shares=15  loco=6  score=110/0
+     brown   $31   income=39   shares=15  loco=6  score=105/0
+final standings
+  1. green   $41   income=42   shares=14  loco=6  score=119/0
+  2. yellow  $44   income=41   shares=15  loco=6  score=110/0
+  3. brown   $31   income=39   shares=15  loco=6  score=105/0

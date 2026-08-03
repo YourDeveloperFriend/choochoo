@@ -1,0 +1,50 @@
+game 2604 / eastern-us-and-canada / 6 players / 321 actions
+round 1 end
+     black   $1    income=4    shares=2   loco=2  score=8/0
+     purple  $5    income=2    shares=2   loco=2  score=2/0
+     yellow  $0    income=2    shares=2   loco=2  score=2/0
+     pink    $1    income=1    shares=1   loco=2  score=1/0
+     green   $3    income=1    shares=2   loco=2  score=-1/0
+     red     $4    income=1    shares=2   loco=2  score=-2/0
+round 2 end
+     black   $5    income=7    shares=4   loco=3  score=13/0
+     purple  $2    income=5    shares=3   loco=3  score=10/0
+     red     $3    income=5    shares=3   loco=2  score=9/0
+     green   $0    income=4    shares=3   loco=3  score=7/0
+     pink    $0    income=3    shares=2   loco=3  score=6/0
+     yellow  $0    income=4    shares=5   loco=4  score=1/0
+round 3 end
+     black   $9    income=12   shares=5   loco=4  score=28/0
+     green   $4    income=10   shares=6   loco=3  score=19/0
+     yellow  $1    income=10   shares=7   loco=4  score=16/0
+     purple  $0    income=7    shares=5   loco=4  score=15/0
+     red     $6    income=9    shares=6   loco=3  score=15/0
+     pink    $4    income=7    shares=5   loco=4  score=12/0
+round 4 end
+     black   $6    income=15   shares=6   loco=5  score=38/0
+     green   $5    income=16   shares=9   loco=4  score=33/0
+     yellow  $5    income=15   shares=9   loco=4  score=29/0
+     purple  $3    income=13   shares=8   loco=4  score=25/0
+     red     $7    income=11   shares=9   loco=4  score=18/0
+     pink    $0    income=9    shares=9   loco=5  score=12/0
+round 5 end
+     black   $11   income=21   shares=8   loco=6  score=53/0
+     green   $7    income=18   shares=10  loco=5  score=37/0
+     yellow  $4    income=18   shares=11  loco=5  score=37/0
+     pink    $4    income=17   shares=11  loco=5  score=34/0
+     purple  $5    income=16   shares=10  loco=5  score=34/0
+     red     $4    income=14   shares=10  loco=5  score=28/0
+round 6 end
+     black   $20   income=27   shares=8   loco=6  score=69/0
+     yellow  $14   income=26   shares=12  loco=6  score=60/0
+     green   $13   income=23   shares=10  loco=5  score=55/0
+     pink    $10   income=23   shares=12  loco=5  score=51/0
+     purple  $10   income=22   shares=12  loco=5  score=49/0
+     red     $9    income=20   shares=11  loco=5  score=42/0
+final standings
+  1. black   $20   income=27   shares=8   loco=6  score=69/0
+  2. yellow  $14   income=26   shares=12  loco=6  score=60/0
+  3. green   $13   income=23   shares=10  loco=5  score=55/0
+  4. pink    $10   income=23   shares=12  loco=5  score=51/0
+  5. purple  $10   income=22   shares=12  loco=5  score=49/0
+  6. red     $9    income=20   shares=11  loco=5  score=42/0

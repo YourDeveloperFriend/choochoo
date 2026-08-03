@@ -1,0 +1,46 @@
+game 2522 / california-gold-rush / 4 players / 235 actions
+round 1 end
+     purple  $3    income=1    shares=3   loco=1  score=12/0
+     green   $3    income=1    shares=3   loco=2  score=-2/0
+     brown   $5    income=2    shares=4   loco=2  score=-3/0
+     pink    $3    income=2    shares=4   loco=2  score=-3/0
+round 2 end
+     purple  $2    income=3    shares=4   loco=1  score=31/0
+     pink    $1    income=4    shares=7   loco=3  score=11/0
+     brown   $0    income=5    shares=6   loco=2  score=5/0
+     green   $2    income=4    shares=6   loco=3  score=1/0
+round 3 end
+     purple  $0    income=4    shares=5   loco=2  score=47/0
+     brown   $1    income=7    shares=9   loco=2  score=20/0
+     pink    $4    income=9    shares=11  loco=3  score=17/0
+     green   $0    income=7    shares=9   loco=4  score=5/0
+round 4 end
+     purple  $0    income=7    shares=7   loco=2  score=50/0
+     brown   $0    income=7    shares=12  loco=2  score=31/0
+     pink    $0    income=9    shares=13  loco=3  score=31/0
+     green   $0    income=9    shares=13  loco=6  score=2/0
+round 5 end
+     purple  $2    income=9    shares=9   loco=2  score=67/0
+     brown   $0    income=11   shares=15  loco=3  score=35/0
+     pink    $0    income=12   shares=15  loco=3  score=35/0
+     green   $5    income=17   shares=15  loco=6  score=21/0
+round 6 end
+     purple  $2    income=10   shares=11  loco=3  score=84/0
+     pink    $0    income=15   shares=15  loco=4  score=44/0
+     brown   $0    income=14   shares=15  loco=3  score=42/0
+     green   $3    income=19   shares=15  loco=6  score=29/0
+round 7 end
+     purple  $0    income=7    shares=13  loco=3  score=101/0
+     pink    $4    income=19   shares=15  loco=4  score=56/0
+     brown   $0    income=17   shares=15  loco=4  score=51/0
+     green   $10   income=26   shares=15  loco=6  score=49/0
+round 8 end
+     purple  $0    income=6    shares=15  loco=3  score=119/0
+     green   $17   income=32   shares=15  loco=6  score=71/0
+     pink    $1    income=18   shares=15  loco=4  score=68/0
+     brown   $2    income=17   shares=15  loco=4  score=51/0
+final standings
+  1. purple  $0    income=6    shares=15  loco=3  score=119/0
+  2. green   $17   income=32   shares=15  loco=6  score=71/0
+  3. pink    $1    income=18   shares=15  loco=4  score=68/0
+  4. brown   $2    income=17   shares=15  loco=4  score=51/0

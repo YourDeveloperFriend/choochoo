@@ -1,0 +1,49 @@
+game 2724 / vermont / 5 players / 310 actions
+round 1 end
+     purple  $3    income=4    shares=4   loco=1  score=4/0
+     red     $1    income=3    shares=3   loco=2  score=3/0
+     green   $3    income=4    shares=4   loco=2  score=2/0
+     yellow  $3    income=3    shares=4   loco=2  score=1/0
+     black   $0    income=2    shares=4   loco=2  score=-3/0
+round 2 end
+     red     $0    income=6    shares=5   loco=3  score=9/0
+     green   $7    income=8    shares=7   loco=2  score=8/0
+     purple  $4    income=7    shares=8   loco=3  score=5/0
+     yellow  $10   income=6    shares=7   loco=3  score=4/0
+     black   $0    income=4    shares=7   loco=3  score=-3/0
+round 3 end
+     yellow  $6    income=12   shares=8   loco=3  score=22/0
+     red     $7    income=12   shares=9   loco=3  score=18/0
+     green   $18   income=12   shares=9   loco=2  score=17/0
+     black   $0    income=11   shares=10  loco=4  score=11/0
+     purple  $0    income=9    shares=10  loco=4  score=10/0
+round 4 end
+     green   $7    income=14   shares=9   loco=4  score=28/0
+     yellow  $10   income=14   shares=9   loco=4  score=28/0
+     black   $6    income=16   shares=13  loco=4  score=20/0
+     red     $9    income=14   shares=12  loco=4  score=18/0
+     purple  $3    income=12   shares=12  loco=5  score=16/0
+round 5 end
+     yellow  $12   income=22   shares=10  loco=5  score=51/0
+     green   $10   income=20   shares=10  loco=4  score=45/0
+     purple  $8    income=20   shares=13  loco=5  score=38/0
+     black   $13   income=20   shares=13  loco=4  score=32/0
+     red     $3    income=17   shares=13  loco=5  score=27/0
+round 6 end
+     yellow  $17   income=26   shares=10  loco=5  score=64/0
+     purple  $19   income=26   shares=13  loco=5  score=58/0
+     green   $15   income=25   shares=11  loco=5  score=55/0
+     black   $12   income=24   shares=13  loco=4  score=47/0
+     red     $8    income=23   shares=15  loco=5  score=43/0
+round 7 end
+     yellow  $26   income=32   shares=10  loco=5  score=81/0
+     purple  $19   income=32   shares=13  loco=6  score=79/0
+     green   $22   income=31   shares=11  loco=5  score=77/0
+     black   $31   income=27   shares=13  loco=4  score=59/0
+     red     $22   income=27   shares=15  loco=5  score=56/0
+final standings
+  1. yellow  $26   income=32   shares=10  loco=5  score=81/0
+  2. purple  $19   income=32   shares=13  loco=6  score=79/0
+  3. green   $22   income=31   shares=11  loco=5  score=77/0
+  4. black   $31   income=27   shares=13  loco=4  score=59/0
+  5. red     $22   income=27   shares=15  loco=5  score=56/0

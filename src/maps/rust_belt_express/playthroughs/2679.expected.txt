@@ -1,0 +1,31 @@
+game 2679 / rust-belt-express / 4 players / 161 actions
+round 1 end
+     purple  $5    income=2    shares=3   loco=3  score=-1/0
+     yellow  $6    income=2    shares=4   loco=2  score=-2/0
+     green   $7    income=2    shares=5   loco=2  score=-7/0
+     red     $3    income=1    shares=4   loco=2  score=-7/0
+round 2 end
+     purple  $1    income=7    shares=4   loco=3  score=14/0
+     yellow  $1    income=8    shares=6   loco=3  score=11/0
+     green   $0    income=6    shares=5   loco=2  score=8/0
+     red     $0    income=5    shares=6   loco=2  score=2/0
+round 3 end
+     purple  $1    income=10   shares=5   loco=4  score=22/0
+     yellow  $4    income=12   shares=8   loco=3  score=21/0
+     red     $0    income=9    shares=9   loco=2  score=8/0
+     green   $0    income=6    shares=7   loco=4  score=4/0
+round 4 end
+     purple  $10   income=18   shares=7   loco=5  score=43/0
+     yellow  $3    income=14   shares=10  loco=4  score=24/0
+     red     $1    income=11   shares=11  loco=2  score=11/0
+     green   $0    income=8    shares=10  loco=5  score=6/0
+round 5 end
+     purple  $19   income=25   shares=7   loco=5  score=64/0
+     yellow  $8    income=17   shares=10  loco=4  score=33/0
+     red     $5    income=17   shares=13  loco=3  score=20/0
+     green   $0    income=6    shares=10  loco=6  score=-2/0
+final standings
+  1. purple  $19   income=25   shares=7   loco=5  score=64/0
+  2. yellow  $8    income=17   shares=10  loco=4  score=33/0
+  3. red     $5    income=17   shares=13  loco=3  score=20/0
+  4. green   $0    income=6    shares=10  loco=6  score=-2/0

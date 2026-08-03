@@ -1,0 +1,28 @@
+game 3032 / st-lucia / 2 players / 129 actions
+round 1 end
+     brown   $4    income=1    shares=3   loco=2  score=-2/0
+     black   $2    income=1    shares=4   loco=2  score=-5/0
+round 2 end
+     brown   $3    income=4    shares=5   loco=3  score=4/0
+     black   $5    income=5    shares=7   loco=3  score=0/0
+round 3 end
+     brown   $0    income=7    shares=6   loco=3  score=13/0
+     black   $4    income=9    shares=9   loco=4  score=9/0
+round 4 end
+     brown   $11   income=13   shares=9   loco=4  score=25/0
+     black   $8    income=13   shares=11  loco=4  score=18/0
+round 5 end
+     brown   $8    income=17   shares=10  loco=4  score=34/0
+     black   $5    income=17   shares=12  loco=6  score=32/0
+round 6 end
+     black   $11   income=24   shares=14  loco=6  score=48/0
+     brown   $12   income=21   shares=11  loco=5  score=44/0
+round 7 end
+     brown   $20   income=28   shares=11  loco=6  score=70/0
+     black   $18   income=25   shares=15  loco=6  score=47/0
+round 8 end
+     brown   $29   income=34   shares=11  loco=6  score=90/0
+     black   $20   income=27   shares=15  loco=6  score=58/0
+final standings
+  1. brown   $29   income=34   shares=11  loco=6  score=90/0
+  2. black   $20   income=27   shares=15  loco=6  score=58/0

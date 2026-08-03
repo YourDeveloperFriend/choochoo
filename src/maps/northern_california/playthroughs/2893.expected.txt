@@ -1,0 +1,46 @@
+game 2893 / northern-california / 4 players / 267 actions
+round 1 end
+     purple  $4    income=2    shares=3   loco=2  score=0/0
+     brown   $0    income=0    shares=2   loco=2  score=-3/0
+     yellow  $2    income=0    shares=3   loco=2  score=-6/0
+     black   $6    income=0    shares=4   loco=3  score=-8/0
+round 2 end
+     brown   $1    income=4    shares=5   loco=3  score=4/0
+     purple  $2    income=5    shares=7   loco=3  score=0/0
+     black   $0    income=3    shares=7   loco=4  score=-4/0
+     yellow  $0    income=0    shares=6   loco=3  score=-10/0
+round 3 end
+     brown   $3    income=9    shares=8   loco=4  score=14/0
+     purple  $0    income=10   shares=9   loco=4  score=12/0
+     black   $4    income=9    shares=11  loco=4  score=5/0
+     yellow  $0    income=1    shares=8   loco=3  score=-12/0
+round 4 end
+     brown   $7    income=14   shares=10  loco=4  score=26/0
+     purple  $5    income=14   shares=12  loco=5  score=17/0
+     black   $0    income=10   shares=13  loco=5  score=5/0
+     yellow  $4    income=8    shares=11  loco=4  score=2/0
+round 5 end
+     brown   $9    income=20   shares=11  loco=4  score=47/0
+     purple  $1    income=18   shares=13  loco=6  score=26/0
+     yellow  $1    income=14   shares=13  loco=5  score=14/0
+     black   $0    income=10   shares=15  loco=5  score=-3/0
+round 6 end
+     brown   $16   income=25   shares=12  loco=5  score=60/0
+     purple  $10   income=26   shares=14  loco=6  score=50/0
+     yellow  $3    income=17   shares=13  loco=5  score=23/0
+     black   $0    income=10   shares=15  loco=5  score=-3/0
+round 7 end
+     brown   $21   income=29   shares=12  loco=6  score=78/0
+     purple  $21   income=32   shares=14  loco=6  score=72/0
+     yellow  $4    income=19   shares=14  loco=5  score=26/0
+     black   $0    income=6    shares=15  loco=5  score=-15/0
+round 8 end
+     purple  $25   income=37   shares=14  loco=6  score=92/0
+     brown   $24   income=33   shares=12  loco=6  score=89/0
+     yellow  $7    income=23   shares=14  loco=6  score=40/0
+     black   $0    income=2    shares=15  loco=5  score=-27/0
+final standings
+  1. purple  $25   income=37   shares=14  loco=6  score=92/0
+  2. brown   $24   income=33   shares=12  loco=6  score=89/0
+  3. yellow  $7    income=23   shares=14  loco=6  score=40/0
+  4. black   $0    income=2    shares=15  loco=5  score=-27/0

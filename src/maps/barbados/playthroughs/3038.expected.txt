@@ -1,0 +1,23 @@
+game 3038 / barbados / 1 players / 73 actions
+round 1 end
+     yellow  $2    income=2    shares=2   loco=2  score=-8
+round 2 end
+     yellow  $2    income=6    shares=3   loco=2  score=-13
+round 3 end
+     yellow  $1    income=8    shares=4   loco=4  score=-19
+round 4 end
+     yellow  $1    income=10   shares=5   loco=5  score=-24
+round 5 end
+     yellow  $5    income=14   shares=6   loco=5  score=-25
+round 6 end
+     yellow  $8    income=17   shares=7   loco=5  score=-27
+round 7 end
+     yellow  $16   income=25   shares=7   loco=6  score=-19
+round 8 end
+     yellow  $30   income=31   shares=7   loco=6  score=-5
+round 9 end
+     yellow  $60   income=35   shares=7   loco=6  score=25
+round 10 end
+     yellow  $51   income=33   shares=0   loco=6  score=51
+final standings
+  1. yellow  $51   income=33   shares=0   loco=6  score=51

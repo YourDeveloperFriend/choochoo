@@ -1,0 +1,46 @@
+game 2514 / korea / 4 players / 289 actions
+round 1 end
+     yellow  $7    income=4    shares=4   loco=2  score=3/0
+     red     $4    income=2    shares=3   loco=2  score=1/0
+     black   $6    income=2    shares=4   loco=2  score=-2/0
+     pink    $1    income=1    shares=3   loco=2  score=-3/0
+round 2 end
+     yellow  $0    income=7    shares=5   loco=3  score=12/0
+     red     $3    income=6    shares=5   loco=2  score=11/0
+     black   $0    income=6    shares=6   loco=3  score=8/0
+     pink    $1    income=4    shares=5   loco=3  score=2/0
+round 3 end
+     yellow  $4    income=11   shares=6   loco=3  score=23/0
+     red     $4    income=10   shares=8   loco=3  score=20/0
+     black   $2    income=10   shares=8   loco=3  score=17/0
+     pink    $5    income=8    shares=8   loco=4  score=8/0
+round 4 end
+     yellow  $7    income=15   shares=7   loco=3  score=36/0
+     black   $6    income=14   shares=10  loco=3  score=26/0
+     pink    $4    income=14   shares=10  loco=5  score=24/0
+     red     $4    income=12   shares=10  loco=4  score=23/0
+round 5 end
+     yellow  $8    income=17   shares=7   loco=4  score=45/0
+     pink    $10   income=19   shares=11  loco=5  score=40/0
+     red     $7    income=18   shares=12  loco=5  score=39/0
+     black   $9    income=16   shares=10  loco=4  score=32/0
+round 6 end
+     red     $11   income=23   shares=12  loco=5  score=57/0
+     pink    $16   income=25   shares=13  loco=6  score=55/0
+     yellow  $15   income=18   shares=9   loco=5  score=44/0
+     black   $8    income=18   shares=10  loco=5  score=36/0
+round 7 end
+     pink    $19   income=31   shares=13  loco=6  score=76/0
+     red     $16   income=27   shares=12  loco=5  score=74/0
+     yellow  $16   income=25   shares=9   loco=6  score=67/0
+     black   $15   income=24   shares=10  loco=5  score=57/0
+round 8 end
+     pink    $26   income=35   shares=13  loco=6  score=88/0
+     yellow  $23   income=31   shares=9   loco=6  score=88/0
+     red     $22   income=29   shares=12  loco=5  score=81/0
+     black   $23   income=26   shares=10  loco=5  score=66/0
+final standings
+  1. pink    $26   income=35   shares=13  loco=6  score=88/0
+  2. yellow  $23   income=31   shares=9   loco=6  score=88/0
+  3. red     $22   income=29   shares=12  loco=5  score=81/0
+  4. black   $23   income=26   shares=10  loco=5  score=66/0

@@ -1,0 +1,43 @@
+game 2825 / soul-train / 5 players / 288 actions
+round 1 end
+     brown   $0    income=3    shares=2   loco=2  score=9/0
+     black   $10   income=4    shares=5   loco=2  score=3/0
+     green   $9    income=2    shares=3   loco=2  score=2/0
+     yellow  $6    income=1    shares=2   loco=2  score=2/0
+     blue    $5    income=0    shares=4   loco=2  score=-6/0
+round 2 end
+     brown   $5    income=6    shares=6   loco=3  score=12/0
+     green   $0    income=5    shares=5   loco=4  score=9/0
+     black   $0    income=5    shares=8   loco=3  score=4/0
+     yellow  $5    income=1    shares=5   loco=3  score=0/0
+     blue    $0    income=-2   shares=6   loco=3  score=Eliminated OUT
+round 3 end
+     brown   $0    income=10   shares=9   loco=5  score=21/0
+     green   $0    income=10   shares=8   loco=5  score=16/0
+     black   $3    income=8    shares=11  loco=4  score=4/0
+     yellow  $0    income=2    shares=7   loco=4  score=1/0
+     blue    $0    income=-2   shares=6   loco=3  score=Eliminated OUT
+round 4 end
+     brown   $11   income=22   shares=13  loco=5  score=41/0
+     green   $4    income=19   shares=12  loco=5  score=26/0
+     black   $2    income=20   shares=13  loco=5  score=25/0
+     yellow  $0    income=10   shares=10  loco=4  score=2/0
+     blue    $0    income=-2   shares=6   loco=3  score=Eliminated OUT
+round 1 end
+     brown   $21   income=32   shares=13  loco=5  score=77/0
+     green   $14   income=22   shares=14  loco=5  score=35/0
+     black   $4    income=20   shares=15  loco=6  score=25/0
+     yellow  $0    income=13   shares=13  loco=5  score=9/0
+     blue    $0    income=-2   shares=6   loco=3  score=Eliminated OUT
+round 2 end
+     brown   $30   income=37   shares=13  loco=5  score=95/0
+     black   $8    income=23   shares=15  loco=6  score=34/0
+     green   $5    income=21   shares=14  loco=6  score=32/0
+     yellow  $1    income=16   shares=15  loco=5  score=18/0
+     blue    $0    income=-2   shares=6   loco=3  score=Eliminated OUT
+final standings
+  1. brown   $30   income=37   shares=13  loco=5  score=95/0
+  2. black   $8    income=23   shares=15  loco=6  score=34/0
+  3. green   $5    income=21   shares=14  loco=6  score=32/0
+  4. yellow  $1    income=16   shares=15  loco=5  score=18/0
+  5. blue    $0    income=-2   shares=6   loco=3  score=Eliminated OUT

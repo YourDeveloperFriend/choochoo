@@ -1,0 +1,49 @@
+game 2866 / SwedenRecycling / 5 players / 302 actions
+round 1 end
+     green   $4    income=4    shares=4   loco=2  score=5/0
+     brown   $4    income=2    shares=3   loco=2  score=2/0
+     pink    $0    income=2    shares=3   loco=2  score=2/0
+     purple  $6    income=2    shares=3   loco=2  score=0/0
+     yellow  $7    income=2    shares=4   loco=2  score=-1/0
+round 2 end
+     green   $3    income=8    shares=7   loco=2  score=12/0
+     yellow  $5    income=6    shares=5   loco=2  score=11/0
+     purple  $5    income=6    shares=5   loco=3  score=9/0
+     brown   $0    income=4    shares=4   loco=3  score=8/0
+     pink    $6    income=4    shares=7   loco=3  score=-1/0
+round 3 end
+     purple  $1    income=10   shares=6   loco=4  score=23/0
+     yellow  $1    income=10   shares=7   loco=4  score=23/0
+     brown   $1    income=7    shares=6   loco=4  score=18/0
+     pink    $1    income=10   shares=9   loco=3  score=18/0
+     green   $0    income=10   shares=8   loco=3  score=15/0
+round 4 end
+     purple  $7    income=16   shares=7   loco=4  score=41/0
+     yellow  $6    income=15   shares=8   loco=4  score=36/0
+     pink    $6    income=14   shares=11  loco=3  score=26/0
+     brown   $4    income=10   shares=8   loco=5  score=21/0
+     green   $8    income=14   shares=11  loco=4  score=21/0
+round 5 end
+     purple  $9    income=18   shares=8   loco=5  score=47/0
+     yellow  $10   income=18   shares=9   loco=4  score=46/0
+     brown   $9    income=18   shares=9   loco=5  score=45/0
+     green   $6    income=18   shares=11  loco=4  score=40/0
+     pink    $6    income=17   shares=13  loco=5  score=33/0
+round 6 end
+     yellow  $13   income=22   shares=9   loco=4  score=61/0
+     brown   $15   income=22   shares=10  loco=5  score=60/0
+     purple  $12   income=22   shares=8   loco=6  score=59/0
+     green   $10   income=22   shares=12  loco=5  score=53/0
+     pink    $13   income=23   shares=14  loco=5  score=51/0
+round 7 end
+     purple  $19   income=25   shares=8   loco=6  score=71/0
+     brown   $17   income=23   shares=10  loco=5  score=67/0
+     green   $14   income=26   shares=14  loco=5  score=67/0
+     pink    $16   income=27   shares=14  loco=5  score=66/0
+     yellow  $13   income=24   shares=10  loco=5  score=62/0
+final standings
+  1. purple  $19   income=25   shares=8   loco=6  score=71/0
+  2. brown   $17   income=23   shares=10  loco=5  score=67/0
+  3. green   $14   income=26   shares=14  loco=5  score=67/0
+  4. pink    $16   income=27   shares=14  loco=5  score=66/0
+  5. yellow  $13   income=24   shares=10  loco=5  score=62/0

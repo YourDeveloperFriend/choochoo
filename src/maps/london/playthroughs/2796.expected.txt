@@ -1,0 +1,43 @@
+game 2796 / london / 5 players / 321 actions
+round 1 end
+     blue    $4    income=4    shares=5   loco=2  score=1/0
+     pink    $5    income=2    shares=5   loco=2  score=-1/0
+     brown   $4    income=2    shares=4   loco=2  score=-2/0
+     yellow  $4    income=2    shares=4   loco=2  score=-2/0
+     purple  $8    income=2    shares=5   loco=2  score=-3/0
+round 2 end
+     pink    $2    income=6    shares=9   loco=2  score=4/0
+     purple  $2    income=6    shares=7   loco=3  score=4/0
+     blue    $0    income=6    shares=7   loco=2  score=3/0
+     yellow  $0    income=5    shares=7   loco=3  score=2/0
+     brown   $1    income=5    shares=6   loco=3  score=1/0
+round 3 end
+     purple  $2    income=10   shares=10  loco=3  score=9/0
+     brown   $2    income=9    shares=8   loco=3  score=8/0
+     pink    $0    income=10   shares=12  loco=3  score=8/0
+     yellow  $0    income=9    shares=10  loco=3  score=7/0
+     blue    $4    income=9    shares=10  loco=3  score=5/0
+round 4 end
+     brown   $6    income=13   shares=10  loco=3  score=15/0
+     pink    $0    income=13   shares=14  loco=3  score=10/0
+     blue    $1    income=12   shares=12  loco=3  score=9/0
+     purple  $7    income=12   shares=13  loco=4  score=9/0
+     yellow  $0    income=12   shares=13  loco=4  score=8/0
+round 5 end
+     yellow  $1    income=17   shares=15  loco=4  score=18/0
+     brown   $5    income=15   shares=12  loco=4  score=16/0
+     blue    $2    income=16   shares=14  loco=3  score=15/0
+     pink    $1    income=17   shares=17  loco=4  score=14/0
+     purple  $1    income=15   shares=15  loco=4  score=14/0
+round 6 end
+     brown   $9    income=19   shares=12  loco=4  score=24/0
+     yellow  $7    income=22   shares=18  loco=5  score=24/0
+     blue    $9    income=20   shares=16  loco=3  score=20/0
+     pink    $3    income=21   shares=20  loco=4  score=20/0
+     purple  $0    income=17   shares=18  loco=4  score=10/0
+final standings
+  1. brown   $9    income=19   shares=12  loco=4  score=24/0
+  2. yellow  $7    income=22   shares=18  loco=5  score=24/0
+  3. blue    $9    income=20   shares=16  loco=3  score=20/0
+  4. pink    $3    income=21   shares=20  loco=4  score=20/0
+  5. purple  $0    income=17   shares=18  loco=4  score=10/0

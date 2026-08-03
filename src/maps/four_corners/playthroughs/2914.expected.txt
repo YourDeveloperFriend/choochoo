@@ -1,0 +1,46 @@
+game 2914 / four-corners / 4 players / 209 actions
+round 1 end
+     black   $1    income=2    shares=4   loco=1  score=-3/0
+     green   $0    income=0    shares=3   loco=2  score=-6/0
+     purple  $6    income=1    shares=4   loco=3  score=-6/0
+     yellow  $0    income=-2   shares=4   loco=2  score=Eliminated OUT
+round 2 end
+     purple  $1    income=6    shares=6   loco=3  score=6/0
+     black   $0    income=2    shares=7   loco=2  score=-9/0
+     green   $0    income=0    shares=6   loco=3  score=-11/0
+     yellow  $0    income=-2   shares=4   loco=2  score=Eliminated OUT
+round 3 end
+     purple  $8    income=14   shares=9   loco=3  score=24/0
+     black   $0    income=6    shares=10  loco=3  score=-3/0
+     green   $0    income=2    shares=10  loco=4  score=-13/0
+     yellow  $0    income=-2   shares=4   loco=2  score=Eliminated OUT
+round 4 end
+     purple  $9    income=14   shares=11  loco=4  score=21/0
+     black   $4    income=15   shares=13  loco=4  score=18/0
+     green   $1    income=10   shares=14  loco=4  score=4/0
+     yellow  $0    income=-2   shares=4   loco=2  score=Eliminated OUT
+round 5 end
+     purple  $20   income=22   shares=13  loco=4  score=43/0
+     black   $10   income=21   shares=15  loco=5  score=33/0
+     green   $3    income=17   shares=15  loco=4  score=21/0
+     yellow  $0    income=-2   shares=4   loco=2  score=Eliminated OUT
+round 6 end
+     purple  $24   income=25   shares=13  loco=4  score=55/0
+     black   $15   income=28   shares=15  loco=5  score=54/0
+     green   $8    income=24   shares=15  loco=5  score=44/0
+     yellow  $0    income=-2   shares=4   loco=2  score=Eliminated OUT
+round 7 end
+     black   $20   income=33   shares=15  loco=5  score=74/0
+     green   $18   income=32   shares=15  loco=5  score=70/0
+     purple  $25   income=29   shares=13  loco=5  score=70/0
+     yellow  $0    income=-2   shares=4   loco=2  score=Eliminated OUT
+round 8 end
+     purple  $27   income=36   shares=13  loco=6  score=94/0
+     black   $29   income=35   shares=15  loco=5  score=85/0
+     green   $34   income=36   shares=15  loco=5  score=85/0
+     yellow  $0    income=-2   shares=4   loco=2  score=Eliminated OUT
+final standings
+  1. purple  $27   income=36   shares=13  loco=6  score=94/0
+  2. black   $29   income=35   shares=15  loco=5  score=85/0
+  3. green   $34   income=36   shares=15  loco=5  score=85/0
+  4. yellow  $0    income=-2   shares=4   loco=2  score=Eliminated OUT

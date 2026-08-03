@@ -1,0 +1,13 @@
+game 3003 / detroit-bankruptcy / 1 players / 41 actions
+round 1 end
+     black   $1    income=2    shares=9   loco=2  score=2/2
+round 2 end
+     black   $0    income=2    shares=12  loco=2  score=3/2
+round 3 end
+     black   $0    income=0    shares=15  loco=3  score=4/0
+round 4 end
+     black   $0    income=0    shares=19  loco=5  score=5/0
+round 5 end
+     black   $0    income=1    shares=24  loco=5  score=6/1
+final standings
+  1. black   $0    income=-9   shares=25  loco=6  score=6/-9     OUT

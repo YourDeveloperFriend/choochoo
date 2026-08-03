@@ -1,0 +1,31 @@
+game 2753 / mexico / 2 players / 168 actions
+round 1 end
+     green   $2    income=2    shares=2   loco=1  score=3/0
+     purple  $5    income=2    shares=3   loco=2  score=0/0
+round 2 end
+     purple  $8    income=6    shares=5   loco=2  score=8/0
+     green   $2    income=4    shares=4   loco=2  score=7/0
+round 3 end
+     green   $5    income=8    shares=6   loco=2  score=17/0
+     purple  $6    income=9    shares=6   loco=2  score=17/0
+round 4 end
+     green   $5    income=11   shares=7   loco=3  score=26/0
+     purple  $8    income=9    shares=7   loco=3  score=16/0
+round 5 end
+     green   $8    income=15   shares=8   loco=3  score=38/0
+     purple  $9    income=12   shares=8   loco=4  score=24/0
+round 6 end
+     green   $7    income=15   shares=8   loco=3  score=41/0
+     purple  $17   income=17   shares=9   loco=4  score=38/0
+round 7 end
+     green   $8    income=18   shares=8   loco=4  score=53/0
+     purple  $17   income=17   shares=9   loco=5  score=40/0
+round 8 end
+     purple  $20   income=22   shares=9   loco=5  score=58/0
+     green   $11   income=18   shares=8   loco=4  score=54/0
+round 9 end
+     purple  $23   income=24   shares=9   loco=6  score=66/0
+     green   $12   income=19   shares=8   loco=4  score=62/0
+final standings
+  1. purple  $23   income=24   shares=9   loco=6  score=66/0
+  2. green   $12   income=19   shares=8   loco=4  score=62/0

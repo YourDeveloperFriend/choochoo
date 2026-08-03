@@ -1,0 +1,49 @@
+game 2831 / madagascar / 5 players / 220 actions
+round 1 end
+     black   $0    income=2    shares=3   loco=2  score=1/0
+     purple  $5    income=1    shares=2   loco=2  score=-2/0
+     green   $4    income=2    shares=4   loco=2  score=-3/0
+     yellow  $3    income=0    shares=3   loco=2  score=-5/0
+     pink    $7    income=1    shares=4   loco=2  score=-6/0
+round 2 end
+     purple  $4    income=5    shares=3   loco=2  score=10/0
+     black   $1    income=4    shares=5   loco=2  score=4/0
+     pink    $5    income=5    shares=6   loco=2  score=3/0
+     green   $6    income=5    shares=6   loco=3  score=1/0
+     yellow  $0    income=-1   shares=5   loco=3  score=Eliminated OUT
+round 3 end
+     purple  $6    income=9    shares=4   loco=2  score=20/0
+     green   $2    income=9    shares=8   loco=4  score=10/0
+     pink    $10   income=9    shares=8   loco=2  score=10/0
+     black   $0    income=7    shares=8   loco=3  score=7/0
+     yellow  $0    income=-1   shares=5   loco=3  score=Eliminated OUT
+round 4 end
+     purple  $5    income=10   shares=4   loco=3  score=26/0
+     pink    $13   income=12   shares=8   loco=3  score=19/0
+     black   $2    income=11   shares=10  loco=3  score=16/0
+     green   $2    income=11   shares=9   loco=5  score=15/0
+     yellow  $0    income=-1   shares=5   loco=3  score=Eliminated OUT
+round 5 end
+     purple  $14   income=15   shares=4   loco=4  score=41/0
+     green   $8    income=18   shares=10  loco=5  score=35/0
+     pink    $11   income=13   shares=8   loco=4  score=23/0
+     black   $2    income=13   shares=12  loco=4  score=20/0
+     yellow  $0    income=-1   shares=5   loco=3  score=Eliminated OUT
+round 6 end
+     purple  $11   income=18   shares=4   loco=5  score=53/0
+     green   $11   income=19   shares=10  loco=6  score=40/0
+     pink    $12   income=17   shares=8   loco=4  score=38/0
+     black   $5    income=18   shares=13  loco=5  score=32/0
+     yellow  $0    income=-1   shares=5   loco=3  score=Eliminated OUT
+round 7 end
+     purple  $18   income=22   shares=4   loco=5  score=65/0
+     green   $20   income=25   shares=10  loco=6  score=59/0
+     black   $14   income=24   shares=13  loco=6  score=50/0
+     pink    $13   income=20   shares=8   loco=4  score=47/0
+     yellow  $0    income=-1   shares=5   loco=3  score=Eliminated OUT
+final standings
+  1. purple  $18   income=22   shares=4   loco=5  score=65/0
+  2. green   $20   income=25   shares=10  loco=6  score=59/0
+  3. black   $14   income=24   shares=13  loco=6  score=50/0
+  4. pink    $13   income=20   shares=8   loco=4  score=47/0
+  5. yellow  $0    income=-1   shares=5   loco=3  score=Eliminated OUT
