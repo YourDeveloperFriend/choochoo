@@ -21,7 +21,9 @@ export function deepEquals<T>(
       t1.every((v, i) => deepEquals(t2[i], v, path.concat(`${i}`)))
     );
   } else if (ImmutableSet.isSet(t1) || t1 instanceof Set) {
-    if (!(ImmutableSet.isSet(t2) && t2 instanceof Set)) return false;
+    // `||`, not `&&`: no value is both an ImmutableSet and a native Set, so
+    // requiring both made every set comparison false.
+    if (!(ImmutableSet.isSet(t2) || t2 instanceof Set)) return false;
     const t2List = [...t2];
     return (
       t1.size === t2.size &&
