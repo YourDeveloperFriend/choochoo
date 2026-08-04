@@ -56,3 +56,22 @@ export type LandData = Immutable<MutableLandData>;
 export const MutableSpaceData = z.union([MutableCityData, MutableLandData]);
 export type MutableSpaceData = z.infer<typeof MutableSpaceData>;
 export type SpaceData = Immutable<MutableSpaceData>;
+
+/**
+ * Parses one space, dispatching on `type` instead of trying both members.
+ *
+ * `MutableSpaceData.parse` tries city first and, for the land spaces that make up
+ * most of a grid, builds and discards a ZodError before falling through -- which
+ * made error construction the single largest cost of parsing a grid. Dispatching
+ * skips that; a malformed space now reports against the shape it claims to be,
+ * rather than as a union of two failures.
+ *
+ * Not expressed as `z.discriminatedUnion`, which requires a literal or enum
+ * discriminator: MutableLandData's is `SpaceTypeZod.refine(isLandType)`.
+ */
+export function parseSpaceData(value: unknown): MutableSpaceData {
+  const type = (value as { type?: unknown } | null | undefined)?.type;
+  return type === SpaceType.CITY
+    ? MutableCityData.parse(value)
+    : MutableLandData.parse(value);
+}

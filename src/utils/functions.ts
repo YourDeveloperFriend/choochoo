@@ -86,9 +86,12 @@ export function removeKeys<T, R extends keyof T>(
   return result as Omit<T, R>;
 }
 
+// Hoisted: isPrimitive is called on every value deepEquals walks, and rebuilding
+// this set per call cost ~15% of a playthrough replay.
+const PRIMITIVE_TYPES = new Set(["boolean", "number", "string"]);
+
 export function isPrimitive(value: unknown): value is Primitive {
-  const primitives = new Set(["boolean", "number", "string"]);
-  return primitives.has(typeof value);
+  return PRIMITIVE_TYPES.has(typeof value);
 }
 
 export function partition<R, T>(arr: R[], fn: (r: R) => T): Map<T, R[]> {

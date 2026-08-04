@@ -19,7 +19,7 @@ import {
   PlayerColorZod,
   PlayerData,
 } from "../state/player";
-import { MutableSpaceData } from "../state/space";
+import { MutableSpaceData, parseSpaceData } from "../state/space";
 import { GameMemory } from "./game_memory";
 
 export const TURN_ORDER = new Key("turnOrder", {
@@ -38,7 +38,7 @@ export const GRID_VERSION = new Key("gridVersion", { parse: z.number().parse });
 export const GRID = new MapKey<Coordinates, MutableSpaceData>(
   "grid",
   CoordinatesZod.parse,
-  MutableSpaceData.parse,
+  parseSpaceData,
 );
 
 export const INTER_CITY_CONNECTIONS = new Key("interCityConnections", {
@@ -89,19 +89,59 @@ export const injectCurrentPlayer = compose(
     players().find((player) => player.color === currentPlayer())!,
 );
 
-export const injectGrid = compose(
-  () => ({
-    game: inject(GameMemory),
-    grid: injectState(GRID),
-    connections: injectState(INTER_CITY_CONNECTIONS),
-  }),
-  ({ grid, game, connections }, previousGrid?: Grid) => {
-    if (previousGrid) {
-      return previousGrid.merge(grid(), connections() ?? []);
+const NO_CONNECTIONS: InterCityConnection[] = [];
+
+/**
+ * The Grid for the current state, rebuilt only when the underlying state changes.
+ *
+ * Deliberately not written with `compose`, which re-runs its transform on every
+ * call. Rebuilding here means `Grid.merge`, which deep-compares every space's data
+ * against the space already built -- affordable once per change, but this getter is
+ * called many times per action (every neighbor lookup during route finding goes
+ * through it), and re-merging on each call dominated the engine: it was ~80% of a
+ * recorded playthrough replay, and the same cost is paid serving a real move.
+ *
+ * Both inputs come from the StateStore, which replaces a value's reference on
+ * write and never mutates in place, so reference equality is a sound test for
+ * "unchanged" -- the same assumption `composeState` already makes. When the state
+ * has changed we still merge into the previous Grid rather than rebuilding from
+ * scratch, so untouched spaces keep their identity.
+ */
+export function injectGrid(): () => Grid {
+  const game = inject(GameMemory);
+  const grid = injectState(GRID);
+  const connections = injectState(INTER_CITY_CONNECTIONS);
+
+  let memoized:
+    | {
+        gridData: ReturnType<typeof grid>;
+        connectionsData: ReturnType<typeof connections>;
+        value: Grid;
+      }
+    | undefined;
+
+  return () => {
+    const gridData = grid();
+    const connectionsData = connections();
+    if (
+      memoized != null &&
+      memoized.gridData === gridData &&
+      memoized.connectionsData === connectionsData
+    ) {
+      return memoized.value;
     }
-    const settings = MapRegistry.singleton.get(game.getGame().gameKey);
-    return Grid.fromData(settings, grid(), connections() ?? []);
-  },
-);
+
+    const value =
+      memoized != null
+        ? memoized.value.merge(gridData, connectionsData ?? NO_CONNECTIONS)
+        : Grid.fromData(
+            MapRegistry.singleton.get(game.getGame().gameKey),
+            gridData,
+            connectionsData ?? NO_CONNECTIONS,
+          );
+    memoized = { gridData, connectionsData, value };
+    return value;
+  };
+}
 
 export const TEST_ONLY_PLAYERS = PLAYERS;
