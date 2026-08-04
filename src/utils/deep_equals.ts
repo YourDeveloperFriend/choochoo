@@ -8,7 +8,6 @@ export function deepEquals<T>(
   t2: NoInfer<T>,
   path: string[] = [],
 ): unknown {
-  const pathStr = path.join(" -> ");
   if (isPrimitive(t1)) {
     return t1 === t2;
   } else if (t1 == null) {
@@ -46,8 +45,37 @@ export function deepEquals<T>(
   } else if (t1 instanceof Coordinates) {
     return t1 === t2;
   } else {
-    assert(typeof t1 === "object", `Expected object, found ${t1}: ` + pathStr);
-    assert(typeof t2 === "object", `Expected object, found ${t2}: ` + pathStr);
-    return deepEquals(new Map(Object.entries(t1)), new Map(Object.entries(t2)));
+    // Guarded so that neither the path string nor the interpolation of the values
+    // is built on the passing path -- this branch runs for every object compared.
+    if (typeof t1 !== "object" || typeof t2 !== "object") {
+      const pathStr = path.join(" -> ");
+      assert(
+        typeof t1 === "object",
+        `Expected object, found ${t1}: ` + pathStr,
+      );
+      assert(
+        typeof t2 === "object",
+        `Expected object, found ${t2}: ` + pathStr,
+      );
+    }
+    // Compares keys directly rather than routing through the Map branch above.
+    // That path looked up each key with a linear `find` over the other object's
+    // keys, making an object comparison quadratic in its field count.
+    const keys1 = Object.keys(t1 as object);
+    const o2 = t2 as Record<string, unknown>;
+    if (keys1.length !== Object.keys(o2).length) return false;
+    for (const key of keys1) {
+      if (!(key in o2)) return false;
+      if (
+        !deepEquals(
+          (t1 as Record<string, unknown>)[key],
+          o2[key],
+          path.concat(key),
+        )
+      ) {
+        return false;
+      }
+    }
+    return true;
   }
 }
