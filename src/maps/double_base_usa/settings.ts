@@ -54,7 +54,7 @@ export class DoubleBaseUsaMapSettings implements MapSettings {
     8: PlayerCountRating.RECOMMENDED,
   };
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.ALPHA;
+  readonly stage = ReleaseStage.PRODUCTION;
   readonly interCityConnections = interCityConnections(map, [
     {
       connects: ["Philadelphia", "New York City"],

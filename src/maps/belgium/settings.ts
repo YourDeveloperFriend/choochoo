@@ -38,7 +38,7 @@ export class BelgiumMapSettings implements MapSettings {
     8: PlayerCountRating.NOT_SUPPORTED,
   };
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.ALPHA;
+  readonly stage = ReleaseStage.PRODUCTION;
 
   getOverrides() {
     return [

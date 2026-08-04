@@ -27,7 +27,7 @@ export class CaliforniaGoldRushMapSettings implements MapSettings {
     8: PlayerCountRating.NOT_SUPPORTED,
   };
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.BETA;
+  readonly stage = ReleaseStage.PRODUCTION;
 
   getOverrides() {
     return [

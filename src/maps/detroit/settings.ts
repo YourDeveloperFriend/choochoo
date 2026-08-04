@@ -46,7 +46,7 @@ export class DetroitBankruptcyMapSettings implements MapSettings {
     8: PlayerCountRating.NOT_SUPPORTED,
   };
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.ALPHA;
+  readonly stage = ReleaseStage.PRODUCTION;
   readonly interCityConnections = interCityConnections(map, [
     { connects: ["Midtown Detroit", "Downtown Detroit"] },
     { connects: ["Windsor", "Windsor Airport"] },

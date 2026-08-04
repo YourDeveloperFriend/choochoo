@@ -34,7 +34,7 @@ export class KoreaWallaceMapSettings implements MapSettings {
     { connects: ["Inchon", "Suwon"] },
     { connects: ["Suwon", "Seoul"] },
   ]);
-  readonly stage = ReleaseStage.BETA;
+  readonly stage = ReleaseStage.PRODUCTION;
 
   getOverrides() {
     return [

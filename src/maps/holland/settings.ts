@@ -30,7 +30,7 @@ export class HollandMapSettings implements MapSettings {
   };
   readonly startingGrid = map;
   readonly rotation = Rotation.COUNTER_CLOCKWISE;
-  readonly stage = ReleaseStage.ALPHA;
+  readonly stage = ReleaseStage.PRODUCTION;
   readonly variantConfig = HollandVariantConfig;
 
   getOverrides() {
