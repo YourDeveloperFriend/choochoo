@@ -41,7 +41,7 @@ export class LondonMapSettings implements MapSettings {
     { connects: ["Bloomsbury", "Shoreditch"], cost: 4 },
     { connects: ["Westminster", "Waterloo"], cost: 4 },
   ]);
-  readonly stage = ReleaseStage.BETA;
+  readonly stage = ReleaseStage.PRODUCTION;
 
   getOverrides() {
     return [
