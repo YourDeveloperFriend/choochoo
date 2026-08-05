@@ -57,6 +57,7 @@ import { SwedenRecyclingViewSettings } from "./sweden/view_settings";
 import { TrislandViewSettings } from "./trisland/view_settings";
 import { UnionPacificExpressViewSettings } from "./union_pacific_express/view_settings";
 import { VermontViewSettings } from "./vermont/view_settings";
+import { WyomingViewSettings } from "./wyoming/view_settings";
 
 export class ViewRegistry {
   static readonly singleton = new ViewRegistry();
@@ -118,6 +119,7 @@ export class ViewRegistry {
     this.add(new TrislandViewSettings());
     this.add(new UnionPacificExpressViewSettings());
     this.add(new VermontViewSettings());
+    this.add(new WyomingViewSettings());
   }
 
   values(): Iterable<MapViewSettings> {
