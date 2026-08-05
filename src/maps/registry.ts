@@ -57,6 +57,7 @@ import { SwedenRecyclingMapSettings } from "./sweden/settings";
 import { TrislandMapSettings } from "./trisland/settings";
 import { UnionPacificExpressMapSettings } from "./union_pacific_express/settings";
 import { VermontMapSettings } from "./vermont/settings";
+import { WyomingMapSettings } from "./wyoming/settings";
 
 export class MapRegistry {
   static readonly singleton = new MapRegistry();
@@ -118,6 +119,7 @@ export class MapRegistry {
     this.add(new TrislandMapSettings());
     this.add(new UnionPacificExpressMapSettings());
     this.add(new VermontMapSettings());
+    this.add(new WyomingMapSettings());
   }
 
   values(): Iterable<MapSettings> {
