@@ -177,12 +177,8 @@ export class GameEngine {
       return;
     }
 
-    const playerOrder = this.delegator.get().getPlayerOrder();
-    const playerIndex = playerOrder.indexOf(playerColor);
-    const nextPlayer: PlayerColor | undefined =
-      playerIndex >= 0 ? playerOrder[playerIndex + 1] : undefined;
-
     this.turn.end();
+    const nextPlayer = this.delegator.get().findNextPlayer(playerColor);
     if (this.doEliminate(playerColor)) return;
 
     if (nextPlayer != null) {
