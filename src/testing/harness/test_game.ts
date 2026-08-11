@@ -6,7 +6,11 @@ import { LimitedGame } from "../../engine/game/game_memory";
 import { PHASE } from "../../engine/game/phase";
 import { ROUND } from "../../engine/game/round";
 import { PhaseDelegator } from "../../engine/game/phase_delegator";
-import { CURRENT_PLAYER, TURN_ORDER } from "../../engine/game/state";
+import {
+  CURRENT_PLAYER,
+  TEST_ONLY_PLAYERS,
+  TURN_ORDER,
+} from "../../engine/game/state";
 import { ActionConstructor } from "../../engine/game/phase_module";
 import { PlayerUser } from "../../engine/game/starter";
 import { MapRegistry } from "../../maps/registry";
@@ -336,6 +340,50 @@ export class TestGame {
         throw e;
       }
     });
+  }
+
+  /**
+   * Kicks the active player for inactivity, as an idle-timeout would.
+   *
+   * Mirrors the server's `abandonGame(game, game.activePlayerId, kicked=true)`
+   * path, which always targets the active player.
+   */
+  kick(color: PlayerColor): this {
+    const current = this.currentPlayer;
+    if (current !== color) {
+      throw new Error(
+        `Only the active player can be kicked; expected it to be ` +
+          `${playerColorToString(color)}'s turn, but it is ` +
+          `${playerColorToString(current)}'s (${this.summary}).`,
+      );
+    }
+    const playerId = readGame(this.readable, () =>
+      injectState(TEST_ONLY_PLAYERS)().find((p) => p.color === color),
+    )?.playerId;
+    if (playerId == null) {
+      throw new Error(
+        `No player found for color ${playerColorToString(color)}`,
+      );
+    }
+
+    const before = this.summary;
+    this.state = EngineDelegator.singleton.forceEliminatePlayer(
+      this.limited,
+      playerId,
+      /* isActivePlayer= */ true,
+      `${playerColorToString(color)} kicked for inactivity`,
+    );
+
+    this.actionCount++;
+    this.latestSnapshot = undefined;
+    this.logsFromLastAction = [...this.state.logs];
+    this.allLogs.push(...this.state.logs);
+
+    this.referee.check(
+      this.snapshot(),
+      `kick ${playerColorToString(color)} #${this.actionCount} (during "${before}")`,
+    );
+    return this;
   }
 
   /** Emits an action as the current player. */
