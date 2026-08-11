@@ -1,0 +1,7 @@
+.stateBorder {
+  stroke: #3b3b3b;
+}
+
+:global(.dark-mode) .stateBorder {
+  stroke: #bbbbbb;
+}
