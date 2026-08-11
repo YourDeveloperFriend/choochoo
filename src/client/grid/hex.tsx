@@ -550,6 +550,7 @@ interface EdgeBoundaryProps {
   size: number;
   direction: Direction;
   color?: string;
+  className?: string;
 }
 
 export function EdgeBoundary({
@@ -557,6 +558,7 @@ export function EdgeBoundary({
   size,
   direction,
   color,
+  className,
 }: EdgeBoundaryProps) {
   const [corner1, corner2] = useMemo(
     () => edgeCorners(center, size, direction),
@@ -564,11 +566,12 @@ export function EdgeBoundary({
   );
   return (
     <line
+      className={className}
       x1={corner1.x}
       y1={corner1.y}
       x2={corner2.x}
       y2={corner2.y}
-      stroke={color ?? "red"}
+      stroke={className ? undefined : (color ?? "red")}
       strokeLinecap="round"
       strokeWidth={size / 8}
     />

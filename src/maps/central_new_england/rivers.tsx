@@ -1,4 +1,5 @@
 import * as styles from "../../client/grid/hex.module.css";
+import * as localStyles from "./rivers.module.css";
 import { TexturesProps } from "../view_settings";
 import { CentralNewEnglandMapData } from "./grid";
 import { EdgeBoundary } from "../../client/grid/hex";
@@ -28,7 +29,7 @@ export function CentralNewEnglandOverlayLayer(props: TexturesProps) {
             center={center}
             size={props.size}
             direction={direction}
-            color="#3b3b3b"
+            className={localStyles.stateBorder}
           />,
         );
       }
