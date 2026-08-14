@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Phase } from "../../engine/state/phase";
 import { MapViewSettings } from "../view_settings";
-import { OahuProduction } from "./action_summary";
+import { OahuActionSelector } from "./action_summary";
 import { OahuRules } from "./rules";
 import { OahuOverlayLayer } from "./layers";
 import { OahuMapSettings } from "./settings";
@@ -14,8 +14,8 @@ export class OahuViewSettings
   getOverlayLayer = OahuOverlayLayer;
 
   getActionSummary(phase: Phase | undefined): (() => ReactNode) | undefined {
-    if (phase === Phase.GOODS_GROWTH) {
-      return OahuProduction;
+    if (phase === Phase.ACTION_SELECTION) {
+      return OahuActionSelector;
     }
     return undefined;
   }

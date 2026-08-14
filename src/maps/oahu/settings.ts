@@ -9,12 +9,12 @@ import {
   OahuActionNamingProvider,
   OahuAllowedActions,
   OahuSelectAction,
+  OahuSelectActionPhase,
 } from "./actions";
 import { OahuBuildCostCalculator, OahuValidator } from "./build";
 import { map } from "./grid";
 import { OahuMoveHelper } from "./move";
 import { OahuGoodsGrowthPhase, OahuProductionAction } from "./production";
-import { OahuStarter } from "./starter";
 
 export class OahuMapSettings implements MapSettings {
   readonly key = "oahu";
@@ -39,10 +39,10 @@ export class OahuMapSettings implements MapSettings {
 
   getOverrides() {
     return [
-      OahuStarter,
       OahuAllowedActions,
       OahuActionNamingProvider,
       OahuSelectAction,
+      OahuSelectActionPhase,
       OahuBuildCostCalculator,
       OahuValidator,
       OahuMoveHelper,
