@@ -7,10 +7,12 @@ import { PHASE } from "../../engine/game/phase";
 import { ROUND } from "../../engine/game/round";
 import { PhaseDelegator } from "../../engine/game/phase_delegator";
 import {
+  AVAILABLE_CITIES,
   CURRENT_PLAYER,
   TEST_ONLY_PLAYERS,
   TURN_ORDER,
 } from "../../engine/game/state";
+import { AvailableCity } from "../../engine/state/available_city";
 import { ActionConstructor } from "../../engine/game/phase_module";
 import { PlayerUser } from "../../engine/game/starter";
 import { MapRegistry } from "../../maps/registry";
@@ -249,6 +251,11 @@ export class TestGame {
     return this.read(({ turnOrder }) => turnOrder);
   }
 
+  /** The New Cities not yet urbanized onto the board. */
+  get availableCities(): AvailableCity[] {
+    return this.read(({ availableCities }) => [...availableCities]);
+  }
+
   private read<T>(fn: (state: EngineView) => T): T {
     return readGame(this.readable, () =>
       fn({
@@ -256,6 +263,7 @@ export class TestGame {
         round: injectState(ROUND)(),
         currentPlayer: injectState(CURRENT_PLAYER)(),
         turnOrder: [...injectState(TURN_ORDER).getOr([])],
+        availableCities: injectState(AVAILABLE_CITIES).getOr([]),
       }),
     );
   }
@@ -437,6 +445,7 @@ interface EngineView {
   round: number;
   currentPlayer: PlayerColor;
   turnOrder: PlayerColor[];
+  availableCities: readonly AvailableCity[];
 }
 
 /**

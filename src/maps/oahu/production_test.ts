@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { ProductionAction } from "../../engine/goods_growth/production";
-import { DoneAction } from "../../engine/build/done";
-import { MovePassAction } from "../../engine/move/pass";
 import { SelectAction } from "../../engine/select_action/select";
 import { TakeSharesAction } from "../../engine/shares/take_shares";
 import { Action } from "../../engine/state/action";
@@ -23,12 +21,13 @@ function newGame(seed = "oahu-production"): TestGame {
 
 /**
  * Plays the opening phases without building or moving anything, so the goods
- * display is still exactly as it was dealt when production runs.
+ * display is still exactly as it was dealt when production runs. Stops right
+ * after the first player selects Production, which resolves immediately
+ * during action selection instead of waiting for a later phase.
  */
 function toProduction(game: TestGame): TestGame {
-  const actions = [Action.PRODUCTION, Action.FIRST_BUILD, Action.FIRST_MOVE];
   let guard = 0;
-  while (game.phase !== Phase.GOODS_GROWTH && guard++ < 200) {
+  while (game.phase !== Phase.ACTION_SELECTION && guard++ < 200) {
     switch (game.phase) {
       case Phase.SHARES:
         game.emit(TakeSharesAction, { numShares: 0 });
@@ -36,19 +35,11 @@ function toProduction(game: TestGame): TestGame {
       case Phase.TURN_ORDER:
         game.emit(TurnOrderPassAction, {});
         break;
-      case Phase.ACTION_SELECTION:
-        game.emit(SelectAction, { action: actions.shift()! });
-        break;
-      case Phase.BUILDING:
-        game.emit(DoneAction, {});
-        break;
-      case Phase.MOVING:
-        game.emit(MovePassAction, {});
-        break;
       default:
         throw new Error(`Unexpected phase ${game.phaseName}`);
     }
   }
+  game.emit(SelectAction, { action: Action.PRODUCTION });
   return game;
 }
 
@@ -65,7 +56,7 @@ describe("O'ahu production", () => {
     const game = newGame();
 
     expect(column(game, "Kaneohe").onRoll).toHaveLength(3);
-    expect(column(game, "Honolulu").onRoll).toHaveLength(6);
+    expect(column(game, "Honolulu").onRoll).toHaveLength(3);
   });
 
   it("moves every cube in the chosen column into its city", () => {
@@ -75,11 +66,11 @@ describe("O'ahu production", () => {
     const waiting = before.onRoll!;
     expect(waiting).toHaveLength(3);
 
-    // Kaneohe is the white 1 city. The good and the row are ignored.
+    // Kaneohe is the white 5 city. The good and the row are ignored.
     game.emit(ProductionAction, {
       urbanized: false,
       cityGroup: CityGroup.WHITE,
-      onRoll: 1,
+      onRoll: 5,
       row: 0,
       good: 0,
     });
@@ -98,12 +89,12 @@ describe("O'ahu production", () => {
       game.emit(ProductionAction, {
         urbanized: false,
         cityGroup: CityGroup.WHITE,
-        onRoll: 3,
+        onRoll: 2,
         row: 0,
         good: 0,
       });
 
-    // No city sits in the white 3 column on this map.
+    // No city sits in the white 2 column on this map.
     expect(emptyColumn).toThrow();
   });
 
@@ -112,12 +103,48 @@ describe("O'ahu production", () => {
     game.emit(ProductionAction, {
       urbanized: false,
       cityGroup: CityGroup.WHITE,
-      onRoll: 1,
+      onRoll: 5,
       row: 0,
       good: 0,
     });
 
     expect(game.logs.join("\n")).not.toContain("rolled");
     expect(column(game, "Kaneohe").onRoll).toEqual([]);
+  });
+
+  it("moves cubes into a New City that has not been urbanized yet", () => {
+    const game = toProduction(newGame());
+
+    // White 3 is a New City (Available City) column, separate from Ewa's
+    // grid column which happens to share the same group/onRoll.
+    const before = game.availableCities.find((city) =>
+      city.onRoll.some(
+        (onRoll) => onRoll.group === CityGroup.WHITE && onRoll.onRoll === 3,
+      ),
+    )!;
+    const waiting = before.onRoll[0].goods.filter((good) => good != null);
+    expect(waiting.length).toBeGreaterThan(0);
+
+    game.emit(ProductionAction, {
+      urbanized: true,
+      cityGroup: CityGroup.WHITE,
+      onRoll: 3,
+      row: 0,
+      good: 0,
+    });
+
+    const after = game.availableCities.find((city) =>
+      city.onRoll.some(
+        (onRoll) => onRoll.group === CityGroup.WHITE && onRoll.onRoll === 3,
+      ),
+    )!;
+    expect(after.onRoll[0].goods).toEqual([]);
+    expect(after.goods).toEqual(
+      [...before.goods, ...waiting].sort((a, b) => (a < b ? -1 : 1)),
+    );
+
+    // Ewa's grid column, sharing the same group/onRoll, is untouched.
+    const ewa = game.snapshot().spaces.find((s) => s.name === "Ewa")!;
+    expect(ewa.onRoll).toHaveLength(3);
   });
 });

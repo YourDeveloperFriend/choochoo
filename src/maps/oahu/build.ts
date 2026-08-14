@@ -13,7 +13,7 @@ import { Coordinates } from "../../utils/coordinates";
 export class OahuBuildCostCalculator extends BuildCostCalculator {
   protected getCostOfLandType(type: LandType): number {
     if (type === SpaceType.MOUNTAIN) {
-      return 3;
+      return 4;
     }
     if (type === SpaceType.LAKE) {
       return 6;
