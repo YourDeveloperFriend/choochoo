@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { ProductionAction } from "../../engine/goods_growth/production";
 import { SelectAction } from "../../engine/select_action/select";
 import { TakeSharesAction } from "../../engine/shares/take_shares";
 import { Action } from "../../engine/state/action";
 import { CityGroup } from "../../engine/state/city_group";
+import { goodToString } from "../../engine/state/good";
 import { Phase } from "../../engine/state/phase";
 import { PlayerColor } from "../../engine/state/player";
 import { PassAction as TurnOrderPassAction } from "../../engine/turn_order/pass";
 import { startGame, TestGame } from "../../testing/harness/test_game";
+import { OahuProductionAction } from "./production";
 import { OahuMapSettings } from "./settings";
 
 const { RED, BLUE, GREEN } = PlayerColor;
@@ -52,27 +53,32 @@ function column(game: TestGame, cityName: string) {
 }
 
 describe("O'ahu production", () => {
-  it("starts every on-map city column with three cubes", () => {
+  it("starts every on-map city column with two cubes, and new city columns empty", () => {
     const game = newGame();
 
-    expect(column(game, "Kaneohe").onRoll).toHaveLength(3);
-    expect(column(game, "Honolulu").onRoll).toHaveLength(3);
+    expect(column(game, "Kaneohe").onRoll).toHaveLength(2);
+    expect(column(game, "Honolulu").onRoll).toHaveLength(2);
+
+    const ewaGroup = game.availableCities.find((city) =>
+      city.onRoll.some(
+        (onRoll) => onRoll.group === CityGroup.WHITE && onRoll.onRoll === 3,
+      ),
+    )!;
+    expect(ewaGroup.onRoll[0].goods).toEqual([]);
   });
 
-  it("moves every cube in the chosen column into its city", () => {
+  it("moves every cube in the chosen column into the Starting City", () => {
     const game = toProduction(newGame());
 
     const before = game.snapshot().spaces.find((s) => s.name === "Kaneohe")!;
     const waiting = before.onRoll!;
-    expect(waiting).toHaveLength(3);
+    expect(waiting).toHaveLength(2);
 
-    // Kaneohe is the white 5 city. The good and the row are ignored.
-    game.emit(ProductionAction, {
-      urbanized: false,
+    // Kaneohe is the white 5 city.
+    game.emit(OahuProductionAction, {
       cityGroup: CityGroup.WHITE,
       onRoll: 5,
-      row: 0,
-      good: 0,
+      toNewCity: false,
     });
 
     const after = game.snapshot().spaces.find((s) => s.name === "Kaneohe")!;
@@ -86,12 +92,10 @@ describe("O'ahu production", () => {
     const game = toProduction(newGame());
 
     const emptyColumn = () =>
-      game.emit(ProductionAction, {
-        urbanized: false,
+      game.emit(OahuProductionAction, {
         cityGroup: CityGroup.WHITE,
         onRoll: 2,
-        row: 0,
-        good: 0,
+        toNewCity: false,
       });
 
     // No city sits in the white 2 column on this map.
@@ -100,12 +104,10 @@ describe("O'ahu production", () => {
 
   it("does not roll dice or refill the display", () => {
     const game = toProduction(newGame());
-    game.emit(ProductionAction, {
-      urbanized: false,
+    game.emit(OahuProductionAction, {
       cityGroup: CityGroup.WHITE,
       onRoll: 5,
-      row: 0,
-      good: 0,
+      toNewCity: false,
     });
 
     expect(game.logs.join("\n")).not.toContain("rolled");
@@ -116,35 +118,35 @@ describe("O'ahu production", () => {
     const game = toProduction(newGame());
 
     // White 3 is a New City (Available City) column, separate from Ewa's
-    // grid column which happens to share the same group/onRoll.
-    const before = game.availableCities.find((city) =>
-      city.onRoll.some(
-        (onRoll) => onRoll.group === CityGroup.WHITE && onRoll.onRoll === 3,
-      ),
-    )!;
-    const waiting = before.onRoll[0].goods.filter((good) => good != null);
+    // grid column which happens to share the same group/onRoll. New City
+    // columns start empty, so the cubes come from Ewa's own column.
+    const ewaBefore = game.snapshot().spaces.find((s) => s.name === "Ewa")!;
+    const waiting = ewaBefore.onRoll!;
     expect(waiting.length).toBeGreaterThan(0);
 
-    game.emit(ProductionAction, {
-      urbanized: true,
-      cityGroup: CityGroup.WHITE,
-      onRoll: 3,
-      row: 0,
-      good: 0,
-    });
-
-    const after = game.availableCities.find((city) =>
+    const beforeAvailable = game.availableCities.find((city) =>
       city.onRoll.some(
         (onRoll) => onRoll.group === CityGroup.WHITE && onRoll.onRoll === 3,
       ),
     )!;
-    expect(after.onRoll[0].goods).toEqual([]);
-    expect(after.goods).toEqual(
-      [...before.goods, ...waiting].sort((a, b) => (a < b ? -1 : 1)),
-    );
 
-    // Ewa's grid column, sharing the same group/onRoll, is untouched.
-    const ewa = game.snapshot().spaces.find((s) => s.name === "Ewa")!;
-    expect(ewa.onRoll).toHaveLength(3);
+    game.emit(OahuProductionAction, {
+      cityGroup: CityGroup.WHITE,
+      onRoll: 3,
+      toNewCity: true,
+    });
+
+    const ewaAfter = game.snapshot().spaces.find((s) => s.name === "Ewa")!;
+    expect(ewaAfter.onRoll ?? []).toEqual([]);
+
+    const afterAvailable = game.availableCities.find((city) =>
+      city.onRoll.some(
+        (onRoll) => onRoll.group === CityGroup.WHITE && onRoll.onRoll === 3,
+      ),
+    )!;
+    expect(afterAvailable.onRoll[0].goods).toEqual([]);
+    expect(afterAvailable.goods.map(goodToString).sort()).toEqual(
+      [...beforeAvailable.goods.map(goodToString), ...waiting].sort(),
+    );
   });
 });

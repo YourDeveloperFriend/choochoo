@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { ProductionAction } from "../../engine/goods_growth/production";
 import { SelectAction } from "../../engine/select_action/select";
 import { TakeSharesAction } from "../../engine/shares/take_shares";
 import { Action } from "../../engine/state/action";
@@ -8,6 +7,7 @@ import { Phase } from "../../engine/state/phase";
 import { PlayerColor } from "../../engine/state/player";
 import { PassAction as TurnOrderPassAction } from "../../engine/turn_order/pass";
 import { startGame, TestGame } from "../../testing/harness/test_game";
+import { OahuProductionAction } from "./production";
 import { OahuMapSettings } from "./settings";
 
 const { RED, BLUE, GREEN } = PlayerColor;
@@ -38,12 +38,10 @@ function toActionSelection(game: TestGame): TestGame {
 
 /** Kaneohe's column: white group, on-roll 5, with cubes at the start of the game. */
 function pickKaneohe(game: TestGame): void {
-  game.emit(ProductionAction, {
-    urbanized: false,
+  game.emit(OahuProductionAction, {
     cityGroup: CityGroup.WHITE,
     onRoll: 5,
-    row: 0,
-    good: 0,
+    toNewCity: false,
   });
 }
 

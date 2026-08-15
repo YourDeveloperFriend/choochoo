@@ -14,7 +14,8 @@ import {
 import { OahuBuildCostCalculator, OahuValidator } from "./build";
 import { map } from "./grid";
 import { OahuMoveHelper } from "./move";
-import { OahuGoodsGrowthPhase, OahuProductionAction } from "./production";
+import { OahuGoodsGrowthPhase } from "./production";
+import { OahuGameStarter } from "./starter";
 
 export class OahuMapSettings implements MapSettings {
   readonly key = "oahu";
@@ -47,7 +48,7 @@ export class OahuMapSettings implements MapSettings {
       OahuValidator,
       OahuMoveHelper,
       OahuGoodsGrowthPhase,
-      OahuProductionAction,
+      OahuGameStarter,
     ];
   }
 }
