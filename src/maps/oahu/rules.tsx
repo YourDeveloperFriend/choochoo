@@ -4,7 +4,9 @@ export function OahuRules() {
       <p>Same as base game with the following changes:</p>
       <ul>
         <li>
-          <b>Setup:</b> there are no dice. Every city starts with 2 cubes.
+          <b>Setup:</b> there are no dice. Every city starts with 2 cubes. Every
+          Starting City&apos;s goods display column starts with 2 waiting cubes;
+          New City columns start empty.
         </li>
         <li>
           The two hexes &quot;Pearl City&quot; and &quot;Waipahu&quot; are
@@ -21,12 +23,12 @@ export function OahuRules() {
           Production action.
         </li>
         <li>
-          <b>Production:</b> when selecting this action you immediately
-          selection a column of the goods display that still has cubes in it.
-          Immediately move all the cubes from that column to either the matching
-          Starting City <i>or</i> the matching New City. If the New City has not
-          been placed yet, put all the cubes on top of the New City; they will
-          be available for delivery when it is urbanized.
+          <b>Production:</b> when selecting this action you immediately select a
+          column of the goods display belonging to a Starting City that still
+          has cubes in it, then choose whether those cubes go to that Starting
+          City or to its matching New City. If the New City has not been placed
+          yet, put all the cubes on top of the New City; they will be available
+          for delivery when it is urbanized.
         </li>
         <li>
           <b>Tourist Trap:</b> a new special action. Immediately, every other

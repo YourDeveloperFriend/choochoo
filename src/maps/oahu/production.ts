@@ -1,19 +1,20 @@
+import { z } from "zod";
 import { inject, injectState } from "../../engine/framework/execution_context";
 import { PHASE } from "../../engine/game/phase";
 import { AVAILABLE_CITIES, injectCurrentPlayer } from "../../engine/game/state";
 import { Log } from "../../engine/game/log";
-import { GoodsHelper } from "../../engine/goods_growth/helper";
+import { ActionProcessor } from "../../engine/game/action";
 import { GoodsGrowthPhase } from "../../engine/goods_growth/phase";
-import {
-  ProductionAction,
-  ProductionData,
-} from "../../engine/goods_growth/production";
 import { City } from "../../engine/map/city";
+import { GridHelper } from "../../engine/map/grid_helper";
 import { Action } from "../../engine/state/action";
+import { AvailableCity } from "../../engine/state/available_city";
+import { CityGroup } from "../../engine/state/city_group";
 import { Good } from "../../engine/state/good";
+import { SpaceType } from "../../engine/state/location_type";
+import { OnRoll, OnRollData } from "../../engine/state/roll";
 import { Phase } from "../../engine/state/phase";
 import { PlayerColor } from "../../engine/state/player";
-import { AvailableCity } from "../../engine/state/available_city";
 import { isNotNull } from "../../utils/functions";
 import { assert } from "../../utils/validate";
 
@@ -33,22 +34,33 @@ export class OahuGoodsGrowthPhase extends GoodsGrowthPhase {
 }
 
 /**
- * The good is a required part of the base action's data, but production runs
- * backwards here: nothing is drawn, so there is no good to place. The action
- * ignores it, and the summary sends this so the shape still parses.
+ * Identifies the clicked column by city group and onRoll, plus whether the
+ * cubes go to that column's Starting City or its matching New City (an
+ * unplaced AvailableCity, or an already-urbanized on-map City sharing the
+ * same city group and onRoll).
  */
-export const IGNORED_GOOD = Good.BLACK;
+export const OahuProductionData = z.object({
+  cityGroup: z.nativeEnum(CityGroup),
+  onRoll: OnRoll,
+  toNewCity: z.boolean(),
+});
+
+export type OahuProductionData = z.infer<typeof OahuProductionData>;
 
 /**
- * Production runs backwards here: instead of placing a drawn good into a slot of
- * the goods display, the whole column the player clicks empties into its city.
- * Extending the base action keeps the action name and data shape, so the goods
- * table can drive it. The good and the row it identifies are ignored; only the
- * column matters.
+ * Production runs backwards here: instead of placing a drawn good into a
+ * slot of the goods display, the whole column the player clicks empties into
+ * either the Starting City or the matching New City. This is a wholly
+ * distinct action from the base game's Production, not an extension of it.
  */
-export class OahuProductionAction extends ProductionAction {
+export class OahuProductionAction
+  implements ActionProcessor<OahuProductionData>
+{
+  static readonly action = "oahu-production";
+  readonly assertInput = OahuProductionData.parse;
+
   private readonly logger = inject(Log);
-  private readonly goodsHelper = inject(GoodsHelper);
+  private readonly gridHelper = inject(GridHelper);
   private readonly availableCities = injectState(AVAILABLE_CITIES);
   private readonly currentPlayer = injectCurrentPlayer();
   private readonly currentPhase = injectState(PHASE);
@@ -61,17 +73,43 @@ export class OahuProductionAction extends ProductionAction {
     );
   }
 
-  /**
-   * A New City that has not yet been urbanized only exists in AVAILABLE_CITIES,
-   * so a column belonging to it cannot be found on the grid. Named differently
-   * from the base class's findCity since it returns a wider type.
-   */
-  private findColumn(data: ProductionData): City | AvailableCity | undefined {
-    return super.findCity(data) ?? this.findAvailableCity(data);
+  private findOnRoll(
+    onRoll: OnRollData[],
+    data: OahuProductionData,
+  ): OnRollData | undefined {
+    return onRoll.find(
+      ({ onRoll, group }) => onRoll === data.onRoll && group === data.cityGroup,
+    );
   }
 
-  private findAvailableCity(data: ProductionData): AvailableCity | undefined {
-    if (!data.urbanized) return undefined;
+  /** The clicked column is always an on-map, non-urbanized Starting City. */
+  private findSourceCity(data: OahuProductionData): City | undefined {
+    return [...this.gridHelper.findAllCities()].find(
+      (city) =>
+        !city.isUrbanized() && this.findOnRoll(city.onRoll(), data) != null,
+    );
+  }
+
+  /**
+   * The New City this production could target may already be urbanized (an
+   * on-map City) or may still be waiting in AVAILABLE_CITIES.
+   */
+  private findDestination(
+    data: OahuProductionData,
+  ): City | AvailableCity | undefined {
+    if (!data.toNewCity) {
+      return this.findSourceCity(data);
+    }
+    const urbanized = [...this.gridHelper.findAllCities()].find(
+      (city) =>
+        city.isUrbanized() && this.findOnRoll(city.onRoll(), data) != null,
+    );
+    return urbanized ?? this.findAvailableCity(data);
+  }
+
+  private findAvailableCity(
+    data: OahuProductionData,
+  ): AvailableCity | undefined {
     return this.availableCities().find((city) =>
       city.onRoll.some(
         (onRoll) =>
@@ -81,48 +119,63 @@ export class OahuProductionAction extends ProductionAction {
   }
 
   /** Every city on this map has exactly one OnRollData in its onRoll array. */
-  private countGoods(city: City | AvailableCity): number {
-    const onRoll = city instanceof City ? city.onRoll()[0] : city.onRoll[0];
-    return onRoll.goods.filter(isNotNull).length;
+  private countGoods(city: City): number {
+    return city.onRoll()[0].goods.filter(isNotNull).length;
   }
 
-  validate(data: ProductionData): void {
-    // Deliberately does not call super, which requires a drawn good to place.
-    const city = this.findColumn(data);
+  validate(data: OahuProductionData): void {
+    const city = this.findSourceCity(data);
     assert(city != null, {
-      invalidInput:
-        "must choose a column belonging to a city or new city on the map",
+      invalidInput: "must choose a column belonging to a city on the map",
     });
     assert(this.countGoods(city) > 0, {
       invalidInput: "must choose a column that still has cubes in it",
     });
+    assert(this.findDestination(data) != null, {
+      invalidInput: "must choose a valid destination for the cubes",
+    });
   }
 
-  process(data: ProductionData): boolean {
-    const city = this.findColumn(data)!;
-    const count = this.countGoods(city);
-    if (city instanceof City) {
-      this.logger.currentPlayer(`produces for ${city.name()}`);
-      this.goodsHelper.moveGoodsToCity(city.coordinates, 0, count);
+  process(data: OahuProductionData): boolean {
+    const source = this.findSourceCity(data)!;
+    const count = this.countGoods(source);
+    const destination = this.findDestination(data)!;
+    const goods = this.popWaitingGoods(source, count);
+
+    if (destination instanceof City) {
+      this.logger.currentPlayer(`produces for ${destination.name()}`);
+      this.gridHelper.update(destination.coordinates, (location) => {
+        assert(location.type === SpaceType.CITY);
+        location.goods.push(...goods);
+      });
       return true;
     }
 
     this.logger.currentPlayer(
       `produces for a new city that has not been placed yet`,
     );
-    const index = this.availableCities().indexOf(city);
+    const index = this.availableCities().indexOf(destination);
     this.availableCities.update((cities) => {
-      const availableCity = cities[index];
-      const waitingArray = availableCity.onRoll[0].goods;
+      cities[index].goods.push(...goods);
+    });
+    return true;
+  }
+
+  /** Empties the source city's waiting cubes, returning what was collected. */
+  private popWaitingGoods(city: City, count: number): Good[] {
+    const goods: Good[] = [];
+    this.gridHelper.update(city.coordinates, (location) => {
+      assert(location.type === SpaceType.CITY);
+      const waitingArray = location.onRoll[0].goods;
       for (let i = 0; i < count; i++) {
         let good: Good | undefined | null;
         do {
           good = waitingArray.pop();
         } while (good == undefined && waitingArray.length > 0);
         if (good == null) break;
-        availableCity.goods.push(good);
+        goods.push(good);
       }
     });
-    return true;
+    return goods;
   }
 }
