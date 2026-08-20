@@ -10,11 +10,14 @@ import { GenericMessage } from "./action_summary";
 export function MoveGoods() {
   const {
     emit: emitLoco,
-    canEmit,
-    canEmitUserId,
+    canEmit: locoCanEmit,
     getErrorMessage,
   } = useEmptyAction(LocoAction);
-  const { emit: emitPass } = useEmptyAction(MovePassAction);
+  const {
+    emit: emitPass,
+    canEmit,
+    canEmitUserId,
+  } = useEmptyAction(MovePassAction);
   const viewSettings = useViewSettings();
 
   const message = viewSettings.moveGoodsMessage?.();
@@ -31,23 +34,25 @@ export function MoveGoods() {
     );
   }
 
-  const locoDisabledReason = getErrorMessage();
+  const locoDisabledReason = locoCanEmit ? getErrorMessage() : undefined;
 
   return (
     <div>
       <GenericMessage>{message ?? "You must move a good."}</GenericMessage>
-      <MaybeTooltip tooltip={locoDisabledReason}>
-        <Button
-          icon
-          labelPosition="left"
-          color="green"
-          onClick={emitLoco}
-          disabled={locoDisabledReason != null}
-        >
-          <Icon name="train" />
-          Locomotive
-        </Button>
-      </MaybeTooltip>
+      {locoCanEmit && (
+        <MaybeTooltip tooltip={locoDisabledReason}>
+          <Button
+            icon
+            labelPosition="left"
+            color="green"
+            onClick={emitLoco}
+            disabled={locoDisabledReason != null}
+          >
+            <Icon name="train" />
+            Locomotive
+          </Button>
+        </MaybeTooltip>
+      )}
       <Button negative onClick={emitPass}>
         Pass
       </Button>
