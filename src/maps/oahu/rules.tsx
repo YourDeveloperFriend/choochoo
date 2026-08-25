@@ -5,8 +5,14 @@ export function OahuRules() {
       <ul>
         <li>
           <b>Setup:</b> there are no dice. Every city starts with 2 cubes. Every
-          Starting City&apos;s goods display column starts with 2 waiting cubes;
-          New City columns start empty.
+          Starting City&apos;s goods display column starts with 2 waiting cubes
+          of different colors; New City columns start empty. Every town starts
+          with one random cube.
+        </li>
+        <li>
+          <b>Game Length:</b> with three players, the game lasts 9 rounds (one
+          less than usual). The number of rounds is the same as usual at other
+          player counts.
         </li>
         <li>
           The two hexes &quot;Pearl City&quot; and &quot;Waipahu&quot; are
@@ -23,12 +29,13 @@ export function OahuRules() {
           Production action.
         </li>
         <li>
-          <b>Production:</b> when selecting this action you immediately select a
-          column of the goods display belonging to a Starting City that still
-          has cubes in it, then choose whether those cubes go to that Starting
-          City or to its matching New City. If the New City has not been placed
-          yet, put all the cubes on top of the New City; they will be available
-          for delivery when it is urbanized.
+          <b>Production:</b> when selecting this action you immediately select
+          one of the columns in the goods display that still has cubes in it.
+          You select one of the cubes from that column to move to the Starting
+          City of that column; the other cube in the column moves to its
+          matching New City. If the New City has not been placed yet, put the
+          cube on top of the New City; it will be available for delivery when it
+          is urbanized.
         </li>
         <li>
           <b>Tourist Trap:</b> a new special action. Immediately, every other

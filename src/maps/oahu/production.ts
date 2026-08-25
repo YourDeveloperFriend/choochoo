@@ -10,7 +10,7 @@ import { GridHelper } from "../../engine/map/grid_helper";
 import { Action } from "../../engine/state/action";
 import { AvailableCity } from "../../engine/state/available_city";
 import { CityGroup } from "../../engine/state/city_group";
-import { Good } from "../../engine/state/good";
+import { Good, goodToString } from "../../engine/state/good";
 import { SpaceType } from "../../engine/state/location_type";
 import { OnRoll, OnRollData } from "../../engine/state/roll";
 import { Phase } from "../../engine/state/phase";
@@ -34,24 +34,26 @@ export class OahuGoodsGrowthPhase extends GoodsGrowthPhase {
 }
 
 /**
- * Identifies the clicked column by city group and onRoll, plus whether the
- * cubes go to that column's Starting City or its matching New City (an
- * unplaced AvailableCity, or an already-urbanized on-map City sharing the
- * same city group and onRoll).
+ * Identifies the clicked cube by its column (city group and onRoll) and its
+ * row within that column. The clicked cube stays on the Starting City; the
+ * other cube in the column moves to the matching New City (an unplaced
+ * AvailableCity, or an already-urbanized on-map City sharing the same city
+ * group and onRoll).
  */
 export const OahuProductionData = z.object({
   cityGroup: z.nativeEnum(CityGroup),
   onRoll: OnRoll,
-  toNewCity: z.boolean(),
+  row: z.number(),
 });
 
 export type OahuProductionData = z.infer<typeof OahuProductionData>;
 
 /**
  * Production runs backwards here: instead of placing a drawn good into a
- * slot of the goods display, the whole column the player clicks empties into
- * either the Starting City or the matching New City. This is a wholly
- * distinct action from the base game's Production, not an extension of it.
+ * slot of the goods display, the player clicks one of the two cubes in a
+ * column. That cube stays on the Starting City, and the other cube in the
+ * column moves to the matching New City. This is a wholly distinct action
+ * from the base game's Production, not an extension of it.
  */
 export class OahuProductionAction
   implements ActionProcessor<OahuProductionData>
@@ -94,12 +96,9 @@ export class OahuProductionAction
    * The New City this production could target may already be urbanized (an
    * on-map City) or may still be waiting in AVAILABLE_CITIES.
    */
-  private findDestination(
+  private findNewCityDestination(
     data: OahuProductionData,
   ): City | AvailableCity | undefined {
-    if (!data.toNewCity) {
-      return this.findSourceCity(data);
-    }
     const urbanized = [...this.gridHelper.findAllCities()].find(
       (city) =>
         city.isUrbanized() && this.findOnRoll(city.onRoll(), data) != null,
@@ -131,51 +130,60 @@ export class OahuProductionAction
     assert(this.countGoods(city) > 0, {
       invalidInput: "must choose a column that still has cubes in it",
     });
-    assert(this.findDestination(data) != null, {
-      invalidInput: "must choose a valid destination for the cubes",
+    assert(city.onRoll()[0].goods[data.row] != null, {
+      invalidInput: "must choose a cube that is actually in the column",
+    });
+    assert(this.findNewCityDestination(data) != null, {
+      invalidInput: "must have a valid destination for the other cube",
     });
   }
 
   process(data: OahuProductionData): boolean {
     const source = this.findSourceCity(data)!;
-    const count = this.countGoods(source);
-    const destination = this.findDestination(data)!;
-    const goods = this.popWaitingGoods(source, count);
+    const destination = this.findNewCityDestination(data)!;
+    const { selected, other } = this.splitWaitingGoods(source, data.row);
+
+    this.logger.currentPlayer(
+      `produces, keeping a ${goodToString(selected)} cube on ${source.name()} and sending a ${goodToString(other)} cube the other to the new city`,
+    );
+
+    this.gridHelper.update(source.coordinates, (location) => {
+      assert(location.type === SpaceType.CITY);
+      location.goods.push(selected);
+    });
 
     if (destination instanceof City) {
-      this.logger.currentPlayer(`produces for ${destination.name()}`);
       this.gridHelper.update(destination.coordinates, (location) => {
         assert(location.type === SpaceType.CITY);
-        location.goods.push(...goods);
+        location.goods.push(other);
       });
       return true;
     }
 
-    this.logger.currentPlayer(
-      `produces for a new city that has not been placed yet`,
-    );
     const index = this.availableCities().indexOf(destination);
     this.availableCities.update((cities) => {
-      cities[index].goods.push(...goods);
+      cities[index].goods.push(other);
     });
     return true;
   }
 
-  /** Empties the source city's waiting cubes, returning what was collected. */
-  private popWaitingGoods(city: City, count: number): Good[] {
-    const goods: Good[] = [];
+  /**
+   * Removes both waiting cubes from the source column, returning the clicked
+   * one (`row`) separately from the other one.
+   */
+  private splitWaitingGoods(
+    city: City,
+    row: number,
+  ): { selected: Good; other: Good } {
+    let selected: Good | undefined | null;
+    let other: Good | undefined | null;
     this.gridHelper.update(city.coordinates, (location) => {
       assert(location.type === SpaceType.CITY);
       const waitingArray = location.onRoll[0].goods;
-      for (let i = 0; i < count; i++) {
-        let good: Good | undefined | null;
-        do {
-          good = waitingArray.pop();
-        } while (good == undefined && waitingArray.length > 0);
-        if (good == null) break;
-        goods.push(good);
-      }
+      [selected] = waitingArray.splice(row, 1);
+      [other] = waitingArray.splice(0, 1);
     });
-    return goods;
+    assert(selected != null && other != null, "column did not have 2 cubes");
+    return { selected, other };
   }
 }

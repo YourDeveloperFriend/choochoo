@@ -67,24 +67,37 @@ describe("O'ahu production", () => {
     expect(ewaGroup.onRoll[0].goods).toEqual([]);
   });
 
-  it("moves every cube in the chosen column into the Starting City", () => {
+  it("keeps the clicked cube on the Starting City and sends the other cube to the New City", () => {
     const game = toProduction(newGame());
 
     const before = game.snapshot().spaces.find((s) => s.name === "Kaneohe")!;
     const waiting = before.onRoll!;
     expect(waiting).toHaveLength(2);
 
-    // Kaneohe is the white 5 city.
+    const destinationBefore = game.availableCities.find((city) =>
+      city.onRoll.some(
+        (onRoll) => onRoll.group === CityGroup.WHITE && onRoll.onRoll === 5,
+      ),
+    )!;
+
+    // Kaneohe is the white 5 city; click the cube in row 0.
     game.emit(OahuProductionAction, {
       cityGroup: CityGroup.WHITE,
       onRoll: 5,
-      toNewCity: false,
+      row: 0,
     });
 
     const after = game.snapshot().spaces.find((s) => s.name === "Kaneohe")!;
     expect(after.onRoll ?? []).toEqual([]);
-    expect(after.goods).toEqual(
-      [...(before.goods ?? []), ...waiting].sort((a, b) => (a < b ? -1 : 1)),
+    expect(after.goods).toEqual([...(before.goods ?? []), waiting[0]].sort());
+
+    const destinationAfter = game.availableCities.find((city) =>
+      city.onRoll.some(
+        (onRoll) => onRoll.group === CityGroup.WHITE && onRoll.onRoll === 5,
+      ),
+    )!;
+    expect(destinationAfter.goods.map(goodToString).sort()).toEqual(
+      [...destinationBefore.goods.map(goodToString), waiting[1]].sort(),
     );
   });
 
@@ -95,7 +108,7 @@ describe("O'ahu production", () => {
       game.emit(OahuProductionAction, {
         cityGroup: CityGroup.WHITE,
         onRoll: 2,
-        toNewCity: false,
+        row: 0,
       });
 
     // No city sits in the white 2 column on this map.
@@ -107,22 +120,22 @@ describe("O'ahu production", () => {
     game.emit(OahuProductionAction, {
       cityGroup: CityGroup.WHITE,
       onRoll: 5,
-      toNewCity: false,
+      row: 0,
     });
 
     expect(game.logs.join("\n")).not.toContain("rolled");
     expect(column(game, "Kaneohe").onRoll).toEqual([]);
   });
 
-  it("moves cubes into a New City that has not been urbanized yet", () => {
+  it("moves the other cube into a New City that has not been urbanized yet", () => {
     const game = toProduction(newGame());
 
     // White 3 is a New City (Available City) column, separate from Ewa's
     // grid column which happens to share the same group/onRoll. New City
-    // columns start empty, so the cubes come from Ewa's own column.
+    // columns start empty, so the cube comes from Ewa's own column.
     const ewaBefore = game.snapshot().spaces.find((s) => s.name === "Ewa")!;
     const waiting = ewaBefore.onRoll!;
-    expect(waiting.length).toBeGreaterThan(0);
+    expect(waiting).toHaveLength(2);
 
     const beforeAvailable = game.availableCities.find((city) =>
       city.onRoll.some(
@@ -133,11 +146,14 @@ describe("O'ahu production", () => {
     game.emit(OahuProductionAction, {
       cityGroup: CityGroup.WHITE,
       onRoll: 3,
-      toNewCity: true,
+      row: 0,
     });
 
     const ewaAfter = game.snapshot().spaces.find((s) => s.name === "Ewa")!;
     expect(ewaAfter.onRoll ?? []).toEqual([]);
+    expect(ewaAfter.goods).toEqual(
+      [...(ewaBefore.goods ?? []), waiting[0]].sort(),
+    );
 
     const afterAvailable = game.availableCities.find((city) =>
       city.onRoll.some(
@@ -146,7 +162,7 @@ describe("O'ahu production", () => {
     )!;
     expect(afterAvailable.onRoll[0].goods).toEqual([]);
     expect(afterAvailable.goods.map(goodToString).sort()).toEqual(
-      [...beforeAvailable.goods.map(goodToString), ...waiting].sort(),
+      [...beforeAvailable.goods.map(goodToString), waiting[1]].sort(),
     );
   });
 });
