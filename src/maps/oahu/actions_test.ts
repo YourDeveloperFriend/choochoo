@@ -41,7 +41,7 @@ function pickKaneohe(game: TestGame): void {
   game.emit(OahuProductionAction, {
     cityGroup: CityGroup.WHITE,
     onRoll: 5,
-    toNewCity: false,
+    row: 0,
   });
 }
 

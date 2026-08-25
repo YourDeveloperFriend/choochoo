@@ -69,7 +69,7 @@ export class OahuActionNamingProvider extends ActionNamingProvider {
 
   getActionDescription(action: Action): string {
     if (action === Action.PRODUCTION) {
-      return "Immediately move every cube from one column of the goods display into that column's city.";
+      return "Immediately select one column of the goods display: one cube moves to that column's Starting City, and the other cube in the column moves to the New City.";
     }
     if (
       action === Action.LOCOMOTIVE &&
