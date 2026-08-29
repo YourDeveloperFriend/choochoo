@@ -92,7 +92,7 @@ export const map = grid<SpaceData>([
     MOUNTAIN,
     town("Morrisville"),
     MOUNTAIN,
-    city("Montpelior", BLUE, white(5), 3),
+    city("Montpelier", BLUE, white(5), 3),
     MOUNTAIN,
     MOUNTAIN,
     MOUNTAIN,
