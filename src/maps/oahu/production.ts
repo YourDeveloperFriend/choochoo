@@ -9,7 +9,7 @@ import { City } from "../../engine/map/city";
 import { GridHelper } from "../../engine/map/grid_helper";
 import { Action } from "../../engine/state/action";
 import { AvailableCity } from "../../engine/state/available_city";
-import { CityGroup } from "../../engine/state/city_group";
+import { CityGroup, toLetter } from "../../engine/state/city_group";
 import { Good, goodToString } from "../../engine/state/good";
 import { SpaceType } from "../../engine/state/location_type";
 import { OnRoll, OnRollData } from "../../engine/state/roll";
@@ -133,37 +133,40 @@ export class OahuProductionAction
     assert(city.onRoll()[0].goods[data.row] != null, {
       invalidInput: "must choose a cube that is actually in the column",
     });
-    assert(this.findNewCityDestination(data) != null, {
-      invalidInput: "must have a valid destination for the other cube",
-    });
   }
 
   process(data: OahuProductionData): boolean {
     const source = this.findSourceCity(data)!;
-    const destination = this.findNewCityDestination(data)!;
     const { selected, other } = this.splitWaitingGoods(source, data.row);
 
     this.logger.currentPlayer(
-      `produces, keeping a ${goodToString(selected)} cube on ${source.name()} and sending a ${goodToString(other)} cube the other to the new city`,
+      `produces, placing a ${goodToString(selected)} cube on ${this.gridHelper.displayName(source.coordinates)}`,
     );
-
     this.gridHelper.update(source.coordinates, (location) => {
       assert(location.type === SpaceType.CITY);
       location.goods.push(selected);
     });
 
+    // If there isn't a new city matching destination, both cubes go to the source
+    const destination = this.findNewCityDestination(data)! ?? source;
+
     if (destination instanceof City) {
+      this.logger.currentPlayer(
+        `produces, placing a ${goodToString(other)} cube on ${this.gridHelper.displayName(destination.coordinates)}`,
+      );
       this.gridHelper.update(destination.coordinates, (location) => {
         assert(location.type === SpaceType.CITY);
         location.goods.push(other);
       });
-      return true;
+    } else {
+      this.logger.currentPlayer(
+        `produces, placing a ${goodToString(other)} cube on new city ${toLetter(destination.onRoll[0])}`,
+      );
+      const index = this.availableCities().indexOf(destination);
+      this.availableCities.update((cities) => {
+        cities[index].goods.push(other);
+      });
     }
-
-    const index = this.availableCities().indexOf(destination);
-    this.availableCities.update((cities) => {
-      cities[index].goods.push(other);
-    });
     return true;
   }
 
