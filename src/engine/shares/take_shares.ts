@@ -5,6 +5,7 @@ import { ActionProcessor } from "../game/action";
 import { Log } from "../game/log";
 import { PlayerHelper } from "../game/player";
 import { ShareHelper } from "./share_helper";
+import { PlayerData } from "../state/player";
 
 export const TakeSharesData = z.object({
   numShares: z.number(),
@@ -35,16 +36,26 @@ export class TakeSharesAction implements ActionProcessor<TakeSharesData> {
     } else if (numShares === 0) {
       this.log.currentPlayer("does not take out any shares");
     } else {
-      this.log.currentPlayer(
-        `takes out ${numShares} shares and receives $${5 * numShares}`,
-      );
+      this.playerHelper.updateCurrentPlayer((player) => {
+        const receivedMoney = this.calculateMoneyForAdditionalShares(
+          player,
+          numShares,
+        );
+        this.log.currentPlayer(
+          `takes out ${numShares} shares and receives $${receivedMoney}`,
+        );
+        player.money += receivedMoney;
+        player.shares += numShares;
+      });
     }
 
-    this.playerHelper.updateCurrentPlayer((player) => {
-      player.shares += numShares;
-      player.money += 5 * numShares;
-    });
-
     return true;
+  }
+
+  calculateMoneyForAdditionalShares(
+    player: PlayerData,
+    numShares: number,
+  ): number {
+    return 5 * numShares;
   }
 }

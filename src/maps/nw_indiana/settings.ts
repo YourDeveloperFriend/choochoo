@@ -11,22 +11,28 @@ import { ClaimRequiresUrbanizeModule } from "../../modules/claim_requires_urbani
 import { NwIndianaProfitHelper } from "./expenses";
 import { map } from "./grid";
 import { NwIndianaMoveHelper } from "./move";
-import { NwIndianaShareHelper } from "./shares";
+import {
+  NwIndianaBuildPhase,
+  NwIndianaMovePhase,
+  NwIndianaSelectActionPhase,
+  NwIndianaTurnOrderPhase,
+} from "./phase";
+import { NwIndianaTakeSharesAction } from "./shares";
 
 export class NwIndianaMapSettings implements MapSettings {
   readonly key = "nw-indiana";
   readonly name = "NW Indiana";
   readonly designer = "Justin Szczepanski";
   readonly implementerId = JACK;
-  readonly minPlayers = 4;
-  readonly maxPlayers = 6;
+  readonly minPlayers = 3;
+  readonly maxPlayers = 5;
   readonly playerCountRatings = {
     1: PlayerCountRating.NOT_SUPPORTED,
     2: PlayerCountRating.NOT_SUPPORTED,
-    3: PlayerCountRating.NOT_SUPPORTED,
+    3: PlayerCountRating.NO_DATA,
     4: PlayerCountRating.NO_DATA,
     5: PlayerCountRating.NO_DATA,
-    6: PlayerCountRating.NO_DATA,
+    6: PlayerCountRating.NOT_SUPPORTED,
     7: PlayerCountRating.NOT_SUPPORTED,
     8: PlayerCountRating.NOT_SUPPORTED,
   };
@@ -36,7 +42,15 @@ export class NwIndianaMapSettings implements MapSettings {
   readonly developmentAllowlist = [JACK, JUICE];
 
   getOverrides() {
-    return [NwIndianaMoveHelper, NwIndianaProfitHelper, NwIndianaShareHelper];
+    return [
+      NwIndianaMoveHelper,
+      NwIndianaProfitHelper,
+      NwIndianaTakeSharesAction,
+      NwIndianaTurnOrderPhase,
+      NwIndianaSelectActionPhase,
+      NwIndianaBuildPhase,
+      NwIndianaMovePhase,
+    ];
   }
 
   getModules(): Array<Module> {
