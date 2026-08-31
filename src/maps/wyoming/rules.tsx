@@ -7,15 +7,17 @@ export function WyomingRules() {
           The game lasts 8 rounds with 2 players, or 6 rounds with 3 players.
         </li>
         <li>
-          Build Track: plains cost $2, mountains cost $4, and high mountains
-          cost $6.
+          <p>
+            Select Actions: After the first player selects their action, they
+            may spend additional money to select a separate action that every
+            other player may not select this turn:
+          </p>
+          <p>(2p) - This costs $2, or $4 if you&apos;re blocking Locomotive.</p>
+          <p>(3p) - This costs $3, or $6 if you&apos;re blocking Locomotive.</p>
         </li>
         <li>
-          If Laramie is urbanized and a player currently owns the direct town
-          connection between Laramie and Cheyenne, that player immediately
-          claims an intercity link between the two cities. If nobody built that
-          town connection, any player may instead build the intercity link for
-          $2. Only one intercity link may ever be built there.
+          Build Track: plains cost $2, mountains cost $4, and high mountains
+          cost $6.
         </li>
         <li>
           Goods Growth: roll 4 dice on each side with 2 players, or 6 dice on
@@ -28,12 +30,8 @@ export function WyomingRules() {
           matter their turn order.
         </li>
         <li>
-          Engineer: place up to four track. Your least expensive track is free.
-        </li>
-        <li>
-          At the start of the game, Urbanization or Engineer is randomly chosen
-          to be unavailable on turn 1. Each subsequent turn, the disabled
-          special action alternates between Urbanization and Engineer.
+          Engineer: place up to four track <i>or</i> place up to three track and
+          your most expensive track is free.
         </li>
         <li>
           (Two players only) Locomotive: your engine level is only temporarily
