@@ -4,8 +4,8 @@ export function NwIndianaRules() {
       <p>Same as base game with the following changes:</p>
       <ul>
         <li>
-          <b>Setup:</b> Schererville and Valparaiso (the starting purple cities)
-          start with 3 cubes. Every other city starts with 2 cubes.
+          <b>Setup:</b> Schererville and Valparaiso start with 3 cubes. Every
+          other city starts with 2 cubes.
         </li>
         <li>
           <b>Chicago:</b> is a terminus. Goods may be delivered to Chicago, but

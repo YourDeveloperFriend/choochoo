@@ -7,7 +7,7 @@ export class WyomingActionNamingProvider extends ActionNamingProvider {
   getActionDescription(action: Action): string {
     switch (action) {
       case Action.ENGINEER:
-        return "Place up to four track during the Building step. Your least expensive track is free.";
+        return "Place up to four track during the Building step, OR place up to three track and your most expensive track is free.";
       case Action.FIRST_MOVE:
         return "Go first during the Move Goods step. Next turn, issue shares last during the Issue Shares phase, no matter your turn order.";
       case Action.LOCOMOTIVE:

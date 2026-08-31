@@ -10,16 +10,18 @@ import { Module } from "../../engine/module/module";
 import { Action } from "../../engine/state/action";
 import { AvailableActionsModule } from "../../modules/available_actions";
 import { WyomingActionNamingProvider } from "./actions";
-import { WyomingAllowedActions } from "./allowed_actions";
+import {
+  WyomingActionSelectAction,
+  WyomingAllowedActions,
+  WyomingSelectActionPhase,
+} from "./action_selection";
 import { WyomingBuildCostCalculator } from "./cost";
 import { WyomingDiscountManager } from "./engineer";
 import { WyomingGoodsGrowthPhase } from "./goods_growth";
 import { map } from "./grid";
-import { WyomingMoveHelper, WyomingSelectAction } from "./locomotive";
+import { WyomingMoveHelper } from "./locomotive";
 import { WyomingRoundEngine } from "./round";
 import { WyomingSharesPhase } from "./shares";
-import { WyomingStarter } from "./starter";
-import { WyomingUrbanizeAction } from "./urbanize";
 
 export class WyomingMapSettings implements MapSettings {
   readonly key = "wyoming";
@@ -46,15 +48,14 @@ export class WyomingMapSettings implements MapSettings {
 
   getOverrides() {
     return [
-      WyomingAllowedActions,
-      WyomingStarter,
       WyomingRoundEngine,
       WyomingBuildCostCalculator,
-      WyomingUrbanizeAction,
       WyomingGoodsGrowthPhase,
       WyomingSharesPhase,
       WyomingDiscountManager,
-      WyomingSelectAction,
+      WyomingActionSelectAction,
+      WyomingAllowedActions,
+      WyomingSelectActionPhase,
       WyomingMoveHelper,
       WyomingActionNamingProvider,
     ];
