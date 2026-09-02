@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Button, Header, Modal, ModalContent } from "semantic-ui-react";
+import { Button, Header, Icon, Modal, ModalContent } from "semantic-ui-react";
 import { SpecialActionSelector } from "../../client/game/action_summary";
 import { useAction } from "../../client/services/action";
+import { useUndoAction } from "../../client/services/game";
 import { useInject, useInjected } from "../../client/utils/injection_context";
 import { injectInitialPlayerCount } from "../../engine/game/state";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
@@ -25,6 +26,7 @@ function DisableActionModal() {
   const allowedActions = useInjected(AllowedActions);
   const actionNamingProvider = useInjected(ActionNamingProvider);
   const playerCount = useInject(() => injectInitialPlayerCount()(), []);
+  const { undo, canUndo, isPending: isUndoPending } = useUndoAction();
 
   if (!canEmit) {
     return <></>;
@@ -52,6 +54,20 @@ function DisableActionModal() {
             Don&apos;t disable an action
           </Button>
         </p>
+        {canUndo && (
+          <p>
+            <Button
+              icon
+              labelPosition="left"
+              basic
+              disabled={isUndoPending}
+              onClick={undo}
+            >
+              <Icon name="undo" />
+              Undo action selection
+            </Button>
+          </p>
+        )}
       </ModalContent>
     </Modal>
   );
