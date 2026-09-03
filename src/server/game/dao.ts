@@ -114,7 +114,7 @@ export class GameDao extends Model<
   declare variant: VariantConfig;
 
   @Attribute(DataTypes.ARRAY(DataTypes.TEXT))
-  declare notes: Array<string | null> | null;
+  declare notes: string[] | null;
 
   @Attribute({ type: DataTypes.INTEGER, allowNull: true })
   declare activePlayerId: number | null;
@@ -176,7 +176,7 @@ export class GameDao extends Model<
     assert(index >= 0, { unauthorized: "only players can set notes" });
     this.notes ??= [];
     while (this.notes.length < index) {
-      this.notes.push(null);
+      this.notes.push("");
     }
     this.notes[index] = notes;
     this.changed("notes", true);

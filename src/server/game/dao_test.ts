@@ -8,7 +8,7 @@ import { GameDao } from "./dao";
  * `changed` is only used for Sequelize's dirty tracking, so it's stubbed out.
  */
 describe("GameDao#setNotesForUser", () => {
-  function fakeGame(playerIds: number[], notes: Array<string | null> | null) {
+  function fakeGame(playerIds: number[], notes: string[] | null) {
     return Object.assign(Object.create(GameDao.prototype), {
       playerIds,
       notes,
@@ -24,15 +24,15 @@ describe("GameDao#setNotesForUser", () => {
     expect(game.notes).toEqual(["hello"]);
   });
 
-  it("backfills earlier players with null instead of leaving array holes", () => {
+  it("backfills earlier players with empty strings instead of leaving array holes", () => {
     const game = fakeGame([10, 20, 30], null);
 
     game.setNotesForUser(30, "hello");
 
     // A sparse array (e.g. from `arr[2] = x` on an empty array) has `undefined`
-    // holes, which fail Sequelize's ARRAY(TEXT) validation. Explicit nulls
-    // don't.
-    expect(game.notes).toEqual([null, null, "hello"]);
+    // holes, which fail Sequelize's ARRAY(TEXT) validation. `null` fails that
+    // same per-element TEXT validation too -- only an actual string works.
+    expect(game.notes).toEqual(["", "", "hello"]);
     expect(1 in (game.notes as unknown[])).toBe(true);
   });
 
