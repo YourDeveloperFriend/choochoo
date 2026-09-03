@@ -175,6 +175,9 @@ export class GameDao extends Model<
     const index = this.playerIds.indexOf(userId);
     assert(index >= 0, { unauthorized: "only players can set notes" });
     this.notes ??= [];
+    while (this.notes.length < index) {
+      this.notes.push(null);
+    }
     this.notes[index] = notes;
     this.changed("notes", true);
   }
