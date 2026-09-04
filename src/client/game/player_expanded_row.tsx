@@ -38,9 +38,11 @@ interface PlayerWarning {
   newIncome: number;
 }
 
-export function getPlayerWarning(player: PlayerData): PlayerWarning {
-  const expenses = player.shares + player.locomotive;
-  const profit = player.income - expenses;
+export function getPlayerWarning(
+  player: PlayerData,
+  profitHelper: ProfitHelper,
+): PlayerWarning {
+  const profit = profitHelper.getProfit(player);
   const endOfTurnMoney = player.money + profit;
 
   if (endOfTurnMoney >= 0 || player.outOfGame) {
@@ -100,8 +102,9 @@ export function PlayerExpandedRow({ player }: PlayerExpandedRowProps) {
 }
 
 function WarningBanners({ player }: { player: PlayerData }) {
-  const warning = getPlayerWarning(player);
-  const expenses = player.shares + player.locomotive;
+  const profitHelper = useInjected(ProfitHelper);
+  const warning = getPlayerWarning(player, profitHelper);
+  const expenses = profitHelper.getExpenses(player);
 
   if (warning.hasEliminationRisk) {
     return (
@@ -169,7 +172,7 @@ function FinancialDetailsPanel({ player }: { player: PlayerData }) {
   const expenses = profitHelper.getExpenses(player);
   const profit = profitHelper.getProfit(player);
   const endOfTurnMoney = player.money + profit;
-  const warning = getPlayerWarning(player);
+  const warning = getPlayerWarning(player, profitHelper);
 
   const netIncomeHighlight =
     warning.hasIncomeLoss || warning.hasEliminationRisk;
@@ -272,7 +275,10 @@ function LocoUpgradeImpactPanel({ player }: { player: PlayerData }) {
   const currentProfit = profitHelper.getProfit(player);
   const currentMaintenance = player.locomotive;
   const afterUpgradeMaintenance = player.locomotive + 1;
-  const profitAfterUpgrade = currentProfit - 1; // one more loco expense
+  const profitAfterUpgrade = profitHelper.getProfit({
+    ...player,
+    locomotive: player.locomotive + 1,
+  });
 
   return (
     <div className={styles.panelSection}>
