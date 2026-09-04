@@ -237,7 +237,8 @@ interface PlayerStatColumnProps {
 }
 
 function PlayerNameCell({ player }: PlayerStatColumnProps) {
-  const warning = getPlayerWarning(player);
+  const profitHelper = useInjected(ProfitHelper);
+  const warning = getPlayerWarning(player, profitHelper);
 
   return (
     <div className={styles.playerCell}>
