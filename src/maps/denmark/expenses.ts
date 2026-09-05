@@ -1,5 +1,8 @@
 import { IncomeReductionPhase } from "../../engine/income_and_expenses/reduction";
-import { ProfitHelper } from "../../engine/income_and_expenses/helper";
+import {
+  ExpenseBreakdownKey,
+  ProfitHelper,
+} from "../../engine/income_and_expenses/helper";
 import { PlayerData } from "../../engine/state/player";
 
 export class DenmarkIncomeReduction extends IncomeReductionPhase {
@@ -14,7 +17,7 @@ export class DenmarkIncomeReduction extends IncomeReductionPhase {
 }
 
 export class DenmarkProfitHelper extends ProfitHelper {
-  getExpenses(_: PlayerData): number {
-    return 0;
+  getExpenseBreakdown(_: PlayerData): Map<ExpenseBreakdownKey, number> {
+    return new Map();
   }
 }

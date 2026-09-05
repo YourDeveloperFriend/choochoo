@@ -197,14 +197,14 @@ function FinancialDetailsPanel({ player }: { player: PlayerData }) {
             -{formatMoney(expenses)}
           </span>
         </div>
-        <div className={styles.panelSubrow}>
-          <span>• Locomotive maintenance:</span>
-          <span>-{formatMoney(player.locomotive)}</span>
-        </div>
-        <div className={styles.panelSubrow}>
-          <span>• Share interest:</span>
-          <span>-{formatMoney(player.shares)}</span>
-        </div>
+        {[...profitHelper.getExpenseBreakdown(player)].map(
+          ([label, amount]) => (
+            <div className={styles.panelSubrow} key={label}>
+              <span>• {label}:</span>
+              <span>-{formatMoney(amount)}</span>
+            </div>
+          ),
+        )}
         <div
           className={`${styles.panelRow} ${styles.panelDivider} ${netIncomeHighlight ? styles.panelHighlight : ""}`}
         >
@@ -273,12 +273,14 @@ function IncomeTrackVisualization({ player }: { player: PlayerData }) {
 function LocoUpgradeImpactPanel({ player }: { player: PlayerData }) {
   const profitHelper = useInjected(ProfitHelper);
   const currentProfit = profitHelper.getProfit(player);
-  const currentMaintenance = player.locomotive;
-  const afterUpgradeMaintenance = player.locomotive + 1;
-  const profitAfterUpgrade = profitHelper.getProfit({
-    ...player,
-    locomotive: player.locomotive + 1,
-  });
+  const upgradedPlayer = { ...player, locomotive: player.locomotive + 1 };
+  const currentMaintenance =
+    profitHelper.getExpenseBreakdown(player).get("Locomotive maintenance") ?? 0;
+  const afterUpgradeMaintenance =
+    profitHelper
+      .getExpenseBreakdown(upgradedPlayer)
+      .get("Locomotive maintenance") ?? 0;
+  const profitAfterUpgrade = profitHelper.getProfit(upgradedPlayer);
 
   return (
     <div className={styles.panelSection}>

@@ -1,4 +1,7 @@
-import { ProfitHelper } from "../../engine/income_and_expenses/helper";
+import {
+  ExpenseBreakdownKey,
+  ProfitHelper,
+} from "../../engine/income_and_expenses/helper";
 import { PlayerData } from "../../engine/state/player";
 import { injectGrid } from "../../engine/game/state";
 import { ChesapeakeAndOhioMapData } from "./build";
@@ -6,8 +9,8 @@ import { ChesapeakeAndOhioMapData } from "./build";
 export class ChesapeakeAndOhioProfitHelper extends ProfitHelper {
   private readonly grid = injectGrid();
 
-  getExpenses(player: PlayerData): number {
-    const basicExpenses = super.getExpenses(player);
+  getExpenseBreakdown(player: PlayerData): Map<ExpenseBreakdownKey, number> {
+    const breakdown = super.getExpenseBreakdown(player);
 
     let factoryCount = 0;
     for (const city of this.grid().cities()) {
@@ -17,6 +20,7 @@ export class ChesapeakeAndOhioProfitHelper extends ProfitHelper {
       }
     }
 
-    return basicExpenses + factoryCount;
+    breakdown.set("Factory upkeep", factoryCount);
+    return breakdown;
   }
 }
