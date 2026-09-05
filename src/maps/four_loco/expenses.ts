@@ -1,7 +1,10 @@
 import { inject } from "../../engine/framework/execution_context";
 import { PlayerHelper } from "../../engine/game/player";
 import { ExpensesPhase } from "../../engine/income_and_expenses/expenses";
-import { ProfitHelper } from "../../engine/income_and_expenses/helper";
+import {
+  ExpenseBreakdownKey,
+  ProfitHelper,
+} from "../../engine/income_and_expenses/helper";
 import { ShareHelper } from "../../engine/shares/share_helper";
 import {
   TakeSharesAction,
@@ -16,8 +19,8 @@ const SHARE_COST = 3;
  * Players only pay for their shares (not locomotive level).
  */
 export class FourLocoProfitHelper extends ProfitHelper {
-  getExpenses(player: PlayerData): number {
-    return player.shares;
+  getExpenseBreakdown(player: PlayerData): Map<ExpenseBreakdownKey, number> {
+    return new Map([["Share interest", player.shares]]);
   }
 }
 
