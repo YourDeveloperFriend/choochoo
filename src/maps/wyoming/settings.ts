@@ -10,16 +10,10 @@ import { Module } from "../../engine/module/module";
 import { Action } from "../../engine/state/action";
 import { AvailableActionsModule } from "../../modules/available_actions";
 import { WyomingActionNamingProvider } from "./actions";
-import {
-  WyomingActionSelectAction,
-  WyomingAllowedActions,
-  WyomingSelectActionPhase,
-} from "./action_selection";
 import { WyomingBuildCostCalculator } from "./cost";
-import { WyomingDiscountManager } from "./engineer";
 import { WyomingGoodsGrowthPhase } from "./goods_growth";
 import { map } from "./grid";
-import { WyomingMoveHelper } from "./locomotive";
+import { WyomingMoveHelper, WyomingSelectAction } from "./locomotive";
 import { WyomingRoundEngine } from "./round";
 import { WyomingSharesPhase } from "./shares";
 
@@ -52,10 +46,7 @@ export class WyomingMapSettings implements MapSettings {
       WyomingBuildCostCalculator,
       WyomingGoodsGrowthPhase,
       WyomingSharesPhase,
-      WyomingDiscountManager,
-      WyomingActionSelectAction,
-      WyomingAllowedActions,
-      WyomingSelectActionPhase,
+      WyomingSelectAction,
       WyomingMoveHelper,
       WyomingActionNamingProvider,
     ];

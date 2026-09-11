@@ -21,9 +21,9 @@ export const map = grid<SpaceData>([
     MOUNTAIN,
     MOUNTAIN,
     DARK_MOUNTAIN,
+    town("Laramie"),
     MOUNTAIN,
     city("Cheyenne", RED, black(6), 2),
-    PLAIN,
   ],
   [
     MOUNTAIN,

@@ -7,15 +7,6 @@ export function WyomingRules() {
           The game lasts 8 rounds with 2 players, or 6 rounds with 3 players.
         </li>
         <li>
-          <p>
-            Select Actions: After the first player selects their action, they
-            may spend additional money to select a separate action that every
-            other player may not select this turn:
-          </p>
-          <p>(2p) - This costs $2, or $4 if you&apos;re blocking Locomotive.</p>
-          <p>(3p) - This costs $3, or $6 if you&apos;re blocking Locomotive.</p>
-        </li>
-        <li>
           Build Track: plains cost $2, mountains cost $4, and high mountains
           cost $6.
         </li>
@@ -28,10 +19,6 @@ export function WyomingRules() {
           First Move &amp; Issue Last: the player who selects First Move also
           issues shares last in the following turn&apos;s Issue Shares phase, no
           matter their turn order.
-        </li>
-        <li>
-          Engineer: place up to four track <i>or</i> place up to three track and
-          your most expensive track is free.
         </li>
         <li>
           (Two players only) Locomotive: your engine level is only temporarily
