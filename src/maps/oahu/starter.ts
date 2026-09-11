@@ -22,6 +22,11 @@ export class OahuGameStarter extends GameStarter {
     return [first, second];
   }
 
+  /** In 4 and 5 player games, each New City tile carries a cube that joins the city once it is urbanized. */
+  protected numCubesForAvailableCity(): number {
+    return this.players().length >= 4 ? 1 : 0;
+  }
+
   protected drawCubesFor(
     bag: Good[],
     location: SpaceData,

@@ -4,15 +4,19 @@ export function OahuRules() {
       <p>Same as base game with the following changes:</p>
       <ul>
         <li>
-          <b>Setup:</b> there are no dice. Every city starts with 2 cubes. Every
-          Starting City&apos;s goods display column starts with 2 waiting cubes
-          of different colors; New City columns start empty. Every town starts
-          with one random cube.
+          The game lasts 8 turns with 3 or 4 players, or 7 turns with 5 players.
         </li>
         <li>
-          <b>Game Length:</b> with three players, the game lasts 9 rounds (one
-          less than usual). The number of rounds is the same as usual at other
-          player counts.
+          <p>
+            <b>Setup:</b> there are no dice. Honolulu starts with 3 cubes. Every
+            other city starts with 2 cubes. Every Starting City&apos;s goods
+            display column starts with 2 waiting cubes of different colors; New
+            City columns start empty. Every town starts with one random cube.
+          </p>
+          <p>
+            In 4 and 5 player games, also place a cube on top of every New City
+            tile; this cube gets added to the city when it is urbanized.
+          </p>
         </li>
         <li>
           The two hexes &quot;Pearl City&quot; and &quot;Waipahu&quot; are
@@ -49,8 +53,9 @@ export function OahuRules() {
         </li>
         <li>
           <b>Track building:</b> plains cost $2, mountains cost $4, and water
-          hexes cost $6. You may not place complex track on a water hex as its
-          first tile.
+          hexes cost $6. Initially placing a complex track costs $3 over the
+          base price of the terrain. In a three player game, players may build
+          up to 4 track and the Engineer special action is not available.
         </li>
       </ul>
     </div>

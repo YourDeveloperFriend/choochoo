@@ -1,14 +1,10 @@
 import { BuildCostCalculator } from "../../engine/build/cost";
-import {
-  BuildInfo,
-  InvalidBuildReason,
-  Validator,
-} from "../../engine/build/validator";
-import { Land } from "../../engine/map/location";
+import { BuilderHelper } from "../../engine/build/helper";
+import { injectInitialPlayerCount } from "../../engine/game/state";
 import { isComplexTile } from "../../engine/map/tile";
 import { SpaceType } from "../../engine/state/location_type";
 import { LandType } from "../../engine/state/space";
-import { Coordinates } from "../../utils/coordinates";
+import { ComplexTileType, SimpleTileType } from "../../engine/state/tile";
 
 export class OahuBuildCostCalculator extends BuildCostCalculator {
   protected getCostOfLandType(type: LandType): number {
@@ -20,27 +16,22 @@ export class OahuBuildCostCalculator extends BuildCostCalculator {
     }
     return super.getCostOfLandType(type);
   }
+
+  protected getTileCost(tileType: SimpleTileType | ComplexTileType): number {
+    if (isComplexTile(tileType)) {
+      return 3;
+    }
+    return super.getTileCost(tileType);
+  }
 }
 
-export class OahuValidator extends Validator {
-  getInvalidBuildReason(
-    coordinates: Coordinates,
-    buildData: BuildInfo,
-  ): InvalidBuildReason | undefined {
-    const reason = super.getInvalidBuildReason(coordinates, buildData);
-    if (reason !== undefined) {
-      return reason;
-    }
+export class OahuBuilderHelper extends BuilderHelper {
+  private readonly playerCount = injectInitialPlayerCount();
 
-    const space = this.grid().get(coordinates);
-    if (
-      space instanceof Land &&
-      space.getLandType() === SpaceType.LAKE &&
-      space.getTileData() == null &&
-      isComplexTile(buildData.tileType)
-    ) {
-      return "cannot initially place complex track on a water hex";
+  getMaxBuilds(): number {
+    if (this.playerCount() === 3) {
+      return 4;
     }
-    return undefined;
+    return super.getMaxBuilds();
   }
 }
