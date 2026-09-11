@@ -1,6 +1,7 @@
 import { Set as ImmutableSet } from "immutable";
 import { injectState } from "../../engine/framework/execution_context";
 import {
+  CURRENT_PLAYER,
   injectCurrentPlayer,
   injectInitialPlayerCount,
   TURN_ORDER,
@@ -16,7 +17,7 @@ import { OahuProductionAction } from "./production";
 export const TEMPORARY_LOCOMOTIVE_PLAYER_COUNT = 3;
 
 export class OahuAllowedActions extends AllowedActions {
-  private readonly currentPlayer = injectCurrentPlayer();
+  private readonly currentPlayer = injectState(CURRENT_PLAYER);
   private readonly turnOrder = injectState(TURN_ORDER);
 
   getActions(): ImmutableSet<Action> {
@@ -28,13 +29,15 @@ export class OahuAllowedActions extends AllowedActions {
 
   /**
    * The player last in turn order must take Production if nobody has chosen
-   * it yet, so they are only offered that single action.
+   * it yet, so they are only offered that single action. Between turns (and
+   * once the game has ended) there is no current player, so nobody can be
+   * forced to select it.
    */
   private mustSelectProduction(): boolean {
+    if (!this.currentPlayer.isInitialized()) return false;
     const order = this.turnOrder();
     const isLastPlayer =
-      order.length > 0 &&
-      order[order.length - 1] === this.currentPlayer().color;
+      order.length > 0 && order[order.length - 1] === this.currentPlayer();
     if (!isLastPlayer) return false;
     return !this.players().some(
       (player) => player.selectedAction === Action.PRODUCTION,
