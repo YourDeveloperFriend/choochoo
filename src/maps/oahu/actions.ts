@@ -19,12 +19,17 @@ export const TEMPORARY_LOCOMOTIVE_PLAYER_COUNT = 3;
 export class OahuAllowedActions extends AllowedActions {
   private readonly currentPlayer = injectState(CURRENT_PLAYER);
   private readonly turnOrder = injectState(TURN_ORDER);
+  private readonly playerCount = injectInitialPlayerCount();
 
   getActions(): ImmutableSet<Action> {
     if (this.mustSelectProduction()) {
       return ImmutableSet([Action.PRODUCTION]);
     }
-    return super.getActions().add(Action.TOURIST_TRAP);
+    let actions = super.getActions().add(Action.TOURIST_TRAP);
+    if (this.playerCount() === 3) {
+      actions = actions.remove(Action.ENGINEER);
+    }
+    return actions;
   }
 
   /**

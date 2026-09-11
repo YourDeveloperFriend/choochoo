@@ -11,14 +11,12 @@ import {
   OahuSelectAction,
   OahuSelectActionPhase,
 } from "./actions";
-import { OahuBuildCostCalculator, OahuValidator } from "./build";
+import { OahuBuildCostCalculator, OahuBuilderHelper } from "./build";
 import { map } from "./grid";
 import { OahuMoveHelper } from "./move";
 import { OahuGoodsGrowthPhase } from "./production";
 import { OahuGameStarter } from "./starter";
-import { Module } from "../../engine/module/module";
-import { TurnLengthModule } from "../../modules/turn_length";
-import { assert } from "../../utils/validate";
+import { OahuRoundEngine } from "./round";
 
 export class OahuMapSettings implements MapSettings {
   readonly key = "oahu";
@@ -48,29 +46,11 @@ export class OahuMapSettings implements MapSettings {
       OahuSelectAction,
       OahuSelectActionPhase,
       OahuBuildCostCalculator,
-      OahuValidator,
+      OahuBuilderHelper,
       OahuMoveHelper,
       OahuGoodsGrowthPhase,
       OahuGameStarter,
-    ];
-  }
-
-  getModules(): Array<Module> {
-    return [
-      new TurnLengthModule({
-        function: (numPlayers: number) => {
-          switch (numPlayers) {
-            case 3:
-              return 9;
-            case 4:
-              return 8;
-            case 5:
-              return 7;
-            default:
-              assert(false, "unknown number of rounds for player count");
-          }
-        },
-      }),
+      OahuRoundEngine,
     ];
   }
 }
