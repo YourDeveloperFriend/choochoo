@@ -11,7 +11,9 @@ export function KoreaWallaceRules() {
           <b>Hills and Mountains:</b> cost $3.
         </li>
         <li>
-          <b>Urbanize:</b> automatically pulls in the two cubes when placed.
+          <b>Urbanize:</b> automatically pulls in the two cubes from the Goods
+          Growth chart when placed. Then, two new cubes are pulled from the bag
+          and placed on the Goods Growth chart for the city.
         </li>
         <li>
           <b>Cities:</b> are colorless. Instead, goods must be delivered to a
