@@ -11,7 +11,9 @@ import { ClaimRequiresUrbanizeModule } from "../../modules/claim_requires_urbani
 import { ScotlandActionNamingProvider } from "./actions";
 import { ScotlandUrbanizeAction } from "./ayr_link";
 import { map } from "./grid";
+import { ScotlandStarter } from "./starter";
 import { ScotlandPhaseEngine, ScotlandRoundEngine } from "./turn_order";
+import { ScotlandVariantConfig } from "./variant_config";
 
 export class ScotlandMapSettings implements MapSettings {
   readonly key = "scotland";
@@ -32,9 +34,11 @@ export class ScotlandMapSettings implements MapSettings {
   };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.PRODUCTION;
+  readonly variantConfig = ScotlandVariantConfig;
 
   getOverrides() {
     return [
+      ScotlandStarter,
       ScotlandRoundEngine,
       ScotlandGoodsGrowthPhase,
       ScotlandPhaseEngine,
