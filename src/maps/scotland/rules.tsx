@@ -30,12 +30,12 @@ export function ScotlandRules() {
           <b>Game ends:</b> after 8 turns.
         </li>
       </ul>
+      <h3>Variants</h3>
       <p>
-        This is a 2-player implementation of Scotland map on Choochoo. Please do
-        check out <a href="https://eot.coderealms.io/">Era of Trains</a> for a
-        higher player count variant and other maps.
+        The &quot;smaller bag&quot; variant removes 6 cubes of each color from
+        the bag at the beginning of the game. The creates a higher probability
+        of a more even cube distribution.
       </p>
-      <br />
     </div>
   );
 }
