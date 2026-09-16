@@ -12,6 +12,7 @@ import { SelectActionPhase } from "../../engine/select_action/phase";
 import { SelectAction, SelectData } from "../../engine/select_action/select";
 import { Action, ActionNamingProvider } from "../../engine/state/action";
 import { OahuProductionAction } from "./production";
+import { assert } from "../../utils/validate";
 
 /** The locomotive action only works differently in a three player game. */
 export const TEMPORARY_LOCOMOTIVE_PLAYER_COUNT = 3;
@@ -99,6 +100,13 @@ export class OahuSelectAction extends SelectAction {
   protected applyLocomotive(): void {
     if (this.playerCount() === TEMPORARY_LOCOMOTIVE_PLAYER_COUNT) return;
     super.applyLocomotive();
+  }
+
+  validate({ action }: SelectData) {
+    assert(this.currentPlayer().selectedAction === undefined, {
+      invalidInput: "you have already selected an action",
+    });
+    super.validate({ action });
   }
 
   process(data: SelectData): boolean {
