@@ -1,4 +1,4 @@
-import { Button } from "semantic-ui-react";
+import { Button, Header } from "semantic-ui-react";
 import { Username } from "../../client/components/username";
 import { GenericMessage } from "../../client/game/action_summary";
 import { useAction, useEmptyAction } from "../../client/services/action";
@@ -7,8 +7,8 @@ import {
   useInjectedState,
 } from "../../client/utils/injection_context";
 import { BuyTrainsAction, BuyTrainsPassAction } from "./buy_trains";
-import { HAGGLE_COUPONS, TRAIN_DECK } from "./state";
-import { TRAIN_TIER_NOTES, TRAIN_TIERS } from "./train_data";
+import { HAGGLE_COUPONS, PLAYER_TRAINS } from "./state";
+import { TrainCardView, TrainDeckTable } from "./trains_panel";
 
 export function IsleOfWightBuyTrainsSummary() {
   const {
@@ -21,6 +21,10 @@ export function IsleOfWightBuyTrainsSummary() {
     useEmptyAction(BuyTrainsPassAction);
 
   const currentPlayer = useCurrentPlayer();
+  const playerTrains = useInjectedState(PLAYER_TRAINS);
+  const trains = currentPlayer
+    ? (playerTrains.get(currentPlayer.color) ?? [])
+    : [];
   const couponState = useInjectedState(HAGGLE_COUPONS);
 
   const isPending = buyPending || passPending;
@@ -39,8 +43,15 @@ export function IsleOfWightBuyTrainsSummary() {
 
   const coupons = couponState.get(currentPlayer.color) ?? 0;
   return (
-    <div>
-      <TrainDeckElement />
+    <div style={{ marginTop: "1em" }}>
+      <Header as="h3">Your Trains</Header>
+      {trains.length === 0
+        ? "—"
+        : trains.map((train, index) => (
+            <TrainCardView key={index} card={train} />
+          ))}
+      <Header as="h3">Train Deck</Header>
+      <TrainDeckTable />
       <Button.Group>
         <Button
           primary
@@ -76,30 +87,11 @@ export function IsleOfWightBuyTrainsSummary() {
             </Button>
           </>
         ) : null}
+        <Button.Or />
+        <Button negative icon="close" disabled={isPending} onClick={emitPass}>
+          Pass buying trains
+        </Button>
       </Button.Group>
-      <br />
-      <Button negative icon="close" disabled={isPending} onClick={emitPass}>
-        Pass buying trains
-      </Button>
     </div>
-  );
-}
-
-function TrainDeckElement() {
-  const deck = useInjectedState(TRAIN_DECK);
-
-  return (
-    <ul>
-      {TRAIN_TIERS.map(({ tier, cost }) => {
-        const remaining = deck.get(tier) ?? 0;
-        if (remaining === 0) return null;
-        const note = TRAIN_TIER_NOTES[tier - 1];
-        return (
-          <li key={tier}>
-            {remaining}x {tier}-train (${cost}){note != null && <> — {note}</>}
-          </li>
-        );
-      })}
-    </ul>
   );
 }

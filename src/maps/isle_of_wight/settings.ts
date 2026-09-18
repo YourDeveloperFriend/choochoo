@@ -31,7 +31,7 @@ import { IsleOfWightStarter } from "./starter";
 export class IsleOfWightMapSettings implements MapSettings {
   readonly key = "isle-of-wight";
   readonly name = "Isle of Wight";
-  readonly designer = "Unknown";
+  readonly designer = "Michael Webb";
   readonly implementerId = JACK;
   readonly minPlayers = 3;
   readonly maxPlayers = 4;

@@ -49,7 +49,8 @@ export function IsleOfWightRules() {
             </li>
             <li>
               <b>Haggle:</b> receive a coupon, usable at any time, for 50% off a
-              train (rounded down). Two coupons on one train make it free.
+              train (discount rounded down). Two coupons on one train make it
+              free.
             </li>
           </ul>
           Turn Order Pass does not exist at three players.

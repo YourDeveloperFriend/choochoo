@@ -12,7 +12,7 @@ import { describeTrain, nextRange } from "./train_data";
 import { TrainHelper } from "./trains";
 
 export const IsleOfWightMoveData = MoveData.extend({
-  trainIndex: z.number().min(0),
+  trainIndex: z.number().min(0).optional(),
 });
 export type IsleOfWightMoveData = z.infer<typeof IsleOfWightMoveData>;
 
@@ -69,7 +69,7 @@ export class IsleOfWightMoveAction extends MoveAction<IsleOfWightMoveData> {
 
   process(action: IsleOfWightMoveData): boolean {
     const player = this.currentPlayer();
-    const card = this.trainHelper.trainsFor(player.color)[action.trainIndex];
+    const card = this.trainHelper.trainsFor(player.color)[action.trainIndex!];
     this.log.currentPlayer(`hauls the good with their ${describeTrain(card)}`);
     return super.process(action);
   }
@@ -78,7 +78,7 @@ export class IsleOfWightMoveAction extends MoveAction<IsleOfWightMoveData> {
   protected returnToBag(action: IsleOfWightMoveData): void {
     this.trainHelper.useTrain(
       this.currentPlayer().color,
-      action.trainIndex,
+      action.trainIndex!,
       action.good,
     );
   }
@@ -95,10 +95,10 @@ export class IsleOfWightMovePhase extends MovePhase {
     this.installAction(WorkInFactoriesAction);
   }
 
-  onStart(): void {
-    super.onStart();
-    // Every crew is back from their break at the start of the Ship step.
+  onEnd(): void {
+    // Every crew is back from their break once the Ship step is over.
     this.trainHelper.resetUsed();
+    super.onEnd();
   }
 
   checkSkipTurn(): boolean {
