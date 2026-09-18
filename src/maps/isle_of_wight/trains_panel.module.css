@@ -1,0 +1,40 @@
+.card {
+  border: 1px solid var(--border-color, #999);
+  border-radius: 4px;
+  padding: 4px 6px;
+  margin: 2px 0;
+  display: inline-block;
+}
+
+.used {
+  opacity: 0.5;
+}
+
+.boxes {
+  display: flex;
+  gap: 2px;
+}
+
+.box {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.goodBlock {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.playerBlock {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 4px;
+}

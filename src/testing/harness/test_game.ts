@@ -20,7 +20,7 @@ import { Coordinates } from "../../utils/coordinates";
 import { InvalidInputError } from "../../utils/error";
 import { Path } from "../../engine/move/move";
 import { PlayerColor, playerColorToString } from "../../engine/state/player";
-import { Phase, getPhaseString } from "../../engine/state/phase";
+import { Phase, PhaseNamingProvider } from "../../engine/state/phase";
 import { allLabels, coordinatesForLabel, labelForCoordinates } from "./labels";
 import { ReadableGame, readGame } from "./read_game";
 import { Referee } from "./referee";
@@ -239,7 +239,7 @@ export class TestGame {
   }
 
   get phaseName(): string {
-    return getPhaseString(this.phase);
+    return this.read(({ phaseName }) => phaseName);
   }
 
   get currentPlayer(): PlayerColor {
@@ -260,6 +260,9 @@ export class TestGame {
     return readGame(this.readable, () =>
       fn({
         phase: injectState(PHASE)(),
+        phaseName: inject(PhaseNamingProvider).getPhaseString(
+          injectState(PHASE)(),
+        ),
         round: injectState(ROUND)(),
         currentPlayer: injectState(CURRENT_PLAYER)(),
         turnOrder: [...injectState(TURN_ORDER).getOr([])],
@@ -442,6 +445,7 @@ export class TestGame {
 
 interface EngineView {
   phase: Phase;
+  phaseName: string;
   round: number;
   currentPlayer: PlayerColor;
   turnOrder: PlayerColor[];

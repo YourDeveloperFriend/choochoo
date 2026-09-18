@@ -25,6 +25,7 @@ import { HeavyCardboardMapSettings } from "./heavy_cardboard/settings";
 import { HollandMapSettings } from "./holland/settings";
 import { IndiaSteamBrothersMapSettings } from "./india-steam-brothers/settings";
 import { IrelandMapSettings } from "./ireland/settings";
+import { IsleOfWightMapSettings } from "./isle_of_wight/settings";
 import { JamaicaMapSettings } from "./jamaica/settings";
 import { JapanMapSettings } from "./japan/settings";
 import { KoreaWallaceMapSettings } from "./korea-wallace/settings";
@@ -87,6 +88,7 @@ export class MapRegistry {
     this.add(new HollandMapSettings());
     this.add(new IndiaSteamBrothersMapSettings());
     this.add(new IrelandMapSettings());
+    this.add(new IsleOfWightMapSettings());
     this.add(new JamaicaMapSettings());
     this.add(new JapanMapSettings());
     this.add(new KoreaWallaceMapSettings());

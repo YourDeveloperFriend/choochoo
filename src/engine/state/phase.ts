@@ -34,13 +34,30 @@ export enum Phase {
   // Mexico, Cyprus
   ROLE_SELECTION = 17,
 
-  // Stalinist Russia
+  // Stalinist Russia, Isle of Wight
   STALINIST_LOCOMOTIVE = 18,
+
+  // Isle of Wight
+  SCRAP = 19,
 }
 
 export const PhaseZod = z.nativeEnum(Phase);
 
-export function getPhaseString(phase: Phase): string {
+/**
+ * The display name of a phase, injectable so that a map can rename one.
+ *
+ * Two maps can share a phase enum value while calling it different things --
+ * Isle of Wight reuses STALINIST_LOCOMOTIVE for its Buy Trains step -- so the
+ * name has to be resolved through the injection context rather than read
+ * straight off the enum.
+ */
+export class PhaseNamingProvider {
+  getPhaseString(phase: Phase): string {
+    return getPhaseString(phase);
+  }
+}
+
+function getPhaseString(phase: Phase): string {
   switch (phase) {
     case Phase.SHARES:
       return "Issue shares";
@@ -76,6 +93,8 @@ export function getPhaseString(phase: Phase): string {
       return "Role selection";
     case Phase.STALINIST_LOCOMOTIVE:
       return "Locomotive";
+    case Phase.SCRAP:
+      return "Scrap";
     default:
       assertNever(phase);
   }

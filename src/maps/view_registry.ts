@@ -25,6 +25,7 @@ import { HeavyCardboardViewSettings } from "./heavy_cardboard/view_settings";
 import { HollandViewSettings } from "./holland/view_settings";
 import { IndiaSteamBrothersViewSettings } from "./india-steam-brothers/view_settings";
 import { IrelandViewSettings } from "./ireland/view_settings";
+import { IsleOfWightViewSettings } from "./isle_of_wight/view_settings";
 import { JamaicaViewSettings } from "./jamaica/view_settings";
 import { JapanViewSettings } from "./japan/view_settings";
 import { KoreaWallaceViewSettings } from "./korea-wallace/view_settings";
@@ -87,6 +88,7 @@ export class ViewRegistry {
     this.add(new HollandViewSettings());
     this.add(new IndiaSteamBrothersViewSettings());
     this.add(new IrelandViewSettings());
+    this.add(new IsleOfWightViewSettings());
     this.add(new JamaicaViewSettings());
     this.add(new JapanViewSettings());
     this.add(new KoreaWallaceViewSettings());

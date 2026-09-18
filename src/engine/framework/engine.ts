@@ -16,7 +16,7 @@ import { ROUND, RoundEngine } from "../game/round";
 import { PlayerUser } from "../game/starter";
 import { injectCurrentPlayer } from "../game/state";
 import { MOVE_STATE } from "../move/state";
-import { getPhaseString, Phase } from "../state/phase";
+import { Phase, PhaseNamingProvider } from "../state/phase";
 import { inject, injectState, setInjectionContext } from "./execution_context";
 import { InjectionContext } from "./inject";
 import { StateStore } from "./state";
@@ -113,6 +113,7 @@ export class EngineProcessor {
   private readonly moveState = injectState(MOVE_STATE);
   private readonly autoActionManager = inject(AutoActionManager);
   private readonly gameMemory = inject(GameMemory);
+  private readonly phaseNamingProvider = inject(PhaseNamingProvider);
 
   start({ game, players, seed }: StartProps): GameState {
     return this.process(game, () => {
@@ -177,7 +178,7 @@ export class EngineProcessor {
         turnStr,
         this.phase() === Phase.MOVING
           ? `Move goods round ${this.moveState().moveRound + 1}`
-          : getPhaseString(this.phase()),
+          : this.phaseNamingProvider.getPhaseString(this.phase()),
       ].join(" - ");
     });
   }
