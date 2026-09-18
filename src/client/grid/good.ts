@@ -20,3 +20,8 @@ export function goodStyle(good: Good): string {
       assertNever(good);
   }
 }
+
+/** A stroke color that reads clearly against a good of this color, for highlighting it as selected. */
+export function goodHighlightColor(good: Good): string {
+  return good === Good.YELLOW ? "lightgreen" : "yellow";
+}

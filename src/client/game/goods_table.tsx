@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { CSSProperties, useMemo } from "react";
 import { PHASE } from "../../engine/game/phase";
 import { GameStarter } from "../../engine/game/starter";
 import { AVAILABLE_CITIES } from "../../engine/game/state";
@@ -9,7 +9,7 @@ import { OnRoll } from "../../engine/state/roll";
 import { SwedenRecyclingMapSettings } from "../../maps/sweden/settings";
 import { iterate } from "../../utils/functions";
 import { ImmutableMap } from "../../utils/immutable";
-import { goodStyle } from "../grid/good";
+import { goodHighlightColor, goodStyle } from "../grid/good";
 import { useGame } from "../services/game";
 import {
   useGrid,
@@ -180,6 +180,7 @@ interface GoodBlockProps {
   clickable?: boolean;
   emptySpace?: boolean;
   className?: string;
+  highlighted?: boolean;
 }
 
 export function GoodBlock({
@@ -188,6 +189,7 @@ export function GoodBlock({
   clickable,
   emptySpace,
   className,
+  highlighted,
 }: GoodBlockProps) {
   const showAsClickable = clickable && !emptySpace;
   const classNames = [
@@ -195,12 +197,18 @@ export function GoodBlock({
     !emptySpace ? styles.good : "",
     good != null ? goodStyle(good) : styles.empty,
     showAsClickable ? styles.clickableGood : "",
+    highlighted ? styles.highlighted : "",
     className ?? "",
   ];
   return (
     <div
       onClick={showAsClickable ? onClick : undefined}
       className={classNames.join(" ")}
+      style={
+        highlighted && good != null
+          ? ({ "--highlight-color": goodHighlightColor(good) } as CSSProperties)
+          : undefined
+      }
     />
   );
 }

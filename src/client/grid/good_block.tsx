@@ -3,7 +3,7 @@ import { Good } from "../../engine/state/good";
 import { Coordinates } from "../../utils/coordinates";
 import { Point } from "../../utils/point";
 import { Rotate } from "../components/rotation";
-import { goodStyle } from "./good";
+import { goodHighlightColor, goodStyle } from "./good";
 import * as styles from "./good_block.module.css";
 import * as hexGridStyles from "./hex_grid.module.css";
 
@@ -86,9 +86,7 @@ export function FloatingGoodBlock({
   const y = center.y - goodSize / 2;
 
   const stroke = highlighted
-    ? good === Good.YELLOW
-      ? "lightgreen"
-      : "yellow"
+    ? goodHighlightColor(good)
     : good === Good.BLACK
       ? "grey"
       : "black";

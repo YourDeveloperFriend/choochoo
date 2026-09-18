@@ -7,7 +7,8 @@ import {
   useInjectedState,
 } from "../../client/utils/injection_context";
 import { BuyTrainsAction, BuyTrainsPassAction } from "./buy_trains";
-import { HAGGLE_COUPONS } from "./state";
+import { HAGGLE_COUPONS, TRAIN_DECK } from "./state";
+import { TRAIN_TIER_NOTES, TRAIN_TIERS } from "./train_data";
 
 export function IsleOfWightBuyTrainsSummary() {
   const {
@@ -85,10 +86,20 @@ export function IsleOfWightBuyTrainsSummary() {
 }
 
 function TrainDeckElement() {
-  //const deck = useInjectedState(TRAIN_DECK);
-  //const playerTrains = useInjectedState(PLAYER_TRAINS);
+  const deck = useInjectedState(TRAIN_DECK);
 
-  // FIXME: Render the trains available for purchase and helper text from TRAIN_TIER_NOTES describing what happens when that tier is broken
-
-  return <></>;
+  return (
+    <ul>
+      {TRAIN_TIERS.map(({ tier, cost }) => {
+        const remaining = deck.get(tier) ?? 0;
+        if (remaining === 0) return null;
+        const note = TRAIN_TIER_NOTES[tier - 1];
+        return (
+          <li key={tier}>
+            {remaining}x {tier}-train (${cost}){note != null && <> — {note}</>}
+          </li>
+        );
+      })}
+    </ul>
+  );
 }

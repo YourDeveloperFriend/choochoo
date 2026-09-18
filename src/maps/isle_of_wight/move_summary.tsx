@@ -5,14 +5,27 @@ import {
   useCurrentPlayer,
   useInjectedState,
 } from "../../client/utils/injection_context";
+import { ActionConstructor } from "../../engine/game/phase_module";
+import { MoveAction } from "../../engine/move/move";
 import { WorkInFactoriesAction } from "./factory";
+import { IsleOfWightMoveData } from "./move";
 import { PLAYER_TRAINS } from "./state";
 import { describeTrain } from "./train_data";
 
 export function IsleOfWightMoveSummary() {
-  const { canEmit, data, setData, clearData, isPending } = useAction(
-    WorkInFactoriesAction,
-  );
+  const {
+    canEmit: canEmitMove,
+    data: moveData,
+    setData: setMoveData,
+    isPending: movePending,
+  } = useAction(MoveAction as ActionConstructor<IsleOfWightMoveData>);
+  const {
+    canEmit: canEmitFactory,
+    data: factoryData,
+    setData: setFactoryData,
+    clearData: clearFactoryData,
+    isPending: factoryPending,
+  } = useAction(WorkInFactoriesAction);
   const currentPlayer = useCurrentPlayer();
   const playerTrains = useInjectedState(PLAYER_TRAINS);
 
@@ -23,14 +36,36 @@ export function IsleOfWightMoveSummary() {
     .map((card, index) => ({ card, index }))
     .filter(({ card }) => !card.used);
 
-  // FIXME: This needs to provide a UI for selecting which you you're going to use and setting the partial data on the IowMoveData
+  const chosenTrain = unused.find(
+    ({ index }) => index === moveData?.trainIndex,
+  )?.card;
 
   return (
     <>
       <MoveGoods />
-      {canEmit && unused.length > 0 && (
+      {canEmitMove && unused.length > 0 && (
         <div style={{ marginTop: "1em" }}>
-          {data?.trainIndex == null ? (
+          <p>
+            {chosenTrain == null
+              ? "Choose a train to make a delivery with:"
+              : `Click a good to deliver with your ${describeTrain(chosenTrain)}.`}
+          </p>
+          {unused.map(({ card, index }) => (
+            <Button
+              key={index}
+              color="blue"
+              active={index === moveData?.trainIndex}
+              disabled={movePending}
+              onClick={() => setMoveData({ trainIndex: index })}
+            >
+              Use {describeTrain(card)}
+            </Button>
+          ))}
+        </div>
+      )}
+      {canEmitFactory && unused.length > 0 && (
+        <div style={{ marginTop: "1em" }}>
+          {factoryData?.trainIndex == null ? (
             <>
               <p>
                 Or send a crew to work in the factories: exhaust a train to add
@@ -40,8 +75,8 @@ export function IsleOfWightMoveSummary() {
                 <Button
                   key={index}
                   color="olive"
-                  disabled={isPending}
-                  onClick={() => setData({ trainIndex: index })}
+                  disabled={factoryPending}
+                  onClick={() => setFactoryData({ trainIndex: index })}
                 >
                   Use {describeTrain(card)}
                 </Button>
@@ -53,7 +88,7 @@ export function IsleOfWightMoveSummary() {
                 Click the city to add a cube to, or cancel. A cube matching the
                 city&apos;s colour is taken from the bag.
               </p>
-              <Button disabled={isPending} onClick={clearData}>
+              <Button disabled={factoryPending} onClick={clearFactoryData}>
                 Cancel
               </Button>
             </>
