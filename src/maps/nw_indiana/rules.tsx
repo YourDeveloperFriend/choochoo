@@ -14,19 +14,9 @@ export function NwIndianaRules() {
           and goods being delivered to Chicago can enter from any of the hexes.
         </li>
         <li>
-          <b>La Porte and Knox:</b> cannot be built on. Can only be urbanized.
-        </li>
-        <li>
-          <b>$8 links:</b> claimable links near Chesterton, La Porte, and Knox
-          cannot be claimed until both ends are cities.
-        </li>
-        <li>
           <b>Shares:</b> the first 5 shares issued (including the 2 your start
           with) give you $5. Shares 6-10 give you $6 each, and 11-15 give you $7
-          each. Additionally, you are able to issue a share at any time for $4.
-          (Note that income/expenses is executed without interaction, so
-          you&apos;ll need to issue any such shares before your last move goods
-          action of the round.)
+          each.
         </li>
         <li>
           <b>Construction (odd turns):</b> during the Move Goods phase, players

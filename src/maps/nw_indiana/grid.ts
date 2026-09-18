@@ -1,9 +1,16 @@
 import { CityData, SpaceData } from "../../engine/state/space";
-import { black, city, grid, PLAIN, town, UNPASSABLE, white } from "../factory";
+import {
+  black,
+  city,
+  grid,
+  PLAIN,
+  town,
+  UNPASSABLE,
+  WATER,
+  white,
+} from "../factory";
 import { BLUE, PURPLE, RED, YELLOW } from "../../engine/state/good";
 import { SpaceType } from "../../engine/state/location_type";
-import { startFrom } from "../tile_factory";
-import { BOTTOM_LEFT, TOP, TOP_LEFT, TOP_RIGHT } from "../../engine/state/tile";
 import { CityGroup } from "../../engine/state/city_group";
 
 export const CHICAGO_SAME_CITY = 1;
@@ -33,22 +40,14 @@ export const map = grid<SpaceData>([
     UNPASSABLE,
     UNPASSABLE,
     PLAIN,
-    town("Cedar Lake"),
+    city("Cedar Lake", YELLOW, [white(2)], 2),
     PLAIN,
     PLAIN,
     PLAIN,
     PLAIN,
     PLAIN,
     town("Winfield"),
-    UNPASSABLE,
-    UNPASSABLE,
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP_RIGHT).curveLeft(),
-      },
-    },
-    town("Knox"),
+    PLAIN,
   ],
   [
     UNPASSABLE,
@@ -61,20 +60,13 @@ export const map = grid<SpaceData>([
     PLAIN,
     PLAIN,
     PLAIN,
-    UNPASSABLE,
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP_RIGHT).straightAcross(),
-        claimableCost: [8],
-      },
-    },
+    PLAIN,
   ],
   [
     UNPASSABLE,
     PLAIN,
     PLAIN,
-    city("Saint John", YELLOW, white(2), 2),
+    town("Saint John"),
     PLAIN,
     PLAIN,
     PLAIN,
@@ -82,12 +74,7 @@ export const map = grid<SpaceData>([
     PLAIN,
     PLAIN,
     PLAIN,
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP_RIGHT).straightAcross(),
-      },
-    },
+    PLAIN,
   ],
   [
     PLAIN,
@@ -101,6 +88,7 @@ export const map = grid<SpaceData>([
     town("Wheeler"),
     PLAIN,
     city("Valparaiso", YELLOW, white(6), 3),
+    PLAIN,
   ],
   [
     UNPASSABLE,
@@ -115,11 +103,13 @@ export const map = grid<SpaceData>([
     PLAIN,
     PLAIN,
     PLAIN,
+    PLAIN,
   ],
   [
     PLAIN,
     PLAIN,
     city("Schererville", PURPLE, white(1), 3),
+    PLAIN,
     PLAIN,
     PLAIN,
     PLAIN,
@@ -144,14 +134,7 @@ export const map = grid<SpaceData>([
     PLAIN,
     PLAIN,
     town("Westville"),
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP).straightAcross(),
-        claimableCost: [8],
-      },
-    },
-    town("La Porte"),
+    PLAIN,
   ],
   [
     PLAIN,
@@ -166,19 +149,8 @@ export const map = grid<SpaceData>([
     PLAIN,
     PLAIN,
     PLAIN,
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP_LEFT).straightAcross(),
-      },
-    },
-    UNPASSABLE,
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP_LEFT).straightAcross(),
-      },
-    },
+    PLAIN,
+    PLAIN,
   ],
   [
     UNPASSABLE,
@@ -193,22 +165,9 @@ export const map = grid<SpaceData>([
     PLAIN,
     PLAIN,
     PLAIN,
-    UNPASSABLE,
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP_LEFT).straightAcross(),
-        claimableCost: [8],
-      },
-    },
-    UNPASSABLE,
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP_LEFT).curveLeft(),
-        claimableCost: [8],
-      },
-    },
+    PLAIN,
+    PLAIN,
+    town("La Porte"),
   ],
   [
     PLAIN,
@@ -221,21 +180,11 @@ export const map = grid<SpaceData>([
     PLAIN,
     PLAIN,
     PLAIN,
+    town("Chesterton"),
     PLAIN,
-    UNPASSABLE,
-    UNPASSABLE,
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP_LEFT).straightAcross(),
-      },
-    },
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(BOTTOM_LEFT).straightAcross(),
-      },
-    },
+    PLAIN,
+    PLAIN,
+    PLAIN,
   ],
   [
     UNPASSABLE,
@@ -248,27 +197,11 @@ export const map = grid<SpaceData>([
     PLAIN,
     city("Portage", BLUE, black(5), 2),
     PLAIN,
-    town("Chesterton"),
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP).straightAcross(),
-      },
-    },
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP).straightAcross(),
-        claimableCost: [8],
-      },
-    },
-    {
-      type: SpaceType.UNPASSABLE,
-      tile: {
-        ...startFrom(TOP).straightAcross(),
-      },
-    },
-    city("Michigan City", BLUE, black(6), 2),
+    PLAIN,
+    PLAIN,
+    PLAIN,
+    PLAIN,
+    PLAIN,
   ],
   [
     CHICAGO_SIDE,
@@ -279,6 +212,27 @@ export const map = grid<SpaceData>([
     PLAIN,
     PLAIN,
     PLAIN,
+    WATER,
+    WATER,
+    WATER,
+    PLAIN,
+    PLAIN,
+    city("Michigan City", BLUE, [black(6)], 2),
   ],
-  [UNPASSABLE, UNPASSABLE, CHICAGO_SIDE, PLAIN, PLAIN],
+  [
+    UNPASSABLE,
+    UNPASSABLE,
+    CHICAGO_SIDE,
+    PLAIN,
+    PLAIN,
+    WATER,
+    WATER,
+    WATER,
+    WATER,
+    WATER,
+    WATER,
+    WATER,
+    WATER,
+    PLAIN,
+  ],
 ]);
