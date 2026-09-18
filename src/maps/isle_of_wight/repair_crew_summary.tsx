@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button } from "semantic-ui-react";
 import { Username } from "../../client/components/username";
 import { GenericMessage } from "../../client/game/action_summary";
-import { GoodBlock } from "../../client/game/goods_table";
 import { useAction } from "../../client/services/action";
 import {
   useCurrentPlayer,
@@ -10,6 +9,8 @@ import {
 } from "../../client/utils/injection_context";
 import { MAX_REPAIRS, RepairCrewAction } from "./repair_crew";
 import { PLAYER_TRAINS } from "./state";
+import { TrainCardView } from "./trains_panel";
+import * as styles from "./trains_panel.module.css";
 
 export function IsleOfWightRepairCrewSummary() {
   const {
@@ -64,33 +65,25 @@ export function IsleOfWightRepairCrewSummary() {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "1em" }}>
       <GenericMessage>
         Your Repair Crew may remove up to {MAX_REPAIRS} goods, in total, from
-        your trains.
+        your trains. Click a train multiple times to remove multiple goods from
+        it.
       </GenericMessage>
-      {trains.map((card, trainIndex) => (
-        <div key={trainIndex} onClick={() => toggle(trainIndex)}>
-          <span>{card.tier}-train: </span>
-          {card.goods.length === 0 && <span>no goods</span>}
-          {card.goods.map((good, boxIndex) => {
-            const highlighted =
-              card.goods.length - boxIndex >=
-              (selectedPerTrain.get(trainIndex) ?? 0);
-            return (
-              <GoodBlock
-                key={boxIndex}
-                good={good}
-                clickable
-                highlighted={highlighted}
-              />
-            );
-          })}
-        </div>
-      ))}
+      <div className={styles.cardList}>
+        {trains.map((card, trainIndex) => (
+          <TrainCardView
+            key={trainIndex}
+            card={card}
+            highlightCount={selectedPerTrain.get(trainIndex) ?? 0}
+            onClick={() => toggle(trainIndex)}
+          />
+        ))}
+      </div>
       <Button
         primary
-        disabled={isPending || selected.length === 0}
+        disabled={isPending}
         onClick={() => emitRepair({ removals: selected })}
       >
         Remove selected

@@ -128,7 +128,7 @@ export class TrainHelper {
   costOf(tier: number, couponsUsed: number): number {
     const base = tierData(tier).cost;
     if (couponsUsed >= 2) return 0;
-    if (couponsUsed === 1) return Math.floor(base / 2);
+    if (couponsUsed === 1) return base - Math.floor(base / 2);
     return base;
   }
 
