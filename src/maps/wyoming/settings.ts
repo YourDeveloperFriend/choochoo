@@ -14,8 +14,11 @@ import { WyomingBuildCostCalculator } from "./cost";
 import { WyomingGoodsGrowthPhase } from "./goods_growth";
 import { map } from "./grid";
 import { WyomingMoveHelper, WyomingSelectAction } from "./locomotive";
+import { WyomingMoveAction } from "./move";
 import { WyomingRoundEngine } from "./round";
 import { WyomingSharesPhase } from "./shares";
+import { WyomingStarter } from "./starter";
+import { WyomingTurnOrderPhase } from "./turn_order";
 
 export class WyomingMapSettings implements MapSettings {
   readonly key = "wyoming";
@@ -49,6 +52,9 @@ export class WyomingMapSettings implements MapSettings {
       WyomingSelectAction,
       WyomingMoveHelper,
       WyomingActionNamingProvider,
+      WyomingMoveAction,
+      WyomingStarter,
+      WyomingTurnOrderPhase,
     ];
   }
 

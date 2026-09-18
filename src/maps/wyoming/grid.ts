@@ -17,7 +17,7 @@ export const map = grid<SpaceData>([
     UNPASSABLE,
     MOUNTAIN,
     MOUNTAIN,
-    city("Green River", BLUE, black(5), 2),
+    city("Rock Springs", BLUE, black(5), 2),
     MOUNTAIN,
     MOUNTAIN,
     DARK_MOUNTAIN,

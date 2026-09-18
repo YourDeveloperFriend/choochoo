@@ -4,7 +4,7 @@ export function WyomingRules() {
       <p>Same as base game with the following changes:</p>
       <ul>
         <li>
-          The game lasts 8 rounds with 2 players, or 6 rounds with 3 players.
+          The game lasts 9 rounds with 2 players, or 6 rounds with 3 players.
         </li>
         <li>
           Build Track: plains cost $2, mountains cost $4, and high mountains
@@ -21,9 +21,19 @@ export function WyomingRules() {
           matter their turn order.
         </li>
         <li>
-          (Two players only) Locomotive: your engine level is only temporarily
-          increased by one, for the Move Goods phase of the turn it&apos;s
-          selected.
+          (Two players only) Locomotive: instead of permanently increasing your
+          engine level, this action costs $2 and grants a loco disc.
+        </li>
+        <li>
+          (Two players only) Loco discs may be spent to temporarily extend a
+          delivery by one link each; this happens automatically whenever a
+          delivery exceeds your locomotive value, as long as you have enough
+          loco discs to cover the difference. Loco discs cannot be used for
+          anything else.
+        </li>
+        <li>
+          (Two players only) The winner of each turn order auction immediately
+          gains a free loco disc.
         </li>
         <li>
           (Two players only) In the turn order auction, first place pays full
