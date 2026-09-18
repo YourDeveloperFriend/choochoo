@@ -65,6 +65,10 @@ export enum Action {
 
   // O'ahu
   TOURIST_TRAP = 29,
+
+  // Isle of Wight
+  REPAIR_CREW = 30,
+  HAGGLE = 31,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -132,6 +136,10 @@ export class ActionNamingProvider {
         return "Politburo Directive";
       case Action.TOURIST_TRAP:
         return "Tourist Trap";
+      case Action.REPAIR_CREW:
+        return "Repair Crew";
+      case Action.HAGGLE:
+        return "Haggle";
       default:
         assertNever(action);
     }
@@ -197,6 +205,10 @@ export class ActionNamingProvider {
         return "For one of your deliveries, you may start from Moscow.";
       case Action.TOURIST_TRAP:
         return "Immediately, every other player gives you $1 (if able).";
+      case Action.REPAIR_CREW:
+        return "Immediately, remove up to 2 goods in total from your train cards.";
+      case Action.HAGGLE:
+        return "Receive a coupon, usable for 50% off a train (rounded down).";
       default:
         assertNever(action);
     }
