@@ -72,7 +72,7 @@ describe("Isle of Wight", () => {
           break;
         case Phase.STALINIST_LOCOMOTIVE:
           if (options.buyTrains) {
-            game.emit(BuyTrainsAction, { trains: [{ coupons: 0 }] });
+            game.emit(BuyTrainsAction, { coupons: 0 });
           } else {
             game.emit(BuyTrainsPassAction, {});
           }
@@ -114,7 +114,7 @@ describe("Isle of Wight", () => {
     const buyer = game.currentPlayer;
     const before = game.player(buyer).money;
 
-    game.as(buyer).emit(BuyTrainsAction, { trains: [{ coupons: 0 }] });
+    game.as(buyer).emit(BuyTrainsAction, { coupons: 0 });
 
     expect(game.player(buyer).money).toBe(before - 2);
     expect(game.lastLogs.some((log) => log.includes("buys a 1-train"))).toBe(
@@ -122,27 +122,24 @@ describe("Isle of Wight", () => {
     );
   });
 
-  it("rejects holding more than two trains", () => {
+  it("stops a player from buying more than two trains", () => {
     const game = advanceTo(newGame(), Phase.STALINIST_LOCOMOTIVE);
+    const buyer = game.currentPlayer;
 
+    game.as(buyer).emit(BuyTrainsAction, { coupons: 0 });
+    game.as(buyer).emit(BuyTrainsAction, { coupons: 0 });
+
+    // With two trains held, forcedAction ends the buyer's turn automatically.
+    expect(game.currentPlayer).not.toBe(buyer);
     expect(
-      game.errorFor(BuyTrainsAction, {
-        trains: [{ coupons: 0 }, { coupons: 0 }],
-      }),
-    ).toBeUndefined();
-    expect(
-      game.errorFor(BuyTrainsAction, {
-        trains: [{ coupons: 0 }, { coupons: 0 }, { coupons: 0 }],
-      }),
-    ).toBeDefined();
+      game.lastLogs.some((log) => log.includes("does not buy any more trains")),
+    ).toBe(true);
   });
 
   it("rejects spending Haggle coupons the player does not hold", () => {
     const game = advanceTo(newGame(), Phase.STALINIST_LOCOMOTIVE);
 
-    expect(
-      game.errorFor(BuyTrainsAction, { trains: [{ coupons: 1 }] }),
-    ).toBeDefined();
+    expect(game.errorFor(BuyTrainsAction, { coupons: 1 })).toBeDefined();
   });
 
   it("charges expenses for shares only, not for trains", () => {

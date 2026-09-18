@@ -19,6 +19,13 @@ export type IsleOfWightMoveData = z.infer<typeof IsleOfWightMoveData>;
 export class IsleOfWightMoveHelper extends MoveHelper {
   private readonly trainHelper = inject(TrainHelper);
 
+  /**
+   * Bounds a path being built by the best range among the player's unused
+   * trains: the client picks the exact train up front, but the path can be
+   * validated incrementally before that choice is reflected in the action
+   * data. IsleOfWightMoveAction.validate enforces the selected train's actual
+   * range once the delivery is emitted.
+   */
   getLocomotive(player: PlayerData): number {
     return this.trainHelper.maxRange(player.color);
   }
@@ -28,22 +35,6 @@ export class IsleOfWightMoveHelper extends MoveHelper {
       .deliverableTrains(player.color)
       .map(({ card }) => nextRange(card)!);
     return ranges.length === 0 ? "0" : ranges.join(" or ");
-  }
-
-  isWithinLocomotive(player: PlayerData, moveData: MoveData): boolean {
-    const { trainIndex } = moveData as IsleOfWightMoveData;
-    if (trainIndex == null) {
-      return false;
-    }
-    const range = this.rangeOf(player, trainIndex);
-    return range != null && moveData.path.length <= range;
-  }
-
-  /** The range of one of a player's trains, or undefined if it cannot haul. */
-  rangeOf(player: PlayerData, trainIndex: number): number | undefined {
-    const card = this.trainHelper.trainsFor(player.color)[trainIndex];
-    if (card == null || card.used) return undefined;
-    return nextRange(card);
   }
 }
 
@@ -67,8 +58,12 @@ export class IsleOfWightMoveAction extends MoveAction<IsleOfWightMoveData> {
     assert(!card.used, {
       invalidInput: "that train's crew is already on a break this turn",
     });
-    assert(nextRange(card) != null, {
+    const range = nextRange(card);
+    assert(range != null, {
       invalidInput: "that train has no space left for a good",
+    });
+    assert(action.path.length <= range, {
+      invalidInput: `that train's crew can only haul ${range} steps`,
     });
   }
 

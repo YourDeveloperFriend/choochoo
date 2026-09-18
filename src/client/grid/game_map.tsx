@@ -83,6 +83,7 @@ function getSelectedGood(
 
 function confirmDeliveryCb(
   moveAction: EnhancedMoveData | undefined,
+  moveActionData: Partial<MoveData> | undefined,
   player: PlayerColor | undefined,
   moveInstance: Memoized<MoveAction>,
   confirm: ConfirmCallback,
@@ -106,6 +107,7 @@ function confirmDeliveryCb(
     }).then((confirmed) => {
       if (!confirmed) return;
       emitMove({
+        ...moveActionData,
         ...moveAction,
         path: moveAction.path.map((step) => removeKeys(step, "routeInfo")),
       });
@@ -148,7 +150,7 @@ function getConfirmDeliveryCity(
 }
 
 export function GameMap() {
-  const { emit: emitMove } = useAction(MoveAction);
+  const { emit: emitMove, data: moveActionData } = useAction(MoveAction);
   const moveInstance: Memoized<MoveAction<MoveData>> =
     useInjectedMemo(MoveAction);
   const { maybeInterceptMove, ...interceptMoveState } =
@@ -176,6 +178,7 @@ export function GameMap() {
 
   const confirmDelivery = useTypedCallback(confirmDeliveryCb, [
     moveActionProgress,
+    moveActionData,
     player?.color,
     moveInstance,
     confirm,

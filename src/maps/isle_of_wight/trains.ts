@@ -31,7 +31,7 @@ import {
 } from "../../engine/state/tile";
 import { ImmutableMap } from "../../utils/immutable";
 
-export interface HeldTrain {
+interface HeldTrain {
   index: number;
   card: TrainCard;
 }

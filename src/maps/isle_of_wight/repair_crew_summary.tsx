@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button } from "semantic-ui-react";
-import { GoodBlock } from "../../client/game/goods_table";
 import { Username } from "../../client/components/username";
 import { GenericMessage } from "../../client/game/action_summary";
+import { GoodBlock } from "../../client/game/goods_table";
 import { useAction } from "../../client/services/action";
 import {
   useCurrentPlayer,
@@ -10,7 +10,6 @@ import {
 } from "../../client/utils/injection_context";
 import { MAX_REPAIRS, RepairCrewAction } from "./repair_crew";
 import { PLAYER_TRAINS } from "./state";
-import * as styles from "./trains_panel.module.css";
 
 export function IsleOfWightRepairCrewSummary() {
   const {
@@ -83,9 +82,7 @@ export function IsleOfWightRepairCrewSummary() {
                 key={boxIndex}
                 good={good}
                 clickable
-                className={
-                  highlighted ? styles.highlightedGoodBlock : undefined
-                }
+                highlighted={highlighted}
               />
             );
           })}
