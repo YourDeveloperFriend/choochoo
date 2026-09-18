@@ -11,12 +11,6 @@ import { ClaimRequiresUrbanizeModule } from "../../modules/claim_requires_urbani
 import { NwIndianaProfitHelper } from "./expenses";
 import { map } from "./grid";
 import { NwIndianaMoveHelper } from "./move";
-import {
-  NwIndianaBuildPhase,
-  NwIndianaMovePhase,
-  NwIndianaSelectActionPhase,
-  NwIndianaTurnOrderPhase,
-} from "./phase";
 import { NwIndianaTakeSharesAction } from "./shares";
 
 export class NwIndianaMapSettings implements MapSettings {
@@ -25,14 +19,14 @@ export class NwIndianaMapSettings implements MapSettings {
   readonly designer = "Justin Szczepanski";
   readonly implementerId = JACK;
   readonly minPlayers = 3;
-  readonly maxPlayers = 5;
+  readonly maxPlayers = 6;
   readonly playerCountRatings = {
     1: PlayerCountRating.NOT_SUPPORTED,
     2: PlayerCountRating.NOT_SUPPORTED,
     3: PlayerCountRating.NO_DATA,
     4: PlayerCountRating.NO_DATA,
     5: PlayerCountRating.NO_DATA,
-    6: PlayerCountRating.NOT_SUPPORTED,
+    6: PlayerCountRating.NO_DATA,
     7: PlayerCountRating.NOT_SUPPORTED,
     8: PlayerCountRating.NOT_SUPPORTED,
   };
@@ -46,10 +40,6 @@ export class NwIndianaMapSettings implements MapSettings {
       NwIndianaMoveHelper,
       NwIndianaProfitHelper,
       NwIndianaTakeSharesAction,
-      NwIndianaTurnOrderPhase,
-      NwIndianaSelectActionPhase,
-      NwIndianaBuildPhase,
-      NwIndianaMovePhase,
     ];
   }
 
