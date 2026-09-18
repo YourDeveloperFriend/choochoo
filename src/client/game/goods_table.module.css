@@ -42,11 +42,6 @@
   cursor: pointer;
 }
 
-.highlighted {
-  outline: 2px solid var(--highlight-color);
-  outline-offset: 1px;
-}
-
 .gapRight {
   margin-right: 8px;
 }
