@@ -28,6 +28,7 @@ import {
   useStartGame,
 } from "../services/game";
 import { useMe } from "../services/me";
+import { emitSuccess } from "../utils/notify";
 import * as styles from "./game_card.module.css";
 
 interface GameCardProps {
@@ -92,6 +93,7 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
       </CardContent>
       <CardContent extra>
         <ViewButton game={game} />
+        {game.status === GameStatus.enum.LOBBY && <InviteButton game={game} />}
         <LeaveButton game={game} />
         <JoinButton game={game} />
         <StartButton game={game} />
@@ -129,6 +131,22 @@ function ViewButton({ game }: GameButtonProps) {
   return (
     <Button color="green" as={Link} to={`/app/games/${game.id}`}>
       View
+    </Button>
+  );
+}
+
+function InviteButton({ game }: GameButtonProps) {
+  const copyInviteLink = useCallback(() => {
+    const url = `${window.location.origin}/app/games/${game.id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      emitSuccess("Invite link copied to clipboard!");
+    });
+  }, [game.id]);
+
+  return (
+    <Button icon labelPosition="left" onClick={copyInviteLink}>
+      <Icon name="copy" />
+      Invite
     </Button>
   );
 }
