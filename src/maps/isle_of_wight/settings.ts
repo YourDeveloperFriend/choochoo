@@ -1,4 +1,5 @@
 import {
+  CORTEXBOMB,
   JACK,
   MapSettings,
   PlayerCountRating,
@@ -47,6 +48,7 @@ export class IsleOfWightMapSettings implements MapSettings {
   };
   readonly startingGrid = map;
   readonly stage = ReleaseStage.DEVELOPMENT;
+  readonly developmentAllowlist = [JACK, CORTEXBOMB];
 
   getOverrides() {
     return [
