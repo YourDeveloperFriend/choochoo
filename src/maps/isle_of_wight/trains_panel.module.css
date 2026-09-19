@@ -13,6 +13,10 @@
   display: inline-block;
 }
 
+:global(.dark-mode) .card {
+  border-color: #666;
+}
+
 .used {
   opacity: 0.5;
 }
@@ -30,6 +34,10 @@
   align-items: center;
   justify-content: center;
   font-size: 11px;
+}
+
+:global(.dark-mode) .box {
+  border-color: #888;
 }
 
 .goodBlock {

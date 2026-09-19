@@ -161,6 +161,35 @@ body.dark-mode .ui.secondary.button:disabled {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) inset;
 }
 
+body.dark-mode .ui.table {
+  background: #1b1c1d;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+body.dark-mode .ui.table thead th {
+  background: #2b2b2b;
+  color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+body.dark-mode .ui.table tr td,
+body.dark-mode .ui.table tr th {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+body.dark-mode .ui.celled.table tr td,
+body.dark-mode .ui.celled.table tr th {
+  border-left-color: rgba(255, 255, 255, 0.1);
+}
+body.dark-mode .ui.table tr.positive,
+body.dark-mode .ui.table td.positive {
+  background: #0b2e13 !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+body.dark-mode .ui.table tr.negative,
+body.dark-mode .ui.table td.negative {
+  background: #3f0f0f !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
 /**
  * Disable double-tap to zoom on mobile devices 
  * https://www.reddit.com/r/incremental_games/comments/1b3n60d/easy_disable_doubletap_zoom_on_mobile_browser/
