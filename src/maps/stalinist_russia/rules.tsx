@@ -29,7 +29,7 @@ export function StalinistRussiaRules() {
       <p>
         This map does not use the usual Locomotive track, and instead uses a
         special locomotive track. Advancing on this track may change both the
-        length of your deliviries (the usual engine level) as well as the number
+        length of your deliveries (the usual engine level) as well as the number
         of deliveries you can make. On this map, there are four delivery rounds
         every move goods phase, with players participating in later phases only
         if their position on the Locomotive track allows it.
@@ -42,10 +42,13 @@ export function StalinistRussiaRules() {
         if any, going first) if they wish to increase their position on the
         Locomotive track. Only a single player may be in at a given box on the
         single-player row at any time. Players cannot increase to a box beyond
-        the current round. Regardless of a player&apos;s current position on the
+        the current round, but otherwise may move to any box other than an
+        occupied box on the single-player row. A player may even move backwards
+        if they wish! Regardless of a player&apos;s current position on the
         Locomotive track, the cost to move on the Locomotive track is equal to
-        the cost listed on the column. Locomotive does not contribute to
-        expenses during the income and expenses phase.
+        the price of the box to which you move; intermediate boxes do not cost
+        you anything. Locomotive does not contribute to expenses during the
+        income and expenses phase.
       </p>
       <h2>Building</h2>
       <p>
