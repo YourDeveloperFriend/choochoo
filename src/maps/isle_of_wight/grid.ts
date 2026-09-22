@@ -11,7 +11,7 @@ export const map = grid<SpaceData>([
     PLAIN,
     city("Totland", PURPLE, [], 3),
   ],
-  [UNPASSABLE, UNPASSABLE, UNPASSABLE, PLAIN, PLAIN, PLAIN, PLAIN],
+  [UNPASSABLE, UNPASSABLE, UNPASSABLE, PLAIN, PLAIN, PLAIN],
   [
     UNPASSABLE,
     UNPASSABLE,
@@ -86,11 +86,5 @@ export const map = grid<SpaceData>([
   [UNPASSABLE, city("Ryde", BLUE, [], 3), PLAIN, PLAIN, HILL, PLAIN],
   [UNPASSABLE, UNPASSABLE, PLAIN, PLAIN, PLAIN, town("Sandown")],
   [UNPASSABLE, town("Seaview"), RIVER, PLAIN],
-  [
-    UNPASSABLE,
-    UNPASSABLE,
-    UNPASSABLE,
-    UNPASSABLE,
-    city("Bembridge", PURPLE, [], 3),
-  ],
+  [UNPASSABLE, UNPASSABLE, UNPASSABLE, city("Bembridge", PURPLE, [], 3)],
 ]);
