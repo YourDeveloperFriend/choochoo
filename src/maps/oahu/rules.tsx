@@ -8,10 +8,12 @@ export function OahuRules() {
         </li>
         <li>
           <p>
-            <b>Setup:</b> there are no dice. Honolulu starts with 3 cubes. Every
-            other city starts with 2 cubes. Every Starting City&apos;s goods
-            display column starts with 2 waiting cubes of different colors; New
-            City columns start empty. Every town starts with one random cube.
+            <b>Setup:</b> there are no dice. Honolulu starts with 3 cubes. At 5
+            players, every other city also starts with 3 cubes. At lower counts
+            every other city starts with 2 cubes. Every Starting City&apos;s
+            goods display column starts with 2 waiting cubes of different
+            colors; New City columns start empty. Every town starts with one
+            random cube.
           </p>
           <p>
             In 4 and 5 player games, also place a cube on top of every New City
