@@ -10,7 +10,7 @@ import { IsleOfWightRules } from "./rules";
 import { IsleOfWightScrapSummary } from "./scrap_summary";
 import { IsleOfWightMapSettings } from "./settings";
 import { TrainsPanel } from "./trains_panel";
-import { IsleOfWightOverlayLayer } from "./rivers";
+import { IsleOfWightTexturesLayer } from "./rivers";
 
 export class IsleOfWightViewSettings
   extends IsleOfWightMapSettings
@@ -18,7 +18,7 @@ export class IsleOfWightViewSettings
 {
   getMapRules = IsleOfWightRules;
   useOnMapClick = useFactoryClick;
-  getOverlayLayer = IsleOfWightOverlayLayer;
+  getTexturesLayer = IsleOfWightTexturesLayer;
 
   additionalSliders = [TrainsPanel];
 
