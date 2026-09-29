@@ -44,7 +44,7 @@ export class DCMetroMapSettings implements MapSettings {
   getModules(): Array<Module> {
     return [
       new TurnLengthModule({
-        function: (playerCount) => (playerCount === 3 ? 9 : 8),
+        turnLength: 8,
       }),
     ];
   }
