@@ -91,7 +91,7 @@ export const map = grid<SpaceData>([
     town("Sheridan"),
     PLAIN,
     PLAIN,
-    city("Gillette", YELLOW, black(1), 2),
+    city("Gillette", PURPLE, black(1), 2),
     PLAIN,
   ],
 ]);
