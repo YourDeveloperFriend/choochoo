@@ -23,7 +23,7 @@ export function DCMetroRules() {
           goods growth table, in addition to the white 1 (this is not rendered).
         </li>
         <li>
-          <b>Game Length:</b> 9 turns for 3 players, 8 turns for 2 players.
+          <b>Game Length:</b> 8 turns.
         </li>
       </ul>
     </div>
