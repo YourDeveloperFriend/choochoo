@@ -29,7 +29,7 @@ export class DCMetroMapSettings implements MapSettings {
     8: PlayerCountRating.NOT_SUPPORTED,
   };
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.PRODUCTION;
+  readonly stage = ReleaseStage.ALPHA;
 
   getOverrides() {
     return [
