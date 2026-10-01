@@ -10,7 +10,11 @@ import {
 } from "../../engine/game/player";
 import { ROUND, RoundEngine } from "../../engine/game/round";
 import { Phase } from "../../engine/state/phase";
-import { PlayerColorZod, PlayerData } from "../../engine/state/player";
+import {
+  PlayerColor,
+  PlayerColorZod,
+  PlayerData,
+} from "../../engine/state/player";
 
 export const OUT_OF_GAME_ROUND = new MapKey(
   "outOfGameRound",
@@ -59,7 +63,18 @@ export class DetroitMoneyManager extends MoneyManager {
 
   protected outOfGame(player: PlayerData): void {
     super.outOfGame(player);
-    this.rounds.update((map) => map.set(player.color, this.round()));
+    this.recordRound(player.color);
+  }
+
+  forceOutOfGameKeepTurnOrder(playerColor: PlayerColor): void {
+    super.forceOutOfGameKeepTurnOrder(playerColor);
+    this.recordRound(playerColor);
+  }
+
+  private recordRound(color: PlayerColor): void {
+    this.rounds.update((map) => {
+      if (!map.has(color)) map.set(color, this.round());
+    });
   }
 }
 
