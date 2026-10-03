@@ -17,7 +17,7 @@ export const map = grid<SpaceData>([
     UNPASSABLE,
     MOUNTAIN,
     MOUNTAIN,
-    city("Rock Springs", BLUE, black(5), 2),
+    city("Rock Springs", BLUE, black(2), 2),
     MOUNTAIN,
     MOUNTAIN,
     DARK_MOUNTAIN,
@@ -61,7 +61,7 @@ export const map = grid<SpaceData>([
   ],
   [
     UNPASSABLE,
-    city("Jackson", RED, black(2), 2),
+    city("Jackson", RED, black(1), 2),
     DARK_MOUNTAIN,
     MOUNTAIN,
     city("Thermopolis", PURPLE, black(3), 2),
@@ -91,7 +91,7 @@ export const map = grid<SpaceData>([
     town("Sheridan"),
     PLAIN,
     PLAIN,
-    city("Gillette", PURPLE, black(1), 2),
+    city("Gillette", PURPLE, black(5), 2),
     PLAIN,
   ],
 ]);
