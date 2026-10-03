@@ -16,9 +16,10 @@ export function WyomingRules() {
         </li>
         <li>Turn Order Pass is not available.</li>
         <li>
-          First Move &amp; Issue Last: the player who selects First Move also
-          issues shares last in the following turn&apos;s Issue Shares phase, no
-          matter their turn order.
+          First Move &amp; Turn Order Match: the player who selects First Move
+          may match, rather than exceed, the current highest bid when bidding in
+          the following turn&apos;s turn order auction. Other players must still
+          bid after a match.
         </li>
         <li>
           (Two players only) Locomotive: instead of permanently increasing your
