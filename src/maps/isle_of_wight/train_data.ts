@@ -18,10 +18,10 @@ interface TrainTier {
 
 export const TRAIN_TIERS: readonly TrainTier[] = [
   { tier: 1, cost: 2, boxes: [1], count: (players) => players * 2 - 1 },
-  { tier: 2, cost: 5, boxes: [2, 1], count: () => 7 },
-  { tier: 3, cost: 6, boxes: [3, 2, 1], count: () => 6 },
-  { tier: 4, cost: 7, boxes: [4, 3, 2], count: () => 5 },
-  { tier: 5, cost: 8, boxes: [5, 4, 3], count: () => 5 },
+  { tier: 2, cost: 5, boxes: [2, 1], count: () => 6 },
+  { tier: 3, cost: 6, boxes: [3, 2, 1], count: () => 5 },
+  { tier: 4, cost: 7, boxes: [4, 3, 2], count: () => 4 },
+  { tier: 5, cost: 8, boxes: [5, 4, 4], count: () => 4 },
   { tier: 6, cost: 9, boxes: [6, 6, 5, 5], count: () => 4 },
   { tier: 7, cost: 10, boxes: [7, 7, 6, 6], count: () => 10 },
 ];
