@@ -135,7 +135,7 @@ export function TrainDeckTable() {
 
 interface TrainCardViewProps {
   card: TrainCard;
-  /** How many repair removals are currently selected for this train (0-2). */
+  /** How many goods are currently selected for repair removal on this train; they're shown faded. */
   highlightCount?: number;
   onClick?: () => void;
 }
@@ -145,12 +145,10 @@ export function TrainCardView({
   highlightCount,
   onClick,
 }: TrainCardViewProps) {
-  const highlightClass =
-    highlightCount === 2
-      ? styles.highlightedTwice
-      : highlightCount === 1
-        ? styles.highlightedOnce
-        : "";
+  // removeGood takes goods from the end of the train, so the last
+  // `highlightCount` goods are the ones that will be removed.
+  const removedFrom = card.goods.length - (highlightCount ?? 0);
+  const highlightClass = highlightCount ? styles.highlighted : "";
   return (
     <div
       className={`${styles.card} ${card.used ? styles.used : ""} ${highlightClass}`}
@@ -161,7 +159,12 @@ export function TrainCardView({
       </div>
       <div className={styles.boxes}>
         {cardBoxes(card).map(({ range, good }, index) => (
-          <div key={index} className={styles.box}>
+          <div
+            key={index}
+            className={`${styles.box} ${
+              good != null && index >= removedFrom ? styles.pendingRemoval : ""
+            }`}
+          >
             {good != null ? (
               <GoodBlock good={good} className={styles.goodBlock} />
             ) : (
