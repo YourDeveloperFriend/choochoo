@@ -1,8 +1,7 @@
 .cardList {
   display: flex;
   flex-wrap: wrap;
-  /* Leaves room for .highlightedTwice's outline (6px) plus its offset (2px)
-     on each side, so double-highlighted cards don't visually collide. */
+  /* Leaves room for .highlighted's outline plus its offset on each side. */
   gap: 10px;
 }
 
@@ -46,14 +45,14 @@
   border-radius: 2px;
 }
 
-.highlightedOnce {
-  outline: 3px solid gold;
+.highlighted {
+  outline: 2px solid gold;
   outline-offset: 2px;
 }
 
-.highlightedTwice {
-  outline: 6px double gold;
-  outline-offset: 2px;
+.pendingRemoval {
+  opacity: 0.2;
+  border-style: dashed;
 }
 
 .playerBlock {
