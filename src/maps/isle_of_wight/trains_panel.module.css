@@ -63,3 +63,82 @@
   background-color: var(--player-color);
   margin-right: 4px;
 }
+
+/* Compact train summary: one box per slot, filled with the good's color when loaded. */
+.trainRanges {
+  display: inline-flex;
+  gap: 2px;
+  vertical-align: middle;
+  padding: 2px;
+  margin: 1px 4px 1px 0;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+
+:global(.dark-mode) .trainRanges {
+  border-color: #666;
+}
+
+/* A used train: dashed border, dimmed contents, and a diagonal hatch over the whole train. */
+.trainRangesUsed {
+  position: relative;
+  border-style: dashed;
+  border-color: #666;
+  background-color: rgba(128, 128, 128, 0.15);
+}
+
+.trainRangesUsed > * {
+  opacity: 0.5;
+}
+
+.trainRangesUsed::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 5px,
+    rgba(128, 128, 128, 0.2) 5px 6px
+  );
+}
+
+.rangeBox {
+  min-width: 1.4em;
+  height: 1.4em;
+  padding: 0 2px;
+  border: 1px solid #888;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85em;
+  line-height: 1;
+}
+
+.rangeBoxLoaded {
+  background-color: var(--good-color);
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+.rangeBoxNumbered {
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 2px black;
+}
+
+.tooltipTitle {
+  margin-bottom: 4px;
+}
+
+/* Popup renders in a portal so needs global selectors */
+:global(.dark-mode .ui.popup.train-tooltip) {
+  background: #1f1f1f;
+  color: #e5e7eb;
+  border-color: #444;
+}
+
+:global(.dark-mode .ui.popup.train-tooltip::before) {
+  background: #1f1f1f !important;
+  box-shadow: 1px 1px 0 0 #444 !important;
+}

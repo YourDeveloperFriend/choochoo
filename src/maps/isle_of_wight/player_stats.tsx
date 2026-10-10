@@ -1,4 +1,6 @@
+import { Popup } from "semantic-ui-react";
 import { useInjectedState } from "../../client/utils/injection_context";
+import { goodStyle } from "../../client/grid/good";
 import { PlayerData } from "../../engine/state/player";
 import { HAGGLE_COUPONS, PLAYER_TRAINS } from "./state";
 import { cardBoxes, TrainCard } from "./train_data";
@@ -11,28 +13,52 @@ export function TrainsCell({ player }: { player: PlayerData }) {
   return (
     <>
       {trains.map((card, index) => (
-        <span key={index} className={card.used ? styles.used : undefined}>
-          {index > 0 ? ", " : ""}
-          [<TrainCardRanges card={card} />]
-        </span>
+        <Popup
+          key={index}
+          on={["hover", "click"]}
+          position="top center"
+          className="train-tooltip"
+          content={
+            <div>
+              <div className={styles.tooltipTitle}>
+                {card.tier}-train{card.used ? " (used)" : ""}
+              </div>
+              <span className={styles.trainRanges}>
+                <TrainCardRanges card={card} showNumbers />
+              </span>
+            </div>
+          }
+          trigger={
+            <span
+              className={`${styles.trainRanges} ${card.used ? styles.trainRangesUsed : ""}`}
+            >
+              <TrainCardRanges card={card} />
+            </span>
+          }
+        />
       ))}
     </>
   );
 }
 
-function TrainCardRanges({ card }: { card: TrainCard }) {
+function TrainCardRanges({
+  card,
+  showNumbers,
+}: {
+  card: TrainCard;
+  /** Show the range even in loaded boxes. */
+  showNumbers?: boolean;
+}) {
   return (
     <>
       {cardBoxes(card).map(({ range, good }, index) => (
-        <span key={index}>
-          {index > 0 ? ", " : ""}
-          <span
-            style={
-              good != null ? { textDecoration: "line-through" } : undefined
-            }
-          >
-            {range}
-          </span>
+        <span
+          key={index}
+          className={`${styles.rangeBox} ${
+            good != null ? `${styles.rangeBoxLoaded} ${goodStyle(good)}` : ""
+          } ${good != null && showNumbers ? styles.rangeBoxNumbered : ""}`}
+        >
+          {good == null || showNumbers ? range : null}
         </span>
       ))}
     </>
