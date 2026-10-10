@@ -316,6 +316,16 @@ export const gameContract = c.router({
     },
     summary: "Joins a game",
   },
+  setUnlisted: {
+    method: "PUT",
+    pathParams: GameIdParams,
+    path: "/games/:gameId/unlisted",
+    body: z.object({ unlisted: z.boolean() }),
+    responses: {
+      200: z.object({ game: GameApi }),
+    },
+    summary: "Sets whether an unstarted game is unlisted",
+  },
   leave: {
     method: "POST",
     pathParams: GameIdParams,

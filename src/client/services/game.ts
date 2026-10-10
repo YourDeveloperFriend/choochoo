@@ -420,6 +420,29 @@ export function useLeaveGame(game: GameLiteApi): GameAction {
   return { canPerform, perform, isPending };
 }
 
+export function useSetUnlisted(game: GameLiteApi) {
+  const onSuccess = useSetGameSuccess();
+  const me = useMe();
+  const { mutate, error, isPending } = tsr.games.setUnlisted.useMutation();
+  handleError(isPending, error);
+
+  const perform = useCallback(
+    () =>
+      mutate(
+        { params: { gameId: game.id }, body: { unlisted: !game.unlisted } },
+        { onSuccess },
+      ),
+    [game.id, game.unlisted],
+  );
+
+  const canPerform =
+    me != null &&
+    game.status == GameStatus.enum.LOBBY &&
+    game.ownerId === me.id;
+
+  return { canPerform, perform, isPending };
+}
+
 export function useSetGameData() {
   const onSuccess = useSetGameSuccess();
   const game = useGame();

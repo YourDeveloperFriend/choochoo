@@ -285,6 +285,25 @@ const router = initServer().router(gameContract, {
     return { status: 200, body: { game: newGame.toApi() } };
   },
 
+  async setUnlisted({ params, req, body }) {
+    const user = await assertRole(req);
+
+    const game = await GameDao.findByPk(params.gameId);
+    assert(game != null, { notFound: true });
+    assert(game.ownerId === user.id, { permissionDenied: true });
+    assert(game.status === GameStatus.enum.LOBBY, {
+      invalidInput: "cannot change listing of a started game",
+    });
+    const map = MapRegistry.singleton.get(game.gameKey);
+    assert(body.unlisted || map?.stage !== ReleaseStage.DEVELOPMENT, {
+      invalidInput: "Development map games must be unlisted.",
+    });
+
+    game.unlisted = body.unlisted;
+    const newGame = await game.save();
+    return { status: 200, body: { game: newGame.toApi() } };
+  },
+
   async start({ params, req }) {
     const userId = req.session.userId;
     assert(userId != null, { permissionDenied: true });

@@ -25,6 +25,7 @@ import {
   useDeleteGame,
   useJoinGame,
   useLeaveGame,
+  useSetUnlisted,
   useStartGame,
 } from "../services/game";
 import { useMe } from "../services/me";
@@ -92,12 +93,21 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
         </CardDescription>
       </CardContent>
       <CardContent extra>
-        <ViewButton game={game} />
-        {game.status === GameStatus.enum.LOBBY && <InviteButton game={game} />}
-        <LeaveButton game={game} />
-        <JoinButton game={game} />
-        <StartButton game={game} />
-        <DeleteButton game={game} />
+        <div className={styles.gameCardActions}>
+          <div className={styles.primaryActions}>
+            <ViewButton game={game} />
+            <JoinButton game={game} />
+            <StartButton game={game} />
+            <LeaveButton game={game} />
+          </div>
+          <div className={styles.secondaryActions}>
+            {game.status === GameStatus.enum.LOBBY && (
+              <InviteButton game={game} />
+            )}
+            <ListingButton game={game} />
+            <DeleteButton game={game} />
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
@@ -144,7 +154,13 @@ function InviteButton({ game }: GameButtonProps) {
   }, [game.id]);
 
   return (
-    <Button icon labelPosition="left" onClick={copyInviteLink}>
+    <Button
+      icon
+      basic
+      size="small"
+      labelPosition="left"
+      onClick={copyInviteLink}
+    >
       <Icon name="copy" />
       Invite
     </Button>
@@ -216,6 +232,28 @@ function JoinButton({ game }: GameButtonProps) {
   );
 }
 
+function ListingButton({ game }: GameButtonProps) {
+  const { canPerform, perform, isPending } = useSetUnlisted(game);
+  if (!canPerform) {
+    return <></>;
+  }
+
+  return (
+    <Button
+      icon
+      basic
+      size="small"
+      labelPosition="left"
+      color={game.unlisted ? "green" : "orange"}
+      disabled={isPending}
+      onClick={perform}
+    >
+      <Icon name={game.unlisted ? "eye" : "eye slash"} />
+      {game.unlisted ? "Make Public" : "Make Unlisted"}
+    </Button>
+  );
+}
+
 function StartButton({ game }: GameButtonProps) {
   const { canPerform, perform, isPending } = useStartGame(game);
   const seedRef = useRef<HTMLInputElement | null>(null);
@@ -252,12 +290,14 @@ export function DeleteButton({ game }: GameButtonProps) {
   return (
     <Button
       icon
-      labelPosition="left"
+      basic
       negative
+      size="small"
+      labelPosition="left"
       disabled={isPending}
       onClick={perform}
     >
-      <Icon name="delete" />
+      <Icon name="trash" />
       Delete
     </Button>
   );

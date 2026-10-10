@@ -49,3 +49,25 @@
 .active.activePlayer {
   background-color: orangered;
 }
+
+.gameCardActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+.primaryActions,
+.secondaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5em;
+}
+
+:global(.ui.button).gameCardActions button,
+.primaryActions > :global(.ui.button),
+.secondaryActions > :global(.ui.button) {
+  margin: 0;
+}
