@@ -18,12 +18,12 @@ export class NwIndianaMapSettings implements MapSettings {
   readonly name = "NW Indiana";
   readonly designer = "Justin Szczepanski";
   readonly implementerId = JACK;
-  readonly minPlayers = 3;
+  readonly minPlayers = 4;
   readonly maxPlayers = 6;
   readonly playerCountRatings = {
     1: PlayerCountRating.NOT_SUPPORTED,
     2: PlayerCountRating.NOT_SUPPORTED,
-    3: PlayerCountRating.NO_DATA,
+    3: PlayerCountRating.NOT_SUPPORTED,
     4: PlayerCountRating.NO_DATA,
     5: PlayerCountRating.NO_DATA,
     6: PlayerCountRating.NO_DATA,

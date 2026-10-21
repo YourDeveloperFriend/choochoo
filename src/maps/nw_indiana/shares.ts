@@ -12,12 +12,10 @@ export class NwIndianaTakeSharesAction extends TakeSharesAction {
       share <= player.shares + numShares;
       share++
     ) {
-      if (share <= 5) {
+      if (share <= 8) {
         money += 5;
-      } else if (share <= 10) {
-        money += 6;
       } else {
-        money += 7;
+        money += 6;
       }
     }
     return money;
