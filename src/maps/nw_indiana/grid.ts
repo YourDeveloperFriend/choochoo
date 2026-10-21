@@ -233,6 +233,6 @@ export const map = grid<SpaceData>([
     WATER,
     WATER,
     WATER,
-    PLAIN,
+    WATER,
   ],
 ]);
