@@ -32,7 +32,7 @@ const CHICAGO_CENTER: CityData = {
   name: "To Chicago",
   goods: [],
   onRoll: [black(1), black(2)],
-  startingNumCubes: 2,
+  startingNumCubes: 3,
 };
 
 export const map = grid<SpaceData>([
