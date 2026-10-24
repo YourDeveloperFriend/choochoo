@@ -110,7 +110,7 @@ export class BuildCostCalculator {
   }
 }
 
-function countRedirects(originalTileData: TileData, newTileType: TileType, newOrientation: Direction) {
+export function countRedirects(originalTileData: TileData, newTileType: TileType, newOrientation: Direction) {
   if (isTownTile(originalTileData.tileType) || isTownTile(newTileType)) {
     return 0;
   }
