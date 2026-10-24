@@ -12,14 +12,12 @@ import {
   Teleport,
 } from "../../engine/move/validator";
 import { Action } from "../../engine/state/action";
-import { PlayerColor, PlayerData } from "../../engine/state/player";
+import { PlayerData } from "../../engine/state/player";
 import { Coordinates } from "../../utils/coordinates";
 import { assert } from "../../utils/validate";
 import { ScandinaviaMapData } from "./map_data";
 
-const USED_FERRY = new Key("usedFerry", {
-  parse: z.array(z.nativeEnum(PlayerColor)).parse,
-});
+const USED_FERRY = new Key("usedFerry", { parse: z.boolean().parse });
 
 export class ScandinaviaMoveHelper extends MoveHelper {
   isWithinLocomotive(player: PlayerData, moveData: MoveData): boolean {
@@ -41,10 +39,9 @@ function isTeleport(data: Path): boolean {
 export class ScandinaviaMoveAction extends MoveAction {
   private readonly usedFerry = injectState(USED_FERRY);
   process(action: MoveData): boolean {
-    if (action.path.some(isTeleport)) {
-      const color = this.currentPlayer().color;
-      this.usedFerry.upsert([...this.usedFerry.getOr([]), color]);
-    }
+    this.usedFerry.upsert(
+      this.usedFerry.getOr(false) || action.path.some(isTeleport),
+    );
     return super.process(action);
   }
 }
@@ -74,7 +71,7 @@ export class ScandinaviaMoveValidator extends MoveValidator {
     assert(numTeleports <= 1, {
       invalidInput: "can only use the ferry once in a move",
     });
-    assert(!this.usedFerry.getOr([]).includes(player.color), {
+    assert(!this.usedFerry.getOr(false), {
       invalidInput: "can only use the ferry once per round",
     });
   }
