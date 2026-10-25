@@ -130,6 +130,8 @@ const router = initServer().router(gameContract, {
         "gameHoursDuration",
         "unlisted",
         "autoStart",
+        "degenerate",
+        "minKarma",
       ],
       where,
       limit: pageSize! + 1,
