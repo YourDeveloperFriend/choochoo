@@ -2,6 +2,7 @@
 }
 
 .gameCardHeader {
+  position: relative;
   padding: 1em;
   border-radius: inherit;
 }
@@ -70,4 +71,26 @@
 .primaryActions > :global(.ui.button),
 .secondaryActions > :global(.ui.button) {
   margin: 0;
+}
+
+.minKarma {
+  position: absolute;
+  top: 0.75em;
+  right: 1em;
+  font-size: 0.85em;
+  font-weight: normal;
+  cursor: help;
+}
+
+.minKarma > :global(.icon) {
+  margin-right: 0.25em;
+}
+
+.minKarmaWarning {
+  color: #9f3a38;
+  font-weight: bold;
+}
+
+:global(.dark-mode) .minKarmaWarning {
+  color: #ff8a80;
 }

@@ -9,6 +9,7 @@ import {
   CardMeta,
   Confirm,
   Icon,
+  Popup,
 } from "semantic-ui-react";
 import {
   activeHoursToString,
@@ -51,6 +52,9 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
           className={`${styles.gameCardHeader} ${gameStatusToStyle(game.status)} ${game.activePlayerId === me?.id ? styles.activePlayer : ""}`}
         >
           {game.name}
+          {game.status === GameStatus.enum.LOBBY && game.minKarma > 0 && (
+            <MinKarma minKarma={game.minKarma} />
+          )}
           <CardMeta
             className={styles.gameCardMeta}
             content={hideStatus ? "" : `${gameStatusToString(game)}`}
@@ -110,6 +114,30 @@ export function GameCard({ game, hideStatus }: GameCardProps) {
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+function MinKarma({ minKarma }: { minKarma: number }) {
+  const me = useMe();
+  const insufficient = me != null && me.karma < minKarma;
+  return (
+    <Popup
+      position="top right"
+      trigger={
+        <span
+          className={`${styles.minKarma} ${insufficient ? styles.minKarmaWarning : ""}`}
+          data-min-karma
+        >
+          <Icon name={insufficient ? "warning sign" : "balance scale"} />
+          {minKarma}
+        </span>
+      }
+      content={
+        insufficient
+          ? `Minimum karma needed to join this table: ${minKarma}. You don't have the minimum karma required to join this table (yours: ${me.karma}).`
+          : `Minimum karma needed to join this table: ${minKarma}.`
+      }
+    />
   );
 }
 
