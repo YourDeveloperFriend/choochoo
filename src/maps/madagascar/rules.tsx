@@ -8,8 +8,8 @@ export function MadagascarRules() {
           the base game (Last move, last build, etc.).
         </li>
         <li>
-          <b>Disabled actions:</b> three of the actions are randomly disabled
-          each round.
+          <b>Disabled actions:</b> each round, actions are randomly disabled so
+          that only (number of players + 1) remain available to choose from.
         </li>
         <li>
           <b>Hills (brown hexes):</b> cost $3.
