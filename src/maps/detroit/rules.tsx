@@ -15,7 +15,8 @@ export function DetroitRules() {
           build for free.
         </li>
         <li>
-          <b>Moving goods:</b> must use mostly your track.
+          <b>Moving goods:</b> when moving goods, at least half of the links
+          must belong to the current player.
         </li>
         <li>
           <b>Extra expenses:</b> expenses include shares + loco + current round
