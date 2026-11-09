@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.header img {
+  display: block;
+  width: 150px;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 600px) {
+  .header img {
+    width: 90px;
+  }
+}
+
+.logoDark {
+  display: none !important;
+}
+
+:global(body.dark-mode) .logoLight {
+  display: none !important;
+}
+
+:global(body.dark-mode) .logoDark {
+  display: block !important;
+}
