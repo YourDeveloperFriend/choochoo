@@ -124,7 +124,7 @@ function GoodSelector({
         <Button
           primary
           onClick={() => onSelect(selectedGood as Good)}
-          disabled={!selectedGood || disabled}
+          disabled={selectedGood === undefined || disabled}
         >
           Select Good
         </Button>
