@@ -27,6 +27,15 @@ export interface TexturesProps {
   clickTargets?: Set<ClickTarget>;
 }
 
+export interface MapPublisher {
+  name: string;
+  /** Wording before the name, e.g. "Developed and published by". */
+  role: string;
+  logoSrc: string;
+  darkLogoSrc: string;
+  purchaseUrl?: string;
+}
+
 export interface MapViewSettings extends MapSettings {
   getInitialVariantConfig?(): VariantConfig;
   getVariantConfigEditor?(props: VariantConfigProps): ReactNode;
@@ -34,6 +43,7 @@ export interface MapViewSettings extends MapSettings {
   additionalSliders?: Array<() => ReactElement>;
   getVariantString?(variant: VariantConfig): string[] | undefined;
   getMapRules(props: RulesProps): ReactElement;
+  publisher?: MapPublisher;
   getTexturesLayer?(props: TexturesProps): ReactNode;
   getOverlayLayer?(props: TexturesProps): ReactNode;
   getFinalOverviewRows?(): RowFactory[];

@@ -7,6 +7,7 @@ import { Grid } from "../../engine/map/grid";
 import { HexGrid } from "../grid/hex_grid";
 import * as React from "react";
 import { useLocalStorage } from "../services/local_storage";
+import { MapHeader, PublisherCredit } from "./credits";
 import { River, RiverDots, RiverEditor, RiverPath } from "./river_editor";
 
 export function MapInfo({
@@ -20,7 +21,7 @@ export function MapInfo({
   const Rules = selectedMap.getMapRules;
   return (
     <div>
-      <h2>{selectedMap.name}</h2>
+      <MapHeader map={selectedMap} />
       <p>Details:</p>
       <ul>
         {selectedMap.bestAt && <li>Best at: {selectedMap.bestAt} players</li>}
@@ -36,10 +37,11 @@ export function MapInfo({
         </li>
         <li>Designer: {selectedMap.designer}</li>
         <li>
-          Implementation by:{" "}
+          Choo Choo Games implementation by:{" "}
           <Username useLink userId={selectedMap.implementerId} />
         </li>
       </ul>
+      {selectedMap.publisher && <PublisherCredit {...selectedMap.publisher} />}
       <h3>Rules</h3>
       <Rules variant={variant} />
     </div>

@@ -21,6 +21,13 @@ export class StalinistRussiaViewSettings
   implements MapViewSettings
 {
   getMapRules = StalinistRussiaRules;
+  publisher = {
+    name: "Neon Comet Games",
+    role: "Developed and published by",
+    logoSrc: "/static/NCG_logo-150x133.png",
+    darkLogoSrc: "/static/NCG_logo-150x133-dark.png",
+    purchaseUrl: "https://neoncometgames.com/product/stalinist-russia/",
+  };
   getTexturesLayer = StalinistRussiaRivers;
 
   additionalSliders = [LocoTrack, DisfavorTrack];
