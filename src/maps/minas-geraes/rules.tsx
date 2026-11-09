@@ -41,7 +41,10 @@ export function MinasGeraesRules() {
         an action with at least 1 coin, the player pays $1 to the bank for each
         coin on the action and adds $1 from the bank to the action for future
         turns. At the end of the action selection phase, actions not taken in
-        each turn will clear any coins on that action space.
+        each turn will clear any coins on that action space. In the unlikely
+        event that a player cannot afford any of the remaining actions, that
+        player does not select an action. A player who can afford at least one
+        action must select one and pay accordingly.
       </p>
       <h1>New or Modified Actions</h1>
       <p>
