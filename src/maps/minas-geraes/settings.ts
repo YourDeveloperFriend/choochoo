@@ -3,7 +3,6 @@ import {
   MapSettings,
   ReleaseStage,
   Rotation,
-  ZEZZO,
 } from "../../engine/game/map_settings";
 import { map } from "./grid";
 import { MinasGeraesStarter } from "./starter";
@@ -12,6 +11,7 @@ import {
   MinasGeraesActions,
   MinasGeraesSelectAction,
   MinasGeraesSelectActionPhase,
+  MinasGeraesSkipAction,
 } from "./action_selection";
 import { MinasGeraesUrbanizeAction } from "./urbanize";
 import { MinasGeraesBuildCostCalculator } from "./build";
@@ -37,8 +37,7 @@ export class MinasGeraesMapSettings implements MapSettings {
   readonly minPlayers = 3;
   readonly maxPlayers = 6;
   readonly startingGrid = map;
-  readonly stage = ReleaseStage.DEVELOPMENT;
-  readonly developmentAllowlist = [JACK, ZEZZO];
+  readonly stage = ReleaseStage.ALPHA;
   readonly rotation = Rotation.COUNTER_CLOCKWISE;
 
   getOverrides() {
@@ -47,6 +46,7 @@ export class MinasGeraesMapSettings implements MapSettings {
       MinasGeraesMoveAction,
       MinasGeraesSelectAction,
       MinasGeraesSelectActionPhase,
+      MinasGeraesSkipAction,
       MinasGeraesUrbanizeAction,
       MinasGeraesBuildCostCalculator,
       MinasGeraesGoodsGrowthPhase,

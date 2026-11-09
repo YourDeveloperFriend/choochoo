@@ -13,6 +13,8 @@ import z from "zod";
 import { Log } from "../../engine/game/log";
 import { AllowedActions } from "../../engine/select_action/allowed_actions";
 import { ImmutableSet } from "../../utils/immutable";
+import { SkipAction } from "../../engine/select_action/skip";
+import { ActionBundle } from "../../engine/game/phase_module";
 
 export class MinasGeraesActions extends AllowedActions {
   getActions(): ImmutableSet<Action> {
@@ -20,12 +22,54 @@ export class MinasGeraesActions extends AllowedActions {
   }
 }
 
+/**
+ * A player who cannot afford any of the remaining actions doesn't choose one.
+ * A player who can afford at least one must choose (and pay for) an action.
+ */
+function cannotAffordAnyAction(
+  allowedActions: AllowedActions,
+  actionMoney: ReadonlyMap<Action, number>,
+  money: number,
+): boolean {
+  const available = allowedActions.getAvailableActions();
+  if (available.size === 0) return false;
+  return available.every((action) => (actionMoney.get(action) ?? 0) > money);
+}
+
+export class MinasGeraesSkipAction extends SkipAction {
+  private readonly actionMoney = injectState(ActionMoney);
+  private readonly allowedActions = inject(AllowedActions);
+  private readonly currentPlayer = injectCurrentPlayer();
+  private readonly log = inject(Log);
+
+  canEmit(): boolean {
+    return cannotAffordAnyAction(
+      this.allowedActions,
+      this.actionMoney(),
+      this.currentPlayer().money,
+    );
+  }
+
+  validate() {
+    assert(this.canEmit(), {
+      invalidInput: "Cannot skip when you can afford an action.",
+    });
+  }
+
+  process(): boolean {
+    this.log.currentPlayer("cannot afford any action and does not select one.");
+    return super.process();
+  }
+}
+
 export class MinasGeraesSelectActionPhase extends SelectActionPhase {
   private readonly actionMoney = injectState(ActionMoney);
   private readonly goldsmithVariant = injectState(GoldsmithVariant);
+  private readonly currentPlayer = injectCurrentPlayer();
 
   configureActions() {
     super.configureActions();
+    this.installAction(MinasGeraesSkipAction);
     this.installAction(MiningToMoneyAction);
     this.installAction(MinasGeraesPickGoldsmithVariantAction);
   }
@@ -33,6 +77,19 @@ export class MinasGeraesSelectActionPhase extends SelectActionPhase {
   onStart() {
     super.onStart();
     this.goldsmithVariant.set(-1);
+  }
+
+  forcedAction(): ActionBundle<object> | undefined {
+    if (
+      cannotAffordAnyAction(
+        this.allowedActions,
+        this.actionMoney(),
+        this.currentPlayer().money,
+      )
+    ) {
+      return { action: MinasGeraesSkipAction, data: { forced: true } };
+    }
+    return super.forcedAction();
   }
 
   onEnd() {
