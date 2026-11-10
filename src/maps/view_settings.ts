@@ -31,8 +31,8 @@ export interface MapPublisher {
   name: string;
   /** Wording before the name, e.g. "Developed and published by". */
   role: string;
+  /** Single-color SVG; drawn in the current text color. */
   logoSrc: string;
-  darkLogoSrc: string;
   purchaseUrl?: string;
 }
 

@@ -5,27 +5,21 @@
   gap: 1rem;
 }
 
-.header img {
+.logo {
   display: block;
   width: 150px;
-  max-width: 100%;
-  height: auto;
+  aspect-ratio: 1458.4 / 1299.7;
+  background-color: var(--color-text);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
 }
 
 @media (max-width: 600px) {
-  .header img {
+  .logo {
     width: 90px;
   }
-}
-
-.logoDark {
-  display: none !important;
-}
-
-:global(body.dark-mode) .logoLight {
-  display: none !important;
-}
-
-:global(body.dark-mode) .logoDark {
-  display: block !important;
 }
