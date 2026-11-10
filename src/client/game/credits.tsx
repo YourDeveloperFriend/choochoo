@@ -23,19 +23,15 @@ function PublisherLink({
 }
 
 function PublisherLogo({ publisher }: { publisher: MapPublisher }) {
+  // Rendered as a CSS mask so the single-color SVG takes the theme text color.
+  const maskImage = `url(${publisher.logoSrc})`;
   const logos = (
-    <>
-      <img
-        className={styles.logoLight}
-        src={publisher.logoSrc}
-        alt={publisher.name}
-      />
-      <img
-        className={styles.logoDark}
-        src={publisher.darkLogoSrc}
-        alt={publisher.name}
-      />
-    </>
+    <span
+      role="img"
+      aria-label={publisher.name}
+      className={styles.logo}
+      style={{ maskImage, WebkitMaskImage: maskImage }}
+    />
   );
   return publisher.purchaseUrl ? (
     <PublisherLink href={publisher.purchaseUrl}>{logos}</PublisherLink>
