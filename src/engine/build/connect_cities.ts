@@ -54,7 +54,8 @@ export class ConnectCitiesAction implements ActionProcessor<ConnectCitiesData> {
   process(data: ConnectCitiesData): boolean {
     const connection = this.getConnection(data);
     const cities = connection.connects.map(coordinates => this.grid().get(coordinates) as City);
-    this.moneyHelper.addMoneyForCurrentPlayer(-this.totalCost(data, connection));
+    const cost = this.totalCost(data, connection);
+    this.moneyHelper.addMoneyForCurrentPlayer(-cost);
     this.discountManager.applyDiscount(data, connection.cost);
     this.gridHelper.setInterCityOwner(this.currentPlayer().color, connection);
 
@@ -62,11 +63,15 @@ export class ConnectCitiesAction implements ActionProcessor<ConnectCitiesData> {
       buildState.buildCount!++;
     });
 
-    this.log.currentPlayer(`connects ${cities.map((city) => city.name()).join(', ')}`);
+    this.logConnection(cities, cost);
 
     this.helper.checkOwnershipMarkerLimits();
 
     return this.helper.isAtEndOfTurn();
+  }
+
+  protected logConnection(cities: City[], _cost: number): void {
+    this.log.currentPlayer(`connects ${cities.map((city) => city.name()).join(', ')}`);
   }
 
   protected getConnection(data: ConnectCitiesData): InterCityConnection {

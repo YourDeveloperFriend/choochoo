@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { BuildAction } from "../../engine/build/build";
 import { inject } from "../../engine/framework/execution_context";
 import { City } from "../../engine/map/city";
@@ -172,6 +173,16 @@ function getConfirmDeliveryCity(
 }
 
 export function GameMap() {
+  const settings = useViewSettings();
+  const MapWrapper = settings.gameMapWrapper ?? Fragment;
+  return (
+    <MapWrapper>
+      <InternalGameMap />
+    </MapWrapper>
+  );
+}
+
+function InternalGameMap() {
   const { emit: emitMove, data: moveActionData } = useAction(MoveAction);
   const moveInstance: Memoized<MoveAction<MoveData>> =
     useInjectedMemo(MoveAction);
@@ -191,6 +202,7 @@ export function GameMap() {
   const gameKey = useGameKey();
 
   const mapSettings = useViewSettings();
+  const MapControls = mapSettings.getGameMapControls;
 
   const confirm = useConfirm();
 
@@ -236,7 +248,9 @@ export function GameMap() {
 
   return (
     <>
+      {MapControls && <MapControls />}
       <HexGrid
+        gameOverlay={mapSettings.getGameMapOverlay}
         id="main-map"
         key={gridVersion}
         onClick={onClick}
@@ -247,6 +261,18 @@ export function GameMap() {
         highlightedConnections={highlightedConnections}
         clickTargets={clickTargets}
         selectedGood={selectedGood}
+        moveRoute={
+          moveActionProgress && player
+            ? {
+                move: moveActionProgress,
+                player,
+                incomeGain:
+                  moveInstance.value
+                    .calculateIncome(moveActionProgress)
+                    .get(player.color) ?? 0,
+              }
+            : undefined
+        }
         rotation={mapSettings.rotation}
         spaceToConfirm={confirmDeliveryCity}
         onSpaceConfirm={confirmDelivery}

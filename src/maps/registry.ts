@@ -23,6 +23,7 @@ import { FourLocoMapSettings } from "./four_loco/settings";
 import { GermanyMapSettings } from "./germany/settings";
 import { HeavyCardboardMapSettings } from "./heavy_cardboard/settings";
 import { HollandMapSettings } from "./holland/settings";
+import { HoneybeeHiveMindMapSettings } from "./honeybee-hive-mind/settings";
 import { IndiaSteamBrothersMapSettings } from "./india-steam-brothers/settings";
 import { IrelandMapSettings } from "./ireland/settings";
 import { IsleOfWightMapSettings } from "./isle_of_wight/settings";
@@ -87,6 +88,7 @@ export class MapRegistry {
     this.add(new GermanyMapSettings());
     this.add(new HeavyCardboardMapSettings());
     this.add(new HollandMapSettings());
+    this.add(new HoneybeeHiveMindMapSettings());
     this.add(new IndiaSteamBrothersMapSettings());
     this.add(new IrelandMapSettings());
     this.add(new IsleOfWightMapSettings());

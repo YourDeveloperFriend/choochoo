@@ -1,3 +1,5 @@
+import { MoveData } from "../../engine/move/move";
+import { PlayerData } from "../../engine/state/player";
 import {
   MouseEvent,
   ReactNode,
@@ -37,6 +39,9 @@ import * as styles from "./hex_grid.module.css";
 import { InterCityConnectionsRender } from "./inter_city_connection";
 
 interface HexGridProps {
+  gameOverlay?: (
+    props: import("../../maps/view_settings").TexturesProps,
+  ) => ReactNode;
   id?: string;
   grid: Grid;
   rotation?: Rotation;
@@ -48,6 +53,7 @@ interface HexGridProps {
   highlightedTrack?: Track[];
   highlightedConnections?: OwnedInterCityConnection[];
   selectedGood?: { good: Good; coordinates: Coordinates };
+  moveRoute?: { move: MoveData; player: PlayerData; incomeGain: number };
   clickTargets?: Set<ClickTarget>;
   fullMapVersion?: boolean;
   gameKey: GameKey;
@@ -97,6 +103,7 @@ function useZoom(allowZoom?: boolean) {
 }
 
 export function HexGrid({
+  gameOverlay: GameOverlay,
   id,
   onClick,
   onClickInterCity,
@@ -108,6 +115,7 @@ export function HexGrid({
   highlightedTrack,
   highlightedConnections,
   selectedGood,
+  moveRoute,
   grid,
   clickTargets,
   gameKey,
@@ -167,6 +175,7 @@ export function HexGrid({
     const newTerrainHexes = useMemo(
       () =>
         getTerrainHexes({
+          grid,
           isHighlighted,
           space,
           size,
@@ -178,6 +187,7 @@ export function HexGrid({
         }),
       [
         isHighlighted,
+        grid,
         grid.topLeft,
         grid.bottomRight,
         space,
@@ -206,8 +216,17 @@ export function HexGrid({
 
   let texturesLayer: ReactNode = null;
   let overlayLayer: ReactNode = null;
+  let routeOverlay: ReactNode = null;
   if (gameKey && fullMapVersion) {
     const mapSettings = ViewRegistry.singleton.get(gameKey);
+    if (moveRoute && mapSettings.getMoveRouteOverlay) {
+      routeOverlay = mapSettings.getMoveRouteOverlay({
+        size,
+        grid,
+        rotation,
+        ...moveRoute,
+      });
+    }
     if (mapSettings.getTexturesLayer) {
       texturesLayer = mapSettings.getTexturesLayer({
         size,
@@ -338,6 +357,17 @@ export function HexGrid({
               {overlayLayer}
               {terrainHexes.afterOverlay}
               <InterCityConnectionsRender
+                getPosition={
+                  ViewRegistry.singleton.get(gameKey)
+                    .getInterCityConnectionPosition
+                }
+                fillOpacity={
+                  ViewRegistry.singleton.get(gameKey)
+                    .interCityConnectionFillOpacity
+                }
+                markerScale={
+                  ViewRegistry.singleton.get(gameKey).interCityConnectionScale
+                }
                 highlightedConnections={highlightedConnections}
                 clickTargets={clickTargetsNormalized}
                 onClick={onClickInterCity}
@@ -347,6 +377,10 @@ export function HexGrid({
               />
               {fullMapVersion && <SwedenProgressionGraphic />}
               {children}
+              {routeOverlay}
+              {GameOverlay && (
+                <GameOverlay grid={grid} size={size} rotation={rotation} />
+              )}
               {spaceToConfirm && (
                 <ConfirmHex
                   grid={grid}

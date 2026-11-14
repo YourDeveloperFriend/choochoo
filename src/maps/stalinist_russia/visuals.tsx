@@ -116,6 +116,7 @@ export function StalinistCity({
   size,
   rotation,
   clickable,
+  highlighted,
 }: CityVisualProps) {
   const hatchId = `stalin-city-${useId().replace(/:/g, "")}`;
   const moscow = city.name() === MOSCOW;
@@ -274,6 +275,15 @@ export function StalinistCity({
           )}
         </g>
       </Rotate>
+      {highlighted && (
+        <polygon
+          points={polygon(getCorners(center, size))}
+          fill="none"
+          stroke="yellow"
+          strokeWidth={size / 10}
+          pointerEvents="none"
+        />
+      )}
     </>
   );
 }
