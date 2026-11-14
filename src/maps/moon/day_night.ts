@@ -15,6 +15,7 @@ import { allDirections } from "../../engine/state/tile";
 import { Coordinates } from "../../utils/coordinates";
 import { assert } from "../../utils/validate";
 import { MoonMapData, Side } from "./state";
+import { OnRollData } from "../../engine/state/roll";
 
 function getNightSide(round: number): Side {
   return round % 2 === 1 ? Side.LEFT : Side.RIGHT;
@@ -64,25 +65,31 @@ export class MoonGoodsGrowthPhase extends GoodsGrowthPhase {
   private readonly round = injectState(ROUND);
   private readonly actualGrid = injectGrid();
 
-  getRollCount(_: CityGroup): number {
-    return this.playerCount() * 2;
+  // Dice are rolled once, attributed to the chart group of the day side, and
+  // applied to all day cities regardless of their chart group.
+  getRollCount(group: CityGroup): number {
+    return group === this.dayGroup() ? this.playerCount() * 2 : 0;
   }
 
-  ignoreCity(city: City): boolean {
+  private dayGroup(): CityGroup {
+    return getNightSide(this.round()) === Side.LEFT
+      ? CityGroup.BLACK
+      : CityGroup.WHITE;
+  }
+
+  rollAppliesTo(_: CityGroup, city: City, __: OnRollData): boolean {
     if (
       city.getMapSpecific(MoonMapData.parse)!.side ===
       getNightSide(this.round())
     ) {
-      return true;
+      return false;
     }
     const connected = allDirections.some(
       (direction) =>
         this.actualGrid().getTrackConnection(city.coordinates, direction) !=
         null,
     );
-    if (!connected) return true;
-
-    return super.ignoreCity(city);
+    return connected;
   }
 }
 
