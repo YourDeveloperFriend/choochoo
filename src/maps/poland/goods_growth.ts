@@ -89,11 +89,11 @@ export class PolandProductionAction implements ActionProcessor<ProductionData> {
   }
 
   process(data: ProductionData): boolean {
+    const drawn = this.goodsGrowthState().goods;
     this.gridHelper.update(data.coordinates, (town) => {
-      town.goods = town.goods
-        ? town.goods!.concat(this.goodsGrowthState().goods)
-        : this.goodsGrowthState().goods;
+      town.goods = town.goods ? town.goods.concat(drawn) : drawn;
     });
+    this.goodsGrowthState.set({ goods: [] });
     return true;
   }
 }
@@ -107,7 +107,9 @@ export class ProductionPassAction extends EmptyActionProcessor {
   validate() {}
 
   process(): boolean {
-    this.bag.update((bag) => bag.push(...this.goodsGrowthState().goods));
+    const drawn = this.goodsGrowthState().goods;
+    this.bag.update((bag) => bag.push(...drawn));
+    this.goodsGrowthState.set({ goods: [] });
     return true;
   }
 }
