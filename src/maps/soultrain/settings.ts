@@ -7,9 +7,9 @@ import {
 import { CompleteLinkBuldModule } from "../../modules/complete_link_build";
 import { SoulTrainActionNamingProvider } from "./actions";
 import {
-  SoulTrainBuildAction,
   SoulTrainBuilderHelper,
   SoulTrainCalculator,
+  SoulTrainDiscountManager,
 } from "./building";
 import { SoulTrainMoveAction, SoulTrainMoveHelper } from "./delivery";
 import { map } from "./grid";
@@ -45,7 +45,7 @@ export class SoulTrainMapSettings implements MapSettings {
     return [
       SoulTrainStarter,
       SoulTrainCalculator,
-      SoulTrainBuildAction,
+      SoulTrainDiscountManager,
       SoulTrainPhaseEngine,
       SoulTrainPhaseDelegator,
       SoulTrainRoundEngine,
