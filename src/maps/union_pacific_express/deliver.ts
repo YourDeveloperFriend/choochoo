@@ -125,6 +125,21 @@ export class UnionPacificExpressMoveValidator extends MoveValidator {
     }
 
     this.validateVisitedLocationsNotReused(action, visitedLocations);
+
+    // A leg ending at the transfer station is only a partial delivery, so it
+    // must leave at least one link of locomotive range for the outbound leg.
+    const endingCity = this.grid().get(
+      action.path[action.path.length - 1].endingStop,
+    );
+    const endsAtTransferStation = endingCity?.getMapSpecific(
+      UnionPacificExpressMapData.parse,
+    )?.transferStation;
+    if (endsAtTransferStation) {
+      assert(action.path.length + visitedLocations.length < player.locomotive, {
+        invalidInput:
+          "no locomotive range remaining to continue the delivery from the transfer station",
+      });
+    }
   }
 
   private validateVisitedLocationsNotReused(
