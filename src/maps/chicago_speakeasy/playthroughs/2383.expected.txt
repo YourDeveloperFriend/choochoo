@@ -1,0 +1,46 @@
+game 2383 / chicago-speakeasy / 4 players / 281 actions
+round 1 end
+     brown   $4    income=2    shares=3   loco=2  score=1/0
+     yellow  $2    income=1    shares=4   loco=2  score=-2/0
+     black   $8    income=2    shares=4   loco=3  score=-3/0
+     green   $0    income=1    shares=3   loco=2  score=-3/0
+round 2 end
+     brown   $1    income=5    shares=4   loco=3  score=10/0
+     black   $6    income=6    shares=7   loco=4  score=3/0
+     green   $1    income=5    shares=7   loco=3  score=0/0
+     yellow  $1    income=4    shares=7   loco=3  score=0/0
+round 3 end
+     brown   $5    income=10   shares=6   loco=3  score=22/0
+     black   $2    income=12   shares=10  loco=4  score=16/0
+     green   $0    income=10   shares=10  loco=3  score=9/0
+     yellow  $6    income=10   shares=11  loco=4  score=9/0
+round 4 end
+     brown   $8    income=12   shares=7   loco=3  score=28/0
+     yellow  $2    income=17   shares=13  loco=5  score=27/0
+     black   $3    income=15   shares=12  loco=5  score=22/0
+     green   $1    income=14   shares=12  loco=3  score=17/0
+round 5 end
+     brown   $7    income=15   shares=7   loco=3  score=40/0
+     yellow  $7    income=22   shares=15  loco=5  score=39/0
+     black   $6    income=18   shares=14  loco=6  score=26/0
+     green   $4    income=17   shares=14  loco=4  score=25/0
+round 6 end
+     brown   $15   income=20   shares=9   loco=4  score=52/0
+     yellow  $10   income=25   shares=15  loco=6  score=47/0
+     green   $6    income=21   shares=15  loco=4  score=37/0
+     black   $11   income=20   shares=15  loco=6  score=30/0
+round 7 end
+     brown   $21   income=25   shares=10  loco=5  score=68/0
+     yellow  $16   income=29   shares=15  loco=6  score=61/0
+     black   $12   income=25   shares=15  loco=6  score=47/0
+     green   $6    income=22   shares=15  loco=5  score=43/0
+round 8 end
+     brown   $26   income=30   shares=10  loco=6  score=87/0
+     yellow  $19   income=32   shares=15  loco=6  score=73/0
+     black   $17   income=32   shares=15  loco=6  score=72/0
+     green   $13   income=27   shares=15  loco=5  score=58/0
+final standings
+  1. brown   $26   income=30   shares=10  loco=6  score=87/0
+  2. yellow  $19   income=32   shares=15  loco=6  score=73/0
+  3. black   $17   income=32   shares=15  loco=6  score=72/0
+  4. green   $13   income=27   shares=15  loco=5  score=58/0
