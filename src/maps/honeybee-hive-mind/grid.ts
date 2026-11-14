@@ -102,7 +102,9 @@ export function boardCoordinates(row: number, index: number): Coordinates {
 export const map = OrderedMap<Coordinates, SpaceData>().withMutations(
   (grid) => {
     rows.forEach((row, rowIndex) =>
-      row.forEach((space, index) => {
+      // Printed rows run left-to-right, which decreases r after rotation.
+      // Insert right-to-left to retain the shared ascending q/r grid order.
+      [...row.entries()].reverse().forEach(([index, space]) => {
         const coordinates = boardCoordinates(rowIndex, index);
         grid.set(
           coordinates,
