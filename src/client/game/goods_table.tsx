@@ -1,3 +1,4 @@
+import { GoodsTableVisual } from "../../maps/view_settings";
 import { useMemo } from "react";
 import { PHASE } from "../../engine/game/phase";
 import { GameStarter } from "../../engine/game/starter";
@@ -13,6 +14,7 @@ import { goodStyle } from "../grid/good";
 import { useGame } from "../services/game";
 import {
   useGrid,
+  useViewSettings,
   useInjected,
   useInjectedState,
 } from "../utils/injection_context";
@@ -52,6 +54,7 @@ export function GoodsTable({
   isSlotClickable,
 }: GoodsTableProps = {}) {
   const gameKey = useGame().gameKey;
+  const viewSettings = useViewSettings();
   const grid = useGrid();
   const phase = useInjectedState(PHASE);
   const starter = useInjected(GameStarter);
@@ -111,6 +114,8 @@ export function GoodsTable({
     const clickable = isSlotClickable?.(slot, good) ?? false;
     return {
       good,
+      visual:
+        good == null ? undefined : viewSettings.getGoodsTableVisual?.(good),
       clickable,
       onClick: clickable ? () => onClickSlot?.(slot) : undefined,
     };
@@ -175,6 +180,7 @@ export function GoodsTable({
 }
 
 interface GoodBlockProps {
+  visual?: GoodsTableVisual;
   onClick?: () => void;
   good?: Good;
   clickable?: boolean;
@@ -188,6 +194,7 @@ export function GoodBlock({
   clickable,
   emptySpace,
   className,
+  visual,
 }: GoodBlockProps) {
   const showAsClickable = clickable && !emptySpace;
   const classNames = [
@@ -196,12 +203,15 @@ export function GoodBlock({
     good != null ? goodStyle(good) : styles.empty,
     showAsClickable ? styles.clickableGood : "",
     className ?? "",
+    !emptySpace ? (visual?.className ?? "") : "",
   ];
   return (
     <div
       onClick={showAsClickable ? onClick : undefined}
       className={classNames.join(" ")}
-    />
+    >
+      {!emptySpace && visual?.content}
+    </div>
   );
 }
 

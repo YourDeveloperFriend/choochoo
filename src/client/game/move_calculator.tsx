@@ -22,6 +22,7 @@ import {
   useGrid,
   useInjectedMemo,
   useMePlayer,
+  useViewSettings,
 } from "../utils/injection_context";
 import * as styles from "./move_calculator.module.css";
 
@@ -32,10 +33,15 @@ interface Option {
 
 export function MoveCalculator() {
   const grid = useGrid();
+  const viewSettings = useViewSettings();
+  const [pendingMove, setPendingMove] = useState<MoveData>();
   const { emit, canEmit } = useAction(MoveAction);
   const searcher = useInjectedMemo(MoveSearcher);
   const moveAction = useInjectedMemo(MoveAction);
   const mePlayer = useMePlayer();
+  const FeeModal = viewSettings.getMoveCost
+    ? viewSettings.moveInterceptModal
+    : undefined;
   const [options, setOptions] = useGameVersionState<Option[] | undefined>(
     undefined,
   );
@@ -44,7 +50,9 @@ export function MoveCalculator() {
 
   const calculateRoutes = useCallback(() => {
     const allRoutes: Option[] = searcher.value
-      .findAllRoutes(mePlayer ?? ({ locomotive: 6 } as PlayerData))
+      .findAllRoutes(
+        mePlayer ?? ({ locomotive: 6, money: Infinity } as PlayerData),
+      )
       .map((route) => ({
         route,
         income: moveAction.value.calculateIncome(route),
@@ -106,6 +114,7 @@ export function MoveCalculator() {
                     <th>Good</th>
                     <th>Destination City</th>
                     <th>Income</th>
+                    {viewSettings.getMoveCost && <th>Cash fee</th>}
                     {canEmit && <th></th>}
                   </tr>
                 </thead>
@@ -124,9 +133,25 @@ export function MoveCalculator() {
                           </p>
                         ))}
                       </td>
+                      {viewSettings.getMoveCost && (
+                        <td>
+                          $
+                          {viewSettings.getMoveCost(
+                            grid,
+                            mePlayer ?? ({ money: Infinity } as PlayerData),
+                            option.route,
+                          )}
+                        </td>
+                      )}
                       {canEmit && (
                         <td>
-                          <Button onClick={() => emit(option.route)}>
+                          <Button
+                            onClick={() =>
+                              FeeModal
+                                ? setPendingMove(option.route)
+                                : emit(option.route)
+                            }
+                          >
                             Move good
                           </Button>
                         </td>
@@ -142,6 +167,17 @@ export function MoveCalculator() {
           </div>
         </AccordionContent>
       </MenuItem>
+      {FeeModal && (
+        <FeeModal
+          moveData={pendingMove}
+          cityName={
+            pendingMove
+              ? grid.displayName(peek(pendingMove.path).endingStop)
+              : undefined
+          }
+          clearMoveData={() => setPendingMove(undefined)}
+        />
+      )}
     </Accordion>
   );
 }

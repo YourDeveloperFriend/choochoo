@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { Rotation } from "../../engine/game/map_settings";
 import {
   InterCityConnection,
@@ -19,6 +19,13 @@ import * as styles from "./inter_city_connection.module.css";
 import { arrayEqualsIgnoreOrder } from "../../utils/functions";
 
 interface InterCityConnectionsRenderProps {
+  getPosition?(
+    connection: InterCityConnection,
+    size: number,
+    connections?: InterCityConnection[],
+  ): Point | undefined;
+  markerScale?: number;
+  fillOpacity?: number;
   connections: InterCityConnection[];
   size: number;
   clickTargets: Set<ClickTarget>;
@@ -29,6 +36,9 @@ interface InterCityConnectionsRenderProps {
 
 export function InterCityConnectionsRender({
   connections,
+  markerScale = 1,
+  fillOpacity = 1,
+  getPosition,
   size,
   rotation,
   clickTargets,
@@ -56,6 +66,10 @@ export function InterCityConnectionsRender({
       result.push(
         <InterCityConnectionRender
           key={connection.id}
+          markerScale={markerScale}
+          fillOpacity={fillOpacity}
+          getPosition={getPosition}
+          connections={connections}
           connection={connection}
           highlighted={highlightedConnections?.some(
             (c) => connection.id === c.id,
@@ -75,6 +89,14 @@ export function InterCityConnectionsRender({
 }
 
 interface InterCityConnectionRenderProps {
+  getPosition?(
+    connection: InterCityConnection,
+    size: number,
+    connections?: InterCityConnection[],
+  ): Point | undefined;
+  connections: InterCityConnection[];
+  markerScale: number;
+  fillOpacity: number;
   connection: InterCityConnection;
   size: number;
   clickTargets: Set<ClickTarget>;
@@ -86,7 +108,11 @@ interface InterCityConnectionRenderProps {
 }
 
 function InterCityConnectionRender({
+  connections,
   connection,
+  markerScale,
+  fillOpacity,
+  getPosition,
   size,
   rotation,
   clickTargets,
@@ -102,6 +128,10 @@ function InterCityConnectionRender({
 
   const [first, second] = connection.connects;
   const connectionCenter: Point = useMemo(() => {
+    const position = getPosition?.(connection, size, connections);
+    if (position) {
+      return position;
+    }
     if (connection.center !== undefined) {
       if (connection.offset !== undefined) {
         const offsetDistance = (connection.offset.distance ?? 1) * size;
@@ -119,50 +149,67 @@ function InterCityConnectionRender({
         size,
         first.getDirection(second),
       );
-      const stackLength = ((stackSize - 1) * size) / 6;
-      const positionOnEdge = (stackPosition * size) / 6 - stackLength / 2;
+      const spacing = markerScale === 1 ? size / 6 : size * markerScale * 0.75;
+      const stackLength = (stackSize - 1) * spacing;
+      const positionOnEdge = stackPosition * spacing - stackLength / 2;
       return movePointInRadDirection(
         centerOnEdge,
         positionOnEdge,
         directionToRad(first.getDirection(second)) + Math.PI / 2,
       );
     }
-  }, [first, second, size, connection.center, stackPosition, stackSize]);
+  }, [
+    first,
+    second,
+    size,
+    connection.center,
+    stackPosition,
+    stackSize,
+    markerScale,
+    getPosition,
+    connection,
+    connections,
+  ]);
 
-  const clickable = clickTargets.has(ClickTarget.INTER_CITY_CONNECTION)
-    ? gridStyles.clickable
-    : "";
-
-  const internalOnClick = useCallback(
-    () => onClick && onClick(connection.id!),
-    [...connection.connects],
-  );
+  // Owned markers must remain recognizable over any City color. Keep only
+  // unclaimed slots translucent, and let delivery clicks reach the City below.
+  const markerOpacity = connection.owner == null ? fillOpacity : 1;
+  const clickable =
+    connection.owner == null &&
+    clickTargets.has(ClickTarget.INTER_CITY_CONNECTION);
 
   return (
     <>
-      <circle
-        cx={connectionCenter.x}
-        cy={connectionCenter.y}
-        r={size / 3}
-        fill="black"
-      />
+      {fillOpacity === 1 && (
+        <circle
+          cx={connectionCenter.x}
+          cy={connectionCenter.y}
+          r={(size / 3) * markerScale}
+          fill="black"
+        />
+      )}
       {/* The data attributes are for the map specs: several maps build their own
           rules on these connections, and the circle is otherwise an SVG shape
           with a hashed class and nothing stable to select. */}
       <circle
-        onClick={internalOnClick}
+        onClick={
+          clickable && onClick ? () => onClick(connection.id) : undefined
+        }
         data-inter-city-connection={connection.id}
         data-connection-owned={connection.owner != null ? "" : undefined}
         cx={connectionCenter.x}
         cy={connectionCenter.y}
-        r={size / 3}
+        r={(size / 3) * markerScale}
+        fillOpacity={markerOpacity}
+        strokeOpacity={markerOpacity === 1 || highlighted ? 1 : 0.65}
         stroke={highlighted ? "yellow" : "black"}
-        className={`${styles.interCityConnection} ${clickable} ${connection.owner ? getPlayerColorCss(connection.owner.color) : ""}`}
+        className={`${styles.interCityConnection} ${clickable ? gridStyles.clickable : ""} ${connection.owner ? getPlayerColorCss(connection.owner.color) : ""}`}
       />
       {connection.owner == null && (
         <Rotate rotation={rotation} reverse={true} center={connectionCenter}>
           <text
             fill="black"
+            fontSize={markerScale === 1 ? undefined : size * 0.25 * markerScale}
             x={connectionCenter.x}
             y={connectionCenter.y}
             dominantBaseline="middle"

@@ -37,6 +37,7 @@ function render(
   gameKey: "stalinist-russia" | "maui" = settings.key,
 ) {
   const layers = getTerrainHexes({
+    grid: Grid.fromSpaces(settings, [space], []),
     space,
     gameKey,
     size: 70,
@@ -257,6 +258,7 @@ describe("Stalinist Russia map visuals", () => {
   it("counter-rotates the custom labels and stored cubes with the map", () => {
     const space = moscow([Good.BLUE]);
     const layers = getTerrainHexes({
+      grid: Grid.fromSpaces(settings, [space], []),
       space,
       gameKey: settings.key,
       size: 70,
@@ -273,4 +275,18 @@ describe("Stalinist Russia map visuals", () => {
     expect(markup.match(/rotate\(-90/g)).toHaveLength(2);
     expect(markup.match(/data-good=/g)).toHaveLength(1);
   });
+});
+
+it("keeps one custom-city highlight after delegating highlight ownership to the renderer", () => {
+  const space = moscow([]);
+  const layers = getTerrainHexes({
+    grid: Grid.fromSpaces(settings, [space], []),
+    space,
+    gameKey: settings.key,
+    size: 70,
+    isHighlighted: true,
+    clickTargets: targets,
+  });
+  const markup = renderToStaticMarkup(<svg>{layers.afterTextures}</svg>);
+  expect(markup.match(/stroke="yellow"/g)).toHaveLength(1);
 });

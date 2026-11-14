@@ -1,5 +1,8 @@
 import {
   FormEvent,
+  ReactNode,
+  createContext,
+  useContext,
   Fragment,
   MouseEvent,
   useCallback,
@@ -21,7 +24,11 @@ import { useMessages, useSendChat } from "../services/message";
 import { useMe } from "../services/me";
 import { useLocalStorage } from "../services/local_storage";
 import { useTextInputState } from "../utils/form_state";
-import { useInject } from "../utils/injection_context";
+import {
+  useGrid,
+  useInject,
+  useViewSettings,
+} from "../utils/injection_context";
 import { FilterControls } from "./filter_controls";
 import * as styles from "./game_log.module.css";
 
@@ -39,8 +46,15 @@ import {
   PlayerColorContainer,
 } from "./message_parts";
 
+// Home-page chat has no game context and keeps its normal plain-text renderer.
+const MapLogTextContext = createContext<
+  ((text: string) => ReactNode) | undefined
+>(undefined);
+
 export function GameLog() {
   const game = useGame();
+  const grid = useGrid();
+  const MapLogText = useViewSettings().renderLogText;
   const userColorLookup = useInject(() => {
     const lookup: Record<number, PlayerColor> = {};
     injectAllPlayersUnsafe()().forEach((player) => {
@@ -49,10 +63,21 @@ export function GameLog() {
     return lookup;
   }, [game.id]);
 
-  if (isGameHistory(game)) {
-    return <GameHistoryLog history={game} userColorLookup={userColorLookup} />;
-  }
-  return <ChatLog gameId={game.id} userColorLookup={userColorLookup} />;
+  return (
+    <MapLogTextContext.Provider
+      value={
+        MapLogText
+          ? (text) => <MapLogText text={text} grid={grid} />
+          : undefined
+      }
+    >
+      {isGameHistory(game) ? (
+        <GameHistoryLog history={game} userColorLookup={userColorLookup} />
+      ) : (
+        <ChatLog gameId={game.id} userColorLookup={userColorLookup} />
+      )}
+    </MapLogTextContext.Provider>
+  );
 }
 
 function GameHistoryLog({
@@ -276,6 +301,7 @@ function LogMessage({
   messageType: MessageType;
   collapseLeadingActorMention?: boolean;
 }) {
+  const renderMapText = useContext(MapLogTextContext);
   const messageParsed = useMemo(() => {
     const parts: ParsedMessagePart[] = [];
     let lastIndex = 0;
@@ -330,7 +356,11 @@ function LogMessage({
         return (
           <span key={index} className={mentionClasses || undefined}>
             {typeof part === "string" ? (
-              part
+              renderMapText && messageType !== MessageType.CHAT ? (
+                renderMapText(part)
+              ) : (
+                part
+              )
             ) : part.type === "playerColor" ? (
               <span
                 className={styles.playerColorToken}

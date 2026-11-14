@@ -1,7 +1,7 @@
 import { ReactNode, useMemo } from "react";
 import { Rotation } from "../../engine/game/map_settings";
 import { City } from "../../engine/map/city";
-import { Space } from "../../engine/map/grid";
+import { Grid, Space } from "../../engine/map/grid";
 import { calculateTrackInfo, Land } from "../../engine/map/location";
 import { isTownTile } from "../../engine/map/tile";
 import { Track, TrackInfo } from "../../engine/map/track";
@@ -91,6 +91,7 @@ function landColorStyle(space: Land, viewSettings: MapViewSettings): string {
 }
 
 interface TerrainHexProps {
+  grid: Grid;
   space: Land | City;
   size: number;
   isHighlighted: boolean;
@@ -218,6 +219,7 @@ function BorderBoundaries({ space, size, gameKey }: TerrainHexProps) {
 }
 
 function UpperTerrainHex({
+  grid,
   gameKey,
   space,
   size,
@@ -281,6 +283,8 @@ function UpperTerrainHex({
       <>
         {MapSpecificCityVisual ? (
           <MapSpecificCityVisual
+            grid={grid}
+            highlighted={isHighlighted}
             city={space}
             center={center}
             size={size}
@@ -295,7 +299,7 @@ function UpperTerrainHex({
             rotation={rotation}
           />
         )}
-        {isHighlighted && (
+        {isHighlighted && !MapSpecificCityVisual && (
           <polygon
             fillOpacity="0"
             data-coordinates={space.coordinates.toString()}
@@ -451,6 +455,7 @@ function TrackHex({ space, highlightedTrack, size, rotation }: TrackHexProps) {
 }
 
 interface GoodsOnHexProps {
+  grid: Grid;
   gameKey: GameKey;
   space: Land | City;
   size: number;
@@ -460,6 +465,7 @@ interface GoodsOnHexProps {
 }
 
 function GoodsOnHex({
+  grid,
   gameKey,
   space,
   selectedGood,
@@ -490,6 +496,7 @@ function GoodsOnHex({
   if (MapSpecificCityGoodsVisual && space instanceof City) {
     return (
       <MapSpecificCityGoodsVisual
+        grid={grid}
         city={space}
         center={center}
         size={size}

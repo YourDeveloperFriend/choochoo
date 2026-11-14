@@ -1,0 +1,33 @@
+.controls {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #b99a45;
+  border-radius: 6px;
+}
+.controls p {
+  margin-bottom: 8px;
+}
+.flight {
+  offset-distance: 100%;
+  offset-rotate: 0deg;
+  opacity: 0;
+  animation: waggleFlight 2.4s ease-in-out;
+}
+@keyframes waggleFlight {
+  from {
+    offset-distance: 0%;
+    opacity: 1;
+  }
+  99% {
+    opacity: 1;
+  }
+  to {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flight {
+    animation: none;
+  }
+}
