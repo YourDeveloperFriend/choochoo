@@ -29,7 +29,9 @@ export function MoonRules() {
           You can use this ability for both moves.
         </li>
         <li>
-          <b>Goods Growth</b>: only replenishes non-black cities that have a
+          <b>Goods Growth</b>: roll 2 dice per player once (not separately per
+          white/grey chart); the same results apply to every day city, including
+          urbanized New Cities. Only replenishes non-black cities that have a
           connection with a player.
         </li>
       </ul>

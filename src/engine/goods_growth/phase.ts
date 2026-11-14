@@ -14,6 +14,7 @@ import { CityGroup, cityGroupToString } from "../state/city_group";
 import { goodToString } from "../state/good";
 import { Phase } from "../state/phase";
 import { PlayerColor } from "../state/player";
+import { OnRollData } from "../state/roll";
 import { GoodsHelper } from "./helper";
 import { PassAction } from "./pass";
 import { ProductionAction } from "./production";
@@ -71,8 +72,9 @@ export class GoodsGrowthPhase extends PhaseModule {
     return this.playerCount();
   }
 
-  ignoreCity(_: City): boolean {
-    return false;
+  /** Whether a roll for `rollGroup` applies to one of `city`'s chart entries. */
+  rollAppliesTo(rollGroup: CityGroup, _: City, onRoll: OnRollData): boolean {
+    return rollGroup === onRoll.group;
   }
 
   onEnd(): void {
@@ -84,10 +86,9 @@ export class GoodsGrowthPhase extends PhaseModule {
       );
       const cities = this.gridHelper.findAllCities();
       for (const city of cities) {
-        for (const [index, { group, onRoll }] of city.onRoll().entries()) {
-          if (group !== cityGroup) continue;
-          if (this.ignoreCity(city)) continue;
-          const numRolled = rolls.filter((r) => r === onRoll).length;
+        for (const [index, entry] of city.onRoll().entries()) {
+          if (!this.rollAppliesTo(cityGroup, city, entry)) continue;
+          const numRolled = rolls.filter((r) => r === entry.onRoll).length;
           this.helper.moveGoodsToCity(city.coordinates, index, numRolled);
         }
       }
