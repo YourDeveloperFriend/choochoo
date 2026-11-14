@@ -34,7 +34,10 @@ import {
 import { Direction } from "../../engine/state/tile";
 import { DoubleBaseUsaRoundEngine } from "./rounds";
 import { DoubleBaseUsaBuildPhase } from "./starting_city";
-import { DoubleBaseUsaUrbanizeAction } from "./urbanize";
+import {
+  DoubleBaseUsaDoneAction,
+  DoubleBaseUsaUrbanizeAction,
+} from "./urbanize";
 
 export class DoubleBaseUsaMapSettings implements MapSettings {
   readonly key = "double-base-usa";
@@ -92,6 +95,7 @@ export class DoubleBaseUsaMapSettings implements MapSettings {
       DoubleBaseUsaRoundEngine,
       DoubleBaseUsaBuildPhase,
       DoubleBaseUsaUrbanizeAction,
+      DoubleBaseUsaDoneAction,
       DoubleBaseUsaGoodsGrowthPhase,
     ];
   }

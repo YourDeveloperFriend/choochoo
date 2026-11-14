@@ -7,13 +7,18 @@ import { GridHelper } from "../../engine/map/grid_helper";
 import { assert } from "../../utils/validate";
 import { City } from "../../engine/map/city";
 import { BuildPhase } from "../../engine/build/phase";
+import { PlayerHelper } from "../../engine/game/player";
 import { ROUND } from "../../engine/game/round";
 import { DoubleBaseUsaMapData } from "./grid";
 import { SpaceType } from "../../engine/state/location_type";
 import { injectCurrentPlayer } from "../../engine/game/state";
 import { GoodZod } from "../../engine/state/good";
-import { StartingCityMarkers } from "./starter";
-import { DoubleBaseUsaSpendLandGrantAction, URBANIZE_COUNT } from "./build";
+import { StartingCityMarkers, TranscontinentalBonusClaimed } from "./starter";
+import {
+  DoubleBaseUsaSpendLandGrantAction,
+  isCityInExistingNetwork,
+  URBANIZE_COUNT,
+} from "./build";
 
 export const SELECT_STARTING_CITY_REQUIRED = new Key(
   "selectStartingCityRequired",
@@ -28,6 +33,10 @@ export const LAND_GRANT_BUILD_STATE = new Key("landGrantBuildState", {
 });
 
 export class DoubleBaseUsaBuildPhase extends BuildPhase {
+  private readonly transcontinentalBonusClaimed = injectState(
+    TranscontinentalBonusClaimed,
+  );
+  private readonly playerHelper = inject(PlayerHelper);
   private readonly selectStartingCityRequired = injectState(
     SELECT_STARTING_CITY_REQUIRED,
   );
@@ -47,10 +56,39 @@ export class DoubleBaseUsaBuildPhase extends BuildPhase {
     this.landGrantBuildState.initState({ totalSpent: 0, spentNow: false });
   }
   onEndTurn() {
+    this.checkTranscontinentalBonus();
     this.selectStartingCityRequired.delete();
     this.urbanizeCount.delete();
     this.landGrantBuildState.delete();
     super.onEndTurn();
+  }
+
+  private checkTranscontinentalBonus(): void {
+    if (this.transcontinentalBonusClaimed()) return;
+    const player = this.currentPlayer().color;
+    const grid = this.grid();
+    const cities = [...this.gridHelper.findAllCities()];
+    const connectedToSanFrancisco = cities.some(
+      (city) =>
+        city.name() === "San Francisco" &&
+        isCityInExistingNetwork(player, city, grid),
+    );
+    if (!connectedToSanFrancisco) return;
+    const connectedToEastCoast = cities.some(
+      (city) =>
+        city.getMapSpecific(DoubleBaseUsaMapData.parse)?.eastCoastCity ===
+          true && isCityInExistingNetwork(player, city, grid),
+    );
+    if (!connectedToEastCoast) return;
+
+    this.transcontinentalBonusClaimed.set(true);
+    this.playerHelper.updateCurrentPlayer((p) => {
+      p.money += 10;
+      p.income += 1;
+    });
+    this.log.currentPlayer(
+      "receives the transcontinental bonus and gets $10 and 1 income",
+    );
   }
 }
 

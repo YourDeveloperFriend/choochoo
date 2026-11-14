@@ -1,3 +1,5 @@
+import { DoneAction } from "../../engine/build/done";
+import { assert } from "../../utils/validate";
 import { UrbanizeAction, UrbanizeData } from "../../engine/build/urbanize";
 import { injectState } from "../../engine/framework/execution_context";
 import { URBANIZE_COUNT } from "./build";
@@ -12,5 +14,14 @@ export class DoubleBaseUsaUrbanizeAction extends UrbanizeAction {
   process(data: UrbanizeData): boolean {
     this.urbanizeCount.set(this.urbanizeCount() + 1);
     return super.process(data);
+  }
+}
+
+export class DoubleBaseUsaDoneAction extends DoneAction {
+  validate(): void {
+    super.validate();
+    assert(!this.helper.canUrbanize(), {
+      invalidInput: "You cannot pass without urbanizing",
+    });
   }
 }
