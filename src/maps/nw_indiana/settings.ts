@@ -8,7 +8,8 @@ import {
 } from "../../engine/game/map_settings";
 import { Module } from "../../engine/module/module";
 import { ClaimRequiresUrbanizeModule } from "../../modules/claim_requires_urbanize";
-import { NwIndianaProfitHelper } from "./expenses";
+import { NwIndianaActionNamingProvider } from "./actions";
+import { NwIndianaDiscountManager } from "./build";
 import { map } from "./grid";
 import { NwIndianaMoveHelper } from "./move";
 import { NwIndianaTakeSharesAction } from "./shares";
@@ -37,8 +38,9 @@ export class NwIndianaMapSettings implements MapSettings {
 
   getOverrides() {
     return [
+      NwIndianaActionNamingProvider,
+      NwIndianaDiscountManager,
       NwIndianaMoveHelper,
-      NwIndianaProfitHelper,
       NwIndianaTakeSharesAction,
     ];
   }
