@@ -104,9 +104,11 @@ export class ProductionAction implements ActionProcessor<ProductionData> {
     const goods = this.goodsGrowthState().goods.map(goodToString).join(", ");
     const locationName = this.gridHelper.displayName(data.coordinates);
     this.log.currentPlayer(`places ${goods} in ${locationName}`);
+    const drawn = this.goodsGrowthState().goods;
     this.gridHelper.update(data.coordinates, (city) => {
-      city.goods = city.goods!.concat(this.goodsGrowthState().goods);
+      city.goods = city.goods!.concat(drawn);
     });
+    this.goodsGrowthState.set({ goods: [] });
     return true;
   }
 }
@@ -120,7 +122,9 @@ export class ProductionPassAction extends EmptyActionProcessor {
   validate() {}
 
   process(): boolean {
-    this.bag.update((bag) => bag.push(...this.goodsGrowthState().goods));
+    const drawn = this.goodsGrowthState().goods;
+    this.bag.update((bag) => bag.push(...drawn));
+    this.goodsGrowthState.set({ goods: [] });
     return true;
   }
 }
