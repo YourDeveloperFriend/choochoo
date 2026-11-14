@@ -1,0 +1,36 @@
+game 2673 / soul-train / 4 players / 257 actions
+round 1 end
+     blue    $15   income=2    shares=4   loco=2  score=1/0
+     purple  $7    income=3    shares=5   loco=3  score=1/0
+     red     $9    income=2    shares=4   loco=2  score=0/0
+     black   $8    income=2    shares=4   loco=2  score=-1/0
+round 2 end
+     red     $0    income=8    shares=7   loco=3  score=15/0
+     purple  $4    income=7    shares=7   loco=4  score=13/0
+     black   $0    income=6    shares=6   loco=2  score=11/0
+     blue    $0    income=4    shares=5   loco=3  score=10/0
+round 3 end
+     purple  $2    income=11   shares=10  loco=4  score=22/0
+     blue    $1    income=9    shares=10  loco=4  score=16/0
+     red     $4    income=10   shares=11  loco=4  score=16/0
+     black   $4    income=9    shares=10  loco=3  score=11/0
+round 4 end
+     red     $4    income=22   shares=12  loco=4  score=42/0
+     purple  $0    income=16   shares=13  loco=6  score=17/0
+     blue    $7    income=16   shares=13  loco=5  score=16/0
+     black   $0    income=8    shares=12  loco=4  score=-4/0
+round 1 end
+     red     $10   income=23   shares=13  loco=5  score=46/0
+     blue    $5    income=21   shares=15  loco=6  score=31/0
+     purple  $2    income=16   shares=15  loco=6  score=18/0
+     black   $1    income=14   shares=15  loco=4  score=11/0
+round 2 end
+     red     $16   income=29   shares=13  loco=6  score=69/0
+     blue    $13   income=28   shares=15  loco=6  score=57/0
+     purple  $7    income=22   shares=15  loco=6  score=36/0
+     black   $2    income=18   shares=15  loco=4  score=23/0
+final standings
+  1. red     $16   income=29   shares=13  loco=6  score=69/0
+  2. blue    $13   income=28   shares=15  loco=6  score=57/0
+  3. purple  $7    income=22   shares=15  loco=6  score=36/0
+  4. black   $2    income=18   shares=15  loco=4  score=23/0
