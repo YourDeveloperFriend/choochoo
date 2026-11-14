@@ -13,10 +13,7 @@ import { LandType } from "../../engine/state/space";
 import { SpaceType } from "../../engine/state/location_type";
 import { BuildAction, BuildData } from "../../engine/build/build";
 import { DoubleBaseUsaMapData } from "./grid";
-import {
-  DoubleBaseUsaPlayerData,
-  TranscontinentalBonusClaimed,
-} from "./starter";
+import { DoubleBaseUsaPlayerData } from "./starter";
 import {
   calculateTrackInfo,
   Land,
@@ -248,9 +245,6 @@ export class DoubleBaseUsaBuildValidator extends Validator {
 
 export class DoubleBaseUsaBuildAction extends BuildAction {
   private readonly playerData = injectState(DoubleBaseUsaPlayerData);
-  private readonly transcontinentalBonusClaimed = injectState(
-    TranscontinentalBonusClaimed,
-  );
   private readonly landGrantBuildState = injectState(LAND_GRANT_BUILD_STATE);
 
   process(data: BuildData): boolean {
@@ -262,22 +256,6 @@ export class DoubleBaseUsaBuildAction extends BuildAction {
       this.landGrantBuildState.update((state) => {
         state.spentNow = false;
       });
-    }
-
-    // Check for and apply transcontinental bonus
-    if (
-      !this.transcontinentalBonusClaimed() &&
-      this.connectsToSanFrancisco(data) &&
-      this.playerIsConnectedToEastCoastCity(currentPlayer.color)
-    ) {
-      this.transcontinentalBonusClaimed.set(true);
-      this.playerHelper.updateCurrentPlayer((player) => {
-        player.money += 10;
-        player.income += 1;
-      });
-      this.log.currentPlayer(
-        "receives the transcontinental bonus and gets $10 and 1 income",
-      );
     }
 
     // Apply land grant if the space had one
@@ -299,55 +277,6 @@ export class DoubleBaseUsaBuildAction extends BuildAction {
     }
 
     return result;
-  }
-
-  private connectsToSanFrancisco(data: BuildData): boolean {
-    const currentPlayer = this.currentPlayer();
-    const space = this.gridHelper.lookup(data.coordinates);
-    if (space instanceof Land) {
-      for (const track of space.getTrack()) {
-        if (track.getOwner() === currentPlayer.color) {
-          for (const exit of track.getExits()) {
-            if (exit !== TOWN) {
-              const neighbor = this.grid().getNeighbor(space.coordinates, exit);
-              if (
-                neighbor !== undefined &&
-                neighbor.name() === "San Francisco"
-              ) {
-                return true;
-              }
-            }
-          }
-        }
-      }
-    }
-    return false;
-  }
-
-  private playerIsConnectedToEastCoastCity(player: PlayerColor): boolean {
-    for (const city of this.gridHelper.findAllCities()) {
-      const mapSpecific = city.getMapSpecific(DoubleBaseUsaMapData.parse);
-      if (mapSpecific && mapSpecific.eastCoastCity) {
-        for (const direction of allDirections) {
-          const track = this.grid().getTrackConnection(
-            city.coordinates,
-            direction,
-          );
-          if (track && track.getOwner() === player) {
-            return true;
-          }
-        }
-        for (const connection of this.grid().connections) {
-          if (
-            connection.owner?.color === player &&
-            connection.connects.some((end) => end.equals(city.coordinates))
-          ) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
   }
 }
 
@@ -427,7 +356,7 @@ function isFirstBuild(player: PlayerColor, grid: Grid): boolean {
   return true;
 }
 
-function isCityInExistingNetwork(
+export function isCityInExistingNetwork(
   player: PlayerColor,
   city: City,
   grid: Grid,
