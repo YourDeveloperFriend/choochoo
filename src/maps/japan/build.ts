@@ -14,6 +14,7 @@ import { Exit, TOWN } from "../../engine/map/track";
 import { BuildCostCalculator } from "../../engine/build/cost";
 import { Direction, SimpleTileType, TileType } from "../../engine/state/tile";
 import {
+  getOpposite,
   rotateDirectionClockwise,
   rotateDirectionCounterClockwise,
 } from "../../engine/map/direction";
@@ -111,6 +112,15 @@ export class JapanBuildValidator extends Validator {
           if (type === HalfHexTrackType.INVALID) {
             return "At least one side of track on half-water hexes must be on land.";
           }
+          if (type === HalfHexTrackType.WATER_CROSSING) {
+            const [a, b] = newTrack.exits as [Direction, Direction];
+            if (
+              rotateDirectionClockwise(a) === b ||
+              rotateDirectionCounterClockwise(a) === b
+            ) {
+              return "Cannot build tight curve on water part of half-water hexes.";
+            }
+          }
 
           for (const exit of newTrack.exits) {
             if (
@@ -176,8 +186,16 @@ function isNeighborLand(
     return false;
   }
   const neighborMapSpecific = neighbor.getMapSpecific(JapanMapData.parse);
-  if (neighborMapSpecific !== undefined && neighborMapSpecific.waterCrossing) {
-    return false;
+  if (neighborMapSpecific !== undefined) {
+    if (neighborMapSpecific.waterCrossing) {
+      return false;
+    }
+    if (
+      neighborMapSpecific.halfWaterSide !== undefined &&
+      isWaterEdge(neighborMapSpecific.halfWaterSide, getOpposite(direction))
+    ) {
+      return false;
+    }
   }
   return true;
 }
