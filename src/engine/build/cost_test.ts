@@ -156,8 +156,8 @@ describe(BuildCostCalculator.name, () => {
     expect(calculateCost({ from: CURVE_TIGHT_1, to: COEXISTING_CURVES })).toBe(2);
   });
 
-  it('rerouting two tracks costs $4', () => {
-    expect(calculateCost({ from: CROSSING_CURVES, to: ComplexTileType.X })).toBe(4);
+  it('rerouting two tracks costs a flat $2', () => {
+    expect(calculateCost({ from: CROSSING_CURVES, to: ComplexTileType.X })).toBe(2);
   });
 
   it('upgrading to a complex coexisting costs 2', () => {
