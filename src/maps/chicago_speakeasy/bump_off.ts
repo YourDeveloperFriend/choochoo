@@ -31,15 +31,14 @@ export class ChicagoSpeakEasyMovePhase extends MovePhase {
     this.installAction(BumpOffAction);
   }
 
-  onStartTurn() {
-    const result = super.onStartTurn();
+  onStart(): void {
+    super.onStart();
     this.hasUsedBumpOff.initState(false);
-    return result;
   }
 
-  onEndTurn(): void {
+  onEnd(): void {
     this.hasUsedBumpOff.delete();
-    return super.onEndTurn();
+    super.onEnd();
   }
 }
 
