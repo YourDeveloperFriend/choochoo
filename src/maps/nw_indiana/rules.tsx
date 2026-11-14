@@ -23,8 +23,13 @@ export function NwIndianaRules() {
           one cannot make a delivery that turn).
         </li>
         <li>
-          <b>Winter (even turns):</b> players&apos; Engine Level expenses are
-          doubled. Share expenses are not affected.
+          <b>Winter (even turns):</b> all building costs are doubled.
+        </li>
+        <li>
+          <b>Engineer:</b> instead of building 4 track, you may build 2 track
+          with the total cost of the build halved (rounded up). Building a third
+          track means you are using the 4 track option, so you pay full price
+          for all of it (including the first two track).
         </li>
       </ul>
     </div>
