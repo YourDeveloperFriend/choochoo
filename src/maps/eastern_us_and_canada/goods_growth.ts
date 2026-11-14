@@ -3,6 +3,7 @@ import { inject } from "../../engine/framework/execution_context";
 import { GoodsHelper } from "../../engine/goods_growth/helper";
 import { goodToString } from "../../engine/state/good";
 import { CityGroup } from "../../engine/state/city_group";
+import { PlayerColor } from "../../engine/state/player";
 
 export class EasternUsAndCanadaGoodsGrowth extends GoodsGrowthPhase {
   protected readonly helper = inject(GoodsHelper);
@@ -20,6 +21,10 @@ export class EasternUsAndCanadaGoodsGrowth extends GoodsGrowthPhase {
       cityData.goods.push(newGood);
     });
     this.log.log(`A ${goodToString(newGood)} good is added to Pittsburgh`);
+  }
+
+  getPlayerOrder(): PlayerColor[] {
+    return [];
   }
 
   getRollCount(_: CityGroup): number {

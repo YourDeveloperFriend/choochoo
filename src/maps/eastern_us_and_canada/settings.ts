@@ -16,7 +16,6 @@ import {
 import { EasternUsAndCanadaUrbanizeAction } from "./urbanize";
 import { EasternUsAndCanadaGoodsGrowth } from "./goods_growth";
 import {
-  EasternUsAndCanadaGoodsGrowthPhase,
   EasternUsAndCanadaSelectAction,
   EasternUsAndCanadaSelectActionPhase,
 } from "./production";
@@ -67,7 +66,6 @@ export class EasternUsAndCanadaMapSettings implements MapSettings {
       EasternUsAndCanadaBuilderHelper,
       EasternUsAndCanadaBuildValidator,
       EasternUsAndCanadaConnectCitiesAction,
-      EasternUsAndCanadaGoodsGrowthPhase,
     ];
   }
 }

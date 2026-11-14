@@ -15,8 +15,6 @@ import { SelectActionPhase } from "../../engine/select_action/phase";
 import { PHASE } from "../../engine/game/phase";
 import { Phase } from "../../engine/state/phase";
 import { Log } from "../../engine/game/log";
-import { GoodsGrowthPhase } from "../../engine/goods_growth/phase";
-import { PlayerColor } from "../../engine/state/player";
 import { ActionBundle } from "../../engine/game/phase_module";
 
 const ProductionState = z.object({
@@ -146,11 +144,5 @@ export class ProductionAction implements ActionProcessor<ProductionData> {
     this.productionState.set(newState);
 
     return newState.goods.length === 0;
-  }
-}
-
-export class EasternUsAndCanadaGoodsGrowthPhase extends GoodsGrowthPhase {
-  getPlayerOrder(): PlayerColor[] {
-    return [];
   }
 }
