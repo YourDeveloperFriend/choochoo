@@ -355,7 +355,7 @@ function Bid() {
     <div>
       <p>You must bid.</p>
       <Form>
-        <FormGroup widths={8}>
+        <FormGroup inline>
           <FormSelect
             disabled={isPending}
             value={selectedBid}
