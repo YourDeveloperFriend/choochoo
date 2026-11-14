@@ -22,6 +22,7 @@ import {
 import { StalinistRussiaProfitHelper } from "./expenses";
 import { map } from "./grid";
 import { StalinistRussiaLocomotivePhase } from "./locomotive_phase";
+import { StalinistRussiaMoneyManager } from "./money_manager";
 import {
   StalinistRussiaMoveAction,
   StalinistRussiaMoveHelper,
@@ -53,6 +54,7 @@ export class StalinistRussiaMapSettings implements MapSettings {
   getOverrides() {
     return [
       StalinistRussiaStarter,
+      StalinistRussiaMoneyManager,
       StalinistRussiaTurnOrderHelper,
       StalinistRussiaPlayerHelper,
       StalinistRussiaAllowedActions,
