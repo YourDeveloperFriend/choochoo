@@ -1,6 +1,7 @@
 import { SelectAction, SelectData } from "../../engine/select_action/select";
 import { inject, injectState } from "../../engine/framework/execution_context";
 import { PlayerHelper } from "../../engine/game/player";
+import { injectInGamePlayers } from "../../engine/game/state";
 import { SelectActionPhase } from "../../engine/select_action/phase";
 import { ActionZod } from "../../engine/state/action";
 import { MapKey } from "../../engine/framework/key";
@@ -14,10 +15,11 @@ export const ActionMoney = new MapKey(
 
 export class VermontSelectActionPhase extends SelectActionPhase {
   private readonly actionMoney = injectState(ActionMoney);
+  private readonly inGamePlayers = injectInGamePlayers();
 
   onEnd() {
     super.onEnd();
-    const numPlayers = this.players().length;
+    const numPlayers = this.inGamePlayers().length;
     const unselectedActions = this.allowedActions.getAvailableActions();
     this.actionMoney.update((actionMoney) => {
       for (const action of unselectedActions) {
