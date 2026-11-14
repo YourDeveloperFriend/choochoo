@@ -10,8 +10,13 @@ export class OahuGameStarter extends GameStarter {
     playerCount: number,
     location: CityData,
   ): Good[] {
-    // At 5p, all cities get 3 cubes to start
-    if (location.type === SpaceType.CITY && playerCount === 5) {
+    // At 5p, all cities get 3 cubes to start. The second hex of a double-hex
+    // city starts with no cubes (the city's cubes live on its primary hex).
+    if (
+      location.type === SpaceType.CITY &&
+      playerCount === 5 &&
+      (location.startingNumCubes ?? 0) > 0
+    ) {
       return draw(3, bag);
     }
     return super.getPlacedGoodsFor(bag, playerCount, location);
