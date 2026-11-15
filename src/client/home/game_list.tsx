@@ -25,8 +25,12 @@ export function GameList({
     useGameList(query);
 
   const gamesInOrder: GameLiteApi[] = useMemo(() => {
-    if (games == null) return [];
-    if (!fixOrder) return games;
+    if (games == null) {
+      return [];
+    }
+    if (!fixOrder) {
+      return games;
+    }
     const myActiveGames = partition(
       games,
       (game) => me != null && game.activePlayerId === me.id,
@@ -42,7 +46,9 @@ export function GameList({
     ];
   }, [games, fixOrder, me]);
 
-  if (games == null || games.length === 0) return <></>;
+  if (games == null || games.length === 0) {
+    return <></>;
+  }
 
   return (
     <div className={styles.gameListCard}>

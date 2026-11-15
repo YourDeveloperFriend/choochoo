@@ -17,7 +17,9 @@ export function Banner() {
 
 function NotificationPreferencesBanner() {
   const me = useMe();
-  if (!me || me.role !== UserRole.enum.USER) return <></>;
+  if (!me || me.role !== UserRole.enum.USER) {
+    return <></>;
+  }
 
   return <InternalNotificationPreferencesBanner />;
 }

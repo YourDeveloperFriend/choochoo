@@ -602,9 +602,13 @@ const router = initServer().router(gameContract, {
 createExpressEndpoints(gameContract, router, gameApp);
 
 function canKickPlayer(game: GameDao): boolean {
-  if (game.activePlayerId == null) return false;
+  if (game.activePlayerId == null) {
+    return false;
+  }
   const elapsed = activeTimeElapsedForGame(game);
-  if (elapsed < game.turnDuration) return false;
+  if (elapsed < game.turnDuration) {
+    return false;
+  }
   const overTime = elapsed - game.turnDuration;
   return overTime >= storedFlexTime(game, game.activePlayerId);
 }

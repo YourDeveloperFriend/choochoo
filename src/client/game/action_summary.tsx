@@ -298,7 +298,9 @@ function numberFormat(num: number): string {
 }
 
 function dollarFormat(num: number | string): string {
-  if (typeof num === "string") return num;
+  if (typeof num === "string") {
+    return num;
+  }
   if (num < 0) {
     return `-$${-num}`;
   }
@@ -515,7 +517,9 @@ function GovernmentBuild() {
   const { canEmit, canEmitUserId } = useAction(BuildAction);
   const buildsRemaining = useInject(() => {
     const helper = inject(BuilderHelper);
-    if (!canEmit) return undefined;
+    if (!canEmit) {
+      return undefined;
+    }
     return helper.buildsRemaining();
   }, [canEmit]);
 

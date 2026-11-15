@@ -43,7 +43,9 @@ export function useMoveOnClick(
 
   if (canEmit) {
     on(ClickTarget.GOOD, (space, good) => {
-      if (!onSelectGood(space, good)) return false;
+      if (!onSelectGood(space, good)) {
+        return false;
+      }
     });
     if (moveActionProgress?.good != null) {
       on(ClickTarget.TOWN, (space) => {
@@ -87,7 +89,9 @@ function onMoveToSpaceCb(
   player: PlayerData | undefined,
 ) {
   return async (space?: Space) => {
-    if (space == null || moveActionProgress == null || player == null) return;
+    if (space == null || moveActionProgress == null || player == null) {
+      return;
+    }
 
     const newData = getNewMoveData(
       grid,
@@ -96,7 +100,9 @@ function onMoveToSpaceCb(
       moveValidator.value,
       player,
     );
-    if (newData == null) return;
+    if (newData == null) {
+      return;
+    }
     if (typeof newData === "string") {
       toast.error(newData);
       return;
@@ -236,7 +242,9 @@ function appendToPath(
 
   if (errorReasons.length > 0) {
     const errorReasonsDeduped = new Set(errorReasons);
-    if (errorReasonsDeduped.size === 1) return errorReasons[0];
+    if (errorReasonsDeduped.size === 1) {
+      return errorReasons[0];
+    }
   }
   return "No valid route found";
 }

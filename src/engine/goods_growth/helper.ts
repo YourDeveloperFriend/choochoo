@@ -43,7 +43,9 @@ export class GoodsHelper {
     onRollIndex: number,
     count: number,
   ): void {
-    if (count === 0) return;
+    if (count === 0) {
+      return;
+    }
 
     this.grid.update(coordinates, (location) => {
       assert(location.type === SpaceType.CITY);
@@ -87,7 +89,9 @@ export class GoodsHelper {
     const goods: Good[] = [];
     this.bag.update((bag) => {
       iterate(count, () => {
-        if (bag.length === 0) return;
+        if (bag.length === 0) {
+          return;
+        }
         const index = this.random.random(bag.length);
         goods.push(...bag.splice(index, 1));
       });

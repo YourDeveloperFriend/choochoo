@@ -90,13 +90,17 @@ function findErrorInNotifications(
   validationError: ValidationError | undefined,
   key: string,
 ): string | undefined {
-  if (settings == null) return undefined;
+  if (settings == null) {
+    return undefined;
+  }
   const index = settings.turnNotifications.findIndex(
     (not) =>
       not.method === method &&
       (option == null || (not as DiscordWebHookSetting).option === option),
   );
-  if (index === -1) return undefined;
+  if (index === -1) {
+    return undefined;
+  }
   return validationError?.[`preferences.turnNotifications.${index}.${key}`];
 }
 
@@ -364,7 +368,9 @@ function InternalNotificationSettings({
 
 function UserProfile({ userId }: { userId: number }) {
   const user = useUser(userId);
-  if (user == null) return <Loading />;
+  if (user == null) {
+    return <Loading />;
+  }
 
   return (
     <Container>

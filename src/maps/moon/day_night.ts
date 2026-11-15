@@ -43,7 +43,9 @@ export class MoonRoundEngine extends RoundEngine {
   moveDayToNight(round: number): void {
     const lookFor = getNightSide(round);
     for (const city of this.gridHelper.findAllCities()) {
-      if (city.goodColors().length === 0) continue;
+      if (city.goodColors().length === 0) {
+        continue;
+      }
       this.gridHelper.update(city.coordinates, (city) => {
         assert(city.type === SpaceType.CITY);
         addNightColor(city, lookFor);
@@ -101,7 +103,9 @@ export class MoonGoodsHelper extends GoodsHelper {
   ): void {
     const city = this.grid.lookup(coordinates);
     assert(city instanceof City);
-    if (city.goodColors().includes(Good.BLACK)) return;
+    if (city.goodColors().includes(Good.BLACK)) {
+      return;
+    }
     return super.moveGoodsToCity(coordinates, onRollIndex, count);
   }
 }

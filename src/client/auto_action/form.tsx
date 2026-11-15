@@ -44,8 +44,9 @@ export function AutoActionForm() {
     me == null ||
     game.status !== GameStatus.enum.ACTIVE ||
     !game.playerIds.includes(me.id)
-  )
+  ) {
     return <></>;
+  }
 
   return (
     <InternalAutoActionForm

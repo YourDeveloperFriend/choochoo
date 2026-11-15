@@ -71,11 +71,15 @@ function bindSocket(
     }
 
     for (const room of newRooms) {
-      if (socket.rooms.has(room)) continue;
+      if (socket.rooms.has(room)) {
+        continue;
+      }
       socket.join(room);
     }
     for (const room of socket.rooms) {
-      if (newRooms.has(room)) continue;
+      if (newRooms.has(room)) {
+        continue;
+      }
       socket.leave(room);
     }
   }

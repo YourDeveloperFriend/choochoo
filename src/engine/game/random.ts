@@ -59,7 +59,9 @@ export class Random {
   }
 
   setSeed(seed: string | undefined) {
-    if (seed == null) return;
+    if (seed == null) {
+      return;
+    }
     this.seed.set({ seed, random: seedrandom(seed) });
   }
 

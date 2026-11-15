@@ -147,20 +147,26 @@ function describeSpace(grid: Grid, space: City | Land): SpaceSnapshot {
 
 /** True if a space carries any state worth reporting. */
 function isInteresting(space: SpaceSnapshot): boolean {
-  if (space.kind === "city") return true;
+  if (space.kind === "city") {
+    return true;
+  }
   return space.track != null || space.goods != null || space.kind === "town";
 }
 
 function labelSortKey(label: string): [string, number] {
   const match = label.match(/^(-?[A-Z]+)(-?\d+)$/);
-  if (match == null) return [label, 0];
+  if (match == null) {
+    return [label, 0];
+  }
   return [match[1], Number(match[2])];
 }
 
 function compareLabels(a: string, b: string): number {
   const [rowA, colA] = labelSortKey(a);
   const [rowB, colB] = labelSortKey(b);
-  if (rowA !== rowB) return rowA < rowB ? -1 : 1;
+  if (rowA !== rowB) {
+    return rowA < rowB ? -1 : 1;
+  }
   return colA - colB;
 }
 

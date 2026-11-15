@@ -35,7 +35,9 @@ const SEED = "e2e-build-track";
 let created: number[] = [];
 
 test.afterEach(async ({ request }) => {
-  for (const gameId of created) await deleteGame(request, gameId);
+  for (const gameId of created) {
+    await deleteGame(request, gameId);
+  }
   created = [];
 });
 

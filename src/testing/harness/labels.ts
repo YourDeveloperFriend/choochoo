@@ -31,7 +31,9 @@ function buildIndex(game: ReadableGame): Map<string, Coordinates> {
 
 function getIndex(game: ReadableGame): Map<string, Coordinates> {
   const existing = indexes.get(game.gameKey);
-  if (existing != null) return existing;
+  if (existing != null) {
+    return existing;
+  }
   const index = buildIndex(game);
   indexes.set(game.gameKey, index);
   return index;
@@ -40,7 +42,9 @@ function getIndex(game: ReadableGame): Map<string, Coordinates> {
 /** Labels that look plausibly like the one asked for, to make errors actionable. */
 function suggestions(index: Map<string, Coordinates>, label: string): string[] {
   const row = label.match(/^-?[A-Za-z]+/)?.[0].toUpperCase();
-  if (row == null) return [];
+  if (row == null) {
+    return [];
+  }
   return [...index.keys()]
     .filter((candidate) => candidate.startsWith(row))
     .sort((a, b) => Number(a.slice(row.length)) - Number(b.slice(row.length)));
@@ -57,7 +61,9 @@ export function coordinatesForLabel(
   const index = getIndex(game);
   const normalized = label.trim().toUpperCase();
   const found = index.get(normalized);
-  if (found != null) return found;
+  if (found != null) {
+    return found;
+  }
 
   const nearby = suggestions(index, normalized);
   const hint =
@@ -73,7 +79,9 @@ export function labelForCoordinates(
   coordinates: Coordinates,
 ): string {
   for (const [label, candidate] of getIndex(game)) {
-    if (candidate === coordinates) return label;
+    if (candidate === coordinates) {
+      return label;
+    }
   }
   throw new Error(
     `Coordinates ${coordinates.toString()} are not on the ${game.gameKey} grid.`,

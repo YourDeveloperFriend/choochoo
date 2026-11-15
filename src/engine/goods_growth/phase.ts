@@ -80,14 +80,18 @@ export class GoodsGrowthPhase extends PhaseModule {
   onEnd(): void {
     for (const cityGroup of [CityGroup.WHITE, CityGroup.BLACK]) {
       const rolls = this.random.rollDice(this.getRollCount(cityGroup)).sort();
-      if (rolls.length === 0) continue;
+      if (rolls.length === 0) {
+        continue;
+      }
       this.log.log(
         `${cityGroupToString(cityGroup)} rolled ${rolls.join(", ")}`,
       );
       const cities = this.gridHelper.findAllCities();
       for (const city of cities) {
         for (const [index, entry] of city.onRoll().entries()) {
-          if (!this.rollAppliesTo(cityGroup, city, entry)) continue;
+          if (!this.rollAppliesTo(cityGroup, city, entry)) {
+            continue;
+          }
           const numRolled = rolls.filter((r) => r === entry.onRoll).length;
           this.helper.moveGoodsToCity(city.coordinates, index, numRolled);
         }

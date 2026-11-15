@@ -47,7 +47,9 @@ export class StateStore {
   }
 
   private initContainerIfNotExists<T>(key: Key<T>): void {
-    if (this.state.has(key)) return;
+    if (this.state.has(key)) {
+      return;
+    }
     const container: StateContainer<T> = {
       state: undefined,
       listeners: new Set(),
@@ -145,7 +147,9 @@ export class StateStore {
 
   private maybeDeleteKey<T>(key: Key<T>): void {
     const container = this.state.get(key);
-    if (container == null) return;
+    if (container == null) {
+      return;
+    }
     if (container.state == null && container.listeners.size == 0) {
       this.state.delete(key);
     }

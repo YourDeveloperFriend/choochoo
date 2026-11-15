@@ -97,7 +97,9 @@ function useHeavyLifting(
         good: moveActionProgress.good,
         endingCity: city.coordinates,
       };
-      if (getErrorMessage(heavyLiftingData) != null) return false;
+      if (getErrorMessage(heavyLiftingData) != null) {
+        return false;
+      }
       if (!(await confirm("Use heavy cardboard move?"))) {
         return false;
       }
@@ -154,16 +156,24 @@ export function useOnClick(
   ): PromiseOr<boolean | void> => {
     switch (target) {
       case ClickTarget.GOOD:
-        if (good == null) return false;
+        if (good == null) {
+          return false;
+        }
         return onClick(space, good);
       case ClickTarget.CITY:
-        if (!(space instanceof City)) return false;
+        if (!(space instanceof City)) {
+          return false;
+        }
         return onClick(space);
       case ClickTarget.TOWN:
-        if (!(space instanceof Land) || !space.hasTown()) return false;
+        if (!(space instanceof Land) || !space.hasTown()) {
+          return false;
+        }
         return onClick(space);
       case ClickTarget.LAND:
-        if (!(space instanceof Land)) return false;
+        if (!(space instanceof Land)) {
+          return false;
+        }
         return onClick(space);
       case ClickTarget.INTER_CITY_CONNECTION:
         return;
@@ -173,9 +183,13 @@ export function useOnClick(
   };
 
   const onClick = async (space?: Space, good?: Good) => {
-    if (space == null || isPending) return;
+    if (space == null || isPending) {
+      return;
+    }
     for (const onClick of onClicks) {
-      if ((await checkTarget(space, good, onClick)) !== false) break;
+      if ((await checkTarget(space, good, onClick)) !== false) {
+        break;
+      }
     }
   };
 

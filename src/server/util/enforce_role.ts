@@ -41,8 +41,9 @@ export async function assertRole(
 
 export function enforceRoleMiddleware() {
   return (req: Request, _: Response, next: NextFunction) => {
-    if (!req.url.startsWith("/api") || req.url.startsWith("/api/users"))
+    if (!req.url.startsWith("/api") || req.url.startsWith("/api/users")) {
       return next();
+    }
     assertRole(req).then(() => next(), next);
   };
 }

@@ -97,7 +97,9 @@ function edgeAngles(direction: Direction): number[] {
 }
 
 export function getExitPoint(center: Point, exit: Exit, size: number): Point {
-  if (exit === TOWN) return center;
+  if (exit === TOWN) {
+    return center;
+  }
 
   return movePointInDirection(center, size, exit);
 }

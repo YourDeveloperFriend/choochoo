@@ -13,7 +13,9 @@ export function stage(): Stage {
 
 export function postgresSsl(): { ca: string } | undefined {
   const ssl = process.env.POSTGRES_SSL;
-  if (ssl == null || ssl == "") return undefined;
+  if (ssl == null || ssl == "") {
+    return undefined;
+  }
   return { ca: readFileSync(ssl, "utf-8") };
 }
 
@@ -63,7 +65,9 @@ export function sessionSecret(): string {
 export function mailjet() {
   const key = process.env.MAILJET_KEY;
   const secret = process.env.MAILJET_SECRET;
-  if (key == null || secret == null) return undefined;
+  if (key == null || secret == null) {
+    return undefined;
+  }
   return {
     key,
     secret,

@@ -20,6 +20,7 @@ export default [
     },
     rules: {
       "no-console": "error",
+      "curly": ["error", "all"],
       "react/react-in-jsx-scope": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",

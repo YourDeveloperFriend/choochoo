@@ -13,7 +13,9 @@ import * as styles from "./available_cities.module.css";
 export function AvailableCities() {
   const cities = useInjectedState(AVAILABLE_CITIES);
 
-  if (cities.length === 0) return <></>;
+  if (cities.length === 0) {
+    return <></>;
+  }
 
   return (
     <div>

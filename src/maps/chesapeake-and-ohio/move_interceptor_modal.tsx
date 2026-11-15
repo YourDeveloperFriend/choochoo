@@ -19,7 +19,9 @@ export function ChesapeakeAndOhioMoveInterceptorModal({
   moveData,
   clearMoveData: clearMoveDataExternal,
 }: InterceptMoveModalProps) {
-  if (!moveData) return null;
+  if (!moveData) {
+    return null;
+  }
 
   const { emit: emitMoveAction } = useAction(MoveAction);
   const grid = useGrid();

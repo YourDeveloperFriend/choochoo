@@ -18,7 +18,9 @@ export class DiscoInfernoViewSettings
     const grid = useGrid();
 
     const lastStop = helper.lastStop();
-    if (lastStop == null) return undefined;
+    if (lastStop == null) {
+      return undefined;
+    }
 
     const lastStopName = grid.get(lastStop)!.name();
     const movesRemaining = helper.movesRemaining();

@@ -14,8 +14,9 @@ export function useReportError() {
     if (
       throttleTimestamp != null &&
       Date.now() < throttleTimestamp + 1000 * 60 * 60 * 60
-    )
+    ) {
       return;
+    }
     throttleTimestamp = Date.now();
     mutate(
       { body },

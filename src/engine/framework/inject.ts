@@ -80,7 +80,9 @@ export class InjectionContext {
         stateDependencies.add(dependency);
         continue;
       }
-      if (visited.has(dependency)) continue;
+      if (visited.has(dependency)) {
+        continue;
+      }
       visited.add(dependency);
       assert(this.dependencies.has(dependency));
       dependencies.push(...this.dependencies.get(dependency)!);

@@ -40,11 +40,15 @@ export class OahuAllowedActions extends AllowedActions {
    * forced to select it.
    */
   private mustSelectProduction(): boolean {
-    if (!this.currentPlayer.isInitialized()) return false;
+    if (!this.currentPlayer.isInitialized()) {
+      return false;
+    }
     const order = this.turnOrder();
     const isLastPlayer =
       order.length > 0 && order[order.length - 1] === this.currentPlayer();
-    if (!isLastPlayer) return false;
+    if (!isLastPlayer) {
+      return false;
+    }
     return !this.players().some(
       (player) => player.selectedAction === Action.PRODUCTION,
     );
@@ -98,7 +102,9 @@ export class OahuSelectAction extends SelectAction {
    * the Move Goods phase (see OahuMoveHelper) rather than a permanent increase.
    */
   protected applyLocomotive(): void {
-    if (this.playerCount() === TEMPORARY_LOCOMOTIVE_PLAYER_COUNT) return;
+    if (this.playerCount() === TEMPORARY_LOCOMOTIVE_PLAYER_COUNT) {
+      return;
+    }
     super.applyLocomotive();
   }
 
@@ -124,9 +130,13 @@ export class OahuSelectAction extends SelectAction {
     const taker = this.currentPlayer().color;
     let collected = 0;
     this.helper.updateInGamePlayers((player) => {
-      if (player.color === taker) return;
+      if (player.color === taker) {
+        return;
+      }
       // Players with no cash on hand pay nothing.
-      if (player.money < 1) return;
+      if (player.money < 1) {
+        return;
+      }
       player.money--;
       collected++;
     });

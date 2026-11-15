@@ -83,7 +83,9 @@ export class MoveAction<T extends MoveData = MoveData>
 
     this.players.update((players) => {
       for (const player of players) {
-        if (!income.has(player.color)) continue;
+        if (!income.has(player.color)) {
+          continue;
+        }
         assert(
           !player.outOfGame,
           "unexpected out of game player still owns track",

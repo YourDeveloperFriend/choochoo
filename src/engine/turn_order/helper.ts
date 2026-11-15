@@ -25,7 +25,9 @@ export class TurnOrderHelper {
 
   getCurrentMaxBidPlayer(): PlayerColor | undefined {
     const { previousBids } = this.turnOrderState();
-    if (Object.keys(previousBids).length === 0) return undefined;
+    if (Object.keys(previousBids).length === 0) {
+      return undefined;
+    }
     const maxBid = this.getCurrentMaxBid();
     const key = [...Object.keys(previousBids)].find(
       (p) => previousBids[p] === maxBid,

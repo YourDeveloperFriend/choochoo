@@ -27,10 +27,11 @@ export function generateRegistries(): void {
 function extractClassName(filePath: string, suffix: string): string {
   const content = readFileSync(filePath, "utf8");
   const match = content.match(new RegExp(`export class (\\w+${suffix})`));
-  if (!match)
+  if (!match) {
     throw new Error(
       `No exported class ending in ${suffix} found in ${filePath}`,
     );
+  }
   return match[1];
 }
 

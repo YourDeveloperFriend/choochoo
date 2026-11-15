@@ -73,10 +73,16 @@ export class HeavyCardboardClaimAction extends ClaimAction {
 
 function canClaim(grid: Grid, track: Track, owner: PlayerColor) {
   return track.getExits().every((exit) => {
-    if (exit === TOWN) return false;
+    if (exit === TOWN) {
+      return false;
+    }
     const neighbor = grid.get(track.coordinates.neighbor(exit));
-    if (neighbor == null) return false;
-    if (neighbor instanceof City) return true;
+    if (neighbor == null) {
+      return false;
+    }
+    if (neighbor instanceof City) {
+      return true;
+    }
     return neighbor.getTrack().some((track) => track.getOwner() === owner);
   });
 }

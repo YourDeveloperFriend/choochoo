@@ -47,7 +47,9 @@ let directories: Map<string, string> | undefined;
 
 /** Settings class name to map directory, read from the generated registry. */
 function registryDirectories(): Map<string, string> {
-  if (directories != null) return directories;
+  if (directories != null) {
+    return directories;
+  }
 
   const source = readFileSync(
     resolve(__dirname, "../maps/registry.ts"),

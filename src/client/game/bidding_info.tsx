@@ -44,7 +44,9 @@ export function BiddingInfo() {
     [biddingPlayers],
   );
 
-  if (turnOrderState == null) return <></>;
+  if (turnOrderState == null) {
+    return <></>;
+  }
 
   return (
     <div className={styles.colorListContainer}>

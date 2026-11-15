@@ -41,7 +41,9 @@ export class MovePhase extends PhaseModule {
 
   findNextPlayer(currPlayer: PlayerColor): PlayerColor | undefined {
     const nextPlayer = super.findNextPlayer(currPlayer);
-    if (nextPlayer != null) return nextPlayer;
+    if (nextPlayer != null) {
+      return nextPlayer;
+    }
     if (this.moveState().moveRound + 1 < this.numMoveRounds()) {
       this.moveState.update((r) => r.moveRound++);
       return this.getPlayerOrder()[0];

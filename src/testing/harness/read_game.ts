@@ -24,7 +24,9 @@ const contexts = new Map<GameKey, InjectionContext>();
 
 function getContext(gameKey: GameKey): InjectionContext {
   const existing = contexts.get(gameKey);
-  if (existing != null) return existing;
+  if (existing != null) {
+    return existing;
+  }
 
   // The context has to be installed while it builds, because constructors call
   // inject()/injectState() against the ambient context.

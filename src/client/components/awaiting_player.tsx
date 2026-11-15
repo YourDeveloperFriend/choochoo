@@ -41,7 +41,9 @@ export function AwaitingContextProvider({ children }: { children: ReactNode }) {
   });
 
   const awaitingGameIds = useMemo(() => {
-    if (!data || !me) return new Set<number>();
+    if (!data || !me) {
+      return new Set<number>();
+    }
     const games = data.pages[0]?.body?.games ?? [];
     return new Set(
       games

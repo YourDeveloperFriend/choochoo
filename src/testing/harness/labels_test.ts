@@ -20,7 +20,9 @@ const REQUIRED_VARIANTS: Record<string, VariantConfig> = {
 };
 
 function variantFor(settings: MapSettings): VariantConfig {
-  if (settings.variantConfig == null) return {};
+  if (settings.variantConfig == null) {
+    return {};
+  }
   return settings.variantConfig.parse(
     REQUIRED_VARIANTS[settings.key] ?? {},
   ) as VariantConfig;

@@ -140,8 +140,12 @@ export class HeavyLiftingAction implements ActionProcessor<HeavyLiftingData> {
           startingCity.coordinates,
           direction,
         );
-        if (track === undefined) return false;
-        if (track.getOwner() !== this.currentPlayer().color) return false;
+        if (track === undefined) {
+          return false;
+        }
+        if (track.getOwner() !== this.currentPlayer().color) {
+          return false;
+        }
         const [endTrack, exit] = this.grid().getEnd(
           track,
           getOpposite(direction),
@@ -209,19 +213,31 @@ export class HeavyLiftingAction implements ActionProcessor<HeavyLiftingData> {
     distance: number,
     checked: Map<Coordinates, number>,
   ): boolean {
-    if (checked.has(current) && checked.get(current)! >= distance) return false;
+    if (checked.has(current) && checked.get(current)! >= distance) {
+      return false;
+    }
     checked.set(current, distance);
     const space = this.gridHelper.lookup(current);
-    if (space == null) return false;
+    if (space == null) {
+      return false;
+    }
     const newDistance =
       distance -
       (space instanceof Land && space.getLandType() === SpaceType.MOUNTAIN
         ? 2
         : 1);
-    if (newDistance < 0) return false;
-    if (current === destination) return true;
-    if (!(space instanceof Land)) return false;
-    if (space.getTrack().length > 0) return false;
+    if (newDistance < 0) {
+      return false;
+    }
+    if (current === destination) {
+      return true;
+    }
+    if (!(space instanceof Land)) {
+      return false;
+    }
+    if (space.getTrack().length > 0) {
+      return false;
+    }
     return this.canTracePath(current, destination, newDistance, checked);
   }
 

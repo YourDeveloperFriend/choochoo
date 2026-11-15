@@ -21,7 +21,9 @@ export function ActivatePage() {
   const hasNavigated = useRef(false);
 
   useEffect(() => {
-    if (hasNavigated.current) return;
+    if (hasNavigated.current) {
+      return;
+    }
     if (me == null) {
       hasNavigated.current = true;
       toast.error("Login to activate your account");
@@ -36,7 +38,9 @@ export function ActivatePage() {
     if (activationCode == null || activationCode == "") {
       return;
     }
-    if (isPending || isError) return;
+    if (isPending || isError) {
+      return;
+    }
 
     activate(activationCode);
   }, [me, activate, activationCode, isPending, navigate]);

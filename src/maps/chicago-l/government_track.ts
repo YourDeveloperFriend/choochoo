@@ -111,16 +111,22 @@ export class ChicagoLBuildAction extends BuildAction {
       );
     });
 
-    if (trackInfo.length !== 1) return false;
+    if (trackInfo.length !== 1) {
+      return false;
+    }
     return trackInfo[0].exits.some((exit) => {
-      if (exit === TOWN) return false;
+      if (exit === TOWN) {
+        return false;
+      }
       const connection = this.grid().getTrackConnection(data.coordinates, exit);
       return connection != null;
     });
   }
 
   private buildsMultipleEdgesOfTown(data: BuildData): boolean {
-    if (!isTownTile(data.tileType)) return false;
+    if (!isTownTile(data.tileType)) {
+      return false;
+    }
 
     const newInfo = calculateTrackInfo(data);
     const currentLocation = this.grid().get(data.coordinates);
@@ -144,7 +150,9 @@ export class ChicagoLBuildAction extends BuildAction {
         return true;
       }
       return track.exits.every((exit) => {
-        if (exit === TOWN) return true;
+        if (exit === TOWN) {
+          return true;
+        }
         if (this.grid().getTrackConnection(data.coordinates, exit) != null) {
           return true;
         }

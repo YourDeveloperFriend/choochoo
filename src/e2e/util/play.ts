@@ -96,7 +96,9 @@ export async function playUntil(
     const before = await fetchGame(page.request, gameId);
     const active = await openAsActivePlayer(page, users, gameId);
 
-    if (await stop(page)) return active;
+    if (await stop(page)) {
+      return active;
+    }
 
     if (!(await takeAnyTurn(page))) {
       throw new Error(
@@ -197,15 +199,21 @@ export async function buildFirstLegalTile(
   const options = page.locator("[data-building-options]");
   for (let hex = 0; hex < count; hex++) {
     await hexes.nth(hex).click({ force: true });
-    if (!(await isShowing(options))) continue;
+    if (!(await isShowing(options))) {
+      continue;
+    }
 
     const tiles = options.locator("[data-tile-type][data-orientation]");
     for (let tile = 0, total = await tiles.count(); tile < total; tile++) {
       // force, because a rejected build leaves a toast over the dialog.
       await tiles.nth(tile).click({ force: true });
-      if (await versionAdvanced(page, gameId, fromVersion)) return;
+      if (await versionAdvanced(page, gameId, fromVersion)) {
+        return;
+      }
       await dismissErrors(page);
-      if (!(await isShowing(options))) break;
+      if (!(await isShowing(options))) {
+        break;
+      }
     }
 
     await page.keyboard.press("Escape");

@@ -64,12 +64,19 @@ function parseOptions(argv: string[]): Options {
   };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
-    if (arg === "--force") options.force = true;
-    else if (arg === "--dry-run") options.dryRun = true;
-    else if (arg === "--maps") options.maps = argv[++i].split(",");
-    else if (arg === "--candidates") options.candidates = Number(argv[++i]);
-    else if (arg === "--cookie") options.cookiePath = argv[++i];
-    else throw new Error(`unrecognized argument "${arg}"`);
+    if (arg === "--force") {
+      options.force = true;
+    } else if (arg === "--dry-run") {
+      options.dryRun = true;
+    } else if (arg === "--maps") {
+      options.maps = argv[++i].split(",");
+    } else if (arg === "--candidates") {
+      options.candidates = Number(argv[++i]);
+    } else if (arg === "--cookie") {
+      options.cookiePath = argv[++i];
+    } else {
+      throw new Error(`unrecognized argument "${arg}"`);
+    }
   }
   return options;
 }
@@ -122,7 +129,9 @@ class Api {
       } catch (e) {
         // A thrown fetch is a transport failure; a non-2xx is already handled
         // above and rethrown here unchanged once retries run out.
-        if (attempt >= attempts || !(e instanceof TypeError)) throw e;
+        if (attempt >= attempts || !(e instanceof TypeError)) {
+          throw e;
+        }
         await pause(attempt);
       }
     }
@@ -134,14 +143,20 @@ class Api {
     for (;;) {
       const query = new URLSearchParams({ gameKey, pageSize: "20" });
       query.append("status[]", "ENDED");
-      if (cursor != null) query.set("pageCursor", cursor);
+      if (cursor != null) {
+        query.set("pageCursor", cursor);
+      }
 
       const body = (await this.get(`/api/games?${query}`)) as {
         games: Candidate[];
         nextPageCursor?: string;
       };
-      for (const game of body.games) yield game;
-      if (body.nextPageCursor == null || body.games.length === 0) return;
+      for (const game of body.games) {
+        yield game;
+      }
+      if (body.nextPageCursor == null || body.games.length === 0) {
+        return;
+      }
       cursor = body.nextPageCursor;
     }
   }
@@ -181,7 +196,9 @@ function variantKey(variant: Record<string, unknown> | undefined): string {
 /** The variant configurations already covered by a committed recording. */
 function existingVariants(gameKey: string): Set<string> {
   const directory = playthroughDirectory(gameKey);
-  if (!existsSync(directory)) return new Set();
+  if (!existsSync(directory)) {
+    return new Set();
+  }
   return new Set(
     readdirSync(directory)
       .filter((name) => name.endsWith(".json"))
@@ -276,7 +293,9 @@ function short(e: unknown): string {
         JSON.parse(message) as ZodIssue[],
         [],
       );
-      if (described.length > 0) return described.join("; ").slice(0, 200);
+      if (described.length > 0) {
+        return described.join("; ").slice(0, 200);
+      }
     } catch {
       // Not the zod shape after all; fall through to the plain first line.
     }
@@ -339,14 +358,22 @@ async function collectMap(
   // the map ever had gets listed and discarded one page at a time.
   const hasVariants =
     MapRegistry.singleton.get(gameKey as GameKey).variantConfig != null;
-  if (covered.size > 0 && !hasVariants) return outcomes;
+  if (covered.size > 0 && !hasVariants) {
+    return outcomes;
+  }
 
   for await (const candidate of api.endedGames(gameKey)) {
-    if (examined >= options.candidates) break;
+    if (examined >= options.candidates) {
+      break;
+    }
 
     const variant = variantKey(candidate.variant);
-    if (covered.has(variant)) continue;
-    if (candidate.degenerate) continue;
+    if (covered.has(variant)) {
+      continue;
+    }
+    if (candidate.degenerate) {
+      continue;
+    }
     examined++;
 
     const attempted = await attempt(api, candidate, options);
@@ -370,7 +397,9 @@ async function collectMap(
         : `${rejections.length} candidate(s) rejected; last: ${rejections[rejections.length - 1]}`;
     log(`  ${gameKey}: skipped -- ${detail}`);
     if (rejections.length > 0) {
-      for (const rejection of rejections) log(`      ${rejection}`);
+      for (const rejection of rejections) {
+        log(`      ${rejection}`);
+      }
     }
     outcomes.push({ gameKey, variant: "*", status: "skipped", detail });
   }
@@ -440,8 +469,9 @@ async function main(): Promise<void> {
       log(`  ${outcome.gameKey}: ${outcome.detail}`);
     }
   }
-  if (options.dryRun) log("\n(dry run: nothing written)");
-  else if (recorded.length > 0) {
+  if (options.dryRun) {
+    log("\n(dry run: nothing written)");
+  } else if (recorded.length > 0) {
     log(
       `\nwrote into ${relative(playthroughDirectory(recorded[0].gameKey))} and siblings`,
     );

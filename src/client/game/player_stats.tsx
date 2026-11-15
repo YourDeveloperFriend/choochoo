@@ -65,7 +65,9 @@ export function PlayerStats() {
   const game = useGame();
   const gameKey = game.gameKey;
 
-  if (game.status === GameStatus.enum.ENDED) return <FinalOverview />;
+  if (game.status === GameStatus.enum.ENDED) {
+    return <FinalOverview />;
+  }
 
   const columns = [
     ...(gameKey === CYPRUS_GAME_KEY ? [cyprusRoleColumn] : []),
@@ -287,7 +289,9 @@ const actionColumn = {
 
 function ActionCell({ player }: PlayerStatColumnProps) {
   const actionNamingProvider = useInjected(ActionNamingProvider);
-  if (player.outOfGame) return <span className={styles.textMuted}>—</span>;
+  if (player.outOfGame) {
+    return <span className={styles.textMuted}>—</span>;
+  }
   return <>{actionNamingProvider.getActionString(player.selectedAction)}</>;
 }
 
@@ -298,7 +302,9 @@ const moneyColumn = {
 
 function MoneyCell({ player }: PlayerStatColumnProps) {
   const profitHelper = useInjected(ProfitHelper);
-  if (player.outOfGame) return <span className={styles.textMuted}>—</span>;
+  if (player.outOfGame) {
+    return <span className={styles.textMuted}>—</span>;
+  }
   const profit = profitHelper.getProfit(player);
 
   return (
@@ -321,7 +327,9 @@ const incomeColumn = {
 };
 
 function IncomeCell({ player }: PlayerStatColumnProps) {
-  if (player.outOfGame) return <span className={styles.textMuted}>—</span>;
+  if (player.outOfGame) {
+    return <span className={styles.textMuted}>—</span>;
+  }
   return <>${player.income}</>;
 }
 
@@ -331,7 +339,9 @@ const sharesColumn = {
 };
 
 function SharesCell({ player }: PlayerStatColumnProps) {
-  if (player.outOfGame) return <span className={styles.textMuted}>—</span>;
+  if (player.outOfGame) {
+    return <span className={styles.textMuted}>—</span>;
+  }
   return <>{player.shares}</>;
 }
 
@@ -342,7 +352,9 @@ const locoColumn = {
 
 function LocoCell({ player }: PlayerStatColumnProps) {
   const moveHelper = useInjected(MoveHelper);
-  if (player.outOfGame) return <span className={styles.textMuted}>—</span>;
+  if (player.outOfGame) {
+    return <span className={styles.textMuted}>—</span>;
+  }
   return <>{moveHelper.getLocomotiveDisplay(player)}</>;
 }
 

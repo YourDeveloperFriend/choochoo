@@ -95,10 +95,14 @@ export class UserDao extends Model<
   static async getUser(pk: number): Promise<MyUserApi | undefined> {
     assert(isPositiveInteger(pk));
     const result = await userCache.get(pk);
-    if (result != null) return result;
+    if (result != null) {
+      return result;
+    }
 
     const user = await UserDao.findByPk(pk);
-    if (!user) return undefined;
+    if (!user) {
+      return undefined;
+    }
     const asApi = user.toMyApi();
     await userCache.set(asApi);
     return asApi;

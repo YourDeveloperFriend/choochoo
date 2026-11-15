@@ -69,11 +69,21 @@ export function StalinistRussiaLocomotiveSummary() {
   const boxes = Array.from({ length: MAX_LOCO_BOX + 1 }, (_, box) => box);
 
   function isAvailable(box: number, row: LocoRow): boolean {
-    if (box < 1) return false;
-    if (box === currentBox && row === currentPosition.row) return false;
-    if (box > round) return false;
-    if (money < costToAdvanceInto(box)) return false;
-    if (row === LocoRow.SINGLE && occupiedSingleBoxes.has(box)) return false;
+    if (box < 1) {
+      return false;
+    }
+    if (box === currentBox && row === currentPosition.row) {
+      return false;
+    }
+    if (box > round) {
+      return false;
+    }
+    if (money < costToAdvanceInto(box)) {
+      return false;
+    }
+    if (row === LocoRow.SINGLE && occupiedSingleBoxes.has(box)) {
+      return false;
+    }
     return true;
   }
 

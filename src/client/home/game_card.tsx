@@ -209,8 +209,12 @@ function LeaveButton({ game }: GameButtonProps) {
 }
 
 function hasUnusualActiveHours(game: GameLiteApi): boolean {
-  if (game.turnDuration >= TurnDuration.ONE_DAY) return false;
-  if (game.gameHoursDuration >= 24) return true;
+  if (game.turnDuration >= TurnDuration.ONE_DAY) {
+    return false;
+  }
+  if (game.gameHoursDuration >= 24) {
+    return true;
+  }
   const offsetMinutes = new Date().getTimezoneOffset();
   const localStart =
     (((game.gameHoursStart - Math.round(offsetMinutes / 60)) % 24) + 24) % 24;

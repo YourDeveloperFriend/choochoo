@@ -93,7 +93,7 @@ export class Validator {
 
     for (const track of [...newTracks, ...rerouted]) {
       for (const exit of track.exits) {
-        if (exit === TOWN) continue;
+        if (exit === TOWN) {continue;}
         const reason = this.connectionAllowed(buildData.playerColor, space, exit);
         if (reason) {
           return reason;
@@ -193,12 +193,12 @@ export class Validator {
         return space.getTrack().some((track) => track.getOwner() == owner);
       }
       const neighbor = this.grid().getNeighbor(space.coordinates, exit);
-      if (neighbor == null) return false;
-      if (neighbor instanceof City) return true;
+      if (neighbor == null) {return false;}
+      if (neighbor instanceof City) {return true;}
       const trackExiting = neighbor.trackExiting(getOpposite(exit));
-      if (trackExiting == null) return false;
-      if (trackExiting.getOwner() == owner) return true;
-      if (trackExiting.getOwner() != null) return false;
+      if (trackExiting == null) {return false;}
+      if (trackExiting.getOwner() == owner) {return true;}
+      if (trackExiting.getOwner() != null) {return false;}
 
       // The track is unowned, check to see if it connects to a city, or to a town the owner has presense.
       const [end, endExit] = this.getEnd(trackExiting.coordinates, trackExiting.otherExit(getOpposite(exit)));
@@ -215,9 +215,9 @@ export class Validator {
   private newTrackConnectsToAnotherPlayer(playerColor: PlayerColor, space: Land, newTracks: TrackInfo[]): boolean {
     return newTracks.some((track) => {
       return track.exits.some((exit) => {
-        if (exit == TOWN) return false;
+        if (exit == TOWN) {return false;}
         const connection = this.grid().getTrackConnection(space.coordinates, exit);
-        if (connection === undefined) return false;
+        if (connection === undefined) {return false;}
         return connection.getOwner() != null && connection.getOwner() != playerColor;
       });
     });

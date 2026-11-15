@@ -21,7 +21,9 @@ function defaultMerge<T>(
   oldValue: Immutable<T>,
   newValue: Immutable<T>,
 ): Immutable<T> {
-  if (deepEquals(oldValue, newValue)) return oldValue;
+  if (deepEquals(oldValue, newValue)) {
+    return oldValue;
+  }
   return newValue;
 }
 
@@ -100,11 +102,15 @@ export class MapKey<R, S> extends Key<Map<R, S>> {
       merge: (oldValue, newValue) => {
         let mergedValue = oldValue;
         for (const [key, value] of newValue) {
-          if (deepEquals(mergedValue.get(key), value)) continue;
+          if (deepEquals(mergedValue.get(key), value)) {
+            continue;
+          }
           mergedValue = mergedValue.set(key, value);
         }
         for (const key of mergedValue.keys()) {
-          if (newValue.has(key)) continue;
+          if (newValue.has(key)) {
+            continue;
+          }
           mergedValue = mergedValue.delete(key);
         }
         return mergedValue;

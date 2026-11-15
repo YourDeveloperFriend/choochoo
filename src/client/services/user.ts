@@ -57,7 +57,9 @@ export function useUserList(query: ListUsersApi) {
       }),
       initialPageParam: undefined as UserPageCursor | undefined,
       getNextPageParam: ({ status, body }): UserPageCursor | undefined => {
-        if (status !== 200) return undefined;
+        if (status !== 200) {
+          return undefined;
+        }
         return body.nextPageCursor;
       },
     });
@@ -82,7 +84,9 @@ export function useUserList(query: ListUsersApi) {
   const isOnLastPage =
     data != null && !hasNextPage && data.pages.length - 1 === page;
   const nextPage = useCallback(() => {
-    if (isLoading || isOnLastPage) return;
+    if (isLoading || isOnLastPage) {
+      return;
+    }
     setPage(page + 1);
     if (data != null && hasNextPage && data.pages.length - 1 === page) {
       fetchNextPage();
@@ -91,7 +95,9 @@ export function useUserList(query: ListUsersApi) {
 
   const hasPrevPage = page > 0;
   const prevPage = useCallback(() => {
-    if (!hasPrevPage) return;
+    if (!hasPrevPage) {
+      return;
+    }
     setPage(page - 1);
   }, [page, setPage, page]);
 

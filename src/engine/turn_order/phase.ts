@@ -105,7 +105,9 @@ export class TurnOrderPhase extends PhaseModule {
   protected getAutoAction(
     autoAction: AutoAction,
   ): ActionBundle<object> | undefined {
-    if (autoAction.bidUntil == null) return undefined;
+    if (autoAction.bidUntil == null) {
+      return undefined;
+    }
 
     const minBid = this.helper.getMinBid();
 

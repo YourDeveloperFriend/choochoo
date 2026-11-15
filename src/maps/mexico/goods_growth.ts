@@ -54,8 +54,9 @@ export class MexicoProductionDrawAction extends EmptyActionProcessor {
   canEmit(): boolean {
     if (
       this.gameMemory.getVariant(MexicoVariantConfig.parse).redBlackProduction
-    )
+    ) {
       return false;
+    }
     return this.productionGoods().length === 0 && this.bag().length > 0;
   }
 
@@ -167,7 +168,9 @@ export class MexicoGoodsGrowthPhase extends GoodsGrowthPhase {
   }
 
   getPlayerOrder(): PlayerColor[] {
-    if (this.round() >= 9) return [];
+    if (this.round() >= 9) {
+      return [];
+    }
     if (
       this.gameMemory.getVariant(MexicoVariantConfig.parse).productionForAll
     ) {
@@ -178,7 +181,9 @@ export class MexicoGoodsGrowthPhase extends GoodsGrowthPhase {
   }
 
   getRollCount(cityGroup: CityGroup): number {
-    if (this.round() >= 9) return 0;
+    if (this.round() >= 9) {
+      return 0;
+    }
     return super.getRollCount(cityGroup);
   }
 

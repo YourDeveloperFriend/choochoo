@@ -35,7 +35,9 @@ export function AlabamaRailwaysMoveInterceptorModal({
   }, [clearMoveDataExternal, setSelectedPlayer]);
 
   const options = useMemo(() => {
-    if (moveData == null) return [];
+    if (moveData == null) {
+      return [];
+    }
     const { path } = moveData;
     const players = new Set(path.map((p) => p.owner));
     return [
@@ -53,7 +55,9 @@ export function AlabamaRailwaysMoveInterceptorModal({
   }, [moveData, currentPlayer?.color]);
 
   const completeMove = useCallback(() => {
-    if (selectedPlayer === NO_ONE) return;
+    if (selectedPlayer === NO_ONE) {
+      return;
+    }
     emitAlabamaMoveAction({
       forgo: selectedPlayer,
       ...moveData!,

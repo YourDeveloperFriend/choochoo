@@ -63,7 +63,9 @@ export class NwIndianaDiscountManager extends BuildDiscountManager {
 
   getDiscount(_: AnyBuild, cost: number): number {
     const adjusted = this.adjustedCost(cost);
-    if (!this.isEngineer()) return cost - adjusted;
+    if (!this.isEngineer()) {
+      return cost - adjusted;
+    }
     const before = this.getRawTotal();
     let charged: number;
     if (this.buildCount() < 2) {
@@ -79,7 +81,9 @@ export class NwIndianaDiscountManager extends BuildDiscountManager {
   }
 
   applyDiscount(_: AnyBuild, originalCost: number): void {
-    if (!this.isEngineer()) return;
+    if (!this.isEngineer()) {
+      return;
+    }
     const total = this.getRawTotal() + this.adjustedCost(originalCost);
     if (this.rawTotal.isInitialized()) {
       this.rawTotal.set(total);

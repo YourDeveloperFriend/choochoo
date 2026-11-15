@@ -128,7 +128,9 @@ export async function performAction(
         actionData,
       });
 
-      if (dryRun) return game;
+      if (dryRun) {
+        return game;
+      }
 
       assert(confirmed || reversible, {
         invalidInput: "must confirm action",
@@ -171,7 +173,9 @@ export async function performAction(
       );
 
       transaction.afterCommit(() => {
-        if (!playerChanged) return;
+        if (!playerChanged) {
+          return;
+        }
         notifyTurnUnlessAutoAction(newGame).catch((e) => {
           logError("Failed during processAsync", e);
         });
@@ -264,7 +268,9 @@ async function awardCompletionKarma(
   playerIds: number[],
   transaction: Transaction,
 ): Promise<void> {
-  if (playerIds.length <= 1) return;
+  if (playerIds.length <= 1) {
+    return;
+  }
   const users = await UserDao.findAll({
     where: { id: { [Op.in]: playerIds } },
     transaction,
@@ -349,11 +355,15 @@ async function checkForAutoAction(
   try {
     const game = await GameDao.findByPk(gameId, { transaction: null });
 
-    if (game == null || game.activePlayerId == null) return false;
+    if (game == null || game.activePlayerId == null) {
+      return false;
+    }
 
     autoAction = game.autoAction?.users[game.activePlayerId];
 
-    if (autoAction == null) return false;
+    if (autoAction == null) {
+      return false;
+    }
 
     await performAction(
       gameId,
@@ -365,7 +375,9 @@ async function checkForAutoAction(
     );
     return true;
   } catch (e) {
-    if (e instanceof NoAutoActionError) return false;
+    if (e instanceof NoAutoActionError) {
+      return false;
+    }
 
     logError("failed to process auto action", e, gameId, autoAction);
     return false;

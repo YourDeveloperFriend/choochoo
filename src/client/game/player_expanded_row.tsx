@@ -26,8 +26,12 @@ const TRACK_ZONE_COLORS = [
 const TRACK_ZONE_LABELS = ["-$0", "-$2", "-$4", "-$6", "-$8", "-$10"];
 
 function calculateIncomeReduction(income: number): number {
-  if (income <= 10) return 0;
-  if (income >= 51) return 10;
+  if (income <= 10) {
+    return 0;
+  }
+  if (income >= 51) {
+    return 10;
+  }
   return Math.floor((income - 1) / 10) * 2;
 }
 
@@ -369,10 +373,14 @@ function BiddingImpactSection({ player }: { player: PlayerData }) {
   );
   const profitHelper = useInjected(ProfitHelper);
 
-  if (!isAuctionPhase || turnOrderState == null) return null;
+  if (!isAuctionPhase || turnOrderState == null) {
+    return null;
+  }
 
   const bid = turnOrderState.previousBids[player.color];
-  if (bid == null || bid === 0) return null;
+  if (bid == null || bid === 0) {
+    return null;
+  }
 
   const profit = profitHelper.getProfit(player);
   const endOfTurnMoney = player.money + profit;

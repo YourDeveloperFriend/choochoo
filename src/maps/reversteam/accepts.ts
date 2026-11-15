@@ -12,7 +12,9 @@ export class ReversteamMoveHelper extends MoveHelper {
     if (this.gameMemory.getVariant(ReversteamVariantConfig.parse).baseRules) {
       return super.canDeliverTo(city, good);
     }
-    if (city.goodColors()[0] === Good.BLACK) return false;
+    if (city.goodColors()[0] === Good.BLACK) {
+      return false;
+    }
     return !city.accepts(good);
   }
 }

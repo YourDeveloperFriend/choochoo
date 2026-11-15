@@ -38,7 +38,9 @@ abstract class EmailService implements TurnNotifyService<EmailSetting> {
   getEmailFromActivationCode(code: string): string | undefined {
     try {
       const decrypted = EmailVerificationCode.parse(JSON.parse(decrypt(code)));
-      if (Date.now() > decrypted.expires) return undefined;
+      if (Date.now() > decrypted.expires) {
+        return undefined;
+      }
       return decrypted.email;
     } catch (_: unknown) {
       return undefined;
@@ -77,7 +79,9 @@ ${this.makeUnsubscribeLink(user.email)}
     user,
     game,
   }: MaybeGameTurnNotifySetting<EmailSetting>): Promise<void> {
-    if (game == null) return this.sendMainChatMention(user);
+    if (game == null) {
+      return this.sendMainChatMention(user);
+    }
     const gameLink = `https://www.choochoo.games/app/games/${game.id}`;
     await this.sendEmail({
       email: user.email,
@@ -312,7 +316,9 @@ class MailjetEmailService extends EmailService {
         "statusText" in e &&
         e.statusText == "Content not changed";
       // Ignore errors where the user is already excluded.
-      if (alreadyExcluded) return;
+      if (alreadyExcluded) {
+        return;
+      }
       throw e;
     }
   }

@@ -10,7 +10,9 @@ export class WyomingTurnOrderPhase extends TurnOrderPhase {
 
   onEnd(): void {
     super.onEnd();
-    if (this.playerCount() !== 2) return;
+    if (this.playerCount() !== 2) {
+      return;
+    }
 
     const winner = this.currentOrder()[0];
     this.locoDiscs.update((discs) => {

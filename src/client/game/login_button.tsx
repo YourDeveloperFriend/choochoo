@@ -10,7 +10,9 @@ export function LoginButton({
   children: ReactNode;
 }) {
   const { login, isPending, canUseLoginBypass } = useLoginBypass(playerId);
-  if (!canUseLoginBypass) return <></>;
+  if (!canUseLoginBypass) {
+    return <></>;
+  }
 
   return (
     <Button

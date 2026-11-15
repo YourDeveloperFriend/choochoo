@@ -38,7 +38,9 @@ function townTile(
     let tileDirections = toBaseTile(tileType).map(
       (tile) => tile.exits[1] as Direction,
     );
-    if (tileDirections.length === directions.length) continue;
+    if (tileDirections.length === directions.length) {
+      continue;
+    }
     let orientation = Direction.TOP;
     for (let i = 0; i < 6; i++) {
       if (ImmutableSet(tileDirections).subtract(directions).isEmpty()) {

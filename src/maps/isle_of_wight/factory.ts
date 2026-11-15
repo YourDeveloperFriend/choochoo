@@ -94,7 +94,9 @@ export class WorkInFactoriesAction
     this.bag.update((bag) => {
       for (const color of colors) {
         const index = bag.indexOf(color);
-        if (index === -1) continue;
+        if (index === -1) {
+          continue;
+        }
         found = color;
         bag.splice(index, 1);
         return;
@@ -107,12 +109,16 @@ export class WorkInFactoriesAction
   private isConnected(color: PlayerColor, coordinates: Coordinates): boolean {
     const grid = this.grid();
     const city = grid.get(coordinates);
-    if (!(city instanceof City)) return false;
+    if (!(city instanceof City)) {
+      return false;
+    }
     const cities = [city, ...grid.getSameCities(city)];
     return cities.some((one) =>
       allDirections.some((direction) => {
         const track = grid.getTrackConnection(one.coordinates, direction);
-        if (track == null) return false;
+        if (track == null) {
+          return false;
+        }
         return grid.getRoute(track).some((piece) => piece.getOwner() === color);
       }),
     );

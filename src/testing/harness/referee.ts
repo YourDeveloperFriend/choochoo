@@ -215,7 +215,9 @@ export class Referee {
       ...checkSnapshot(snapshot),
       ...this.checkAgainstBaseline(snapshot),
     ];
-    if (violations.length === 0) return;
+    if (violations.length === 0) {
+      return;
+    }
 
     const detail = violations
       .map(({ invariant, detail }) => `  - ${invariant}: ${detail}`)

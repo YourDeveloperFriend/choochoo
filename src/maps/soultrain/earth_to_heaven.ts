@@ -33,7 +33,9 @@ export class EarthToHeavenPhase extends PhaseModule {
   }
 
   findNextPlayer(currentPlayer: PlayerColor): PlayerColor | undefined {
-    if (this.skipPhase()) return undefined;
+    if (this.skipPhase()) {
+      return undefined;
+    }
     return super.findNextPlayer(currentPlayer) ?? this.getFirstPlayer();
   }
 }

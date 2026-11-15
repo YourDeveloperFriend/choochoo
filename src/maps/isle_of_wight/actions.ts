@@ -80,7 +80,9 @@ export class IsleOfWightSelectActionPhase extends SelectActionPhase {
    * least two of them did so.
    */
   private getSkippedPlayers(): PlayerData[] {
-    if (this.playerCount() !== 3) return [];
+    if (this.playerCount() !== 3) {
+      return [];
+    }
     const hasBid = this.hasBid();
     const nonBidders = this.inGamePlayers().filter(
       (player) => !hasBid.has(player.color),

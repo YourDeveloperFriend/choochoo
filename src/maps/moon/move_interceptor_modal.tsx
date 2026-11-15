@@ -37,7 +37,9 @@ export function MoonMoveInterceptorModal({
   }, [clearMoveDataExternal, setSelectedPlayer]);
 
   const options = useMemo(() => {
-    if (moveData == null) return [];
+    if (moveData == null) {
+      return [];
+    }
     const { path } = moveData;
     const players = new Set(
       path.map((p) => p.owner).filter((p) => p != currentPlayer?.color),

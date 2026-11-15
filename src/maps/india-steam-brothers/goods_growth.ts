@@ -34,8 +34,12 @@ export class IndiaSteamBrothersBuildAction extends BuildAction {
             city.coordinates,
             direction,
           );
-          if (cityConnection == null) continue;
-          if (cityConnection.getOwner() === currentColor) return false;
+          if (cityConnection == null) {
+            continue;
+          }
+          if (cityConnection.getOwner() === currentColor) {
+            return false;
+          }
         }
         return true;
       });
@@ -61,7 +65,9 @@ export class IndiaSteamBrothersUrbanizeAction extends UrbanizeAction {
 
     for (const direction of allDirections) {
       const connection = this.grid().getTrackConnection(coordinates, direction);
-      if (connection == null) continue;
+      if (connection == null) {
+        continue;
+      }
       connectedPlayers.add(connection.getOwner());
     }
 

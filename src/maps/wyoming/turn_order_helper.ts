@@ -25,7 +25,9 @@ export class WyomingTurnOrderHelper extends TurnOrderHelper {
     const leaders = Object.keys(previousBids)
       .filter((p) => previousBids[p] === maxBid)
       .map(stringToPlayerColor);
-    if (leaders.length === 0) return undefined;
+    if (leaders.length === 0) {
+      return undefined;
+    }
     const firstMove = this.firstMovePlayer()?.color;
     return leaders.find((color) => color === firstMove) ?? leaders[0];
   }

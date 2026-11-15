@@ -30,7 +30,9 @@ export class ScotlandUrbanizeAction extends UrbanizeAction {
     const space = this.grid().get(coordinates);
     assert(space instanceof Land);
     const track = space.trackExiting(Direction.TOP_RIGHT);
-    if (track == null) return undefined;
+    if (track == null) {
+      return undefined;
+    }
     return { color: track.getOwner() };
   }
 

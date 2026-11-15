@@ -64,7 +64,9 @@ export class DoubleBaseUsaBuildPhase extends BuildPhase {
   }
 
   private checkTranscontinentalBonus(): void {
-    if (this.transcontinentalBonusClaimed()) return;
+    if (this.transcontinentalBonusClaimed()) {
+      return;
+    }
     const player = this.currentPlayer().color;
     const grid = this.grid();
     const cities = [...this.gridHelper.findAllCities()];
@@ -73,13 +75,17 @@ export class DoubleBaseUsaBuildPhase extends BuildPhase {
         city.name() === "San Francisco" &&
         isCityInExistingNetwork(player, city, grid),
     );
-    if (!connectedToSanFrancisco) return;
+    if (!connectedToSanFrancisco) {
+      return;
+    }
     const connectedToEastCoast = cities.some(
       (city) =>
         city.getMapSpecific(DoubleBaseUsaMapData.parse)?.eastCoastCity ===
           true && isCityInExistingNetwork(player, city, grid),
     );
-    if (!connectedToEastCoast) return;
+    if (!connectedToEastCoast) {
+      return;
+    }
 
     this.transcontinentalBonusClaimed.set(true);
     this.playerHelper.updateCurrentPlayer((p) => {

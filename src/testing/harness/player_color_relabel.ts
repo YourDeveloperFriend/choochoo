@@ -129,7 +129,9 @@ export function relabelPlayerColorsIn(
   relabel: PlayerColorRelabel,
 ): unknown {
   const custom = customPlayerColorRelabellers.get(actionName);
-  if (custom != null) return custom(data, relabel);
+  if (custom != null) {
+    return custom(data, relabel);
+  }
   return rewrite(data, relabel);
 }
 
@@ -137,7 +139,9 @@ function rewrite(value: unknown, relabel: PlayerColorRelabel): unknown {
   if (Array.isArray(value)) {
     return value.map((entry) => rewrite(entry, relabel));
   }
-  if (value == null || typeof value !== "object") return value;
+  if (value == null || typeof value !== "object") {
+    return value;
+  }
 
   const source = value as Record<string, unknown>;
   const result: Record<string, unknown> = {};
@@ -157,8 +161,12 @@ function rewritePlayerColorHolder(
   value: unknown,
   relabel: PlayerColorRelabel,
 ): unknown {
-  if (value == null || typeof value !== "object") return value;
+  if (value == null || typeof value !== "object") {
+    return value;
+  }
   const holder = value as Record<string, unknown>;
-  if (typeof holder.color !== "number") return rewrite(value, relabel);
+  if (typeof holder.color !== "number") {
+    return rewrite(value, relabel);
+  }
   return { ...holder, color: relabel(holder.color as PlayerColor) };
 }

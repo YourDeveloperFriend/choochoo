@@ -188,8 +188,12 @@ function ResetError({
   const { reportError, isPending, errorId } = useReportError();
   const [submittedForm, setSubmittedForm] = useState(false);
   useEffect(() => {
-    if (me == null || isPending || errorId != null) return;
-    if (error == null || isNetworkError(error)) return;
+    if (me == null || isPending || errorId != null) {
+      return;
+    }
+    if (error == null || isNetworkError(error)) {
+      return;
+    }
     if (error instanceof Error) {
       reportError({
         url: window.location.toString(),

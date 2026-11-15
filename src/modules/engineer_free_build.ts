@@ -30,7 +30,9 @@ function freeBuildMixin(
     private readonly engineer = injectState(ENGINEER);
 
     getMinimumBuild(): number {
-      if (this.engineer.isInitialized()) return 2;
+      if (this.engineer.isInitialized()) {
+        return 2;
+      }
       return this.currentPlayer().selectedAction === Action.ENGINEER ? 0 : 2;
     }
 

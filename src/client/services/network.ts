@@ -53,7 +53,9 @@ export function handleError(
 ): ValidationError | undefined {
   const notify = useErrorNotifier();
   useEffect(() => {
-    if (error == null || isPending) return;
+    if (error == null || isPending) {
+      return;
+    }
     notify(error);
   }, [error]);
 

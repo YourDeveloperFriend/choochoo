@@ -15,7 +15,9 @@ export class PortugalGoodsGrowthPhase extends GoodsGrowthPhase {
 
   private addGoodToCity(cityName: string) {
     const good = this.helper.drawGood();
-    if (good == null) return;
+    if (good == null) {
+      return;
+    }
     const city = this.grid().getCityByName(cityName);
     this.log.log(
       `A ${goodToString(good)} good is added to ${this.grid().displayName(city.coordinates)}`,

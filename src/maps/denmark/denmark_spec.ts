@@ -46,7 +46,9 @@ const PLAYERS = 3;
 let created: number[] = [];
 
 test.afterEach(async ({ request }) => {
-  for (const gameId of created) await deleteGame(request, gameId);
+  for (const gameId of created) {
+    await deleteGame(request, gameId);
+  }
   created = [];
 });
 
@@ -122,10 +124,14 @@ async function claimAffordableConnection(
   for (let index = 0; index < total; index++) {
     const connection = unclaimed.nth(index);
     const id = await connection.getAttribute("data-inter-city-connection");
-    if (id == null) continue;
+    if (id == null) {
+      continue;
+    }
     // force: an SVG circle, and a previous rejection may have left a toast over it.
     await connection.click({ force: true });
-    if (await versionAdvanced(page, gameId, fromVersion)) return id;
+    if (await versionAdvanced(page, gameId, fromVersion)) {
+      return id;
+    }
   }
   throw new Error(
     `clicked all ${total} unclaimed connections and the server accepted none`,

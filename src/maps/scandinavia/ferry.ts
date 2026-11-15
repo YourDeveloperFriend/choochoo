@@ -31,7 +31,9 @@ interface AdditionalPathData {
 }
 
 function isTeleport(data: Path): boolean {
-  if (data.additionalData == null) return false;
+  if (data.additionalData == null) {
+    return false;
+  }
   const additionalData = data.additionalData as AdditionalPathData;
   return additionalData.teleport ?? false;
 }
@@ -63,7 +65,9 @@ export class ScandinaviaMoveValidator extends MoveValidator {
     super.validatePartial(player, action);
 
     const numTeleports = action.path.filter(isTeleport).length;
-    if (numTeleports === 0) return;
+    if (numTeleports === 0) {
+      return;
+    }
 
     assert(player.selectedAction === Action.FERRY, {
       invalidInput: "cannot use a teleport without the ferry action",
@@ -91,10 +95,14 @@ export class ScandinaviaMoveValidator extends MoveValidator {
     fromCoordinates: Coordinates,
     toCoordinates: Coordinates,
   ): Teleport[] {
-    if (player.selectedAction !== Action.FERRY) return [];
+    if (player.selectedAction !== Action.FERRY) {
+      return [];
+    }
     const origin = this.grid().get(fromCoordinates);
     const destination = this.grid().get(toCoordinates);
-    if (!isCoastalCity(origin) || !isCoastalCity(destination)) return [];
+    if (!isCoastalCity(origin) || !isCoastalCity(destination)) {
+      return [];
+    }
     return [
       {
         type: "teleport",
@@ -106,6 +114,8 @@ export class ScandinaviaMoveValidator extends MoveValidator {
 }
 
 function isCoastalCity(space: Space | undefined): boolean {
-  if (!(space instanceof City)) return false;
+  if (!(space instanceof City)) {
+    return false;
+  }
   return space?.getMapSpecific(ScandinaviaMapData.parse)?.isCoastal ?? false;
 }

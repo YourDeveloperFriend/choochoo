@@ -77,10 +77,18 @@ export class FourLocoMapSettings implements MapSettings {
     return [
       new TurnLengthModule({
         function: (playerCount: number) => {
-          if (playerCount === 2) return 10;
-          if (playerCount === 3) return 8;
-          if (playerCount === 4) return 7;
-          if (playerCount === 5) return 6;
+          if (playerCount === 2) {
+            return 10;
+          }
+          if (playerCount === 3) {
+            return 8;
+          }
+          if (playerCount === 4) {
+            return 7;
+          }
+          if (playerCount === 5) {
+            return 6;
+          }
           return 5; // 6+ players
         },
       }),

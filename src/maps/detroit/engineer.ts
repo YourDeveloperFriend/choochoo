@@ -46,7 +46,9 @@ export class DetroitDiscountManager extends BuildDiscountManager {
   }
 
   applyDiscount(_: BuildData, originalCost: number): void {
-    if (this.currentPlayer().selectedAction !== Action.ENGINEER) return;
+    if (this.currentPlayer().selectedAction !== Action.ENGINEER) {
+      return;
+    }
     if (this.freeBuild.isInitialized()) {
       this.freeBuild.set(Math.min(originalCost, this.freeBuild()));
     } else {

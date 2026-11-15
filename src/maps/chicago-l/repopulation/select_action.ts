@@ -17,7 +17,9 @@ export class ChicagoLSelectAction extends SelectAction {
   protected applyLocomotive(): void {
     const currentPlayer = this.currentPlayer();
     const currentGvtLoco = this.govtEngineLevel().get(currentPlayer.color)!;
-    if (currentGvtLoco >= this.getMaxGvtLoco()) return;
+    if (currentGvtLoco >= this.getMaxGvtLoco()) {
+      return;
+    }
 
     this.govtEngineLevel.update((engineLevel) => {
       engineLevel.set(currentPlayer.color, currentGvtLoco + 1);

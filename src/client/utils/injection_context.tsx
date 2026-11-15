@@ -152,7 +152,9 @@ function useOptionalInjectedState<T>(
   );
 
   useEffect(() => {
-    if (!optionalCheck) return;
+    if (!optionalCheck) {
+      return;
+    }
     return injectedState.listen(() => {
       setValue(injectedState.isInitialized() ? injectedState() : undefined);
     });
@@ -176,7 +178,9 @@ export function useInjectedState<T>(key: Key<T>): Immutable<T> {
 export function useCurrentPlayer(): PlayerData | undefined {
   return useInject(() => {
     const phase = injectState(PHASE)();
-    if (phase === Phase.END_GAME) return undefined;
+    if (phase === Phase.END_GAME) {
+      return undefined;
+    }
     return injectCurrentPlayer()();
   }, []);
 }
@@ -185,7 +189,9 @@ export function useMePlayer(): PlayerData | undefined {
   const me = useMe();
   return useInject(() => {
     const players = injectAllPlayersUnsafe()();
-    if (me == null) return undefined;
+    if (me == null) {
+      return undefined;
+    }
     return players.find((player) => player.playerId === me.id);
   }, [me?.id]);
 }
