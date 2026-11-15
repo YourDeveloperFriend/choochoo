@@ -16,11 +16,22 @@ import { StalinistRussiaRules } from "./rules";
 import { StalinistRussiaMapSettings } from "./settings";
 import { StalinistRussiaRivers } from "./rivers";
 
+import {
+  stalinistLandFill,
+  StalinistCity,
+  StalinistTown,
+  StalinistCityGoods,
+} from "./visuals";
+
 export class StalinistRussiaViewSettings
   extends StalinistRussiaMapSettings
   implements MapViewSettings
 {
   getMapRules = StalinistRussiaRules;
+  getLandFill = stalinistLandFill;
+  renderCity = StalinistCity;
+  renderTown = StalinistTown;
+  renderCityGoods = StalinistCityGoods;
   publisher = {
     name: "Neon Comet Games",
     role: "Developed and published by",

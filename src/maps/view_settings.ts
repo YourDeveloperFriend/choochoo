@@ -1,8 +1,13 @@
-import { ReactElement, ReactNode } from "react";
+import { ComponentType, ReactElement, ReactNode } from "react";
 import { VariantConfig } from "../api/variant_config";
 import { RowFactory } from "../client/game/final_overview_row";
 import { ClickTarget, OnClickFunction } from "../client/grid/click_target";
 import { MapSettings, Rotation } from "../engine/game/map_settings";
+import { City } from "../engine/map/city";
+import { Land } from "../engine/map/location";
+import { Good } from "../engine/state/good";
+import { Coordinates } from "../utils/coordinates";
+import { Point } from "../utils/point";
 import { Grid } from "../engine/map/grid";
 import { InterceptMoveModalProps } from "../engine/move/interceptor";
 import { Action } from "../engine/state/action";
@@ -36,7 +41,31 @@ export interface MapPublisher {
   purchaseUrl?: string;
 }
 
+export interface CityVisualProps {
+  city: City;
+  center: Point;
+  size: number;
+  rotation?: Rotation;
+  clickable: boolean;
+}
+
+export interface TownVisualProps {
+  town: Land;
+  center: Point;
+  size: number;
+  rotation?: Rotation;
+}
+
+export interface CityGoodsProps extends CityVisualProps {
+  selectedGood?: { good: Good; coordinates: Coordinates };
+}
+
 export interface MapViewSettings extends MapSettings {
+  getLandFill?(space: Land): string | undefined;
+  renderCity?: ComponentType<CityVisualProps>;
+  renderTown?: ComponentType<TownVisualProps>;
+  renderCityGoods?: ComponentType<CityGoodsProps>;
+
   getInitialVariantConfig?(): VariantConfig;
   getVariantConfigEditor?(props: VariantConfigProps): ReactNode;
 
