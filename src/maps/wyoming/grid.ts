@@ -7,14 +7,12 @@ import {
   MOUNTAIN,
   PLAIN,
   town,
-  UNPASSABLE,
   WATER,
 } from "../factory";
 import { BLUE, PURPLE, RED, YELLOW } from "../../engine/state/good";
 
 export const map = grid<SpaceData>([
   [
-    UNPASSABLE,
     MOUNTAIN,
     MOUNTAIN,
     city("Rock Springs", BLUE, black(2), 2),
@@ -26,7 +24,6 @@ export const map = grid<SpaceData>([
     city("Cheyenne", RED, black(6), 2),
   ],
   [
-    MOUNTAIN,
     town("Kemmerer"),
     MOUNTAIN,
     MOUNTAIN,
@@ -37,11 +34,10 @@ export const map = grid<SpaceData>([
     PLAIN,
   ],
   [
-    UNPASSABLE,
+    MOUNTAIN,
     MOUNTAIN,
     MOUNTAIN,
     town("Lander"),
-    MOUNTAIN,
     MOUNTAIN,
     MOUNTAIN,
     MOUNTAIN,
@@ -49,7 +45,6 @@ export const map = grid<SpaceData>([
     PLAIN,
   ],
   [
-    MOUNTAIN,
     MOUNTAIN,
     DARK_MOUNTAIN,
     PLAIN,
@@ -60,7 +55,6 @@ export const map = grid<SpaceData>([
     PLAIN,
   ],
   [
-    UNPASSABLE,
     city("Jackson", RED, black(1), 2),
     DARK_MOUNTAIN,
     MOUNTAIN,
@@ -73,7 +67,6 @@ export const map = grid<SpaceData>([
   ],
   [
     MOUNTAIN,
-    MOUNTAIN,
     DARK_MOUNTAIN,
     PLAIN,
     MOUNTAIN,
@@ -83,7 +76,6 @@ export const map = grid<SpaceData>([
     PLAIN,
   ],
   [
-    UNPASSABLE,
     WATER,
     DARK_MOUNTAIN,
     town("Cody"),
