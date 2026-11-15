@@ -26,8 +26,12 @@ export function MauiRules() {
           Kahului cost $8.
         </li>
         <li>
-          <b>Turns 1-3:</b> during your build, you may only build into or out of
+          <b>Turns 1-2:</b> during your build, you may only build into or out of
           each city once per turn.
+        </li>
+        <li>
+          <b>Urbanization:</b> urbanization must be done first during the build
+          phase. It is enforced that no track has been built yet this turn.
         </li>
         <li>
           <b>Move goods:</b> Hāna accepts deliveries of the colors of the cubes
@@ -36,7 +40,7 @@ export function MauiRules() {
           player receives an additional two income.
         </li>
         <li>
-          <b>Turns 4+:</b> every delivery must use at least one link which you
+          <b>Turns 3+:</b> every delivery must use at least one link which you
           do not own.
         </li>
         <li>

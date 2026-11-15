@@ -42,7 +42,7 @@ const MOUNTAIN_COST = 6;
 const PARKWAY_MOUNTAIN_COST = 4;
 const COST_PER_TOWN_EXIT = 2;
 const MAX_TOWN_EXITS_PER_TURN = 2;
-const CITY_LIMIT_THROUGH_ROUND = 3;
+const CITY_LIMIT_THROUGH_ROUND = 2;
 const ENGINEER_MAX_BUILDS = 4;
 
 function fixedTileCost(land: Land): MauiLandData["fixedTileCost"] {
@@ -297,7 +297,7 @@ export class MauiValidator extends Validator {
     return this.cityLimitReason(coordinates, buildData);
   }
 
-  /** Turns 1-3: a player may only build into or out of each city once per turn. */
+  /** Turns 1-2: a player may only build into or out of each city once per turn. */
   private cityLimitReason(
     coordinates: Coordinates,
     buildData: BuildInfo,

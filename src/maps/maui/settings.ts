@@ -27,6 +27,7 @@ import {
 import { map } from "./grid";
 import { MauiGoodsGrowthPhase } from "./goods_growth";
 import { MauiGameStarter } from "./starter";
+import { MauiUrbanizeAction } from "./urbanize";
 
 export class MauiMapSettings implements MapSettings {
   readonly key = "maui";
@@ -67,6 +68,7 @@ export class MauiMapSettings implements MapSettings {
       MauiPlayerHelper,
       MauiGoodsGrowthPhase,
       MauiGameStarter,
+      MauiUrbanizeAction,
     ];
   }
 
