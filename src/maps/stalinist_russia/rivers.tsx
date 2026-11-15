@@ -1,8 +1,16 @@
-import * as styles from "../../client/grid/hex.module.css";
+import * as styles from "./visuals.module.css";
 
 export function StalinistRussiaRivers() {
   return (
-    <>
+    <g pointerEvents="none">
+      <image
+        href="/static/maps/stalinist-russia/title.svg"
+        x={190}
+        y={1695}
+        width={880}
+        height={90}
+        preserveAspectRatio="none"
+      />
       <path
         className={styles.riverPath}
         d="m 296.30688,1133.3298 c 96.93916,-5.5342 167.77574,-40.9602 217.29119,-98.2984 16.80748,-19.4628 25.82847,-40.58318 27.01668,-65.0314 m 29.88315,-18.29634 c 29.55892,28.14576 62.34754,47.03888 106.93082,55.73524 145.27419,28.337 104.9984,-104.90085 215.07129,-6.9389"
@@ -21,7 +29,7 @@ export function StalinistRussiaRivers() {
       />
       <path
         className={styles.riverPath}
-        d="m 105.00001,1940 c 76.02735,129.2453 180.88823,176.1568 313.74872,240.1214 52.86749,25.4526 6.12793,99.3822 -24.14344,131.0646 -34.50214,27.6946 -75.73224,46.7391 -79.60527,113.814"
+        d="m 105.00001,1940 c 76.02735,129.2453 180.88823,176.1568 313.74872,240.1214 52.86749,25.4526 6.12793,99.3822 -24.14344,131.0646 -34.50214,27.6946 -84.60528,63.814 -144.60528,83.814"
       />
       <path
         className={styles.riverPath}
@@ -35,6 +43,6 @@ export function StalinistRussiaRivers() {
         className={styles.riverPath}
         d="M 997.50002,2212.5 C 842.97605,2255.166 820.52924,2382.2264 682.5,2394.5"
       />
-    </>
+    </g>
   );
 }

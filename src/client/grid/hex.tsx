@@ -169,6 +169,7 @@ function LowerTerrainHex({
         {/** fill */}
         <polygon
           className={`${styles.location} ${clickable ? gridStyles.clickable : ""} ${hexColor}`}
+          style={{ fill: viewSettings.getLandFill?.(space) }}
           data-coordinates={space.coordinates.serialize()}
           points={corners}
           stroke="black"
@@ -217,6 +218,7 @@ function BorderBoundaries({ space, size, gameKey }: TerrainHexProps) {
 }
 
 function UpperTerrainHex({
+  gameKey,
   space,
   size,
   rotation,
@@ -234,7 +236,21 @@ function UpperTerrainHex({
     [center, size],
   );
 
+  const viewSettings = ViewRegistry.singleton.get(gameKey);
+  const TownVisual = viewSettings.renderTown;
+  const CityVisual = viewSettings.renderCity;
+
   if (space instanceof Land) {
+    if (space.hasTown() && TownVisual) {
+      return (
+        <TownVisual
+          town={space}
+          center={center}
+          size={size}
+          rotation={rotation}
+        />
+      );
+    }
     return (
       <>
         {(space.getTileType() != null
@@ -263,12 +279,22 @@ function UpperTerrainHex({
   } else {
     return (
       <>
-        <CityHex
-          city={space}
-          size={size}
-          clickable={clickTargets.has(ClickTarget.CITY)}
-          rotation={rotation}
-        />
+        {CityVisual ? (
+          <CityVisual
+            city={space}
+            center={center}
+            size={size}
+            clickable={clickTargets.has(ClickTarget.CITY)}
+            rotation={rotation}
+          />
+        ) : (
+          <CityHex
+            city={space}
+            size={size}
+            clickable={clickTargets.has(ClickTarget.CITY)}
+            rotation={rotation}
+          />
+        )}
         {isHighlighted && (
           <polygon
             fillOpacity="0"
@@ -425,6 +451,7 @@ function TrackHex({ space, highlightedTrack, size, rotation }: TrackHexProps) {
 }
 
 interface GoodsOnHexProps {
+  gameKey: GameKey;
   space: Land | City;
   size: number;
   selectedGood?: { good: Good; coordinates: Coordinates };
@@ -433,6 +460,7 @@ interface GoodsOnHexProps {
 }
 
 function GoodsOnHex({
+  gameKey,
   space,
   selectedGood,
   size,
@@ -456,6 +484,20 @@ function GoodsOnHex({
     }
     return space.getGoods().indexOf(selectedGood.good);
   }, [space, coordinates, selectedGood]);
+
+  const CityGoods = ViewRegistry.singleton.get(gameKey).renderCityGoods;
+  if (CityGoods && space instanceof City) {
+    return (
+      <CityGoods
+        city={space}
+        center={center}
+        size={size}
+        rotation={rotation}
+        clickable={clickTargets.has(ClickTarget.GOOD)}
+        selectedGood={selectedGood}
+      />
+    );
+  }
 
   return (
     <>
