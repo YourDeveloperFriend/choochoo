@@ -227,7 +227,7 @@ export const map = grid<SpaceData>([
     M,
     P,
     P,
-    P,
+    town("Puunene"),
     P,
     P,
     city("Pukalani", PURPLE, black(3), 2),
@@ -261,7 +261,7 @@ export const map = grid<SpaceData>([
     F,
   ],
   [
-    P,
+    town("Lahaina"),
     P,
     M,
     growthCity("ʻĪao Valley", BLUE),
