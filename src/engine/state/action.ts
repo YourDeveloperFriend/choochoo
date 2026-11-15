@@ -1,5 +1,5 @@
 import z from "zod";
-import { assertNever } from "../../utils/validate";
+import { assertNever, fail } from "../../utils/validate";
 
 export enum Action {
   LOCOMOTIVE = 0,
@@ -69,6 +69,17 @@ export enum Action {
   // Isle of Wight
   REPAIR_CREW = 30,
   HAGGLE = 31,
+
+  /**
+   * Placeholders for map-specific actions. A map that needs a new action aliases one of
+   * these (e.g. `const FERRY = Action.MAP_CUSTOM_ACTION_1`) and must supply the name and
+   * description through its own ActionNamingProvider override; the common provider throws
+   * for these. Different maps may reuse the same value, since a game only has one map.
+   */
+  MAP_CUSTOM_ACTION_1 = 32,
+  MAP_CUSTOM_ACTION_2 = 33,
+  MAP_CUSTOM_ACTION_3 = 34,
+  MAP_CUSTOM_ACTION_4 = 35,
 }
 
 export const ActionZod = z.nativeEnum(Action);
@@ -140,6 +151,13 @@ export class ActionNamingProvider {
         return "Repair Crew";
       case Action.HAGGLE:
         return "Haggle";
+      case Action.MAP_CUSTOM_ACTION_1:
+      case Action.MAP_CUSTOM_ACTION_2:
+      case Action.MAP_CUSTOM_ACTION_3:
+      case Action.MAP_CUSTOM_ACTION_4:
+        return fail(
+          `map must provide a name for custom action ${Action[action]}`,
+        );
       default:
         assertNever(action);
     }
@@ -209,6 +227,13 @@ export class ActionNamingProvider {
         return "Immediately, remove up to 2 goods in total from your train cards.";
       case Action.HAGGLE:
         return "Receive a coupon, usable for 50% off a train (rounded down).";
+      case Action.MAP_CUSTOM_ACTION_1:
+      case Action.MAP_CUSTOM_ACTION_2:
+      case Action.MAP_CUSTOM_ACTION_3:
+      case Action.MAP_CUSTOM_ACTION_4:
+        return fail(
+          `map must provide a description for custom action ${Action[action]}`,
+        );
       default:
         assertNever(action);
     }

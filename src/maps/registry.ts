@@ -31,6 +31,7 @@ import { JapanMapSettings } from "./japan/settings";
 import { KoreaWallaceMapSettings } from "./korea-wallace/settings";
 import { LondonMapSettings } from "./london/settings";
 import { MadagascarMapSettings } from "./madagascar/settings";
+import { MauiMapSettings } from "./maui/settings";
 import { MexicoMapSettings } from "./mexico/settings";
 import { MinasGeraesMapSettings } from "./minas-geraes/settings";
 import { MontrealMetroMapSettings } from "./montreal_metro/settings";
@@ -94,6 +95,7 @@ export class MapRegistry {
     this.add(new KoreaWallaceMapSettings());
     this.add(new LondonMapSettings());
     this.add(new MadagascarMapSettings());
+    this.add(new MauiMapSettings());
     this.add(new MexicoMapSettings());
     this.add(new MinasGeraesMapSettings());
     this.add(new MontrealMetroMapSettings());
