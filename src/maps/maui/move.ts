@@ -10,7 +10,7 @@ import { peek } from "../../utils/functions";
 import { assert } from "../../utils/validate";
 import { isHana } from "./goods_growth";
 
-const FOREIGN_LINK_ROUND = 4;
+const FOREIGN_LINK_ROUND = 3;
 const HANA_BONUS_MIN_LINKS = 5;
 const HANA_BONUS_MAX_LINKS = 6;
 const HANA_BONUS_INCOME = 2;
@@ -43,7 +43,7 @@ export class MauiMoveAction extends MoveAction {
   }
 }
 
-/** Starting on turn 4, every delivery must use at least one link the player does not own. */
+/** Starting on turn 3, every delivery must use at least one link the player does not own. */
 export class MauiMoveValidator extends MoveValidator {
   private readonly round = injectState(ROUND);
 

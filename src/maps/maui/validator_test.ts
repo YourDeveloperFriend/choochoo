@@ -130,9 +130,9 @@ describe(MauiValidator.name, () => {
     expect(reloaded.get(cityBuilds())[0]).toBe(CITY);
   });
 
-  it("only applies through turn 3", () => {
+  it("only applies through turn 2", () => {
     context.get(StateStore).init(cityBuilds(), [CITY]);
-    setRound(4);
+    setRound(3);
 
     expect(reasonToBuildStraightAt(SOUTH)).toBeUndefined();
   });
