@@ -10,6 +10,7 @@ import { startGame, TestGame } from "../../testing/harness/test_game";
 import { DoneAction } from "../../engine/build/done";
 import { MovePassAction } from "../../engine/move/pass";
 import { BuyTrainsAction, BuyTrainsPassAction } from "./buy_trains";
+import { BUY_TRAINS, SCRAP } from "./phases";
 import { ScrapPassAction } from "./scrap";
 
 // Drives a real Isle of Wight game through the opening phases, exercising the
@@ -70,7 +71,7 @@ describe("Isle of Wight", () => {
         case Phase.ACTION_SELECTION:
           game.emit(SelectAction, { action: remainingActions.shift()! });
           break;
-        case Phase.STALINIST_LOCOMOTIVE:
+        case BUY_TRAINS:
           if (options.buyTrains) {
             game.emit(BuyTrainsAction, { coupons: 0 });
           } else {
@@ -84,7 +85,7 @@ describe("Isle of Wight", () => {
         case Phase.MOVING:
           game.emit(MovePassAction, {});
           break;
-        case Phase.SCRAP:
+        case SCRAP:
           game.emit(ScrapPassAction, {});
           break;
         default:
@@ -95,21 +96,21 @@ describe("Isle of Wight", () => {
   }
 
   it("runs a Buy Trains step between action selection and building", () => {
-    const game = advanceTo(newGame(), Phase.STALINIST_LOCOMOTIVE);
+    const game = advanceTo(newGame(), BUY_TRAINS);
 
     expect(game.round).toBe(1);
     expect(game.summary).toContain("Buy trains");
   });
 
   it("buys trains in reverse turn order", () => {
-    const game = advanceTo(newGame(), Phase.STALINIST_LOCOMOTIVE);
+    const game = advanceTo(newGame(), BUY_TRAINS);
 
     const turnOrder = game.turnOrder;
     expect(game.currentPlayer).toBe(turnOrder[turnOrder.length - 1]);
   });
 
   it("sells starter trains from the lowest available layer", () => {
-    const game = advanceTo(newGame(), Phase.STALINIST_LOCOMOTIVE);
+    const game = advanceTo(newGame(), BUY_TRAINS);
 
     const buyer = game.currentPlayer;
     const before = game.player(buyer).money;
@@ -123,7 +124,7 @@ describe("Isle of Wight", () => {
   });
 
   it("stops a player from buying more than two trains", () => {
-    const game = advanceTo(newGame(), Phase.STALINIST_LOCOMOTIVE);
+    const game = advanceTo(newGame(), BUY_TRAINS);
     const buyer = game.currentPlayer;
 
     game.as(buyer).emit(BuyTrainsAction, { coupons: 0 });
@@ -137,13 +138,13 @@ describe("Isle of Wight", () => {
   });
 
   it("rejects spending Haggle coupons the player does not hold", () => {
-    const game = advanceTo(newGame(), Phase.STALINIST_LOCOMOTIVE);
+    const game = advanceTo(newGame(), BUY_TRAINS);
 
     expect(game.errorFor(BuyTrainsAction, { coupons: 1 })).toBeDefined();
   });
 
   it("charges expenses for shares only, not for trains", () => {
-    const game = advanceTo(newGame(), Phase.SCRAP, { buyTrains: true });
+    const game = advanceTo(newGame(), SCRAP, { buyTrains: true });
 
     // Two shares and no income, so $2. The base game would also charge $1 for
     // the locomotive every player starts with.
@@ -162,7 +163,7 @@ describe("Isle of Wight", () => {
   });
 
   it("ends the turn with a Scrap step and no Goods Growth", () => {
-    const game = advanceTo(newGame(), Phase.SCRAP, { buyTrains: true });
+    const game = advanceTo(newGame(), SCRAP, { buyTrains: true });
 
     expect(game.summary).toContain("Scrap");
     expect(game.logs.some((log) => log.includes("Goods growth"))).toBe(false);

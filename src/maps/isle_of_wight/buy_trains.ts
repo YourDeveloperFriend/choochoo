@@ -7,19 +7,18 @@ import {
 import { Log } from "../../engine/game/log";
 import { ActionBundle, PhaseModule } from "../../engine/game/phase_module";
 import { injectCurrentPlayer } from "../../engine/game/state";
-import { Phase } from "../../engine/state/phase";
 import { PlayerColor } from "../../engine/state/player";
 import { assert } from "../../utils/validate";
+import { BUY_TRAINS } from "./phases";
 import { TrainHelper } from "./trains";
 import { MAX_TRAINS_PER_PLAYER } from "./train_data";
 
 /**
- * The Buy Trains step. It reuses Stalinist Russia's extra locomotive phase --
- * both maps insert a purchasing step between action selection and building --
- * and is renamed for this map by IsleOfWightPhaseNamingProvider.
+ * The Buy Trains step, between action selection and building. Named for this map
+ * by IsleOfWightPhaseNamingProvider.
  */
 export class IsleOfWightBuyTrainsPhase extends PhaseModule {
-  static readonly phase = Phase.STALINIST_LOCOMOTIVE;
+  static readonly phase = BUY_TRAINS;
 
   private readonly currentPlayer = injectCurrentPlayer();
   private readonly trainHelper = inject(TrainHelper);

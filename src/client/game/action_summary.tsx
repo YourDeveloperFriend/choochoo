@@ -99,7 +99,10 @@ export function ActionSummary() {
     case Phase.GOVERNMENT_BUILD:
       return <GovernmentBuild />;
     case Phase.STALINIST_LOCOMOTIVE:
-    case Phase.SCRAP:
+    case Phase.MAP_CUSTOM_PHASE_1:
+    case Phase.MAP_CUSTOM_PHASE_2:
+    case Phase.MAP_CUSTOM_PHASE_3:
+    case Phase.MAP_CUSTOM_PHASE_4:
     case Phase.ROLE_SELECTION:
     case Phase.INCOME:
     case Phase.EXPENSES:

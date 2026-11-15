@@ -12,6 +12,7 @@ import { Action } from "../../engine/state/action";
 import { Phase, PhaseNamingProvider } from "../../engine/state/phase";
 import { PlayerColor, PlayerData } from "../../engine/state/player";
 import { HAS_BID } from "./auction";
+import { BUY_TRAINS, SCRAP } from "./phases";
 import { RepairCrewAction } from "./repair_crew";
 import { TrainHelper } from "./trains";
 
@@ -116,9 +117,11 @@ export class IsleOfWightSelectActionPhase extends SelectActionPhase {
 
 export class IsleOfWightPhaseNamingProvider extends PhaseNamingProvider {
   getPhaseString(phase: Phase): string {
-    // The map borrows Stalinist Russia's extra phase for its own purchasing step.
-    if (phase === Phase.STALINIST_LOCOMOTIVE) {
+    if (phase === BUY_TRAINS) {
       return "Buy trains";
+    }
+    if (phase === SCRAP) {
+      return "Scrap";
     }
     return super.getPhaseString(phase);
   }
