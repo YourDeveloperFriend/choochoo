@@ -24,6 +24,7 @@ import {
   IsleOfWightMoveHelper,
   IsleOfWightMovePhase,
 } from "./move";
+import { BUY_TRAINS, SCRAP } from "./phases";
 import { IsleOfWightRoundEngine } from "./rounds";
 import { IsleOfWightScrapPhase } from "./scrap";
 import { IsleOfWightShareHelper } from "./shares";
@@ -80,9 +81,9 @@ export class IsleOfWightMapSettings implements MapSettings {
           result.splice(
             result.indexOf(Phase.ACTION_SELECTION) + 1,
             0,
-            Phase.STALINIST_LOCOMOTIVE,
+            BUY_TRAINS,
           );
-          result.push(Phase.SCRAP);
+          result.push(SCRAP);
           return result;
         },
       }),

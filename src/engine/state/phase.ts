@@ -1,5 +1,5 @@
 import z from "zod";
-import { assertNever } from "../../utils/validate";
+import { assertNever, fail } from "../../utils/validate";
 
 export enum Phase {
   SHARES = 1,
@@ -37,8 +37,16 @@ export enum Phase {
   // Stalinist Russia, Isle of Wight
   STALINIST_LOCOMOTIVE = 18,
 
-  // Isle of Wight
-  SCRAP = 19,
+  /**
+   * Placeholders for map-specific phases. A map that needs a new phase aliases one of
+   * these (e.g. `const FERRY = Phase.MAP_CUSTOM_PHASE_1`) and must supply the name through
+   * its own PhaseNamingProvider override; the common provider throws for these. Different
+   * maps may reuse the same value, since a game only has one map.
+   */
+  MAP_CUSTOM_PHASE_1 = 20,
+  MAP_CUSTOM_PHASE_2 = 21,
+  MAP_CUSTOM_PHASE_3 = 22,
+  MAP_CUSTOM_PHASE_4 = 23,
 }
 
 export const PhaseZod = z.nativeEnum(Phase);
@@ -93,8 +101,11 @@ function getPhaseString(phase: Phase): string {
       return "Role selection";
     case Phase.STALINIST_LOCOMOTIVE:
       return "Locomotive";
-    case Phase.SCRAP:
-      return "Scrap";
+    case Phase.MAP_CUSTOM_PHASE_1:
+    case Phase.MAP_CUSTOM_PHASE_2:
+    case Phase.MAP_CUSTOM_PHASE_3:
+    case Phase.MAP_CUSTOM_PHASE_4:
+      return fail(`map must provide a name for custom phase ${Phase[phase]}`);
     default:
       assertNever(phase);
   }

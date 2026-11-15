@@ -7,14 +7,14 @@ import {
 import { Log } from "../../engine/game/log";
 import { ActionBundle, PhaseModule } from "../../engine/game/phase_module";
 import { injectCurrentPlayer } from "../../engine/game/state";
-import { Phase } from "../../engine/state/phase";
 import { PlayerColor } from "../../engine/state/player";
 import { assert } from "../../utils/validate";
+import { SCRAP } from "./phases";
 import { TrainHelper } from "./trains";
 
 /** The Scrap step: in reverse order, players may discard their trains. */
 export class IsleOfWightScrapPhase extends PhaseModule {
-  static readonly phase = Phase.SCRAP;
+  static readonly phase = SCRAP;
 
   private readonly currentPlayer = injectCurrentPlayer();
   private readonly trainHelper = inject(TrainHelper);

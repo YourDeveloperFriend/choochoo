@@ -6,6 +6,7 @@ import { IsleOfWightBuyTrainsSummary } from "./buy_trains_summary";
 import { useFactoryClick } from "./factory_click";
 import { IsleOfWightMoveSummary } from "./move_summary";
 import { CouponsCell, TrainsCell } from "./player_stats";
+import { BUY_TRAINS, SCRAP } from "./phases";
 import { IsleOfWightRules } from "./rules";
 import { IsleOfWightScrapSummary } from "./scrap_summary";
 import { IsleOfWightMapSettings } from "./settings";
@@ -26,11 +27,11 @@ export class IsleOfWightViewSettings
     switch (phase) {
       case Phase.ACTION_SELECTION:
         return IsleOfWightActionSelectionSummary;
-      case Phase.STALINIST_LOCOMOTIVE:
+      case BUY_TRAINS:
         return IsleOfWightBuyTrainsSummary;
       case Phase.MOVING:
         return IsleOfWightMoveSummary;
-      case Phase.SCRAP:
+      case SCRAP:
         return IsleOfWightScrapSummary;
       default:
         return undefined;
