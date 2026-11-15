@@ -66,15 +66,25 @@ export function StalinistRussiaRules() {
       <p>
         Moscow is a special city and will only accept colors of cubes that are
         not already present in the city. When cubes are delivered to Moscow,
-        they are left on Moscow rather than being returned to the bag. Cubes
-        starting in Moscow cannot be moved out of Moscow unless the player has
-        taken the Politburo Directive special action; note that the Politburo
-        Directive special action can only be applied to a single delivery.
+        they are left on Moscow rather than being returned to the bag. A cube
+        may pass through Moscow only if Moscow already contains a cube of that
+        color. Cubes starting in Moscow cannot be moved out of Moscow unless the
+        player has taken the Politburo Directive special action; note that the
+        Politburo Directive special action can only be applied to a single
+        delivery.
       </p>
       <h2>Income and Expenses</h2>
       <p>
         Your locomotive level does not contribute towards expenses, only the
         number of shares you have taken.
+      </p>
+      <h2>End of Game</h2>
+      <p>
+        Subtract the victory point penalty shown by each player&apos;s position
+        on Stalin&apos;s Disfavor track from their standard score. If final
+        scores are tied, the tied player who advanced fewer spaces on the
+        Disfavor track wins. If those positions are also tied, the players share
+        the victory.
       </p>
     </div>
   );

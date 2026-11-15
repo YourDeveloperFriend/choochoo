@@ -31,6 +31,10 @@ export class StalinistRussiaPlayerHelper extends PlayerHelper {
     return breakdown;
   }
 
+  protected getScoreTiebreakers(player: PlayerData): number[] {
+    return [-this.disfavorPosition(player.color)];
+  }
+
   getScoreFromDisfavor(player: PlayerData): number {
     if (player.outOfGame) return 0;
     return DISFAVOR_VALUES[this.disfavorPosition(player.color)];
