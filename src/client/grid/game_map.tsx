@@ -35,7 +35,9 @@ function getHighlightedConnections(
   grid: Grid,
   moveActionProgress: EnhancedMoveData | undefined,
 ): OwnedInterCityConnection[] {
-  if (moveActionProgress == null) return [];
+  if (moveActionProgress == null) {
+    return [];
+  }
   return moveActionProgress.path.flatMap(({ routeInfo }) => {
     if (routeInfo.type !== "connection") {
       return [];
@@ -47,10 +49,14 @@ function getHighlightedConnections(
 function getHighlightedSpaces(
   moveActionProgress: EnhancedMoveData | undefined,
 ): Set<Coordinates> {
-  if (moveActionProgress == null) return new Set();
+  if (moveActionProgress == null) {
+    return new Set();
+  }
   return new Set(
     moveActionProgress.path.flatMap(({ routeInfo }, index) => {
-      if (routeInfo.type !== "teleport") return [];
+      if (routeInfo.type !== "teleport") {
+        return [];
+      }
       const origin =
         index === 0
           ? moveActionProgress.startingCity
@@ -64,9 +70,13 @@ function getHighlightedTrack(
   grid: Grid,
   moveActionProgress: EnhancedMoveData | undefined,
 ): Track[] {
-  if (moveActionProgress == null) return [];
+  if (moveActionProgress == null) {
+    return [];
+  }
   return moveActionProgress.path.flatMap(({ routeInfo }) => {
-    if (routeInfo.type !== "track") return [];
+    if (routeInfo.type !== "track") {
+      return [];
+    }
     return grid.getRoute(routeInfo.startingTrack);
   });
 }
@@ -74,7 +84,9 @@ function getHighlightedTrack(
 function getSelectedGood(
   moveActionProgress: EnhancedMoveData | undefined,
 ): { good: Good; coordinates: Coordinates } | undefined {
-  if (!moveActionProgress) return undefined;
+  if (!moveActionProgress) {
+    return undefined;
+  }
   return {
     good: moveActionProgress.good,
     coordinates: moveActionProgress.startingCity,
@@ -92,9 +104,13 @@ function confirmDeliveryCb(
   maybeInterceptMove: (moveData: MoveData, cityName: string) => boolean,
 ) {
   return () => {
-    if (moveAction == null) return;
+    if (moveAction == null) {
+      return;
+    }
     const endingStop = grid.get(peek(moveAction.path).endingStop) as City;
-    if (maybeInterceptMove(moveAction, endingStop.name())) return;
+    if (maybeInterceptMove(moveAction, endingStop.name())) {
+      return;
+    }
     const message = getConfirmDeliveryMessage(
       player,
       moveAction,
@@ -105,7 +121,9 @@ function confirmDeliveryCb(
       confirmButton: "Confirm Delivery",
       cancelButton: "Cancel",
     }).then((confirmed) => {
-      if (!confirmed) return;
+      if (!confirmed) {
+        return;
+      }
       emitMove({
         ...moveActionData,
         ...moveAction,
@@ -138,8 +156,12 @@ function getConfirmDeliveryCity(
   moveAction: MoveData | undefined,
   moveHelper: Memoized<MoveHelper>,
 ): City | undefined {
-  if (moveAction == null) return;
-  if (moveAction.path.length === 0) return;
+  if (moveAction == null) {
+    return;
+  }
+  if (moveAction.path.length === 0) {
+    return;
+  }
   const endingStop = grid.get(peek(moveAction.path).endingStop);
   if (
     endingStop instanceof City &&

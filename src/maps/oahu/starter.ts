@@ -27,7 +27,9 @@ export class OahuGameStarter extends GameStarter {
     cityColor: Good | Good[],
     urbanized: boolean,
   ): Array<undefined | Good> {
-    if (urbanized) return [];
+    if (urbanized) {
+      return [];
+    }
     const [first] = draw(1, bag);
     const index = bag.findIndex((good) => good !== first);
     assert(index >= 0, "starting bag ran out of distinct colors!");

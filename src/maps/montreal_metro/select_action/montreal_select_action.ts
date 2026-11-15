@@ -23,7 +23,9 @@ export class MontrealSelectAction extends SelectAction {
 
   protected applyLocomotive(): void {
     const currentGvtLoco = this.engineLevel().get(this.currentPlayer().color)!;
-    if (currentGvtLoco >= this.getMaxGvtLoco()) return;
+    if (currentGvtLoco >= this.getMaxGvtLoco()) {
+      return;
+    }
 
     this.engineLevel.update((engineLevel) => {
       engineLevel.set(this.currentPlayer().color, currentGvtLoco + 1);

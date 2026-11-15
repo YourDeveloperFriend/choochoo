@@ -56,16 +56,22 @@ interface HexGridProps {
 
 function onClickCb(grid: Grid, onClick?: (space: Space, good?: Good) => void) {
   return (e: MouseEvent) => {
-    if (onClick == null) return;
+    if (onClick == null) {
+      return;
+    }
     const coordinatesStr = (e.target as HTMLElement)?.dataset?.coordinates;
     if (coordinatesStr != null) {
       const coordinates = Coordinates.unserialize(coordinatesStr);
 
       const space = grid.get(coordinates);
-      if (space == null) return;
+      if (space == null) {
+        return;
+      }
 
       const maybeGood = (e.target as HTMLElement).dataset.good;
-      if (maybeGood == null) return onClick(space);
+      if (maybeGood == null) {
+        return onClick(space);
+      }
       onClick(space, parseInt(maybeGood) as Good);
     }
   };
@@ -83,7 +89,9 @@ function useZoom(allowZoom?: boolean) {
     localStorage.setItem(key, `${zoom}`);
   }, [zoom]);
 
-  if (allowZoom != true) return [1, () => {}] as const;
+  if (allowZoom != true) {
+    return [1, () => {}] as const;
+  }
 
   return [zoom, setZoom] as const;
 }
@@ -228,7 +236,9 @@ export function HexGrid({
   });
 
   useLayoutEffect(() => {
-    if (ref.current == null) return;
+    if (ref.current == null) {
+      return;
+    }
 
     const bbox = ref.current.getBBox();
 

@@ -40,11 +40,15 @@ describe("Alabama Railways setup", () => {
     for (const [, space] of state.grid as Array<
       [unknown, { color?: Good | Good[]; onRoll?: Array<{ goods: Good[] }> }]
     >) {
-      if (space.onRoll == null || space.color == null) continue;
+      if (space.onRoll == null || space.color == null) {
+        continue;
+      }
       const own = Array.isArray(space.color) ? space.color : [space.color];
       for (const onRoll of space.onRoll) {
         for (const good of onRoll.goods) {
-          if (good === Good.BLACK) continue;
+          if (good === Good.BLACK) {
+            continue;
+          }
           expect(own).not.toContain(good);
         }
       }

@@ -50,7 +50,9 @@ class StLuciaTurnOrderHelper {
     const [first, second] = this.turnOrder();
     const other = player === first ? second : first;
     const newTurnOrder = [player, other];
-    if (!isFirst) newTurnOrder.reverse();
+    if (!isFirst) {
+      newTurnOrder.reverse();
+    }
     this.state.update((state) => (state.newTurnOrder = newTurnOrder));
   }
 

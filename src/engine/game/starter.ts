@@ -88,7 +88,9 @@ export class GameStarter {
     location: SpaceData,
     playerCount: number,
   ): SpaceData {
-    if (location.type !== SpaceType.CITY) return location;
+    if (location.type !== SpaceType.CITY) {
+      return location;
+    }
     return {
       ...location,
       goods: this.getPlacedGoodsFor(bag, playerCount, location),
@@ -190,7 +192,9 @@ export class GameStarter {
     cityColor: Good | Good[],
     urbanized: boolean,
   ): Array<undefined | Good> {
-    if (!this.isGoodsGrowthEnabled()) return [];
+    if (!this.isGoodsGrowthEnabled()) {
+      return [];
+    }
     return draw(urbanized ? 2 : 3, bag);
   }
 

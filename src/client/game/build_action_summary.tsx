@@ -14,7 +14,9 @@ export function Build() {
   const confirm = useConfirm();
   const [buildsRemaining, canUrbanize] = useInject(() => {
     const helper = inject(BuilderHelper);
-    if (!canEmit) return [undefined, undefined];
+    if (!canEmit) {
+      return [undefined, undefined];
+    }
     return [helper.buildsRemaining(), helper.canUrbanize()];
   }, [canEmit]);
 

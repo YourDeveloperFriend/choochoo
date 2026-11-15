@@ -6,7 +6,9 @@ import "./session";
 export const xsrfApp = express();
 
 xsrfApp.use(async (req: Request, res: Response, next: NextFunction) => {
-  if (req.method === "GET" || req.method === "OPTIONS") return next();
+  if (req.method === "GET" || req.method === "OPTIONS") {
+    return next();
+  }
   const xsrfToken = await getXsrfToken(req);
   if (req.headers["xsrf-token"] !== xsrfToken) {
     return next(new InvalidXsrfToken());

@@ -10,7 +10,9 @@ export class WyomingMoveAction extends MoveAction {
 
   process(action: MoveData): boolean {
     const result = super.process(action);
-    if (this.playerCount() !== 2) return result;
+    if (this.playerCount() !== 2) {
+      return result;
+    }
 
     const currentPlayer = this.currentPlayer();
     const excessLoco =

@@ -6,7 +6,9 @@ export function parsePageCursor(
 export function parsePageCursor(
   pageCursor: string | undefined,
 ): number[] | undefined {
-  if (pageCursor == null) return undefined;
+  if (pageCursor == null) {
+    return undefined;
+  }
   return pageCursor.split(",").map(Number);
 }
 
@@ -18,6 +20,8 @@ export function pageCursorToString(
 export function pageCursorToString(
   ids: number[] | undefined,
 ): string | undefined {
-  if (ids == null) return undefined;
+  if (ids == null) {
+    return undefined;
+  }
   return ids.join(",");
 }

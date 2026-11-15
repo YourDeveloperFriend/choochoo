@@ -33,8 +33,12 @@ export class SwedenMovePhase extends MovePhase {
   onEnd(): void {
     super.onEnd();
     for (const space of this.grid().values()) {
-      if (!(space instanceof City)) continue;
-      if (space.onRoll()[0].goods.length === 0) continue;
+      if (!(space instanceof City)) {
+        continue;
+      }
+      if (space.onRoll()[0].goods.length === 0) {
+        continue;
+      }
       this.gridHelper.update(space.coordinates, (city) => {
         assert(city.type === SpaceType.CITY);
         for (const good of city.onRoll[0].goods) {

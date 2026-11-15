@@ -9,7 +9,9 @@ import * as styles from "./trains_panel.module.css";
 export function TrainsCell({ player }: { player: PlayerData }) {
   const playerTrains = useInjectedState(PLAYER_TRAINS);
   const trains = playerTrains.get(player.color) ?? [];
-  if (trains.length === 0) return <>—</>;
+  if (trains.length === 0) {
+    return <>—</>;
+  }
   return (
     <>
       {trains.map((card, index) => (

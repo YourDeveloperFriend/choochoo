@@ -326,7 +326,9 @@ export function replayPlaythrough(playthrough: Playthrough): PlaythroughResult {
       round = nextRound;
     }
 
-    if (game.hasEnded) break;
+    if (game.hasEnded) {
+      break;
+    }
   }
 
   if (failure == null) {

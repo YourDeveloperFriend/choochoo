@@ -86,10 +86,16 @@ export class Grid {
     const visited = new Set<Track>();
     let count = 0;
     for (const space of this.values()) {
-      if (space instanceof City) continue;
+      if (space instanceof City) {
+        continue;
+      }
       for (const startTrack of space.getTrack()) {
-        if (startTrack.getOwner() !== color) continue;
-        if (visited.has(startTrack)) continue;
+        if (startTrack.getOwner() !== color) {
+          continue;
+        }
+        if (visited.has(startTrack)) {
+          continue;
+        }
         count++;
         for (const track of this.getRoute(startTrack)) {
           visited.add(track);
@@ -97,7 +103,9 @@ export class Grid {
       }
     }
     for (const connection of this.connections) {
-      if (connection.owner?.color === color) count++;
+      if (connection.owner?.color === color) {
+        count++;
+      }
     }
     return count;
   }
@@ -119,12 +127,16 @@ export class Grid {
   }
 
   getSameCities(city: City): City[] {
-    if (city.data.sameCity == null) return [city];
+    if (city.data.sameCity == null) {
+      return [city];
+    }
     if (this.sameCitiesCache == null) {
       this.sameCitiesCache = new Map<number, City[]>();
       for (const city of this.cities()) {
         const key = city.data.sameCity;
-        if (key == null) continue;
+        if (key == null) {
+          continue;
+        }
         if (!this.sameCitiesCache.has(key)) {
           this.sameCitiesCache.set(key, []);
         }
@@ -154,7 +166,9 @@ export class Grid {
   getNeighbor(coordinates: Coordinates, dir: Direction): Space | undefined {
     if (this.mapSettings.getNeighbor) {
       const result = this.mapSettings.getNeighbor(this, coordinates, dir);
-      if (result != null) return result;
+      if (result != null) {
+        return result;
+      }
     }
     return this.get(coordinates.neighbor(dir));
   }
@@ -210,7 +224,9 @@ export class Grid {
     direction: Direction,
   ): Track | undefined {
     const neighbor = this.getNeighbor(fromCoordinates, direction);
-    if (neighbor == null) return undefined;
+    if (neighbor == null) {
+      return undefined;
+    }
 
     if (neighbor instanceof City) {
       return undefined;
@@ -288,8 +304,9 @@ export class Grid {
       map = map.deleteAll(toDeleteKeys);
     }
 
-    if (map === this.grid && deepEquals(connections, this.connections))
+    if (map === this.grid && deepEquals(connections, this.connections)) {
       return this;
+    }
 
     return new Grid(this.mapSettings, map, connections);
   }

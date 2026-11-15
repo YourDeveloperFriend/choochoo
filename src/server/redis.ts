@@ -10,7 +10,9 @@ export let subClient: Redis | undefined;
 
 function redisStore() {
   const url = redisUrl();
-  if (url == null) return;
+  if (url == null) {
+    return;
+  }
 
   redisClient = new Redis({
     host: url.hostname,

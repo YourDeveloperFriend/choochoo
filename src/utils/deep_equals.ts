@@ -23,7 +23,9 @@ export function deepEquals<T>(
   } else if (ImmutableSet.isSet(t1) || t1 instanceof Set) {
     // `||`, not `&&`: no value is both an ImmutableSet and a native Set, so
     // requiring both made every set comparison false.
-    if (!(ImmutableSet.isSet(t2) || t2 instanceof Set)) return false;
+    if (!(ImmutableSet.isSet(t2) || t2 instanceof Set)) {
+      return false;
+    }
     const t2List = [...t2];
     return (
       t1.size === t2.size &&
@@ -32,8 +34,12 @@ export function deepEquals<T>(
       )
     );
   } else if (ImmutableMap.isMap(t1) || t1 instanceof Map) {
-    if (!(ImmutableMap.isMap(t2) || t2 instanceof Map)) return false;
-    if (t1.size !== t2.size) return false;
+    if (!(ImmutableMap.isMap(t2) || t2 instanceof Map)) {
+      return false;
+    }
+    if (t1.size !== t2.size) {
+      return false;
+    }
     const t2KeyList = [...t2.keys()];
     return [...t1].every(([k1, v1]) => {
       const k2 = t2KeyList.find((k2) =>
@@ -65,9 +71,13 @@ export function deepEquals<T>(
     // keys, making an object comparison quadratic in its field count.
     const keys1 = Object.keys(t1 as object);
     const o2 = t2 as Record<string, unknown>;
-    if (keys1.length !== Object.keys(o2).length) return false;
+    if (keys1.length !== Object.keys(o2).length) {
+      return false;
+    }
     for (const key of keys1) {
-      if (!(key in o2)) return false;
+      if (!(key in o2)) {
+        return false;
+      }
       if (
         !deepEquals(
           (t1 as Record<string, unknown>)[key],

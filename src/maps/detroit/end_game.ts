@@ -73,7 +73,9 @@ export class DetroitMoneyManager extends MoneyManager {
 
   private recordRound(color: PlayerColor): void {
     this.rounds.update((map) => {
-      if (!map.has(color)) map.set(color, this.round());
+      if (!map.has(color)) {
+        map.set(color, this.round());
+      }
     });
   }
 }

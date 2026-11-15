@@ -52,12 +52,16 @@ function SpecialAction({ action }: { action: Action }) {
   const isEmittable = isClickable && disabledReason == null;
 
   const chooseAction = useCallback(() => {
-    if (!isEmittable) return;
+    if (!isEmittable) {
+      return;
+    }
     if (action === Action.URBANIZATION && availableCities.length === 0) {
       confirm(
         "There are no more available new cities, are you sure you want to select Urbanization?",
       ).then((confirmed) => {
-        if (confirmed) emit({ action });
+        if (confirmed) {
+          emit({ action });
+        }
       });
       return;
     }

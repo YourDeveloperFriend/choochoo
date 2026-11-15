@@ -36,7 +36,9 @@ export class StalinistRussiaPlayerHelper extends PlayerHelper {
   }
 
   getScoreFromDisfavor(player: PlayerData): number {
-    if (player.outOfGame) return 0;
+    if (player.outOfGame) {
+      return 0;
+    }
     return DISFAVOR_VALUES[this.disfavorPosition(player.color)];
   }
 

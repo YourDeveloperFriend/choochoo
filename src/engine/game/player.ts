@@ -12,7 +12,9 @@ export class PlayerHelper {
   updateInGamePlayers(updateFn: (data: MutablePlayerData) => void): void {
     this.players.update((players) => {
       for (const player of players) {
-        if (player.outOfGame) continue;
+        if (player.outOfGame) {
+          continue;
+        }
         updateFn(player);
       }
     });
@@ -135,26 +137,36 @@ export class PlayerHelper {
   }
 
   getScoreFromIncome(player: PlayerData): number {
-    if (player.outOfGame) return 0;
+    if (player.outOfGame) {
+      return 0;
+    }
     return 3 * player.income;
   }
 
   getScoreFromShares(player: PlayerData): number {
-    if (player.outOfGame) return 0;
+    if (player.outOfGame) {
+      return 0;
+    }
     return -3 * player.shares;
   }
 
   getScoreFromTrack(player: PlayerData): number {
-    if (player.outOfGame) return 0;
+    if (player.outOfGame) {
+      return 0;
+    }
     return this.countTrack(player.color);
   }
 
   countTrack(color: PlayerColor): number {
     let numTrack = 0;
     for (const space of this.grid().values()) {
-      if (!(space instanceof Land)) continue;
+      if (!(space instanceof Land)) {
+        continue;
+      }
       for (const track of space.getTrack()) {
-        if (track.getOwner() !== color) continue;
+        if (track.getOwner() !== color) {
+          continue;
+        }
         if (track.wasClaimed()) {
           // Other track should not be counted, but will be, so offset those track.
           numTrack += 2 - this.grid().getRoute(track).length;
@@ -206,12 +218,22 @@ function isEliminated(score: Score): score is Eliminated {
 // score2 < score1 = -1
 // score1 = score2 = 0
 function compareScore(score1: Score, score2: Score): number {
-  if (isEliminated(score1) && isEliminated(score2)) return 0;
-  if (isEliminated(score1)) return 1;
-  if (isEliminated(score2)) return -1;
+  if (isEliminated(score1) && isEliminated(score2)) {
+    return 0;
+  }
+  if (isEliminated(score1)) {
+    return 1;
+  }
+  if (isEliminated(score2)) {
+    return -1;
+  }
   for (const [index, s1] of score1.entries()) {
-    if (score2[index] < s1) return -1;
-    if (s1 < score2[index]) return 1;
+    if (score2[index] < s1) {
+      return -1;
+    }
+    if (s1 < score2[index]) {
+      return 1;
+    }
   }
   return 0;
 }

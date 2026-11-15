@@ -16,7 +16,9 @@ export function CyprusRoleSelectionSummary() {
   );
   const selectionState = useActiveGameState(CYPRUS_SELECTION_STATE);
 
-  if (canEmitUserId == null) return <></>;
+  if (canEmitUserId == null) {
+    return <></>;
+  }
 
   if (!canEmit) {
     return (

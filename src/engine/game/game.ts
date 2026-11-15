@@ -169,7 +169,9 @@ export class GameEngine {
     this.log.log(logMessage);
 
     if (this.phase() === Phase.TURN_ORDER) {
-      if (this.doEliminate(playerColor)) return;
+      if (this.doEliminate(playerColor)) {
+        return;
+      }
       this.lifecycle.set(
         new CheckAutoAction(this.round(), this.phase(), playerColor),
       );
@@ -179,7 +181,9 @@ export class GameEngine {
 
     this.turn.end();
     const nextPlayer = this.delegator.get().findNextPlayer(playerColor);
-    if (this.doEliminate(playerColor)) return;
+    if (this.doEliminate(playerColor)) {
+      return;
+    }
 
     if (nextPlayer != null) {
       this.lifecycle.set(new StartTurn(this.round(), this.phase(), nextPlayer));

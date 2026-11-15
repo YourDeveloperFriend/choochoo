@@ -16,7 +16,9 @@ interface AdditionalPathData {
 }
 
 function isTeleport(data: Path): boolean {
-  if (data.additionalData == null) return false;
+  if (data.additionalData == null) {
+    return false;
+  }
   const additionalData = data.additionalData as AdditionalPathData;
   return additionalData.teleport ?? false;
 }
@@ -49,8 +51,12 @@ export class NorthernCaliforniaMoveValidator extends MoveValidator {
   ): Teleport[] {
     const origin = this.grid().get(fromCoordinates);
     const destination = this.grid().get(toCoordinates);
-    if (!isSanJoseSpace(origin) || !isSanJoseSpace(destination)) return [];
-    if (origin.coordinates.equals(destination.coordinates)) return [];
+    if (!isSanJoseSpace(origin) || !isSanJoseSpace(destination)) {
+      return [];
+    }
+    if (origin.coordinates.equals(destination.coordinates)) {
+      return [];
+    }
     return [
       {
         type: "teleport",

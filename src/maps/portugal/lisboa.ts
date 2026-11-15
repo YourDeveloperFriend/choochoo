@@ -42,7 +42,9 @@ export class LisboaBuildAction extends BuildAction {
           .getExits()
           .some((e) => this.connectsToLisboa(data.coordinates, e)),
       );
-    if (alreadyExists) return false;
+    if (alreadyExists) {
+      return false;
+    }
 
     const trackInfo = calculateTrackInfo(data);
     return trackInfo.some((track) =>
@@ -51,7 +53,9 @@ export class LisboaBuildAction extends BuildAction {
   }
 
   private connectsToLisboa(coordinates: Coordinates, exit: Exit) {
-    if (exit === TOWN) return false;
+    if (exit === TOWN) {
+      return false;
+    }
     const neighbor = this.grid().get(coordinates.neighbor(exit));
     return isLisboa(neighbor);
   }

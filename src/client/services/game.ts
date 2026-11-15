@@ -36,9 +36,13 @@ function getQueryKey(gameId: number | string, historyId?: number): string[] {
 }
 
 function checkMatch(game: GameLiteApi, entry: Entry<ListGamesApi>): boolean {
-  if (entry == null) return true;
+  if (entry == null) {
+    return true;
+  }
   const [key, value] = entry;
-  if (value == null) return true;
+  if (value == null) {
+    return true;
+  }
   switch (key) {
     case "userId":
       return game.playerIds.includes(value);
@@ -82,7 +86,9 @@ export function useGameList(baseQuery: ListGamesApi) {
       }),
       initialPageParam: undefined as GamePageCursor | undefined,
       getNextPageParam: ({ status, body }): GamePageCursor | undefined => {
-        if (status !== 200) return undefined;
+        if (status !== 200) {
+          return undefined;
+        }
         return body.nextPageCursor;
       },
     });
@@ -96,7 +102,9 @@ export function useGameList(baseQuery: ListGamesApi) {
   const isOnLastPage =
     data != null && !hasNextPage && data.pages.length - 1 === page;
   const nextPage = useCallback(() => {
-    if (isLoading || isOnLastPage) return;
+    if (isLoading || isOnLastPage) {
+      return;
+    }
     setPage(page + 1);
     if (data != null && hasNextPage && data.pages.length - 1 === page) {
       fetchNextPage();
@@ -105,7 +113,9 @@ export function useGameList(baseQuery: ListGamesApi) {
 
   const hasPrevPage = page > 0;
   const prevPage = useCallback(() => {
-    if (!hasPrevPage) return;
+    if (!hasPrevPage) {
+      return;
+    }
     setPage(page - 1);
   }, [page, setPage, page]);
 
@@ -114,7 +124,9 @@ export function useGameList(baseQuery: ListGamesApi) {
       updater: (pages: GameLiteApi[][]) => GameLiteApi[][],
     ) {
       tsrQueryClient.games.list.setQueryData(queryKey, (r) => {
-        if (games == null) return r;
+        if (games == null) {
+          return r;
+        }
 
         assert(data != null);
 
@@ -192,7 +204,9 @@ export function useGameList(baseQuery: ListGamesApi) {
         games.some((other) => other.id === gameId),
       );
       return pages.map((games, index) => {
-        if (index < pageIndex) return games;
+        if (index < pageIndex) {
+          return games;
+        }
         const firstOfNext = pages[index + 1]?.[0];
         const firstOfNextArr = firstOfNext != null ? [firstOfNext] : [];
         if (index === pageIndex) {
@@ -277,7 +291,9 @@ export function useGame(): GameApi {
 
   useEffect(() => {
     function internalSetGame(game: GameApi) {
-      if (game.id !== gameId) return;
+      if (game.id !== gameId) {
+        return;
+      }
       setGame(game);
     }
     socket.on("gameUpdate", internalSetGame);
@@ -354,7 +370,9 @@ export function useDeleteGame(game: GameLiteApi) {
   const perform = useCallback(async () => {
     const result = await confirm("Are you sure you want to delete this game?");
 
-    if (!result) return;
+    if (!result) {
+      return;
+    }
 
     mutate(
       { params: { gameId: game.id } },
@@ -541,7 +559,9 @@ export function useUndoAction(): UndoAction {
       const shouldContinue = await confirm(
         "This is an admin action, usually you cannot undo this action. Continue?",
       );
-      if (!shouldContinue) return;
+      if (!shouldContinue) {
+        return;
+      }
     }
     mutate(
       {
@@ -637,7 +657,9 @@ export function useAbandon() {
         ? "Are you sure you want to abandon the game? Since this game is already in a degenerate state, your reputation will not be affected."
         : "Are you sure you want to abandon the game? This will hurt your reputation.",
     ).then((result) => {
-      if (!result) return;
+      if (!result) {
+        return;
+      }
       mutate(
         {
           params: { gameId: game.id },
@@ -661,7 +683,9 @@ export function useKick() {
     confirm(
       "Are you sure you want to kick the current player? This will eliminate them from the game and hurt their reputation.",
     ).then((result) => {
-      if (!result) return;
+      if (!result) {
+        return;
+      }
       mutate(
         {
           params: { gameId: game.id },

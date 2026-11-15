@@ -11,8 +11,12 @@ interface LoginRequiredParams {
 export function LoginRequired({ children }: LoginRequiredParams) {
   const me = useMe();
 
-  if (me == null) return <LoginRequiredPage />;
-  if (me.role === UserRole.enum.ACTIVATE_EMAIL) return <ActivateEmailPage />;
+  if (me == null) {
+    return <LoginRequiredPage />;
+  }
+  if (me.role === UserRole.enum.ACTIVATE_EMAIL) {
+    return <ActivateEmailPage />;
+  }
   return children;
 }
 

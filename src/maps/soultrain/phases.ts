@@ -61,7 +61,9 @@ export class SoulTrainRoundEngine extends RoundEngine {
   }
 
   start(roundNumber: number): void {
-    if (this.isHeaven()) return super.start(roundNumber);
+    if (this.isHeaven()) {
+      return super.start(roundNumber);
+    }
     const count = [...this.grid().values()]
       .filter(
         (space) =>
@@ -91,7 +93,9 @@ export class SoulTrainRoundEngine extends RoundEngine {
       let current = start;
       for (const land of [...column].reverse()) {
         current = current.neighbor(Direction.TOP);
-        if (land == null) continue;
+        if (land == null) {
+          continue;
+        }
         this.gridHelper.set(current, land);
       }
       start = start.neighbor(
@@ -128,7 +132,9 @@ export class SoulTrainRoundEngine extends RoundEngine {
       if (isLand(space)) {
         for (const track of space.getTrack()) {
           const owner = track.getOwner();
-          if (owner == null) continue;
+          if (owner == null) {
+            continue;
+          }
           playerTrack.set(owner, playerTrack.get(owner)! + 1);
         }
       }
@@ -152,7 +158,9 @@ export class SoulTrainRoundEngine extends RoundEngine {
       for (const track of route) {
         this.gridHelper.removeTrack(track);
         const owner = track.getOwner();
-        if (owner == null) continue;
+        if (owner == null) {
+          continue;
+        }
         playerTrack.set(owner, playerTrack.get(owner)! + 1);
       }
     }

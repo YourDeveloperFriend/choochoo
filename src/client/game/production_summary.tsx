@@ -29,7 +29,9 @@ export function ProductionSummary() {
 
   const onClickSlot = useCallback(
     ({ urbanized, cityGroup, onRoll, row }: GoodsSlot) => {
-      if (!canEmit) return;
+      if (!canEmit) {
+        return;
+      }
       assert(good != null);
       emit({ urbanized, onRoll, cityGroup, good, row });
     },

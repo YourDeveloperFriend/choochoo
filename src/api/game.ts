@@ -20,7 +20,9 @@ export type MapConfig = z.infer<typeof MapConfig>;
 export type GameStatus = z.infer<typeof GameStatus>;
 
 export function gameStatusToString(game: GameLiteApi): string {
-  if (game.summary != null) return game.summary;
+  if (game.summary != null) {
+    return game.summary;
+  }
   switch (game.status) {
     case GameStatus.enum.LOBBY:
       return game.playerIds.length === game.config.maxPlayers
@@ -143,7 +145,9 @@ export function activeHoursToString(
   gameHoursStart: number,
   gameHoursDuration: number,
 ): string {
-  if (gameHoursDuration >= 24) return "All day";
+  if (gameHoursDuration >= 24) {
+    return "All day";
+  }
   const offsetMinutes = new Date().getTimezoneOffset();
   const localStart =
     (((gameHoursStart - Math.round(offsetMinutes / 60)) % 24) + 24) % 24;

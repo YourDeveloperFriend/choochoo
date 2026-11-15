@@ -32,7 +32,9 @@ export class SelectAction implements ActionProcessor<SelectData> {
   }
 
   protected applyLocomotive(): void {
-    if (this.currentPlayer().locomotive >= 6) return;
+    if (this.currentPlayer().locomotive >= 6) {
+      return;
+    }
 
     this.helper.updateCurrentPlayer((player) => {
       player.locomotive++;

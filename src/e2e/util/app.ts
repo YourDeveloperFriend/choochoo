@@ -71,7 +71,9 @@ export async function waitForGameNamed(
         const response = await request.get(
           `/api/games?name=${encodeURIComponent(name)}&pageSize=20`,
         );
-        if (!response.ok()) return false;
+        if (!response.ok()) {
+          return false;
+        }
         const body = (await response.json()) as { games: GameApi[] };
         found = body.games.find((game) => game.name === name);
         return found != null;

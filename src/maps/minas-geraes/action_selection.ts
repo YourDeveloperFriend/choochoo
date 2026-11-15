@@ -32,7 +32,9 @@ function cannotAffordAnyAction(
   money: number,
 ): boolean {
   const available = allowedActions.getAvailableActions();
-  if (available.size === 0) return false;
+  if (available.size === 0) {
+    return false;
+  }
   return available.every((action) => (actionMoney.get(action) ?? 0) > money);
 }
 

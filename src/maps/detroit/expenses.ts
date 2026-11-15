@@ -28,8 +28,12 @@ export class DetroitIncomeReduction extends IncomeReductionPhase {
   private readonly playerCount = injectInitialPlayerCount();
 
   protected calculateIncomeReduction(income: number): number {
-    if (income <= 5) return 0;
-    if (this.playerCount() > 1 && income >= 51) return 10;
+    if (income <= 5) {
+      return 0;
+    }
+    if (this.playerCount() > 1 && income >= 51) {
+      return 10;
+    }
     return Math.floor((income - 1) / 5);
   }
 }

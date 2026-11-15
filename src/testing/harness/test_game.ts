@@ -347,7 +347,9 @@ export class TestGame {
         processor.validate(processor.assertInput(roundTrip(data)));
         return undefined;
       } catch (e) {
-        if (e instanceof InvalidInputError) return e.message;
+        if (e instanceof InvalidInputError) {
+          return e.message;
+        }
         throw e;
       }
     });

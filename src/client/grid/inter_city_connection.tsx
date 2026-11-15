@@ -96,7 +96,9 @@ function InterCityConnectionRender({
   stackSize,
 }: InterCityConnectionRenderProps) {
   // For now, assume that the connection can only be rendered if it is between two cities.
-  if (connection.connects.length !== 2) return <></>;
+  if (connection.connects.length !== 2) {
+    return <></>;
+  }
 
   const [first, second] = connection.connects;
   const connectionCenter: Point = useMemo(() => {

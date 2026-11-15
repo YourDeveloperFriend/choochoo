@@ -14,7 +14,9 @@ describe("recorded playthroughs", () => {
 
   const recordings = readdirSync(mapsRoot).flatMap((mapDirectory) => {
     const directory = join(mapsRoot, mapDirectory, "playthroughs");
-    if (!existsSync(directory)) return [];
+    if (!existsSync(directory)) {
+      return [];
+    }
     return readdirSync(directory)
       .filter((file) => file.endsWith(".json"))
       .map((file) => ({

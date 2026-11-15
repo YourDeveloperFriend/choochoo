@@ -31,14 +31,18 @@ export class SoulTrainDiscountManager extends BuildDiscountManager {
   }
 
   getDiscount(_: BuildData, cost: number): number {
-    if (!this.isEngineer()) return 0;
+    if (!this.isEngineer()) {
+      return 0;
+    }
     const before = this.getRawTotal();
     const charged = Math.ceil((before + cost) / 2) - Math.ceil(before / 2);
     return cost - charged;
   }
 
   applyDiscount(_: BuildData, originalCost: number): void {
-    if (!this.isEngineer()) return;
+    if (!this.isEngineer()) {
+      return;
+    }
     const total = this.getRawTotal() + originalCost;
     if (this.rawTotal.isInitialized()) {
       this.rawTotal.set(total);

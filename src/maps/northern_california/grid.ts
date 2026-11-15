@@ -343,8 +343,12 @@ export const map = grid<SpaceData>([
 ]);
 
 export function isSacramento(data: SpaceData | undefined): boolean {
-  if (data == null) return false;
-  if (data.type !== SpaceType.CITY) return false;
+  if (data == null) {
+    return false;
+  }
+  if (data.type !== SpaceType.CITY) {
+    return false;
+  }
   return (
     (data.mapSpecific as NorthernCaliforniaMapData | undefined)
       ?.isSacramento === true
@@ -352,8 +356,12 @@ export function isSacramento(data: SpaceData | undefined): boolean {
 }
 
 export function isSanJose(data: SpaceData | undefined): boolean {
-  if (data == null) return false;
-  if (data.type !== SpaceType.CITY) return false;
+  if (data == null) {
+    return false;
+  }
+  if (data.type !== SpaceType.CITY) {
+    return false;
+  }
   return (
     (data.mapSpecific as NorthernCaliforniaMapData | undefined)?.isSanJose ===
     true

@@ -11,7 +11,9 @@ function drawYBP(count: number, bag: Good[]): Good[] {
     const idx = bag.findIndex(
       (g) => g === Good.YELLOW || g === Good.BLUE || g === Good.PURPLE,
     );
-    if (idx === -1) break;
+    if (idx === -1) {
+      break;
+    }
     result.push(...bag.splice(idx, 1));
   }
   return result;

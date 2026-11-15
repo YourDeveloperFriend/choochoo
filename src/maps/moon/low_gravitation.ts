@@ -32,7 +32,9 @@ export class MoonMoveAction extends MoveAction<MoonMoveData> {
   validate(action: MoonMoveData): void {
     super.validate(action);
     const { stealFrom } = action;
-    if (stealFrom == null) return;
+    if (stealFrom == null) {
+      return;
+    }
     assert(this.hasLowGravitation(), {
       invalidInput: "Can only steal with low gravitation",
     });

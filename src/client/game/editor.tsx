@@ -39,11 +39,15 @@ export function Editor() {
     const confirmed = await confirm(
       "Are you sure? This can seriously fuck up your game and there's no undo",
     );
-    if (!confirmed) return;
+    if (!confirmed) {
+      return;
+    }
     setGameData(JSON.stringify(JSON.parse(actualContent)));
   }, [confirm, actualContent, setGameData]);
 
-  if (!canRead) return <></>;
+  if (!canRead) {
+    return <></>;
+  }
 
   return (
     <>

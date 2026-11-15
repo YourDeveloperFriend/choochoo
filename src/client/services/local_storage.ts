@@ -19,7 +19,9 @@ export function useLocalStorage<T>(
 
 function getFromStorage<T>(keyName: string): T | undefined {
   const value = localStorage.getItem(keyName);
-  if (value == null) return undefined;
+  if (value == null) {
+    return undefined;
+  }
   try {
     return JSON.parse(value) as T;
   } catch (_) {

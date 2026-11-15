@@ -10,7 +10,9 @@ function formatSpace(space: SpaceSnapshot): string {
   const parts: string[] = [pad(space.label, 5), pad(space.kind, 5)];
   parts.push(pad(space.name ?? "", 18));
   const detail: string[] = [];
-  if (space.urbanized) detail.push("urbanized");
+  if (space.urbanized) {
+    detail.push("urbanized");
+  }
   if (space.goods != null && space.goods.length > 0) {
     detail.push(`goods=${space.goods.join(",")}`);
   }
@@ -42,9 +44,12 @@ export function formatSnapshot(snapshot: GameSnapshot): string {
   lines.push("players:");
   for (const player of snapshot.players) {
     const flags: string[] = [];
-    if (player.selectedAction != null)
+    if (player.selectedAction != null) {
       flags.push(`action=${player.selectedAction}`);
-    if (player.outOfGame) flags.push("OUT");
+    }
+    if (player.outOfGame) {
+      flags.push("OUT");
+    }
     lines.push(
       "  " +
         [

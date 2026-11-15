@@ -13,12 +13,16 @@ import { TurnNotifyService } from "./notify";
 import { webHookNotifier } from "./webhook";
 
 export async function notifyTurn(game: GameDao): Promise<void> {
-  if (game.activePlayerId === null) return notifyEndGame(game);
+  if (game.activePlayerId === null) {
+    return notifyEndGame(game);
+  }
 
   const user = await UserDao.findByPk(game.activePlayerId!, {
     transaction: null,
   });
-  if (user == null) return;
+  if (user == null) {
+    return;
+  }
   const settings = user.getTurnNotificationSettings(
     NotificationFrequency.IMMEDIATELY,
   );

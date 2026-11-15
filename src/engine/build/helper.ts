@@ -55,7 +55,7 @@ export class BuilderHelper {
   }
 
   shouldAutoPass(): boolean {
-    if (this.canUrbanize()) return false;
+    if (this.canUrbanize()) {return false;}
     return this.currentPlayer().money < this.minimumBuildCost();
   }
 

@@ -114,11 +114,15 @@ async function notifyMentions(
   unfilteredToUsers: UserDao[],
 ): Promise<void> {
   const toUsers = filterToUsers(fromUser, game, unfilteredToUsers);
-  if (toUsers.length === 0) return;
+  if (toUsers.length === 0) {
+    return;
+  }
 
   await Promise.all(
     toUsers.map((user) => {
-      if (user == null) return;
+      if (user == null) {
+        return;
+      }
       const settings = user.getTurnNotificationSettings(
         NotificationFrequency.IMMEDIATELY,
       );

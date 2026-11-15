@@ -64,7 +64,9 @@ function ferryMoves(game: TestGame): { move: MoveData; error?: string }[] {
   for (const from of cities) {
     for (const good of new Set(from.space?.goods ?? [])) {
       for (const to of cities) {
-        if (to === from) continue;
+        if (to === from) {
+          continue;
+        }
         const move: MoveData = {
           startingCity: game.coord(from.label),
           good: Good[good.toUpperCase() as keyof typeof Good],
@@ -88,14 +90,18 @@ describe("Scandinavia ferry", () => {
     const ferryPlayer = game.turnOrder.find(
       (c) => game.player(c).selectedAction === Action[Action.FERRY],
     )!;
-    while (game.currentPlayer !== ferryPlayer) game.emit(MovePassAction, {});
+    while (game.currentPlayer !== ferryPlayer) {
+      game.emit(MovePassAction, {});
+    }
 
     const first = ferryMoves(game).find((m) => m.error == null);
     expect(first, "seed should offer a legal ferry delivery").toBeDefined();
     game.emit(MoveAction, first!.move);
 
     // Back around to the ferry player's second delivery.
-    while (game.currentPlayer !== ferryPlayer) game.emit(MovePassAction, {});
+    while (game.currentPlayer !== ferryPlayer) {
+      game.emit(MovePassAction, {});
+    }
     expect(game.summary).toContain("Move goods round 2");
 
     const second = ferryMoves(game);

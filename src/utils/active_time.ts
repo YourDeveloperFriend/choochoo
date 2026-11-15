@@ -31,8 +31,12 @@ export function activeTimeElapsed(
   const startUTC = turnStartTime.getTime();
   const nowUTC = now.getTime();
 
-  if (nowUTC <= startUTC) return 0;
-  if (gameHoursDuration >= 24) return nowUTC - startUTC;
+  if (nowUTC <= startUTC) {
+    return 0;
+  }
+  if (gameHoursDuration >= 24) {
+    return nowUTC - startUTC;
+  }
 
   const startMs = gameHoursStart * HOUR_MS;
   const durationMs = gameHoursDuration * HOUR_MS;
@@ -43,7 +47,9 @@ export function activeTimeElapsed(
     const windowStart = d * DAY_MS + startMs;
     const windowEnd = windowStart + durationMs;
 
-    if (windowStart >= nowUTC) break;
+    if (windowStart >= nowUTC) {
+      break;
+    }
 
     const overlapStart = Math.max(startUTC, windowStart);
     const overlapEnd = Math.min(nowUTC, windowEnd);
@@ -61,7 +67,9 @@ export function activeTimeElapsedForGame(
   game: GameTimerShape,
   now: Date = new Date(),
 ): number {
-  if (game.turnStartTime == null) return 0;
+  if (game.turnStartTime == null) {
+    return 0;
+  }
   return activeTimeElapsed(
     new Date(game.turnStartTime),
     now,
@@ -92,7 +100,9 @@ export function playerFlexRemaining(
   now: Date = new Date(),
 ): number {
   const stored = storedFlexTime(game, playerId);
-  if (playerId !== game.activePlayerId) return stored;
+  if (playerId !== game.activePlayerId) {
+    return stored;
+  }
   const overTime = Math.max(
     0,
     activeTimeElapsedForGame(game, now) - game.turnDuration,

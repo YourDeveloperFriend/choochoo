@@ -76,7 +76,9 @@ export class NorthernCaliforniaMoveAction extends MoveAction {
 
   private findSacramentoCoords(): Coordinates | undefined {
     for (const city of this.gridHelper.findAllCities()) {
-      if (isSacramento(city.data)) return city.coordinates;
+      if (isSacramento(city.data)) {
+        return city.coordinates;
+      }
     }
     return undefined;
   }

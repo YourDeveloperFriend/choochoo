@@ -246,7 +246,9 @@ const COLOR_NAMES: Record<string, PlayerColor> = {
 
 function colorFromName(name: string): PlayerColor {
   const color = COLOR_NAMES[name];
-  if (color == null) throw new Error(`unknown colour name "${name}"`);
+  if (color == null) {
+    throw new Error(`unknown colour name "${name}"`);
+  }
   return color;
 }
 

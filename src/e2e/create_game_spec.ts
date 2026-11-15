@@ -29,7 +29,9 @@ let created: number[] = [];
 test.afterEach(async ({ request }) => {
   // Otherwise games pile up in a shared database and crowd the home page a later
   // spec looks at.
-  for (const gameId of created) await deleteGame(request, gameId);
+  for (const gameId of created) {
+    await deleteGame(request, gameId);
+  }
   created = [];
 });
 

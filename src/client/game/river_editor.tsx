@@ -11,7 +11,9 @@ export type RiverPath = {
 
 export function River({ path }: { path?: RiverPath }) {
   const dValue = useMemo(() => toDValue(path), [path]);
-  if (dValue === "") return <></>;
+  if (dValue === "") {
+    return <></>;
+  }
   return <path className={mapStyles.riverPath} d={dValue} />;
 }
 
@@ -29,7 +31,9 @@ interface Dragging {
 export function RiverDots({ path, setRiverPath }: RiverEditorProps) {
   const [dragging, setDragging] = useState<Dragging | undefined>();
   React.useEffect(() => {
-    if (dragging == null) return;
+    if (dragging == null) {
+      return;
+    }
     const mousemove = (e: MouseEvent) => {
       setRiverPath({
         absolute: path!.absolute,
@@ -60,7 +64,9 @@ export function RiverDots({ path, setRiverPath }: RiverEditorProps) {
     (e: React.MouseEvent<SVGCircleElement>) => {
       const target = e.target as SVGCircleElement;
       const index = Number(target.dataset["i"]);
-      if (typeof index != "number" || isNaN(index)) return;
+      if (typeof index != "number" || isNaN(index)) {
+        return;
+      }
       setDragging({
         index,
         startDocument: {
@@ -101,9 +107,13 @@ export function RiverEditor({ path, setRiverPath }: RiverEditorProps) {
   );
   const toggleAbsolute = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      if (path == null) return;
+      if (path == null) {
+        return;
+      }
       const newAbsolute = e.target.checked;
-      if (newAbsolute === path.absolute) return;
+      if (newAbsolute === path.absolute) {
+        return;
+      }
       const newPath = [path.path[0]];
       for (const { x, y } of path.path.slice(1)) {
         if (newAbsolute) {
@@ -160,8 +170,12 @@ function parseRiverPath(value: string): RiverPath | undefined {
 }
 
 function toDValue(path?: RiverPath): string {
-  if (path == null) return "";
+  if (path == null) {
+    return "";
+  }
   const [first, ...rest] = path.path;
-  if (rest.length === 0) return "";
+  if (rest.length === 0) {
+    return "";
+  }
   return `m ${first.x},${first.y} ${path.absolute ? "C" : "c"} ${rest.map(({ x, y }) => `${x},${y}`).join(" ")}`;
 }

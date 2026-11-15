@@ -108,7 +108,9 @@ export function useIsAdmin(ignoreAdminMode = false): boolean {
   const { user, adminUser } = useAllOfMe();
   const [adminModeEnabled] = useEnableAdminMode();
 
-  if (!adminModeEnabled && !ignoreAdminMode) return false;
+  if (!adminModeEnabled && !ignoreAdminMode) {
+    return false;
+  }
 
   return adminUser != null || user?.role === UserRole.enum.ADMIN;
 }

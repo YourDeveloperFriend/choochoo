@@ -17,7 +17,9 @@ async function generateFaviconWithBadge(count: number): Promise<string> {
     canvas.height = 32;
 
     const ctx = canvas.getContext("2d");
-    if (!ctx) throw new Error("Failed to get canvas context");
+    if (!ctx) {
+      throw new Error("Failed to get canvas context");
+    }
 
     const img = new Image();
     img.crossOrigin = "anonymous";
@@ -82,7 +84,9 @@ export function useTabIndicator(): void {
 
     const updateFavicon = async () => {
       const faviconHref = await generateFaviconWithBadge(count);
-      if (cancelled) return;
+      if (cancelled) {
+        return;
+      }
 
       const faviconLink = document.querySelector(
         'link[rel="icon"]',

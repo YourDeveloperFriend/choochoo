@@ -31,9 +31,13 @@ const REQUIRED_VARIANTS: Record<string, VariantConfig> = {
 };
 
 function variantFor(settings: MapSettings): VariantConfig {
-  if (settings.variantConfig == null) return {};
+  if (settings.variantConfig == null) {
+    return {};
+  }
   const override = REQUIRED_VARIANTS[settings.key];
-  if (override != null) return settings.variantConfig.parse(override);
+  if (override != null) {
+    return settings.variantConfig.parse(override);
+  }
   try {
     return settings.variantConfig.parse({}) as VariantConfig;
   } catch {

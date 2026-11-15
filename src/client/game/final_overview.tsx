@@ -10,7 +10,9 @@ import { getRowList, RowProps } from "./final_overview_row";
 
 export function FinalOverview() {
   const game = useGame();
-  if (game.status !== GameStatus.enum.ENDED) return <></>;
+  if (game.status !== GameStatus.enum.ENDED) {
+    return <></>;
+  }
 
   return <FinalOverviewInternal />;
 }

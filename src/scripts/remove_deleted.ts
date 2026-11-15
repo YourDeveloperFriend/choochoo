@@ -24,7 +24,9 @@ async function removeDeleted() {
   }
   for await (const jsFile of readdirRecursive(binDir)) {
     const tsFiles = toTsFiles({ root, binDir, srcDir, jsFile });
-    if (tsFiles.length == 0) continue;
+    if (tsFiles.length == 0) {
+      continue;
+    }
 
     const found = (await Promise.all(tsFiles.map(fileExists))).some(
       (exists) => exists,
@@ -40,7 +42,9 @@ async function fileExists(file: string): Promise<boolean> {
     await stat(file);
     return true;
   } catch (e) {
-    if (typeof e !== "object" || e == null) throw e;
+    if (typeof e !== "object" || e == null) {
+      throw e;
+    }
     if (
       "message" in e &&
       (e as Error).message.startsWith("ENOENT: no such file or directory")

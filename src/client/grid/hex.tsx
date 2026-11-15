@@ -317,7 +317,9 @@ function CityHex({
   const cityGroup: CityGroup = city.group();
   // Determine the "outer fill" color, which is the thick border around cities indicating its goods-growth group color.
   const outerFill = (() => {
-    if (cityGroup == CityGroup.WHITE) return "#ffffff";
+    if (cityGroup == CityGroup.WHITE) {
+      return "#ffffff";
+    }
     return "#222222";
   })();
 
@@ -379,12 +381,16 @@ function TrackHex({ space, highlightedTrack, size, rotation }: TrackHexProps) {
   }, [space]);
 
   const trackInfo = useMemo(() => {
-    if (tileData == null) return [];
+    if (tileData == null) {
+      return [];
+    }
     return calculateTrackInfo(tileData);
   }, [tileData]);
 
   const highlightedTrackSet = useMemo(() => {
-    if (highlightedTrack == null) return new Set<TrackInfo>();
+    if (highlightedTrack == null) {
+      return new Set<TrackInfo>();
+    }
     const inHex = highlightedTrack.filter((t) =>
       t.coordinates.equals(coordinates),
     );
@@ -395,7 +401,9 @@ function TrackHex({ space, highlightedTrack, size, rotation }: TrackHexProps) {
     );
   }, [highlightedTrack, coordinates, trackInfo]);
 
-  if (tileData == null) return <></>;
+  if (tileData == null) {
+    return <></>;
+  }
 
   return (
     <g
@@ -440,8 +448,12 @@ function GoodsOnHex({
   const goods = space.getGoods();
 
   const selectedGoodIndex = useMemo(() => {
-    if (selectedGood == null) return undefined;
-    if (!selectedGood.coordinates.equals(coordinates)) return undefined;
+    if (selectedGood == null) {
+      return undefined;
+    }
+    if (!selectedGood.coordinates.equals(coordinates)) {
+      return undefined;
+    }
     return space.getGoods().indexOf(selectedGood.good);
   }, [space, coordinates, selectedGood]);
 
@@ -508,7 +520,9 @@ function CyprusBorder({
 }) {
   const parseResult = space.getMapSpecific(CyprusMapData.parse);
 
-  if (parseResult == null || parseResult.borderDirection == null) return <></>;
+  if (parseResult == null || parseResult.borderDirection == null) {
+    return <></>;
+  }
 
   return (
     <>

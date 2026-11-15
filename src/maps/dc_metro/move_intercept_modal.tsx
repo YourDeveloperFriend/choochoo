@@ -30,7 +30,9 @@ export function DCMetroMoveInterceptorModal({
   const { emit, isPending } = useAction(DCMoveAction);
 
   const initialOptions = useInject(() => {
-    if (moveData?.startingCity == null) return;
+    if (moveData?.startingCity == null) {
+      return;
+    }
     const grid = injectGrid()();
     const goods = [...grid.get(moveData.startingCity)!.getGoods()];
     return remove(goods, moveData.good);
@@ -39,7 +41,9 @@ export function DCMetroMoveInterceptorModal({
   const [goods, setGoods] = useState<GoodContainer[] | undefined>(undefined);
 
   useEffect(() => {
-    if (moveData?.startingCity == null) return;
+    if (moveData?.startingCity == null) {
+      return;
+    }
     setGoods(
       initialOptions?.map((good, index) => ({
         id: index,
@@ -49,7 +53,9 @@ export function DCMetroMoveInterceptorModal({
   }, [initialOptions?.join(",")]);
 
   const completeMove = useCallback(() => {
-    if (moveData == null || goods == null) return;
+    if (moveData == null || goods == null) {
+      return;
+    }
     emit({
       ...moveData,
       goods: goods.map(({ good }) => good).slice(0, moveData.path.length - 1),

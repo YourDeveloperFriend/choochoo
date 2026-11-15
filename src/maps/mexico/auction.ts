@@ -12,8 +12,12 @@ export class MexicoTurnOrderHelper extends TurnOrderHelper {
     numPlayers: number,
     player: PlayerData,
   ): number {
-    if (playerOrder === numPlayers) return 0;
-    if (this.roles.isCartel(player.color)) return Math.floor(previousBid * 0.5);
+    if (playerOrder === numPlayers) {
+      return 0;
+    }
+    if (this.roles.isCartel(player.color)) {
+      return Math.floor(previousBid * 0.5);
+    }
     return previousBid;
   }
 }

@@ -22,7 +22,9 @@ export function useSendChat(gameId?: number) {
 
   const sendChat = useCallback(
     (message: string, onSuccess: () => void) => {
-      if (message == "") return;
+      if (message == "") {
+        return;
+      }
       mutate({ body: { message, gameId } }, { onSuccess });
     },
     [mutate],
@@ -53,7 +55,9 @@ export function useMessages(gameId?: number): UseMessages {
       }),
       initialPageParam: undefined as PageCursor | undefined,
       getNextPageParam: ({ status, body }): PageCursor | undefined => {
-        if (status !== 200) return undefined;
+        if (status !== 200) {
+          return undefined;
+        }
         return body.nextPageCursor;
       },
     });
@@ -61,7 +65,9 @@ export function useMessages(gameId?: number): UseMessages {
   const messages = useMemo(() => parseMessages(data), [data]);
 
   useEffect(() => {
-    if (error == null) return;
+    if (error == null) {
+      return;
+    }
     toast.error("Failed to load messages");
   }, [error]);
 
@@ -79,8 +85,12 @@ export function useMessages(gameId?: number): UseMessages {
             : data.pages.map((page) => page.body.nextPageCursor);
         const nextPageCursor = nextPageCursors.reduce(
           (minNextPageCursor, nextPageCursor) => {
-            if (minNextPageCursor == null) return minNextPageCursor;
-            if (nextPageCursor == null) return nextPageCursor;
+            if (minNextPageCursor == null) {
+              return minNextPageCursor;
+            }
+            if (nextPageCursor == null) {
+              return nextPageCursor;
+            }
             return Math.min(nextPageCursor, minNextPageCursor);
           },
           nextPageCursors[0],
@@ -104,7 +114,9 @@ export function useMessages(gameId?: number): UseMessages {
 
   useEffect(() => {
     const listener = (message: MessageApi) => {
-      if (message.gameId !== gameId) return;
+      if (message.gameId !== gameId) {
+        return;
+      }
       updateLogs((logs) => logs.concat([message]));
     };
     socket.on("newLog", listener);

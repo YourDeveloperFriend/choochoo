@@ -87,7 +87,9 @@ export class GridHelper {
 
   *findAllCities(): Iterable<City> {
     for (const space of this.all()) {
-      if (space instanceof City) yield space;
+      if (space instanceof City) {
+        yield space;
+      }
     }
   }
 }

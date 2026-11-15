@@ -111,7 +111,9 @@ export function grid<T>(
   return OrderedMap<Coordinates, T>().withMutations((grid) => {
     for (const [q, row] of newArray.entries()) {
       for (const [r, value] of row.entries()) {
-        if (value == null) continue;
+        if (value == null) {
+          continue;
+        }
         grid.set(Coordinates.from({ q, r }), value);
       }
     }

@@ -197,7 +197,9 @@ export function BuildingDialog({
   );
 
   if (useSidePanel) {
-    if (!isOpen) return null;
+    if (!isOpen) {
+      return null;
+    }
     return (
       <div className={sidePanel}>
         <div className={sidePanelHeader}>

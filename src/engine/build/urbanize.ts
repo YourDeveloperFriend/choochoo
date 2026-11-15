@@ -55,10 +55,10 @@ export class UrbanizeAction implements ActionProcessor<UrbanizeData> {
     if (location instanceof Land) {
       unownedConnections = allDirections.filter((direction) => {
         const trackExiting = location.trackExiting(direction);
-        if (trackExiting != null) return false;
+        if (trackExiting != null) {return false;}
         const connection = this.grid().getTrackConnection(data.coordinates, direction);
-        if (connection == null || connection.getOwner() != null) return false;
-        if (this.grid().getRoute(connection).some((track) => track.isClaimable())) return false;
+        if (connection == null || connection.getOwner() != null) {return false;}
+        if (this.grid().getRoute(connection).some((track) => track.isClaimable())) {return false;}
         return true;
       });
     } else {

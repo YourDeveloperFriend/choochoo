@@ -15,7 +15,9 @@ interface OnRollProps {
 
 export function OnRoll({ city, center, size, rotation }: OnRollProps) {
   const onRoll = city.onRoll();
-  if (onRoll.length === 0) return <></>;
+  if (onRoll.length === 0) {
+    return <></>;
+  }
   return (
     <>
       <circle

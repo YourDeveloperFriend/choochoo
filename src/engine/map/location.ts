@@ -94,11 +94,15 @@ export class Land {
   }
 
   connectionAllowed(exit: Direction, neighbor: Space | undefined): boolean {
-    if (neighbor == null) return false;
+    if (neighbor == null) {
+      return false;
+    }
     if (!this.canExit(exit) || !neighbor.canExit(getOpposite(exit))) {
       return false;
     }
-    if (neighbor instanceof City) return true;
+    if (neighbor instanceof City) {
+      return true;
+    }
     if (!neighbor.isUnpassable()) {
       return true;
     }
@@ -138,7 +142,9 @@ export function trackEquals(
 }
 
 export function calculateTrackInfo(tileData?: BaseTileData): TrackInfo[] {
-  if (!tileData) return [];
+  if (!tileData) {
+    return [];
+  }
   let trackInfo = toBaseTile(tileData.tileType);
   for (
     let dir = Direction.TOP;
@@ -235,7 +241,9 @@ export function countExits(tile: TownTileType): number {
 }
 
 export function calculateTile(trackInfo: TrackInfo[]): TileData | undefined {
-  if (trackInfo.length === 0) return undefined;
+  if (trackInfo.length === 0) {
+    return undefined;
+  }
   const tileType = getTileType(trackInfo);
   const incomingExits = trackInfo[0].exits;
   for (const orientation of allDirections) {

@@ -19,7 +19,9 @@ export function Rotate({ rotation, reverse, center, children }: RotateProps) {
 }
 
 function reverseRotation(rotation?: Rotation): Rotation | undefined {
-  if (rotation == null) return rotation;
+  if (rotation == null) {
+    return rotation;
+  }
   return rotation === Rotation.CLOCKWISE
     ? Rotation.COUNTER_CLOCKWISE
     : Rotation.CLOCKWISE;

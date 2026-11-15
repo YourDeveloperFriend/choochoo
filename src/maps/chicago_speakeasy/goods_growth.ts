@@ -13,8 +13,12 @@ export class ChicagoSpeakeasyGoodsGrowthPhase extends GoodsGrowthPhase {
       );
       for (const city of this.gridHelper.findAllCities()) {
         for (const [_, { group, onRoll }] of city.onRoll().entries()) {
-          if (group !== cityGroup) continue;
-          if (onRoll !== dieRoll) continue;
+          if (group !== cityGroup) {
+            continue;
+          }
+          if (onRoll !== dieRoll) {
+            continue;
+          }
           this.gridHelper.update(city.coordinates, (location) => {
             if (location.goods === undefined) {
               location.goods = [];

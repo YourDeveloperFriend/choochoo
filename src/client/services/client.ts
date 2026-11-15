@@ -56,9 +56,15 @@ const clientArgs: ClientArgs = {
   credentials: "include",
   async api(args: ApiFetcherArgs) {
     const response = await attemptApi(args);
-    if (!isNetworkError(response)) return response;
-    if (!isErrorBody(response.body)) return response;
-    if (response.body.code !== ErrorCode.INVALID_XSRF_TOKEN) return response;
+    if (!isNetworkError(response)) {
+      return response;
+    }
+    if (!isErrorBody(response.body)) {
+      return response;
+    }
+    if (response.body.code !== ErrorCode.INVALID_XSRF_TOKEN) {
+      return response;
+    }
 
     xsrfToken = generateXsrfToken();
     return attemptApi(args);

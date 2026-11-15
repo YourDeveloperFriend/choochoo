@@ -130,8 +130,12 @@ function valuesOf(gameKey: string, name: string, field: ZodTypeAny): unknown[] {
         };
       }
     )._def;
-    if (def?.typeName === "ZodBoolean") return [true, false];
-    if (def?.typeName === "ZodEnum") return [...(def.values ?? [])];
+    if (def?.typeName === "ZodBoolean") {
+      return [true, false];
+    }
+    if (def?.typeName === "ZodEnum") {
+      return [...(def.values ?? [])];
+    }
     if (def?.innerType != null) {
       current = def.innerType;
       continue;

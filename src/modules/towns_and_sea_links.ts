@@ -151,7 +151,9 @@ function noSeaRouteDanglersMixin(
               ),
           );
 
-          if (!matchingConnection) return true;
+          if (!matchingConnection) {
+            return true;
+          }
 
           const immovableExit = this.grid().getImmovableExitReference(track);
           const isMatchingExit =

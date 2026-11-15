@@ -10,7 +10,9 @@ import { FactoryYellow } from "./factory_yellow";
 
 export function SwedenProgressionGraphic() {
   const gameKey = useGameKey();
-  if (gameKey !== SwedenRecyclingMapSettings.key) return <></>;
+  if (gameKey !== SwedenRecyclingMapSettings.key) {
+    return <></>;
+  }
 
   return <ProgressionGraphic />;
 }

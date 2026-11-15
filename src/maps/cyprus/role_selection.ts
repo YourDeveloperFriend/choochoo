@@ -48,7 +48,9 @@ export class CyprusPickCountryAction
   private readonly log = inject(Log);
 
   validate({ country }: PickCountryData): void {
-    if (country === "randomize") return;
+    if (country === "randomize") {
+      return;
+    }
     const taken = this.selectionState().assignments.map((a) => a.country);
     assert(!taken.includes(country as PlayerColor), {
       invalidInput: "Country already chosen",
@@ -107,7 +109,9 @@ class CyprusRoleSelectionPhase extends PhaseModule {
   }
 
   forcedAction() {
-    if (this.round() !== 1) return undefined;
+    if (this.round() !== 1) {
+      return undefined;
+    }
     const taken = new Set(
       this.selectionState().assignments.map((a) => a.country),
     );

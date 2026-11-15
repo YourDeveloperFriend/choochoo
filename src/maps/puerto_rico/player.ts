@@ -8,7 +8,9 @@ export class PuertoRicoPlayerHelper extends PlayerHelper {
   }
 
   getScoreFromIncome(player: PlayerData): number {
-    if (player.outOfGame) return 0;
+    if (player.outOfGame) {
+      return 0;
+    }
 
     const grid = this.grid();
     let blackCubes = 0;

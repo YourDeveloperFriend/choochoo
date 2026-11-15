@@ -18,8 +18,12 @@ export class Track {
 
   otherExit(lookingFor: Exit): Exit {
     const [first, second] = this.track.exits;
-    if (first === lookingFor) return second;
-    if (second === lookingFor) return first;
+    if (first === lookingFor) {
+      return second;
+    }
+    if (second === lookingFor) {
+      return first;
+    }
     fail(
       `cannot find other exit when exit not found: lookingFor=${lookingFor} exits=${first},${second}`,
     );
@@ -74,6 +78,8 @@ export interface TrackInfo {
 }
 
 export function rotateExitClockwise(exit: Exit): Exit {
-  if (exit === TOWN) return exit;
+  if (exit === TOWN) {
+    return exit;
+  }
   return rotateDirectionClockwise(exit);
 }

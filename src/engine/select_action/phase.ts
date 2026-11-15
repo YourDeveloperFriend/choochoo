@@ -60,7 +60,9 @@ export class SelectActionPhase extends PhaseModule {
   protected getAutoAction(
     autoAction: AutoAction,
   ): ActionBundle<object> | undefined {
-    if (autoAction.takeActionNext == null) return undefined;
+    if (autoAction.takeActionNext == null) {
+      return undefined;
+    }
 
     if (
       this.allowedActions.getAvailableActions().has(autoAction.takeActionNext)

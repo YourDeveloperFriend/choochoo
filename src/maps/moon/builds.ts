@@ -20,14 +20,20 @@ export class MoonBuildAction extends BuildAction {
     const buildInfo = calculateTrackInfo(data);
     const checkConnection = (track: TrackInfo) =>
       track.exits.some((exit) => {
-        if (exit === TOWN) return false;
+        if (exit === TOWN) {
+          return false;
+        }
 
         if (this.grid().getTrackConnection(data.coordinates, exit) != null) {
           return true;
         }
         const neighbor = this.grid().getNeighbor(data.coordinates, exit);
-        if (!(neighbor instanceof City)) return false;
-        if (neighbor.name() === "Moon Base") return true;
+        if (!(neighbor instanceof City)) {
+          return false;
+        }
+        if (neighbor.name() === "Moon Base") {
+          return true;
+        }
         return allDirections.some(
           (direction) =>
             this.grid().getTrackConnection(neighbor.coordinates, direction) !=
