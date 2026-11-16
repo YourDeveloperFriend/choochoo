@@ -58,7 +58,14 @@ export default defineConfig({
     screenshot: "only-on-failure",
   },
 
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    {
+      name: "webkit-mobile",
+      testMatch: "**/*_webkit_spec.ts",
+      use: { ...devices["iPhone 13"] },
+    },
+  ],
 
   webServer: {
     command: "npm run e2e-server",

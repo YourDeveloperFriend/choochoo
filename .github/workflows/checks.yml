@@ -199,8 +199,8 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
 
       # e2e_server.sh builds, migrates and serves; Playwright starts it.
       - name: Run end-to-end specs
