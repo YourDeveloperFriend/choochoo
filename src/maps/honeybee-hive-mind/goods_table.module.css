@@ -1,7 +1,11 @@
 .beeGood {
+  position: relative;
   background-color: transparent;
 }
 .beeIcon {
+  /* Keep SVG intrinsic dimensions out of the flex slot's size calculation. */
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
