@@ -237,13 +237,13 @@ function UpperTerrainHex({
   );
 
   const viewSettings = ViewRegistry.singleton.get(gameKey);
-  const TownVisual = viewSettings.renderTown;
-  const CityVisual = viewSettings.renderCity;
+  const MapSpecificTownVisual = viewSettings.renderTown;
+  const MapSpecificCityVisual = viewSettings.renderCity;
 
   if (space instanceof Land) {
-    if (space.hasTown() && TownVisual) {
+    if (space.hasTown() && MapSpecificTownVisual) {
       return (
-        <TownVisual
+        <MapSpecificTownVisual
           town={space}
           center={center}
           size={size}
@@ -279,8 +279,8 @@ function UpperTerrainHex({
   } else {
     return (
       <>
-        {CityVisual ? (
-          <CityVisual
+        {MapSpecificCityVisual ? (
+          <MapSpecificCityVisual
             city={space}
             center={center}
             size={size}
@@ -485,10 +485,11 @@ function GoodsOnHex({
     return space.getGoods().indexOf(selectedGood.good);
   }, [space, coordinates, selectedGood]);
 
-  const CityGoods = ViewRegistry.singleton.get(gameKey).renderCityGoods;
-  if (CityGoods && space instanceof City) {
+  const MapSpecificCityGoodsVisual =
+    ViewRegistry.singleton.get(gameKey).renderCityGoods;
+  if (MapSpecificCityGoodsVisual && space instanceof City) {
     return (
-      <CityGoods
+      <MapSpecificCityGoodsVisual
         city={space}
         center={center}
         size={size}

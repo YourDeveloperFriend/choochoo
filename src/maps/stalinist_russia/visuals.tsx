@@ -25,19 +25,6 @@ const COLORS: Record<Good, string> = {
   [Good.WHITE]: "#e9dcc9",
 };
 
-// The printed board's labels, including spellings in older saved games.
-const PRINTED_NAMES: Record<string, string> = {
-  "St Petersburg": "Leningrad",
-  Kyiv: "Kiev",
-  Kharkiv: "Kharkov",
-  Kazan: "Nizhny Novgorod",
-  Cherkasy: "Cherkassy",
-  Oryol: "Kursk",
-  Zaporizhzhia: "Dnipropetrovsk",
-  Sloviansk: "Slavyansk",
-  Syktyvkar: "Solvychegodsk",
-};
-
 const CYRILLIC: Record<string, string> = {
   Leningrad: "Ленинград",
   Arkhangelsk: "Архангельск",
@@ -82,10 +69,6 @@ export function stalinistLandFill(space: Land): string | undefined {
     default:
       return undefined;
   }
-}
-
-function printedName(name: string): string {
-  return PRINTED_NAMES[name] ?? name;
 }
 
 function cityLabel(city: City): string {
@@ -136,7 +119,7 @@ export function StalinistCity({
 }: CityVisualProps) {
   const hatchId = `stalin-city-${useId().replace(/:/g, "")}`;
   const moscow = city.name() === MOSCOW;
-  const name = printedName(city.name());
+  const name = city.name();
   const label = cityLabel(city);
   const light = city.group() === CityGroup.WHITE;
   const purple = city.accepts(Good.PURPLE);
@@ -301,7 +284,7 @@ export function StalinistTown({
   size,
   rotation,
 }: TownVisualProps) {
-  const name = printedName(town.name() ?? "");
+  const name = town.name() ?? "";
   return (
     <Rotate rotation={rotation} center={center} reverse>
       <g
