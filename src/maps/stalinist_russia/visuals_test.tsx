@@ -79,7 +79,9 @@ describe("Stalinist Russia map visuals", () => {
         goods.length,
       );
       expect(markup.match(/data-good=/g) ?? []).toHaveLength(goods.length);
-      for (const good of goods) expect(markup).toContain(`data-good="${good}"`);
+      for (const good of goods) {
+        expect(markup).toContain(`data-good="${good}"`);
+      }
       expect(markup).toContain("moscow.svg");
       expect(markup).toContain("Москва");
     }
@@ -217,7 +219,9 @@ describe("Stalinist Russia map visuals", () => {
   it("renders straight bilingual labels for every starting city and town", () => {
     const grid = Grid.fromData(settings, settings.startingGrid, []);
     for (const space of grid.values()) {
-      if (!(space instanceof City) && !space.hasTown()) continue;
+      if (!(space instanceof City) && !space.hasTown()) {
+        continue;
+      }
       const markup = render(space);
       expect(markup).toMatch(/[А-Яа-я]/);
       expect(markup).not.toContain("textPath");
