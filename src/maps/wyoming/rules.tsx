@@ -4,7 +4,7 @@ export function WyomingRules() {
       <p>Same as base game with the following changes:</p>
       <ul>
         <li>
-          The game lasts 9 rounds with 2 players, or 6 rounds with 3 players.
+          The game lasts 8 rounds with 2 players, or 6 rounds with 3 players.
         </li>
         <li>
           Build Track: plains cost $2, mountains cost $4, and high mountains

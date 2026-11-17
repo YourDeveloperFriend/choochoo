@@ -7,7 +7,7 @@ export class WyomingRoundEngine extends RoundEngine {
 
     switch (numPlayers) {
       case 2:
-        return 9;
+        return 8;
       case 3:
         return 6;
       default:
