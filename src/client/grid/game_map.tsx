@@ -267,9 +267,11 @@ function InternalGameMap() {
                 move: moveActionProgress,
                 player,
                 incomeGain:
-                  moveInstance.value
-                    .calculateIncome(moveActionProgress)
-                    .get(player.color) ?? 0,
+                  moveActionProgress.path.length > 0
+                    ? (moveInstance.value
+                        .calculateIncome(moveActionProgress)
+                        .get(player.color) ?? 0)
+                    : 0,
               }
             : undefined
         }
