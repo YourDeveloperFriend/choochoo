@@ -49,7 +49,7 @@ for (const count of [3, 4, 5]) {
         ),
         radius: circle.radius,
       }));
-      for (const goods of [0, 2, 8]) {
+      for (const goods of [0, 1, 2, 3, 4, 8]) {
         for (const bees of [1, 20]) {
           const layout = honeybeeCityGoodsLayout(
             size,
@@ -61,6 +61,13 @@ for (const count of [3, 4, 5]) {
             coord.equals(c(6, 6)),
           );
           expect(layout.bees.reduce((sum, b) => sum + b.count, 0)).toBe(bees);
+          if (coord.equals(c(6, 6)) && count < 5 && goods >= 2 && goods <= 4) {
+            for (let i = 1; i < goods; i++) {
+              expect(layout.goods[i].x - layout.goods[i - 1].x).toBeCloseTo(
+                (size / 3) * 0.75,
+              );
+            }
+          }
           expect(layout.goodsSize).toBe(size);
           expect(layout.beeSize).toBeCloseTo((size / 3) * 1.25);
           expect(layout.beeSize / (layout.goodsSize / 3)).toBeCloseTo(1.25);
@@ -83,7 +90,7 @@ for (const count of [3, 4, 5]) {
               expect(
                 box.x + box.width <= -size * 0.16 ||
                   box.x >= size * 0.16 ||
-                  box.y + box.height <= -size * 0.13 ||
+                  box.y + box.height <= size * (goods <= 4 ? -0.1 : -0.13) ||
                   box.y >= size * 0.05,
               ).toBe(true);
             }
