@@ -15,21 +15,23 @@ export function honeybeeCityGoodsLayout(
   circles: Circle[] = [],
   centralCity = false,
 ) {
+  const standardCentralRow = centralCity && goodsCount <= 4;
   const cubeSize = size / 3;
   const cubeExtent = cubeSize * 1.3;
   const beeSize = cubeSize * 1.25;
   const extent = beeSize * 1.3;
   const large = centers.length > 1;
   const identifier = cityIdentifier(size, large, color);
+  // A normal central row sits slightly lower to allow standard cube spacing.
   // In the crowded central City, contents may overlap the fixed artwork, but
   // leave the middle of the numeral visible. Other City identifiers stay clear.
   const protectedAreas: Box[] = centralCity
     ? [
         {
           x: -size * 0.16,
-          y: -size * 0.13,
+          y: size * (standardCentralRow ? -0.1 : -0.13),
           width: size * 0.32,
-          height: size * 0.18,
+          height: size * (standardCentralRow ? 0.15 : 0.18),
         },
       ]
     : [
@@ -98,7 +100,11 @@ export function honeybeeCityGoodsLayout(
         size,
     y:
       centers[0].y +
-      (large && (color === Good.RED || color === Good.BLUE) ? -0.33 : -0.72) *
+      (standardCentralRow
+        ? -0.55
+        : large && (color === Good.RED || color === Good.BLUE)
+          ? -0.33
+          : -0.72) *
         size +
       cubeExtent / 2,
   };
@@ -108,7 +114,7 @@ export function honeybeeCityGoodsLayout(
       Math.hypot(b.x - preferred.x, b.y - preferred.y),
   );
   const desiredWidth = Math.min(
-    centralCity ? size * 0.8 : size * 1.5,
+    centralCity && !standardCentralRow ? size * 0.8 : size * 1.5,
     cubeExtent + Math.max(0, goodsCount - 1) * cubeSize * 0.75,
   );
   // Standard goods spacing takes priority over the sloping upper hex edge on
@@ -137,7 +143,10 @@ export function honeybeeCityGoodsLayout(
         height: cubeExtent,
       };
       // Reserve the lower interior for full-size swarms in the central City.
-      if (centralCity && box.y + box.height > -size * 0.13 - gap) {
+      if (
+        centralCity &&
+        box.y + box.height > size * (standardCentralRow ? -0.1 : -0.13) - gap
+      ) {
         continue;
       }
       if (clear(box)) {
