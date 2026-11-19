@@ -22,6 +22,7 @@ export function MapInfo({
   return (
     <div>
       <MapHeader map={selectedMap} />
+      {selectedMap.spaceAfterMapHeader && <br />}
       <p>Details:</p>
       <ul>
         {selectedMap.bestAt && <li>Best at: {selectedMap.bestAt} players</li>}
@@ -35,11 +36,14 @@ export function MapInfo({
             : `-${selectedMap.maxPlayers}`}{" "}
           players
         </li>
+        {selectedMap.playerCountNote && <li>{selectedMap.playerCountNote}</li>}
         <li>Designer: {selectedMap.designer}</li>
-        <li>
-          Choo Choo Games implementation by:{" "}
-          <Username useLink userId={selectedMap.implementerId} />
-        </li>
+        {!selectedMap.hideImplementerCredit && (
+          <li>
+            Choo Choo Games implementation by:{" "}
+            <Username useLink userId={selectedMap.implementerId} />
+          </li>
+        )}
       </ul>
       {selectedMap.publisher && <PublisherCredit {...selectedMap.publisher} />}
       <h3>Rules</h3>
@@ -75,9 +79,11 @@ export function MapGridPreview({
     return null;
   }
 
+  const showEditor = showRiverEditor && !selectedMap.hideRiverEditor;
+
   return (
     <>
-      {showRiverEditor && (
+      {showEditor && (
         <RiverEditor path={riverPath} setRiverPath={setRiverPath} />
       )}
       <HexGrid
@@ -87,7 +93,7 @@ export function MapGridPreview({
         grid={grid}
         fullMapVersion={true}
       >
-        {showRiverEditor && (
+        {showEditor && (
           <>
             <River path={riverPath} />
             <RiverDots path={riverPath} setRiverPath={setRiverPath} />
