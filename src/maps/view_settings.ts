@@ -77,6 +77,10 @@ export interface GoodsTableVisual {
 }
 
 export interface MapViewSettings extends MapSettings {
+  hideImplementerCredit?: boolean;
+  playerCountNote?: ReactNode;
+  hideRiverEditor?: boolean;
+  spaceAfterMapHeader?: boolean;
   getGoodsTableVisual?(good: Good): GoodsTableVisual | undefined;
   getLandFill?(space: Land): string | undefined;
   renderCity?: ComponentType<CityVisualProps>;

@@ -18,6 +18,7 @@ import { DetroitBankruptcyViewSettings } from "./detroit/view_settings";
 import { DiscoInfernoViewSettings } from "./disco/view_settings";
 import { DoubleBaseUsaViewSettings } from "./double_base_usa/view_settings";
 import { EasternUsAndCanadaViewSettings } from "./eastern_us_and_canada/view_settings";
+import { Fac51ViewSettings } from "./fac51/view_settings";
 import { FourCornersViewSettings } from "./four_corners/view_settings";
 import { FourLocoViewSettings } from "./four_loco/view_settings";
 import { GermanyViewSettings } from "./germany/view_settings";
@@ -83,6 +84,7 @@ export class ViewRegistry {
     this.add(new DiscoInfernoViewSettings());
     this.add(new DoubleBaseUsaViewSettings());
     this.add(new EasternUsAndCanadaViewSettings());
+    this.add(new Fac51ViewSettings());
     this.add(new FourCornersViewSettings());
     this.add(new FourLocoViewSettings());
     this.add(new GermanyViewSettings());
