@@ -67,7 +67,6 @@
   },
   "name": "choochoo",
   "version": "1.0.0",
-  "main": "index.js",
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@playwright/test": "^1.62.1",
