@@ -14,7 +14,7 @@ type ChooChooSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 
 const SocketContext = createContext<ChooChooSocket | undefined>(undefined);
 
-export class RoomManager {
+class RoomManager {
   private inHomeRoom = 0;
   private readonly gameRooms = new Map<number, number>();
 
