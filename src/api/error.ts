@@ -1,6 +1,6 @@
 import { z, ZodIssue } from "zod";
 
-function assumeIsZodIssue(t: unknown): t is ZodIssue {
+function assumeIsZodIssue(_t: unknown): _t is ZodIssue {
   return true;
 }
 
