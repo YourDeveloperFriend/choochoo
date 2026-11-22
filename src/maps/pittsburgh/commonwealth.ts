@@ -31,8 +31,8 @@ const BUILD_DISCOUNT = new Key("buildDiscount", {
 });
 
 function isBuildData(
-  data: BuildData | ClaimData | ConnectCitiesData,
-): data is BuildData {
+  _data: BuildData | ClaimData | ConnectCitiesData,
+): _data is BuildData {
   // There is no claim or connect cities data in Pittsburgh
   return true;
 }
