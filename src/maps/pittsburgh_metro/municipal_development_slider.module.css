@@ -1,0 +1,12 @@
+.currentRound {
+  background-color: #d8e1e8;
+}
+
+:global(.dark-mode) .currentRound {
+  background-color: #2f3d4a;
+  color: #e6edf3;
+}
+
+.scroller {
+  overflow-x: auto;
+}

@@ -43,6 +43,7 @@ import { NorthernCaliforniaMapSettings } from "./northern_california/settings";
 import { NwIndianaMapSettings } from "./nw_indiana/settings";
 import { OahuMapSettings } from "./oahu/settings";
 import { PittsburghMapSettings } from "./pittsburgh/settings";
+import { PittsburghMetroMapSettings } from "./pittsburgh_metro/settings";
 import { PolandMapSettings } from "./poland/settings";
 import { PortugalMapSettings } from "./portugal/settings";
 import { PuertoRicoMapSettings } from "./puerto_rico/settings";
@@ -108,6 +109,7 @@ export class MapRegistry {
     this.add(new NwIndianaMapSettings());
     this.add(new OahuMapSettings());
     this.add(new PittsburghMapSettings());
+    this.add(new PittsburghMetroMapSettings());
     this.add(new PolandMapSettings());
     this.add(new PortugalMapSettings());
     this.add(new PuertoRicoMapSettings());

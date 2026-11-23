@@ -39,9 +39,7 @@ function cityColorStyles(space: City): string[] {
   if (colors.length === 0) {
     return [styles.colorless];
   }
-  return colors
-    .filter((color) => color !== Good.WHITE)
-    .map((color) => goodStyle(color));
+  return colors.map((color) => goodStyle(color));
 }
 
 function landColorStyle(space: Land, viewSettings: MapViewSettings): string {
@@ -393,6 +391,7 @@ function CityHex({
           rotation={rotation}
           center={center}
           size={size}
+          fill={city.goodColors().includes(Good.WHITE) ? "black" : undefined}
         />
       )}
     </>

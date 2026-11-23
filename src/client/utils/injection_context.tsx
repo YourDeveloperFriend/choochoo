@@ -40,6 +40,14 @@ const InjectionContextContext = createContext<InjectionContext | undefined>(
 );
 const MapKeyContext = createContext<GameKey | undefined>(undefined);
 
+/**
+ * Whether there is a game to read state from. False when a map is rendered
+ * outside a game, such as in a preview, where the injection hooks cannot be used.
+ */
+export function useHasInjectionContext(): boolean {
+  return useContext(InjectionContextContext) != null;
+}
+
 function useInjectionContext(): InjectionContext {
   const ctx = useContext(InjectionContextContext);
   assert(ctx != null);

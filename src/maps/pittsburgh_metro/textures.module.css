@@ -1,0 +1,16 @@
+.pendingHex {
+  fill: var(--good-color);
+  stroke: black;
+  stroke-width: 1;
+}
+
+.pendingText {
+  fill: white;
+  stroke: black;
+  stroke-width: 1;
+  paint-order: stroke;
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-weight: 900;
+  pointer-events: none;
+}

@@ -43,6 +43,7 @@ import { NorthernCaliforniaViewSettings } from "./northern_california/view_setti
 import { NwIndianaViewSettings } from "./nw_indiana/view_settings";
 import { OahuViewSettings } from "./oahu/view_settings";
 import { PittsburghViewSettings } from "./pittsburgh/view_settings";
+import { PittsburghMetroViewSettings } from "./pittsburgh_metro/view_settings";
 import { PolandViewSettings } from "./poland/view_settings";
 import { PortugalViewSettings } from "./portugal/view_settings";
 import { PuertoRicoViewSettings } from "./puerto_rico/view_settings";
@@ -108,6 +109,7 @@ export class ViewRegistry {
     this.add(new NwIndianaViewSettings());
     this.add(new OahuViewSettings());
     this.add(new PittsburghViewSettings());
+    this.add(new PittsburghMetroViewSettings());
     this.add(new PolandViewSettings());
     this.add(new PortugalViewSettings());
     this.add(new PuertoRicoViewSettings());

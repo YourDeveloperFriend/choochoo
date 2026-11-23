@@ -29,7 +29,7 @@ export function AvailableCities() {
   );
 }
 
-function AvailableCity({ city }: { city: MutableAvailableCity }) {
+export function AvailableCity({ city }: { city: MutableAvailableCity }) {
   const gameKey = useGameKey();
   const mapSettings = MapRegistry.singleton.get(gameKey);
   const grid = useMemo(() => {
