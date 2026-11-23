@@ -8,6 +8,7 @@ interface HexNameProps {
   center: Point;
   size: number;
   rotation?: Rotation;
+  fill?: string;
 }
 
 export function HexName(props: HexNameProps) {
@@ -26,7 +27,7 @@ export function HexName(props: HexNameProps) {
       />
       <text
         fontSize={props.size / division}
-        fill="white"
+        fill={props.fill ?? "white"}
         dominantBaseline="middle"
         textAnchor="middle"
       >

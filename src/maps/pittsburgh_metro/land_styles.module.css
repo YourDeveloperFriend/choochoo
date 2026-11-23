@@ -1,0 +1,7 @@
+.golf {
+  fill: #244a29;
+}
+
+:global(.dark-mode) .golf {
+  fill: #122a16;
+}
