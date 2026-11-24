@@ -49,9 +49,10 @@ export function OahuRules() {
           on hand.
         </li>
         <li>
-          <b>Locomotive (3 players only):</b> instead of a permanent increase,
-          your engine level is temporarily plus one during the Move Goods phase.
-          In a 4 or 5 player game, locomotive works normally.
+          <b>Locomotive (3 and 4 players):</b> instead of a permanent increase,
+          you may forego both of your deliveries to increase your locomotive
+          (you may loco twice in one round). In a 5 player game, locomotive
+          works normally.
         </li>
         <li>
           <b>Track building:</b> plains cost $2, mountains cost $4, and water
