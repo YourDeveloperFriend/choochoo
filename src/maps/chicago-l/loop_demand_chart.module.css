@@ -4,3 +4,12 @@
   height: 16px;
   background-color: var(--good-color);
 }
+
+.currentRound {
+  background-color: #d8e1e8;
+}
+
+:global(.dark-mode) .currentRound {
+  background-color: #2f3d4a;
+  color: #e6edf3;
+}

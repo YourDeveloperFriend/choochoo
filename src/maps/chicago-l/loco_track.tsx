@@ -125,24 +125,20 @@ function LocoCell({
   loco: number;
   players: PlayerColor[];
 }) {
-  let backgroundColor: string | undefined;
+  let className: string | undefined;
   switch (row) {
     case 1:
-      backgroundColor = "#ebf4fc";
-      break;
     case 2:
-      backgroundColor = "#ebf4fc";
+      className = styles.blueCell;
       break;
     case 3:
-      backgroundColor = "#eef7ee";
-      break;
     case 4:
-      backgroundColor = "#eef7ee";
+      className = styles.greenCell;
       break;
   }
 
   return (
-    <TableCell style={{ backgroundColor: backgroundColor }}>
+    <TableCell className={className}>
       {loco}
       {players.map((color) => (
         <PlayerBlock key={color} color={color} />
