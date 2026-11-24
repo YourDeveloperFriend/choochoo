@@ -3,6 +3,7 @@ import { city, grid, PLAIN, RIVER, town, UNPASSABLE, WATER } from "../factory";
 import { CityData, LandData } from "../../engine/state/space";
 import z from "zod";
 import { SpaceType } from "../../engine/state/location_type";
+import { allDirections } from "../../engine/state/tile";
 
 export const THE_LOOP_SAME_CITY = 1;
 
@@ -17,8 +18,9 @@ export type ChicagoLMapData = z.infer<typeof ChicagoLMapData>;
 
 const park = (name: string): LandData => {
   return {
-    ...WATER,
+    ...PLAIN,
     style: PARK_STYLE,
+    unpassableEdges: allDirections,
     mapSpecific: {
       parkName: name,
     },
