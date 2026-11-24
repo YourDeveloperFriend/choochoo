@@ -52,10 +52,11 @@ export function LoopDemandChart() {
                 <TableRow>
                   {iterate(currentRound + loopDemand.length, (idx) => (
                     <TableCell
-                      style={{
-                        backgroundColor:
-                          idx + 1 === currentRound ? "#d8e1e8" : undefined,
-                      }}
+                      className={
+                        idx + 1 === currentRound
+                          ? styles.currentRound
+                          : undefined
+                      }
                     >
                       {idx + 1}
                     </TableCell>

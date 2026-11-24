@@ -6,3 +6,21 @@
   background-color: var(--player-color);
   margin-left: 0.2em;
 }
+
+.blueCell {
+  background-color: #ebf4fc;
+}
+
+.greenCell {
+  background-color: #eef7ee;
+}
+
+:global(.dark-mode) .blueCell {
+  background-color: #1b2a3a;
+  color: #dce8f5;
+}
+
+:global(.dark-mode) .greenCell {
+  background-color: #1d2e1f;
+  color: #dcefdc;
+}
