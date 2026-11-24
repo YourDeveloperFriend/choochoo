@@ -8,12 +8,12 @@ import {
 import {
   OahuActionNamingProvider,
   OahuAllowedActions,
+  OahuLocoAction,
   OahuSelectAction,
   OahuSelectActionPhase,
 } from "./actions";
 import { OahuBuildCostCalculator, OahuBuilderHelper } from "./build";
 import { map } from "./grid";
-import { OahuMoveHelper } from "./move";
 import { OahuGoodsGrowthPhase } from "./production";
 import { OahuGameStarter } from "./starter";
 import { OahuRoundEngine } from "./round";
@@ -47,7 +47,7 @@ export class OahuMapSettings implements MapSettings {
       OahuSelectActionPhase,
       OahuBuildCostCalculator,
       OahuBuilderHelper,
-      OahuMoveHelper,
+      OahuLocoAction,
       OahuGoodsGrowthPhase,
       OahuGameStarter,
       OahuRoundEngine,

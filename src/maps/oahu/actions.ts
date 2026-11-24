@@ -11,11 +11,14 @@ import { AllowedActions } from "../../engine/select_action/allowed_actions";
 import { SelectActionPhase } from "../../engine/select_action/phase";
 import { SelectAction, SelectData } from "../../engine/select_action/select";
 import { Action, ActionNamingProvider } from "../../engine/state/action";
+import { LocoAction } from "../../engine/move/loco";
 import { OahuProductionAction } from "./production";
 import { assert } from "../../utils/validate";
 
-/** The locomotive action only works differently in a three player game. */
-export const TEMPORARY_LOCOMOTIVE_PLAYER_COUNT = 3;
+/** In 3 and 4 player games the locomotive action allows a double loco instead of a permanent increase. */
+function hasDoubleLocoAction(playerCount: number): boolean {
+  return playerCount === 3 || playerCount === 4;
+}
 
 export class OahuAllowedActions extends AllowedActions {
   private readonly currentPlayer = injectState(CURRENT_PLAYER);
@@ -86,11 +89,25 @@ export class OahuActionNamingProvider extends ActionNamingProvider {
     }
     if (
       action === Action.LOCOMOTIVE &&
-      this.playerCount() === TEMPORARY_LOCOMOTIVE_PLAYER_COUNT
+      hasDoubleLocoAction(this.playerCount())
     ) {
-      return "Your engine level is temporarily increased by one during the Move Goods phase.";
+      return "Allows you to loco twice in one round.";
     }
     return super.getActionDescription(action);
+  }
+}
+
+export class OahuLocoAction extends LocoAction {
+  private readonly playerCount = injectInitialPlayerCount();
+
+  protected hasReachedLocoLimit(): boolean {
+    if (
+      hasDoubleLocoAction(this.playerCount()) &&
+      this.currentPlayer().selectedAction === Action.LOCOMOTIVE
+    ) {
+      return false;
+    }
+    return super.hasReachedLocoLimit();
   }
 }
 
@@ -98,11 +115,11 @@ export class OahuSelectAction extends SelectAction {
   private readonly playerCount = injectInitialPlayerCount();
 
   /**
-   * In a three player game the locomotive action grants a temporary boost during
-   * the Move Goods phase (see OahuMoveHelper) rather than a permanent increase.
+   * In 3 and 4 player games the locomotive action allows a second loco in the
+   * Move Goods phase (see OahuLocoAction) rather than a permanent increase.
    */
   protected applyLocomotive(): void {
-    if (this.playerCount() === TEMPORARY_LOCOMOTIVE_PLAYER_COUNT) {
+    if (hasDoubleLocoAction(this.playerCount())) {
       return;
     }
     super.applyLocomotive();
