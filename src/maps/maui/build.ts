@@ -305,17 +305,20 @@ export class MauiValidator extends Validator {
     if (this.round() > CITY_LIMIT_THROUGH_ROUND) {
       return undefined;
     }
-    const used = new Set(this.cityBuilds.getOr([]));
+    const used = this.cityBuilds
+      .getOr([])
+      .map((coords) => this.grid().get(coords))
+      .filter((space): space is City => space instanceof City);
     for (const city of citiesLinkedBy(
       this.grid(),
       coordinates,
       buildData.tileType,
       buildData.orientation,
     )) {
-      if (used.has(city.coordinates)) {
+      if (used.some((other) => other.isSameCity(city))) {
         return `can only build into or out of ${city.name()} once per turn`;
       }
-      used.add(city.coordinates);
+      used.push(city);
     }
     return undefined;
   }
