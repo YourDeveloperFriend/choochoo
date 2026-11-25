@@ -291,6 +291,7 @@ function UpperTerrainHex({
           />
         ) : (
           <CityHex
+            grid={grid}
             city={space}
             size={size}
             clickable={clickTargets.has(ClickTarget.CITY)}
@@ -318,12 +319,26 @@ interface TrackHexProps {
   rotation?: Rotation;
 }
 
+// How far merged city fills extend past a shared edge, relative to hex size.
+const SEAM_OVERLAP = 0.02;
+
+const ALL_DIRECTIONS = [
+  Direction.TOP_LEFT,
+  Direction.TOP,
+  Direction.TOP_RIGHT,
+  Direction.BOTTOM_RIGHT,
+  Direction.BOTTOM,
+  Direction.BOTTOM_LEFT,
+];
+
 function CityHex({
+  grid,
   city,
   size,
   rotation,
   clickable,
 }: {
+  grid: Grid;
   city: City;
   size: number;
   rotation?: Rotation;
@@ -351,7 +366,50 @@ function CityHex({
     return "#222222";
   })();
 
-  const innerCorners = polygon(getCorners(center, size * CITY_INNER_HEX_SIZE));
+  // Edges shared with an adjacent hex of the same city are drawn without a
+  // border, and with the outer ring filled in to merge the two hexes.
+  const mergedDirections = ALL_DIRECTIONS.filter((dir) =>
+    city.isSameCity(grid.getNeighbor(city.coordinates, dir)),
+  );
+  const borderPath = ALL_DIRECTIONS.filter(
+    (dir) => !mergedDirections.includes(dir),
+  )
+    .map((dir) => {
+      const [a, b] = edgeCorners(center, size, dir);
+      return `M ${a.x} ${a.y} L ${b.x} ${b.y}`;
+    })
+    .join(" ");
+
+  // The inner fill is a single outline. On merged edges it extends out to the
+  // shared edge, stopping short of the ends so the outer ring stays continuous
+  // around concave corners (for a regular hexagon, (1 - inner size) * size).
+  const innerFillPoints: Point[] = ALL_DIRECTIONS.flatMap((dir) => {
+    if (!mergedDirections.includes(dir)) {
+      return edgeCorners(center, size * CITY_INNER_HEX_SIZE, dir);
+    }
+    const [outer1, outer2] = edgeCorners(center, size, dir);
+    const f = 1 - CITY_INNER_HEX_SIZE;
+    // Push slightly past the shared edge so this fill overlaps the neighbor's,
+    // instead of two antialiased edges abutting over the outer fill.
+    const normal = {
+      x: (outer1.x + outer2.x) / 2 - center.x,
+      y: (outer1.y + outer2.y) / 2 - center.y,
+    };
+    const normalLength = Math.hypot(normal.x, normal.y);
+    const dx = (normal.x / normalLength) * size * SEAM_OVERLAP;
+    const dy = (normal.y / normalLength) * size * SEAM_OVERLAP;
+    return [
+      {
+        x: outer1.x + (outer2.x - outer1.x) * f + dx,
+        y: outer1.y + (outer2.y - outer1.y) * f + dy,
+      },
+      {
+        x: outer2.x + (outer1.x - outer2.x) * f + dx,
+        y: outer2.y + (outer1.y - outer2.y) * f + dy,
+      },
+    ];
+  });
+  const innerCorners = polygon(innerFillPoints);
 
   return (
     <>
@@ -377,12 +435,12 @@ function CityHex({
           alternateColor={alternateColor}
         />
       )}
-      <polygon
-        fillOpacity="0"
-        data-coordinates={city.coordinates.toString()}
-        points={corners}
+      <path
+        d={borderPath}
+        fill="none"
         stroke="black"
         strokeWidth={size / 100}
+        strokeLinecap="round"
       />
       <OnRoll city={city} center={center} size={size} rotation={rotation} />
       {city.name() != "" && (
