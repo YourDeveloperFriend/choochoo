@@ -58,14 +58,6 @@ function growthCity(name: string, color: Good | Good[]): CityData {
 
 const HALEAKALA_SAME_CITY = 1;
 
-/** Haleakalā spans three hexes; only the middle one receives cubes. */
-function haleakalaPart(): CityData {
-  return {
-    ...city("Haleakalā", RED, undefined, 0),
-    sameCity: HALEAKALA_SAME_CITY,
-  };
-}
-
 // Short names so the grid below stays readable.
 const X = UNPASSABLE;
 const P = PLAIN;
@@ -141,9 +133,9 @@ export const map = grid<SpaceData>([
     F,
     M,
     M,
-    haleakalaPart(),
+    { ...city("", RED, undefined, 0), sameCity: HALEAKALA_SAME_CITY },
     { ...growthCity("Haleakalā", RED), sameCity: HALEAKALA_SAME_CITY },
-    haleakalaPart(),
+    { ...city("", RED, undefined, 0), sameCity: HALEAKALA_SAME_CITY },
     M,
     M,
     F,
