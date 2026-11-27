@@ -18,6 +18,7 @@ import { DetroitBankruptcyMapSettings } from "./detroit/settings";
 import { DiscoInfernoMapSettings } from "./disco/settings";
 import { DoubleBaseUsaMapSettings } from "./double_base_usa/settings";
 import { EasternUsAndCanadaMapSettings } from "./eastern_us_and_canada/settings";
+import { Fac51MapSettings } from "./fac51/settings";
 import { FourCornersMapSettings } from "./four_corners/settings";
 import { FourLocoMapSettings } from "./four_loco/settings";
 import { GermanyMapSettings } from "./germany/settings";
@@ -84,6 +85,7 @@ export class MapRegistry {
     this.add(new DiscoInfernoMapSettings());
     this.add(new DoubleBaseUsaMapSettings());
     this.add(new EasternUsAndCanadaMapSettings());
+    this.add(new Fac51MapSettings());
     this.add(new FourCornersMapSettings());
     this.add(new FourLocoMapSettings());
     this.add(new GermanyMapSettings());
