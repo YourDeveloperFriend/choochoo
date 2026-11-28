@@ -63,10 +63,9 @@ export class Validator {
       return 'new track must come off a city or extend previous track';
     }
 
-    if (!this.helper.tileAvailableInManifest(buildData.tileType)) {
+    if (!this.helper.tileAvailableInManifest(buildData.tileType, coordinates)) {
       return 'tile unavailable';
     }
-    
 
     const townTileError = this.tileMatchesTownType(space.coordinates, buildData.tileType);
     if (townTileError != null) {

@@ -1,4 +1,5 @@
 
+import { Coordinates } from "../../utils/coordinates";
 import { ImmutableMap } from "../../utils/immutable";
 import { assert, assertNever } from "../../utils/validate";
 import { inject, injectState } from "../framework/execution_context";
@@ -41,8 +42,8 @@ export class BuilderHelper {
     return this.getMaxBuilds() - this.buildCount();
   }
 
-  tileAvailableInManifest(newTile: TileType): boolean {
-    const manifest = this.calculateManifest(newTile);
+  tileAvailableInManifest(newTile: TileType, replacing?: Coordinates): boolean {
+    const manifest = this.calculateManifest(newTile, replacing);
     const invariantType = [...manifest.entries()].find(([_, {remaining}]) => remaining < 0)?.[0];
     return invariantType == null;
   }
@@ -83,13 +84,14 @@ export class BuilderHelper {
     ]);
   }
 
-  private calculateManifest(newTile?: TileType): Map<TileType, TileManifestEntry> {
+  private calculateManifest(newTile?: TileType, replacing?: Coordinates): Map<TileType, TileManifestEntry> {
     const manifest = new Map([...this.startingManifest()].map(([type, count]) => [type, toManifestEntry(count)]));
 
     const townTiles = new Map<TownTileType, number>();
 
     const tiles = [...this.gridHelper.all()].filter((space): space is Land =>
       space instanceof Land).filter(space => space.hasTile())
+      .filter((space) => replacing == null || !space.coordinates.equals(replacing))
       .map((space) => space.getTileType()!);
     // We have to verify the new tile before shifting through all the
     // complexities around town tiles.
